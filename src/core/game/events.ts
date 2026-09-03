@@ -1,28 +1,19 @@
 import type { AnswerOutcome, ExplanationMastery, GameId, PlayerId, ValidationMode } from "@/core/shared";
 import type { CellType, EffectSpec, QueuedEffect, RankingEntry, TransactionReason } from "./types";
 
-/**
- * Journal de ce qui s'est produit. Sérialisable, sans aucune information
- * visuelle (durée, style) : l'interface décide seule comment le rejouer.
- */
+/** Journal de ce qui s'est produit. Sérialisable, sans aucune information visuelle. */
 export type GameEvent =
   | { readonly type: "GameCreated"; readonly gameId: GameId; readonly boardId: string; readonly rulesId: string; readonly playerIds: readonly PlayerId[] }
   | { readonly type: "TurnStarted"; readonly turnNumber: number; readonly playerId: PlayerId }
   | { readonly type: "TurnSkipped"; readonly turnNumber: number; readonly playerId: PlayerId; readonly effectId: string }
-  | { readonly type: "WheelSpun"; readonly playerId: PlayerId; readonly value: number }
+  /** Le Chemin attribué par le moteur pour ce tour (jamais choisi, jamais tiré au sort). */
+  | { readonly type: "MovementAssigned"; readonly playerId: PlayerId; readonly steps: number; readonly journeyIndex: number }
   | { readonly type: "PawnMoved"; readonly playerId: PlayerId; readonly from: number; readonly to: number; readonly path: readonly number[] }
   | { readonly type: "PassedStart"; readonly playerId: PlayerId; readonly bonus: number }
   | { readonly type: "CellArrived"; readonly playerId: PlayerId; readonly position: number; readonly cellType: CellType }
-  | { readonly type: "ScenarioTriggered"; readonly playerId: PlayerId; readonly scenarioId: string; readonly cellType: CellType }
+  | { readonly type: "ScenarioTriggered"; readonly playerId: PlayerId; readonly scenarioId: string; readonly cellType: CellType; readonly visit: number }
   | { readonly type: "QuestionRequested"; readonly requestId: string; readonly playerId: PlayerId; readonly position: number }
-  | {
-      readonly type: "AnswerRecorded";
-      readonly requestId: string;
-      readonly playerId: PlayerId;
-      readonly outcome: AnswerOutcome;
-      readonly explanationMastery: ExplanationMastery;
-      readonly validationMode: ValidationMode;
-    }
+  | { readonly type: "AnswerRecorded"; readonly requestId: string; readonly playerId: PlayerId; readonly outcome: AnswerOutcome; readonly explanationMastery: ExplanationMastery; readonly validationMode: ValidationMode }
   | { readonly type: "RewardGranted"; readonly requestId: string; readonly playerId: PlayerId; readonly base: number; readonly multiplier: number; readonly amount: number }
   | { readonly type: "PurchaseOffered"; readonly playerId: PlayerId; readonly siteId: string; readonly price: number; readonly affordable: boolean }
   | { readonly type: "SiteAlreadyOwned"; readonly playerId: PlayerId; readonly siteId: string; readonly ownerId: PlayerId }
@@ -30,17 +21,13 @@ export type GameEvent =
   | { readonly type: "PurchaseDeclined"; readonly playerId: PlayerId; readonly siteId: string }
   | { readonly type: "ChoiceOffered"; readonly playerId: PlayerId; readonly choiceId: string; readonly optionIds: readonly string[] }
   | { readonly type: "ChoiceMade"; readonly playerId: PlayerId; readonly choiceId: string; readonly optionId: string }
-  | {
-      readonly type: "MoneyChanged";
-      readonly transactionId: number;
-      readonly playerId: PlayerId;
-      readonly amount: number;
-      readonly reason: TransactionReason;
-      readonly balanceAfter: number;
-    }
+  | { readonly type: "MoneyChanged"; readonly transactionId: number; readonly playerId: PlayerId; readonly amount: number; readonly reason: TransactionReason; readonly balanceAfter: number }
   | { readonly type: "EffectQueued"; readonly effect: QueuedEffect }
   | { readonly type: "EffectConsumed"; readonly effectId: string; readonly playerId: PlayerId; readonly effectType: EffectSpec["type"] }
   | { readonly type: "TurnEnded"; readonly turnNumber: number; readonly playerId: PlayerId }
+  /** La durée cible est atteinte : le tour de table en cours sera le dernier. */
+  | { readonly type: "TimeTargetReached"; readonly activePlaySeconds: number }
+  | { readonly type: "GameEndRequested" }
   | { readonly type: "GameFinished"; readonly ranking: readonly RankingEntry[] };
 
 export type GameEventType = GameEvent["type"];

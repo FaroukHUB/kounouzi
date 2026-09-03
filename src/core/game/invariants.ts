@@ -1,10 +1,7 @@
 import { ledgerBalance } from "./economy";
 import { MAX_PLAYERS, MIN_PLAYERS, type GameState } from "./types";
 
-/**
- * Vérifications de cohérence, utilisées par les tests après chaque commande.
- * Retourne la liste des violations (vide si l'état est sain).
- */
+/** Vérifications de cohérence, utilisées par les tests après chaque commande. */
 export function checkInvariants(state: GameState): readonly string[] {
   const violations: string[] = [];
   const n = state.players.length;
@@ -20,6 +17,7 @@ export function checkInvariants(state: GameState): readonly string[] {
     if (!state.config.rules.allowNegativeBalance && p.money < 0) violations.push(`${p.id} solde négatif (${p.money})`);
     const fromLedger = ledgerBalance(state, p.id);
     if (fromLedger !== p.money) violations.push(`${p.id} solde ${p.money} ≠ grand livre ${fromLedger}`);
+    if (p.journeysTaken < 0 || p.journeysTaken > p.turnsPlayed + 1) violations.push(`${p.id} voyages (${p.journeysTaken}) incohérents avec les tours (${p.turnsPlayed})`);
   }
 
   const siteIds = state.holdings.map((h) => h.siteId);
@@ -28,9 +26,12 @@ export function checkInvariants(state: GameState): readonly string[] {
     if (!state.config.sites[h.siteId]) violations.push(`patrimoine sur site inconnu ${h.siteId}`);
     if (!state.players.some((p) => p.id === h.ownerId)) violations.push(`patrimoine d'un joueur inconnu ${h.ownerId}`);
   }
+  for (const e of state.effects) if (!state.players.some((p) => p.id === e.playerId)) violations.push(`effet ${e.id} pour un joueur inconnu`);
 
-  for (const e of state.effects) {
-    if (!state.players.some((p) => p.id === e.playerId)) violations.push(`effet ${e.id} pour un joueur inconnu`);
+  if (state.clock.activePlaySeconds < 0) violations.push("temps de jeu négatif");
+  for (const [key, visits] of Object.entries(state.cellVisits)) {
+    const pos = Number(key);
+    if (!Number.isInteger(pos) || pos < 0 || pos >= board.cellCount || visits < 0) violations.push(`visites incohérentes pour la case ${key}`);
   }
 
   const finished = state.status === "finished";
@@ -43,6 +44,5 @@ export function checkInvariants(state: GameState): readonly string[] {
     if (t.id !== previous + 1) violations.push(`transaction ${t.id} hors séquence`);
     previous = t.id;
   }
-
   return violations;
 }

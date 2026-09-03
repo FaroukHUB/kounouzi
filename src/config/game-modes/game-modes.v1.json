@@ -1,0 +1,10 @@
+{
+  "$comment": "Modes de partie V1 : la durée cible est un temps de jeu ACTIF (pauses exclues) ; la partie se termine à la fin du tour de table en cours. Libellés dans l'i18n.",
+  "modes": [
+    { "id": "quick", "endCondition": { "kind": "active_time", "targetSeconds": 1800 } },
+    { "id": "classic", "endCondition": { "kind": "active_time", "targetSeconds": 2700 } },
+    { "id": "long", "endCondition": { "kind": "active_time", "targetSeconds": 3600 } },
+    { "id": "free", "endCondition": { "kind": "free" } }
+  ],
+  "defaultMode": "classic"
+}

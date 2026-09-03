@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { PROFILE_TYPES, err, ok, type Result } from "@/core/shared";
-import { effectSpecSchema, outcomeSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
+import { effectSpecSchema, familyAssistConfigSchema, journeyCycleSchema, outcomeSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
 import { CELL_TYPES, GAME_SCHEMA_VERSION, TRANSACTION_REASONS, type GameState } from "./types";
 
 const choiceOptionSchema = z.object({ id: z.string(), outcomes: z.array(outcomeSchema) });
@@ -10,8 +10,8 @@ const resolvedCellSchema = z.union([
   z.object({ position: z.number().int(), type: z.literal("heritage"), siteId: z.string() }),
 ]);
 
-/** Forme sérialisée de l'état — version 1. */
-export const gameStateSchemaV1 = z.object({
+/** Forme sérialisée de l'état — version 2 (la v1 de la Phase 2, antérieure à la suppression du hasard, n'a jamais été publiée : aucune migration nécessaire). */
+export const gameStateSchemaV2 = z.object({
   schemaVersion: z.literal(GAME_SCHEMA_VERSION),
   gameId: z.string(),
   config: z.object({
@@ -19,8 +19,9 @@ export const gameStateSchemaV1 = z.object({
     sites: z.record(z.string(), z.object({ id: z.string(), price: z.number().int(), heritageValue: z.number().int() })),
     scenarios: z.array(scenarioSchema),
     rules: rulesConfigSchema,
+    journey: journeyCycleSchema,
+    familyAssist: familyAssistConfigSchema,
   }),
-  rng: z.object({ seed: z.number().int(), state: z.number().int(), calls: z.number().int() }),
   players: z.array(
     z.object({
       id: z.string(),
@@ -30,35 +31,29 @@ export const gameStateSchemaV1 = z.object({
       position: z.number().int(),
       money: z.number().int(),
       turnsPlayed: z.number().int(),
+      journeysTaken: z.number().int(),
     }),
   ),
   activePlayerIndex: z.number().int(),
   turnNumber: z.number().int(),
   phase: z.discriminatedUnion("kind", [
-    z.object({ kind: z.literal("awaiting_spin") }),
+    z.object({ kind: z.literal("awaiting_journey") }),
     z.object({ kind: z.literal("awaiting_answer"), requestId: z.string(), position: z.number().int(), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_purchase"), siteId: z.string(), price: z.number().int(), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_choice"), choiceId: z.string(), options: z.array(choiceOptionSchema), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("finished") }),
   ]),
   ledger: z.array(
-    z.object({
-      id: z.number().int(),
-      turnNumber: z.number().int(),
-      playerId: z.string(),
-      amount: z.number().int(),
-      reason: z.enum(TRANSACTION_REASONS),
-      balanceAfter: z.number().int(),
-      ref: z.string().optional(),
-    }),
+    z.object({ id: z.number().int(), turnNumber: z.number().int(), playerId: z.string(), amount: z.number().int(), reason: z.enum(TRANSACTION_REASONS), balanceAfter: z.number().int(), ref: z.string().optional() }),
   ),
   holdings: z.array(z.object({ siteId: z.string(), ownerId: z.string(), price: z.number().int(), heritageValue: z.number().int(), acquiredTurn: z.number().int() })),
   effects: z.array(z.object({ id: z.string(), playerId: z.string(), spec: effectSpecSchema })),
+  cellVisits: z.record(z.string(), z.number().int().nonnegative()),
+  clock: z.object({ activePlaySeconds: z.number().nonnegative(), timeTargetReached: z.boolean() }),
+  endRequested: z.boolean(),
   counters: z.object({ transaction: z.number().int(), request: z.number().int(), effect: z.number().int() }),
   status: z.enum(["in_progress", "finished"]),
-  ranking: z
-    .array(z.object({ rank: z.number().int(), playerId: z.string(), score: z.number(), money: z.number().int(), heritageValue: z.number().int() }))
-    .optional(),
+  ranking: z.array(z.object({ rank: z.number().int(), playerId: z.string(), score: z.number(), money: z.number().int(), heritageValue: z.number().int() })).optional(),
 });
 
 export type SerializationError =
@@ -66,11 +61,7 @@ export type SerializationError =
   | { readonly code: "UNSUPPORTED_VERSION"; readonly version: unknown }
   | { readonly code: "INVALID_STATE"; readonly issues: readonly string[] };
 
-/**
- * Migrations : de la version n vers n+1. Vide tant qu'une seule version existe ;
- * chaque changement de forme de `GameState` en ajoute une, testée sur des
- * parties réelles figées en fixtures.
- */
+/** Migrations n → n+1. Chaque changement de forme de `GameState` en ajoute une, testée sur des fixtures. */
 const MIGRATIONS: Readonly<Record<number, (data: Record<string, unknown>) => Record<string, unknown>>> = {};
 
 export function serializeGameState(state: GameState): string {
@@ -96,8 +87,7 @@ export function deserializeGameState(json: string): Result<GameState, Serializat
   }
   if (version !== GAME_SCHEMA_VERSION) return err({ code: "UNSUPPORTED_VERSION", version });
 
-  const parsed = gameStateSchemaV1.safeParse(record);
+  const parsed = gameStateSchemaV2.safeParse(record);
   if (!parsed.success) return err({ code: "INVALID_STATE", issues: parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`) });
-  // Les identifiants nominaux (PlayerId, GameId) sont des chaînes à l'exécution.
   return ok(parsed.data as unknown as GameState);
 }

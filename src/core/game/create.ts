@@ -1,11 +1,23 @@
 import { err, ok, type GameId, type PlayerId, type ProfileType, type Result } from "@/core/shared";
 import { resolveBoard, type BoardError } from "./board";
-import { boardConfigSchema, heritageSiteSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
+import { boardConfigSchema, familyAssistConfigSchema, heritageSiteSchema, journeyCycleSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
 import { applyTransaction } from "./economy";
-import { createRng } from "./rng";
-import { step, chain, type Step } from "./step";
+import { chain, step, type Step } from "./step";
 import { startTurn } from "./turn";
-import { GAME_SCHEMA_VERSION, MAX_PLAYERS, MIN_PLAYERS, type BoardConfig, type GameState, type HeritageSite, type PlayerState, type RulesConfig, type Scenario } from "./types";
+import {
+  FAMILY_ASSIST_OFF,
+  GAME_SCHEMA_VERSION,
+  MAX_PLAYERS,
+  MIN_PLAYERS,
+  type BoardConfig,
+  type FamilyAssistConfig,
+  type GameState,
+  type HeritageSite,
+  type JourneyCycle,
+  type PlayerState,
+  type RulesConfig,
+  type Scenario,
+} from "./types";
 
 export interface PlayerSetup {
   readonly id: PlayerId;
@@ -13,15 +25,16 @@ export interface PlayerSetup {
   readonly profileType: ProfileType;
 }
 
-/** Tout ce qu'il faut pour créer une partie. Les configurations sont figées dans l'état. */
+/** Tout ce qu'il faut pour créer une partie. Les configurations sont figées dans l'état. Aucune graine. */
 export interface GameSetup {
   readonly gameId: GameId;
-  readonly seed: number;
   readonly players: readonly PlayerSetup[];
   readonly board: BoardConfig;
   readonly heritageSites: readonly HeritageSite[];
   readonly scenarios: readonly Scenario[];
   readonly rules: RulesConfig;
+  readonly journey: JourneyCycle;
+  readonly familyAssist?: FamilyAssistConfig | undefined;
 }
 
 export type SetupError =
@@ -39,12 +52,16 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     if (seen.has(p.id)) return err({ code: "DUPLICATE_PLAYER", playerId: p.id });
     seen.add(p.id);
   }
+  const familyAssist = setup.familyAssist ?? FAMILY_ASSIST_OFF;
 
   const issues = [
-    ...boardConfigSchema.safeParse(setup.board).error?.issues.map((i) => `board: ${i.message}`) ?? [],
-    ...rulesConfigSchema.safeParse(setup.rules).error?.issues.map((i) => `rules: ${i.message}`) ?? [],
+    ...(boardConfigSchema.safeParse(setup.board).error?.issues.map((i) => `board: ${i.message}`) ?? []),
+    ...(rulesConfigSchema.safeParse(setup.rules).error?.issues.map((i) => `rules: ${i.message}`) ?? []),
+    ...(journeyCycleSchema.safeParse(setup.journey).error?.issues.map((i) => `journey: ${i.message}`) ?? []),
+    ...(familyAssistConfigSchema.safeParse(familyAssist).error?.issues.map((i) => `familyAssist: ${i.message}`) ?? []),
     ...setup.heritageSites.flatMap((s) => heritageSiteSchema.safeParse(s).error?.issues.map((i) => `site: ${i.message}`) ?? []),
     ...setup.scenarios.flatMap((s) => scenarioSchema.safeParse(s).error?.issues.map((i) => `scenario ${s.id}: ${i.message}`) ?? []),
+    ...familyAssist.assistedPlayers.filter((a) => !seen.has(a.playerId)).map((a) => `familyAssist: joueur inconnu ${a.playerId}`),
   ];
   if (issues.length > 0) return err({ code: "INVALID_CONFIG", issues });
 
@@ -59,29 +76,28 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     position: resolved.value.board.startPosition,
     money: 0,
     turnsPlayed: 0,
+    journeysTaken: 0,
   }));
 
   const initial: GameState = {
     schemaVersion: GAME_SCHEMA_VERSION,
     gameId: setup.gameId,
-    config: { board: resolved.value.board, sites: resolved.value.sites, scenarios: setup.scenarios, rules: setup.rules },
-    rng: createRng(setup.seed),
+    config: { board: resolved.value.board, sites: resolved.value.sites, scenarios: setup.scenarios, rules: setup.rules, journey: setup.journey, familyAssist },
     players,
     activePlayerIndex: 0,
     turnNumber: 0,
-    phase: { kind: "awaiting_spin" },
+    phase: { kind: "awaiting_journey" },
     ledger: [],
     holdings: [],
     effects: [],
+    cellVisits: {},
+    clock: { activePlaySeconds: 0, timeTargetReached: false },
+    endRequested: false,
     counters: { transaction: 0, request: 0, effect: 0 },
     status: "in_progress",
   };
 
-  let result = step(initial, [
-    { type: "GameCreated", gameId: setup.gameId, boardId: setup.board.id, rulesId: setup.rules.id, playerIds: players.map((p) => p.id) },
-  ]);
-  for (const p of players) {
-    result = chain(result, (s) => applyTransaction(s, p.id, setup.rules.startingMoney, "starting_money"));
-  }
+  let result = step(initial, [{ type: "GameCreated", gameId: setup.gameId, boardId: setup.board.id, rulesId: setup.rules.id, playerIds: players.map((p) => p.id) }]);
+  for (const p of players) result = chain(result, (s) => applyTransaction(s, p.id, setup.rules.startingMoney, "starting_money"));
   return ok(chain(result, startTurn));
 }

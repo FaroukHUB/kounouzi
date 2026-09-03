@@ -1,9 +1,10 @@
 /**
- * Moteur de jeu Kounouzi — TypeScript pur.
- * Contrat : `reduce(state, command) → { state, events }`.
+ * Moteur de jeu Kounouzi — TypeScript pur, entièrement déterministe.
+ * Contrat : `reduce(state, command) → { state, events }`. Aucun hasard.
  */
 export * from "./types";
-export type { Command } from "./commands";
+export type { Command, PlayerCommand, SessionCommand } from "./commands";
+export { isPlayerCommand } from "./commands";
 export type { GameEvent, GameEventType } from "./events";
 export type { GameError } from "./errors";
 export type { Step } from "./step";
@@ -11,13 +12,13 @@ export { createGame, type GameSetup, type PlayerSetup, type SetupError } from ".
 export { reduce } from "./reducer";
 export { resolveBoard, cellAt, countCellsByType, type BoardError } from "./board";
 export { computePath, computePathTo, type MovePlan } from "./movement";
+export { assignJourneySteps, flattenCycle, journeyCycleIssues } from "./journeyScheduler";
 export { computeReward, type RewardComputation } from "./rewards";
 export { holdingOf, holdingsOf } from "./holdings";
 export { ledgerBalance } from "./economy";
-export { computeRanking, heritageValueOf, isGameOver, scoreOf } from "./scoring";
+export { computeRanking, heritageValueOf, shouldEndAfterTurn, scoreOf } from "./scoring";
 export { checkInvariants } from "./invariants";
-export { createRng, nextInt, nextUint32 } from "./rng";
-export { serializeGameState, deserializeGameState, gameStateSchemaV1, type SerializationError } from "./serialization";
+export { serializeGameState, deserializeGameState, gameStateSchemaV2, type SerializationError } from "./serialization";
 export {
   boardConfigSchema,
   heritageSiteSchema,
@@ -26,4 +27,6 @@ export {
   outcomeSchema,
   effectSpecSchema,
   endConditionSchema,
+  journeyCycleSchema,
+  familyAssistConfigSchema,
 } from "./config.schema";

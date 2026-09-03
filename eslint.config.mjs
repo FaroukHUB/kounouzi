@@ -41,6 +41,7 @@ const CORE_FORBIDDEN_LAYERS = [
   "@/i18n/*",
   "@/config/*",
   "@/data/*",
+  "@/dev/*",
   "@/lib/*",
 ];
 
@@ -88,6 +89,23 @@ const eslintConfig = defineConfig([
                 "Pas d'import relatif remontant (`../`) dans le noyau : utiliser l'alias `@/core/...` pour qu'aucun chemin ne puisse sortir de src/core.",
             },
           ],
+        },
+      ],
+    },
+  },
+
+  {
+    files: ["src/core/**/*.ts"],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: 'MemberExpression[object.name="Math"][property.name="random"]',
+          message: "Aucun hasard dans le noyau : Kounouzi est entièrement déterministe (ADR 0013).",
+        },
+        {
+          selector: 'MemberExpression[property.name="getRandomValues"]',
+          message: "Aucun hasard dans le noyau : Kounouzi est entièrement déterministe (ADR 0013).",
         },
       ],
     },

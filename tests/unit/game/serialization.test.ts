@@ -1,38 +1,32 @@
 import { describe, expect, it } from "vitest";
 import { deserializeGameState, reduce, serializeGameState } from "@/core/game";
-import { active, answer, create, makeLineSetup, makeSetup, pid, run, seedForFirstSpin, simulate } from "../../fixtures/game/setup.fixture";
+import { active, answer, create, journey, makeLineSetup, makeSetup, players, simulate } from "../../fixtures/game/setup.fixture";
 
 describe("sérialisation et reprise", () => {
   it("fait l'aller-retour à l'identique sur une partie en cours", () => {
-    const seed = seedForFirstSpin(1);
-    const { state } = create(makeLineSetup({ seed }));
-    const asked = run(state, { type: "SpinWheel", playerId: pid("p1") });
+    const asked = journey(create(makeLineSetup()).state);
     expect(asked.state.phase.kind).toBe("awaiting_answer");
-
     const restored = deserializeGameState(serializeGameState(asked.state));
     expect(restored.ok).toBe(true);
-    if (!restored.ok) return;
-    expect(restored.value).toEqual(asked.state);
+    if (restored.ok) expect(restored.value).toEqual(asked.state);
   });
 
   it("reprend exactement où la partie s'était arrêtée et produit la même suite", () => {
-    const seed = seedForFirstSpin(1);
-    const { state } = create(makeLineSetup({ seed }));
-    const asked = run(state, { type: "SpinWheel", playerId: pid("p1") });
+    const asked = journey(create(makeLineSetup()).state);
     const restored = deserializeGameState(serializeGameState(asked.state));
     if (!restored.ok) throw new Error("restore");
-
     const command = { type: "SubmitAnswer" as const, playerId: active(asked.state), requestId: "q1", answer: answer("correct", "fr") };
-    const original = reduce(asked.state, command);
-    const resumed = reduce(restored.value, command);
-    expect(resumed).toEqual(original);
+    expect(reduce(restored.value, command)).toEqual(reduce(asked.state, command));
   });
 
-  it("sérialise une partie terminée avec son classement", () => {
-    const sim = simulate(makeSetup({ players: players2(), seed: 4 }));
+  it("conserve le temps de jeu actif, les visites de cases et le classement final", () => {
+    const sim = simulate(makeSetup({ players: players(2) }), { answer: () => answer("correct"), buy: () => true, choose: (o) => o[0]!.id, secondsPerTurn: 3 });
     const restored = deserializeGameState(serializeGameState(sim.state));
     expect(restored.ok).toBe(true);
-    if (restored.ok) expect(restored.value.ranking).toEqual(sim.state.ranking);
+    if (!restored.ok) return;
+    expect(restored.value.ranking).toEqual(sim.state.ranking);
+    expect(restored.value.clock).toEqual(sim.state.clock);
+    expect(restored.value.cellVisits).toEqual(sim.state.cellVisits);
   });
 
   it("refuse un JSON invalide, une version inconnue et un état corrompu", () => {
@@ -46,7 +40,3 @@ describe("sérialisation et reprise", () => {
     if (!corrupted.ok) expect(corrupted.error.code).toBe("INVALID_STATE");
   });
 });
-
-function players2() {
-  return makeSetup().players.slice(0, 2);
-}

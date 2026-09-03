@@ -47,12 +47,24 @@ acquis avant qu'elles ne commencent.
 
 ### Moteur de jeu (`src/core/game`, Phase 2)
 
-- **Commandes** (les seules actions humaines) : `SpinWheel`, `SubmitAnswer`,
-  `DecidePurchase`, `Choose`. Tout le reste — déplacement, résolution de case,
+- **Commandes joueur** : `StartJourney` (sans paramètre : le joueur ne
+  choisit jamais son déplacement), `SubmitAnswer`, `DecidePurchase`, `Choose`.
+  **Commandes de session** : `AdvanceClock { seconds }` (temps actif injecté),
+  `RequestGameEnd`. Tout le reste — Chemin, déplacement, résolution de case,
   clôture du tour, passage au joueur suivant, fin de partie — est automatique.
-- **Phases** : `awaiting_spin` → (roue, déplacement, arrivée) →
-  `awaiting_answer` | `awaiting_purchase` | `awaiting_choice` → clôture →
-  joueur suivant, ou `finished`.
+- **Le Chemin** (ADR 0013) : aucun hasard dans le noyau. `journeyScheduler`
+  attribue les étapes depuis un cycle versionné, le siège et le compteur de
+  voyages — sans jamais recevoir l'état de la partie. Les scénarios d'une
+  case sont servis dans l'ordre configuré selon ses visites.
+- **Phases** : `awaiting_journey` → (`MovementAssigned`, déplacement,
+  arrivée) → `awaiting_answer` | `awaiting_purchase` | `awaiting_choice` →
+  clôture → joueur suivant, ou `finished`.
+- **Durée** (ADR 0014) : `active_time` (temps de jeu actif, pauses exclues),
+  `free` (fin sur demande parentale) ou `turns_per_player` (tests). La fin
+  n'intervient qu'à la fin d'un tour de table complet.
+- **FamilyAssist** (ADR 0015) : modèle par partie, parental et secret,
+  **non implémenté** ; ne pourra jamais toucher au Chemin ni à la vérité
+  pédagogique.
 - **Résolution de case** : une case produit une file de résultats (`Outcome`)
   traitée dans l'ordre ; un résultat exigeant une décision suspend la file
   dans la phase, et la partie reprend exactement là après sérialisation.
@@ -64,8 +76,9 @@ acquis avant qu'elles ne commencent.
   joueur, consommés aux points de déclenchement.
 - **Fin** : condition configurable (`turns_per_player` en V1), classement
   déterministe par score puis argent puis siège.
-- **Déterminisme** : RNG mulberry32 dans l'état ; même graine + mêmes
-  commandes ⇒ mêmes événements et même état sérialisé (testé).
+- **Déterminisme** : aucun hasard nulle part ; même configuration + mêmes
+  commandes ⇒ mêmes événements et même état sérialisé (testé). Règle étendue
+  au futur Learning Engine (sélection déterministe, départage stable).
 
 ## 3. Modèle joueur (validé)
 

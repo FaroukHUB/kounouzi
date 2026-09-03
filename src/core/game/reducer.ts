@@ -1,36 +1,40 @@
 import { err, ok, type Result } from "@/core/shared";
 import { cellAt } from "./board";
 import { resolveCell } from "./cells";
-import type { Command } from "./commands";
+import { isPlayerCommand, type Command, type SessionCommand } from "./commands";
 import { applyTransaction } from "./economy";
 import { takeEffect } from "./effects";
 import type { GameError } from "./errors";
 import { purchaseSite } from "./holdings";
+import { assignJourneySteps } from "./journeyScheduler";
 import { applyMove, computePath } from "./movement";
 import { processQueue } from "./outcomes";
 import { computeReward } from "./rewards";
-import { nextInt } from "./rng";
-import { activePlayer, step, chain, type Step } from "./step";
+import { activePlayer, chain, step, updatePlayer, type Step } from "./step";
 import type { GameState, TurnPhase } from "./types";
 
 /**
  * Le contrat du moteur : `(état, commande) → (nouvel état, événements)`.
- * Pur, synchrone, déterministe. Une commande invalide est refusée sans
- * modifier l'état. Aucune animation, aucune horloge, aucun réseau.
+ * Pur, synchrone, entièrement déterministe : aucun hasard, aucune horloge
+ * système, aucun réseau. Une commande invalide est refusée sans modifier l'état.
  */
 export function reduce(state: GameState, command: Command): Result<Step, GameError> {
   if (state.status === "finished") return err({ code: "GAME_FINISHED" });
+  if (!isPlayerCommand(command)) return reduceSession(state, command);
+
   const player = activePlayer(state);
   if (command.playerId !== player.id) return err({ code: "NOT_ACTIVE_PLAYER", expected: player.id, received: command.playerId });
 
   switch (command.type) {
-    case "SpinWheel": {
-      const phase = expectPhase(state, "awaiting_spin");
+    case "StartJourney": {
+      const phase = expectPhase(state, "awaiting_journey");
       if (!phase.ok) return phase;
-      const { min, max } = state.config.rules.wheel;
-      const [value, rng] = nextInt(state.rng, min, max);
-      let result = step({ ...state, rng }, [{ type: "WheelSpun", playerId: player.id, value }]);
-      const plan = computePath(player.position, value, state.config.board);
+      // Le Chemin : attribué par le cycle versionné, à partir du siège et du compteur de voyages uniquement.
+      const steps = assignJourneySteps(state.config.journey, player.seat, player.journeysTaken);
+      let result = step(updatePlayer(state, player.id, { journeysTaken: player.journeysTaken + 1 }), [
+        { type: "MovementAssigned", playerId: player.id, steps, journeyIndex: player.journeysTaken },
+      ]);
+      const plan = computePath(player.position, steps, state.config.board);
       result = chain(result, (s) => applyMove(s, player.id, plan));
       const cell = cellAt(state.config.board, plan.to);
       result = chain(result, (s) => step(s, [{ type: "CellArrived", playerId: player.id, position: cell.position, cellType: cell.type }]));
@@ -42,9 +46,7 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
     case "SubmitAnswer": {
       const phase = expectPhase(state, "awaiting_answer");
       if (!phase.ok) return phase;
-      if (phase.value.requestId !== command.requestId) {
-        return err({ code: "REQUEST_MISMATCH", expected: phase.value.requestId, received: command.requestId });
-      }
+      if (phase.value.requestId !== command.requestId) return err({ code: "REQUEST_MISMATCH", expected: phase.value.requestId, received: command.requestId });
       const { answer } = command;
       let result = step(state, [
         { type: "AnswerRecorded", requestId: command.requestId, playerId: player.id, outcome: answer.outcome, explanationMastery: answer.explanationMastery, validationMode: answer.validationMode },
@@ -86,6 +88,23 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
       const result = step(state, [{ type: "ChoiceMade", playerId: player.id, choiceId: command.choiceId, optionId: option.id }]);
       const queue = [...option.outcomes, ...phase.value.queue];
       return ok(chain(result, (s) => processQueue(s, queue)));
+    }
+  }
+}
+
+function reduceSession(state: GameState, command: SessionCommand): Result<Step, GameError> {
+  switch (command.type) {
+    case "AdvanceClock": {
+      if (!Number.isFinite(command.seconds) || command.seconds < 0) return err({ code: "INVALID_CLOCK_DELTA", seconds: command.seconds });
+      const activePlaySeconds = state.clock.activePlaySeconds + command.seconds;
+      const condition = state.config.rules.endCondition;
+      const reachedNow = condition.kind === "active_time" && !state.clock.timeTargetReached && activePlaySeconds >= condition.targetSeconds;
+      const next: GameState = { ...state, clock: { activePlaySeconds, timeTargetReached: state.clock.timeTargetReached || reachedNow } };
+      return ok(step(next, reachedNow ? [{ type: "TimeTargetReached", activePlaySeconds }] : []));
+    }
+    case "RequestGameEnd": {
+      if (state.endRequested) return ok(step(state));
+      return ok(step({ ...state, endRequested: true }, [{ type: "GameEndRequested" }]));
     }
   }
 }

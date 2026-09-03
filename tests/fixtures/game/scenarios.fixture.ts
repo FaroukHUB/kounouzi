@@ -40,4 +40,10 @@ export const TEST_SCENARIOS: readonly Scenario[] = [
   { id: "treasure-boost", cellType: "treasure", outcomes: [{ kind: "effect", effect: { type: "reward_multiplier", multiplier: 2, uses: 1, consumeOn: "reward_granted" } }] },
 ];
 
-export const scenariosOf = (...ids: readonly string[]): readonly Scenario[] => TEST_SCENARIOS.filter((s) => ids.includes(s.id));
+/** Scénarios dans l'ordre DEMANDÉ (l'ordre configuré détermine la rotation par visites). */
+export const scenariosOf = (...ids: readonly string[]): readonly Scenario[] =>
+  ids.map((id) => {
+    const found = TEST_SCENARIOS.find((s) => s.id === id);
+    if (!found) throw new Error(`scénario de test inconnu : ${id}`);
+    return found;
+  });

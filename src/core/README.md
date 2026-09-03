@@ -17,6 +17,7 @@ Depuis un fichier du noyau, seuls sont autorisés :
 | `learning/` | Moteur pédagogique : sélection adaptative, maîtrise, répétition, progression      | 5     |
 | `content/`  | Moteur de contenu : fournisseurs de questions, générateurs, gabarits, garde-fous  | 4     |
 
-Le noyau ne lit jamais l'horloge système ni `Math.random` : l'horloge et le
-générateur aléatoire à graine lui sont injectés, ce qui le rend déterministe et
-testable.
+Le noyau ne lit jamais l'horloge système et ne contient **aucun hasard**
+(ADR 0013) : le temps de jeu actif lui est injecté par commande, le
+déplacement (le Chemin) vient d'un cycle versionné. Il est entièrement
+déterministe et testable.
