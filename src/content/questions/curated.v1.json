@@ -1,0 +1,4 @@
+{
+  "$comment": "Banque curée V1. VIDE pour la religion tant qu'aucune source n'a été fournie et validée par l'équipe : une catégorie sans question ne fournit rien, elle n'est jamais remplie artificiellement. Chaque question exige : status=validated, explication FR ET AR, source(s) si la catégorie l'exige (jamais d'URL fictive).",
+  "questions": []
+}

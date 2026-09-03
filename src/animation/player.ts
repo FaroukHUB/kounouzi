@@ -1,12 +1,14 @@
 import type { GameEvent } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
+import type { CardState } from "@/ui/cards/cardState";
 import { safetyTimeout, type Timings } from "./timings";
 
 export type Banner =
   | { readonly kind: "turn"; readonly playerId: PlayerId }
   | { readonly kind: "skipped"; readonly playerId: PlayerId }
   | { readonly kind: "passed_start"; readonly playerId: PlayerId; readonly amount: number }
-  | { readonly kind: "last_round" };
+  | { readonly kind: "last_round" }
+  | { readonly kind: "owned"; readonly ownerId: PlayerId };
 
 /** Ce que le rejoueur peut faire à l'interface. Rien ici ne touche au moteur. */
 export interface AnimationActions {
@@ -17,6 +19,9 @@ export interface AnimationActions {
   revealJourney(playerId: PlayerId, steps: number): void;
   hideJourney(): void;
   setBanner(banner: Banner | null): void;
+  openCard(card: CardState): void;
+  updateCard(patch: Partial<CardState>): void;
+  closeCard(): void;
 }
 
 export type Sleep = (ms: number) => Promise<void>;
@@ -75,6 +80,49 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       await sleep(t.turnBannerMs);
       actions.setBanner(null);
       return;
+
+    // ---- cartes : ouverture sur demande du moteur, progression sur ses réponses ----
+    case "QuestionRequested":
+      actions.openCard({ kind: "question", requestId: event.requestId, step: "dealt", validationMode: "collective" });
+      return;
+    case "PurchaseOffered":
+      actions.openCard({ kind: "monument", siteId: event.siteId, price: event.price, affordable: event.affordable, step: "offer" });
+      return;
+    case "ChoiceOffered":
+      actions.openCard({ kind: "choice", choiceId: event.choiceId, optionIds: event.optionIds, step: "offer" });
+      return;
+    case "ScenarioTriggered":
+      actions.openCard({ kind: "scenario", scenarioId: event.scenarioId, cellType: event.cellType });
+      await sleep(t.scenarioMs);
+      actions.closeCard();
+      return;
+    case "SiteAlreadyOwned":
+      actions.setBanner({ kind: "owned", ownerId: event.ownerId });
+      await sleep(t.passedStartMs);
+      actions.setBanner(null);
+      return;
+    case "AnswerRecorded":
+      actions.updateCard({ step: "result", outcome: event.outcome });
+      await sleep(t.resultMs);
+      return;
+    case "RewardGranted":
+      actions.updateCard({ step: "reward", rewardAmount: event.amount, multiplier: event.multiplier });
+      await sleep(t.rewardMs);
+      return;
+    case "SiteAcquired":
+      actions.updateCard({ step: "acquired" });
+      await sleep(t.purchaseMs);
+      return;
+    case "PurchaseDeclined":
+      actions.updateCard({ step: "declined" });
+      await sleep(t.purchaseMs / 2);
+      return;
+    case "ChoiceMade":
+      actions.closeCard();
+      return;
+    case "TurnEnded":
+      actions.closeCard();
+      return;
     default:
       return;
   }
@@ -97,7 +145,13 @@ function settle(event: GameEvent, actions: AnimationActions): void {
     case "TurnSkipped":
     case "PassedStart":
     case "TimeTargetReached":
+    case "SiteAlreadyOwned":
       actions.setBanner(null);
+      return;
+    case "ScenarioTriggered":
+    case "TurnEnded":
+    case "ChoiceMade":
+      actions.closeCard();
       return;
     default:
       return;
@@ -119,6 +173,18 @@ export function estimateDuration(event: GameEvent, t: Timings): number {
       return t.passedStartMs;
     case "CellArrived":
       return t.arrivalMs;
+    case "ScenarioTriggered":
+      return t.scenarioMs;
+    case "SiteAlreadyOwned":
+      return t.passedStartMs;
+    case "AnswerRecorded":
+      return t.resultMs;
+    case "RewardGranted":
+      return t.rewardMs;
+    case "SiteAcquired":
+      return t.purchaseMs;
+    case "PurchaseDeclined":
+      return t.purchaseMs / 2;
     default:
       return 0;
   }

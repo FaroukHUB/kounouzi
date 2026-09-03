@@ -162,8 +162,11 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
 - **Persistance** : `GameRepository` (port) → IndexedDB (`idb-keyval`) dans
   le navigateur, mémoire en test ; `SavedGame` = état sérialisé + brouillons
   de profil + résumé. Reprise depuis l'accueil.
-- **Résolveur de démonstration** (ADR 0017, temporaire) pour les interactions
-  de la Phase 4.
+- **Cartes** (ADR 0021) : ouvertes et refermées par la file d'animation,
+  état transitoire reconstruit depuis la phase à la reprise.
+- **Contenu** (ADR 0020) : `src/core/content` (maths algorithmiques,
+  géographie factuelle, banque curée gardée) ; résolution déterministe d'une
+  question par demande, sélection provisoire jusqu'au Learning Engine.
 
 ## 6. Persistance
 
@@ -180,7 +183,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | 1     | Fondations : outillage, frontières, i18n, Bidi, docs         | livrée   |
 | 2     | Moteur de jeu pur : tours, roue, déplacement, économie, patrimoine, effets, fin, sérialisation | livrée |
 | 3     | Plateau, Chemin, pions, animations, narration, Zustand, IndexedDB, reprise | livrée |
-| 4     | Cartes, validation, récompenses, achat de monuments — **première partie jouable** | à venir |
+| 4     | Cartes interactives, validation, explications FR/AR, récompenses ×2, monuments, choix, scénarios, contenu minimal — **première partie jouable** | livrée |
 | 5     | Mémoire pédagogique et algorithme adaptatif                  | à venir  |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
 | 7     | Mes trésors, écran parent                                    | à venir  |

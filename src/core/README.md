@@ -15,7 +15,7 @@ Depuis un fichier du noyau, seuls sont autorisés :
 | `shared/`   | Types et constantes transverses validés (locales, joueur, audience, validation)    | 1     |
 | `game/`     | Moteur de jeu : tours, roue, déplacement, économie, récompenses, patrimoine, effets, fin, sérialisation | 2 (livrée) |
 | `learning/` | Moteur pédagogique : sélection adaptative, maîtrise, répétition, progression      | 5     |
-| `content/`  | Moteur de contenu : fournisseurs de questions, générateurs, gabarits, garde-fous  | 4     |
+| `content/`  | Moteur de contenu : fournisseurs (algorithmique, factuel, curé), générateurs, gabarits, garde-fous | 4 (livrée) |
 
 Le noyau ne lit jamais l'horloge système et ne contient **aucun hasard**
 (ADR 0013) : le temps de jeu actif lui est injecté par commande, le

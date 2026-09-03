@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { motion } from "motion/react";
 import { useAnimationQueue } from "@/animation/useAnimationQueue";
-import { useTimings } from "@/animation/useReducedMotion";
+import { useReducedMotion, useTimings } from "@/animation/useReducedMotion";
 import type { GameEvent, GameState } from "@/core/game";
 import type { GameId, PlayerId } from "@/core/shared";
-import { isPhase4Interaction, resolvePhase3DemoInteraction } from "@/dev/phase3DemoResolver";
 import { utteranceFor } from "@/experience/narration";
 import { startPlayClock } from "@/experience/playClock";
 import { DEFAULT_LOCALE, t } from "@/i18n";
@@ -15,8 +15,8 @@ import { useSessionStore } from "@/state/sessionStore";
 import { useUiStore } from "@/state/uiStore";
 import { Board } from "@/ui/board/Board";
 import { PawnLayer } from "@/ui/board/PawnLayer";
+import { CardOverlay } from "@/ui/cards/CardOverlay";
 import { Button } from "@/ui/primitives/Button";
-import { DemoInteractionPanel } from "./DemoInteractionPanel";
 import { FinalRanking } from "./FinalRanking";
 import { JourneyPanel } from "./JourneyPanel";
 import { PlayerPanel } from "./PlayerPanel";
@@ -30,6 +30,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const profiles = useGameStore((s) => s.profiles);
   const ui = useUiStore();
   const timings = useTimings();
+  const reduced = useReducedMotion();
   const session = useSessionStore();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -101,26 +102,37 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const shownActiveId = shown.players[shown.activePlayerIndex]?.id ?? activeId;
   const dispatch = gameStore.getState().dispatch;
   const startJourney = () => dispatch({ type: "StartJourney", playerId: activeId });
-  const resolveDemo = () => {
-    const command = resolvePhase3DemoInteraction(state);
-    if (command) dispatch(command);
-  };
-  const showDemo = isPhase4Interaction(state) && !ui.isAnimating && ui.queue.length === 0 && !ui.journeyReveal;
+  const cardOpen = ui.card !== null;
 
   return (
     <div className="relative flex min-h-dvh flex-col bg-[var(--k-sand)] lg:flex-row lg:items-center lg:justify-center lg:gap-6 lg:p-6" data-testid="game-screen" data-phase={state.phase.kind}>
       <TurnBanner banner={ui.banner} state={shown} />
 
-      <main className="flex flex-1 items-center justify-center p-3 lg:flex-none">
+      <motion.main
+        className="flex flex-1 items-center justify-center p-3 lg:flex-none"
+        animate={{ scale: cardOpen ? 0.96 : 1, opacity: cardOpen ? 0.6 : 1 }}
+        transition={{ type: "tween", duration: reduced ? 0 : 0.3 }}
+        style={{ willChange: cardOpen ? "transform, opacity" : "auto" }}
+      >
         <Board
           board={state.config.board}
           highlightedCell={ui.highlightedCell}
           arrivalCell={ui.arrivalCell}
           previewPath={ui.pathPreview}
           pawns={<PawnLayer players={state.players} profiles={profiles} visuals={ui.pawnVisuals} activePlayerId={shownActiveId} cellCount={state.config.board.cellCount} stepMs={timings.stepMs} />}
-          center={showDemo ? <DemoInteractionPanel state={state} onResolve={resolveDemo} /> : <JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0} onStartJourney={startJourney} />}
+          center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}
         />
-      </main>
+      </motion.main>
+
+      <CardOverlay
+        state={state}
+        profiles={profiles}
+        narrator={narrator}
+        reduced={reduced}
+        onSubmitAnswer={(requestId, outcome, explanationMastery, validationMode) => dispatch({ type: "SubmitAnswer", playerId: activeId, requestId, answer: { outcome, explanationMastery, validationMode } })}
+        onDecidePurchase={(siteId, buy) => dispatch({ type: "DecidePurchase", playerId: activeId, siteId, buy })}
+        onChoose={(choiceId, optionId) => dispatch({ type: "Choose", playerId: activeId, choiceId, optionId })}
+      />
 
       <aside className="flex w-full flex-col gap-3 p-3 lg:w-80">
         <header className="flex items-center justify-between">

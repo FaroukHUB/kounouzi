@@ -3,6 +3,7 @@ import type { Banner } from "@/animation/player";
 import type { GameEvent, GameState } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
 import { projectEvent } from "./presentation";
+import { cardForPhase, type CardState } from "@/ui/cards/cardState";
 
 /** Un élément de la file : un événement à rejouer, et/ou un état réel à « poser » comme présenté une fois rejoué. */
 export interface QueueItem {
@@ -26,6 +27,8 @@ export interface UiState {
   readonly isAnimating: boolean;
   /** État affiché par les panneaux (retard des animations). `null` avant chargement. */
   readonly presentedState: GameState | null;
+  /** Carte affichée (question, monument, choix, scénario) ; `null` sinon. */
+  readonly card: CardState | null;
 
   syncFromGame(state: GameState): void;
   /** Dépose les événements d'une commande ; l'état réel est posé comme présenté après le dernier. */
@@ -41,6 +44,9 @@ export interface UiState {
   revealJourney(playerId: PlayerId, steps: number): void;
   hideJourney(): void;
   setPathPreview(path: readonly number[]): void;
+  openCard(card: CardState): void;
+  updateCard(patch: Partial<CardState>): void;
+  closeCard(): void;
   setBanner(banner: Banner | null): void;
   clear(): void;
 }
@@ -55,13 +61,21 @@ const EMPTY = {
   queue: [],
   isAnimating: false,
   presentedState: null,
+  card: null,
 } as const;
 
 export const useUiStore = create<UiState>()((set, get) => ({
   ...EMPTY,
   /** Positions visuelles depuis l'état ; la file est conservée (une création vient d'y déposer ses événements). */
   syncFromGame: (state) =>
-    set((s) => ({ ...EMPTY, queue: s.queue, presentedState: s.queue.length > 0 && s.presentedState ? s.presentedState : state, pawnVisuals: Object.fromEntries(state.players.map((p) => [p.id, p.position])) })),
+    set((s) => ({
+      ...EMPTY,
+      queue: s.queue,
+      presentedState: s.queue.length > 0 && s.presentedState ? s.presentedState : state,
+      pawnVisuals: Object.fromEntries(state.players.map((p) => [p.id, p.position])),
+      // Reprise en pleine interaction : la carte correspondante est rouverte (aucun événement ne sera rejoué).
+      card: s.queue.length > 0 ? s.card : cardForPhase(state),
+    })),
   enqueueBatch: (events, stateAfter) =>
     set((s) => {
       if (events.length === 0) {
@@ -85,6 +99,9 @@ export const useUiStore = create<UiState>()((set, get) => ({
   revealJourney: (playerId, steps) => set({ journeyReveal: { playerId, steps } }),
   hideJourney: () => set({ journeyReveal: null }),
   setPathPreview: (pathPreview) => set({ pathPreview }),
+  openCard: (card) => set({ card }),
+  updateCard: (patch) => set((s) => (s.card ? { card: { ...s.card, ...patch } as CardState } : {})),
+  closeCard: () => set({ card: null }),
   setBanner: (banner) => set({ banner }),
   clear: () => set({ ...EMPTY }),
 }));

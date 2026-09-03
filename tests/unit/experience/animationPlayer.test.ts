@@ -13,6 +13,9 @@ function recorder() {
     revealJourney: (id, steps) => calls.push(`reveal:${id}:${steps}`),
     hideJourney: () => calls.push("hide"),
     setBanner: (b) => calls.push(`banner:${b ? b.kind : "null"}`),
+    openCard: (c) => calls.push(`card:${c.kind}${"step" in c ? ":" + c.step : ""}`),
+    updateCard: (patch) => calls.push(`card~${JSON.stringify(patch)}`),
+    closeCard: () => calls.push("card:close"),
   };
   return { calls, actions };
 }
@@ -64,6 +67,23 @@ describe("rejoueur d'événements (file d'animation)", () => {
     expect(budgetSleeps).toBe(1);
     expect(calls.at(-2)).toBe("pawn:p1:2");
     expect(calls.at(-1)).toBe("hl:null");
+  });
+
+  it("ouvre les cartes sur demande du moteur et les fait progresser sur ses réponses", async () => {
+    const { calls, actions } = recorder();
+    await playEvent({ type: "QuestionRequested", requestId: "q3", playerId: p1, position: 1 }, actions, REDUCED_TIMINGS, instant);
+    await playEvent({ type: "AnswerRecorded", requestId: "q3", playerId: p1, outcome: "correct", explanationMastery: "fr", validationMode: "collective" }, actions, REDUCED_TIMINGS, instant);
+    await playEvent({ type: "RewardGranted", requestId: "q3", playerId: p1, base: 50, multiplier: 2, amount: 100 }, actions, REDUCED_TIMINGS, instant);
+    await playEvent({ type: "TurnEnded", turnNumber: 1, playerId: p1 }, actions, REDUCED_TIMINGS, instant);
+    expect(calls).toEqual(["card:question:dealt", 'card~{"step":"result","outcome":"correct"}', 'card~{"step":"reward","rewardAmount":100,"multiplier":2}', "card:close", "card:close"]);
+  });
+
+  it("ouvre la carte monument avec l'offre du moteur, puis la carte choix ; un scénario se révèle puis se referme", async () => {
+    const { calls, actions } = recorder();
+    await playEvent({ type: "PurchaseOffered", playerId: p1, siteId: "s1", price: 300, affordable: false }, actions, REDUCED_TIMINGS, instant);
+    await playEvent({ type: "ChoiceOffered", playerId: p1, choiceId: "c", optionIds: ["a", "b"] }, actions, REDUCED_TIMINGS, instant);
+    await playEvent({ type: "ScenarioTriggered", playerId: p1, scenarioId: "demo-event-gain", cellType: "event", visit: 1 }, actions, REDUCED_TIMINGS, instant);
+    expect(calls).toEqual(["card:monument:offer", "card:choice:offer", "card:scenario", "card:close", "card:close"]);
   });
 
   it("le mode réduit garde la même séquence avec des durées nulles", () => {

@@ -7,6 +7,14 @@ export interface Timings {
   readonly turnBannerMs: number;
   readonly passedStartMs: number;
   readonly skippedMs: number;
+  /** Révélation d'un scénario (événement, gestion, défi, solidarité, trésor). */
+  readonly scenarioMs: number;
+  /** Résultat d'une réponse affiché sur la carte. */
+  readonly resultMs: number;
+  /** Récompense (+N) affichée sur la carte. */
+  readonly rewardMs: number;
+  /** Achat conclu / refusé. */
+  readonly purchaseMs: number;
 }
 
 export const DEFAULT_TIMINGS: Timings = {
@@ -16,6 +24,10 @@ export const DEFAULT_TIMINGS: Timings = {
   turnBannerMs: 900,
   passedStartMs: 900,
   skippedMs: 1100,
+  scenarioMs: 1900,
+  resultMs: 1000,
+  rewardMs: 1500,
+  purchaseMs: 1200,
 };
 
 /** Mode « animations réduites » : même séquence, durées nulles. */
@@ -26,6 +38,10 @@ export const REDUCED_TIMINGS: Timings = {
   turnBannerMs: 0,
   passedStartMs: 0,
   skippedMs: 0,
+  scenarioMs: 0,
+  resultMs: 0,
+  rewardMs: 0,
+  purchaseMs: 0,
 };
 
 export const resolveTimings = (reduced: boolean): Timings => (reduced ? REDUCED_TIMINGS : DEFAULT_TIMINGS);

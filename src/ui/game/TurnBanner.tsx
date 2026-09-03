@@ -14,7 +14,9 @@ export function TurnBanner({ banner, state }: { readonly banner: Banner | null; 
         ? t(DEFAULT_LOCALE, "game.skipped", { name: name(banner.playerId) })
         : banner.kind === "passed_start"
           ? t(DEFAULT_LOCALE, "game.passedStart", { amount: banner.amount })
-          : t(DEFAULT_LOCALE, "game.lastRound")
+          : banner.kind === "owned"
+            ? t(DEFAULT_LOCALE, "monument.owned", { name: name(banner.ownerId) })
+            : t(DEFAULT_LOCALE, "game.lastRound")
     : null;
   return (
     <div className="pointer-events-none absolute inset-x-0 top-3 z-20 flex justify-center" aria-live="polite">

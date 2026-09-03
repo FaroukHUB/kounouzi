@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import type { GameEvent } from "@/core/game";
 import { createMemoryGameRepository } from "@/data/local";
 import { createGameStore } from "@/state/gameStore";
-import { resolvePhase3DemoInteraction } from "@/dev/phase3DemoResolver";
 import { makeSetup, pid } from "../../fixtures/game/setup.fixture";
 
 function harness() {
@@ -78,17 +77,4 @@ describe("gameStore (état persistant issu du moteur)", () => {
     expect(await h.store.getState().load("bad" as never)).toBe("corrupted");
   });
 
-  it("le résolveur de démonstration Phase 3 n'émet que des commandes ordinaires, déterministes", () => {
-    const h = harness();
-    h.store.getState().create(makeSetup({ scenarios: [] }), h.profiles, 1);
-    let guard = 0;
-    while (h.store.getState().state?.phase.kind !== "awaiting_answer" && guard++ < 50) {
-      const s = h.store.getState().state!;
-      const demo = resolvePhase3DemoInteraction(s);
-      h.store.getState().dispatch(demo ?? { type: "StartJourney", playerId: s.players[s.activePlayerIndex]!.id });
-    }
-    const s = h.store.getState().state!;
-    expect(resolvePhase3DemoInteraction(s)).toMatchObject({ type: "SubmitAnswer", answer: { outcome: "correct", explanationMastery: "none", validationMode: "collective" } });
-    expect(resolvePhase3DemoInteraction(s)).toEqual(resolvePhase3DemoInteraction(s));
-  });
 });

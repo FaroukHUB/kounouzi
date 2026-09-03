@@ -39,6 +39,9 @@ export function useAnimationQueue(timings: Timings, onPlay?: (event: GameEvent, 
       revealJourney: ui.revealJourney,
       hideJourney: ui.hideJourney,
       setBanner: ui.setBanner,
+      openCard: ui.openCard,
+      updateCard: ui.updateCard,
+      closeCard: ui.closeCard,
     };
     if (state) onPlay?.(event, state);
     void playEvent(event, actions, timings).finally(settle);

@@ -1,6 +1,6 @@
 # 0017 — Résolveur de démonstration Phase 3 (temporaire)
 
-**Statut** : acceptée, **temporaire** — à supprimer en Phase 4
+**Statut** : **supprimée en Phase 4** (ADR 0021) — conservée pour l'historique
 
 ## Contexte
 En Phase 3, les interactions de case (question, monument, événement, gestion,
