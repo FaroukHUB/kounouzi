@@ -1,20 +1,24 @@
 @import "tailwindcss";
 
+/* Première identité visuelle Kounouzi — sable chaud, sarcelle profonde, or. Direction artistique définitive ultérieure. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --k-sand: #f6efe4;
+  --k-sand-dark: #ede2d0;
+  --k-board: #e9dcc4;
+  --k-ink: #1f2937;
+  --k-ink-soft: #6b7280;
+  --k-line: #e5e0d6;
+  --k-teal: #0f766e;
+  --k-teal-dark: #0b5f58;
+  --k-gold: #d4a017;
+  --k-ruby: #be123c;
+  --background: var(--k-sand);
+  --foreground: var(--k-ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 /* Isolation bidirectionnelle, utilisée par le composant <Bidi>. */
@@ -25,5 +29,12 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+  }
 }

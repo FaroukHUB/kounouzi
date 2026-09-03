@@ -1,0 +1,45 @@
+{
+  "$comment": "⚠️ SCÉNARIOS GÉNÉRIQUES DE DÉMONSTRATION — Phase 3. Aucun contenu pédagogique réel.",
+  "scenarios": [
+    { "id": "demo-event-gain", "cellType": "event", "outcomes": [{ "kind": "money", "amount": 100 }] },
+    { "id": "demo-event-loss", "cellType": "event", "outcomes": [{ "kind": "money", "amount": -150 }] },
+    { "id": "demo-event-back", "cellType": "event", "outcomes": [{ "kind": "move", "steps": -3 }] },
+    { "id": "demo-event-skip", "cellType": "event", "outcomes": [{ "kind": "effect", "effect": { "type": "skip_turn", "consumeOn": "turn_start" } }] },
+    { "id": "demo-event-extra", "cellType": "event", "outcomes": [{ "kind": "effect", "effect": { "type": "extra_turn", "consumeOn": "turn_end" } }] },
+    {
+      "id": "demo-management-choice",
+      "cellType": "management",
+      "outcomes": [
+        {
+          "kind": "choice",
+          "choiceId": "demo-management-choice",
+          "options": [
+            { "id": "save", "outcomes": [{ "kind": "money", "amount": 50 }] },
+            { "id": "spend", "outcomes": [{ "kind": "money", "amount": -50 }] }
+          ]
+        }
+      ]
+    },
+    { "id": "demo-challenge-question", "cellType": "challenge", "outcomes": [{ "kind": "question" }] },
+    {
+      "id": "demo-solidarity-choice",
+      "cellType": "solidarity",
+      "outcomes": [
+        {
+          "kind": "choice",
+          "choiceId": "demo-solidarity-choice",
+          "options": [
+            { "id": "give", "outcomes": [{ "kind": "money", "amount": -100 }] },
+            { "id": "pass", "outcomes": [] }
+          ]
+        }
+      ]
+    },
+    { "id": "demo-treasure-bonus", "cellType": "treasure", "outcomes": [{ "kind": "money", "amount": 200 }] },
+    {
+      "id": "demo-treasure-boost",
+      "cellType": "treasure",
+      "outcomes": [{ "kind": "effect", "effect": { "type": "reward_multiplier", "multiplier": 2, "uses": 1, "consumeOn": "reward_granted" } }]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "$comment": "⚠️ MONUMENTS FICTIFS DE DÉMONSTRATION — Phase 3. Aucun monument réel n'est défini ; les vrais sites arriveront avec le contenu validé.",
+  "sites": [
+    { "id": "demo-monument-01", "kind": "purchasable_monument", "price": 300, "heritageValue": 250 },
+    { "id": "demo-monument-02", "kind": "purchasable_monument", "price": 350, "heritageValue": 310 },
+    { "id": "demo-monument-03", "kind": "purchasable_monument", "price": 400, "heritageValue": 370 },
+    { "id": "demo-monument-04", "kind": "purchasable_monument", "price": 450, "heritageValue": 430 },
+    { "id": "demo-monument-05", "kind": "purchasable_monument", "price": 500, "heritageValue": 490 },
+    { "id": "demo-monument-06", "kind": "purchasable_monument", "price": 550, "heritageValue": 550 },
+    { "id": "demo-monument-07", "kind": "purchasable_monument", "price": 600, "heritageValue": 610 },
+    { "id": "demo-monument-08", "kind": "purchasable_monument", "price": 650, "heritageValue": 670 }
+  ]
+}

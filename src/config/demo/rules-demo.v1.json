@@ -1,0 +1,12 @@
+{
+  "$comment": "⚠️ VALEURS DE DÉMONSTRATION — Phase 3. Ces montants servent uniquement à faire tourner le prototype ; ils ne constituent PAS l'économie de Kounouzi.",
+  "id": "rules-demo.v1",
+  "version": 1,
+  "startingMoney": 1000,
+  "passStartBonus": 100,
+  "wheel": { "min": 1, "max": 6 },
+  "rewards": { "correct": 50, "partial": 25, "incorrect": 0, "masteryMultiplier": 2 },
+  "scoring": { "moneyWeight": 1, "heritageWeight": 1 },
+  "allowNegativeBalance": false,
+  "endCondition": { "kind": "turns_per_player", "turns": 6 }
+}

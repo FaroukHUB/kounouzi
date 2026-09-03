@@ -128,6 +128,41 @@ long) ; la tablée choisit **Correct / Presque / Incorrect**.
 - le moteur ne déduit jamais le mode ; aucune notion de validateur désigné ni
   de permission en V1.
 
+## 5 bis. Couche expérience (Phase 3)
+
+```
+moteur ──► événements ──► gameStore (persistant, miroir de GameState)
+                     └──► uiStore.queue ──► useAnimationQueue
+                                              ├── narration (NarrationService)
+                                              └── playEvent → uiStore (pions, bandeaux, Chemin)
+```
+
+- **Stores** : `gameStore` (fabrique `createGameStore({ repository, now,
+  onEvents })`, état du moteur + brouillons de profil, sauvegarde après chaque
+  commande) ≠ `uiStore` (pions visuels, case en évidence, aperçu du Chemin,
+  bandeau, file, `isAnimating`) ≠ `sessionStore` (préférences persistées :
+  animations réduites, narration, vitesse, temps précis). Aucune règle de jeu
+  hors du moteur.
+- **File d'animation** : un événement à la fois ; `PawnMoved.path` est rejoué
+  case par case sans jamais être recalculé ; délai de sécurité (durée × 2 +
+  500 ms) ; mode réduit = mêmes étapes, durées nulles ; à la reprise, la file
+  est vidée (aucune animation rejouée).
+- **Le Chemin à l'écran** : « Au tour de X » → bouton « Découvrir mon chemin »
+  → `StartJourney` → « Ton chemin se dévoile… N étapes » (N = valeur du
+  moteur), aperçu des cases du trajet (copié de `PawnMoved.path`), puis le
+  pion parcourt réellement les cases, retour visuel à l'arrivée.
+- **Plateau** : grille CSS 9×9 statique, cases sur le périmètre
+  (`perimeterPosition`), pions en `transform` uniquement (translate en unités
+  de case), grappes étalées sur une même case.
+- **Temps actif** : `startPlayClock` (couche session) compte les secondes
+  visibles et non en pause, les envoie par paquets `AdvanceClock` ; le moteur
+  ne lit jamais l'horloge.
+- **Persistance** : `GameRepository` (port) → IndexedDB (`idb-keyval`) dans
+  le navigateur, mémoire en test ; `SavedGame` = état sérialisé + brouillons
+  de profil + résumé. Reprise depuis l'accueil.
+- **Résolveur de démonstration** (ADR 0017, temporaire) pour les interactions
+  de la Phase 4.
+
 ## 6. Persistance
 
 Local-first : IndexedDB est la source de vérité pendant la partie ; session
@@ -142,7 +177,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | ----- | ------------------------------------------------------------ | -------- |
 | 1     | Fondations : outillage, frontières, i18n, Bidi, docs         | livrée   |
 | 2     | Moteur de jeu pur : tours, roue, déplacement, économie, patrimoine, effets, fin, sérialisation | livrée |
-| 3     | Plateau, roue, pions, animations, sauvegarde locale, profils | à venir  |
+| 3     | Plateau, Chemin, pions, animations, narration, Zustand, IndexedDB, reprise | livrée |
 | 4     | Cartes, validation, récompenses, achat de monuments — **première partie jouable** | à venir |
 | 5     | Mémoire pédagogique et algorithme adaptatif                  | à venir  |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |

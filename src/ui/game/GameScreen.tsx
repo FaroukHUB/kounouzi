@@ -1,0 +1,149 @@
+"use client";
+
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import { useAnimationQueue } from "@/animation/useAnimationQueue";
+import { useTimings } from "@/animation/useReducedMotion";
+import type { GameEvent, GameState } from "@/core/game";
+import type { GameId, PlayerId } from "@/core/shared";
+import { isPhase4Interaction, resolvePhase3DemoInteraction } from "@/dev/phase3DemoResolver";
+import { utteranceFor } from "@/experience/narration";
+import { startPlayClock } from "@/experience/playClock";
+import { DEFAULT_LOCALE, t } from "@/i18n";
+import { gameStore, narrator, useGameStore } from "@/state/appStores";
+import { useSessionStore } from "@/state/sessionStore";
+import { useUiStore } from "@/state/uiStore";
+import { Board } from "@/ui/board/Board";
+import { PawnLayer } from "@/ui/board/PawnLayer";
+import { Button } from "@/ui/primitives/Button";
+import { DemoInteractionPanel } from "./DemoInteractionPanel";
+import { FinalRanking } from "./FinalRanking";
+import { JourneyPanel } from "./JourneyPanel";
+import { PlayerPanel } from "./PlayerPanel";
+import { SettingsSheet } from "./SettingsSheet";
+import { TimeBadge } from "./TimeBadge";
+import { TurnBanner } from "./TurnBanner";
+
+export function GameScreen({ gameId }: { readonly gameId: GameId }) {
+  const status = useGameStore((s) => s.status);
+  const state = useGameStore((s) => s.state);
+  const profiles = useGameStore((s) => s.profiles);
+  const ui = useUiStore();
+  const timings = useTimings();
+  const session = useSessionStore();
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [paused, setPaused] = useState(false);
+
+  // Chargement / reprise : l'état est affiché tel quel, sans rejouer les animations.
+  useEffect(() => {
+    if (state?.gameId === gameId) {
+      if (Object.keys(useUiStore.getState().pawnVisuals).length === 0) useUiStore.getState().syncFromGame(state);
+      return;
+    }
+    useUiStore.getState().clear();
+    void gameStore.getState().load(gameId).then((result) => {
+      const loaded = gameStore.getState().state;
+      if (result === "ready" && loaded) useUiStore.getState().syncFromGame(loaded);
+    });
+  }, [gameId, state]);
+
+  // Narration : réglages puis phrase par événement rejoué (coordonnée avec l'animation, jamais bloquante pour le moteur).
+  useEffect(() => {
+    narrator.setEnabled(session.narrationEnabled);
+    narrator.setRate(session.narrationRate);
+  }, [session.narrationEnabled, session.narrationRate]);
+
+  const onPlay = useCallback((event: GameEvent, current: GameState) => {
+    const u = utteranceFor(event, current, DEFAULT_LOCALE);
+    if (u) narrator.speak(u);
+    // Aperçu du chemin : le trajet vient de l'événement PawnMoved qui suit — jamais recalculé.
+    if (event.type === "MovementAssigned") {
+      const next = useUiStore.getState().queue[0];
+      if (next?.type === "PawnMoved" && next.playerId === event.playerId) useUiStore.getState().setPathPreview(next.path);
+    }
+    if (event.type === "PawnMoved") useUiStore.getState().setPathPreview([]);
+  }, []);
+  useAnimationQueue(timings, onPlay, state);
+
+  // Temps de jeu actif : uniquement partie visible, non en pause, en cours.
+  useEffect(() => {
+    if (!state || state.status !== "in_progress") return;
+    const clock = startPlayClock({
+      isActive: () => !paused && gameStore.getState().state?.status === "in_progress",
+      isVisible: () => typeof document === "undefined" || document.visibilityState === "visible",
+      onSeconds: (seconds) => gameStore.getState().dispatch({ type: "AdvanceClock", seconds }),
+    });
+    const onVisibility = () => {
+      if (document.visibilityState !== "visible") clock.flush();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibility);
+      clock.stop();
+    };
+  }, [state?.gameId, state?.status, paused, state]);
+
+  if (status === "loading" || (status === "idle" && !state)) return <p className="p-8 text-center">{t(DEFAULT_LOCALE, "game.loading")}</p>;
+  if (!state || status === "missing" || status === "corrupted") {
+    return (
+      <div className="flex flex-col items-center gap-4 p-8 text-center">
+        <p>{t(DEFAULT_LOCALE, "game.notFound")}</p>
+        <Link href="/" className="underline">
+          {t(DEFAULT_LOCALE, "common.back")}
+        </Link>
+      </div>
+    );
+  }
+
+  const activeId = state.players[state.activePlayerIndex]?.id ?? ("" as PlayerId);
+  const dispatch = gameStore.getState().dispatch;
+  const startJourney = () => dispatch({ type: "StartJourney", playerId: activeId });
+  const resolveDemo = () => {
+    const command = resolvePhase3DemoInteraction(state);
+    if (command) dispatch(command);
+  };
+  const showDemo = isPhase4Interaction(state) && !ui.isAnimating && !ui.journeyReveal;
+
+  return (
+    <div className="relative flex min-h-dvh flex-col bg-[var(--k-sand)] lg:flex-row lg:items-center lg:justify-center lg:gap-6 lg:p-6" data-testid="game-screen" data-phase={state.phase.kind}>
+      <TurnBanner banner={ui.banner} state={state} />
+
+      <main className="flex flex-1 items-center justify-center p-3 lg:flex-none">
+        <Board
+          board={state.config.board}
+          highlightedCell={ui.highlightedCell}
+          arrivalCell={ui.arrivalCell}
+          previewPath={ui.pathPreview}
+          pawns={<PawnLayer players={state.players} profiles={profiles} visuals={ui.pawnVisuals} activePlayerId={activeId} cellCount={state.config.board.cellCount} stepMs={timings.stepMs} />}
+          center={showDemo ? <DemoInteractionPanel state={state} onResolve={resolveDemo} /> : <JourneyPanel state={state} reveal={ui.journeyReveal} isAnimating={ui.isAnimating} onStartJourney={startJourney} />}
+        />
+      </main>
+
+      <aside className="flex w-full flex-col gap-3 p-3 lg:w-80">
+        <header className="flex items-center justify-between">
+          <div>
+            <h1 className="text-lg font-black tracking-tight">{t(DEFAULT_LOCALE, "app.name")}</h1>
+            <TimeBadge state={state} precise={session.preciseTimer} />
+          </div>
+          <Button variant="secondary" onClick={() => setSettingsOpen(true)} aria-label={t(DEFAULT_LOCALE, "game.settings")}>
+            ⚙
+          </Button>
+        </header>
+        <PlayerPanel state={state} profiles={profiles} />
+        {paused ? <p className="rounded-xl bg-white px-3 py-2 text-center text-sm font-semibold">{t(DEFAULT_LOCALE, "game.paused")}</p> : null}
+      </aside>
+
+      {state.status === "finished" ? <FinalRanking state={state} /> : null}
+      <SettingsSheet
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        narrationSupported={narrator.isSupported()}
+        onReplay={() => narrator.replayLast()}
+        paused={paused}
+        onTogglePause={() => setPaused((p) => !p)}
+        endRequested={state.endRequested}
+        onRequestEnd={() => dispatch({ type: "RequestGameEnd" })}
+      />
+    </div>
+  );
+}

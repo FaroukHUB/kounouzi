@@ -55,9 +55,10 @@ const CORE_FORBIDDEN_LAYERS = [
  *
  * Couverture : chaînes littérales et gabarits passés à `className`. Les
  * classes construites dynamiquement ailleurs ne sont pas analysées.
+ * `inset-x-*` (symétrique, identique en RTL) reste autorisé.
  */
 const PHYSICAL_DIRECTION_UTILITY =
-  "(^|\\s|:)-?(ml|mr|pl|pr|left|right|inset-x|scroll-ml|scroll-mr|scroll-pl|scroll-pr|border-l|border-r|rounded-l|rounded-r|rounded-tl|rounded-tr|rounded-bl|rounded-br|text-left|text-right|float-left|float-right|clear-left|clear-right)(-[^\\s]+)?(\\s|$)";
+  "(^|\\s|:)-?(ml|mr|pl|pr|left|right|scroll-ml|scroll-mr|scroll-pl|scroll-pr|border-l|border-r|rounded-l|rounded-r|rounded-tl|rounded-tr|rounded-bl|rounded-br|text-left|text-right|float-left|float-right|clear-left|clear-right)(-[^\\s]+)?(\\s|$)";
 
 const LOGICAL_UTILITIES_MESSAGE =
   "Utilitaire Tailwind directionnel interdit (LTR/RTL). Utiliser les équivalents logiques : ms-/me-, ps-/pe-, start-/end-, border-s/border-e, rounded-s/rounded-e, text-start/text-end.";
