@@ -1,5 +1,5 @@
 import type { AnswerOutcome, ExplanationMastery, GameId, PlayerId, ValidationMode } from "@/core/shared";
-import type { CellType, EffectSpec, QueuedEffect, RankingEntry, TransactionReason } from "./types";
+import type { AnsweredQuestion, CellType, EffectSpec, QueuedEffect, RankingEntry, TransactionReason } from "./types";
 
 /** Journal de ce qui s'est produit. Sérialisable, sans aucune information visuelle. */
 export type GameEvent =
@@ -13,7 +13,18 @@ export type GameEvent =
   | { readonly type: "CellArrived"; readonly playerId: PlayerId; readonly position: number; readonly cellType: CellType }
   | { readonly type: "ScenarioTriggered"; readonly playerId: PlayerId; readonly scenarioId: string; readonly cellType: CellType; readonly visit: number }
   | { readonly type: "QuestionRequested"; readonly requestId: string; readonly playerId: PlayerId; readonly position: number }
-  | { readonly type: "AnswerRecorded"; readonly requestId: string; readonly playerId: PlayerId; readonly outcome: AnswerOutcome; readonly explanationMastery: ExplanationMastery; readonly validationMode: ValidationMode }
+  /** La question est figée dans l'état : identité versionnée connue de tous (mémoire, interface). */
+  | { readonly type: "QuestionServed"; readonly requestId: string; readonly playerId: PlayerId; readonly question: AnsweredQuestion }
+  | {
+      readonly type: "AnswerRecorded";
+      readonly requestId: string;
+      readonly playerId: PlayerId;
+      readonly outcome: AnswerOutcome;
+      readonly explanationMastery: ExplanationMastery;
+      readonly validationMode: ValidationMode;
+      /** Présent si une question a été servie : ce que la mémoire pédagogique enregistre (jamais le montant). */
+      readonly question?: AnsweredQuestion | undefined;
+    }
   | { readonly type: "RewardGranted"; readonly requestId: string; readonly playerId: PlayerId; readonly base: number; readonly multiplier: number; readonly amount: number }
   | { readonly type: "PurchaseOffered"; readonly playerId: PlayerId; readonly siteId: string; readonly price: number; readonly affordable: boolean }
   | { readonly type: "SiteAlreadyOwned"; readonly playerId: PlayerId; readonly siteId: string; readonly ownerId: PlayerId }

@@ -1,3 +1,4 @@
+import type { QuestionRef, ServedQuestion } from "@/core/content/types";
 import type { AnswerOutcome, ExplanationMastery, GameId, PlayerId, ProfileType, ValidationMode } from "@/core/shared";
 
 /* ---------------------------------------------------------------------------
@@ -223,7 +224,8 @@ export interface AnswerRecord {
 /** Phase du tour. Les phases `awaiting_*` sont les seuls points d'attente : une décision humaine. */
 export type TurnPhase =
   | { readonly kind: "awaiting_journey" }
-  | { readonly kind: "awaiting_answer"; readonly requestId: string; readonly position: number; readonly queue: readonly Outcome[] }
+  /** `served` : la question distribuée, figée avec sa référence versionnée (reprise exacte quel que soit le contenu). */
+  | { readonly kind: "awaiting_answer"; readonly requestId: string; readonly position: number; readonly queue: readonly Outcome[]; readonly served?: ServedQuestion | undefined }
   | { readonly kind: "awaiting_purchase"; readonly siteId: string; readonly price: number; readonly queue: readonly Outcome[] }
   | { readonly kind: "awaiting_choice"; readonly choiceId: string; readonly options: readonly ChoiceOption[]; readonly queue: readonly Outcome[] }
   | { readonly kind: "finished" };
@@ -252,7 +254,15 @@ export interface PlayClock {
   readonly timeTargetReached: boolean;
 }
 
-export const GAME_SCHEMA_VERSION = 2 as const;
+/** Résumé pédagogique d'une question répondue (mémoire, Phase 5). */
+export interface AnsweredQuestion {
+  readonly ref: QuestionRef;
+  readonly knowledgeNodeId: string;
+  readonly categoryId: string;
+  readonly difficulty: number;
+}
+
+export const GAME_SCHEMA_VERSION = 3 as const;
 
 export interface GameState {
   readonly schemaVersion: typeof GAME_SCHEMA_VERSION;

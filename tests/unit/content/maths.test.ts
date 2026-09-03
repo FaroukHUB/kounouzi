@@ -36,7 +36,7 @@ describe("générateurs mathématiques (explications FR + AR)", () => {
   it("est déterministe et couvre plusieurs opérations selon la difficulté", () => {
     const req = { categoryId: "maths", difficulty: 3, profileType: "child" as const, variation: 7 };
     expect(generateMaths(req)).toEqual(generateMaths(req));
-    const ids = new Set(Array.from({ length: 12 }, (_, v) => generateMaths({ ...req, variation: v }).ref.kind === "algorithmic" ? (generateMaths({ ...req, variation: v }).ref as { generatorId: string }).generatorId : ""));
+    const ids = new Set(Array.from({ length: 12 }, (_, v) => { const r = generateMaths({ ...req, variation: v }).ref; return r.origin === "algorithmic" ? r.generatorId : ""; }));
     expect(ids.size).toBeGreaterThanOrEqual(3);
     expect(generateMaths({ ...req, difficulty: 1, variation: 0 }).difficulty).toBe(1);
     expect(generateMaths({ ...req, difficulty: 9, variation: 0 }).difficulty).toBe(5);

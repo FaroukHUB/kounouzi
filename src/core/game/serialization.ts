@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { questionInstanceSchema } from "@/core/content/schema";
 import { PROFILE_TYPES, err, ok, type Result } from "@/core/shared";
 import { effectSpecSchema, familyAssistConfigSchema, journeyCycleSchema, outcomeSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
 import { CELL_TYPES, GAME_SCHEMA_VERSION, TRANSACTION_REASONS, type GameState } from "./types";
@@ -10,8 +11,8 @@ const resolvedCellSchema = z.union([
   z.object({ position: z.number().int(), type: z.literal("heritage"), siteId: z.string() }),
 ]);
 
-/** Forme sérialisée de l'état — version 2 (la v1 de la Phase 2, antérieure à la suppression du hasard, n'a jamais été publiée : aucune migration nécessaire). */
-export const gameStateSchemaV2 = z.object({
+/** Forme sérialisée de l'état — version 3 (v2 + question servie figée dans la phase). */
+export const gameStateSchemaV3 = z.object({
   schemaVersion: z.literal(GAME_SCHEMA_VERSION),
   gameId: z.string(),
   config: z.object({
@@ -38,7 +39,7 @@ export const gameStateSchemaV2 = z.object({
   turnNumber: z.number().int(),
   phase: z.discriminatedUnion("kind", [
     z.object({ kind: z.literal("awaiting_journey") }),
-    z.object({ kind: z.literal("awaiting_answer"), requestId: z.string(), position: z.number().int(), queue: z.array(outcomeSchema) }),
+    z.object({ kind: z.literal("awaiting_answer"), requestId: z.string(), position: z.number().int(), queue: z.array(outcomeSchema), served: questionInstanceSchema.optional() }),
     z.object({ kind: z.literal("awaiting_purchase"), siteId: z.string(), price: z.number().int(), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_choice"), choiceId: z.string(), options: z.array(choiceOptionSchema), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("finished") }),
@@ -62,7 +63,10 @@ export type SerializationError =
   | { readonly code: "INVALID_STATE"; readonly issues: readonly string[] };
 
 /** Migrations n → n+1. Chaque changement de forme de `GameState` en ajoute une, testée sur des fixtures. */
-const MIGRATIONS: Readonly<Record<number, (data: Record<string, unknown>) => Record<string, unknown>>> = {};
+const MIGRATIONS: Readonly<Record<number, (data: Record<string, unknown>) => Record<string, unknown>>> = {
+  // v2 → v3 : la phase `awaiting_answer` gagne un champ optionnel `served` ; une partie v2 en attente de réponse reprend sans question figée (l'interface la résout à nouveau).
+  2: (data) => ({ ...data, schemaVersion: 3 }),
+};
 
 export function serializeGameState(state: GameState): string {
   return JSON.stringify(state);
@@ -87,7 +91,7 @@ export function deserializeGameState(json: string): Result<GameState, Serializat
   }
   if (version !== GAME_SCHEMA_VERSION) return err({ code: "UNSUPPORTED_VERSION", version });
 
-  const parsed = gameStateSchemaV2.safeParse(record);
+  const parsed = gameStateSchemaV3.safeParse(record);
   if (!parsed.success) return err({ code: "INVALID_STATE", issues: parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`) });
   return ok(parsed.data as unknown as GameState);
 }

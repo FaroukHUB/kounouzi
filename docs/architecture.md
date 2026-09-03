@@ -164,9 +164,14 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   de profil + résumé. Reprise depuis l'accueil.
 - **Cartes** (ADR 0021) : ouvertes et refermées par la file d'animation,
   état transitoire reconstruit depuis la phase à la reprise.
-- **Contenu** (ADR 0020) : `src/core/content` (maths algorithmiques,
+- **Contenu** (ADR 0020, 0022) : `src/core/content` (maths algorithmiques,
   géographie factuelle, banque curée gardée) ; résolution déterministe d'une
-  question par demande, sélection provisoire jusqu'au Learning Engine.
+  question par demande, sélection provisoire jusqu'au Learning Engine. La
+  question distribuée est **figée dans l'état** (`ServeQuestion` →
+  `phase.served`, référence versionnée `QuestionRef`) : une partie reprend
+  exactement la même question quel que soit le contenu du moment. Le contenu
+  de démonstration (`unverified`, `DEMO_CONTENT_ENABLED`) est distinct du
+  contenu validé.
 
 ## 6. Persistance
 

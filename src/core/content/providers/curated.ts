@@ -22,7 +22,7 @@ export function createCuratedProvider(bank: readonly CuratedQuestion[], categori
       const pool = near.length > 0 ? near : inCategory;
       const q = pool[request.variation % pool.length]!;
       return {
-        ref: { kind: "curated", questionId: q.id },
+        ref: { origin: "curated", questionId: q.id, contentVersion: q.version },
         categoryId: q.categoryId,
         knowledgeNodeId: q.knowledgeNodeId,
         difficulty: q.difficulty,
@@ -31,6 +31,7 @@ export function createCuratedProvider(bank: readonly CuratedQuestion[], categori
         answer: q.answer,
         explanation: q.explanation,
         sources: q.sources,
+        review: { ar: "reviewed" },
       };
     },
   };

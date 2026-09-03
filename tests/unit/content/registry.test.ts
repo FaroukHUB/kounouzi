@@ -4,6 +4,7 @@ import { createContentRegistry, createCuratedProvider, createFactualProvider, pl
 
 const validReligious: CuratedQuestion = {
   id: "rel-test-1",
+  version: 1,
   categoryId: "religion",
   knowledgeNodeId: "test.node",
   difficulty: 2,
@@ -39,7 +40,7 @@ describe("garde-fous de la banque curée", () => {
     expect(registry.availableCategories("adult")).toEqual(["religion"]);
     for (let v = 0; v < 10; v += 1) {
       const q = registry.resolve({ categoryId: "religion", difficulty: 2, profileType: "adult", variation: v });
-      expect(q?.ref).toEqual({ kind: "curated", questionId: "rel-test-1" });
+      expect(q?.ref).toEqual({ origin: "curated", questionId: "rel-test-1", contentVersion: 1 });
       expect(q?.sources[0]?.title).toBe("Source de test (fixture)");
     }
   });
@@ -48,25 +49,25 @@ describe("garde-fous de la banque curée", () => {
     const adultOnly = { ...validReligious, id: "rel-adult", audienceScope: "adult" as const };
     const registry = createContentRegistry(CATEGORIES, [createCuratedProvider([adultOnly], CATEGORIES)]);
     expect(registry.resolve({ categoryId: "religion", difficulty: 2, profileType: "child", variation: 0 })).toBeNull();
-    expect(registry.resolve({ categoryId: "religion", difficulty: 2, profileType: "adult", variation: 0 })?.ref).toEqual({ kind: "curated", questionId: "rel-adult" });
+    expect(registry.resolve({ categoryId: "religion", difficulty: 2, profileType: "adult", variation: 0 })?.ref).toEqual({ origin: "curated", questionId: "rel-adult", contentVersion: 1 });
   });
 });
 
 describe("catalogue géographique et gabarits", () => {
   it("chaque fait produit des questions bilingues avec explication FR + AR et source", () => {
-    const provider = createFactualProvider(GEO_FACTS);
+    const provider = createFactualProvider(GEO_FACTS, { allowUnverified: true });
     for (let v = 0; v < GEO_FACTS.length * 3; v += 1) {
       const q = provider.resolve({ categoryId: "geography", difficulty: 3, profileType: "child", variation: v });
       expect(q).not.toBeNull();
       expect(q!.explanation.fr).toMatch(/\./);
       expect(/[؀-ۿ]/.test(q!.explanation.ar)).toBe(true);
       expect(q!.sources.length).toBeGreaterThan(0);
-      expect(q!.ref.kind).toBe("factual");
+      expect(q!.ref.origin).toBe("factual");
     }
   });
 
   it("la difficulté demandée filtre les faits et la variation parcourt le catalogue sans hasard", () => {
-    const provider = createFactualProvider(GEO_FACTS);
+    const provider = createFactualProvider(GEO_FACTS, { allowUnverified: true });
     const easy = provider.resolve({ categoryId: "geography", difficulty: 1, profileType: "child", variation: 0 });
     expect(easy!.difficulty).toBeLessThanOrEqual(2);
     const a = provider.resolve({ categoryId: "geography", difficulty: 2, profileType: "adult", variation: 5 });

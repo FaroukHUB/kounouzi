@@ -12,4 +12,6 @@ export type GameError =
   | { readonly code: "UNKNOWN_OPTION"; readonly choiceId: string; readonly optionId: string }
   | { readonly code: "INSUFFICIENT_FUNDS"; readonly required: number; readonly available: number }
   | { readonly code: "SITE_ALREADY_OWNED"; readonly siteId: string; readonly ownerId: PlayerId }
-  | { readonly code: "INVALID_CLOCK_DELTA"; readonly seconds: number };
+  | { readonly code: "INVALID_CLOCK_DELTA"; readonly seconds: number }
+  | { readonly code: "NO_PENDING_QUESTION"; readonly requestId: string }
+  | { readonly code: "QUESTION_ALREADY_SERVED"; readonly requestId: string };

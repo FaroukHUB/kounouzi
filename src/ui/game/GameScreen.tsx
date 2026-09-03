@@ -7,7 +7,9 @@ import { useAnimationQueue } from "@/animation/useAnimationQueue";
 import { useReducedMotion, useTimings } from "@/animation/useReducedMotion";
 import type { GameEvent, GameState } from "@/core/game";
 import type { GameId, PlayerId } from "@/core/shared";
+import { contentRegistry } from "@/config/content";
 import { utteranceFor } from "@/experience/narration";
+import { resolveQuestion } from "@/experience/questionResolver";
 import { startPlayClock } from "@/experience/playClock";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { gameStore, narrator, useGameStore } from "@/state/appStores";
@@ -65,6 +67,14 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
     if (event.type === "PawnMoved") useUiStore.getState().setPathPreview([]);
   }, []);
   useAnimationQueue(timings, onPlay, state);
+
+  // Distribution : dès qu'une question est demandée, elle est résolue UNE fois puis figée dans l'état (ServeQuestion).
+  // Si aucune question n'existe, la carte propose « Passer » ; rien n'est inventé.
+  useEffect(() => {
+    if (!state || state.phase.kind !== "awaiting_answer" || state.phase.served) return;
+    const question = resolveQuestion(state, profiles, contentRegistry());
+    if (question) gameStore.getState().dispatch({ type: "ServeQuestion", requestId: state.phase.requestId, question });
+  }, [state, profiles]);
 
   // Temps de jeu actif : uniquement partie visible, non en pause, en cours.
   useEffect(() => {

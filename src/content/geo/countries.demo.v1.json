@@ -1,0 +1,473 @@
+{
+  "$comment": "⚠️ CATALOGUE DE DÉMONSTRATION DÉVELOPPEUR — statut « unverified » pour TOUS les faits. Capitales et continents de connaissance courante, mais aucun n'est promu « validated » automatiquement, même s'il paraît évident : la banque réelle exige source vérifiée, date de vérification, statut validé et version (pipeline factuel). Jouable uniquement quand le drapeau de démonstration est explicitement activé. Noms arabes : relecture linguistique en attente.",
+  "sources": [
+    {
+      "title": "Démonstration développeur — capitales et continents courants (non vérifié, à référencer)"
+    }
+  ],
+  "facts": [
+    {
+      "id": "dz",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "l'Algérie",
+        "ar": "الجزائر"
+      },
+      "capital": {
+        "fr": "Alger",
+        "ar": "الجزائر العاصمة"
+      },
+      "continent": {
+        "fr": "Afrique",
+        "ar": "أفريقيا"
+      },
+      "difficulty": 1,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "tn",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "la Tunisie",
+        "ar": "تونس"
+      },
+      "capital": {
+        "fr": "Tunis",
+        "ar": "تونس"
+      },
+      "continent": {
+        "fr": "Afrique",
+        "ar": "أفريقيا"
+      },
+      "difficulty": 1,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "ma",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "le Maroc",
+        "ar": "المغرب"
+      },
+      "capital": {
+        "fr": "Rabat",
+        "ar": "الرباط"
+      },
+      "continent": {
+        "fr": "Afrique",
+        "ar": "أفريقيا"
+      },
+      "difficulty": 1,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "eg",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "l'Égypte",
+        "ar": "مصر"
+      },
+      "capital": {
+        "fr": "Le Caire",
+        "ar": "القاهرة"
+      },
+      "continent": {
+        "fr": "Afrique",
+        "ar": "أفريقيا"
+      },
+      "difficulty": 1,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "fr",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "la France",
+        "ar": "فرنسا"
+      },
+      "capital": {
+        "fr": "Paris",
+        "ar": "باريس"
+      },
+      "continent": {
+        "fr": "Europe",
+        "ar": "أوروبا"
+      },
+      "difficulty": 1,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "tr",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "la Turquie",
+        "ar": "تركيا"
+      },
+      "capital": {
+        "fr": "Ankara",
+        "ar": "أنقرة"
+      },
+      "continent": {
+        "fr": "Asie et Europe",
+        "ar": "آسيا وأوروبا"
+      },
+      "difficulty": 2,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "sy",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "la Syrie",
+        "ar": "سوريا"
+      },
+      "capital": {
+        "fr": "Damas",
+        "ar": "دمشق"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 2,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "iq",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "l'Irak",
+        "ar": "العراق"
+      },
+      "capital": {
+        "fr": "Bagdad",
+        "ar": "بغداد"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 2,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "sa",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "l'Arabie saoudite",
+        "ar": "المملكة العربية السعودية"
+      },
+      "capital": {
+        "fr": "Riyad",
+        "ar": "الرياض"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 2,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "es",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "l'Espagne",
+        "ar": "إسبانيا"
+      },
+      "capital": {
+        "fr": "Madrid",
+        "ar": "مدريد"
+      },
+      "continent": {
+        "fr": "Europe",
+        "ar": "أوروبا"
+      },
+      "difficulty": 2,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "lb",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "le Liban",
+        "ar": "لبنان"
+      },
+      "capital": {
+        "fr": "Beyrouth",
+        "ar": "بيروت"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 2,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "sn",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "le Sénégal",
+        "ar": "السنغال"
+      },
+      "capital": {
+        "fr": "Dakar",
+        "ar": "داكار"
+      },
+      "continent": {
+        "fr": "Afrique",
+        "ar": "أفريقيا"
+      },
+      "difficulty": 2,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "jo",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "la Jordanie",
+        "ar": "الأردن"
+      },
+      "capital": {
+        "fr": "Amman",
+        "ar": "عمّان"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 3,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "ml",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "le Mali",
+        "ar": "مالي"
+      },
+      "capital": {
+        "fr": "Bamako",
+        "ar": "باماكو"
+      },
+      "continent": {
+        "fr": "Afrique",
+        "ar": "أفريقيا"
+      },
+      "difficulty": 3,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "pk",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "le Pakistan",
+        "ar": "باكستان"
+      },
+      "capital": {
+        "fr": "Islamabad",
+        "ar": "إسلام آباد"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 3,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "id",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "l'Indonésie",
+        "ar": "إندونيسيا"
+      },
+      "capital": {
+        "fr": "Jakarta",
+        "ar": "جاكرتا"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 3,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "qa",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "le Qatar",
+        "ar": "قطر"
+      },
+      "capital": {
+        "fr": "Doha",
+        "ar": "الدوحة"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 3,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "my",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "la Malaisie",
+        "ar": "ماليزيا"
+      },
+      "capital": {
+        "fr": "Kuala Lumpur",
+        "ar": "كوالالمبور"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 4,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "uz",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "l'Ouzbékistan",
+        "ar": "أوزبكستان"
+      },
+      "capital": {
+        "fr": "Tachkent",
+        "ar": "طشقند"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 4,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "mr",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "la Mauritanie",
+        "ar": "موريتانيا"
+      },
+      "capital": {
+        "fr": "Nouakchott",
+        "ar": "نواكشوط"
+      },
+      "continent": {
+        "fr": "Afrique",
+        "ar": "أفريقيا"
+      },
+      "difficulty": 4,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "ba",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "la Bosnie-Herzégovine",
+        "ar": "البوسنة والهرسك"
+      },
+      "capital": {
+        "fr": "Sarajevo",
+        "ar": "سراييفو"
+      },
+      "continent": {
+        "fr": "Europe",
+        "ar": "أوروبا"
+      },
+      "difficulty": 4,
+      "review": {
+        "ar": "provisional"
+      }
+    },
+    {
+      "id": "kz",
+      "version": 1,
+      "status": "unverified",
+      "country": {
+        "fr": "le Kazakhstan",
+        "ar": "كازاخستان"
+      },
+      "capital": {
+        "fr": "Astana",
+        "ar": "أستانا"
+      },
+      "continent": {
+        "fr": "Asie",
+        "ar": "آسيا"
+      },
+      "difficulty": 5,
+      "review": {
+        "ar": "provisional"
+      }
+    }
+  ],
+  "version": 1
+}

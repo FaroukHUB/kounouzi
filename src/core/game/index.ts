@@ -18,7 +18,7 @@ export { holdingOf, holdingsOf } from "./holdings";
 export { ledgerBalance } from "./economy";
 export { computeRanking, heritageValueOf, shouldEndAfterTurn, scoreOf } from "./scoring";
 export { checkInvariants } from "./invariants";
-export { serializeGameState, deserializeGameState, gameStateSchemaV2, type SerializationError } from "./serialization";
+export { serializeGameState, deserializeGameState, gameStateSchemaV3, type SerializationError } from "./serialization";
 export {
   boardConfigSchema,
   heritageSiteSchema,

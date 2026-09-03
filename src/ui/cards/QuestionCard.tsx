@@ -1,14 +1,12 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useEffect, useMemo } from "react";
-import { categoryById, contentRegistry } from "@/config/content";
-import type { QuestionInstance } from "@/core/content";
+import { useEffect } from "react";
+import { categoryById } from "@/config/content";
 import type { GameState } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
 import type { NarrationService } from "@/experience/narration";
-import { resolveQuestion } from "@/experience/questionResolver";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Bidi } from "@/ui/primitives/Bidi";
 import { Button } from "@/ui/primitives/Button";
@@ -20,6 +18,7 @@ type QuestionCardState = Extract<CardState, { kind: "question" }>;
 
 export interface QuestionCardProps {
   readonly state: GameState;
+  /** Conservé pour l'affichage futur (profil) ; la question vient de l'état, jamais d'une nouvelle résolution. */
   readonly profiles: readonly PlayerProfileDraft[];
   readonly card: QuestionCardState;
   readonly narrator: NarrationService;
@@ -35,7 +34,10 @@ export interface QuestionCardProps {
  * « connaissais-tu déjà ? » → envoi au moteur → résultat → récompense.
  */
 export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdate, onSubmit }: QuestionCardProps) {
-  const question = useMemo<QuestionInstance | null>(() => resolveQuestion(state, profiles, contentRegistry()), [state, profiles]);
+  void profiles;
+  // La question affichée est celle FIGÉE dans l'état (`phase.served`) : reprise exacte quel que soit le contenu.
+  const question = state.phase.kind === "awaiting_answer" && state.phase.requestId === card.requestId ? (state.phase.served ?? null) : null;
+  const pendingServe = state.phase.kind === "awaiting_answer" && !state.phase.served;
   const category = question ? categoryById(question.categoryId) : undefined;
   const title = category?.label.fr ?? t(DEFAULT_LOCALE, "cell.question");
   const step = card.step;
@@ -54,6 +56,7 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
   }, [step, question, narrator, card.outcome, card.rewardAmount]);
 
   if (!question) {
+    if (pendingServe) return <CardShell cellType="question" title={title} testId="question-card"><p className="text-[var(--k-ink-soft)]">…</p></CardShell>;
     return (
       <CardShell cellType="question" title={title} testId="question-card">
         <p>{t(DEFAULT_LOCALE, "card.noQuestion")}</p>

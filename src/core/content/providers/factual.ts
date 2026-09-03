@@ -2,16 +2,45 @@ import { isAudienceAllowed } from "@/core/shared";
 import type { Bilingual, ContentProvider, QuestionInstance, QuestionRequest, SourceRef } from "@/core/content/types";
 
 export const GEOGRAPHY_CATEGORY_ID = "geography";
+export const GEO_TEMPLATE_VERSION = 1;
 
-/** Un fait géographique vérifié : une donnée → plusieurs questions par gabarit. */
+export const FACT_STATUSES = ["unverified", "validated"] as const;
+export type FactStatus = (typeof FACT_STATUSES)[number];
+
+/**
+ * Un fait géographique : une donnée → plusieurs questions par gabarit.
+ * Pour la banque réelle : `status = "validated"`, source(s), `verifiedAt`,
+ * `version`. Un fait `unverified` n'est jouable qu'en mode démonstration
+ * explicite ; il n'est JAMAIS promu automatiquement, même s'il paraît évident.
+ */
 export interface GeoFact {
   readonly id: string;
+  readonly version: number;
+  readonly status: FactStatus;
+  readonly verifiedAt?: string | undefined;
   readonly country: Bilingual;
   readonly capital: Bilingual;
   readonly continent: Bilingual;
   /** Difficulté de base du fait (la capitale) ; les autres gabarits s'en déduisent. */
   readonly difficulty: number;
   readonly sources: readonly SourceRef[];
+  /** Qualité linguistique des noms arabes (provisoire jusqu'à relecture). */
+  readonly review?: { readonly ar: "provisional" | "reviewed" } | undefined;
+}
+
+/** Ce qui manque à un fait pour être jouable dans la banque réelle. */
+export function factPlayabilityIssues(fact: GeoFact): readonly string[] {
+  const issues: string[] = [];
+  if (fact.status !== "validated") issues.push(`statut ${fact.status} ≠ validated`);
+  if (fact.sources.length === 0) issues.push("source manquante");
+  if (!fact.verifiedAt) issues.push("date de vérification manquante");
+  if (!Number.isInteger(fact.version) || fact.version < 1) issues.push("version manquante");
+  return issues;
+}
+
+export interface FactualProviderOptions {
+  /** Mode DÉMONSTRATION développeur uniquement : accepte les faits `unverified`. Jamais pour la banque réelle. */
+  readonly allowUnverified: boolean;
 }
 
 interface Template {
@@ -55,7 +84,8 @@ export const GEO_TEMPLATES: readonly Template[] = [
 const withArticle = (name: string) => name;
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-export function createFactualProvider(facts: readonly GeoFact[]): ContentProvider {
+export function createFactualProvider(allFacts: readonly GeoFact[], options: FactualProviderOptions = { allowUnverified: false }): ContentProvider {
+  const facts = allFacts.filter((f) => (options.allowUnverified ? f.status === "unverified" || factPlayabilityIssues(f).length === 0 : factPlayabilityIssues(f).length === 0));
   return {
     mode: "factual",
     supports: (categoryId) => categoryId === GEOGRAPHY_CATEGORY_ID && facts.length > 0,
@@ -67,7 +97,7 @@ export function createFactualProvider(facts: readonly GeoFact[]): ContentProvide
       const pick = pool[request.variation % pool.length];
       if (!pick) return null;
       return {
-        ref: { kind: "factual", templateId: pick.tpl.id, factId: pick.f.id },
+        ref: { origin: "factual", factId: pick.f.id, factVersion: pick.f.version, templateId: pick.tpl.id, templateVersion: GEO_TEMPLATE_VERSION },
         categoryId: GEOGRAPHY_CATEGORY_ID,
         knowledgeNodeId: pick.tpl.node(pick.f),
         difficulty: pick.d,
@@ -76,6 +106,7 @@ export function createFactualProvider(facts: readonly GeoFact[]): ContentProvide
         answer: pick.tpl.answer(pick.f),
         explanation: pick.tpl.explanation(pick.f),
         sources: pick.f.sources,
+        review: { ar: pick.f.review?.ar ?? "provisional" },
       };
     },
   };

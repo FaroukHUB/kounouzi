@@ -29,11 +29,44 @@ export interface SourceRef {
   readonly retrievedAt?: string | undefined;
 }
 
-/** Identité stable d'une question jouée, quelle que soit son origine (mémoire pédagogique, Phase 5). */
+/**
+ * Identité IMMUABLE et versionnée d'une question distribuée. Une fois servie,
+ * elle ne change plus : une mise à jour de contenu (catalogue, générateur,
+ * banque) ne modifie jamais rétroactivement une question commencée.
+ * Pour l'algorithmique, `params` contient les valeurs réellement instanciées
+ * (ex. `{ a: 7, b: 8 }`), jamais seulement « difficulté 3, multiplication ».
+ */
 export type QuestionRef =
-  | { readonly kind: "curated"; readonly questionId: string }
-  | { readonly kind: "algorithmic"; readonly generatorId: string; readonly version: number; readonly variation: number }
-  | { readonly kind: "factual"; readonly templateId: string; readonly factId: string };
+  | { readonly origin: "curated"; readonly questionId: string; readonly contentVersion: number }
+  | {
+      readonly origin: "algorithmic";
+      readonly generatorId: string;
+      readonly generatorVersion: number;
+      readonly knowledgeNodeId: string;
+      readonly difficulty: number;
+      readonly params: Readonly<Record<string, number | string>>;
+    }
+  | { readonly origin: "factual"; readonly factId: string; readonly factVersion: number; readonly templateId: string; readonly templateVersion: number };
+
+/** Clé stable d'une référence (départage déterministe, anti-répétition). */
+export function questionRefKey(ref: QuestionRef): string {
+  switch (ref.origin) {
+    case "curated":
+      return `curated:${ref.questionId}@${ref.contentVersion}`;
+    case "algorithmic":
+      return `algorithmic:${ref.generatorId}@${ref.generatorVersion}:${Object.keys(ref.params)
+        .sort()
+        .map((k) => `${k}=${String(ref.params[k])}`)
+        .join(",")}`;
+    case "factual":
+      return `factual:${ref.factId}@${ref.factVersion}:${ref.templateId}@${ref.templateVersion}`;
+  }
+}
+
+/** Qualité linguistique, distincte de la justesse du contenu : l'arabe généré reste `provisional` tant qu'une relecture humaine n'a pas eu lieu. */
+export interface LinguisticReview {
+  readonly ar: "provisional" | "reviewed";
+}
 
 /** Ce que l'interface affiche et ce que la mémoire enregistrera. Forme unique pour les trois régimes. */
 export interface QuestionInstance {
@@ -46,7 +79,15 @@ export interface QuestionInstance {
   readonly answer: Bilingual;
   readonly explanation: Bilingual;
   readonly sources: readonly SourceRef[];
+  readonly review: LinguisticReview;
 }
+
+/**
+ * Instantané figé dans `GameState` quand la question est distribuée : identité
+ * versionnée + contenu servi. Suffisant pour reprendre EXACTEMENT la même
+ * question après toute modification de contenu, sans dupliquer la banque.
+ */
+export type ServedQuestion = QuestionInstance;
 
 export interface QuestionRequest {
   readonly categoryId: CategoryId;
@@ -70,6 +111,7 @@ export type CuratedStatus = (typeof CURATED_STATUSES)[number];
 /** Question de la banque curée (religion, histoire, arabe, culture…). */
 export interface CuratedQuestion {
   readonly id: string;
+  readonly version: number;
   readonly categoryId: CategoryId;
   readonly knowledgeNodeId: string;
   readonly difficulty: number;

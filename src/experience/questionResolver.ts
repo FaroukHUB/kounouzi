@@ -6,8 +6,8 @@ import { difficultyBandFor } from "@/config/content";
 
 /**
  * Traduit une demande du moteur (`awaiting_answer`, requestId) en question
- * affichable. Déterministe : la même partie rechargée retrouve la même
- * question (numéro de demande → catégorie → variation), sans rien persister.
+ * à distribuer. Le résultat est ensuite FIGÉ dans l'état par `ServeQuestion` :
+ * la reprise ne dépend jamais d'une nouvelle résolution ni du contenu courant.
  * ⚠️ Sélection provisoire (rotation des catégories disponibles, milieu de la
  * bande du profil) : remplacée par le Learning Engine en Phase 5.
  */

@@ -17,3 +17,11 @@ export const DEMO_SCENARIOS: readonly Scenario[] = z.object({ scenarios: z.array
 
 export const DEMO_DURATIONS = { quick: DEMO_RULES_QUICK, classic: DEMO_RULES_CLASSIC } as const;
 export type DemoDuration = keyof typeof DEMO_DURATIONS;
+
+/**
+ * ⚠️ Drapeau de DÉMONSTRATION développeur : autorise le contenu factuel
+ * « unverified » (catalogue de démo). Doit être `false` pour toute banque
+ * réelle : seuls les faits validés, sourcés, datés et versionnés sont alors
+ * jouables. Ne concerne jamais le contenu religieux (toujours validé + sourcé).
+ */
+export const DEMO_CONTENT_ENABLED = true;

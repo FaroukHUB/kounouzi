@@ -11,7 +11,7 @@ import { applyMove, computePath } from "./movement";
 import { processQueue } from "./outcomes";
 import { computeReward } from "./rewards";
 import { activePlayer, chain, step, updatePlayer, type Step } from "./step";
-import type { GameState, TurnPhase } from "./types";
+import type { AnsweredQuestion, GameState, TurnPhase } from "./types";
 
 /**
  * Le contrat du moteur : `(état, commande) → (nouvel état, événements)`.
@@ -48,8 +48,10 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
       if (!phase.ok) return phase;
       if (phase.value.requestId !== command.requestId) return err({ code: "REQUEST_MISMATCH", expected: phase.value.requestId, received: command.requestId });
       const { answer } = command;
+      const served = phase.value.served;
+      const question: AnsweredQuestion | undefined = served ? { ref: served.ref, knowledgeNodeId: served.knowledgeNodeId, categoryId: served.categoryId, difficulty: served.difficulty } : undefined;
       let result = step(state, [
-        { type: "AnswerRecorded", requestId: command.requestId, playerId: player.id, outcome: answer.outcome, explanationMastery: answer.explanationMastery, validationMode: answer.validationMode },
+        { type: "AnswerRecorded", requestId: command.requestId, playerId: player.id, outcome: answer.outcome, explanationMastery: answer.explanationMastery, validationMode: answer.validationMode, question },
       ]);
       const boost = takeEffect(state, player.id, "reward_multiplier");
       const reward = computeReward(state.config.rules, answer, boost.effect?.multiplier ?? 1);
@@ -105,6 +107,14 @@ function reduceSession(state: GameState, command: SessionCommand): Result<Step, 
     case "RequestGameEnd": {
       if (state.endRequested) return ok(step(state));
       return ok(step({ ...state, endRequested: true }, [{ type: "GameEndRequested" }]));
+    }
+    case "ServeQuestion": {
+      if (state.phase.kind !== "awaiting_answer" || state.phase.requestId !== command.requestId) return err({ code: "NO_PENDING_QUESTION", requestId: command.requestId });
+      if (state.phase.served) return err({ code: "QUESTION_ALREADY_SERVED", requestId: command.requestId });
+      const player = activePlayer(state);
+      const q = command.question;
+      const question: AnsweredQuestion = { ref: q.ref, knowledgeNodeId: q.knowledgeNodeId, categoryId: q.categoryId, difficulty: q.difficulty };
+      return ok(step({ ...state, phase: { ...state.phase, served: q } }, [{ type: "QuestionServed", requestId: command.requestId, playerId: player.id, question }]));
     }
   }
 }
