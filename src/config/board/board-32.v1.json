@@ -1,0 +1,136 @@
+{
+  "$comment": "Plateau 32 cases — configuration V1 DE TRAVAIL (répartition et ordre provisoires, à équilibrer après de vraies parties familiales). Le moteur n'en dépend pas : il accepte tout plateau valide.",
+  "id": "board-32.v1",
+  "version": 1,
+  "cellCount": 32,
+  "cells": [
+    {
+      "position": 0,
+      "type": "start"
+    },
+    {
+      "position": 1,
+      "type": "question"
+    },
+    {
+      "position": 2,
+      "type": "heritage"
+    },
+    {
+      "position": 3,
+      "type": "event"
+    },
+    {
+      "position": 4,
+      "type": "question"
+    },
+    {
+      "position": 5,
+      "type": "management"
+    },
+    {
+      "position": 6,
+      "type": "heritage"
+    },
+    {
+      "position": 7,
+      "type": "challenge"
+    },
+    {
+      "position": 8,
+      "type": "question"
+    },
+    {
+      "position": 9,
+      "type": "heritage"
+    },
+    {
+      "position": 10,
+      "type": "treasure"
+    },
+    {
+      "position": 11,
+      "type": "question"
+    },
+    {
+      "position": 12,
+      "type": "solidarity"
+    },
+    {
+      "position": 13,
+      "type": "heritage"
+    },
+    {
+      "position": 14,
+      "type": "event"
+    },
+    {
+      "position": 15,
+      "type": "question"
+    },
+    {
+      "position": 16,
+      "type": "heritage"
+    },
+    {
+      "position": 17,
+      "type": "management"
+    },
+    {
+      "position": 18,
+      "type": "question"
+    },
+    {
+      "position": 19,
+      "type": "challenge"
+    },
+    {
+      "position": 20,
+      "type": "heritage"
+    },
+    {
+      "position": 21,
+      "type": "treasure"
+    },
+    {
+      "position": 22,
+      "type": "question"
+    },
+    {
+      "position": 23,
+      "type": "event"
+    },
+    {
+      "position": 24,
+      "type": "heritage"
+    },
+    {
+      "position": 25,
+      "type": "solidarity"
+    },
+    {
+      "position": 26,
+      "type": "question"
+    },
+    {
+      "position": 27,
+      "type": "management"
+    },
+    {
+      "position": 28,
+      "type": "heritage"
+    },
+    {
+      "position": 29,
+      "type": "question"
+    },
+    {
+      "position": 30,
+      "type": "event"
+    },
+    {
+      "position": 31,
+      "type": "question"
+    }
+  ]
+}

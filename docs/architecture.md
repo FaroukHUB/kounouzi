@@ -45,6 +45,28 @@ sérialisable. Le moteur n'attend jamais une animation, seulement des décisions
 humaines. L'UI rejoue les événements sous forme d'animations ; l'état est déjà
 acquis avant qu'elles ne commencent.
 
+### Moteur de jeu (`src/core/game`, Phase 2)
+
+- **Commandes** (les seules actions humaines) : `SpinWheel`, `SubmitAnswer`,
+  `DecidePurchase`, `Choose`. Tout le reste — déplacement, résolution de case,
+  clôture du tour, passage au joueur suivant, fin de partie — est automatique.
+- **Phases** : `awaiting_spin` → (roue, déplacement, arrivée) →
+  `awaiting_answer` | `awaiting_purchase` | `awaiting_choice` → clôture →
+  joueur suivant, ou `finished`.
+- **Résolution de case** : une case produit une file de résultats (`Outcome`)
+  traitée dans l'ordre ; un résultat exigeant une décision suspend la file
+  dans la phase, et la partie reprend exactement là après sérialisation.
+- **Économie** : grand livre (`ledger`), aucun solde écrit directement ;
+  `checkInvariants` vérifie que chaque solde égale la somme de ses transactions.
+- **Patrimoine** : achat d'un site libre si le solde suffit ; un site possédé
+  (par soi ou un autre) n'est plus proposé ; aucun paiement entre joueurs.
+- **Effets** : `skip_turn`, `extra_turn`, `reward_multiplier`, en file par
+  joueur, consommés aux points de déclenchement.
+- **Fin** : condition configurable (`turns_per_player` en V1), classement
+  déterministe par score puis argent puis siège.
+- **Déterminisme** : RNG mulberry32 dans l'état ; même graine + mêmes
+  commandes ⇒ mêmes événements et même état sérialisé (testé).
+
 ## 3. Modèle joueur (validé)
 
 | Table                  | Rôle                                                       |
@@ -106,7 +128,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | Phase | Contenu                                                      | État     |
 | ----- | ------------------------------------------------------------ | -------- |
 | 1     | Fondations : outillage, frontières, i18n, Bidi, docs         | livrée   |
-| 2     | Moteur de jeu pur (nécessite la répartition des types de cases) | à venir |
+| 2     | Moteur de jeu pur : tours, roue, déplacement, économie, patrimoine, effets, fin, sérialisation | livrée |
 | 3     | Plateau, roue, pions, animations, sauvegarde locale, profils | à venir  |
 | 4     | Cartes, validation, récompenses, achat de monuments — **première partie jouable** | à venir |
 | 5     | Mémoire pédagogique et algorithme adaptatif                  | à venir  |

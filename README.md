@@ -32,7 +32,7 @@ src/config/     données de configuration versionnées + schémas Zod
 src/data/       accès aux données (ports, local, supabase, sync)
 src/i18n/       dictionnaires FR/AR typés, direction du texte
 src/ui/         composants React (primitives, plateau, cartes…)
-tests/          unit · integration · e2e · fixtures
+tests/          unit · integration · e2e · fixtures (valeurs de test, jamais des règles)
 docs/           architecture.md · decisions/ (ADR)
 ```
 

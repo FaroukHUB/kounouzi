@@ -1,0 +1,48 @@
+import { ledgerBalance } from "./economy";
+import { MAX_PLAYERS, MIN_PLAYERS, type GameState } from "./types";
+
+/**
+ * Vérifications de cohérence, utilisées par les tests après chaque commande.
+ * Retourne la liste des violations (vide si l'état est sain).
+ */
+export function checkInvariants(state: GameState): readonly string[] {
+  const violations: string[] = [];
+  const n = state.players.length;
+  const board = state.config.board;
+
+  if (n < MIN_PLAYERS || n > MAX_PLAYERS) violations.push(`nombre de joueurs ${n} hors [${MIN_PLAYERS}, ${MAX_PLAYERS}]`);
+  if (state.activePlayerIndex < 0 || state.activePlayerIndex >= n) violations.push(`activePlayerIndex ${state.activePlayerIndex} invalide`);
+  if (new Set(state.players.map((p) => p.id)).size !== n) violations.push("identifiants de joueur dupliqués");
+  if (board.cells.length !== board.cellCount) violations.push("plateau incohérent");
+
+  for (const p of state.players) {
+    if (p.position < 0 || p.position >= board.cellCount) violations.push(`${p.id} hors plateau (${p.position})`);
+    if (!state.config.rules.allowNegativeBalance && p.money < 0) violations.push(`${p.id} solde négatif (${p.money})`);
+    const fromLedger = ledgerBalance(state, p.id);
+    if (fromLedger !== p.money) violations.push(`${p.id} solde ${p.money} ≠ grand livre ${fromLedger}`);
+  }
+
+  const siteIds = state.holdings.map((h) => h.siteId);
+  if (new Set(siteIds).size !== siteIds.length) violations.push("un site possédé deux fois");
+  for (const h of state.holdings) {
+    if (!state.config.sites[h.siteId]) violations.push(`patrimoine sur site inconnu ${h.siteId}`);
+    if (!state.players.some((p) => p.id === h.ownerId)) violations.push(`patrimoine d'un joueur inconnu ${h.ownerId}`);
+  }
+
+  for (const e of state.effects) {
+    if (!state.players.some((p) => p.id === e.playerId)) violations.push(`effet ${e.id} pour un joueur inconnu`);
+  }
+
+  const finished = state.status === "finished";
+  if (finished !== (state.phase.kind === "finished")) violations.push("status et phase désaccordés");
+  if (finished !== (state.ranking !== undefined)) violations.push("classement présent/absent incohérent avec status");
+  if (state.ranking && state.ranking.length !== n) violations.push("classement incomplet");
+
+  let previous = 0;
+  for (const t of state.ledger) {
+    if (t.id !== previous + 1) violations.push(`transaction ${t.id} hors séquence`);
+    previous = t.id;
+  }
+
+  return violations;
+}
