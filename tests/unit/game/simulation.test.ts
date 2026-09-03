@@ -13,7 +13,10 @@ describe("simulation complète d'une partie (sans React, sans navigateur, sans r
     expect(sim.state.players.every((p) => p.turnsPlayed >= 6)).toBe(true);
 
     // Toutes les mécaniques ont été exercées au moins une fois.
-    expect(eventsOf(sim.events, "WheelSpun").length).toBeGreaterThanOrEqual(6 * n);
+    // Un tour sauté est compté sans roue : tours ouverts ≥ 6·n, roues = tours − tours sautés.
+    const turns = eventsOf(sim.events, "TurnStarted").length;
+    expect(turns).toBeGreaterThanOrEqual(6 * n);
+    expect(eventsOf(sim.events, "WheelSpun").length).toBe(turns - eventsOf(sim.events, "TurnSkipped").length);
     expect(eventsOf(sim.events, "PawnMoved").length).toBeGreaterThan(0);
     expect(eventsOf(sim.events, "QuestionRequested").length).toBeGreaterThan(0);
     expect(eventsOf(sim.events, "AnswerRecorded").length).toBe(eventsOf(sim.events, "QuestionRequested").length);

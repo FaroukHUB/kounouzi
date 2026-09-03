@@ -228,16 +228,29 @@ describe("scénarios génériques (fixtures)", () => {
     expect(r.state.players[0]!.position).toBe(0);
   });
 
-  it("un tour sauté est consommé au retour du joueur, sans compter comme joué", () => {
+  it("un tour sauté est consommé au retour du joueur et COMPTE comme un tour joué", () => {
     const r = landOn(3, ["event-skip"]);
-    expect(eventsOf(r.events, "EffectQueued")[0]!.effect.spec).toEqual({ type: "skip_turn" });
+    expect(eventsOf(r.events, "EffectQueued")[0]!.effect.spec).toEqual({ type: "skip_turn", consumeOn: "turn_start" });
     expect(r.state.effects).toHaveLength(1);
 
     const { state, events } = advanceUntil(r.state, (_, evts) => eventsOf(evts, "TurnSkipped").length > 0);
     expect(eventsOf(events, "TurnSkipped")[0]).toMatchObject({ playerId: pid("p1"), effectId: "e1" });
     expect(state.effects).toHaveLength(0);
-    expect(state.players[0]!.turnsPlayed).toBe(1);
+    // Le tour sauté est perdu : il compte dans les tours du joueur, sans roue ni déplacement.
+    expect(state.players[0]!.turnsPlayed).toBe(2);
+    const skippedTurn = eventsOf(events, "TurnSkipped")[0]!.turnNumber;
+    expect(eventsOf(events, "WheelSpun").some((e) => e.playerId === pid("p1"))).toBe(false);
+    expect(eventsOf(events, "TurnEnded").some((e) => e.turnNumber === skippedTurn && e.playerId === pid("p1"))).toBe(true);
     expect(active(state)).toBe(pid("p2"));
+  });
+
+  it("un tour sauté ne rallonge pas la partie : la condition de fin compte les tours consommés", () => {
+    const r = landOn(3, ["event-skip"], { endCondition: { kind: "turns_per_player", turns: 2 } });
+    const { state, events } = advanceUntil(r.state, (s) => s.status === "finished");
+    expect(state.status).toBe("finished");
+    expect(state.players[0]!.turnsPlayed).toBe(2);
+    expect(eventsOf(events, "TurnSkipped").some((e) => e.playerId === pid("p1"))).toBe(true);
+    expect(eventsOf(events, "WheelSpun").filter((e) => e.playerId === pid("p1"))).toHaveLength(0);
   });
 
   it("un tour supplémentaire redonne la main au même joueur", () => {
@@ -278,7 +291,7 @@ describe("scénarios génériques (fixtures)", () => {
 
     const { state } = create({ ...base, seed });
     const first = run(state, { type: "SpinWheel", playerId: pid("p1") });
-    expect(first.state.effects[0]).toMatchObject({ playerId: pid("p1"), spec: { type: "reward_multiplier", multiplier: 2, uses: 1 } });
+    expect(first.state.effects[0]).toMatchObject({ playerId: pid("p1"), spec: { type: "reward_multiplier", multiplier: 2, uses: 1, consumeOn: "reward_granted" } });
     const back = advanceUntil(first.state, (st) => active(st) === pid("p1") && st.phase.kind === "awaiting_spin");
     const asked = run(back.state, { type: "SpinWheel", playerId: pid("p1") });
     expect(asked.state.phase.kind).toBe("awaiting_answer");

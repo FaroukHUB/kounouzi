@@ -3,7 +3,11 @@ import { computeRanking, isGameOver } from "./scoring";
 import { activePlayer, step, chain, updatePlayer, type Step } from "./step";
 import type { GameState } from "./types";
 
-/** Ouvre un tour pour le joueur actif ; un `skip_turn` en attente le saute immédiatement. */
+/**
+ * Ouvre un tour pour le joueur actif. Un `skip_turn` en attente est consommé
+ * immédiatement : ni roue, ni déplacement, ni résolution — mais le tour est
+ * COMPTÉ (le joueur perd l'un de ses tours, il n'en récupère pas un autre).
+ */
 export function startTurn(state: GameState): Step {
   const player = activePlayer(state);
   const turnNumber = state.turnNumber + 1;
@@ -14,18 +18,18 @@ export function startTurn(state: GameState): Step {
     const effectId = skip.effectId;
     result = chain(result, () => skip.step);
     result = chain(result, (s) => step(s, [{ type: "TurnSkipped", turnNumber, playerId: player.id, effectId }]));
-    return chain(result, (s) => closeTurn(s, { counted: false }));
+    return chain(result, closeTurn);
   }
   return result;
 }
 
 /**
- * Clôt le tour du joueur actif : comptabilise le tour, vérifie la condition de
- * fin, honore un `extra_turn`, sinon passe la main.
+ * Clôt le tour du joueur actif : comptabilise le tour (joué ou sauté), vérifie
+ * la condition de fin, honore un `extra_turn`, sinon passe la main.
  */
-export function closeTurn(state: GameState, options: { readonly counted: boolean } = { counted: true }): Step {
+export function closeTurn(state: GameState): Step {
   const player = activePlayer(state);
-  const counted = options.counted ? updatePlayer(state, player.id, { turnsPlayed: player.turnsPlayed + 1 }) : state;
+  const counted = updatePlayer(state, player.id, { turnsPlayed: player.turnsPlayed + 1 });
   let result = step(counted, [{ type: "TurnEnded", turnNumber: state.turnNumber, playerId: player.id }]);
 
   if (isGameOver(result.state)) {

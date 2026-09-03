@@ -5,8 +5,8 @@ export const TEST_SCENARIOS: readonly Scenario[] = [
   { id: "event-gain", cellType: "event", outcomes: [{ kind: "money", amount: 100 }] },
   { id: "event-loss", cellType: "event", outcomes: [{ kind: "money", amount: -150 }] },
   { id: "event-back", cellType: "event", outcomes: [{ kind: "move", steps: -3 }] },
-  { id: "event-skip", cellType: "event", outcomes: [{ kind: "effect", effect: { type: "skip_turn" } }] },
-  { id: "event-extra", cellType: "event", outcomes: [{ kind: "effect", effect: { type: "extra_turn" } }] },
+  { id: "event-skip", cellType: "event", outcomes: [{ kind: "effect", effect: { type: "skip_turn", consumeOn: "turn_start" } }] },
+  { id: "event-extra", cellType: "event", outcomes: [{ kind: "effect", effect: { type: "extra_turn", consumeOn: "turn_end" } }] },
   {
     id: "management-choice",
     cellType: "management",
@@ -37,7 +37,7 @@ export const TEST_SCENARIOS: readonly Scenario[] = [
     ],
   },
   { id: "treasure-bonus", cellType: "treasure", outcomes: [{ kind: "money", amount: 200 }] },
-  { id: "treasure-boost", cellType: "treasure", outcomes: [{ kind: "effect", effect: { type: "reward_multiplier", multiplier: 2, uses: 1 } }] },
+  { id: "treasure-boost", cellType: "treasure", outcomes: [{ kind: "effect", effect: { type: "reward_multiplier", multiplier: 2, uses: 1, consumeOn: "reward_granted" } }] },
 ];
 
 export const scenariosOf = (...ids: readonly string[]): readonly Scenario[] => TEST_SCENARIOS.filter((s) => ids.includes(s.id));

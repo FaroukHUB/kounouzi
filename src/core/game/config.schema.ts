@@ -57,9 +57,14 @@ export const heritageSiteSchema = z
 /* Effets, résultats, scénarios ------------------------------------------ */
 
 export const effectSpecSchema = z.discriminatedUnion("type", [
-  z.object({ type: z.literal("skip_turn") }),
-  z.object({ type: z.literal("extra_turn") }),
-  z.object({ type: z.literal("reward_multiplier"), multiplier: z.number().positive(), uses: z.number().int().positive() }),
+  z.object({ type: z.literal("skip_turn"), consumeOn: z.literal("turn_start") }),
+  z.object({ type: z.literal("extra_turn"), consumeOn: z.literal("turn_end") }),
+  z.object({
+    type: z.literal("reward_multiplier"),
+    multiplier: z.number().positive(),
+    uses: z.number().int().positive(),
+    consumeOn: z.literal("reward_granted"),
+  }),
 ]);
 
 export const outcomeSchema: z.ZodType<Outcome> = z.lazy(() =>

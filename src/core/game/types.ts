@@ -86,10 +86,21 @@ export interface ResolvedBoard {
  * Effets différés, résultats de case, scénarios
  * ------------------------------------------------------------------------- */
 
+/**
+ * Effets différés. La condition de consommation est EXPLICITE dans chaque
+ * effet ; elle n'est jamais déduite d'une sémantique implicite commune. Un
+ * futur effet (« pendant 2 tours », « prochaine question ») déclarera la sienne.
+ */
 export type EffectSpec =
-  | { readonly type: "skip_turn" }
-  | { readonly type: "extra_turn" }
-  | { readonly type: "reward_multiplier"; readonly multiplier: number; readonly uses: number };
+  | { readonly type: "skip_turn"; readonly consumeOn: "turn_start" }
+  | { readonly type: "extra_turn"; readonly consumeOn: "turn_end" }
+  | {
+      readonly type: "reward_multiplier";
+      readonly multiplier: number;
+      readonly uses: number;
+      /** Consommé uniquement quand une récompense est effectivement versée. */
+      readonly consumeOn: "reward_granted";
+    };
 
 export interface QueuedEffect {
   readonly id: string;

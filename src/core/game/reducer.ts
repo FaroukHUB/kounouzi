@@ -52,7 +52,8 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
       const boost = takeEffect(state, player.id, "reward_multiplier");
       const reward = computeReward(state.config.rules, answer, boost.effect?.multiplier ?? 1);
       if (reward.amount > 0) {
-        if (boost.effect) result = chain(result, () => boost.step);
+        // `consumeOn: "reward_granted"` — l'effet n'est consommé que si une récompense est versée.
+        if (boost.effect?.consumeOn === "reward_granted") result = chain(result, () => boost.step);
         result = chain(result, (s) => step(s, [{ type: "RewardGranted", requestId: command.requestId, playerId: player.id, base: reward.base, multiplier: reward.multiplier, amount: reward.amount }]));
         result = chain(result, (s) => applyTransaction(s, player.id, reward.amount, "question_reward", command.requestId));
       }
