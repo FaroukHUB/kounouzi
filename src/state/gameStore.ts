@@ -15,14 +15,19 @@ export interface GameStoreDeps {
 
 export type LoadStatus = "idle" | "loading" | "ready" | "missing" | "corrupted";
 
+export type DispatchResult = { readonly ok: true; readonly events: readonly GameEvent[] } | { readonly ok: false; readonly error: GameError };
+
 /** Miroir de l'état PERSISTANT du moteur. Aucune donnée d'animation ici. */
 export interface GameStoreState {
   readonly status: LoadStatus;
   readonly state: GameState | null;
   readonly profiles: readonly PlayerProfileDraft[];
+  readonly familyGameOrdinal: number | null;
   readonly lastError: GameError | SetupError | null;
-  create(setup: GameSetup, profiles: readonly PlayerProfileDraft[]): boolean;
-  dispatch(command: Command): boolean;
+  /** Alloue un numéro de partie familiale (monotone, jamais réutilisé). */
+  allocateFamilyGameOrdinal(): Promise<number>;
+  create(setup: GameSetup, profiles: readonly PlayerProfileDraft[], familyGameOrdinal: number): boolean;
+  dispatch(command: Command): DispatchResult;
   load(gameId: GameId): Promise<LoadStatus>;
   listSaved(): Promise<readonly GameSummary[]>;
   remove(gameId: GameId): Promise<void>;
@@ -30,9 +35,10 @@ export interface GameStoreState {
 }
 
 export function createGameStore(deps: GameStoreDeps): StoreApi<GameStoreState> {
-  const persist = (state: GameState, profiles: readonly PlayerProfileDraft[]) => {
+  const persist = (state: GameState, profiles: readonly PlayerProfileDraft[], familyGameOrdinal: number) => {
     const saved: SavedGame = {
       gameId: state.gameId,
+      familyGameOrdinal,
       savedAt: deps.now(),
       status: state.status,
       turnNumber: state.turnNumber,
@@ -47,32 +53,35 @@ export function createGameStore(deps: GameStoreDeps): StoreApi<GameStoreState> {
     status: "idle",
     state: null,
     profiles: [],
+    familyGameOrdinal: null,
     lastError: null,
 
-    create: (setup, profiles) => {
+    allocateFamilyGameOrdinal: () => deps.repository.nextFamilyGameOrdinal(),
+
+    create: (setup, profiles, familyGameOrdinal) => {
       const result = createGame(setup);
       if (!result.ok) {
         set({ lastError: result.error });
         return false;
       }
-      set({ status: "ready", state: result.value.state, profiles, lastError: null });
-      persist(result.value.state, profiles);
+      set({ status: "ready", state: result.value.state, profiles, familyGameOrdinal, lastError: null });
+      persist(result.value.state, profiles, familyGameOrdinal);
       deps.onEvents?.(result.value.events, result.value.state);
       return true;
     },
 
     dispatch: (command) => {
       const current = get().state;
-      if (!current) return false;
+      if (!current) return { ok: false, error: { code: "GAME_FINISHED" } };
       const result = reduce(current, command);
       if (!result.ok) {
         set({ lastError: result.error });
-        return false;
+        return { ok: false, error: result.error };
       }
       set({ state: result.value.state, lastError: null });
-      persist(result.value.state, get().profiles);
-      if (result.value.events.length > 0) deps.onEvents?.(result.value.events, result.value.state);
-      return true;
+      persist(result.value.state, get().profiles, get().familyGameOrdinal ?? 0);
+      deps.onEvents?.(result.value.events, result.value.state);
+      return { ok: true, events: result.value.events };
     },
 
     load: async (gameId) => {
@@ -82,23 +91,23 @@ export function createGameStore(deps: GameStoreDeps): StoreApi<GameStoreState> {
         return undefined;
       });
       if (!saved) {
-        set({ status: "missing", state: null, profiles: [] });
+        set({ status: "missing", state: null, profiles: [], familyGameOrdinal: null });
         return "missing";
       }
       const restored = deserializeGameState(saved.state);
       if (!restored.ok) {
         deps.onError?.(restored.error);
-        set({ status: "corrupted", state: null, profiles: [] });
+        set({ status: "corrupted", state: null, profiles: [], familyGameOrdinal: null });
         return "corrupted";
       }
       // Reprise : l'état est affiché tel quel, aucune animation n'est rejouée (pas d'appel à onEvents).
-      set({ status: "ready", state: restored.value, profiles: saved.profiles, lastError: null });
+      set({ status: "ready", state: restored.value, profiles: saved.profiles, familyGameOrdinal: saved.familyGameOrdinal, lastError: null });
       return "ready";
     },
 
     listSaved: () => deps.repository.list(),
     remove: (gameId) => deps.repository.remove(gameId),
-    reset: () => set({ status: "idle", state: null, profiles: [], lastError: null }),
+    reset: () => set({ status: "idle", state: null, profiles: [], familyGameOrdinal: null, lastError: null }),
   }));
 }
 

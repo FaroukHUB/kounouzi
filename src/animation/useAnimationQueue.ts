@@ -18,9 +18,20 @@ export function useAnimationQueue(timings: Timings, onPlay?: (event: GameEvent, 
   useEffect(() => {
     if (isAnimating || queueLength === 0) return;
     const ui = useUiStore.getState();
-    const event = ui.takeNext();
-    if (!event) return;
+    const item = ui.takeNext();
+    if (!item) return;
+    const settle = () => {
+      const u = useUiStore.getState();
+      if (item.settle) u.setPresented(item.settle);
+      u.setAnimating(false);
+    };
+    if (!item.event) {
+      settle();
+      return;
+    }
+    const event = item.event;
     ui.setAnimating(true);
+    ui.presentEvent(event);
     const actions: AnimationActions = {
       setPawn: ui.setPawn,
       setHighlight: ui.setHighlight,
@@ -30,6 +41,6 @@ export function useAnimationQueue(timings: Timings, onPlay?: (event: GameEvent, 
       setBanner: ui.setBanner,
     };
     if (state) onPlay?.(event, state);
-    void playEvent(event, actions, timings).finally(() => useUiStore.getState().setAnimating(false));
+    void playEvent(event, actions, timings).finally(settle);
   }, [queueLength, isAnimating, timings, onPlay, state]);
 }

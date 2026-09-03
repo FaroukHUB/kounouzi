@@ -13,7 +13,7 @@ export const narrator: NarrationService = isBrowser ? new WebSpeechNarrator() : 
 export const gameStore = createGameStore({
   repository,
   now: () => new Date().toISOString(),
-  onEvents: (events) => useUiStore.getState().enqueue(events),
+  onEvents: (events, state) => useUiStore.getState().enqueueBatch(events, state),
   onError: (error) => console.error("[kounouzi] persistance", error),
 });
 

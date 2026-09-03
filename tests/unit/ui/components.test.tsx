@@ -34,10 +34,10 @@ describe("composants du plateau (rendu statique)", () => {
 
   it("le panneau du Chemin propose « Découvrir mon chemin » au joueur actif, puis affiche la valeur attribuée", () => {
     const { state } = create();
-    const cta = renderToStaticMarkup(<JourneyPanel state={state} reveal={null} isAnimating={false} onStartJourney={() => {}} />);
+    const cta = renderToStaticMarkup(<JourneyPanel state={state} shown={state} reveal={null} isAnimating={false} onStartJourney={() => {}} />);
     expect(cta).toContain("Au tour de Joueur 1");
     expect(cta).toContain("Découvrir mon chemin");
-    const reveal = renderToStaticMarkup(<JourneyPanel state={state} reveal={{ playerId: pid("p1"), steps: 4 }} isAnimating={true} onStartJourney={() => {}} />);
+    const reveal = renderToStaticMarkup(<JourneyPanel state={state} shown={state} reveal={{ playerId: pid("p1"), steps: 4 }} isAnimating={true} onStartJourney={() => {}} />);
     expect(reveal).toContain("Ton chemin se dévoile");
     expect(reveal).toContain("4 étapes");
     expect(reveal).not.toContain("Découvrir mon chemin");

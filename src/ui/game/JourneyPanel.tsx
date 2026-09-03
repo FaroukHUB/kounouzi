@@ -6,7 +6,10 @@ import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Button } from "@/ui/primitives/Button";
 
 export interface JourneyPanelProps {
+  /** État réel (phase, commandes). */
   readonly state: GameState;
+  /** État présenté (joueur affiché). */
+  readonly shown: GameState;
   readonly reveal: { readonly playerId: string; readonly steps: number } | null;
   readonly isAnimating: boolean;
   readonly onStartJourney: () => void;
@@ -16,8 +19,8 @@ export interface JourneyPanelProps {
  * Le cœur de l'expérience du tour : « Au tour de X » → « Découvrir mon chemin »
  * → « Ton chemin se dévoile… N étapes ». Le nombre vient du moteur.
  */
-export function JourneyPanel({ state, reveal, isAnimating, onStartJourney }: JourneyPanelProps) {
-  const active = state.players[state.activePlayerIndex];
+export function JourneyPanel({ state, shown, reveal, isAnimating, onStartJourney }: JourneyPanelProps) {
+  const active = shown.players[shown.activePlayerIndex];
   const name = (id: string) => state.players.find((p) => p.id === id)?.displayName ?? "";
   const canStart = state.phase.kind === "awaiting_journey" && !isAnimating && !reveal;
 

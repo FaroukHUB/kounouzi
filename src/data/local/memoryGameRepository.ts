@@ -4,7 +4,12 @@ import type { GameRepository, GameSummary, SavedGame } from "@/data/ports";
 /** Implémentation en mémoire : tests et environnements sans IndexedDB. */
 export function createMemoryGameRepository(): GameRepository & { readonly size: () => number } {
   const games = new Map<GameId, SavedGame>();
+  let ordinal = 0;
   return {
+    nextFamilyGameOrdinal: async () => {
+      ordinal += 1;
+      return ordinal;
+    },
     save: async (game) => {
       games.set(game.gameId, game);
     },

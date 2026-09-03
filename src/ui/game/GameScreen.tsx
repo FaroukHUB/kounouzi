@@ -58,7 +58,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
     if (u) narrator.speak(u);
     // Aperçu du chemin : le trajet vient de l'événement PawnMoved qui suit — jamais recalculé.
     if (event.type === "MovementAssigned") {
-      const next = useUiStore.getState().queue[0];
+      const next = useUiStore.getState().queue[0]?.event;
       if (next?.type === "PawnMoved" && next.playerId === event.playerId) useUiStore.getState().setPathPreview(next.path);
     }
     if (event.type === "PawnMoved") useUiStore.getState().setPathPreview([]);
@@ -96,17 +96,20 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   }
 
   const activeId = state.players[state.activePlayerIndex]?.id ?? ("" as PlayerId);
+  /** Les panneaux affichent l'état présenté (retard des animations) ; les commandes utilisent l'état réel. */
+  const shown = ui.presentedState ?? state;
+  const shownActiveId = shown.players[shown.activePlayerIndex]?.id ?? activeId;
   const dispatch = gameStore.getState().dispatch;
   const startJourney = () => dispatch({ type: "StartJourney", playerId: activeId });
   const resolveDemo = () => {
     const command = resolvePhase3DemoInteraction(state);
     if (command) dispatch(command);
   };
-  const showDemo = isPhase4Interaction(state) && !ui.isAnimating && !ui.journeyReveal;
+  const showDemo = isPhase4Interaction(state) && !ui.isAnimating && ui.queue.length === 0 && !ui.journeyReveal;
 
   return (
     <div className="relative flex min-h-dvh flex-col bg-[var(--k-sand)] lg:flex-row lg:items-center lg:justify-center lg:gap-6 lg:p-6" data-testid="game-screen" data-phase={state.phase.kind}>
-      <TurnBanner banner={ui.banner} state={state} />
+      <TurnBanner banner={ui.banner} state={shown} />
 
       <main className="flex flex-1 items-center justify-center p-3 lg:flex-none">
         <Board
@@ -114,8 +117,8 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           highlightedCell={ui.highlightedCell}
           arrivalCell={ui.arrivalCell}
           previewPath={ui.pathPreview}
-          pawns={<PawnLayer players={state.players} profiles={profiles} visuals={ui.pawnVisuals} activePlayerId={activeId} cellCount={state.config.board.cellCount} stepMs={timings.stepMs} />}
-          center={showDemo ? <DemoInteractionPanel state={state} onResolve={resolveDemo} /> : <JourneyPanel state={state} reveal={ui.journeyReveal} isAnimating={ui.isAnimating} onStartJourney={startJourney} />}
+          pawns={<PawnLayer players={state.players} profiles={profiles} visuals={ui.pawnVisuals} activePlayerId={shownActiveId} cellCount={state.config.board.cellCount} stepMs={timings.stepMs} />}
+          center={showDemo ? <DemoInteractionPanel state={state} onResolve={resolveDemo} /> : <JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0} onStartJourney={startJourney} />}
         />
       </main>
 
@@ -123,17 +126,17 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         <header className="flex items-center justify-between">
           <div>
             <h1 className="text-lg font-black tracking-tight">{t(DEFAULT_LOCALE, "app.name")}</h1>
-            <TimeBadge state={state} precise={session.preciseTimer} />
+            <TimeBadge state={shown} precise={session.preciseTimer} />
           </div>
           <Button variant="secondary" onClick={() => setSettingsOpen(true)} aria-label={t(DEFAULT_LOCALE, "game.settings")}>
             ⚙
           </Button>
         </header>
-        <PlayerPanel state={state} profiles={profiles} />
+        <PlayerPanel state={shown} profiles={profiles} />
         {paused ? <p className="rounded-xl bg-white px-3 py-2 text-center text-sm font-semibold">{t(DEFAULT_LOCALE, "game.paused")}</p> : null}
       </aside>
 
-      {state.status === "finished" ? <FinalRanking state={state} /> : null}
+      {shown.status === "finished" ? <FinalRanking state={shown} /> : null}
       <SettingsSheet
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}

@@ -6,7 +6,7 @@ import { AVATARS } from "@/config/avatars";
 import { BOARD_32_V1 } from "@/config/board";
 import { DEMO_HERITAGE_SITES, DEMO_RULES_QUICK, DEMO_SCENARIOS } from "@/config/demo";
 import { DEFAULT_GAME_MODE, GAME_MODE_IDS, endConditionOf, type GameModeId } from "@/config/game-modes";
-import { JOURNEY_CYCLE_V1 } from "@/config/journey";
+import { journeyCycleForOrdinal } from "@/config/journey";
 import { SCHOOL_GRADES } from "@/config/profiles";
 import { MAX_PLAYERS, MIN_PLAYERS, type GameSetup } from "@/core/game";
 import { ADULT_INITIAL_LEVELS, DEFAULT_ADULT_INITIAL_LEVEL, type AdultInitialLevel, type GameId, type PlayerId, type ProfileType } from "@/core/shared";
@@ -37,7 +37,7 @@ export function NewGameForm() {
 
   const update = (i: number, patch: Partial<Row>) => setRows((rs) => rs.map((r, j) => (j === i ? { ...r, ...patch } : r)));
 
-  const submit = () => {
+  const submit = async () => {
     if (rows.some((r) => r.displayName.trim() === "")) return setError(t(DEFAULT_LOCALE, "setup.errors.name"));
     for (const r of rows) {
       if (r.profileType === "child" && r.birthYear !== "") {
@@ -45,7 +45,9 @@ export function NewGameForm() {
         if (!Number.isInteger(y) || y < thisYear - 20 || y > thisYear) return setError(t(DEFAULT_LOCALE, "setup.errors.birthYear"));
       }
     }
+    // Identifiant technique unique (aucun effet sur le jeu) ; numéro de partie familiale monotone (rotation interne du Chemin).
     const gameId = `game-${Date.now().toString(36)}` as GameId;
+    const familyGameOrdinal = await gameStore.getState().allocateFamilyGameOrdinal();
     const profiles: PlayerProfileDraft[] = rows.map((r, i) => {
       const id = `p${i + 1}` as PlayerId;
       const base = { id, displayName: r.displayName.trim(), profileType: r.profileType, avatarId: r.avatarId };
@@ -60,9 +62,9 @@ export function NewGameForm() {
       heritageSites: DEMO_HERITAGE_SITES,
       scenarios: DEMO_SCENARIOS,
       rules: { ...DEMO_RULES_QUICK, id: `rules-demo-${mode}`, endCondition: endConditionOf(mode) },
-      journey: JOURNEY_CYCLE_V1,
+      journey: journeyCycleForOrdinal(familyGameOrdinal),
     };
-    if (!gameStore.getState().create(setup, profiles)) return setError(JSON.stringify(gameStore.getState().lastError));
+    if (!gameStore.getState().create(setup, profiles, familyGameOrdinal)) return setError(JSON.stringify(gameStore.getState().lastError));
     router.push(`/partie/${gameId}`);
   };
 
@@ -71,7 +73,7 @@ export function NewGameForm() {
       className="mx-auto flex w-full max-w-3xl flex-col gap-6 p-4 sm:p-8"
       onSubmit={(e) => {
         e.preventDefault();
-        submit();
+        void submit();
       }}
       data-testid="new-game-form"
     >

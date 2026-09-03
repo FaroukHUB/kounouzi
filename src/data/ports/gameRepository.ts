@@ -23,12 +23,19 @@ export interface GameSummary {
 
 /** Ce qui est réellement persisté : l'état du moteur sérialisé + les brouillons de profil. */
 export interface SavedGame extends GameSummary {
+  /** Numéro de partie familiale consommé à la création (rotation du Chemin). Jamais affiché. */
+  readonly familyGameOrdinal: number;
   readonly profiles: readonly PlayerProfileDraft[];
   /** `GameState` sérialisé par `serializeGameState` (versionné). */
   readonly state: string;
 }
 
 export interface GameRepository {
+  /**
+   * Alloue le prochain numéro de partie familiale (1, 2, 3, …). Monotone :
+   * une partie créée puis abandonnée ne rend jamais son numéro.
+   */
+  nextFamilyGameOrdinal(): Promise<number>;
   save(game: SavedGame): Promise<void>;
   load(gameId: GameId): Promise<SavedGame | undefined>;
   list(): Promise<readonly GameSummary[]>;

@@ -52,10 +52,12 @@ acquis avant qu'elles ne commencent.
   **Commandes de session** : `AdvanceClock { seconds }` (temps actif injecté),
   `RequestGameEnd`. Tout le reste — Chemin, déplacement, résolution de case,
   clôture du tour, passage au joueur suivant, fin de partie — est automatique.
-- **Le Chemin** (ADR 0013) : aucun hasard dans le noyau. `journeyScheduler`
+- **Le Chemin** (ADR 0013, 0018) : aucun hasard dans le noyau. `journeyScheduler`
   attribue les étapes depuis un cycle versionné, le siège et le compteur de
-  voyages — sans jamais recevoir l'état de la partie. Les scénarios d'une
-  case sont servis dans l'ordre configuré selon ses visites.
+  voyages — sans jamais recevoir l'état de la partie. Six variantes de cycle
+  tournent d'une partie à l'autre selon un compteur persistant monotone,
+  invisible et non sélectionnable. Les scénarios d'une case sont servis dans
+  l'ordre configuré selon ses visites.
 - **Phases** : `awaiting_journey` → (`MovementAssigned`, déplacement,
   arrivée) → `awaiting_answer` | `awaiting_purchase` | `awaiting_choice` →
   clôture → joueur suivant, ou `finished`.
@@ -140,9 +142,9 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
 - **Stores** : `gameStore` (fabrique `createGameStore({ repository, now,
   onEvents })`, état du moteur + brouillons de profil, sauvegarde après chaque
   commande) ≠ `uiStore` (pions visuels, case en évidence, aperçu du Chemin,
-  bandeau, file, `isAnimating`) ≠ `sessionStore` (préférences persistées :
-  animations réduites, narration, vitesse, temps précis). Aucune règle de jeu
-  hors du moteur.
+  bandeau, file, `isAnimating`, **état présenté** — ADR 0019) ≠
+  `sessionStore` (préférences persistées : animations réduites, narration,
+  vitesse, temps précis). Aucune règle de jeu hors du moteur.
 - **File d'animation** : un événement à la fois ; `PawnMoved.path` est rejoué
   case par case sans jamais être recalculé ; délai de sécurité (durée × 2 +
   500 ms) ; mode réduit = mêmes étapes, durées nulles ; à la reprise, la file
