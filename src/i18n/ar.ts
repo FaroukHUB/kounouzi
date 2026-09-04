@@ -231,6 +231,7 @@ export const ar: Dictionary = {
   "card.explanation.title": "الشرح",
   "card.explanation.fr": "بالفرنسية",
   "card.explanation.ar": "بالعربية",
+  "card.explanation.listenAr": "استمع بالعربية",
   "card.source": "المصدر",
   "card.next": "التالي",
   "card.mastery.question": "هل كنت تعرف هذا الشرح من قبل؟",

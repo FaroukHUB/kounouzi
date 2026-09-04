@@ -45,6 +45,13 @@ describe("carte question (rendu statique)", () => {
     expect(e).toContain('data-testid="explanation"');
     expect(e).toContain('lang="fr"');
     expect(e).toContain('lang="ar" dir="rtl" class="bidi-isolate');
+    // Sans voix disponible (narrateur muet), pas de bouton « Écouter en arabe » ; avec une voix, il est proposé et l'arabe n'est jamais lu automatiquement.
+    expect(e).not.toContain('data-testid="explanation-listen-ar"');
+    const spoken: string[] = [];
+    const voiced = { ...narrator, isSupported: () => true, speak: (u: { text: string; lang: string }) => spoken.push(u.lang), stop: () => {}, replayLast: () => {}, getAvailableVoices: () => [], setEnabled: () => {}, setRate: () => {} };
+    const withVoice = renderToStaticMarkup(<QuestionCard state={asked.state} profiles={profiles} card={{ ...base, step: "explanation", outcome: "correct" }} narrator={voiced} reduced={true} onUpdate={() => {}} onSubmit={() => {}} />);
+    expect(withVoice).toContain('data-testid="explanation-listen-ar"');
+    expect(spoken).toEqual([]);
     const m = render({ ...base, step: "mastery", outcome: "correct" });
     for (const k of ["none", "fr", "ar", "both"]) expect(m).toContain(`data-testid="mastery-${k}"`);
   });

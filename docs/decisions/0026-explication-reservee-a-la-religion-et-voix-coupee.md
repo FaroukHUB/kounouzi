@@ -19,6 +19,9 @@ voix se chevauchaient et la tablée ne savait plus qui parlait à qui.
 - Dès que la tablée quitte l'étape « explication » (bouton Suite, ou carte
   fermée), la narration est **arrêtée** (`stop()`), file comprise. Le tour
   suivant commence toujours sur une voix libre.
+- La lecture automatique est en **français seulement** ; l'explication arabe
+  reste toujours visible quand elle existe et s'écoute à la demande par le
+  bouton « Écouter en arabe » (jamais d'enchaînement FR + AR automatique).
 - Le narrateur Web Speech ignore les fins et minuteries des phrases annulées
   (génération incrémentée à chaque `stop()`), afin qu'une phrase annulée ne
   coupe jamais la suivante.

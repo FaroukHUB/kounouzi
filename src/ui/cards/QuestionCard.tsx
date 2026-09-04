@@ -78,8 +78,8 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
     if (step === "question") narrator.speak({ text: t(DEFAULT_LOCALE, "narration.question", { prompt: question.prompt.fr }), lang: "fr", important: true });
     if (step === "revealed") narrator.speak({ text: t(DEFAULT_LOCALE, "narration.answer", { answer: question.answer.fr }), lang: "fr", important: true });
     if (step === "explanation") {
+      // Lecture en français seulement ; l'arabe reste visible et s'écoute à la demande (« Écouter en arabe »).
       narrator.speak({ text: question.explanation.fr, lang: "fr", important: true });
-      narrator.speak({ text: question.explanation.ar, lang: "ar" });
       // Dès que la tablée passe à la suite (ou que la carte disparaît), la voix se tait : jamais de chevauchement avec le tour suivant.
       return () => narrator.stop();
     }
@@ -188,6 +188,18 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
           <Bidi as="p" lang="ar" className="text-lg leading-relaxed">
             {question.explanation.ar}
           </Bidi>
+          {question.explanation.ar.trim() !== "" && narrator.isSupported() ? (
+            <Button
+              variant="secondary"
+              onClick={() => {
+                narrator.stop();
+                narrator.speak({ text: question.explanation.ar, lang: "ar" });
+              }}
+              data-testid="explanation-listen-ar"
+            >
+              {t(DEFAULT_LOCALE, "card.explanation.listenAr")}
+            </Button>
+          ) : null}
           {question.sources.length > 0 ? (
             <p className="text-xs text-[var(--k-ink-soft)]">
               {t(DEFAULT_LOCALE, "card.source")} :{" "}

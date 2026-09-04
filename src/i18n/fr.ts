@@ -228,6 +228,7 @@ export const fr = {
   "card.explanation.title": "Explication",
   "card.explanation.fr": "En français",
   "card.explanation.ar": "En arabe",
+  "card.explanation.listenAr": "Écouter en arabe",
   "card.source": "Source",
   "card.next": "Suite",
   "card.mastery.question": "Connaissais-tu déjà cette explication ?",
