@@ -1,0 +1,3009 @@
+{
+  "$comment": "Banque religieuse « Oussoul ath-Thalatha » — importée depuis le PDF de contrôle humain, source de fond : Sharh Thalathat al-Usul (Shaykh Salih Al ash-Shaykh). TOUTES les cartes sont `draft` tant qu'elles ne sont pas explicitement passées à `validated` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code.",
+  "version": 1,
+  "work": "Sharh Thalathat al-Usul",
+  "author": "Shaykh Salih Al ash-Shaykh",
+  "category": "religion.tawhid",
+  "questions": [
+    {
+      "id": "REL-OSS-SAS-L1-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.01",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission éclair",
+      "prompt": {
+        "fr": "Qui t’a créé ?"
+      },
+      "answer": {
+        "fr": "Allah."
+      },
+      "explanation": {
+        "fr": "Allah est Celui qui nous a créés.",
+        "ar": "الله هو الذي خلقنا."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "31-32",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "mission_flash"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.02",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Choisis la bonne réponse",
+      "prompt": {
+        "fr": "Qui nous donne notre nourriture et notre subsistance ?"
+      },
+      "answer": {
+        "fr": "Allah."
+      },
+      "explanation": {
+        "fr": "Allah est Celui qui nous accorde notre subsistance.",
+        "ar": "الله هو الذي يرزقنا."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "31-32",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "choice_cards"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.03",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Allah nous a créés sans raison."
+      },
+      "answer": {
+        "fr": "Faux."
+      },
+      "explanation": {
+        "fr": "Allah ne nous a pas créés inutilement. Il nous a créés avec une sagesse.",
+        "ar": "لم يخلقنا الله عبثًا، بل خلقنا لحكمة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "31-32",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "true_false_flip"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.04",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui suis-je ?",
+      "prompt": {
+        "fr": "Allah m’a envoyé pour montrer aux hommes le bon chemin. Qui suis-je ?"
+      },
+      "answer": {
+        "fr": "Un messager."
+      },
+      "explanation": {
+        "fr": "Allah a envoyé des messagers pour guider les hommes.",
+        "ar": "أرسل الله الرسل لهداية الناس."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "32-34",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "messenger_path"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.05",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Complète la phrase",
+      "prompt": {
+        "fr": "J’adore ______ seul."
+      },
+      "answer": {
+        "fr": "Allah."
+      },
+      "explanation": {
+        "fr": "L’adoration doit être consacrée à Allah seul.",
+        "ar": "العبادة لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "47-50",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "fill_glow"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.06",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte piège",
+      "prompt": {
+        "fr": "Peut-on adorer Allah et adorer quelqu’un d’autre avec Lui ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Nous adorons Allah seul et nous ne Lui associons personne.",
+        "ar": "نعبد الله وحده ولا نشرك به أحدًا."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "35-38",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "trap_shake"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.07",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Réponse éclair",
+      "prompt": {
+        "fr": "Qui est ton Seigneur ?"
+      },
+      "answer": {
+        "fr": "Allah."
+      },
+      "explanation": {
+        "fr": "Notre Seigneur est Allah.",
+        "ar": "ربنا هو الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "58-61",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "mission_flash"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.08",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Allah est le Seigneur de toutes les créatures."
+      },
+      "answer": {
+        "fr": "Vrai."
+      },
+      "explanation": {
+        "fr": "Allah est le Seigneur de tous les mondes et de toutes les créatures.",
+        "ar": "الله رب العالمين ورب جميع المخلوقات."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "58-61",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "true_false_flip"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.09",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Trouve l’intrus",
+      "prompt": {
+        "fr": "Trois cartes montrent des signes d’Allah : le soleil, la lune et la nuit. Une carte s’est glissée par erreur : un jouet. Laquelle est l’intruse ?"
+      },
+      "answer": {
+        "fr": "Le jouet."
+      },
+      "explanation": {
+        "fr": "La nuit, le jour, le soleil et la lune font partie des signes d’Allah.",
+        "ar": "الليل والنهار والشمس والقمر من آيات الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "62-66",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "intruder_cards"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.10",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Défi des deux",
+      "prompt": {
+        "fr": "Cite deux signes d’Allah parmi le soleil, la lune, la nuit et le jour."
+      },
+      "answer": {
+        "fr": "Deux réponses parmi : le soleil, la lune, la nuit, le jour."
+      },
+      "explanation": {
+        "fr": "Ces signes nous montrent la grandeur de leur Créateur.",
+        "ar": "هذه الآيات تدل على عظمة خالقها."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "62-66",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "challenge_two"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.11",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui a fait cela ?",
+      "prompt": {
+        "fr": "Qui a créé le soleil et la lune ?"
+      },
+      "answer": {
+        "fr": "Allah."
+      },
+      "explanation": {
+        "fr": "Le soleil et la lune font partie des créations d’Allah.",
+        "ar": "الله هو الذي خلق الشمس والقمر."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "62-67",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "celestial_orbit"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.12",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Le soleil mérite d’être adoré parce qu’il est très grand."
+      },
+      "answer": {
+        "fr": "Faux."
+      },
+      "explanation": {
+        "fr": "Le soleil est une créature. Seul Allah mérite d’être adoré.",
+        "ar": "الشمس مخلوقة، والله وحده هو المستحق للعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "62-68",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "false_crack"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.13",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Petite situation",
+      "prompt": {
+        "fr": "Tu veux demander à Allah de t’aider. Que peux-tu faire ?"
+      },
+      "answer": {
+        "fr": "Invoquer Allah."
+      },
+      "explanation": {
+        "fr": "L’invocation est une adoration que l’on adresse à Allah.",
+        "ar": "الدعاء عبادة تكون لله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "68",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "dua_ripple"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.14",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Complète",
+      "prompt": {
+        "fr": "Quand j’invoque, j’invoque ______."
+      },
+      "answer": {
+        "fr": "Allah."
+      },
+      "explanation": {
+        "fr": "Nous adressons nos invocations à Allah seul.",
+        "ar": "ندعو الله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "68",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "fill_glow"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.15",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Choisis la bonne porte",
+      "prompt": {
+        "fr": "En qui le croyant place-t-il sa confiance ?"
+      },
+      "answer": {
+        "fr": "En Allah."
+      },
+      "explanation": {
+        "fr": "La confiance en Allah fait partie des adorations du cœur.",
+        "ar": "التوكل على الله من عبادات القلب."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "68",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "door_choice"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.16",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mot mystère",
+      "prompt": {
+        "fr": "Le mot qui signifie « adorer Allah seul », c’est... Tawhid ou Shirk ?"
+      },
+      "answer": {
+        "fr": "Tawhid."
+      },
+      "explanation": {
+        "fr": "Le Tawhid consiste à consacrer l’adoration à Allah seul.",
+        "ar": "التوحيد هو إفراد الله بالعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "47-50",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "word_mystery"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.17",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Attention au piège",
+      "prompt": {
+        "fr": "Le shirk, c’est : adorer Allah seul, ou donner une adoration à autre qu’Allah ?"
+      },
+      "answer": {
+        "fr": "Donner une adoration à autre qu’Allah."
+      },
+      "explanation": {
+        "fr": "Le shirk est contraire au Tawhid : une adoration est donnée à autre qu’Allah.",
+        "ar": "الشرك هو صرف شيء من العبادة لغير الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "49-50",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "trap_shake"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.18",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le plus grand ordre",
+      "prompt": {
+        "fr": "Quelle est la plus grande chose qu’Allah nous ordonne : le Tawhid ou dormir ?"
+      },
+      "answer": {
+        "fr": "Le Tawhid."
+      },
+      "explanation": {
+        "fr": "Le plus grand commandement est d’adorer Allah seul.",
+        "ar": "أعظم ما أمر الله به التوحيد."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "47-50",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "command_seal"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.19",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le grand interdit",
+      "prompt": {
+        "fr": "Quelle est la plus grande chose qu’Allah nous interdit : le shirk ou jouer ?"
+      },
+      "answer": {
+        "fr": "Le shirk."
+      },
+      "explanation": {
+        "fr": "Le shirk est la plus grande chose interdite.",
+        "ar": "أعظم ما نهى الله عنه الشرك."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "49-50",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "prohibition_seal"
+    },
+    {
+      "id": "REL-OSS-SAS-L1-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l1.20",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS de fin",
+      "prompt": {
+        "fr": "Kounouzi te donne trois réponses à trouver : Mon Seigneur ? Celui que j’adore ? Celui qui m’a créé ?"
+      },
+      "answer": {
+        "fr": "Allah - Allah - Allah."
+      },
+      "explanation": {
+        "fr": "Allah est notre Seigneur et notre Créateur, et Lui seul mérite notre adoration.",
+        "ar": "الله ربنا وخالقنا، وهو وحده المستحق للعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "58-68",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "boss_chest"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.01",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Trouve le cœur",
+      "prompt": {
+        "fr": "Laquelle de ces adorations se passe surtout dans le cœur : la confiance en Allah ou courir ?"
+      },
+      "answer": {
+        "fr": "La confiance en Allah."
+      },
+      "explanation": {
+        "fr": "Certaines adorations sont dans le cœur, comme la confiance en Allah.",
+        "ar": "من عبادات القلب التوكل على الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "69-71",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "heart_pulse"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.02",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission langue",
+      "prompt": {
+        "fr": "Laquelle peut être une adoration faite avec la langue : dire une bonne parole ou dormir ?"
+      },
+      "answer": {
+        "fr": "Dire une bonne parole."
+      },
+      "explanation": {
+        "fr": "Certaines adorations se font avec la langue, comme la parole bénéfique et le rappel d’Allah.",
+        "ar": "من العبادات ما يكون باللسان كالقول الطيب وذكر الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "69-70",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "speech_wave"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.03",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Toutes les adorations se font seulement avec le corps."
+      },
+      "answer": {
+        "fr": "Faux."
+      },
+      "explanation": {
+        "fr": "Il existe des adorations du cœur, de la langue et des actes.",
+        "ar": "العبادات منها ما يكون بالقلب ومنها ما يكون باللسان والجوارح."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "69-71",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "true_false_flip"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.04",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte piège",
+      "prompt": {
+        "fr": "L’invocation est-elle une adoration ?"
+      },
+      "answer": {
+        "fr": "Oui."
+      },
+      "explanation": {
+        "fr": "Lorsque tu invoques Allah, tu accomplis une adoration.",
+        "ar": "الدعاء عبادة من العبادات."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "72-73",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "trap_shake"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.05",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission secours",
+      "prompt": {
+        "fr": "Tu demandes quelque chose que seul Allah peut donner. À qui t’adresses-tu : Allah ou une statue ?"
+      },
+      "answer": {
+        "fr": "À Allah."
+      },
+      "explanation": {
+        "fr": "Ce que seul Allah peut accomplir doit être demandé à Allah.",
+        "ar": "ما لا يقدر عليه إلا الله يُطلب من الله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "72-76",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "sos_ripple"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.06",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Deux façons d’invoquer",
+      "prompt": {
+        "fr": "Vrai ou faux ? Une invocation peut être une demande adressée à Allah, et l’invocation fait aussi partie des formes d’adoration."
+      },
+      "answer": {
+        "fr": "Vrai."
+      },
+      "explanation": {
+        "fr": "L’invocation peut être une demande, et elle fait partie des adorations vouées à Allah.",
+        "ar": "الدعاء يكون دعاء مسألة، وهو أيضًا من أنواع العبادة التي تكون لله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "73-74",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "double_card"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.07",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Trouve l’intrus",
+      "prompt": {
+        "fr": "Lequel n’est pas une adoration du cœur : l’espoir, la peur, la confiance ou jouer au ballon ?"
+      },
+      "answer": {
+        "fr": "Jouer au ballon."
+      },
+      "explanation": {
+        "fr": "La peur, l’espoir et la confiance en Allah font partie des adorations du cœur.",
+        "ar": "الخوف والرجاء والتوكل من عبادات القلب."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "68-71",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "intruder_cards"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.08",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Défi mémoire",
+      "prompt": {
+        "fr": "Cite deux adorations du cœur."
+      },
+      "answer": {
+        "fr": "Par exemple : la confiance en Allah, la peur, l’espoir ou la sincérité."
+      },
+      "explanation": {
+        "fr": "Le cœur adore lui aussi Allah.",
+        "ar": "القلب يعبد الله بالخوف والرجاء والتوكل والإخلاص."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "70-71",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "memory_spark"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.09",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mini-situation",
+      "prompt": {
+        "fr": "Adam prie uniquement pour que ses amis disent : « Waouh, il est super ! » Est-ce une bonne intention ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Une adoration doit être faite sincèrement pour Allah, pas pour chercher les compliments des gens.",
+        "ar": "العبادة تكون خالصة لله، لا لأجل مدح الناس."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "75-79",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "scenario_spotlight"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.10",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte Lion",
+      "prompt": {
+        "fr": "Tu vois un lion courir vers toi et tu as peur. Est-ce forcément une mauvaise peur ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Il existe une peur naturelle : avoir peur d’un danger réel est normal.",
+        "ar": "الخوف الطبيعي من الخطر جائز، كخوف الإنسان من الحيوان المؤذي."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "84-86",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "lion_alert"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.11",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Avoir peur d’un feu qui peut te brûler est une peur naturelle."
+      },
+      "answer": {
+        "fr": "Vrai."
+      },
+      "explanation": {
+        "fr": "Allah a placé chez l’être humain une peur naturelle des dangers.",
+        "ar": "من الخوف الطبيعي خوف الإنسان مما قد يؤذيه كالنار."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "84-86",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "true_false_flip"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.12",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Choisis le bon espoir",
+      "prompt": {
+        "fr": "Quand tu espères le pardon et la récompense, vers qui dois-tu tourner ton cœur : Allah ou une idole ?"
+      },
+      "answer": {
+        "fr": "Allah."
+      },
+      "explanation": {
+        "fr": "L’espoir qui est une adoration doit être placé en Allah.",
+        "ar": "رجاء العبادة يكون لله سبحانه وتعالى."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "87-88",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "hope_glow"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.13",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission équilibre",
+      "prompt": {
+        "fr": "Un croyant peut-il espérer la récompense d’Allah ?"
+      },
+      "answer": {
+        "fr": "Oui."
+      },
+      "explanation": {
+        "fr": "Le croyant espère la miséricorde et la récompense de son Seigneur.",
+        "ar": "المؤمن يرجو رحمة الله وثوابه."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "87-88",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "balance_scale"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.14",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mot mystère",
+      "prompt": {
+        "fr": "Je veux qu’Allah accepte mon adoration et je la fais pour Lui seul. Quel mot correspond le mieux : sincérité ou frime ?"
+      },
+      "answer": {
+        "fr": "Sincérité."
+      },
+      "explanation": {
+        "fr": "Une adoration doit être accomplie sincèrement pour Allah.",
+        "ar": "العبادة يجب أن تكون خالصة لله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "69-71",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "word_mystery"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.15",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le coffre des adorations",
+      "prompt": {
+        "fr": "Parmi ces quatre choses, laquelle appartient au cœur : l’espoir en Allah, sauter, boire ou dormir ?"
+      },
+      "answer": {
+        "fr": "L’espoir en Allah."
+      },
+      "explanation": {
+        "fr": "L’espoir en Allah est une adoration du cœur.",
+        "ar": "الرجاء في الله عبادة قلبية."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "70-71, 87-88",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "chest_open"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.16",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Défi 3 indices",
+      "prompt": {
+        "fr": "Je suis une adoration du cœur ; tu comptes sur Allah ; je commence par « confi... ». Qui suis-je ?"
+      },
+      "answer": {
+        "fr": "La confiance en Allah."
+      },
+      "explanation": {
+        "fr": "Le croyant place sa confiance en Allah tout en faisant ce qu’il doit faire.",
+        "ar": "المؤمن يتوكل على الله ويعتمد عليه."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "70-71",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "three_clues"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.17",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Le Tawhid concerne aussi les adorations du cœur."
+      },
+      "answer": {
+        "fr": "Vrai."
+      },
+      "explanation": {
+        "fr": "Même les adorations cachées dans le cœur doivent être consacrées à Allah seul.",
+        "ar": "عبادات القلب أيضًا يجب أن تكون لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "69-71",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "true_false_flip"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.18",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Choisis ton camp",
+      "prompt": {
+        "fr": "Quelle phrase correspond au Tawhid : « J’adore Allah seul » ou « Je donne une adoration à Allah et à quelqu’un d’autre » ?"
+      },
+      "answer": {
+        "fr": "« J’adore Allah seul. »"
+      },
+      "explanation": {
+        "fr": "Le Tawhid consiste à consacrer les adorations à Allah seul.",
+        "ar": "التوحيد هو إفراد الله بالعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "75-79",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "two_sides"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.19",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission détective",
+      "prompt": {
+        "fr": "Quel comportement cache un problème : faire une adoration pour Allah, ou la faire seulement pour être admiré par les gens ?"
+      },
+      "answer": {
+        "fr": "La faire seulement pour être admiré par les gens."
+      },
+      "explanation": {
+        "fr": "Chercher l’admiration des gens dans une adoration abîme la sincérité.",
+        "ar": "طلب مدح الناس بالعبادة ينافي الإخلاص."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "77-79",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "detective_scan"
+    },
+    {
+      "id": "REL-OSS-SAS-L2-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l2.20",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Le coffre du cœur",
+      "prompt": {
+        "fr": "Kounouzi ouvre quatre cartes : Peur - Espoir - Confiance - Invocation. Lesquelles peuvent être des adorations pour Allah ?"
+      },
+      "answer": {
+        "fr": "Les quatre."
+      },
+      "explanation": {
+        "fr": "Allah doit être adoré par le cœur, les paroles et les actes.",
+        "ar": "الخوف والرجاء والتوكل والدعاء من أنواع العبادة التي تكون لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "68-73, 80-88",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "boss_chest"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.01",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission confiance",
+      "prompt": {
+        "fr": "Yacine prépare bien son contrôle, révise sérieusement, puis dit : « J’ai fait ce que je pouvais, maintenant je place ma confiance en Allah. » Bonne attitude ou mauvaise attitude ?"
+      },
+      "answer": {
+        "fr": "Bonne attitude."
+      },
+      "explanation": {
+        "fr": "La confiance en Allah n’empêche pas d’utiliser les moyens permis. On fait ce que l’on peut puis le cœur s’en remet à Allah.",
+        "ar": "التوكل على الله لا يمنع من فعل الأسباب المباحة، فيأخذ العبد بالأسباب ويتوكل على الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "89-93",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "scenario_spotlight"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.02",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte piège",
+      "prompt": {
+        "fr": "Adam dit : « Je fais confiance uniquement au médicament, c’est lui qui me guérira tout seul. » Qu’est-ce qui ne va pas : il prend un médicament, ou son cœur s’attache au moyen au lieu d’Allah ?"
+      },
+      "answer": {
+        "fr": "Son cœur s’attache au moyen au lieu d’Allah."
+      },
+      "explanation": {
+        "fr": "Le médicament est un moyen. La guérison vient d’Allah et le cœur doit s’en remettre à Lui.",
+        "ar": "الدواء سبب، والشفاء من الله، فيتعلق القلب بالله لا بالسبب وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "89-92",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "trap_shake"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.03",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Choisis le bon chemin",
+      "prompt": {
+        "fr": "Pour traverser une route dangereuse : A) fermer les yeux et dire « je fais confiance à Allah » ; B) regarder, prendre les précautions nécessaires et placer sa confiance en Allah."
+      },
+      "answer": {
+        "fr": "B."
+      },
+      "explanation": {
+        "fr": "Le Tawakkul véritable associe la confiance du cœur en Allah et l’utilisation des moyens utiles.",
+        "ar": "التوكل الصحيح يجمع بين اعتماد القلب على الله وفعل الأسباب النافعة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "90-93",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "path_choice"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.04",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Utiliser un moyen permis signifie qu’on ne fait plus confiance à Allah."
+      },
+      "answer": {
+        "fr": "Faux."
+      },
+      "explanation": {
+        "fr": "Prendre les moyens permis ne s’oppose pas à la confiance en Allah.",
+        "ar": "الأخذ بالأسباب المباحة لا ينافي التوكل على الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "90-93",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "true_false_flip"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.05",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission cœur",
+      "prompt": {
+        "fr": "Le Tawakkul se trouve principalement : dans le cœur ou dans les chaussures ?"
+      },
+      "answer": {
+        "fr": "Dans le cœur."
+      },
+      "explanation": {
+        "fr": "La confiance en Allah est une adoration du cœur.",
+        "ar": "التوكل عبادة قلبية."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "89-94",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "heart_pulse"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.06",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le coffre de l’espoir",
+      "prompt": {
+        "fr": "Tu fais une bonne action et tu espères qu’Allah te récompense. Cette espérance est- elle une adoration du cœur ?"
+      },
+      "answer": {
+        "fr": "Oui."
+      },
+      "explanation": {
+        "fr": "Espérer la récompense et la miséricorde d’Allah fait partie de l’espoir que le croyant place en son Seigneur.",
+        "ar": "رجاء ثواب الله ورحمته من عبادات القلب."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "87-88",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "chest_open"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.07",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Trouve l’intrus",
+      "prompt": {
+        "fr": "Laquelle ne correspond pas à une adoration du cœur : espérer Allah, craindre Allah, placer sa confiance en Allah, faire rebondir un ballon ?"
+      },
+      "answer": {
+        "fr": "Faire rebondir un ballon."
+      },
+      "explanation": {
+        "fr": "L’espoir, la peur et la confiance font partie des adorations du cœur.",
+        "ar": "الرجاء والخوف والتوكل من عبادات القلب."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "80-93",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "intruder_cards"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.08",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission courage",
+      "prompt": {
+        "fr": "Un chien agressif court vers toi et tu as peur. Est-ce forcément une mauvaise peur ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Avoir peur d’un danger réel est une peur naturelle.",
+        "ar": "الخوف من خطر حقيقي خوف طبيعي جائز."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "84-86",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "alert_pulse"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.09",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte détective",
+      "prompt": {
+        "fr": "Deux enfants ont peur : Maryam a peur d’un incendie ; Yacine croit qu’un mort peut lui nuire de manière invisible par lui-même. Lequel correspond à une peur naturelle ?"
+      },
+      "answer": {
+        "fr": "La peur de Maryam."
+      },
+      "explanation": {
+        "fr": "La peur d’un danger réel comme le feu est naturelle. Toutes les formes de peur ne sont pas identiques.",
+        "ar": "الخوف من النار ونحوها خوف طبيعي، وليست جميع أنواع الخوف سواء."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "82-86",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "detective_scan"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.10",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le retour secret",
+      "prompt": {
+        "fr": "Tu as fait une erreur, tu la regrettes et ton cœur revient vers Allah. Quel est le meilleur mot : Inâbah ou sommeil ?"
+      },
+      "answer": {
+        "fr": "Inâbah."
+      },
+      "explanation": {
+        "fr": "L’Inâbah signifie revenir vers Allah avec le cœur et se tourner vers Lui.",
+        "ar": "الإنابة هي رجوع القلب إلى الله والتوجه إليه."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "99-101",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "return_arrow"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.11",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission retour",
+      "prompt": {
+        "fr": "Après avoir désobéi, quelle attitude est meilleure : continuer sans se soucier de rien, ou revenir vers Allah et chercher à se corriger ?"
+      },
+      "answer": {
+        "fr": "Revenir vers Allah et chercher à se corriger."
+      },
+      "explanation": {
+        "fr": "Le croyant revient vers Allah et ne persiste pas volontairement dans l’éloignement.",
+        "ar": "المؤمن يرجع إلى الله ويتوب إليه ولا يصر على البعد عنه."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "99-101",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "return_arrow"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.12",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte secours",
+      "prompt": {
+        "fr": "Tu es dans une difficulté et tu demandes à Allah de t’aider. Comment appelle-t-on cela : demander l’aide d’Allah ou abandonner ?"
+      },
+      "answer": {
+        "fr": "Demander l’aide d’Allah."
+      },
+      "explanation": {
+        "fr": "Demander l’aide d’Allah fait partie des adorations qui doivent Lui être consacrées.",
+        "ar": "الاستعانة بالله من العبادات التي تكون لله سبحانه."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "102-106",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "sos_ripple"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.13",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Situation express",
+      "prompt": {
+        "fr": "Ton sac est trop lourd et ton frère est juste à côté de toi. Peut-il t’aider à le porter ?"
+      },
+      "answer": {
+        "fr": "Oui."
+      },
+      "explanation": {
+        "fr": "On peut demander à une personne présente et capable une aide qu’elle peut réellement fournir.",
+        "ar": "يجوز طلب المساعدة من الإنسان الحاضر القادر فيما يقدر عليه."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "108",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "scenario_spotlight"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.14",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Attention au piège",
+      "prompt": {
+        "fr": "Tu demandes à quelqu’un une chose que seul Allah peut accomplir. Est-ce la même chose que demander à ton frère de porter une chaise ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Il faut distinguer ce qu’une créature est réellement capable de faire de ce qui appartient uniquement à Allah.",
+        "ar": "هناك فرق بين ما يقدر عليه المخلوق وبين ما لا يقدر عليه إلا الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "102-108",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "trap_shake"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.15",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Bouclier invisible",
+      "prompt": {
+        "fr": "Quand tu dis « Aʿūdhu billāhi mina sh-shayṭāni r-rajīm », que demandes-tu : la protection d’Allah ou de la nourriture ?"
+      },
+      "answer": {
+        "fr": "La protection d’Allah."
+      },
+      "explanation": {
+        "fr": "Al-Istiʿâdhah signifie chercher refuge et protection auprès d’Allah.",
+        "ar": "الاستعاذة هي طلب العوذ والحماية والاعتصام بالله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "107-108",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "shield_glow"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.16",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Complète le bouclier",
+      "prompt": {
+        "fr": "« Je cherche refuge auprès de ______ contre le mal. »"
+      },
+      "answer": {
+        "fr": "Allah."
+      },
+      "explanation": {
+        "fr": "Pour les choses qui relèvent de Sa puissance exclusive, le croyant cherche refuge auprès d’Allah.",
+        "ar": "يستعيذ المؤمن بالله ويلجأ إليه من الشرور."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "107-108",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "shield_glow"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.17",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui suis-je ?",
+      "prompt": {
+        "fr": "Je suis dans le cœur. Je fais que tu retournes vers Allah après t’être éloigné. Je commence par I."
+      },
+      "answer": {
+        "fr": "L’Inâbah."
+      },
+      "explanation": {
+        "fr": "L’Inâbah est le retour du cœur vers Allah.",
+        "ar": "الإنابة رجوع القلب إلى الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "99-101",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "word_mystery"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.18",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les trois portes",
+      "prompt": {
+        "fr": "Associe : 1) « J’espère la récompense d’Allah » ; 2) « Je compte sur Allah après avoir fait ce que je peux » ; 3) « Je cherche protection auprès d’Allah » avec Rajâ’, Tawakkul, Istiʿâdhah."
+      },
+      "answer": {
+        "fr": "1=Rajâ’, 2=Tawakkul, 3=Istiʿâdhah."
+      },
+      "explanation": {
+        "fr": "L’espoir, la confiance et la recherche de protection sont des adorations différentes du cœur.",
+        "ar": "الرجاء والتوكل والاستعاذة عبادات مختلفة، وكلها تكون لله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "87-93, 107-108",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "three_doors"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.19",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Duel des choix",
+      "prompt": {
+        "fr": "Yacine veut réussir un examen. Plan A : il ne révise pas et dit « Allah m’aidera ». Plan B : il révise, demande l’aide d’Allah et place sa confiance en Lui. Quel plan correspond le mieux au Tawakkul ?"
+      },
+      "answer": {
+        "fr": "Plan B."
+      },
+      "explanation": {
+        "fr": "La confiance en Allah n’est pas une excuse pour abandonner les moyens utiles.",
+        "ar": "التوكل على الله لا يعني ترك الأسباب النافعة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "89-93",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "duel_vs"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l3.20",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Le coffre du cœur",
+      "prompt": {
+        "fr": "Kounouzi ouvre quatre coffres : Espoir - Confiance - Retour vers Allah - Recherche de protection. À qui doivent être consacrées ces adorations ?"
+      },
+      "answer": {
+        "fr": "À Allah."
+      },
+      "explanation": {
+        "fr": "Le cœur adore Allah par de nombreuses actions : il espère en Lui, place sa confiance en Lui, revient vers Lui et cherche Sa protection.",
+        "ar": "يعبد القلب الله بالرجاء والتوكل والإنابة والاستعاذة وغيرها من عبادات القلب."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "87-108",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "boss_chest"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.01",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission parachute",
+      "prompt": {
+        "fr": "Yacine veut réussir quelque chose. Il fait tout ce qui est raisonnablement possible, puis son cœur s’en remet à Allah. Quel mot correspond : Tawakkul ou abandon ?"
+      },
+      "answer": {
+        "fr": "Tawakkul."
+      },
+      "explanation": {
+        "fr": "Le Tawakkul consiste à s’en remettre à Allah tout en utilisant les moyens permis.",
+        "ar": "التوكل هو اعتماد القلب على الله مع الأخذ بالأسباب المباحة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "89-93",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "parachute_land"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.02",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le coffre à trois étages",
+      "prompt": {
+        "fr": "Kounouzi possède trois étages : Islam - Îmân - Ihsân. Que représentent-ils : trois niveaux de la religion ou trois prières ?"
+      },
+      "answer": {
+        "fr": "Trois niveaux de la religion."
+      },
+      "explanation": {
+        "fr": "La religion comporte trois degrés : l’Islam, l’Îmân et l’Ihsân.",
+        "ar": "مراتب الدين ثلاث: الإسلام والإيمان والإحسان."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "132-133",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "three_levels"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.03",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le lion arrive !",
+      "prompt": {
+        "fr": "Un lion court vers toi et tu as peur. Cette peur signifie-t-elle automatiquement que tu as commis une faute religieuse ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Il existe une peur naturelle face aux dangers réels.",
+        "ar": "يوجد خوف طبيعي من الأخطار الحقيقية، وهو جائز."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "84-86",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "lion_alert"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.04",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Coffre à cinq clés",
+      "prompt": {
+        "fr": "Combien l’Islam possède-t-il de piliers : 3, 5 ou 8 ?"
+      },
+      "answer": {
+        "fr": "5."
+      },
+      "explanation": {
+        "fr": "Les cinq piliers sont les deux attestations, la prière, la zakât, le jeûne de Ramadan et le Hajj.",
+        "ar": "أركان الإسلام خمسة: الشهادتان، والصلاة، والزكاة، وصوم رمضان، وحج البيت."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "134",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "five_keys"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.05",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La flèche retour",
+      "prompt": {
+        "fr": "Tu t’éloignes, puis ton cœur revient sincèrement vers Allah. Quel mot correspond : Inâbah ou Ghaflah ?"
+      },
+      "answer": {
+        "fr": "Inâbah."
+      },
+      "explanation": {
+        "fr": "L’Inâbah est le retour du cœur vers Allah.",
+        "ar": "الإنابة هي رجوع القلب إلى الله والتوجه إليه."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "99-101",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "return_arrow"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.06",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission Messager ﷺ",
+      "prompt": {
+        "fr": "Allah ordonne quelque chose par l’intermédiaire de Son Messager ﷺ. Quelle attitude correspond à la croyance qu’il est le Messager d’Allah : lui obéir ou l’ignorer systématiquement ?"
+      },
+      "answer": {
+        "fr": "Lui obéir."
+      },
+      "explanation": {
+        "fr": "Attester que Muhammad ﷺ est le Messager d’Allah implique de lui obéir dans ce qu’il a ordonné.",
+        "ar": "من معنى شهادة أن محمدًا رسول الله طاعته فيما أمر."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "146-150",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "messenger_path"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.07",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Bouclier activé",
+      "prompt": {
+        "fr": "Quand tu dis « Aʿūdhu billāhi mina sh-shayṭāni r-rajīm », que cherches-tu : la protection d’Allah ou une récompense d’un joueur ?"
+      },
+      "answer": {
+        "fr": "La protection d’Allah."
+      },
+      "explanation": {
+        "fr": "Al-Istiʿâdhah consiste à chercher refuge et protection auprès d’Allah.",
+        "ar": "الاستعاذة هي طلب العوذ والحماية والاعتصام بالله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "107-108",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "shield_glow"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.08",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Défi des six",
+      "prompt": {
+        "fr": "Peux-tu citer au moins quatre des six piliers de l’Îmân ?"
+      },
+      "answer": {
+        "fr": "Croire en Allah, Ses anges, Ses livres, Ses messagers, au Jour dernier et au destin, bon ou mauvais."
+      },
+      "explanation": {
+        "fr": "L’Îmân repose sur six grands piliers.",
+        "ar": "أركان الإيمان ستة: الإيمان بالله وملائكته وكتبه ورسله واليوم الآخر والقدر خيره وشره."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "133",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "six_seals"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.09",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La carte du sacrifice",
+      "prompt": {
+        "fr": "Un sacrifice est accompli comme acte religieux de rapprochement et d’adoration. À qui doit-il être consacré ?"
+      },
+      "answer": {
+        "fr": "À Allah seul."
+      },
+      "explanation": {
+        "fr": "Le sacrifice qui constitue une adoration doit être consacré uniquement à Allah.",
+        "ar": "الذبح الذي هو عبادة يجب أن يكون لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "114-119",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "sacrifice_seal"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.10",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Code secret de la Shahâdah",
+      "prompt": {
+        "fr": "Que signifie « Lâ ilâha illa Allah » : personne n’existe sauf Allah, ou nul ne mérite véritablement l’adoration sauf Allah ?"
+      },
+      "answer": {
+        "fr": "Nul ne mérite véritablement l’adoration sauf Allah."
+      },
+      "explanation": {
+        "fr": "L’attestation nie que l’adoration soit due à autre qu’Allah et l’affirme exclusivement pour Lui.",
+        "ar": "معنى لا إله إلا الله: لا معبود بحق إلا الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "134-143",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "code_unlock"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.11",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "SOS",
+      "prompt": {
+        "fr": "Une personne se trouve dans une grande difficulté et appelle au secours. Comment appelle-t-on la demande de secours : Istighâthah ou Zakât ?"
+      },
+      "answer": {
+        "fr": "Istighâthah."
+      },
+      "explanation": {
+        "fr": "Al-Istighâthah est une demande de secours face à une difficulté.",
+        "ar": "الاستغاثة هي طلب الغوث عند الشدة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "109-113",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "sos_ripple"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.12",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Personne ne regarde...",
+      "prompt": {
+        "fr": "Tu es seul. Personne autour de toi ne voit ce que tu fais, mais tu te rappelles qu’Allah te voit. Quelle notion cela rappelle-t-il : Ihsân ou commerce ?"
+      },
+      "answer": {
+        "fr": "Ihsân."
+      },
+      "explanation": {
+        "fr": "L’Ihsân est lié au fait d’adorer Allah avec la conscience qu’Il nous observe.",
+        "ar": "الإحسان مقام مراقبة الله سبحانه وتعالى."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "133",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "eye_watch"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.13",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Engagement verrouillé",
+      "prompt": {
+        "fr": "Quelqu’un s’impose une adoration par un engagement religieux. Comment s’appelle cet engagement ?"
+      },
+      "answer": {
+        "fr": "Un Nadhr, un vœu religieux."
+      },
+      "explanation": {
+        "fr": "Le Nadhr est un engagement par lequel une personne s’impose quelque chose.",
+        "ar": "النذر هو أن يلزم الإنسان نفسه بشيء على وجه مخصوص."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "120-124",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "lock_seal"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.14",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Triple mission du Messager ﷺ",
+      "prompt": {
+        "fr": "Laquelle ne fait pas partie de ce qu’implique l’attestation que Muhammad ﷺ est le Messager d’Allah : lui obéir, croire ce qu’il annonce, éviter ce qu’il interdit, inventer une religion différente ?"
+      },
+      "answer": {
+        "fr": "Inventer une religion différente."
+      },
+      "explanation": {
+        "fr": "Cette attestation implique notamment de lui obéir, croire ses informations et s’écarter de ce qu’il interdit.",
+        "ar": "من مقتضى شهادة أن محمدًا رسول الله طاعته فيما أمر، وتصديقه فيما أخبر، واجتناب ما نهى عنه وزجر."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "147-150",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "three_missions"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.15",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le coffre de l’espoir",
+      "prompt": {
+        "fr": "Tu accomplis une bonne action et tu espères la récompense et la miséricorde d’Allah. Quelle adoration du cœur utilises-tu ?"
+      },
+      "answer": {
+        "fr": "Ar-Rajâ’, l’espoir."
+      },
+      "explanation": {
+        "fr": "L’espoir en Allah est une adoration du cœur.",
+        "ar": "الرجاء بالله عبادة من عبادات القلب."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "87-88",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "hope_glow"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.16",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le combo Islam",
+      "prompt": {
+        "fr": "Quelle combinaison correspond le mieux à l’Islam : Tawhid + obéissance à Allah + désaveu du shirk, ou connaissance sans soumission ni obéissance ?"
+      },
+      "answer": {
+        "fr": "Tawhid + obéissance à Allah + désaveu du shirk."
+      },
+      "explanation": {
+        "fr": "L’Islam comporte la soumission à Allah par le Tawhid, l’obéissance et le désaveu du shirk.",
+        "ar": "الإسلام هو الاستسلام لله بالتوحيد والانقياد له بالطاعة والبراءة من الشرك وأهله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "125-131",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "combo_cards"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.17",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission aide",
+      "prompt": {
+        "fr": "Maryam demande à Allah de l’aider à rester ferme dans une difficulté. Quel terme correspond à la demande d’aide : Istiʿânah ou Inâbah ?"
+      },
+      "answer": {
+        "fr": "Istiʿânah."
+      },
+      "explanation": {
+        "fr": "Al-Istiʿânah signifie demander de l’aide.",
+        "ar": "الاستعانة هي طلب العون والمساعدة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "102-106",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "help_hands"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.18",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte règle du jeu",
+      "prompt": {
+        "fr": "Quelqu’un dit : « J’adore Allah, mais j’invente moi-même une nouvelle manière de L’adorer. » Est-ce conforme à ce qu’implique l’attestation que Muhammad ﷺ est le Messager d’Allah ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Cette attestation implique d’adorer Allah selon ce que le Messager ﷺ a légiféré, et non par des pratiques religieuses inventées.",
+        "ar": "من مقتضى شهادة أن محمدًا رسول الله ألا يُعبد الله إلا بما شرع."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "149-150",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "rule_stamp"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.19",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Duel Tawhid",
+      "prompt": {
+        "fr": "Deux phrases apparaissent : A) « Allah est mon Seigneur mais je donne une adoration à autre que Lui. » B) « Allah est mon Seigneur et je Lui consacre mon adoration. » Laquelle correspond au Tawhid ?"
+      },
+      "answer": {
+        "fr": "B."
+      },
+      "explanation": {
+        "fr": "Reconnaître Allah comme Seigneur doit s’accompagner du fait de Lui réserver l’adoration.",
+        "ar": "توحيد الله يقتضي إفراده بالعبادة وعدم صرفها لغيره."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "134-143",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "duel_vs"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l4.20",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Les trois étages",
+      "prompt": {
+        "fr": "Kounouzi ouvre trois portes : ISLAM - ÎMÂN - IHSÂN. Associe : 1) les cinq piliers ; 2) les six piliers de la croyance ; 3) la surveillance d’Allah dans l’adoration."
+      },
+      "answer": {
+        "fr": "1=Islam, 2=Îmân, 3=Ihsân."
+      },
+      "explanation": {
+        "fr": "Ces trois niveaux permettent de distinguer les grandes dimensions de la religion.",
+        "ar": "مراتب الدين ثلاث: الإسلام والإيمان والإحسان، ولكل مرتبة ما يميزها."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "132-134",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "boss_three_levels"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.01",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Double verrou",
+      "prompt": {
+        "fr": "Une personne reconnaît qu’Allah est le Créateur, mais elle dirige une adoration vers autre que Lui. A-t-elle réalisé complètement le Tawhid demandé ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Reconnaître la Seigneurie d’Allah ne suffit pas si l’adoration n’est pas également consacrée à Lui seul.",
+        "ar": "الإقرار بربوبية الله لا يكفي حتى يُفرد الله بالعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "136-143",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "double_lock"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.02",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le code « Lâ ilâha illa Allah »",
+      "prompt": {
+        "fr": "Quelle formule est la plus précise : « Il n’existe rien sauf Allah » ou « Nul ne mérite véritablement d’être adoré sauf Allah » ?"
+      },
+      "answer": {
+        "fr": "Nul ne mérite véritablement d’être adoré sauf Allah."
+      },
+      "explanation": {
+        "fr": "La Shahâdah nie le droit à l’adoration pour tout autre qu’Allah et l’affirme pour Allah seul.",
+        "ar": "لا إله إلا الله تنفي استحقاق العبادة عما سوى الله وتثبتها لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "134-141",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "code_unlock"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.03",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission médecine",
+      "prompt": {
+        "fr": "Tu prends un traitement prescrit, mais ton cœur sait que le médicament n’agit que par la permission d’Allah. Quelle attitude est correcte ?"
+      },
+      "answer": {
+        "fr": "Prendre le moyen tout en plaçant sa confiance en Allah."
+      },
+      "explanation": {
+        "fr": "Les moyens permis sont utilisés, mais ils ne deviennent pas l’objet de la confiance du cœur.",
+        "ar": "يؤخذ بالسبب المباح مع اعتماد القلب على الله سبحانه."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "89-93",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "medicine_path"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.04",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Trois marches",
+      "prompt": {
+        "fr": "Classe du premier au plus élevé : Ihsân - Islam - Îmân."
+      },
+      "answer": {
+        "fr": "Islam - Îmân - Ihsân."
+      },
+      "explanation": {
+        "fr": "La religion comporte trois degrés : Islam, Îmân puis Ihsân.",
+        "ar": "مراتب الدين ثلاث: الإسلام ثم الإيمان ثم الإحسان."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "132-133",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "three_levels"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.05",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Détecteur d’intention",
+      "prompt": {
+        "fr": "Deux personnes accomplissent extérieurement la même adoration. L’une cherche Allah, l’autre cherche uniquement l’admiration des gens. Leurs actes sont-ils identiques du point de vue de l’intention ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Les actes visibles peuvent être identiques alors que les intentions du cœur diffèrent.",
+        "ar": "قد تتشابه الأعمال الظاهرة وتختلف مقاصد القلوب ونياتها."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "69-79",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "intention_scan"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.06",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission Messager ﷺ",
+      "prompt": {
+        "fr": "Complète : attester que Muhammad ﷺ est le Messager d’Allah implique de lui ______ dans ce qu’il ordonne, le ______ dans ce qu’il annonce, éviter ce qu’il ______, et adorer Allah uniquement selon ce qu’il a ______."
+      },
+      "answer": {
+        "fr": "obéir - croire - interdit - légiféré."
+      },
+      "explanation": {
+        "fr": "L’attestation entraîne des conséquences dans l’obéissance et l’adoration.",
+        "ar": "شهادة أن محمدًا رسول الله تقتضي طاعته وتصديقه واجتناب نهيه وألا يُعبد الله إلا بما شرع."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "147-150",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "four_slots"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.07",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte frontière",
+      "prompt": {
+        "fr": "Quelqu’un demande à une personne vivante, présente et capable : « Aide-moi à pousser cette voiture. » Est-ce équivalent à lui demander une chose que seule la puissance d’Allah peut accomplir ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Il faut distinguer l’aide ordinaire qu’une créature peut fournir de ce qui relève exclusivement de la puissance d’Allah.",
+        "ar": "ق بين ما يقدر عليه المخلوق وبين ما لا يقدر عليه إلا الله. َّ فر ُ ي"
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "102-113",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "boundary_line"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.08",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les six sceaux",
+      "prompt": {
+        "fr": "Kounouzi efface deux intrus : Allah - anges - livres - messagers - Jour dernier - destin - commerce - voyage. Quels sont les deux intrus ?"
+      },
+      "answer": {
+        "fr": "Commerce et voyage."
+      },
+      "explanation": {
+        "fr": "Les six autres correspondent aux piliers de l’Îmân.",
+        "ar": "أركان الإيمان ستة: بالله وملائكته وكتبه ورسله واليوم الآخر والقدر."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "133",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "six_seals"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.09",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Tribunal des moyens",
+      "prompt": {
+        "fr": "Quelle affirmation est correcte : A) « J’utilise le moyen et je crois qu’il agit indépendamment d’Allah. » B) « J’utilise le moyen permis tout en sachant que le résultat dépend d’Allah. »"
+      },
+      "answer": {
+        "fr": "B."
+      },
+      "explanation": {
+        "fr": "Le moyen reste un moyen ; le croyant ne lui attribue pas une indépendance dans le résultat.",
+        "ar": "السبب سبب، ولا يستقل بالتأثير، بل الأمر كله لله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "89-93",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "judge_scale"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.10",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le miroir de l’Ihsân",
+      "prompt": {
+        "fr": "Personne ne voit ton acte. Qu’est-ce qui doit néanmoins influencer ton comportement ?"
+      },
+      "answer": {
+        "fr": "Le fait de savoir qu’Allah nous voit."
+      },
+      "explanation": {
+        "fr": "L’Ihsân développe la conscience de la surveillance d’Allah même lorsque les créatures ne nous voient pas.",
+        "ar": "الإحسان يورث مراقبة الله واستحضار اطلاعه على العبد."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "133",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "mirror_glow"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.11",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Piège du sacrifice",
+      "prompt": {
+        "fr": "Deux personnes égorgent chacune un animal. Pour l’une, c’est simplement pour manger. Pour l’autre, c’est un acte religieux de sacrifice. S’agit-il nécessairement du même acte du point de vue religieux ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "L’intention et la nature de l’acte permettent de distinguer un simple égorgement d’un sacrifice accompli comme adoration.",
+        "ar": "يختلف الذبح العادي عن الذبح التعبدي بالقصد والمعنى القائم بالقلب."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "114-119",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "trap_shake"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.12",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le mot caché",
+      "prompt": {
+        "fr": "Je réunis : soumission à Allah par le Tawhid ; obéissance ; désaveu du shirk. Qui suis- je ?"
+      },
+      "answer": {
+        "fr": "L’Islam."
+      },
+      "explanation": {
+        "fr": "Ces trois éléments font partie de la définition de l’Islam.",
+        "ar": "الإسلام هو الاستسلام لله بالتوحيد والانقياد له بالطاعة والبراءة من الشرك وأهله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "125-131",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "word_mystery"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.13",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission cœur + corps",
+      "prompt": {
+        "fr": "Peut-on avoir dans une même adoration une action du corps, une intention, de l’espoir et de la soumission ?"
+      },
+      "answer": {
+        "fr": "Oui."
+      },
+      "explanation": {
+        "fr": "Une adoration peut réunir des actes visibles et plusieurs actions du cœur.",
+        "ar": "قد تجتمع في العبادة أعمال ظاهرة وأعمال قلبية متعددة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "69-71, 114-118",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "heart_body_combo"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.14",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui décide ?",
+      "prompt": {
+        "fr": "Un joueur affirme : « Puisque mon intention est bonne, je peux inventer n’importe quelle nouvelle manière d’adorer Allah. » Correct ou incorrect ?"
+      },
+      "answer": {
+        "fr": "Incorrect."
+      },
+      "explanation": {
+        "fr": "La sincérité ne suffit pas : l’adoration doit également être conforme à ce que le Messager ﷺ a légiféré.",
+        "ar": "لا تكفي النية الصالحة، بل لا بد أن تكون العبادة موافقة لما شرعه الرسول ﷺ."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "149-150",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "rule_stamp"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.15",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission retour",
+      "prompt": {
+        "fr": "Quelle différence y a-t-il entre simplement regretter une erreur et faire Inâbah ?"
+      },
+      "answer": {
+        "fr": "L’Inâbah comporte le retour du cœur vers Allah."
+      },
+      "explanation": {
+        "fr": "Elle ne se limite pas à un sentiment de regret ; elle implique de revenir vers Allah et de se tourner vers Lui.",
+        "ar": "الإنابة ليست مجرد الندم، بل هي رجوع القلب إلى الله والإقبال عليه."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "99-101",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "return_arrow"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.16",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Coffre Tawhid",
+      "prompt": {
+        "fr": "Quelle combinaison est correcte : A) Allah crée, mais l’adoration peut être donnée à plusieurs ; B) Allah crée et Lui seul mérite l’adoration."
+      },
+      "answer": {
+        "fr": "B."
+      },
+      "explanation": {
+        "fr": "La reconnaissance de la Seigneurie d’Allah conduit à Lui reconnaître le droit exclusif à l’adoration.",
+        "ar": "من أقر بربوبية الله لزمه أن يفرده بالعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "136-143",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "chest_open"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.17",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le bon type de peur",
+      "prompt": {
+        "fr": "Trois situations : 1) peur d’un serpent ; 2) crainte d’Allah ; 3) peur qu’un mort lointain puisse te nuire invisiblement par lui-même. Sont-elles toutes de même nature ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Il faut distinguer la peur naturelle des peurs relevant de l’adoration et des croyances du cœur.",
+        "ar": "الخوف أنواع، والخوف الطبيعي يختلف عن خوف العبادة وما يتعلق بالقلب من اعتقاد."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "80-86",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "three_cards"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.18",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Défi Shahâdah",
+      "prompt": {
+        "fr": "Dans « Lâ ilâha illa Allah », il y a négation + affirmation. Que nie-t-on et qu’affirme-t- on ?"
+      },
+      "answer": {
+        "fr": "On nie le droit à l’adoration pour tout autre qu’Allah et on l’affirme pour Allah seul."
+      },
+      "explanation": {
+        "fr": "Le Tawhid comporte le rejet des fausses divinités et l’affirmation de l’adoration pour Allah.",
+        "ar": "تتضمن لا إله إلا الله نفي العبادة عما سوى الله وإثباتها لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "139-143",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "split_reveal"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.19",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Duel des niveaux",
+      "prompt": {
+        "fr": "Associe Islam - Îmân - Ihsân avec : A) six piliers de la croyance ; B) cinq piliers apparents ; C) surveillance d’Allah et excellence dans l’adoration."
+      },
+      "answer": {
+        "fr": "Islam=B, Îmân=A, Ihsân=C."
+      },
+      "explanation": {
+        "fr": "Cette distinction permet de mieux comprendre les trois grands degrés de la religion.",
+        "ar": "لكل مرتبة من مراتب الدين خصائصها: الإسلام والإيمان والإحسان."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "132-134",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "duel_vs"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.oussoul.l5.20",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS FINAL - Les quatre clés",
+      "prompt": {
+        "fr": "Explique en une phrase : Tawhid - Tawakkul - Ihsân - Suivre le Messager ﷺ."
+      },
+      "answer": {
+        "fr": "Tawhid : consacrer l’adoration à Allah seul. Tawakkul : s’en remettre à Allah avec les moyens permis. Ihsân : adorer Allah en sachant qu’Il nous voit. Suivre le Messager ﷺ : lui obéir, croire ce qu’il annonce et adorer Allah conformément à ce qu’il a légiféré."
+      },
+      "explanation": {
+        "fr": "Ces quatre notions réunissent une grande partie des apprentissages des niveaux précédents.",
+        "ar": "تجمع هذه المعاني أصولاًعظيمة من التوحيد والعبادة والاتباع ومراقبة الله."
+      },
+      "sources": [
+        {
+          "title": "Sharh Thalathat al-Usul",
+          "author": "Shaykh Salih Al ash-Shaykh",
+          "pages": "89-93, 132-150",
+          "file": "3oussoul.pdf"
+        }
+      ],
+      "animationKey": "boss_four_keys"
+    }
+  ]
+}

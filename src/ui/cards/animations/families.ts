@@ -1,0 +1,75 @@
+/**
+ * Familles visuelles des clés d'animation de cartes. Présentation UNIQUEMENT :
+ * aucune influence sur le jeu, aucun hasard, aucune représentation figurative.
+ * Une clé inconnue retombe sur `spark` (petit éclat sobre).
+ */
+export const ANIMATION_FAMILIES = ["chest", "versus", "shield", "flip", "intruder", "door", "levels", "arrow", "seal", "scan", "ripple", "spark"] as const;
+export type AnimationFamily = (typeof ANIMATION_FAMILIES)[number];
+
+const MAP: Readonly<Record<string, AnimationFamily>> = {
+  boss_chest: "chest",
+  chest_open: "chest",
+  hope_glow: "chest",
+  duel_vs: "versus",
+  two_sides: "versus",
+  challenge_two: "versus",
+  double_card: "versus",
+  shield_glow: "shield",
+  alert_pulse: "shield",
+  lion_alert: "shield",
+  true_false_flip: "flip",
+  false_crack: "flip",
+  split_reveal: "flip",
+  intruder_cards: "intruder",
+  trap_shake: "intruder",
+  choice_cards: "intruder",
+  three_cards: "intruder",
+  combo_cards: "intruder",
+  four_slots: "intruder",
+  door_choice: "door",
+  three_doors: "door",
+  path_choice: "door",
+  three_levels: "levels",
+  boss_three_levels: "levels",
+  three_missions: "levels",
+  three_clues: "levels",
+  six_seals: "levels",
+  five_keys: "levels",
+  boss_four_keys: "levels",
+  return_arrow: "arrow",
+  messenger_path: "arrow",
+  medicine_path: "arrow",
+  parachute_land: "arrow",
+  celestial_orbit: "arrow",
+  rule_stamp: "seal",
+  command_seal: "seal",
+  prohibition_seal: "seal",
+  sacrifice_seal: "seal",
+  lock_seal: "seal",
+  double_lock: "seal",
+  code_unlock: "seal",
+  boundary_line: "seal",
+  judge_scale: "seal",
+  balance_scale: "seal",
+  detective_scan: "scan",
+  intention_scan: "scan",
+  eye_watch: "scan",
+  mirror_glow: "scan",
+  memory_spark: "scan",
+  word_mystery: "scan",
+  sos_ripple: "ripple",
+  dua_ripple: "ripple",
+  speech_wave: "ripple",
+  heart_pulse: "ripple",
+  heart_body_combo: "ripple",
+  help_hands: "ripple",
+  scenario_spotlight: "ripple",
+  mission_flash: "spark",
+  fill_glow: "spark",
+};
+
+export function animationFamily(key: string | undefined): AnimationFamily {
+  return (key && MAP[key]) || "spark";
+}
+
+export const KNOWN_ANIMATION_KEYS: readonly string[] = Object.keys(MAP);

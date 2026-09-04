@@ -18,9 +18,12 @@ import { DEMO_CONTENT_ENABLED } from "@/config/demo";
 import bandsJson from "@/config/difficulty/bands.v1.json";
 import countriesJson from "@/content/geo/countries.demo.v1.json";
 import curatedJson from "@/content/questions/curated.v1.json";
+import oussoulJson from "@/content/questions/religion/oussoul-ath-thalatha.v1.json";
 
 const bilingual = z.object({ fr: z.string().min(1), ar: z.string().min(1) });
-const sourceSchema = z.object({ title: z.string().min(1), url: z.string().url().optional(), author: z.string().optional(), retrievedAt: z.string().optional() });
+/** Énoncé et réponse : français obligatoire, arabe facultatif (ajouté par relecture humaine). */
+const frenchFirst = z.object({ fr: z.string().min(1), ar: z.string().min(1).optional() });
+const sourceSchema = z.object({ title: z.string().min(1), url: z.string().url().optional(), author: z.string().optional(), retrievedAt: z.string().optional(), pages: z.string().optional(), file: z.string().optional() });
 
 export const categoriesSchema = z.object({
   categories: z.array(z.object({ id: z.string().min(1), label: bilingual, visualKey: z.string().min(1), requiresSource: z.boolean(), generationMode: z.enum(GENERATION_MODES), active: z.boolean() })).min(1),
@@ -56,10 +59,13 @@ export const curatedBankSchema = z.object({
       difficulty: z.number().int().min(1).max(5),
       audienceScope: z.enum(AUDIENCE_SCOPES),
       status: z.enum(CURATED_STATUSES),
-      prompt: bilingual,
-      answer: bilingual,
+      prompt: frenchFirst,
+      answer: frenchFirst,
       explanation: bilingual,
       sources: z.array(sourceSchema),
+      title: z.string().min(1).optional(),
+      animationKey: z.string().min(1).optional(),
+      ageBand: z.string().min(1).optional(),
     }),
   ),
 });
@@ -71,7 +77,10 @@ const geo = geoCatalogueSchema.parse(countriesJson);
 export const GEO_FACTS: readonly GeoFact[] = geo.facts.map((f) => ({ ...f, sources: geo.sources }));
 /** Faits réellement validés (banque réelle) : aucun pour l'instant. */
 export const VALIDATED_GEO_FACTS: readonly GeoFact[] = GEO_FACTS.filter((f) => f.status === "validated");
-export const CURATED_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(curatedJson).questions;
+/** Banque religieuse « Oussoul ath-Thalatha » : 100 cartes issues du PDF de contrôle humain, toutes `draft` jusqu'à validation explicite. */
+export const OUSSOUL_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(oussoulJson).questions;
+/** Banque curée complète : seules les questions `validated` (et sourcées si la catégorie l'exige) sont jouables. */
+export const CURATED_BANK: readonly CuratedQuestion[] = [...curatedBankSchema.parse(curatedJson).questions, ...OUSSOUL_BANK];
 const BANDS = bandsSchema.parse(bandsJson);
 
 export const categoryById = (id: string): CategoryDefinition | undefined => CATEGORIES.find((c) => c.id === id);

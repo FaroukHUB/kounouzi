@@ -27,8 +27,8 @@ describe("garde-fous de la banque curée", () => {
     expect(playabilityIssues(validReligious, undefined)).toContain("catégorie inconnue : religion");
   });
 
-  it("la banque V1 est vide pour la religion : la catégorie ne fournit rien plutôt qu'un contenu inventé", () => {
-    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(0);
+  it("aucune carte religieuse validée : la catégorie ne fournit rien plutôt qu'un contenu inventé (les 100 cartes importées restent `draft`)", () => {
+    expect(CURATED_BANK.filter((q) => q.categoryId === "religion" && q.status === "validated")).toHaveLength(0);
     const registry = contentRegistry();
     expect(registry.availableCategories("child")).not.toContain("religion");
     expect(registry.resolve({ categoryId: "religion", difficulty: 2, profileType: "child", variation: 0 })).toBeNull();

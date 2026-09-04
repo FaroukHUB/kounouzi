@@ -10,8 +10,10 @@ import type { NarrationService } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Bidi } from "@/ui/primitives/Bidi";
 import { Button } from "@/ui/primitives/Button";
+import { CELL_STYLE } from "@/ui/board/cellStyles";
 import { CardShell } from "./CardShell";
 import { LongPressButton } from "./LongPressButton";
+import { CardAnimation } from "./animations/CardAnimation";
 import { siteDisplayName } from "./MonumentCard";
 import { servedFor, type CardState } from "./cardState";
 
@@ -119,8 +121,9 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
   }
 
   return (
-    <CardShell cellType={cellType} title={title} subtitle={`${category?.label.fr ?? ""} · ${t(DEFAULT_LOCALE, "card.difficulty", { level: question.difficulty })}`} testId="question-card">
+    <CardShell cellType={cellType} title={title} subtitle={`${category?.label.fr ?? ""} · ${t(DEFAULT_LOCALE, "card.difficulty", { level: question.difficulty })}${question.title ? ` · ${question.title}` : ""}`} testId="question-card">
       {intro}
+      {step === "question" && question.animationKey ? <CardAnimation animationKey={question.animationKey} reduced={reduced} accent={CELL_STYLE[cellType].accent} /> : null}
       <p className="text-[clamp(1.25rem,3vw,1.75rem)] font-bold leading-snug" data-testid="question-prompt">
         {question.prompt.fr}
       </p>

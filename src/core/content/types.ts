@@ -21,12 +21,22 @@ export interface CategoryDefinition {
   readonly active: boolean;
 }
 
+/** Texte dont seule la version française est garantie (énoncé, réponse) ; l'arabe est ajouté par relecture. */
+export interface FrenchFirst {
+  readonly fr: string;
+  readonly ar?: string | undefined;
+}
+
 /** Source consultable par le parent. Jamais inventée ; l'URL peut être absente, jamais fictive. */
 export interface SourceRef {
   readonly title: string;
   readonly url?: string | undefined;
   readonly author?: string | undefined;
   readonly retrievedAt?: string | undefined;
+  /** Pages de l'ouvrage (banques issues d'un livre). */
+  readonly pages?: string | undefined;
+  /** Fichier source de travail (contrôle humain), jamais affiché aux enfants. */
+  readonly file?: string | undefined;
 }
 
 /**
@@ -75,11 +85,16 @@ export interface QuestionInstance {
   readonly knowledgeNodeId: string;
   readonly difficulty: number;
   readonly audienceScope: AudienceScope;
-  readonly prompt: Bilingual;
-  readonly answer: Bilingual;
+  readonly prompt: FrenchFirst;
+  readonly answer: FrenchFirst;
+  /** Explication FR ET AR obligatoires (ADR 0004). */
   readonly explanation: Bilingual;
   readonly sources: readonly SourceRef[];
   readonly review: LinguisticReview;
+  /** Habillage de la carte (« Mission éclair », « Vrai ou faux ? »…) : présentation seulement. */
+  readonly title?: string | undefined;
+  /** Clé d'animation de présentation : jamais lue par les moteurs, aucune influence sur le jeu. */
+  readonly animationKey?: string | undefined;
 }
 
 /**
@@ -135,8 +150,12 @@ export interface CuratedQuestion {
   readonly difficulty: number;
   readonly audienceScope: AudienceScope;
   readonly status: CuratedStatus;
-  readonly prompt: Bilingual;
-  readonly answer: Bilingual;
+  readonly prompt: FrenchFirst;
+  readonly answer: FrenchFirst;
   readonly explanation: Bilingual;
   readonly sources: readonly SourceRef[];
+  readonly title?: string | undefined;
+  readonly animationKey?: string | undefined;
+  /** Tranche d'âge indicative de la banque (« 5-8 »), information de contrôle. */
+  readonly ageBand?: string | undefined;
 }
