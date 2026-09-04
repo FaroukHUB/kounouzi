@@ -1,0 +1,786 @@
+{
+  "$comment": "Banque religieuse importée depuis le PDF de contrôle humain (source de fond : Wa Ja'a Shahr Ramadan, Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr). TOUTES les cartes sont `draft` tant qu'elles ne sont pas explicitement passées à `validated` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code.",
+  "version": 1,
+  "work": "Wa Ja'a Shahr Ramadan",
+  "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+  "publisher": "Dar al-Fadhila, 2014",
+  "category": "religion.ramadan",
+  "questions": [
+    {
+      "id": "REL-RAM-ARB-L1-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l1.01",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Ramadan est un mois béni."
+      },
+      "answer": {
+        "fr": "Vrai."
+      },
+      "explanation": {
+        "fr": "Le Prophète ﷺ a décrit Ramadan comme un mois béni.",
+        "ar": "شهر رمضان شهر مبارك."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "16",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "true_false_flip"
+    },
+    {
+      "id": "REL-RAM-ARB-L1-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l1.02",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les portes surprises",
+      "prompt": {
+        "fr": "Quand Ramadan arrive, que se passe-t-il ? A. Les portes du Paradis s’ouvrent B. Toutes les portes se ferment"
+      },
+      "answer": {
+        "fr": "A. Les portes du Paradis s’ouvrent."
+      },
+      "explanation": {
+        "fr": "Ramadan est une grande occasion de faire le bien.",
+        "ar": "في رمضان تُفتح أبواب الجنة وهو موسم عظيم للخير."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "11, 16",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "door_choice"
+    },
+    {
+      "id": "REL-RAM-ARB-L1-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l1.03",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission jeûne",
+      "prompt": {
+        "fr": "Pendant la journée de jeûne, de quoi s’abstient-on ? A. Manger et boire B. Respirer"
+      },
+      "answer": {
+        "fr": "A. Manger et boire."
+      },
+      "explanation": {
+        "fr": "Pendant le jeûne, le musulman s’abstient notamment de manger et de boire du fajr jusqu’au coucher du soleil.",
+        "ar": "يمتنع الصائم عن الطعام والشراب من طلوع الفجر إلى غروب الشمس."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "26-27",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "mission_flash"
+    },
+    {
+      "id": "REL-RAM-ARB-L1-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l1.04",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le livre du mois",
+      "prompt": {
+        "fr": "Quel livre a été descendu durant le mois de Ramadan ?"
+      },
+      "answer": {
+        "fr": "Le Coran."
+      },
+      "explanation": {
+        "fr": "Ramadan est le mois durant lequel le Coran a été descendu.",
+        "ar": "شهر رمضان هو الشهر الذي أُنزل فيه القرآن."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "32",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "book_reveal"
+    },
+    {
+      "id": "REL-RAM-ARB-L1-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l1.05",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Après Ramadan...",
+      "prompt": {
+        "fr": "Yacine prie pendant Ramadan. Ramadan se termine. Que doit-il faire ? A. Continuer à prier B. Arrêter jusqu’au prochain Ramadan"
+      },
+      "answer": {
+        "fr": "A. Continuer à prier."
+      },
+      "explanation": {
+        "fr": "L’adoration d’Allah ne s’arrête pas lorsque Ramadan se termine.",
+        "ar": "المسلم يستمر على طاعة الله بعد رمضان."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "28-30",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "path_continue"
+    },
+    {
+      "id": "REL-RAM-ARB-L2-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l2.01",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Trouve l’intrus",
+      "prompt": {
+        "fr": "Ramadan nous entraîne à patienter : A. Dans l’obéissance à Allah B. Pour éviter les péchés C. Face à ce qu’Allah décrète D. Pour gagner à un jeu vidéo"
+      },
+      "answer": {
+        "fr": "D. Pour gagner à un jeu vidéo."
+      },
+      "explanation": {
+        "fr": "Le mois de Ramadan est une école de patience dans plusieurs domaines.",
+        "ar": "رمضان موسم للصبر على الطاعة وعن المعصية وعلى أقدار الله."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "14",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "intruder_cards"
+    },
+    {
+      "id": "REL-RAM-ARB-L2-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l2.02",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les deux joies",
+      "prompt": {
+        "fr": "Le jeûneur possède deux joies. L’une arrive lorsqu’il... A. Rompt son jeûne B. Perd son goûter"
+      },
+      "answer": {
+        "fr": "A. Lorsqu’il rompt son jeûne."
+      },
+      "explanation": {
+        "fr": "Le jeûneur se réjouit lors de la rupture du jeûne et lorsqu’il rencontrera son Seigneur.",
+        "ar": "للصائم فرحتان: فرحة عند فطره وفرحة عند لقاء ربه."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "24",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "two_reveals"
+    },
+    {
+      "id": "REL-RAM-ARB-L2-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l2.03",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission intention",
+      "prompt": {
+        "fr": "Maryam jeûne uniquement parce que tout le monde autour d’elle jeûne. Yacine jeûne parce qu’il croit en Allah et espère Sa récompense. Quelle intention est meilleure ?"
+      },
+      "answer": {
+        "fr": "Celle de Yacine."
+      },
+      "explanation": {
+        "fr": "Le musulman jeûne avec foi et en espérant la récompense d’Allah.",
+        "ar": "يصوم المسلم إيمانًا بالله واحتسابًا للأجر عنده."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "23-24",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "heart_choice"
+    },
+    {
+      "id": "REL-RAM-ARB-L2-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l2.04",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les trois clés du retour",
+      "prompt": {
+        "fr": "Après une faute, quelle combinaison correspond à une repentance sincère ? A. Regretter + arrêter + décider de ne pas recommencer B. Rire + continuer + recommencer demain"
+      },
+      "answer": {
+        "fr": "A. Regretter + arrêter + décider de ne pas recommencer."
+      },
+      "explanation": {
+        "fr": "Parmi les conditions citées : regretter le péché, l’abandonner et être décidé à ne pas y retourner.",
+        "ar": "من شروط التوبة الندم على الذنب والإقلاع عنه والعزم على عدم العودة إليه."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "21",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "three_keys"
+    },
+    {
+      "id": "REL-RAM-ARB-L2-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l2.05",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "L’école de Ramadan",
+      "prompt": {
+        "fr": "Quel est le meilleur résultat après Ramadan ? A. Reprendre exactement toutes ses mauvaises habitudes B. Continuer une partie des bonnes habitudes apprises"
+      },
+      "answer": {
+        "fr": "B. Continuer une partie des bonnes habitudes apprises."
+      },
+      "explanation": {
+        "fr": "Ramadan doit aider le musulman à progresser durablement dans l’obéissance.",
+        "ar": "ينبغي أن يخرج المسلم من رمضان وقد ازداد طاعة وتقوى."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "28-30",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "school_path"
+    },
+    {
+      "id": "REL-RAM-ARB-L3-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l3.01",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission réparation",
+      "prompt": {
+        "fr": "Tu t’es repenti d’avoir pris quelque chose appartenant à une autre personne. Une étape supplémentaire est nécessaire. Laquelle ?"
+      },
+      "answer": {
+        "fr": "Rendre son droit à la personne."
+      },
+      "explanation": {
+        "fr": "Lorsque la faute concerne les droits d’une personne, la repentance comprend aussi la restitution de son droit.",
+        "ar": "إذا تعلق الذنب بحق آدمي وجب رد الحق إلى صاحبه أو طلب المسامحة."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "21",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "repair_return"
+    },
+    {
+      "id": "REL-RAM-ARB-L3-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l3.02",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Détecteur de jeûne",
+      "prompt": {
+        "fr": "Deux personnes ne mangent pas de la journée. L’une profite aussi de Ramadan pour le Coran, le dhikr et les prières. Leur jeûne est-il forcément de même qualité ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Les jeûneurs peuvent tous s’abstenir de nourriture tout en étant très différents dans la manière de compléter leur jeûne par l’obéissance.",
+        "ar": "يتفاوت الصائمون في تكميل صيامهم بالذكر والقرآن والطاعة والمحافظة على الصلاة."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "22-23",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "detector_scan"
+    },
+    {
+      "id": "REL-RAM-ARB-L3-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l3.03",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte piège",
+      "prompt": {
+        "fr": "Jeûner signifie uniquement ne pas manger et ne pas boire. Vrai ou faux ?"
+      },
+      "answer": {
+        "fr": "Faux."
+      },
+      "explanation": {
+        "fr": "Ramadan entraîne aussi le musulman à s’éloigner des choses qu’Allah a interdites.",
+        "ar": "الصيام يربي المسلم على ترك المحرمات كما يترك الطعام والشراب."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "25-28",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "trap_shake"
+    },
+    {
+      "id": "REL-RAM-ARB-L3-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l3.04",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Duo du Coran",
+      "prompt": {
+        "fr": "Pendant Ramadan, avec quel ange le Prophète ﷺ révisait-il le Coran ?"
+      },
+      "answer": {
+        "fr": ".عليه السلام Jibrîl"
+      },
+      "explanation": {
+        "fr": "Jibrîl عليه السلام venait auprès du Prophète ﷺ durant Ramadan pour étudier le Coran avec lui.",
+        "ar": "كان جبريل عليه السلام يلقى النبي ﷺ في رمضان فيدارسه القرآن."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "32",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "two_cards_reveal"
+    },
+    {
+      "id": "REL-RAM-ARB-L3-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l3.05",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission après la sortie",
+      "prompt": {
+        "fr": "Une personne remplit la mosquée pendant Ramadan puis abandonne complètement la prière après Ramadan. Quel est le problème ?"
+      },
+      "answer": {
+        "fr": "Elle a traité l’adoration comme si elle appartenait seulement à Ramadan."
+      },
+      "explanation": {
+        "fr": "Ramadan doit nous entraîner à conserver les bonnes habitudes pendant le reste de l’année.",
+        "ar": "رب رمضان هو رب جميع الشهور، والطاعة تستمر بعد رمضان."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "28-30",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "exit_path"
+    },
+    {
+      "id": "REL-RAM-ARB-L4-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l4.01",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Défi patience",
+      "prompt": {
+        "fr": "Classe chaque situation : 1. Continuer sa prière malgré la fatigue 2. Résister à un péché 3. Accepter patiemment une difficulté qu’on ne contrôle pas"
+      },
+      "answer": {
+        "fr": "1. Patience dans l’obéissance 2. Patience face au péché 3. Patience face au décret d’Allah."
+      },
+      "explanation": {
+        "fr": "Ramadan constitue un entraînement à ces différentes formes de patience.",
+        "ar": "الصبر يكون على طاعة الله وعن معصيته وعلى أقداره سبحانه."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "14",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "three_cards_sort"
+    },
+    {
+      "id": "REL-RAM-ARB-L4-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l4.02",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission « ا",
+      "prompt": {
+        "fr": "ً ا واحتساب ً » إيمان Que signifie jeûner avec foi et en recherchant la récompense ?"
+      },
+      "answer": {
+        "fr": "Jeûner en croyant en Allah et en l’obligation du jeûne, tout en espérant Sa récompense."
+      },
+      "explanation": {
+        "fr": "L’acte n’est pas simplement une habitude familiale ou sociale.",
+        "ar": "يصوم العبد إيمانًا بالله وبفرض الصيام واحتسابًا للأجر عند الله."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "23-25",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "heart_glow"
+    },
+    {
+      "id": "REL-RAM-ARB-L4-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l4.03",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission taqwâ",
+      "prompt": {
+        "fr": "Pourquoi le jeûne peut-il entraîner à la taqwâ ?"
+      },
+      "answer": {
+        "fr": "Parce que celui qui apprend à délaisser ce qui lui est normalement permis pour Allah doit aussi apprendre à délaisser ce qu’Allah a interdit."
+      },
+      "explanation": {
+        "fr": "Le jeûne forme le croyant à surveiller ses actes et à obéir à Allah.",
+        "ar": "من ترك المباح طاعة لله في الصيام فهو أولى أن يترك ما حرمه الله عليه."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "25-28",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "shield_glow"
+    },
+    {
+      "id": "REL-RAM-ARB-L4-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l4.04",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le défi cigarette",
+      "prompt": {
+        "fr": "Quelqu’un affirme : « Je ne peux absolument pas arrêter de fumer. » Mais pendant Ramadan, il reste toute la journée sans cigarette. Quelle leçon peut-il en tirer ?"
+      },
+      "answer": {
+        "fr": "Qu’il est capable de s’en éloigner et que Ramadan peut devenir une occasion de l’abandonner définitivement."
+      },
+      "explanation": {
+        "fr": "L’ouvrage utilise cet exemple pour montrer comment Ramadan peut aider à quitter une mauvaise habitude.",
+        "ar": "من استطاع ترك التدخين نهار رمضان يستطيع أن يجاهد نفسه على تركه نهائيًا."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "30-32",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "break_chain"
+    },
+    {
+      "id": "REL-RAM-ARB-L4-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l4.05",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le piège du Ramadan uniquement",
+      "prompt": {
+        "fr": "« Je respecte mes obligations seulement pendant Ramadan. » Bonne ou mauvaise logique ?"
+      },
+      "answer": {
+        "fr": "Mauvaise logique."
+      },
+      "explanation": {
+        "fr": "Ramadan est une école pour renforcer la taqwâ, pas une période après laquelle on abandonne l’obéissance.",
+        "ar": "رمضان مدرسة للتقوى والاستمرار على الطاعة، وليس موسمًا للطاعة ثم تركها."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "28-30",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "trap_shake"
+    },
+    {
+      "id": "REL-RAM-ARB-L5-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l5.01",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Pourquoi jeûner ?",
+      "prompt": {
+        "fr": "Quel objectif majeur du jeûne est explicitement mentionné dans le Coran ?"
+      },
+      "answer": {
+        "fr": "Acquérir la taqwâ."
+      },
+      "explanation": {
+        "fr": "Le jeûne a été prescrit afin que le croyant progresse dans la crainte pieuse et l’obéissance à Allah. .﴾",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "25, 28",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "boss_chest",
+      "reviewNotes": "Explication arabe illisible à l'extraction (20 fragments) : à saisir manuellement depuis le PDF de contrôle."
+    },
+    {
+      "id": "REL-RAM-ARB-L5-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l5.02",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La vraie victoire",
+      "prompt": {
+        "fr": "Quel signe montre davantage qu’une personne a profité de Ramadan ? A. Elle a beaucoup changé pendant 30 jours puis tout abandonné B. Ramadan a laissé des traces durables dans ses habitudes et son obéissance"
+      },
+      "answer": {
+        "fr": "B. Ramadan a laissé des traces durables."
+      },
+      "explanation": {
+        "fr": "Ramadan est présenté comme une école dont les effets devraient accompagner le croyant après le mois.",
+        "ar": "ثمرة مدرسة رمضان أن يخرج المسلم منها وقد ازداد تقوى وثباتًا على الطاعة."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "28-30",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "victory_path"
+    },
+    {
+      "id": "REL-RAM-ARB-L5-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l5.03",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le coffre Ar-Rayyân",
+      "prompt": {
+        "fr": "Quelle particularité est mentionnée pour les jeûneurs au Paradis ?"
+      },
+      "answer": {
+        "fr": "Une porte appelée Ar-Rayyân leur est réservée."
+      },
+      "explanation": {
+        "fr": "Le livre rappelle également les deux joies du jeûneur : lors de son iftâr et lors de la rencontre avec son Seigneur.",
+        "ar": "للصائمين باب في الجنة يسمى الريان، وللصائم فرحتان: عند فطره وعند لقاء ربه."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "24",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "door_rayyan"
+    },
+    {
+      "id": "REL-RAM-ARB-L5-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l5.04",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission Coran",
+      "prompt": {
+        "fr": "Donne deux raisons pour lesquelles Ramadan est particulièrement lié au Coran."
+      },
+      "answer": {
+        "fr": "Le Coran a été descendu durant Ramadan ; et Jibrîl عليه السلام étudiait le Coran avec le Prophète ﷺ durant ce mois."
+      },
+      "explanation": {
+        "fr": "Cela explique l’attention particulière portée à la récitation et à l’étude du Coran pendant Ramadan.",
+        "ar": "رمضان شهر القرآن؛ أُنزل فيه القرآن وكان جبريل يدارس النبي ﷺ القرآن فيه."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "32-33",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "book_two_keys"
+    },
+    {
+      "id": "REL-RAM-ARB-L5-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.ramadan.wajaa.l5.05",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS FINAL - Repentance complète",
+      "prompt": {
+        "fr": "Une personne regrette sincèrement un péché, l’abandonne et décide de ne plus recommencer. Mais ce péché concernait l’argent d’une autre personne. Que manque-t- il ?"
+      },
+      "answer": {
+        "fr": "Rendre le droit à son propriétaire ou obtenir son pardon."
+      },
+      "explanation": {
+        "fr": "La repentance concernant les droits d’autrui nécessite également de réparer le droit lésé.",
+        "ar": "إذا تعلق الذنب بحق آدمي فلا تتم التوبة إلا برد الحق إليه أو طلب المسامحة منه."
+      },
+      "sources": [
+        {
+          "title": "Wa Ja'a Shahr Ramadan",
+          "author": "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr",
+          "pages": "21",
+          "file": "waja-a-shahr-ramadan.pdf",
+          "publisher": "Dar al-Fadhila, 2014"
+        }
+      ],
+      "animationKey": "boss_three_keys"
+    }
+  ]
+}

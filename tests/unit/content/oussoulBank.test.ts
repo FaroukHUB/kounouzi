@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, CURATED_BANK, OUSSOUL_BANK, contentRegistry } from "@/config/content";
+import { CATEGORIES, CURATED_BANK, OUSSOUL_BANK, RAMADAN_BANK, RELIGION_BANKS, contentRegistry } from "@/config/content";
 import { createContentRegistry, createCuratedProvider, isPlayable, playabilityIssues } from "@/core/content";
 import { KNOWN_ANIMATION_KEYS, animationFamily } from "@/ui/cards/animations/families";
 
@@ -36,7 +36,7 @@ describe("banque religieuse Oussoul ath-Thalatha (import, tout en brouillon)", (
     expect(playabilityIssues(OUSSOUL_BANK[0]!, religion)).toEqual(["statut draft ≠ validated"]);
     expect(contentRegistry().availableCategories("child")).not.toContain("religion");
     expect(contentRegistry().slots("child").some((s) => s.categoryId === "religion")).toBe(false);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(100);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(125);
   });
 
   it("une carte passée à `validated` par relecture devient jouable telle quelle, avec sa source et son habillage", () => {
@@ -52,12 +52,35 @@ describe("banque religieuse Oussoul ath-Thalatha (import, tout en brouillon)", (
     expect(q.prompt.ar).toBeUndefined();
   });
 
-  it("toutes les clés d'animation de la banque sont connues de la couche de présentation", () => {
-    const keys = new Set(OUSSOUL_BANK.map((q) => q.animationKey!));
+  it("toutes les clés d'animation des banques sont connues de la couche de présentation", () => {
+    const keys = new Set(RELIGION_BANKS.flatMap((b) => b.questions.map((q) => q.animationKey!)));
     for (const k of keys) expect(KNOWN_ANIMATION_KEYS, k).toContain(k);
     expect(animationFamily("boss_chest")).toBe("chest");
     expect(animationFamily("duel_vs")).toBe("versus");
     expect(animationFamily("inconnue")).toBe("spark");
     expect(animationFamily(undefined)).toBe("spark");
+  });
+});
+
+describe("banque religieuse Wa Ja'a Shahr Ramadan (import, tout en brouillon)", () => {
+  it("compte 25 cartes, 5 par niveau, toutes `draft`, sourcées avec ouvrage, auteur, éditeur et pages, bilingues", () => {
+    expect(RAMADAN_BANK).toHaveLength(25);
+    for (const level of [1, 2, 3, 4, 5]) expect(RAMADAN_BANK.filter((q) => q.difficulty === level)).toHaveLength(5);
+    expect(new Set([...RAMADAN_BANK, ...OUSSOUL_BANK].map((q) => q.id)).size).toBe(125);
+    for (const q of RAMADAN_BANK) {
+      expect(q.status, q.id).toBe("draft");
+      expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.ramadan\.wajaa\.l\d\.\d\d$/);
+      // Une seule carte a une explication arabe illisible à l'extraction : laissée vide et annotée, jamais approximée.
+      if (q.reviewNotes) expect(q.explanation.ar, q.id).toBe("");
+      else expect(/[؀-ۿ]/.test(q.explanation.ar), q.id).toBe(true);
+      expect(q.sources[0], q.id).toMatchObject({ title: "Wa Ja'a Shahr Ramadan", author: "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr", publisher: "Dar al-Fadhila, 2014", file: "waja-a-shahr-ramadan.pdf" });
+      expect(q.sources[0]!.pages, q.id).toMatch(/^\d/);
+      expect(q.prompt.fr, q.id).not.toMatch(/dans (le|ce) (livre|passage|texte)|dans la source|d'après le livre|selon le livre/i);
+      expect(isPlayable(q, religion), q.id).toBe(false);
+    }
+    expect(RAMADAN_BANK.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual(["REL-RAM-ARB-L5-01"]);
+    // Même validée par erreur, une carte sans explication arabe reste injouable.
+    const forced = { ...RAMADAN_BANK.find((q) => q.id === "REL-RAM-ARB-L5-01")!, status: "validated" as const };
+    expect(playabilityIssues(forced, religion)).toContain("explication AR manquante");
   });
 });

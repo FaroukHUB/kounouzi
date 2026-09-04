@@ -66,6 +66,24 @@ const MAP: Readonly<Record<string, AnimationFamily>> = {
   scenario_spotlight: "ripple",
   mission_flash: "spark",
   fill_glow: "spark",
+  /* ---- Wa Ja'a Shahr Ramadan ---- */
+  door_rayyan: "door",
+  three_keys: "levels",
+  boss_three_keys: "levels",
+  book_reveal: "flip",
+  book_two_keys: "flip",
+  two_reveals: "flip",
+  two_cards_reveal: "flip",
+  three_cards_sort: "intruder",
+  heart_glow: "ripple",
+  heart_choice: "ripple",
+  victory_path: "arrow",
+  school_path: "arrow",
+  path_continue: "arrow",
+  exit_path: "arrow",
+  repair_return: "arrow",
+  detector_scan: "scan",
+  break_chain: "seal",
 };
 
 export function animationFamily(key: string | undefined): AnimationFamily {

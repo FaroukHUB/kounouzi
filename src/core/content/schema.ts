@@ -12,6 +12,7 @@ export const sourceRefSchema = z.object({
   retrievedAt: z.string().optional(),
   pages: z.string().optional(),
   file: z.string().optional(),
+  publisher: z.string().optional(),
 });
 
 export const questionRefSchema: z.ZodType<QuestionRef> = z.discriminatedUnion("origin", [

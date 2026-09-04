@@ -15,6 +15,9 @@
   seules les cartes validées sont jouables. Le livre reste derrière le rideau :
   il n'est cité que comme source sous la réponse. `animationKey` et `title`
   sont de la présentation pure (aucune influence sur le jeu).
+- `questions/religion/wa-jaa-shahr-ramadan.v1.json` — banque « Wa Ja'a Shahr
+  Ramadan » (Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr, Dar al-Fadhila,
+  2014), 25 cartes en 5 niveaux, mêmes règles, toutes `draft`.
 
 Règles : explication FR **et** AR obligatoires pour toute question jouable ;
 `status = validated` obligatoire ; source primaire obligatoire si la catégorie

@@ -37,6 +37,7 @@ export interface SourceRef {
   readonly pages?: string | undefined;
   /** Fichier source de travail (contrôle humain), jamais affiché aux enfants. */
   readonly file?: string | undefined;
+  readonly publisher?: string | undefined;
 }
 
 /**
@@ -158,4 +159,6 @@ export interface CuratedQuestion {
   readonly animationKey?: string | undefined;
   /** Tranche d'âge indicative de la banque (« 5-8 »), information de contrôle. */
   readonly ageBand?: string | undefined;
+  /** Note de relecture humaine (ex. arabe à saisir) : une carte annotée reste en brouillon. */
+  readonly reviewNotes?: string | undefined;
 }

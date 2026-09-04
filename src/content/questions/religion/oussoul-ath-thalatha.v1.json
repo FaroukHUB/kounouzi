@@ -1,5 +1,5 @@
 {
-  "$comment": "Banque religieuse « Oussoul ath-Thalatha » — importée depuis le PDF de contrôle humain, source de fond : Sharh Thalathat al-Usul (Shaykh Salih Al ash-Shaykh). TOUTES les cartes sont `draft` tant qu'elles ne sont pas explicitement passées à `validated` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code.",
+  "$comment": "Banque religieuse importée depuis le PDF de contrôle humain (source de fond : Sharh Thalathat al-Usul, Shaykh Salih Al ash-Shaykh). TOUTES les cartes sont `draft` tant qu'elles ne sont pas explicitement passées à `validated` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code.",
   "version": 1,
   "work": "Sharh Thalathat al-Usul",
   "author": "Shaykh Salih Al ash-Shaykh",
@@ -2603,7 +2603,7 @@
       },
       "explanation": {
         "fr": "Il faut distinguer l’aide ordinaire qu’une créature peut fournir de ce qui relève exclusivement de la puissance d’Allah.",
-        "ar": "ق بين ما يقدر عليه المخلوق وبين ما لا يقدر عليه إلا الله. َّ فر ُ ي"
+        "ar": "يُفرَّق بين ما يقدر عليه المخلوق وبين ما لا يقدر عليه إلا الله."
       },
       "sources": [
         {

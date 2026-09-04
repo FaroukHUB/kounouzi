@@ -1,35 +1,38 @@
 #!/usr/bin/env node
 /**
- * Import de la banque religieuse « Oussoul ath-Thalatha » (PDF de contrôle
- * humain → données structurées). Entrée : le TEXTE extrait du PDF (par
- * n'importe quel outil PDF → texte), sortie : JSON versionné consommé par
- * le Content Engine. Toutes les cartes sortent en `draft` ; rien n'est
- * inventé ni complété : le script ne fait que découper et réordonner des
- * glyphes arabes coupés par l'extraction (signalés dans le rapport).
+ * Import d'une banque religieuse Kounouzi (PDF de contrôle humain → données
+ * structurées). Entrée : le TEXTE extrait du PDF (par n'importe quel outil
+ * PDF → texte), sortie : JSON versionné consommé par le Content Engine.
+ * Toutes les cartes sortent en `draft` ; rien n'est inventé ni complété : le
+ * script ne fait que découper, et réordonner des glyphes arabes coupés par
+ * l'extraction (signalés dans le rapport pour relecture).
  *
- *   node scripts/content/import-oussoul.mjs <texte.txt> <sortie.json>
+ *   node scripts/content/import-oussoul.mjs <texte.txt> <sortie.json> <nœud> [publisher]
+ *   ex. … oussoul.txt src/content/questions/religion/oussoul-ath-thalatha.v1.json religion.tawhid.oussoul
  */
 import { readFileSync, writeFileSync } from "node:fs";
 
-const [, , input, output] = process.argv;
-if (!input || !output) {
-  console.error("usage: import-oussoul.mjs <texte.txt> <sortie.json>");
+const [, , input, output, nodePrefix, publisher] = process.argv;
+if (!input || !output || !nodePrefix) {
+  console.error("usage: import-oussoul.mjs <texte.txt> <sortie.json> <nœud> [éditeur]");
   process.exit(1);
 }
 
-const SOURCE_WORK = "Sharh Thalathat al-Usul";
-const SOURCE_AUTHOR = "Shaykh Salih Al ash-Shaykh";
-const AGE_BANDS = { 1: "5-8", 2: "8-10", 3: "10-12", 4: "12-14", 5: "14+" };
 const DIACRITIC = /^[ً-ْٰ\s]+$/;
+const FOOTER = /^Kounouzi - .+ \| \d+$/;
 
 const lines = readFileSync(input, "utf8")
   .split(/\r?\n/)
   .map((l) => l.replace(/\s+$/, ""))
-  .filter((l) => l.trim() !== "" && !/^Kounouzi - Oussoul ath-Thalatha \| \d+$/.test(l));
+  .filter((l) => l.trim() !== "" && !FOOTER.test(l));
 
 const cards = [];
+const manual = [];
 const repaired = [];
 let level = 0;
+let ageBand = "";
+let work = "";
+let author = "";
 let i = 0;
 while (i < lines.length) {
   const line = lines[i];
@@ -37,6 +40,11 @@ while (i < lines.length) {
   if (lvl) {
     level = Number(lvl[1]);
     i += 1;
+    const pub = lines[i]?.match(/^Public indicatif : (.+?) - \d+ cartes?$/);
+    if (pub) {
+      ageBand = pub[1].replace(/\s*\/\s*adultes/, "").replace(/\s*ans\s*/g, "").trim();
+      i += 1;
+    }
     continue;
   }
   const head = line.match(/^(\d{1,2})\. (.+)$/);
@@ -51,57 +59,79 @@ while (i < lines.length) {
   const answerLines = [lines[i++].replace(/^Réponse :\s*/, "")];
   while (i < lines.length && !lines[i].startsWith("Explication FR :")) answerLines.push(lines[i++]);
   const explanationFr = [lines[i++].replace(/^Explication FR :\s*/, "")];
-  // Les lignes suivantes jusqu'à « Source : » : suite de l'explication FR (latin) puis explication AR (arabe).
+  // Jusqu'à « Source : » : suite de l'explication FR (latin) puis explication AR (arabe).
   const rest = [];
   while (i < lines.length && !lines[i].startsWith("Source :")) rest.push(lines[i++]);
   const arabic = rest.filter((l) => /[؀-ۿ]/.test(l));
   const frExtra = rest.filter((l) => !/[؀-ۿ]/.test(l));
-  const source = lines[i++].replace(/^Source :\s*/, "");
+  // La ligne « Source : » peut être coupée sur plusieurs lignes jusqu'à « ID : ».
+  const sourceLines = [lines[i++].replace(/^Source :\s*/, "")];
+  while (i < lines.length && !lines[i].startsWith("ID :")) sourceLines.push(lines[i++]);
+  // Une coupure de ligne au milieu d'un nom de fichier (« waja-a-shahr-⏎ramadan.pdf ») se recolle sans espace.
+  const source = sourceLines
+    .reduce((acc, l) => (acc.endsWith("-") && !acc.endsWith(" -") ? acc + l.trim() : acc + " " + l.trim()), "")
+    .replace(/\s+/g, " ")
+    .trim();
   const id = lines[i++].replace(/^ID :\s*/, "").trim();
   const animation = lines[i++].replace(/^Animation :\s*/, "").trim();
 
-  const explanationAr = joinArabic(arabic, id);
-  const pages = source.match(/pages? ([\d\s,\-]+)$/)?.[1]?.trim() ?? "";
-  const file = source.match(/fichier source (\S+)/)?.[1] ?? "";
+  const [workPart, authorPart] = source.split(" - fichier source ")[0].split(" - ");
+  work = work || workPart?.trim() || "";
+  author = author || authorPart?.trim() || "";
+  const pages = source.match(/pages? ([\d\s,\-]+)$/)?.[1]?.replace(/\s+/g, " ").trim() ?? "";
+  const file = source.match(/fichier source (\S+?)(?: - pages?|$)/)?.[1] ?? "";
+  const joined = joinArabic(arabic, id);
+
   cards.push({
     id,
     version: 1,
     categoryId: "religion",
-    knowledgeNodeId: `religion.tawhid.oussoul.l${level}.${id.slice(-2)}`,
+    knowledgeNodeId: `${nodePrefix}.l${level}.${id.slice(-2)}`,
     difficulty: level,
-    ageBand: AGE_BANDS[level],
+    ageBand,
     audienceScope: "all",
     status: "draft",
     title,
     prompt: { fr: promptLines.join(" ").replace(/\s+/g, " ").trim() },
     answer: { fr: answerLines.join(" ").replace(/\s+/g, " ").trim() },
-    explanation: { fr: [...explanationFr, ...frExtra].join(" ").replace(/\s+/g, " ").trim(), ar: explanationAr },
-    sources: [{ title: SOURCE_WORK, author: SOURCE_AUTHOR, pages, file }],
+    explanation: { fr: [...explanationFr, ...frExtra].join(" ").replace(/\s+/g, " ").trim(), ar: joined.ar },
+    sources: [{ title: workPart?.trim() ?? "", author: authorPart?.trim() ?? "", pages, file, ...(publisher ? { publisher } : {}) }],
     animationKey: animation,
+    ...(joined.note ? { reviewNotes: joined.note } : {}),
   });
 }
 
-/** Réassemble une explication arabe coupée par l'extraction autour d'un signe diacritique (ordre extrait : fin, signe, début). */
+
+/**
+ * Réassemble une explication arabe coupée par l'extraction autour de signes
+ * diacritiques : l'extracteur livre les morceaux dans l'ordre inverse
+ * (fin, signe, milieu, signe, début) ; on les recolle à l'envers. Toute autre
+ * forme (par ex. un verset entièrement vocalisé éclaté lettre par lettre)
+ * n'est PAS reconstituée : l'arabe est laissé vide et la carte est signalée
+ * pour saisie manuelle — jamais un texte religieux approximatif.
+ */
 function joinArabic(parts, id) {
-  if (parts.length === 1) return parts[0].trim();
-  if (parts.length === 3 && DIACRITIC.test(parts[1])) {
+  if (parts.length === 1) return { ar: parts[0].trim() };
+  const alternating = parts.length % 2 === 1 && parts.every((p, k) => (k % 2 === 1 ? DIACRITIC.test(p) : !DIACRITIC.test(p)));
+  if (alternating) {
     repaired.push(id);
-    return (parts[2].trim() + parts[1].trim() + parts[0].trim()).replace(/\s+/g, " ");
+    return { ar: [...parts].reverse().map((p) => p.trim()).join("").replace(/\s+/g, " ") };
   }
-  repaired.push(`${id} (forme inattendue : ${parts.length} lignes)`);
-  return parts.map((p) => p.trim()).join(" ");
+  manual.push(`${id} (${parts.length} lignes)`);
+  return { ar: "", note: `Explication arabe illisible à l'extraction (${parts.length} fragments) : à saisir manuellement depuis le PDF de contrôle.` };
 }
 
 const byLevel = cards.reduce((acc, c) => ({ ...acc, [c.difficulty]: (acc[c.difficulty] ?? 0) + 1 }), {});
 const bank = {
-  $comment:
-    "Banque religieuse « Oussoul ath-Thalatha » — importée depuis le PDF de contrôle humain, source de fond : Sharh Thalathat al-Usul (Shaykh Salih Al ash-Shaykh). TOUTES les cartes sont `draft` tant qu'elles ne sont pas explicitement passées à `validated` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code.",
+  $comment: `Banque religieuse importée depuis le PDF de contrôle humain (source de fond : ${work}, ${author}). TOUTES les cartes sont \`draft\` tant qu'elles ne sont pas explicitement passées à \`validated\` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code.`,
   version: 1,
-  work: SOURCE_WORK,
-  author: SOURCE_AUTHOR,
-  category: "religion.tawhid",
+  work,
+  author,
+  ...(publisher ? { publisher } : {}),
+  category: nodePrefix.split(".").slice(0, 2).join("."),
   questions: cards,
 };
 writeFileSync(output, JSON.stringify(bank, null, 2) + "\n");
 console.log(`cartes : ${cards.length}`, JSON.stringify(byLevel));
 console.log(`arabe réassemblé (à relire) : ${repaired.length}`, repaired.join(", "));
+console.log(`arabe à saisir manuellement : ${manual.length}`, manual.join(", "));
