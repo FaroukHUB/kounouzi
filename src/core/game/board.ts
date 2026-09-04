@@ -57,7 +57,7 @@ export function cellAt(board: ResolvedBoard, position: number): ResolvedCell {
 }
 
 export function countCellsByType(config: BoardConfig): Readonly<Record<CellType, number>> {
-  const counts = { start: 0, question: 0, heritage: 0, event: 0, management: 0, challenge: 0, solidarity: 0, treasure: 0 };
+  const counts = { start: 0, question: 0, heritage: 0, event: 0, management: 0, challenge: 0, solidarity: 0, treasure: 0, halt: 0 };
   for (const c of config.cells) counts[c.type] += 1;
   return counts;
 }

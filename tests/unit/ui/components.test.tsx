@@ -20,7 +20,8 @@ describe("composants du plateau (rendu statique)", () => {
     const html = renderToStaticMarkup(<Board board={resolved.value.board} highlightedCell={5} arrivalCell={null} previewPath={[1, 2]} pawns={null} center={<span>centre</span>} />);
     for (let i = 0; i < 32; i += 1) expect(html).toContain(`data-cell="${i}"`);
     expect(html.match(/data-type="heritage"/g)).toHaveLength(8);
-    expect(html.match(/data-type="question"/g)).toHaveLength(10);
+    expect(html.match(/data-type="question"/g)).toHaveLength(9);
+    expect(html.match(/data-type="halt"/g)).toHaveLength(1);
     expect(html).toContain("centre");
   });
 

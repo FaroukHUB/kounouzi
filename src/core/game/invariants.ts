@@ -18,7 +18,19 @@ export function checkInvariants(state: GameState): readonly string[] {
     const fromLedger = ledgerBalance(state, p.id);
     if (fromLedger !== p.money) violations.push(`${p.id} solde ${p.money} ≠ grand livre ${fromLedger}`);
     if (p.journeysTaken < 0 || p.journeysTaken > p.turnsPlayed + 1) violations.push(`${p.id} voyages (${p.journeysTaken}) incohérents avec les tours (${p.turnsPlayed})`);
+    if (p.solidarityActions < 0 || p.solidarityGiven < 0) violations.push(`${p.id} solidarité négative`);
   }
+  if (state.phase.kind === "awaiting_duel") {
+    const d = state.phase.duel;
+    if (d.challengerId === d.opponentId) violations.push("duel contre soi-même");
+    if (!state.players.some((p) => p.id === d.opponentId)) violations.push("adversaire de duel inconnu");
+    if (d.challengerId !== state.players[state.activePlayerIndex]?.id) violations.push("le défieur n'est pas le joueur actif");
+    if (d.stage === "opponent" && d.challengerOutcome === undefined) violations.push("duel : réponse du défieur manquante");
+  }
+  const transfers = state.ledger.filter((t) => t.reason === "transfer_sent" || t.reason === "transfer_received");
+  const byTransfer = new Map<string, number>();
+  for (const t of transfers) byTransfer.set(t.ref ?? "", (byTransfer.get(t.ref ?? "") ?? 0) + t.amount);
+  for (const [ref, sum] of byTransfer) if (sum !== 0) violations.push(`transfert ${ref} déséquilibré (${sum})`);
 
   const siteIds = state.holdings.map((h) => h.siteId);
   if (new Set(siteIds).size !== siteIds.length) violations.push("un site possédé deux fois");

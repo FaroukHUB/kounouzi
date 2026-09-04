@@ -8,7 +8,15 @@ export type Banner =
   | { readonly kind: "skipped"; readonly playerId: PlayerId }
   | { readonly kind: "passed_start"; readonly playerId: PlayerId; readonly amount: number }
   | { readonly kind: "last_round" }
-  | { readonly kind: "owned"; readonly ownerId: PlayerId };
+  | { readonly kind: "owned"; readonly ownerId: PlayerId }
+  | { readonly kind: "revisit" }
+  | { readonly kind: "halt_lifted"; readonly playerId: PlayerId }
+  | { readonly kind: "halt_lost"; readonly playerId: PlayerId }
+  | { readonly kind: "transfer"; readonly fromPlayerId: PlayerId; readonly toPlayerId: PlayerId; readonly amount: number; readonly contribution: boolean }
+  | { readonly kind: "shield"; readonly amount: number }
+  | { readonly kind: "investment"; readonly payout: number }
+  | { readonly kind: "saving"; readonly payout: number }
+  | { readonly kind: "cancelled" };
 
 /** Ce que le rejoueur peut faire à l'interface. Rien ici ne touche au moteur. */
 export interface AnimationActions {
@@ -39,18 +47,18 @@ export async function playEvent(event: GameEvent, actions: AnimationActions, tim
   settle(event, actions);
 }
 
+async function banner(actions: AnimationActions, b: Banner, ms: number, sleep: Sleep): Promise<void> {
+  actions.setBanner(b);
+  await sleep(ms);
+  actions.setBanner(null);
+}
+
 async function play(event: GameEvent, actions: AnimationActions, t: Timings, sleep: Sleep): Promise<void> {
   switch (event.type) {
     case "TurnStarted":
-      actions.setBanner({ kind: "turn", playerId: event.playerId });
-      await sleep(t.turnBannerMs);
-      actions.setBanner(null);
-      return;
+      return banner(actions, { kind: "turn", playerId: event.playerId }, t.turnBannerMs, sleep);
     case "TurnSkipped":
-      actions.setBanner({ kind: "skipped", playerId: event.playerId });
-      await sleep(t.skippedMs);
-      actions.setBanner(null);
-      return;
+      return banner(actions, { kind: "skipped", playerId: event.playerId }, t.skippedMs, sleep);
     case "MovementAssigned":
       actions.revealJourney(event.playerId, event.steps);
       await sleep(t.journeyRevealMs);
@@ -66,24 +74,18 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       actions.setHighlight(null);
       return;
     case "PassedStart":
-      actions.setBanner({ kind: "passed_start", playerId: event.playerId, amount: event.bonus });
-      await sleep(t.passedStartMs);
-      actions.setBanner(null);
-      return;
+      return banner(actions, { kind: "passed_start", playerId: event.playerId, amount: event.bonus }, t.passedStartMs, sleep);
     case "CellArrived":
       actions.setArrival(event.position);
       await sleep(t.arrivalMs);
       actions.setArrival(null);
       return;
     case "TimeTargetReached":
-      actions.setBanner({ kind: "last_round" });
-      await sleep(t.turnBannerMs);
-      actions.setBanner(null);
-      return;
+      return banner(actions, { kind: "last_round" }, t.turnBannerMs, sleep);
 
     // ---- cartes : ouverture sur demande du moteur, progression sur ses réponses ----
     case "QuestionRequested":
-      actions.openCard({ kind: "question", requestId: event.requestId, step: "dealt", validationMode: "collective" });
+      actions.openCard({ kind: "question", requestId: event.requestId, playerId: event.playerId, purpose: event.purpose, step: "dealt", validationMode: "collective" });
       return;
     case "PurchaseOffered":
       actions.openCard({ kind: "monument", siteId: event.siteId, price: event.price, affordable: event.affordable, step: "offer" });
@@ -97,10 +99,9 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       actions.closeCard();
       return;
     case "SiteAlreadyOwned":
-      actions.setBanner({ kind: "owned", ownerId: event.ownerId });
-      await sleep(t.passedStartMs);
-      actions.setBanner(null);
-      return;
+      return banner(actions, { kind: "owned", ownerId: event.ownerId }, t.passedStartMs, sleep);
+    case "HeritageRevisited":
+      return banner(actions, { kind: "revisit" }, t.noticeMs, sleep);
     case "AnswerRecorded":
       actions.updateCard({ step: "result", outcome: event.outcome });
       await sleep(t.resultMs);
@@ -120,6 +121,61 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
     case "ChoiceMade":
       actions.closeCard();
       return;
+
+    // ---- Duel Kounouzi : tout le monde regarde ----
+    case "DuelOffered":
+      actions.openCard({ kind: "opponent", challengerId: event.challengerId, candidates: event.candidates, step: "offer" });
+      return;
+    case "DuelStarted":
+      actions.openCard({ kind: "duel", challengerId: event.challengerId, opponentId: event.opponentId, stage: "intro" });
+      await sleep(t.duelIntroMs);
+      return;
+    case "DuelTurn":
+      actions.updateCard({ kind: "duel", stage: "turn", duelistId: event.duelistId, categoryId: event.categoryId });
+      await sleep(t.duelTurnMs);
+      return;
+    case "DuelResolved":
+      actions.openCard({
+        kind: "duel",
+        challengerId: event.challengerId,
+        opponentId: event.opponentId,
+        stage: "result",
+        categoryId: event.categoryId,
+        challengerOutcome: event.challengerOutcome,
+        opponentOutcome: event.opponentOutcome,
+        winnerId: event.winnerId,
+      });
+      await sleep(t.duelResultMs);
+      return;
+
+    // ---- Halte du voyage ----
+    case "JourneyHalted":
+      actions.openCard({ kind: "halt", playerId: event.playerId });
+      await sleep(t.haltMs);
+      actions.closeCard();
+      return;
+    case "HaltLifted":
+      return banner(actions, { kind: "halt_lifted", playerId: event.playerId }, t.noticeMs, sleep);
+    case "HaltTurnLost":
+      return banner(actions, { kind: "halt_lost", playerId: event.playerId }, t.noticeMs, sleep);
+
+    // ---- transferts, protections, décisions de gestion ----
+    case "RecipientChoiceOffered":
+      actions.openCard({ kind: "recipient", playerId: event.playerId, candidates: event.candidates, amount: event.amount, reason: event.reason, step: "offer" });
+      return;
+    case "MoneyTransferred":
+      actions.closeCard();
+      return banner(actions, { kind: "transfer", fromPlayerId: event.fromPlayerId, toPlayerId: event.toPlayerId, amount: event.amount, contribution: event.reason === "heritage_contribution" }, t.noticeMs, sleep);
+    case "PenaltyShielded":
+      return banner(actions, { kind: "shield", amount: event.amount }, t.noticeMs, sleep);
+    case "InvestmentSettled":
+      return banner(actions, { kind: "investment", payout: event.payout }, t.noticeMs, sleep);
+    case "SavingMatured":
+      return banner(actions, { kind: "saving", payout: event.payout }, t.noticeMs, sleep);
+    case "OutcomeCancelled":
+      actions.closeCard();
+      return banner(actions, { kind: "cancelled" }, t.noticeMs, sleep);
+
     case "TurnEnded":
       actions.closeCard();
       return;
@@ -146,9 +202,18 @@ function settle(event: GameEvent, actions: AnimationActions): void {
     case "PassedStart":
     case "TimeTargetReached":
     case "SiteAlreadyOwned":
+    case "HeritageRevisited":
+    case "HaltLifted":
+    case "HaltTurnLost":
+    case "MoneyTransferred":
+    case "PenaltyShielded":
+    case "InvestmentSettled":
+    case "SavingMatured":
+    case "OutcomeCancelled":
       actions.setBanner(null);
       return;
     case "ScenarioTriggered":
+    case "JourneyHalted":
     case "TurnEnded":
     case "ChoiceMade":
       actions.closeCard();
@@ -170,13 +235,12 @@ export function estimateDuration(event: GameEvent, t: Timings): number {
     case "PawnMoved":
       return t.stepMs * event.path.length;
     case "PassedStart":
+    case "SiteAlreadyOwned":
       return t.passedStartMs;
     case "CellArrived":
       return t.arrivalMs;
     case "ScenarioTriggered":
       return t.scenarioMs;
-    case "SiteAlreadyOwned":
-      return t.passedStartMs;
     case "AnswerRecorded":
       return t.resultMs;
     case "RewardGranted":
@@ -185,6 +249,23 @@ export function estimateDuration(event: GameEvent, t: Timings): number {
       return t.purchaseMs;
     case "PurchaseDeclined":
       return t.purchaseMs / 2;
+    case "DuelStarted":
+      return t.duelIntroMs;
+    case "DuelTurn":
+      return t.duelTurnMs;
+    case "DuelResolved":
+      return t.duelResultMs;
+    case "JourneyHalted":
+      return t.haltMs;
+    case "HeritageRevisited":
+    case "HaltLifted":
+    case "HaltTurnLost":
+    case "MoneyTransferred":
+    case "PenaltyShielded":
+    case "InvestmentSettled":
+    case "SavingMatured":
+    case "OutcomeCancelled":
+      return t.noticeMs;
     default:
       return 0;
   }

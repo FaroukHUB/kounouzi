@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import { categoryById } from "@/config/content";
-import type { GameState } from "@/core/game";
+import type { CellType, GameState } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
 import type { NarrationService } from "@/experience/narration";
@@ -12,7 +12,8 @@ import { Bidi } from "@/ui/primitives/Bidi";
 import { Button } from "@/ui/primitives/Button";
 import { CardShell } from "./CardShell";
 import { LongPressButton } from "./LongPressButton";
-import type { CardState } from "./cardState";
+import { siteDisplayName } from "./MonumentCard";
+import { servedFor, type CardState } from "./cardState";
 
 type QuestionCardState = Extract<CardState, { kind: "question" }>;
 
@@ -33,14 +34,38 @@ export interface QuestionCardProps {
  * (collectif, ou auto-évaluation explicite) → explication FR puis AR →
  * « connaissais-tu déjà ? » → envoi au moteur → résultat → récompense.
  */
+const PURPOSE_CELL: Record<QuestionCardState["purpose"], CellType> = { standard: "question", halt: "halt", heritage_visit: "heritage", duel: "challenge" };
+
 export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdate, onSubmit }: QuestionCardProps) {
   void profiles;
-  // La question affichée est celle FIGÉE dans l'état (`phase.served`) : reprise exacte quel que soit le contenu.
-  const question = state.phase.kind === "awaiting_answer" && state.phase.requestId === card.requestId ? (state.phase.served ?? null) : null;
-  const pendingServe = state.phase.kind === "awaiting_answer" && !state.phase.served;
+  // La question affichée est celle FIGÉE dans l'état (question simple ou tour de Duel) : reprise exacte quel que soit le contenu.
+  // Une fois la réponse envoyée, l'état réel est déjà passé à la suite : la carte garde son instantané pour le résultat et la récompense.
+  const live = servedFor(state, card.requestId);
+  const question = live.served ?? card.question ?? null;
+  const pendingServe = live.pending && !card.question;
   const category = question ? categoryById(question.categoryId) : undefined;
-  const title = category?.label.fr ?? t(DEFAULT_LOCALE, "cell.question");
+  const responder = state.players.find((p) => p.id === card.playerId)?.displayName ?? "";
+  const title = card.purpose === "duel" ? t(DEFAULT_LOCALE, "duel.yourTurn", { name: responder }) : card.purpose === "halt" ? t(DEFAULT_LOCALE, "halt.challenge") : card.purpose === "heritage_visit" ? t(DEFAULT_LOCALE, "visit.title") : (category?.label.fr ?? t(DEFAULT_LOCALE, "cell.question"));
+  const cellType = PURPOSE_CELL[card.purpose];
+  const visit = state.phase.kind === "awaiting_answer" && state.phase.purpose.kind === "heritage_visit" ? state.phase.purpose : null;
+  const ownerName = visit ? (state.players.find((p) => p.id === visit.ownerId)?.displayName ?? "") : "";
+  const contribution = state.config.rules.heritageVisit.contribution;
   const step = card.step;
+  const intro =
+    card.purpose === "heritage_visit" && visit ? (
+      <div className="rounded-2xl bg-[var(--k-sand)] px-4 py-3 text-sm" data-testid="visit-intro">
+        <p className="font-semibold">{t(DEFAULT_LOCALE, "visit.intro", { site: siteDisplayName(visit.siteId), owner: ownerName })}</p>
+        <p className="text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "visit.stake", { correct: contribution.correct, partial: contribution.partial, incorrect: contribution.incorrect })}</p>
+      </div>
+    ) : card.purpose === "halt" ? (
+      <p className="rounded-2xl bg-[var(--k-sand)] px-4 py-3 text-sm text-[var(--k-ink-soft)]" data-testid="halt-intro">
+        {t(DEFAULT_LOCALE, "halt.challenge.hint")}
+      </p>
+    ) : null;
+
+  useEffect(() => {
+    if (live.served && !card.question) onUpdate({ question: live.served });
+  }, [live.served, card.question, onUpdate]);
 
   // Narration coordonnée aux étapes (jamais bloquante pour le moteur).
   useEffect(() => {
@@ -56,9 +81,9 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
   }, [step, question, narrator, card.outcome, card.rewardAmount]);
 
   if (!question) {
-    if (pendingServe) return <CardShell cellType="question" title={title} testId="question-card"><p className="text-[var(--k-ink-soft)]">…</p></CardShell>;
+    if (pendingServe) return <CardShell cellType={cellType} title={title} testId="question-card"><p className="text-[var(--k-ink-soft)]">…</p></CardShell>;
     return (
-      <CardShell cellType="question" title={title} testId="question-card">
+      <CardShell cellType={cellType} title={title} testId="question-card">
         <p>{t(DEFAULT_LOCALE, "card.noQuestion")}</p>
         <Button variant="secondary" onClick={() => onSubmit("incorrect", "none", "collective")}>
           {t(DEFAULT_LOCALE, "card.noQuestion.skip")}
@@ -87,13 +112,15 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
       >
         <span className="text-5xl font-black">?</span>
         <span className="text-sm font-semibold uppercase tracking-widest opacity-80">{title}</span>
+        {card.purpose !== "standard" ? <span className="text-xs opacity-80">{category?.label.fr ?? ""}</span> : null}
         <span className="text-xs opacity-70">{t(DEFAULT_LOCALE, "card.touchToOpen")}</span>
       </motion.button>
     );
   }
 
   return (
-    <CardShell cellType="question" title={title} subtitle={t(DEFAULT_LOCALE, "card.difficulty", { level: question.difficulty })} testId="question-card">
+    <CardShell cellType={cellType} title={title} subtitle={`${category?.label.fr ?? ""} · ${t(DEFAULT_LOCALE, "card.difficulty", { level: question.difficulty })}`} testId="question-card">
+      {intro}
       <p className="text-[clamp(1.25rem,3vw,1.75rem)] font-bold leading-snug" data-testid="question-prompt">
         {question.prompt.fr}
       </p>

@@ -10,7 +10,7 @@ import type { GameId, PlayerId } from "@/core/shared";
 import { contentRegistry } from "@/config/content";
 import { LEARNING_CONFIG } from "@/config/learning";
 import { utteranceFor } from "@/experience/narration";
-import { resolveQuestion } from "@/experience/questionResolver";
+import { pendingRequest, resolveQuestion } from "@/experience/questionResolver";
 import { startPlayClock } from "@/experience/playClock";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { gameStore, learningStore, narrator, useGameStore, useLearningStore } from "@/state/appStores";
@@ -80,11 +80,11 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   // Distribution : dès qu'une question est demandée, le Learning Engine la choisit UNE fois (mémoire du joueur actif),
   // puis elle est figée dans l'état (ServeQuestion). Si aucune question n'existe, la carte propose « Passer » ; rien n'est inventé.
   useEffect(() => {
-    if (!state || state.phase.kind !== "awaiting_answer" || state.phase.served) return;
-    const activeId = state.players[state.activePlayerIndex]?.id;
-    if (!activeId || !loadedLearners.includes(activeId)) return;
+    if (!state) return;
+    const pending = pendingRequest(state);
+    if (!pending || !loadedLearners.includes(pending.playerId)) return;
     const question = resolveQuestion({ state, profiles, registry: contentRegistry(), memoryOf: (id) => memories[id], config: LEARNING_CONFIG, now: new Date().toISOString() });
-    if (question) gameStore.getState().dispatch({ type: "ServeQuestion", requestId: state.phase.requestId, question });
+    if (question) gameStore.getState().dispatch({ type: "ServeQuestion", requestId: pending.requestId, question });
   }, [state, profiles, memories, loadedLearners]);
 
   // Temps de jeu actif : uniquement partie visible, non en pause, en cours.
@@ -150,9 +150,11 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         profiles={profiles}
         narrator={narrator}
         reduced={reduced}
-        onSubmitAnswer={(requestId, outcome, explanationMastery, validationMode) => dispatch({ type: "SubmitAnswer", playerId: activeId, requestId, answer: { outcome, explanationMastery, validationMode } })}
+        onSubmitAnswer={(requestId, playerId, outcome, explanationMastery, validationMode) => dispatch({ type: "SubmitAnswer", playerId, requestId, answer: { outcome, explanationMastery, validationMode } })}
         onDecidePurchase={(siteId, buy) => dispatch({ type: "DecidePurchase", playerId: activeId, siteId, buy })}
         onChoose={(choiceId, optionId) => dispatch({ type: "Choose", playerId: activeId, choiceId, optionId })}
+        onChooseOpponent={(opponentId) => dispatch({ type: "ChooseOpponent", playerId: activeId, opponentId })}
+        onChooseRecipient={(recipientId) => dispatch({ type: "ChooseRecipient", playerId: activeId, recipientId })}
       />
 
       <aside className="flex w-full flex-col gap-3 p-3 lg:w-80">

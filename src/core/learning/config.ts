@@ -43,6 +43,12 @@ export const learningConfigSchema = z.object({
     nodeCooldownAttempts: z.number().int().min(0),
     /** Idem pour la catégorie des derniers essais (alternance). */
     categoryCooldownAttempts: z.number().int().min(0),
+    /**
+     * Fenêtre (essais récents) sur laquelle l'exposition de chaque catégorie
+     * est mesurée : une catégorie sur-représentée reçoit une pénalité
+     * progressive, sans quota rigide — une révision due passe toujours devant.
+     */
+    recentCategoryWindow: z.number().int().min(0),
   }),
   selectionWeights: z.object({
     due: z.number().min(0),
@@ -55,6 +61,8 @@ export const learningConfigSchema = z.object({
     repeatQuestion: z.number().min(0),
     repeatNode: z.number().min(0),
     sameCategory: z.number().min(0),
+    /** Pénalité par occurrence de la catégorie dans la fenêtre récente (variété). */
+    categoryExposure: z.number().min(0),
     mastered: z.number().min(0),
   }),
 });

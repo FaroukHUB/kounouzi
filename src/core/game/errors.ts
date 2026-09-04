@@ -14,4 +14,8 @@ export type GameError =
   | { readonly code: "SITE_ALREADY_OWNED"; readonly siteId: string; readonly ownerId: PlayerId }
   | { readonly code: "INVALID_CLOCK_DELTA"; readonly seconds: number }
   | { readonly code: "NO_PENDING_QUESTION"; readonly requestId: string }
-  | { readonly code: "QUESTION_ALREADY_SERVED"; readonly requestId: string };
+  | { readonly code: "QUESTION_ALREADY_SERVED"; readonly requestId: string }
+  | { readonly code: "INVALID_OPPONENT"; readonly opponentId: PlayerId }
+  | { readonly code: "INVALID_RECIPIENT"; readonly recipientId: PlayerId }
+  /** Les deux questions d'un Duel doivent appartenir à la même catégorie. */
+  | { readonly code: "DUEL_CATEGORY_MISMATCH"; readonly expected: string; readonly received: string };

@@ -93,8 +93,46 @@ export interface Policy {
   answer(index: number): AnswerRecord;
   buy(affordable: boolean, index: number): boolean;
   choose(options: readonly ChoiceOption[], index: number): string;
+  /** Adversaire de Duel parmi les candidats (défaut : le premier). */
+  opponent?(candidates: readonly PlayerId[], index: number): PlayerId;
+  /** Destinataire d'un transfert parmi les candidats (défaut : le premier). */
+  recipient?(candidates: readonly PlayerId[], index: number): PlayerId;
   /** Secondes de jeu actif à créditer avant chaque Chemin (0 = horloge immobile). */
   secondsPerTurn?: number;
+}
+
+/** Qui doit répondre dans la phase courante (joueur actif, ou dueliste en cours). */
+export function responder(state: GameState): PlayerId {
+  if (state.phase.kind === "awaiting_duel") return state.phase.duel.stage === "challenger" ? state.phase.duel.challengerId : state.phase.duel.opponentId;
+  return active(state);
+}
+
+/** Commande « par défaut » pour la phase courante ; `null` si la partie est finie. */
+export function nextCommand(state: GameState, policy: Policy, counters: { answers: number; purchases: number; choices: number; duels: number; transfers: number }): Command | null {
+  const playerId = active(state);
+  switch (state.phase.kind) {
+    case "awaiting_journey":
+      return { type: "StartJourney", playerId };
+    case "awaiting_answer":
+      return { type: "SubmitAnswer", playerId, requestId: state.phase.requestId, answer: policy.answer(counters.answers++) };
+    case "awaiting_duel": {
+      const duel = state.phase.duel;
+      const who = responder(state);
+      return { type: "SubmitAnswer", playerId: who, requestId: duel.stage === "challenger" ? duel.challengerRequestId : duel.opponentRequestId, answer: policy.answer(counters.answers++) };
+    }
+    case "awaiting_purchase": {
+      const affordable = state.players[state.activePlayerIndex]!.money >= state.phase.price;
+      return { type: "DecidePurchase", playerId, siteId: state.phase.siteId, buy: policy.buy(affordable, counters.purchases++) };
+    }
+    case "awaiting_choice":
+      return { type: "Choose", playerId, choiceId: state.phase.choiceId, optionId: policy.choose(state.phase.options, counters.choices++) };
+    case "awaiting_duel_opponent":
+      return { type: "ChooseOpponent", playerId, opponentId: (policy.opponent ?? ((c) => c[0]!))(state.phase.candidates, counters.duels++) };
+    case "awaiting_recipient":
+      return { type: "ChooseRecipient", playerId, recipientId: (policy.recipient ?? ((c) => c[0]!))(state.phase.candidates, counters.transfers++) };
+    case "finished":
+      return null;
+  }
 }
 
 const ANSWER_CYCLE: readonly AnswerRecord[] = [
@@ -124,9 +162,7 @@ export function simulate(setup: GameSetup, policy: Policy = DEFAULT_POLICY, maxC
   let state = created.state;
   const events: GameEvent[] = [...created.events];
   const commands: Command[] = [];
-  let answers = 0;
-  let purchases = 0;
-  let choices = 0;
+  const counters = { answers: 0, purchases: 0, choices: 0, duels: 0, transfers: 0 };
 
   const apply = (command: Command) => {
     const next = run(state, command);
@@ -137,27 +173,13 @@ export function simulate(setup: GameSetup, policy: Policy = DEFAULT_POLICY, maxC
 
   while (state.status === "in_progress") {
     if (commands.length >= maxCommands) throw new Error("simulation: trop de commandes (boucle ?)");
-    const playerId = active(state);
-    switch (state.phase.kind) {
-      case "awaiting_journey":
-        if (policy.secondsPerTurn) apply({ type: "AdvanceClock", seconds: policy.secondsPerTurn });
-        if (state.status !== "in_progress") break;
-        apply({ type: "StartJourney", playerId });
-        break;
-      case "awaiting_answer":
-        apply({ type: "SubmitAnswer", playerId, requestId: state.phase.requestId, answer: policy.answer(answers++) });
-        break;
-      case "awaiting_purchase": {
-        const affordable = state.players[state.activePlayerIndex]!.money >= state.phase.price;
-        apply({ type: "DecidePurchase", playerId, siteId: state.phase.siteId, buy: policy.buy(affordable, purchases++) });
-        break;
-      }
-      case "awaiting_choice":
-        apply({ type: "Choose", playerId, choiceId: state.phase.choiceId, optionId: policy.choose(state.phase.options, choices++) });
-        break;
-      case "finished":
-        throw new Error("phase finished avec status in_progress (invariant)");
+    if (state.phase.kind === "awaiting_journey" && policy.secondsPerTurn) {
+      apply({ type: "AdvanceClock", seconds: policy.secondsPerTurn });
+      if (state.status !== "in_progress") break;
     }
+    const command = nextCommand(state, policy, counters);
+    if (!command) throw new Error("phase finished avec status in_progress (invariant)");
+    apply(command);
   }
   return { state, events, commands };
 }
@@ -177,24 +199,9 @@ export function advanceUntil(
   let i = 0;
   while (state.status === "in_progress" && !stop(state, events)) {
     if (i++ >= maxCommands) throw new Error("advanceUntil: limite atteinte");
-    const playerId = active(state);
-    let command: Command;
-    switch (state.phase.kind) {
-      case "awaiting_journey":
-        command = { type: "StartJourney", playerId };
-        break;
-      case "awaiting_answer":
-        command = { type: "SubmitAnswer", playerId, requestId: state.phase.requestId, answer: policy.answer(i) };
-        break;
-      case "awaiting_purchase":
-        command = { type: "DecidePurchase", playerId, siteId: state.phase.siteId, buy: false };
-        break;
-      case "awaiting_choice":
-        command = { type: "Choose", playerId, choiceId: state.phase.choiceId, optionId: policy.choose(state.phase.options, i) };
-        break;
-      case "finished":
-        throw new Error("finished");
-    }
+    // Même politique que la simulation, mais sans achat (les tests contrôlent l'économie).
+    const command = nextCommand(state, { ...policy, buy: () => false }, { answers: i, purchases: 0, choices: i, duels: i, transfers: i });
+    if (!command) throw new Error("finished");
     const next = run(state, command);
     state = next.state;
     events.push(...next.events);

@@ -8,9 +8,10 @@ export interface CellResolution extends Step {
 /**
  * Traduit une arrivée sur une case en séquence de résultats et enregistre la
  * visite. Aucun contenu ici : une case question demande une question, une
- * case monument propose son site, les autres servent leurs scénarios
- * configurés DANS L'ORDRE, selon le nombre de visites de la case
- * (visite 1 → premier scénario, visite 2 → second, …). Aucun tirage au sort.
+ * case monument propose son site, une Halte interrompt le voyage, les autres
+ * servent leurs scénarios configurés DANS L'ORDRE, selon le nombre de
+ * visites de la case et le décalage de la partie (rotation inter-parties).
+ * Aucun tirage au sort.
  */
 export function resolveCell(state: GameState, cell: ResolvedCell): CellResolution {
   const key = String(cell.position);
@@ -24,6 +25,8 @@ export function resolveCell(state: GameState, cell: ResolvedCell): CellResolutio
       return { state: visited, events: [], outcomes: [{ kind: "question" }] };
     case "heritage":
       return { state: visited, events: [], outcomes: [{ kind: "heritage_offer", siteId: cell.siteId }] };
+    case "halt":
+      return { state: visited, events: [], outcomes: [{ kind: "halt" }] };
     case "event":
     case "management":
     case "challenge":
@@ -31,7 +34,7 @@ export function resolveCell(state: GameState, cell: ResolvedCell): CellResolutio
     case "treasure": {
       const candidates = visited.config.scenarios.filter((s) => s.cellType === cell.type);
       if (candidates.length === 0) return { state: visited, events: [], outcomes: [] };
-      const scenario = candidates[(visit - 1) % candidates.length]!;
+      const scenario = candidates[(visit - 1 + visited.config.scenarioOffset) % candidates.length]!;
       const player = activePlayer(visited);
       return {
         state: visited,

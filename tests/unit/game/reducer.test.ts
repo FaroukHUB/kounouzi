@@ -103,7 +103,7 @@ describe("case question", () => {
   it("demande une question sans en connaître le contenu, puis récompense selon la validation", () => {
     const asked = journey(create(makeLineSetup()).state);
     expect(asked.state.phase.kind).toBe("awaiting_answer");
-    expect(eventsOf(asked.events, "QuestionRequested")).toEqual([{ type: "QuestionRequested", requestId: "q1", playerId: pid("p1"), position: 1 }]);
+    expect(eventsOf(asked.events, "QuestionRequested")).toEqual([{ type: "QuestionRequested", requestId: "q1", playerId: pid("p1"), position: 1, purpose: "standard" }]);
 
     const answered = run(asked.state, { type: "SubmitAnswer", playerId: pid("p1"), requestId: "q1", answer: answer("correct", "ar") });
     expect(eventsOf(answered.events, "AnswerRecorded")[0]).toMatchObject({ outcome: "correct", explanationMastery: "ar", validationMode: "collective" });
@@ -162,17 +162,17 @@ describe("case monument", () => {
     expect(run(offered.state, { type: "DecidePurchase", playerId: pid("p1"), siteId: monument.id, buy: false }).state.holdings).toEqual([]);
   });
 
-  it("un monument déjà possédé par un autre n'est plus proposé et n'entraîne aucun paiement", () => {
+  it("un monument déjà possédé par un autre n'est plus proposé : une visite de patrimoine ouvre un Défi Patrimoine", () => {
     const { state } = create(makeLineSetup({ cells: { 1: "heritage" }, players: players(2) }));
     const bought = run(journey(state).state, { type: "DecidePurchase", playerId: pid("p1"), siteId: monument.id, buy: true });
     const before = bought.state.players.map((p) => p.money);
     const second = journey(bought.state); // p2 arrive sur la même case 1
-    expect(eventsOf(second.events, "SiteAlreadyOwned")).toEqual([{ type: "SiteAlreadyOwned", playerId: pid("p2"), siteId: monument.id, ownerId: pid("p1") }]);
+    expect(eventsOf(second.events, "HeritageVisited")).toEqual([{ type: "HeritageVisited", visitorId: pid("p2"), ownerId: pid("p1"), siteId: monument.id, contribution: { correct: 25, partial: 50, incorrect: 100 } }]);
     expect(eventsOf(second.events, "PurchaseOffered")).toHaveLength(0);
     expect(eventsOf(second.events, "MoneyChanged")).toHaveLength(0);
     expect(second.state.players.map((p) => p.money)).toEqual(before);
     expect(second.state.holdings).toHaveLength(1);
-    expect(active(second.state)).toBe(pid("p1"));
+    expect(second.state.phase).toMatchObject({ kind: "awaiting_answer", purpose: { kind: "heritage_visit", siteId: monument.id, ownerId: pid("p1") } });
   });
 
   it("un monument déjà possédé par soi-même n'est pas racheté", () => {
@@ -182,10 +182,11 @@ describe("case monument", () => {
     const bought = run(journey(state).state, { type: "DecidePurchase", playerId: pid("p1"), siteId: monument.id, buy: true });
     const back = advanceUntil(bought.state, (s) => active(s) === pid("p1") && s.players[0]!.position === 0 && s.phase.kind === "awaiting_journey");
     const again = journey(back.state); // p1 → case 1, son propre monument
-    expect(eventsOf(again.events, "SiteAlreadyOwned")).toEqual([{ type: "SiteAlreadyOwned", playerId: pid("p1"), siteId: monument.id, ownerId: pid("p1") }]);
+    expect(eventsOf(again.events, "HeritageRevisited")).toEqual([{ type: "HeritageRevisited", playerId: pid("p1"), siteId: monument.id }]);
+    expect(eventsOf(again.events, "HeritageVisited")).toHaveLength(0);
     expect(eventsOf(again.events, "PurchaseOffered")).toHaveLength(0);
     expect(again.state.holdings).toHaveLength(1);
-    expect(again.state.players[0]!.money).toBe(bought.state.players[0]!.money + 100); // seul le bonus de passage par le départ a bougé
+    expect(again.state.players[0]!.money).toBe(back.state.players[0]!.money); // revenir chez soi ne coûte ni ne rapporte rien
   });
 
   it("un cycle à deux valeurs enchaîne 1 puis 2 étapes", () => {

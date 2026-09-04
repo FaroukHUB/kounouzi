@@ -7,8 +7,12 @@ import type { PlayerProfileDraft } from "@/data/ports";
 import type { NarrationService } from "@/experience/narration";
 import { useUiStore } from "@/state/uiStore";
 import { ChoiceCard } from "./ChoiceCard";
+import { DuelCard } from "./DuelCard";
+import { HaltCard } from "./HaltCard";
 import { MonumentCard } from "./MonumentCard";
+import { OpponentCard } from "./OpponentCard";
 import { QuestionCard } from "./QuestionCard";
+import { RecipientCard } from "./RecipientCard";
 import { ScenarioCard } from "./ScenarioCard";
 import type { CardState } from "./cardState";
 
@@ -17,17 +21,18 @@ export interface CardOverlayProps {
   readonly profiles: readonly PlayerProfileDraft[];
   readonly narrator: NarrationService;
   readonly reduced: boolean;
-  readonly onSubmitAnswer: (requestId: string, outcome: AnswerOutcome, mastery: ExplanationMastery, mode: ValidationMode) => void;
+  /** `playerId` = le joueur qui répond (joueur actif, ou dueliste en cours). */
+  readonly onSubmitAnswer: (requestId: string, playerId: PlayerId, outcome: AnswerOutcome, mastery: ExplanationMastery, mode: ValidationMode) => void;
   readonly onDecidePurchase: (siteId: string, buy: boolean) => void;
   readonly onChoose: (choiceId: string, optionId: string) => void;
+  readonly onChooseOpponent: (opponentId: PlayerId) => void;
+  readonly onChooseRecipient: (recipientId: PlayerId) => void;
 }
 
 /** Couche des cartes au-dessus du plateau (le plateau se met légèrement en retrait). */
-export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer, onDecidePurchase, onChoose }: CardOverlayProps) {
+export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer, onDecidePurchase, onChoose, onChooseOpponent, onChooseRecipient }: CardOverlayProps) {
   const card = useUiStore((s) => s.card);
   const updateCard = useUiStore((s) => s.updateCard);
-  const activeId = state.players[state.activePlayerIndex]?.id ?? ("" as PlayerId);
-  void activeId;
 
   const render = (c: CardState) => {
     switch (c.kind) {
@@ -42,7 +47,7 @@ export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer
             onUpdate={(patch) => updateCard(patch)}
             onSubmit={(outcome, mastery, mode) => {
               updateCard({ step: "submitted" });
-              onSubmitAnswer(c.requestId, outcome, mastery, mode);
+              onSubmitAnswer(c.requestId, c.playerId, outcome, mastery, mode);
             }}
           />
         );
@@ -72,6 +77,36 @@ export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer
         );
       case "scenario":
         return <ScenarioCard card={c} narrator={narrator} />;
+      case "opponent":
+        return (
+          <OpponentCard
+            state={state}
+            profiles={profiles}
+            card={c}
+            narrator={narrator}
+            onChoose={(opponentId) => {
+              updateCard({ step: "submitted" });
+              onChooseOpponent(opponentId);
+            }}
+          />
+        );
+      case "recipient":
+        return (
+          <RecipientCard
+            state={state}
+            profiles={profiles}
+            card={c}
+            narrator={narrator}
+            onChoose={(recipientId) => {
+              updateCard({ step: "submitted" });
+              onChooseRecipient(recipientId);
+            }}
+          />
+        );
+      case "duel":
+        return <DuelCard state={state} profiles={profiles} card={c} />;
+      case "halt":
+        return <HaltCard />;
     }
   };
 

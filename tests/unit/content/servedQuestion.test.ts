@@ -56,7 +56,7 @@ describe("question figée dans l'état (ServeQuestion)", () => {
     expect(questionRefKey(q.ref)).toContain(`a=${q.ref.params["a"]}`);
   });
 
-  it("sérialisation v3 : l'état avec question servie fait l'aller-retour ; une v2 migre sans question figée", () => {
+  it("sérialisation : l'état avec question servie fait l'aller-retour ; une v2 migre (sans question figée) jusqu'à la version courante", () => {
     const asked = journey(create(makeLineSetup()).state);
     const q = resolveFor(asked.state, profiles)!;
     const served = run(asked.state, { type: "ServeQuestion", requestId: "q1", question: q });
@@ -66,7 +66,8 @@ describe("question figée dans l'état (ServeQuestion)", () => {
     v2["schemaVersion"] = 2;
     const migrated = deserializeGameState(JSON.stringify(v2));
     expect(migrated.ok).toBe(true);
-    if (migrated.ok) expect(migrated.value.schemaVersion).toBe(3);
+    if (migrated.ok) expect(migrated.value.schemaVersion).toBe(4);
+    if (migrated.ok) expect(migrated.value.phase).toMatchObject({ kind: "awaiting_answer", purpose: { kind: "standard" } });
   });
 });
 

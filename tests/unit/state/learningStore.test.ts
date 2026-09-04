@@ -41,7 +41,7 @@ describe("learningStore (mémoire pédagogique persistante)", () => {
 
   it("ignore une réponse sans question servie (« Passer ») : rien n'est inventé", () => {
     const h = harness();
-    const events: GameEvent[] = [{ type: "AnswerRecorded", requestId: "q9", playerId: pid("p1"), outcome: "incorrect", explanationMastery: "none", validationMode: "collective" }];
+    const events: GameEvent[] = [{ type: "AnswerRecorded", requestId: "q9", playerId: pid("p1"), outcome: "incorrect", explanationMastery: "none", validationMode: "collective", purpose: "standard" }];
     expect(h.store.getState().record("g" as GameId, events, learners)).toHaveLength(0);
     expect(h.store.getState().memoryOf(pid("p1"))).toBeUndefined();
   });

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { journeyCycleIssues } from "./journeyScheduler";
-import { CELL_TYPES, FAMILY_ASSIST_LEVELS, HERITAGE_KINDS, type Outcome } from "./types";
+import { CELL_TYPES, FAMILY_ASSIST_LEVELS, HERITAGE_KINDS, INSUFFICIENT_POLICIES, TRANSFER_REASONS, type Outcome } from "./types";
 
 /* Plateau ---------------------------------------------------------------- */
 
@@ -37,22 +37,46 @@ export const journeyCycleSchema = z
 
 /* Effets, résultats, scénarios ------------------------------------------ */
 
+const payoutSchema = z.object({ correct: z.number().int().nonnegative(), partial: z.number().int().nonnegative(), incorrect: z.number().int().nonnegative() });
+const insufficientSchema = z.enum(INSUFFICIENT_POLICIES);
+
 export const effectSpecSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("skip_turn"), consumeOn: z.literal("turn_start") }),
   z.object({ type: z.literal("extra_turn"), consumeOn: z.literal("turn_end") }),
   z.object({ type: z.literal("reward_multiplier"), multiplier: z.number().positive(), uses: z.number().int().positive(), consumeOn: z.literal("reward_granted") }),
+  z.object({ type: z.literal("next_reward_bonus"), amount: z.number().int().positive(), consumeOn: z.literal("reward_granted") }),
+  z.object({ type: z.literal("penalty_shield"), maxAmount: z.number().int().positive(), consumeOn: z.literal("penalty") }),
+  z.object({ type: z.literal("next_purchase_discount"), percent: z.number().int().min(1).max(100), consumeOn: z.literal("purchase") }),
+  z.object({ type: z.literal("investment_pending"), payout: payoutSchema, consumeOn: z.literal("answer_recorded") }),
+  z.object({ type: z.literal("saving_pending"), payout: z.number().int().nonnegative(), turnsRemaining: z.number().int().positive(), consumeOn: z.literal("turn_end") }),
 ]);
 
+const EFFECT_TYPES = ["skip_turn", "extra_turn", "reward_multiplier", "next_reward_bonus", "penalty_shield", "next_purchase_discount", "investment_pending", "saving_pending"] as const;
+
 export const outcomeSchema: z.ZodType<Outcome> = z.lazy(() =>
-  z.discriminatedUnion("kind", [
-    z.object({ kind: z.literal("money"), amount: z.number().int() }),
-    z.object({ kind: z.literal("move"), steps: z.number().int(), resolveDestination: z.boolean().optional() }),
-    z.object({ kind: z.literal("move_to"), position: z.number().int().nonnegative(), resolveDestination: z.boolean().optional() }),
-    z.object({ kind: z.literal("effect"), effect: effectSpecSchema }),
-    z.object({ kind: z.literal("question") }),
-    z.object({ kind: z.literal("heritage_offer"), siteId: z.string().min(1) }),
-    z.object({ kind: z.literal("choice"), choiceId: z.string().min(1), options: z.array(z.object({ id: z.string().min(1), outcomes: z.array(outcomeSchema) })).min(1) }),
-  ]),
+  z
+    .discriminatedUnion("kind", [
+      z.object({ kind: z.literal("money"), amount: z.number().int(), insufficient: insufficientSchema.optional() }),
+      z.object({ kind: z.literal("move"), steps: z.number().int(), resolveDestination: z.boolean().optional() }),
+      z.object({ kind: z.literal("move_to"), position: z.number().int().nonnegative(), resolveDestination: z.boolean().optional() }),
+      z.object({ kind: z.literal("effect"), effect: effectSpecSchema, expiresInTurns: z.number().int().positive().optional() }),
+      z.object({ kind: z.literal("question") }),
+      z.object({ kind: z.literal("heritage_offer"), siteId: z.string().min(1) }),
+      z.object({ kind: z.literal("choice"), choiceId: z.string().min(1), options: z.array(z.object({ id: z.string().min(1), outcomes: z.array(outcomeSchema) })).min(1) }),
+      z.object({ kind: z.literal("duel") }),
+      z.object({ kind: z.literal("halt") }),
+      z.object({ kind: z.literal("transfer_choice"), amount: z.number().int().positive(), reason: z.enum(TRANSFER_REASONS), insufficient: insufficientSchema }),
+      z.object({ kind: z.literal("give_to_poorest"), amount: z.number().int().positive(), reason: z.enum(TRANSFER_REASONS), insufficient: insufficientSchema }),
+      z.object({ kind: z.literal("aid_from_richest"), amount: z.number().int().positive(), insufficient: insufficientSchema }),
+      z.object({ kind: z.literal("collective_fund"), amount: z.number().int().positive(), insufficient: insufficientSchema }),
+      z.object({ kind: z.literal("heritage_maintenance"), amountPerSite: z.number().int().positive(), insufficient: insufficientSchema }),
+      z.object({ kind: z.literal("heritage_bonus"), amountPerSite: z.number().int().positive() }),
+      z.object({ kind: z.literal("invest"), amount: z.number().int().positive(), payout: payoutSchema, insufficient: insufficientSchema }),
+      z.object({ kind: z.literal("save"), amount: z.number().int().positive(), payout: z.number().int().nonnegative(), turns: z.number().int().positive(), insufficient: insufficientSchema }),
+      z.object({ kind: z.literal("clear_effects"), types: z.array(z.enum(EFFECT_TYPES)), liftHalt: z.boolean() }),
+    ])
+    // Une perte déclare TOUJOURS sa politique d'argent insuffisant : aucun comportement implicite.
+    .refine((o) => o.kind !== "money" || o.amount >= 0 || o.insufficient !== undefined, { message: "une perte d'argent doit déclarer sa politique `insufficient`" }),
 );
 
 export const scenarioSchema = z.object({ id: z.string().min(1), cellType: z.enum(CELL_TYPES), outcomes: z.array(outcomeSchema) });
@@ -74,6 +98,8 @@ export const rulesConfigSchema = z.object({
   scoring: z.object({ moneyWeight: z.number().nonnegative(), heritageWeight: z.number().nonnegative() }),
   allowNegativeBalance: z.boolean(),
   endCondition: endConditionSchema,
+  duel: z.object({ winBonus: z.number().int().nonnegative(), drawBonus: z.number().int().nonnegative(), loseBonus: z.number().int().nonnegative() }),
+  heritageVisit: z.object({ contribution: payoutSchema, insufficient: insufficientSchema }),
 });
 
 /* Équilibrage familial — modèle seulement ---------------------------------- */

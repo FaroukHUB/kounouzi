@@ -14,6 +14,8 @@ export const TEST_RULES_QUICK: RulesConfig = {
   scoring: { moneyWeight: 1, heritageWeight: 1 },
   allowNegativeBalance: false,
   endCondition: { kind: "turns_per_player", turns: 6 },
+  duel: { winBonus: 60, drawBonus: 20, loseBonus: 0 },
+  heritageVisit: { contribution: { correct: 25, partial: 50, incorrect: 100 }, insufficient: "cap_to_balance" },
 };
 
 export const TEST_RULES_CLASSIC: RulesConfig = { ...TEST_RULES_QUICK, id: "rules-test-classic", endCondition: { kind: "turns_per_player", turns: 10 } };

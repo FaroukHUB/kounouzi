@@ -71,9 +71,9 @@ describe("rejoueur d'événements (file d'animation)", () => {
 
   it("ouvre les cartes sur demande du moteur et les fait progresser sur ses réponses", async () => {
     const { calls, actions } = recorder();
-    await playEvent({ type: "QuestionRequested", requestId: "q3", playerId: p1, position: 1 }, actions, REDUCED_TIMINGS, instant);
-    await playEvent({ type: "AnswerRecorded", requestId: "q3", playerId: p1, outcome: "correct", explanationMastery: "fr", validationMode: "collective" }, actions, REDUCED_TIMINGS, instant);
-    await playEvent({ type: "RewardGranted", requestId: "q3", playerId: p1, base: 50, multiplier: 2, amount: 100 }, actions, REDUCED_TIMINGS, instant);
+    await playEvent({ type: "QuestionRequested", requestId: "q3", playerId: p1, position: 1, purpose: "standard" }, actions, REDUCED_TIMINGS, instant);
+    await playEvent({ type: "AnswerRecorded", requestId: "q3", playerId: p1, outcome: "correct", explanationMastery: "fr", validationMode: "collective", purpose: "standard" }, actions, REDUCED_TIMINGS, instant);
+    await playEvent({ type: "RewardGranted", requestId: "q3", playerId: p1, base: 50, multiplier: 2, bonus: 0, amount: 100 }, actions, REDUCED_TIMINGS, instant);
     await playEvent({ type: "TurnEnded", turnNumber: 1, playerId: p1 }, actions, REDUCED_TIMINGS, instant);
     expect(calls).toEqual(["card:question:dealt", 'card~{"step":"result","outcome":"correct"}', 'card~{"step":"reward","rewardAmount":100,"multiplier":2}', "card:close", "card:close"]);
   });

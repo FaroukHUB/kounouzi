@@ -48,7 +48,9 @@ acquis avant qu'elles ne commencent.
 ### Moteur de jeu (`src/core/game`, Phase 2)
 
 - **Commandes joueur** : `StartJourney` (sans paramètre : le joueur ne
-  choisit jamais son déplacement), `SubmitAnswer`, `DecidePurchase`, `Choose`.
+  choisit jamais son déplacement), `SubmitAnswer` (par celui qui répond,
+  adversaire d'un Duel compris), `DecidePurchase`, `Choose`,
+  `ChooseOpponent`, `ChooseRecipient`.
   **Commandes de session** : `AdvanceClock { seconds }` (temps actif injecté),
   `RequestGameEnd`. Tout le reste — Chemin, déplacement, résolution de case,
   clôture du tour, passage au joueur suivant, fin de partie — est automatique.
@@ -59,8 +61,17 @@ acquis avant qu'elles ne commencent.
   invisible et non sélectionnable. Les scénarios d'une case sont servis dans
   l'ordre configuré selon ses visites.
 - **Phases** : `awaiting_journey` → (`MovementAssigned`, déplacement,
-  arrivée) → `awaiting_answer` | `awaiting_purchase` | `awaiting_choice` →
-  clôture → joueur suivant, ou `finished`.
+  arrivée) → `awaiting_answer` (motif `standard` | `halt` | `heritage_visit`)
+  | `awaiting_purchase` | `awaiting_choice` | `awaiting_duel_opponent` |
+  `awaiting_duel` | `awaiting_recipient` → clôture → joueur suivant, ou
+  `finished`.
+- **Interactions** (ADR 0024) : Duel Kounouzi (chaque dueliste reçoit SA
+  question du Learning Engine, même catégorie ; correct > presque >
+  incorrect, jamais la vitesse), Halte du voyage (Défi de reprise avant le
+  Chemin, jamais plus d'un tour), visite de patrimoine (Défi Patrimoine :
+  contribution selon la réponse), transferts traçables entre joueurs,
+  solidarité tracée à part, scénarios d'événement / gestion / solidarité /
+  trésor à décisions réelles, effets temporaires datés.
 - **Durée** (ADR 0014) : `active_time` (temps de jeu actif, pauses exclues),
   `free` (fin sur demande parentale) ou `turns_per_player` (tests). La fin
   n'intervient qu'à la fin d'un tour de table complet.
@@ -71,7 +82,10 @@ acquis avant qu'elles ne commencent.
   traitée dans l'ordre ; un résultat exigeant une décision suspend la file
   dans la phase, et la partie reprend exactement là après sérialisation.
 - **Économie** : grand livre (`ledger`), aucun solde écrit directement ;
-  `checkInvariants` vérifie que chaque solde égale la somme de ses transactions.
+  `checkInvariants` vérifie que chaque solde égale la somme de ses
+  transactions et que chaque transfert est équilibré. Toute perte déclare sa
+  politique d'argent insuffisant (`cap_to_balance` | `require_full_amount` |
+  `cancel_if_insufficient`).
 - **Patrimoine** : achat d'un site libre si le solde suffit ; un site possédé
   (par soi ou un autre) n'est plus proposé ; aucun paiement entre joueurs.
 - **Effets** : `skip_turn`, `extra_turn`, `reward_multiplier`, en file par
@@ -201,6 +215,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | 3     | Plateau, Chemin, pions, animations, narration, Zustand, IndexedDB, reprise | livrée |
 | 4     | Cartes interactives, validation, explications FR/AR, récompenses ×2, monuments, choix, scénarios, contenu minimal — **première partie jouable** | livrée |
 | 5     | Mémoire pédagogique et Learning Engine : mémoire par joueur, sélection sans hasard, niveau par catégorie, révision espacée, persistance locale, agrégations « Mes Trésors » | livrée |
+| 5.1   | Fun et interactions : variété des catégories, Duel Kounouzi adapté, Halte du voyage, visites de patrimoine et Défi Patrimoine, transferts, scénarios à décisions, effets temporaires, séquences déterministes | livrée |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
 | 7     | Mes trésors, écran parent                                    | à venir  |
 | 8     | Back-office de contenu                                       | à venir  |

@@ -15,6 +15,14 @@ export interface Timings {
   readonly rewardMs: number;
   /** Achat conclu / refusé. */
   readonly purchaseMs: number;
+  /** Duel : face-à-face, « à toi ! », résultat. */
+  readonly duelIntroMs: number;
+  readonly duelTurnMs: number;
+  readonly duelResultMs: number;
+  /** Halte du voyage : « Ton voyage s'interrompt ». */
+  readonly haltMs: number;
+  /** Transfert entre joueurs, protection, investissement, épargne : bandeaux. */
+  readonly noticeMs: number;
 }
 
 export const DEFAULT_TIMINGS: Timings = {
@@ -28,21 +36,15 @@ export const DEFAULT_TIMINGS: Timings = {
   resultMs: 1000,
   rewardMs: 1500,
   purchaseMs: 1200,
+  duelIntroMs: 2000,
+  duelTurnMs: 1200,
+  duelResultMs: 2400,
+  haltMs: 1800,
+  noticeMs: 1400,
 };
 
 /** Mode « animations réduites » : même séquence, durées nulles. */
-export const REDUCED_TIMINGS: Timings = {
-  journeyRevealMs: 0,
-  stepMs: 0,
-  arrivalMs: 0,
-  turnBannerMs: 0,
-  passedStartMs: 0,
-  skippedMs: 0,
-  scenarioMs: 0,
-  resultMs: 0,
-  rewardMs: 0,
-  purchaseMs: 0,
-};
+export const REDUCED_TIMINGS: Timings = Object.fromEntries(Object.keys(DEFAULT_TIMINGS).map((k) => [k, 0])) as unknown as Timings;
 
 export const resolveTimings = (reduced: boolean): Timings => (reduced ? REDUCED_TIMINGS : DEFAULT_TIMINGS);
 

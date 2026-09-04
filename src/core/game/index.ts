@@ -5,7 +5,7 @@
 export * from "./types";
 export type { Command, PlayerCommand, SessionCommand } from "./commands";
 export { isPlayerCommand } from "./commands";
-export type { GameEvent, GameEventType } from "./events";
+export type { GameEvent, GameEventType, QuestionPurposeKind } from "./events";
 export type { GameError } from "./errors";
 export type { Step } from "./step";
 export { createGame, type GameSetup, type PlayerSetup, type SetupError } from "./create";
@@ -14,11 +14,13 @@ export { resolveBoard, cellAt, countCellsByType, type BoardError } from "./board
 export { computePath, computePathTo, type MovePlan } from "./movement";
 export { assignJourneySteps, flattenCycle, journeyCycleIssues } from "./journeyScheduler";
 export { computeReward, type RewardComputation } from "./rewards";
-export { holdingOf, holdingsOf } from "./holdings";
-export { ledgerBalance } from "./economy";
+export { holdingOf, holdingsOf, effectivePrice } from "./holdings";
+export { ledgerBalance, transferMoney, affordableAmount, poorestPlayer, richestPlayer } from "./economy";
+export { duelWinner } from "./duel";
+export { effectsOf } from "./effects";
 export { computeRanking, heritageValueOf, shouldEndAfterTurn, scoreOf } from "./scoring";
 export { checkInvariants } from "./invariants";
-export { serializeGameState, deserializeGameState, gameStateSchemaV3, type SerializationError } from "./serialization";
+export { serializeGameState, deserializeGameState, gameStateSchemaV4, type SerializationError } from "./serialization";
 export {
   boardConfigSchema,
   heritageSiteSchema,

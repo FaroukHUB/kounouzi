@@ -18,7 +18,7 @@ describe("script de narration (Phase 3 : tour, Chemin, arrivée, départ, dernie
   });
 
   it("ne dit rien pour les événements hors périmètre Phase 3 (question, réponse, argent…)", () => {
-    expect(utteranceFor({ type: "QuestionRequested", requestId: "q1", playerId: pid("p1"), position: 1 }, state, "fr")).toBeNull();
+    expect(utteranceFor({ type: "QuestionRequested", requestId: "q1", playerId: pid("p1"), position: 1, purpose: "standard" }, state, "fr")).toBeNull();
     expect(utteranceFor({ type: "MoneyChanged", transactionId: 1, playerId: pid("p1"), amount: 5, reason: "scenario_gain", balanceAfter: 5 }, state, "fr")).toBeNull();
   });
 

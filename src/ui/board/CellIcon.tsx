@@ -9,6 +9,7 @@ const PATHS: Record<CellType, string> = {
   challenge: "M13 2 4 14h7l-1 8 9-12h-7l1-8Z",
   solidarity: "M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z",
   treasure: "M4 10h16v10H4zM4 10l2-4h12l2 4M12 10v10M10 14h4",
+  halt: "M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z",
 };
 
 export function CellIcon({ type, className }: { readonly type: CellType; readonly className?: string | undefined }) {

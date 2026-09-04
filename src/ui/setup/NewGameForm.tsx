@@ -94,6 +94,8 @@ export function NewGameForm() {
       scenarios: DEMO_SCENARIOS,
       rules: { ...DEMO_RULES_QUICK, id: `rules-demo-${mode}`, endCondition: endConditionOf(mode) },
       journey: journeyCycleForOrdinal(familyGameOrdinal),
+      // Séquences de scénarios : rotation inter-parties par le même numéro persistant (jamais un tirage).
+      scenarioOffset: Math.max(0, familyGameOrdinal - 1),
     };
     if (!gameStore.getState().create(setup, profiles, familyGameOrdinal)) return setError(JSON.stringify(gameStore.getState().lastError));
     router.push(`/partie/${gameId}`);

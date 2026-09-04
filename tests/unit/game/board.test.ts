@@ -6,7 +6,7 @@ import { INVALID_RELIGIOUS_PLACE_WITH_PRICE, TEST_MONUMENTS, TEST_RELIGIOUS_PLAC
 describe("plateau 32 cases — configuration V1 de travail", () => {
   it("respecte la répartition décidée", () => {
     expect(BOARD_32_V1.cellCount).toBe(32);
-    expect(countCellsByType(BOARD_32_V1)).toEqual({ start: 1, question: 10, heritage: 8, event: 4, management: 3, challenge: 2, solidarity: 2, treasure: 2 });
+    expect(countCellsByType(BOARD_32_V1)).toEqual({ start: 1, question: 9, heritage: 8, event: 4, management: 3, challenge: 2, solidarity: 2, treasure: 2, halt: 1 });
   });
 
   it("place le départ en 0 et suit l'ordre de travail fourni", () => {
@@ -15,6 +15,7 @@ describe("plateau 32 cases — configuration V1 de travail", () => {
     expect(types[2]).toBe("heritage");
     expect(types[10]).toBe("treasure");
     expect(types[12]).toBe("solidarity");
+    expect(types[22]).toBe("halt");
     expect(types[31]).toBe("question");
   });
 

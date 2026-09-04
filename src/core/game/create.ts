@@ -35,6 +35,8 @@ export interface GameSetup {
   readonly rules: RulesConfig;
   readonly journey: JourneyCycle;
   readonly familyAssist?: FamilyAssistConfig | undefined;
+  /** Décalage de la séquence de scénarios (numéro de partie familiale − 1) : rotation inter-parties sans tirage. */
+  readonly scenarioOffset?: number | undefined;
 }
 
 export type SetupError =
@@ -77,12 +79,15 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     money: 0,
     turnsPlayed: 0,
     journeysTaken: 0,
+    halted: false,
+    solidarityActions: 0,
+    solidarityGiven: 0,
   }));
 
   const initial: GameState = {
     schemaVersion: GAME_SCHEMA_VERSION,
     gameId: setup.gameId,
-    config: { board: resolved.value.board, sites: resolved.value.sites, scenarios: setup.scenarios, rules: setup.rules, journey: setup.journey, familyAssist },
+    config: { board: resolved.value.board, sites: resolved.value.sites, scenarios: setup.scenarios, rules: setup.rules, journey: setup.journey, familyAssist, scenarioOffset: Math.max(0, Math.trunc(setup.scenarioOffset ?? 0)) },
     players,
     activePlayerIndex: 0,
     turnNumber: 0,
@@ -93,7 +98,7 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     cellVisits: {},
     clock: { activePlaySeconds: 0, timeTargetReached: false },
     endRequested: false,
-    counters: { transaction: 0, request: 0, effect: 0 },
+    counters: { transaction: 0, request: 0, effect: 0, transfer: 0 },
     status: "in_progress",
   };
 

@@ -5,7 +5,7 @@ import { ChoiceCard, optionLabel, scenarioTitle } from "@/ui/cards/ChoiceCard";
 import { MonumentCard, siteDisplayName } from "@/ui/cards/MonumentCard";
 import { QuestionCard } from "@/ui/cards/QuestionCard";
 import { cardForPhase } from "@/ui/cards/cardState";
-import { create, journey, makeLineSetup, makeSetup, players, run } from "../../fixtures/game/setup.fixture";
+import { create, journey, makeLineSetup, makeSetup, pid, players, run } from "../../fixtures/game/setup.fixture";
 import { scenariosOf } from "../../fixtures/game/scenarios.fixture";
 import { resolveFor } from "../../fixtures/learning/resolve.fixture";
 
@@ -16,7 +16,7 @@ describe("carte question (rendu statique)", () => {
   const pending = journey(create(makeLineSetup()).state);
   // La carte affiche la question FIGÉE dans l'état : on la sert d'abord (comme le fait GameScreen).
   const asked = run(pending.state, { type: "ServeQuestion", requestId: "q1", question: resolveFor(pending.state, profiles)! });
-  const base = { kind: "question" as const, requestId: "q1", validationMode: "collective" as const };
+  const base = { kind: "question" as const, requestId: "q1", playerId: pid("p1"), purpose: "standard" as const, validationMode: "collective" as const };
   const render = (card: Parameters<typeof QuestionCard>[0]["card"], state = asked.state) => renderToStaticMarkup(<QuestionCard state={state} profiles={profiles} card={card} narrator={narrator} reduced={true} onUpdate={() => {}} onSubmit={() => {}} />);
 
   it("tant que la question n'est pas servie, la carte attend (aucun énoncé résolu au rendu)", () => {
@@ -49,15 +49,21 @@ describe("carte question (rendu statique)", () => {
     for (const k of ["none", "fr", "ar", "both"]) expect(m).toContain(`data-testid="mastery-${k}"`);
   });
 
-  it("affiche le résultat puis la récompense, avec la mention du gain doublé", () => {
+  it("affiche le résultat puis la récompense, avec la mention du gain doublé — même quand l'état réel est déjà passé à la suite", () => {
     expect(render({ ...base, step: "result", outcome: "partial" })).toContain("Presque");
     const reward = render({ ...base, step: "reward", rewardAmount: 100, multiplier: 2 });
     expect(reward).toContain("+100");
     expect(reward).toContain("gain doublé");
+    // Après SubmitAnswer, la phase a changé : la carte garde son instantané de la question et n'affiche jamais « Aucune question ».
+    const served = asked.state.phase.kind === "awaiting_answer" ? asked.state.phase.served! : null!;
+    const moved = run(asked.state, { type: "SubmitAnswer", playerId: pid("p1"), requestId: "q1", answer: { outcome: "correct", explanationMastery: "fr", validationMode: "collective" } });
+    const after = render({ ...base, step: "reward", rewardAmount: 100, multiplier: 2, question: served }, moved.state);
+    expect(after).toContain("+100");
+    expect(after).not.toContain("Aucune question");
   });
 
   it("reconstruit la carte depuis la phase à la reprise", () => {
-    expect(cardForPhase(asked.state)).toEqual({ kind: "question", requestId: "q1", step: "dealt", validationMode: "collective" });
+    expect(cardForPhase(asked.state)).toEqual({ kind: "question", requestId: "q1", playerId: "p1", purpose: "standard", step: "dealt", validationMode: "collective" });
     expect(cardForPhase(create(makeLineSetup()).state)).toBeNull();
   });
 });

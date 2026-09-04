@@ -10,4 +10,5 @@ export const CELL_STYLE: Readonly<Record<CellType, { readonly bg: string; readon
   challenge: { bg: "#fef2f2", fg: "#991b1b", accent: "#ef4444" },
   solidarity: { bg: "#f0f9ff", fg: "#075985", accent: "#0ea5e9" },
   treasure: { bg: "#fefce8", fg: "#854d0e", accent: "#eab308" },
+  halt: { bg: "#f5f3ff", fg: "#5b21b6", accent: "#8b5cf6" },
 };

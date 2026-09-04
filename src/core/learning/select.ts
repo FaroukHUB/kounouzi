@@ -51,6 +51,9 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
   const recentRefs = new Set(recent.slice(-config.antiRepetition.questionCooldownAttempts).map((a) => questionRefKey(a.ref)));
   const recentNodes = new Set(recent.slice(-config.antiRepetition.nodeCooldownAttempts).map((a) => a.knowledgeNodeId));
   const recentCategories = new Set(recent.slice(-config.antiRepetition.categoryCooldownAttempts).map((a) => a.categoryId));
+  // Exposition récente par catégorie : nombre d'essais de la catégorie dans la fenêtre (variété sans quota).
+  const exposure = new Map<string, number>();
+  for (const a of memory.attempts.slice(-config.antiRepetition.recentCategoryWindow)) exposure.set(a.categoryId, (exposure.get(a.categoryId) ?? 0) + 1);
 
   const scored: ScoredSlot[] = [];
   for (const slot of input.slots) {
@@ -95,6 +98,11 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
     if (!due && recentCategories.has(slot.categoryId)) {
       score -= w.sameCategory;
       reasons.push("catégorie récente");
+    }
+    const seenInWindow = exposure.get(slot.categoryId) ?? 0;
+    if (!due && seenInWindow > 0 && w.categoryExposure > 0) {
+      score -= w.categoryExposure * seenInWindow;
+      reasons.push("catégorie sur-exposée");
     }
     scored.push({ slot, question, refKey, score: Math.round(score * 1000) / 1000, reasons, nextDueAt: ks?.nextDueAt ?? null, lastSeenAt: ks?.lastSeenAt ?? null });
   }

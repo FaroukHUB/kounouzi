@@ -69,18 +69,32 @@ describe("le Chemin — attribution déterministe", () => {
 
 describe("le Chemin — indépendance stratégique (preuve par exécution)", () => {
   const journeysOf = (sim: ReturnType<typeof simulate>) => eventsOf(sim.events, "MovementAssigned").map((e) => [e.playerId, e.steps] as const);
+  /**
+   * Chaque joueur reçoit la MÊME suite de valeurs quelle que soit l'économie.
+   * Une Halte perdue (réponse incorrecte au Défi de reprise) peut retirer un
+   * voyage à un joueur : la liste est alors plus courte, jamais différente.
+   */
+  const expectSameJourneys = (a: ReturnType<typeof simulate>, b: ReturnType<typeof simulate>) => {
+    for (const p of a.state.players) {
+      const ja = journeysOf(a).filter(([id]) => id === p.id).map(([, s]) => s);
+      const jb = journeysOf(b).filter(([id]) => id === p.id).map(([, s]) => s);
+      const n = Math.min(ja.length, jb.length);
+      expect(n).toBeGreaterThan(5);
+      expect(ja.slice(0, n)).toEqual(jb.slice(0, n));
+    }
+  };
 
   it("changer l'argent de départ ne change aucun Chemin", () => {
     const rich = simulate(makeSetup({ players: players(4), rules: { ...TEST_RULES_CLASSIC, startingMoney: 10_000 } }));
     const poor = simulate(makeSetup({ players: players(4), rules: { ...TEST_RULES_CLASSIC, startingMoney: 10 } }));
-    expect(journeysOf(rich)).toEqual(journeysOf(poor));
+    expectSameJourneys(rich, poor);
   });
 
   it("changer les prix, les valeurs patrimoniales ou les propriétaires ne change aucun Chemin", () => {
     const cheap = simulate(makeSetup({ players: players(4), rules: TEST_RULES_CLASSIC }));
     const pricey = simulate(makeSetup({ players: players(4), rules: TEST_RULES_CLASSIC, heritageSites: TEST_MONUMENTS.map((m) => ({ ...m, price: 5000, heritageValue: 9999 })) }));
     expect(eventsOf(cheap.events, "SiteAcquired").length).not.toBe(eventsOf(pricey.events, "SiteAcquired").length);
-    expect(journeysOf(cheap)).toEqual(journeysOf(pricey));
+    expectSameJourneys(cheap, pricey);
   });
 
   it("activer FamilyAssist ne change aucun Chemin", () => {

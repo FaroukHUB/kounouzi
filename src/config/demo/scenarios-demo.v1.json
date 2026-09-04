@@ -1,45 +1,469 @@
 {
-  "$comment": "⚠️ SCÉNARIOS GÉNÉRIQUES DE DÉMONSTRATION — Phase 3. Aucun contenu pédagogique réel.",
+  "$comment": "⚠️ SCÉNARIOS GÉNÉRIQUES DE DÉMONSTRATION — Phase 5.1. Montants provisoires. Chaque perte déclare sa politique d'argent insuffisant. Servis dans l'ordre configuré selon les visites de la case et le décalage de la partie (jamais tirés au sort).",
   "scenarios": [
-    { "id": "demo-event-gain", "cellType": "event", "outcomes": [{ "kind": "money", "amount": 100 }] },
-    { "id": "demo-event-loss", "cellType": "event", "outcomes": [{ "kind": "money", "amount": -150 }] },
-    { "id": "demo-event-back", "cellType": "event", "outcomes": [{ "kind": "move", "steps": -3 }] },
-    { "id": "demo-event-skip", "cellType": "event", "outcomes": [{ "kind": "effect", "effect": { "type": "skip_turn", "consumeOn": "turn_start" } }] },
-    { "id": "demo-event-extra", "cellType": "event", "outcomes": [{ "kind": "effect", "effect": { "type": "extra_turn", "consumeOn": "turn_end" } }] },
     {
-      "id": "demo-management-choice",
+      "id": "event-share",
+      "cellType": "event",
+      "outcomes": [
+        {
+          "kind": "transfer_choice",
+          "amount": 50,
+          "reason": "gift",
+          "insufficient": "cap_to_balance"
+        }
+      ]
+    },
+    {
+      "id": "event-collective-fund",
+      "cellType": "event",
+      "outcomes": [
+        {
+          "kind": "collective_fund",
+          "amount": 50,
+          "insufficient": "cap_to_balance"
+        }
+      ]
+    },
+    {
+      "id": "event-maintenance",
+      "cellType": "event",
+      "outcomes": [
+        {
+          "kind": "heritage_maintenance",
+          "amountPerSite": 40,
+          "insufficient": "cap_to_balance"
+        }
+      ]
+    },
+    {
+      "id": "event-good-news",
+      "cellType": "event",
+      "outcomes": [
+        {
+          "kind": "heritage_bonus",
+          "amountPerSite": 60
+        }
+      ]
+    },
+    {
+      "id": "event-protection",
+      "cellType": "event",
+      "outcomes": [
+        {
+          "kind": "effect",
+          "effect": {
+            "type": "penalty_shield",
+            "maxAmount": 150,
+            "consumeOn": "penalty"
+          },
+          "expiresInTurns": 8
+        }
+      ]
+    },
+    {
+      "id": "event-helping-hand",
+      "cellType": "event",
+      "outcomes": [
+        {
+          "kind": "aid_from_richest",
+          "amount": 100,
+          "insufficient": "cap_to_balance"
+        }
+      ]
+    },
+    {
+      "id": "event-gift",
+      "cellType": "event",
+      "outcomes": [
+        {
+          "kind": "transfer_choice",
+          "amount": 30,
+          "reason": "gift",
+          "insufficient": "cap_to_balance"
+        }
+      ]
+    },
+    {
+      "id": "event-hard-journey",
+      "cellType": "event",
+      "outcomes": [
+        {
+          "kind": "money",
+          "amount": -80,
+          "insufficient": "cap_to_balance"
+        }
+      ]
+    },
+    {
+      "id": "management-invest",
       "cellType": "management",
       "outcomes": [
         {
           "kind": "choice",
-          "choiceId": "demo-management-choice",
+          "choiceId": "management-invest",
           "options": [
-            { "id": "save", "outcomes": [{ "kind": "money", "amount": 50 }] },
-            { "id": "spend", "outcomes": [{ "kind": "money", "amount": -50 }] }
+            {
+              "id": "invest",
+              "outcomes": [
+                {
+                  "kind": "invest",
+                  "amount": 100,
+                  "payout": {
+                    "correct": 150,
+                    "partial": 100,
+                    "incorrect": 0
+                  },
+                  "insufficient": "require_full_amount"
+                }
+              ]
+            },
+            {
+              "id": "pass",
+              "outcomes": []
+            }
           ]
         }
       ]
     },
-    { "id": "demo-challenge-question", "cellType": "challenge", "outcomes": [{ "kind": "question" }] },
     {
-      "id": "demo-solidarity-choice",
+      "id": "management-saving",
+      "cellType": "management",
+      "outcomes": [
+        {
+          "kind": "choice",
+          "choiceId": "management-saving",
+          "options": [
+            {
+              "id": "save",
+              "outcomes": [
+                {
+                  "kind": "save",
+                  "amount": 100,
+                  "payout": 150,
+                  "turns": 2,
+                  "insufficient": "require_full_amount"
+                }
+              ]
+            },
+            {
+              "id": "pass",
+              "outcomes": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "management-protection",
+      "cellType": "management",
+      "outcomes": [
+        {
+          "kind": "choice",
+          "choiceId": "management-protection",
+          "options": [
+            {
+              "id": "protect",
+              "outcomes": [
+                {
+                  "kind": "money",
+                  "amount": -75,
+                  "insufficient": "require_full_amount"
+                },
+                {
+                  "kind": "effect",
+                  "effect": {
+                    "type": "penalty_shield",
+                    "maxAmount": 150,
+                    "consumeOn": "penalty"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "pass",
+              "outcomes": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "management-now-or-later",
+      "cellType": "management",
+      "outcomes": [
+        {
+          "kind": "choice",
+          "choiceId": "management-now-or-later",
+          "options": [
+            {
+              "id": "now",
+              "outcomes": [
+                {
+                  "kind": "money",
+                  "amount": 100
+                }
+              ]
+            },
+            {
+              "id": "later",
+              "outcomes": [
+                {
+                  "kind": "effect",
+                  "effect": {
+                    "type": "next_reward_bonus",
+                    "amount": 150,
+                    "consumeOn": "reward_granted"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "management-budget",
+      "cellType": "management",
+      "outcomes": [
+        {
+          "kind": "choice",
+          "choiceId": "management-budget",
+          "options": [
+            {
+              "id": "save-small",
+              "outcomes": [
+                {
+                  "kind": "money",
+                  "amount": 50
+                }
+              ]
+            },
+            {
+              "id": "spend",
+              "outcomes": [
+                {
+                  "kind": "money",
+                  "amount": -50,
+                  "insufficient": "cap_to_balance"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "management-heritage-care",
+      "cellType": "management",
+      "outcomes": [
+        {
+          "kind": "choice",
+          "choiceId": "management-heritage-care",
+          "options": [
+            {
+              "id": "maintain",
+              "outcomes": [
+                {
+                  "kind": "heritage_maintenance",
+                  "amountPerSite": 30,
+                  "insufficient": "cap_to_balance"
+                },
+                {
+                  "kind": "effect",
+                  "effect": {
+                    "type": "next_purchase_discount",
+                    "percent": 20,
+                    "consumeOn": "purchase"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "skip",
+              "outcomes": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "challenge-duel",
+      "cellType": "challenge",
+      "outcomes": [
+        {
+          "kind": "duel"
+        }
+      ]
+    },
+    {
+      "id": "challenge-question",
+      "cellType": "challenge",
+      "outcomes": [
+        {
+          "kind": "question"
+        }
+      ]
+    },
+    {
+      "id": "solidarity-donation",
       "cellType": "solidarity",
       "outcomes": [
         {
           "kind": "choice",
-          "choiceId": "demo-solidarity-choice",
+          "choiceId": "solidarity-donation",
           "options": [
-            { "id": "give", "outcomes": [{ "kind": "money", "amount": -100 }] },
-            { "id": "pass", "outcomes": [] }
+            {
+              "id": "donate",
+              "outcomes": [
+                {
+                  "kind": "transfer_choice",
+                  "amount": 100,
+                  "reason": "solidarity",
+                  "insufficient": "cap_to_balance"
+                }
+              ]
+            },
+            {
+              "id": "pass",
+              "outcomes": []
+            }
           ]
         }
       ]
     },
-    { "id": "demo-treasure-bonus", "cellType": "treasure", "outcomes": [{ "kind": "money", "amount": 200 }] },
     {
-      "id": "demo-treasure-boost",
+      "id": "solidarity-help-poorest",
+      "cellType": "solidarity",
+      "outcomes": [
+        {
+          "kind": "give_to_poorest",
+          "amount": 80,
+          "reason": "solidarity",
+          "insufficient": "cap_to_balance"
+        }
+      ]
+    },
+    {
+      "id": "solidarity-collective-project",
+      "cellType": "solidarity",
+      "outcomes": [
+        {
+          "kind": "choice",
+          "choiceId": "solidarity-collective-project",
+          "options": [
+            {
+              "id": "participate",
+              "outcomes": [
+                {
+                  "kind": "collective_fund",
+                  "amount": 50,
+                  "insufficient": "cap_to_balance"
+                }
+              ]
+            },
+            {
+              "id": "pass",
+              "outcomes": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "solidarity-share",
+      "cellType": "solidarity",
+      "outcomes": [
+        {
+          "kind": "transfer_choice",
+          "amount": 50,
+          "reason": "solidarity",
+          "insufficient": "cap_to_balance"
+        }
+      ]
+    },
+    {
+      "id": "treasure-gain",
       "cellType": "treasure",
-      "outcomes": [{ "kind": "effect", "effect": { "type": "reward_multiplier", "multiplier": 2, "uses": 1, "consumeOn": "reward_granted" } }]
+      "outcomes": [
+        {
+          "kind": "money",
+          "amount": 200
+        }
+      ]
+    },
+    {
+      "id": "treasure-protection",
+      "cellType": "treasure",
+      "outcomes": [
+        {
+          "kind": "effect",
+          "effect": {
+            "type": "penalty_shield",
+            "maxAmount": 150,
+            "consumeOn": "penalty"
+          }
+        }
+      ]
+    },
+    {
+      "id": "treasure-multiplier",
+      "cellType": "treasure",
+      "outcomes": [
+        {
+          "kind": "effect",
+          "effect": {
+            "type": "reward_multiplier",
+            "multiplier": 1.5,
+            "uses": 1,
+            "consumeOn": "reward_granted"
+          }
+        }
+      ]
+    },
+    {
+      "id": "treasure-discount",
+      "cellType": "treasure",
+      "outcomes": [
+        {
+          "kind": "effect",
+          "effect": {
+            "type": "next_purchase_discount",
+            "percent": 25,
+            "consumeOn": "purchase"
+          }
+        }
+      ]
+    },
+    {
+      "id": "treasure-knowledge",
+      "cellType": "treasure",
+      "outcomes": [
+        {
+          "kind": "effect",
+          "effect": {
+            "type": "next_reward_bonus",
+            "amount": 100,
+            "consumeOn": "reward_granted"
+          }
+        }
+      ]
+    },
+    {
+      "id": "treasure-recovery",
+      "cellType": "treasure",
+      "outcomes": [
+        {
+          "kind": "clear_effects",
+          "types": [
+            "skip_turn"
+          ],
+          "liftHalt": true
+        },
+        {
+          "kind": "money",
+          "amount": 50
+        }
+      ]
     }
   ]
 }
