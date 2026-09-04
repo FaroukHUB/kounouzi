@@ -37,6 +37,12 @@
   l'arabe : seuls les cas simples sont recollés (signalés à relire) ; les
   autres explications arabes sont laissées **vides** avec `reviewNotes`, à
   saisir depuis le document de contrôle (un DOCX donnerait l'arabe intact).
+- `questions/religion/al-qawaid-al-arba.v1.json` — banque « Al-Qawāʿid
+  al-Arbaʿ » (Sharḥ al-Qawāʿid al-Arbaʿ, Shaykh ʿAbd ar-Razzāq ibn ʿAbd
+  al-Muḥsin al-Badr, Dār al-Imām Muslim, 1441 H / 2020), 25 cartes en
+  5 niveaux, mêmes règles, toutes `draft`. Cinq explications arabes ont perdu
+  un signe diacritique à l'extraction : la jonction est annotée dans
+  `reviewNotes`, à rétablir en relecture.
 
 Règles : explication FR **et** AR obligatoires pour toute question jouable ;
 `status = validated` obligatoire ; source primaire obligatoire si la catégorie

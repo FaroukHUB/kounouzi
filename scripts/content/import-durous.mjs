@@ -15,6 +15,7 @@
  *   Explication FR : …
  *   الشرح بالعربية: …
  *   Source : <ouvrage> - commentaire de <auteur>, PDF transmis, p. 35-36.
+ *         ou <ouvrage> - <auteur>, PDF p. 33-36.
  *         ou <ouvrage> - commentaire de <auteur>, sur le matn d'…. Matn, vers 3-4, PDF p. 12.
  *   Animation suggérée : <description libre>
  *
@@ -22,14 +23,14 @@
  * une clé de famille visuelle (`animationKey`) en est déduite par mots-clés,
  * de façon déterministe. Présentation pure : aucune influence sur le jeu.
  *
- *   node scripts/content/import-durous.mjs <texte.txt> <sortie.json> <nœud> <préfixe-id>
+ *   node scripts/content/import-durous.mjs <texte.txt> <sortie.json> <nœud> <préfixe-id> [éditeur]
  *   ex. … durous.txt src/content/questions/religion/ad-durous-al-mouhimmah.v1.json religion.bases.durous REL-DRS-ARB
  */
 import { readFileSync, writeFileSync } from "node:fs";
 
-const [, , input, output, nodePrefix, idPrefix] = process.argv;
+const [, , input, output, nodePrefix, idPrefix, publisher] = process.argv;
 if (!input || !output || !nodePrefix || !idPrefix) {
-  console.error("usage: import-durous.mjs <texte.txt> <sortie.json> <nœud> <préfixe-id>");
+  console.error("usage: import-durous.mjs <texte.txt> <sortie.json> <nœud> <préfixe-id> [éditeur]");
   process.exit(1);
 }
 
@@ -122,8 +123,7 @@ while (i < lines.length) {
   const between = collectUntil((l) => l.startsWith("Source :"));
   // Une ligne avec des mots latins est la suite du FR (même si elle cite « رضي الله عنها ») ; sinon fragment arabe, ou glyphe orphelin.
   const isFr = (l) => LATIN_WORD.test(l);
-  const arabic = between.filter((l) => !isFr(l) && ARABIC.test(l));
-  const stray = between.filter((l) => !isFr(l) && !ARABIC.test(l) && STRAY_GLYPH.test(l.trim()));
+  const pieces = between.filter((l) => !isFr(l) && (ARABIC.test(l) || STRAY_GLYPH.test(l.trim()))).map((l) => l.trim());
   explanationFr.push(...between.filter((l) => isFr(l)));
   const source = joinWrapped([lines[i++].replace(/^Source :\s*/, ""), ...collectUntil((l) => l.startsWith("Animation suggérée :"))]);
   const hint = joinWrapped([lines[i++].replace(/^Animation suggérée :\s*/, ""), ...collectUntil(isHeader)]);
@@ -144,7 +144,7 @@ while (i < lines.length) {
   work = work || src.title;
   author = author || src.author;
   baseText = baseText || src.baseText;
-  const joined = assembleArabic(arabic, stray, id);
+  const joined = assembleArabic(pieces, id);
   const notes = [
     joined.note ?? "",
     CURTAIN.test(question) ? "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)." : "",
@@ -164,7 +164,7 @@ while (i < lines.length) {
     prompt: { fr: [question, ...choices].join(" ").replace(/\s+/g, " ").trim() },
     answer: { fr: answer.replace(/\s+/g, " ") },
     explanation: { fr: joinWrapped(explanationFr), ar: joined.ar },
-    sources: [{ title: src.title, author: src.author, pages: src.pages, ...(src.locator ? { locator: src.locator } : {}) }],
+    sources: [{ title: src.title, author: src.author, pages: src.pages, ...(src.locator ? { locator: src.locator } : {}), ...(publisher ? { publisher } : {}) }],
     animationKey: animationKeyFor(hint),
     animationHint: hint,
     ...(notes.length > 0 ? { reviewNotes: notes.join(" ") } : {}),
@@ -176,39 +176,41 @@ while (i < lines.length) {
  * « <ouvrage> - commentaire de <auteur>, sur le matn d'<texte>. Matn, vers 3-4, PDF p. 12. »
  */
 function parseSource(source, id) {
-  const plain = source.match(/^(.+?) - (?:commentaire de\s+)?(.+?), PDF transmis, p\. (.+?)\.?$/);
-  if (plain) return { title: plain[1].trim(), author: plain[2].trim(), pages: plain[3].trim(), locator: "", baseText: "" };
   const matn = source.match(/^(.+?) - (?:commentaire de\s+)?(.+?), sur le matn d[’'](.+?)\. (Matn, vers [\d\s,\-–]+?), PDF p\. (\d+)\.?$/);
   if (matn) return { title: matn[1].trim(), author: matn[2].trim(), pages: matn[5], locator: matn[4].replace(/\s+/g, " ").trim(), baseText: matn[3].trim() };
+  const plain = source.match(/^(.+?) - (?:commentaire de\s+)?(.+?), (?:PDF transmis, p\.|PDF p\.) (.+?)\.?$/);
+  if (plain) return { title: plain[1].trim(), author: plain[2].trim(), pages: plain[3].trim(), locator: "", baseText: "" };
   throw new Error(`carte ${id} : source non reconnue « ${source} »`);
 }
 
 /**
  * Explication arabe : une ligne propre commençant par « الشرح بالعربية » est
  * reprise telle quelle. L'extraction PDF coupe parfois le texte autour d'un
- * signe diacritique et livre les morceaux à l'envers (fin, [lettre], début) ;
- * seuls ces cas simples (≤ 3 fragments, tête reconnaissable, aucun glyphe
- * orphelin) sont recollés, et signalés pour relecture. Tout le reste est
- * laissé VIDE et annoté pour saisie manuelle — jamais un texte religieux
- * approximatif.
+ * signe diacritique et livre les morceaux à l'envers (fin, [lettre ou glyphe
+ * orphelin], début). Seuls ces cas simples (≤ 3 fragments, tête reconnaissable)
+ * sont recollés et signalés pour relecture ; quand le signe diacritique est
+ * devenu un glyphe orphelin (« F », « O »…), il est perdu à la jonction et la
+ * carte le dit. Tout texte recollé doit se terminer par une ponctuation finale
+ * sans point collé à une lettre. Tout le reste est laissé VIDE et annoté pour
+ * saisie manuelle — jamais un texte religieux approximatif.
  */
-function assembleArabic(frags, stray, id) {
+function assembleArabic(pieces, id) {
   const strip = (text) => text.replace(AR_PREFIX_RE, "").replace(/\s+/g, " ").trim();
-  const clean = frags.map((f) => f.trim()).filter(Boolean);
+  const isGlyph = (f) => !ARABIC.test(f) && STRAY_GLYPH.test(f);
   const fail = (why) => {
     manual.push(`${id} (${why})`);
     return { ar: "", note: `Explication arabe illisible à l'extraction (${why}) : à saisir manuellement depuis le document de contrôle.` };
   };
-  /** Un texte recollé doit se terminer par une ponctuation finale et ne jamais coller un point à une lettre : sinon l'ordre des morceaux est douteux. */
   const whole = (text) => /[.؟!]$/.test(text) && !/\.[^\s]/.test(text);
-  const accept = (text, flag) => {
+  const accept = (text, flag, note) => {
     if (!whole(text)) return fail(flag ? "réassemblage incertain" : "ligne incomplète");
     if (flag) repaired.push(id);
-    return { ar: text };
+    return note ? { ar: text, note } : { ar: text };
   };
+  const clean = pieces.filter(Boolean);
   if (clean.length === 0) return fail("absente");
-  if (stray.length > 0) return fail(`${clean.length + stray.length} fragments dont glyphes orphelins`);
   if (clean.length === 1) {
+    if (isGlyph(clean[0])) return fail("glyphe seul");
     const idx = clean[0].indexOf(AR_PREFIX);
     if (idx === 0) return accept(strip(clean[0]), false);
     if (idx > 0) return accept(strip(clean[0].slice(idx) + clean[0].slice(0, idx)), true);
@@ -216,8 +218,12 @@ function assembleArabic(frags, stray, id) {
   }
   const headLine = clean[clean.length - 1];
   const middle = clean.slice(1, -1);
-  if (clean.length <= 3 && headLine.startsWith(AR_PREFIX) && !clean[0].includes(AR_PREFIX) && middle.every((f) => /^[ء-ي]{1,2}$/.test(f))) {
-    return accept(strip([...clean].reverse().join("")), true);
+  const simple = clean.length <= 3 && headLine.startsWith(AR_PREFIX) && !clean[0].includes(AR_PREFIX) && !isGlyph(clean[0]);
+  if (simple && middle.every((f) => /^[ء-ي]{1,2}$/.test(f))) return accept(strip([...clean].reverse().join("")), true);
+  if (simple && middle.every(isGlyph)) {
+    const text = strip(headLine + clean[0]);
+    const junction = `${strip(headLine).slice(-2)}|${clean[0].slice(0, 3)}`;
+    return accept(text, true, `Signe diacritique perdu à l'extraction à la jonction « ${junction} » : à rétablir depuis le document de contrôle.`);
   }
   return fail(`${clean.length} fragments`);
 }
@@ -228,6 +234,7 @@ const bank = {
   version: 1,
   work,
   author,
+  ...(publisher ? { publisher } : {}),
   category: nodePrefix.split(".").slice(0, 2).join("."),
   questions: cards,
 };

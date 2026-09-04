@@ -1,0 +1,791 @@
+{
+  "$comment": "Banque religieuse importée depuis le document de contrôle humain (source de fond : Sharḥ al-Qawāʿid al-Arbaʿ, Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr). TOUTES les cartes sont `draft` tant qu'elles ne sont pas explicitement passées à `validated` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code ; `animationHint` est la suggestion visuelle de l'auteur, `animationKey` la famille déduite (présentation pure).",
+  "version": 1,
+  "work": "Sharḥ al-Qawāʿid al-Arbaʿ",
+  "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+  "publisher": "Dār al-Imām Muslim, 1441 H / 2020",
+  "category": "religion.tawhid",
+  "questions": [
+    {
+      "id": "REL-QAW-ARB-L1-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l1.01",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui donne tout ?",
+      "prompt": {
+        "fr": "Qui est le Créateur et Celui qui nous accorde notre subsistance ? A. Allah B. Une statue"
+      },
+      "answer": {
+        "fr": "Allah."
+      },
+      "explanation": {
+        "fr": "Allah seul crée, possède et accorde la subsistance.",
+        "ar": "الله وحده هو الخالق الرازق المالك."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "33-36",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Deux coffres apparaissent ; seul celui marqué Allah s’illumine."
+    },
+    {
+      "id": "REL-QAW-ARB-L1-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l1.02",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission adoration",
+      "prompt": {
+        "fr": "Si Allah seul nous a créés et nous donne nos bienfaits, qui devons-nous adorer ? A. Allah seul B. N’importe qui"
+      },
+      "answer": {
+        "fr": "Allah seul."
+      },
+      "explanation": {
+        "fr": "Reconnaître qu’Allah est le Créateur doit conduire à Lui consacrer l’adoration.",
+        "ar": "من عرف أن الله هو الخالق الرازق فعليه أن يفرده بالعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "34-38",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Une flèche part du mot « Créateur » vers une seule porte « Adoration »."
+    },
+    {
+      "id": "REL-QAW-ARB-L1-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l1.03",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Les polythéistes combattaient-ils tous l’idée qu’Allah est le Créateur ? Vrai / Faux"
+      },
+      "answer": {
+        "fr": "Faux."
+      },
+      "explanation": {
+        "fr": "Beaucoup reconnaissaient qu’Allah crée et administre, mais cela ne suffisait pas car ils ne Lui consacraient pas toute l’adoration.",
+        "ar": "كان كثير من المشركين يقرون بأن الله هو الخالق المدبر، لكنهم لم يفردوه بالعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "33-38",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Une carte « Créateur » reste verte, mais une seconde carte « Adoration » devient rouge."
+    },
+    {
+      "id": "REL-QAW-ARB-L1-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l1.04",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le piège de la statue",
+      "prompt": {
+        "fr": "Une statue peut-elle créer, donner la vie et accorder la subsistance ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le livre rappelle que les objets adorés ne créent pas, ne donnent pas la vie et ne possèdent pas ces pouvoirs.",
+        "ar": "المعبودات الباطلة لا تخلق ولا ترزق ولا تحيي ولا تميت."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "35-38",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Une statue tente d’activer quatre pouvoirs ; les quatre restent éteints."
+    },
+    {
+      "id": "REL-QAW-ARB-L1-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l1.05",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - La bonne combinaison",
+      "prompt": {
+        "fr": "Quelle combinaison est correcte ? A. Allah crée + Allah seul mérite l’adoration B. Allah crée + on peut adorer autre que Lui"
+      },
+      "answer": {
+        "fr": "Allah crée + Allah seul mérite l’adoration."
+      },
+      "explanation": {
+        "fr": "Le Tawhid demande de reconnaître Allah comme Seigneur et de Lui réserver l’adoration.",
+        "ar": "التوحيد يقتضي الإقرار بربوبية الله وإفراده وحده بالعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "33-38",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Deux pièces de puzzle « création » et « adoration » s’emboîtent."
+    },
+    {
+      "id": "REL-QAW-ARB-L2-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l2.01",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission rapprochement",
+      "prompt": {
+        "fr": "Certains polythéistes disaient adorer d’autres êtres pour quoi ? A. Pour se rapprocher davantage d’Allah B. Pour apprendre à lire"
+      },
+      "answer": {
+        "fr": "Pour se rapprocher davantage d’Allah."
+      },
+      "explanation": {
+        "fr": "La deuxième règle explique qu’ils prétendaient chercher le rapprochement et l’intercession.",
+        "ar": "كان بعض المشركين يقولون إنما ندعوهم لطلب القربة والشفاعة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "41-44",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Un personnage tente de prendre un faux raccourci vers une porte marquée « proximité »."
+    },
+    {
+      "id": "REL-QAW-ARB-L2-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l2.02",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte intercession",
+      "prompt": {
+        "fr": "À qui doit-on demander l’intercession qui appartient à Allah ? A. À Allah B. À une statue"
+      },
+      "answer": {
+        "fr": "À Allah."
+      },
+      "explanation": {
+        "fr": "L’intercession affirmée est demandée à Allah et ne se produit qu’avec Sa permission.",
+        "ar": "الشفاعة المثبتة تطلب من الله ولا تكون إلا بإذنه."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "41-45, 48-51",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Une clé « permission d’Allah » déverrouille une porte « shafāʿah ».",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction «  ت|طلب » : à rétablir depuis le document de contrôle."
+    },
+    {
+      "id": "REL-QAW-ARB-L2-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l2.03",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Deux cadenas",
+      "prompt": {
+        "fr": "Quelles deux conditions sont rappelées pour l’intercession acceptée ? A. Permission d’Allah + agrément d’Allah B. Richesse + célébrité"
+      },
+      "answer": {
+        "fr": "Permission d’Allah + agrément d’Allah."
+      },
+      "explanation": {
+        "fr": "Le commentaire réunit la permission d’Allah et Son agrément pour la personne concernée.",
+        "ar": "الشفاعة المقبولة تكون بإذن الله ورضاه عن المشفوع له."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "48-51",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Deux cadenas « permission » et « agrément » doivent s’ouvrir ensemble."
+    },
+    {
+      "id": "REL-QAW-ARB-L2-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l2.04",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte piège",
+      "prompt": {
+        "fr": "Peut-on demander à une créature absente ou morte une chose que seul Allah peut accomplir ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Ce qui relève uniquement de la puissance d’Allah doit être demandé à Allah seul.",
+        "ar": "ما لا يقدر عليه إلا الله لا يطلب إلا من الله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "44-47",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Une requête quitte une mauvaise destination et revient vers une porte unique.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction «  ي|طلب » : à rétablir depuis le document de contrôle."
+    },
+    {
+      "id": "REL-QAW-ARB-L2-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l2.05",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Vrai ou faux ?",
+      "prompt": {
+        "fr": "Dire « je n’adore pas cette personne, je la prends seulement comme intermédiaire » enlève-t-il automatiquement le problème ? Vrai / Faux"
+      },
+      "answer": {
+        "fr": "Faux."
+      },
+      "explanation": {
+        "fr": "Le livre explique que les premiers polythéistes utilisaient justement l’argument du rapprochement et de l’intercession.",
+        "ar": "الاحتجاج بالقرب والشفاعة كان من حجج المشركين، ولا يجعل صرف العبادة صحيحا."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "41-44",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Un masque « intermédiaire » tombe et révèle la même mauvaise route."
+    },
+    {
+      "id": "REL-QAW-ARB-L3-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l3.01",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La collection étrange",
+      "prompt": {
+        "fr": "Le Prophète ﷺ a-t-il rencontré une seule forme de shirk ou plusieurs ? A. Une seule B. Plusieurs formes"
+      },
+      "answer": {
+        "fr": "Plusieurs formes."
+      },
+      "explanation": {
+        "fr": "La troisième règle rappelle que les gens adoraient différents êtres et objets.",
+        "ar": "واجه النبي ﷺ أنواعا متعددة من الشرك والمعبودات."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "52-56",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Plusieurs cartes différentes apparaissent : soleil, lune, arbre, pierre, ange."
+    },
+    {
+      "id": "REL-QAW-ARB-L3-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l3.02",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Trouve l’intrus",
+      "prompt": {
+        "fr": "Lequel n’est PAS cité parmi les choses que certains polythéistes adoraient ? A. Les anges B. Les prophètes C. Les arbres et les pierres D. Une équation de maths"
+      },
+      "answer": {
+        "fr": "Une équation de maths."
+      },
+      "explanation": {
+        "fr": "Le commentaire cite notamment anges, prophètes, pieux, arbres, pierres, soleil et lune.",
+        "ar": "ذكر من معبوداتهم الملائكة والأنبياء والصالحون والأشجار والأحجار والشمس والقمر."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "52-61",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Les cartes défilent rapidement ; l’équation tombe hors du plateau.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذ|كر  » : à rétablir depuis le document de contrôle."
+    },
+    {
+      "id": "REL-QAW-ARB-L3-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l3.03",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Même règle ?",
+      "prompt": {
+        "fr": "Le jugement changeait-il selon qu’ils adoraient une pierre, un ange ou un pieux ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "La troisième règle montre que la diversité des objets adorés ne change pas le principe : l’adoration doit être pour Allah seul.",
+        "ar": "اختلاف المعبودات لا يغير الحكم، فالعبادة حق لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "52-56",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Plusieurs chemins différents convergent tous vers un même panneau STOP."
+    },
+    {
+      "id": "REL-QAW-ARB-L3-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l3.04",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Soleil et lune",
+      "prompt": {
+        "fr": "Que doit faire le croyant vis-à-vis du soleil et de la lune ? A. Les adorer B. Reconnaître qu’ils sont des créatures d’Allah"
+      },
+      "answer": {
+        "fr": "Reconnaître qu’ils sont des créatures d’Allah."
+      },
+      "explanation": {
+        "fr": "Le soleil et la lune sont des signes et des créatures ; ils ne méritent pas l’adoration.",
+        "ar": "الشمس والقمر مخلوقان من مخلوقات الله ولا يستحقان العبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "56-58",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Un soleil et une lune tournent autour d’un symbole « créatures »."
+    },
+    {
+      "id": "REL-QAW-ARB-L3-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l3.05",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Le principe caché",
+      "prompt": {
+        "fr": "Quel principe relie toutes les cartes précédentes ? A. Peu importe l’objet : une adoration donnée à autre qu’Allah reste interdite B. Certaines créatures deviennent divines si elles sont respectées"
+      },
+      "answer": {
+        "fr": "Peu importe l’objet : une adoration donnée à autre qu’Allah reste interdite."
+      },
+      "explanation": {
+        "fr": "La troisième règle protège le Tawhid en montrant que l’objet adoré ne change pas la nature de l’acte.",
+        "ar": "القاعدة الثالثة تبين أن صرف العبادة لغير الله شرك مهما كان المعبود."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "52-61",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Toutes les cartes d’objets se retournent et affichent le même avertissement."
+    },
+    {
+      "id": "REL-QAW-ARB-L4-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l4.01",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mode tempête",
+      "prompt": {
+        "fr": "Comment beaucoup des premiers polythéistes réagissaient-ils lorsqu’un danger extrême les frappait ? A. Ils invoquaient Allah avec sincérité B. Ils oubliaient complètement Allah"
+      },
+      "answer": {
+        "fr": "Ils invoquaient Allah avec sincérité."
+      },
+      "explanation": {
+        "fr": "La quatrième règle souligne qu’en situation de détresse, ils se tournaient vers Allah seul.",
+        "ar": "كان المشركون الأولون يخلصون الدعاء لله عند الشدة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "67-70",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Une mer devient agitée ; toutes les fausses icônes disparaissent et une seule invocation reste."
+    },
+    {
+      "id": "REL-QAW-ARB-L4-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l4.02",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mode calme",
+      "prompt": {
+        "fr": "Et quand le danger disparaissait ? A. Certains retournaient à leur shirk B. Ils restaient toujours sincères"
+      },
+      "answer": {
+        "fr": "Certains retournaient à leur shirk."
+      },
+      "explanation": {
+        "fr": "Le contraste entre détresse et aisance est au cœur de la quatrième règle.",
+        "ar": "إذا زالت الشدة عاد كثير منهم إلى الشرك في حال الرخاء."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "67-70",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "La tempête cesse ; les anciennes mauvaises icônes réapparaissent."
+    },
+    {
+      "id": "REL-QAW-ARB-L4-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l4.03",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Comparaison difficile",
+      "prompt": {
+        "fr": "Pourquoi le commentaire considère-t-il le shirk de certains contemporains comme plus grave ? A. Parce qu’ils peuvent persister dans le shirk même pendant la détresse B. Parce qu’ils voyagent davantage"
+      },
+      "answer": {
+        "fr": "Parce qu’ils peuvent persister dans le shirk même pendant la détresse."
+      },
+      "explanation": {
+        "fr": "La quatrième règle compare ceux qui revenaient à Allah dans la détresse à ceux qui persistent dans le shirk dans l’aisance comme dans l’épreuve.",
+        "ar": "اشتد شرك بعض المتأخرين لأنهم يشركون في الرخاء والشدة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "67-71",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "gauge_rise",
+      "animationHint": "Deux jauges « aisance » et « détresse » restent rouges chez le second profil.",
+      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+    },
+    {
+      "id": "REL-QAW-ARB-L4-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l4.04",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le naufrage",
+      "prompt": {
+        "fr": "Un homme pense que seul Allah peut réellement le sauver d’un naufrage. Que doit-il faire ? A. Invoquer Allah seul B. Invoquer un mort absent"
+      },
+      "answer": {
+        "fr": "Invoquer Allah seul."
+      },
+      "explanation": {
+        "fr": "Dans une situation que seul Allah maîtrise, le cœur et l’invocation doivent être dirigés vers Lui.",
+        "ar": "عند الكرب الذي لا يكشفه إلا الله يجب إخلاص الدعاء لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "68-70",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Un bateau penche ; une seule bouée « Allah seul » apparaît."
+    },
+    {
+      "id": "REL-QAW-ARB-L4-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l4.05",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Deux situations",
+      "prompt": {
+        "fr": "Le Tawhid doit-il rester le même dans l’aisance et dans la difficulté ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Oui."
+      },
+      "explanation": {
+        "fr": "Le croyant consacre son adoration à Allah en toute circonstance.",
+        "ar": "المؤمن يخلص العبادة لله في الرخاء والشدة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "67-71",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Deux scènes opposées se rejoignent sous un même symbole « Tawhid »."
+    },
+    {
+      "id": "REL-QAW-ARB-L5-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l5.01",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Rubūbiyyah ne suffit pas",
+      "prompt": {
+        "fr": "Pourquoi reconnaître qu’Allah est le Créateur ne suffisait-il pas aux polythéistes décrits dans la première règle ? A. Parce qu’ils ne Lui consacraient pas l’adoration exclusivement B. Parce qu’ils ne connaissaient pas le commerce"
+      },
+      "answer": {
+        "fr": "Parce qu’ils ne Lui consacraient pas l’adoration exclusivement."
+      },
+      "explanation": {
+        "fr": "La reconnaissance de la Seigneurie d’Allah doit être accompagnée du Tawhid dans l’adoration.",
+        "ar": "الإقرار بربوبية الله لا يكفي حتى يفرد سبحانه بالعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "33-38",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une première clé ouvre un demi-verrou ; la seconde « adoration seule » termine l’ouverture.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction «  ي|فرد » : à rétablir depuis le document de contrôle."
+    },
+    {
+      "id": "REL-QAW-ARB-L5-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l5.02",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Intercession validée",
+      "prompt": {
+        "fr": "Quelle formulation est la plus fidèle à l’intercession affirmée ? A. Elle appartient à Allah, se fait avec Sa permission et Son agrément B. Elle est disponible indépendamment d’Allah"
+      },
+      "answer": {
+        "fr": "Elle appartient à Allah, se fait avec Sa permission et Son agrément."
+      },
+      "explanation": {
+        "fr": "L’intercession ne fonctionne pas comme un pouvoir autonome détenu par une créature.",
+        "ar": "الشفاعة ملك لله ولا تكون إلا بإذنه ورضاه."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "48-51",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Trois sceaux « Allah », « permission », « agrément » apparaissent successivement."
+    },
+    {
+      "id": "REL-QAW-ARB-L5-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l5.03",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Diversité trompeuse",
+      "prompt": {
+        "fr": "Pourquoi la troisième règle cite-t-elle autant d’objets d’adoration différents ? A. Pour montrer que changer l’objet n’enlève pas le shirk B. Pour établir une liste de choses autorisées à adorer"
+      },
+      "answer": {
+        "fr": "Pour montrer que changer l’objet n’enlève pas le shirk."
+      },
+      "explanation": {
+        "fr": "Le principe reste identique même si l’objet adoré change : ange, prophète, pieux, arbre, pierre, soleil ou lune.",
+        "ar": "تعدد المعبودات لا يغير حقيقة الشرك إذا صرفت العبادة لغير الله."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "52-61",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Sept cartes différentes fusionnent dans une seule carte « même principe ».",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction «  ص|رفت » : à rétablir depuis le document de contrôle."
+    },
+    {
+      "id": "REL-QAW-ARB-L5-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l5.04",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Comparaison des deux époques",
+      "prompt": {
+        "fr": "Quel contraste central fonde la quatrième règle ? A. Premiers polythéistes : shirk surtout dans l’aisance et retour à Allah dans la détresse ; certains tardifs : shirk dans les deux situations B. Premiers polythéistes : aucun shirk ; tardifs : aucun shirk"
+      },
+      "answer": {
+        "fr": "Premiers polythéistes : shirk surtout dans l’aisance et retour à Allah dans la détresse ; certains tardifs : shirk."
+      },
+      "explanation": {
+        "fr": "La règle met en évidence la persistance du shirk chez certains même lorsque la détresse devrait pousser à l’Ikhlāṣ.",
+        "ar": "القاعدة الرابعة تقارن بين إخلاص الأولين عند الشدة واستمرار شرك بعض المتأخرين في الرخاء والشدة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "67-71",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Deux profils temporels apparaissent côte à côte avec leurs états « aisance/détresse »."
+    },
+    {
+      "id": "REL-QAW-ARB-L5-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.qawaid.l5.05",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS FINAL - Les 4 règles",
+      "prompt": {
+        "fr": "Quel résumé correspond le mieux aux quatre règles ? A. Reconnaître Allah comme Créateur ne suffit pas ; faux intermédiaires et intercession ne justifient pas l’adoration ; la diversité des objets adorés ne change rien ; le Tawhid vaut dans l’aisance et la détresse B. Il suffit de croire qu’Allah existe, puis chacun choisit ses intermédiaires"
+      },
+      "answer": {
+        "fr": "Reconnaître Allah comme Créateur ne suffit pas ; faux intermédiaires et intercession ne justifient pas l’adoration."
+      },
+      "explanation": {
+        "fr": "Les quatre règles forment une protection contre les principales confusions autour du Tawhid et du shirk.",
+        "ar": "القواعد الأربع تحمي فهم التوحيد من أهم الشبهات المتعلقة بالشرك والوسائط وتنوع المعبودات وحال الرخاء والشدة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Qawāʿid al-Arbaʿ",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "33-71",
+          "publisher": "Dār al-Imām Muslim, 1441 H / 2020"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Quatre portes se referment derrière le joueur puis un coffre final « Tawhid » s’ouvre."
+    }
+  ]
+}

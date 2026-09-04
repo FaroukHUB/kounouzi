@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, CURATED_BANK, DUROUS_BANK, OUSSOUL_BANK, RAMADAN_BANK, RELIGION_BANKS, SIRAH_BANK, contentRegistry } from "@/config/content";
+import { CATEGORIES, CURATED_BANK, DUROUS_BANK, OUSSOUL_BANK, QAWAID_BANK, RAMADAN_BANK, RELIGION_BANKS, SIRAH_BANK, contentRegistry } from "@/config/content";
 import { createContentRegistry, createCuratedProvider, isPlayable, playabilityIssues } from "@/core/content";
 import { KNOWN_ANIMATION_KEYS, animationFamily } from "@/ui/cards/animations/families";
 
@@ -36,7 +36,7 @@ describe("banque religieuse Oussoul ath-Thalatha (import, tout en brouillon)", (
     expect(playabilityIssues(OUSSOUL_BANK[0]!, religion)).toEqual(["statut draft ≠ validated"]);
     expect(contentRegistry().availableCategories("child")).not.toContain("religion");
     expect(contentRegistry().slots("child").some((s) => s.categoryId === "religion")).toBe(false);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(325);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(350);
   });
 
   it("une carte passée à `validated` par relecture devient jouable telle quelle, avec sa source et son habillage", () => {
@@ -90,7 +90,7 @@ describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, tout en brouillo
   it("compte 100 cartes, 20 par niveau, identifiants uniques sur les trois banques, toutes `draft`, bilingues et sourcées avec pages", () => {
     expect(DUROUS_BANK).toHaveLength(100);
     for (const level of [1, 2, 3, 4, 5]) expect(DUROUS_BANK.filter((q) => q.difficulty === level)).toHaveLength(20);
-    expect(new Set(RELIGION_BANKS.flatMap((b) => b.questions.map((q) => q.id))).size).toBe(325);
+    expect(new Set(RELIGION_BANKS.flatMap((b) => b.questions.map((q) => q.id))).size).toBe(350);
     for (const q of DUROUS_BANK) {
       expect(q.status, q.id).toBe("draft");
       expect(q.id, q.id).toMatch(/^REL-DRS-ARB-L\d-\d\d$/);
@@ -140,5 +140,26 @@ describe("banque religieuse Sirah — al-Urjuzah al-Mi'iyyah (import PDF, tout e
     // Même validée par erreur, une carte sans explication arabe reste injouable.
     const forced = { ...SIRAH_BANK.find((q) => q.explanation.ar === "")!, status: "validated" as const };
     expect(playabilityIssues(forced, religion)).toContain("explication AR manquante");
+  });
+});
+
+describe("banque religieuse Al-Qawaid al-Arba (import PDF, tout en brouillon)", () => {
+  it("compte 25 cartes, 5 par niveau, toutes `draft`, bilingues, sourcées avec ouvrage, auteur, éditeur et pages", () => {
+    expect(QAWAID_BANK).toHaveLength(25);
+    for (const level of [1, 2, 3, 4, 5]) expect(QAWAID_BANK.filter((q) => q.difficulty === level)).toHaveLength(5);
+    for (const q of QAWAID_BANK) {
+      expect(q.status, q.id).toBe("draft");
+      expect(q.id, q.id).toMatch(/^REL-QAW-ARB-L\d-\d\d$/);
+      expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.tawhid\.qawaid\.l\d\.\d\d$/);
+      expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.?$/);
+      expect(q.explanation.ar, q.id).toMatch(/^[^A-Za-z]*[.؟!]$/);
+      expect(q.sources[0], q.id).toMatchObject({ title: "Sharḥ al-Qawāʿid al-Arbaʿ", author: "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr", publisher: "Dār al-Imām Muslim, 1441 H / 2020" });
+      expect(q.sources[0]!.pages, q.id).toMatch(/^\d/);
+      expect(isPlayable(q, religion), q.id).toBe(false);
+    }
+  });
+  it("les jonctions où un signe diacritique a été perdu et l'énoncé qui laisse voir le texte sont annotés, jamais corrigés par le code", () => {
+    expect(QAWAID_BANK.filter((q) => /Signe diacritique perdu/.test(q.reviewNotes ?? "")).map((q) => q.id)).toEqual(["REL-QAW-ARB-L2-02", "REL-QAW-ARB-L2-04", "REL-QAW-ARB-L3-02", "REL-QAW-ARB-L5-01", "REL-QAW-ARB-L5-03"]);
+    expect(QAWAID_BANK.filter((q) => /derrière le rideau/.test(q.reviewNotes ?? "")).map((q) => q.id)).toEqual(["REL-QAW-ARB-L4-03"]);
   });
 });

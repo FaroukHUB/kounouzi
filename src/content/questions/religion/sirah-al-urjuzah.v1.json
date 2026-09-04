@@ -438,7 +438,7 @@
       ],
       "animationKey": "wave_ripple",
       "animationHint": "Une lumière descend vers deux icônes : eau et prière.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (3 fragments dont glyphes orphelins) : à saisir manuellement depuis le document de contrôle."
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L1-15",
@@ -657,7 +657,7 @@
       ],
       "animationKey": "stars_spark",
       "animationHint": "Plusieurs mains se disputent une pierre, puis une solution commune apparaît.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (5 fragments dont glyphes orphelins) : à saisir manuellement depuis le document de contrôle."
+      "reviewNotes": "Explication arabe illisible à l'extraction (5 fragments) : à saisir manuellement depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L2-02",
@@ -1155,7 +1155,7 @@
       ],
       "animationKey": "compass_scan",
       "animationHint": "Une boussole pivote vers une nouvelle direction.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (4 fragments dont glyphes orphelins) : à saisir manuellement depuis le document de contrôle."
+      "reviewNotes": "Explication arabe illisible à l'extraction (4 fragments) : à saisir manuellement depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L2-18",
