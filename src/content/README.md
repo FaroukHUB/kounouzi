@@ -28,6 +28,15 @@
   du choix A, tel quel. Les énoncés qui laissent voir le texte ou le
   commentaire portent une `reviewNotes` : à reformuler en relecture, jamais
   par le code.
+- `questions/religion/sirah-al-urjuzah.v1.json` — banque « Sirah — al-Urjūzah
+  al-Miʾiyyah » (Sharḥ al-Urjūzah al-Miʾiyyah fī Dhikr Ḥāl Ashraf al-Bariyyah,
+  commentaire de Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr sur le matn
+  d'Ibn Abī al-ʿIzz al-Ḥanafī), 100 cartes en 5 niveaux importées depuis le
+  PDF de contrôle par le même script, toutes `draft`. Les sources portent un
+  `locator` (« Matn, vers 3-4 ») en plus de la page. L'extraction PDF coupe
+  l'arabe : seuls les cas simples sont recollés (signalés à relire) ; les
+  autres explications arabes sont laissées **vides** avec `reviewNotes`, à
+  saisir depuis le document de contrôle (un DOCX donnerait l'arabe intact).
 
 Règles : explication FR **et** AR obligatoires pour toute question jouable ;
 `status = validated` obligatoire ; source primaire obligatoire si la catégorie

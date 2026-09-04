@@ -1,0 +1,3133 @@
+{
+  "$comment": "Banque religieuse importée depuis le document de contrôle humain (source de fond : Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah, Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr, sur le matn d'Ibn Abī al-ʿIzz al-Ḥanafī). TOUTES les cartes sont `draft` tant qu'elles ne sont pas explicitement passées à `validated` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code ; `animationHint` est la suggestion visuelle de l'auteur, `animationKey` la famille déduite (présentation pure).",
+  "version": 1,
+  "work": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+  "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+  "category": "religion.sirah",
+  "questions": [
+    {
+      "id": "REL-SIR-ARB-L1-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.01",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le calendrier secret",
+      "prompt": {
+        "fr": "À quelle grande année est liée la naissance du Prophète Muhammad ﷺ ? A. L’Année de l’Éléphant B. L’année de la Hijrah"
+      },
+      "answer": {
+        "fr": "L’Année de l’Éléphant."
+      },
+      "explanation": {
+        "fr": "Le Prophète ﷺ est né durant l’année connue comme l’Année de l’Éléphant.",
+        "ar": "وُلد النبي ﷺ في عام الفيل."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 3-4"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Un calendrier se déroule, puis un éléphant stylisé apparaît sur la bonne année."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.02",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Le Prophète ﷺ est né un lundi. Vrai / Faux"
+      },
+      "answer": {
+        "fr": "Vrai."
+      },
+      "explanation": {
+        "fr": "Sa naissance est située un lundi.",
+        "ar": "وُلد النبي ﷺ يوم الاثنين."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 4"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une carte se retourne sur un soleil levant marqué « lundi »."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.03",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le mois mystère",
+      "prompt": {
+        "fr": "Dans quel mois est né le Prophète ﷺ ? A. Ramaḍān B. Rabīʿ al-Awwal"
+      },
+      "answer": {
+        "fr": "Rabīʿ al-Awwal."
+      },
+      "explanation": {
+        "fr": "Sa naissance a eu lieu durant le mois de Rabīʿ al-Awwal.",
+        "ar": "كانت وُلادته ﷺ في شهر ربيع الأوُل."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 3-4"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Deux lunes apparaissent ; la bonne lune s’illumine."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.04",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui suis-je ?",
+      "prompt": {
+        "fr": "J’ai allaité et pris soin du Prophète ﷺ lorsqu’il était petit. Je m’appelle... A. Ḥalīmah B. Fāṭimah"
+      },
+      "answer": {
+        "fr": "Ḥalīmah."
+      },
+      "explanation": {
+        "fr": "Ḥalīmah faisait partie de celles qui ont pris soin du Prophète ﷺ durant sa petite enfance.",
+        "ar": "أرضعت حليمة النبي ﷺ وُاعتنت به في صغره."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 6-7"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Une silhouette protectrice apparaît derrière un petit berceau."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.05",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission âge",
+      "prompt": {
+        "fr": "Le Prophète ﷺ avait environ quel âge lorsque sa mère est décédée ? A. 6 ans B. 16 ans"
+      },
+      "answer": {
+        "fr": "Environ 6 ans."
+      },
+      "explanation": {
+        "fr": "Sa mère est décédée alors qu’il était encore un jeune enfant.",
+        "ar": "توفيت أمه وُالنبي ﷺ في نحو السادسة من عمره."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 9"
+        }
+      ],
+      "animationKey": "gauge_rise",
+      "animationHint": "Une jauge d’âge s’arrête sur 6."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.06",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le protecteur",
+      "prompt": {
+        "fr": "Après le décès de sa mère, son grand-père s’occupa de lui. Comment s’appelait-il ? A. ʿAbd al-Muṭṭalib B. ʿUmar"
+      },
+      "answer": {
+        "fr": "ʿAbd al-Muṭṭalib."
+      },
+      "explanation": {
+        "fr": "ʿAbd al-Muṭṭalib était le grand-père paternel du Prophète ﷺ.",
+        "ar": "عبد المطلب هو جد النبي ﷺ من جهة أبيه."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 10"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Un arbre familial dévoile la branche « grand-père »."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.07",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission famille",
+      "prompt": {
+        "fr": "Après la mort de son grand-père, qui prit soin du Prophète ﷺ ? A. Son oncle Abū Ṭālib B. Un roi"
+      },
+      "answer": {
+        "fr": "Son oncle Abū Ṭālib."
+      },
+      "explanation": {
+        "fr": "Abū Ṭālib prit ensuite le Prophète ﷺ sous sa protection.",
+        "ar": "كفل أبو طالب النبي ﷺ بعد وُفاة جده."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 11"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Un bouclier se place devant la carte « Abū Ṭālib »."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.08",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte voyage",
+      "prompt": {
+        "fr": "Vers quelle région le jeune Muhammad ﷺ voyagea-t-il avec son oncle ? A. Le Shām B. L’Andalousie"
+      },
+      "answer": {
+        "fr": "Le Shām."
+      },
+      "explanation": {
+        "fr": "Il voyagea vers le Shām alors qu’il était encore jeune.",
+        "ar": "سافر النبي ﷺ في صغره إلى الشام."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 11-12"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une petite caravane avance sur une carte vers le Shām."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.09",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission commerçant",
+      "prompt": {
+        "fr": "À environ 25 ans, Muhammad ﷺ voyagea pour faire du commerce pour... A. Khadījah B. Ḥalīmah"
+      },
+      "answer": {
+        "fr": "Khadījah."
+      },
+      "explanation": {
+        "fr": "Avant la prophétie, il commerça pour Khadījah رضي الله عنها.",
+        "ar": "خرج النبي ﷺ في تجارة لخديجة رضي الله عنها قبل النبوة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 13-14"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Une caravane commerciale atteint un coffre marqué « Khadījah »."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.10",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le mariage",
+      "prompt": {
+        "fr": "Quelle femme devint l’épouse du Prophète ﷺ après ce voyage commercial ? A. Khadījah رضي الله عنها B. Ḥalīmah"
+      },
+      "answer": {
+        "fr": "Khadījah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "Le Prophète ﷺ épousa Khadījah رضي الله عنها.",
+        "ar": "تزوُج النبي ﷺ خديجة رضي الله عنها."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 14-15"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Deux cartes se rapprochent et un anneau discret apparaît."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.11",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte famille",
+      "prompt": {
+        "fr": "Tous ses enfants mentionnés dans cette partie étaient de Khadījah رضي الله عنها, sauf un. Lequel ? A. Ibrāhīm B. Fāṭimah"
+      },
+      "answer": {
+        "fr": "Ibrāhīm."
+      },
+      "explanation": {
+        "fr": "Ibrāhīm était le fils du Prophète ﷺ avec Māriyah.",
+        "ar": "إبراهيم ابن النبي ﷺ من مارية."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "12",
+          "locator": "Matn, vers 15-16"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Un arbre familial se complète avec une branche différente pour Ibrāhīm."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.12",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le nombre magique",
+      "prompt": {
+        "fr": "Quel âge avait le Prophète ﷺ lorsque la révélation commença ? A. 20 ans B. 40 ans"
+      },
+      "answer": {
+        "fr": "40 ans."
+      },
+      "explanation": {
+        "fr": "La mission prophétique débuta lorsqu’il atteignit l’âge de quarante ans.",
+        "ar": "بدأ الوحي للنبي ﷺ وُهو ابن أربعين سنة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 22"
+        }
+      ],
+      "animationKey": "gauge_rise",
+      "animationHint": "Un compteur monte jusqu’à 40 puis s’illumine."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.13",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le premier message",
+      "prompt": {
+        "fr": "Quel mot correspond au début de la première sourate révélée mentionnée dans cette Sīrah ? A. Iqraʾ - « Lis ! » B. Uktub - « Écris ! »"
+      },
+      "answer": {
+        "fr": "Iqraʾ - « Lis ! »."
+      },
+      "explanation": {
+        "fr": "Les premiers versets révélés mentionnés commencent par « Iqraʾ ».",
+        "ar": "أوُل ما نزل من الوحي كان من سورة اقرأ."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 23"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Un parchemin fermé s’ouvre sur le mot « Iqraʾ »."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.14",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "L’enseignant venu du ciel",
+      "prompt": {
+        "fr": "Quel ange enseigna au Prophète ﷺ le Wuḍūʾ et la prière ? A. Jibrīl عليه السلام B. Un roi humain"
+      },
+      "answer": {
+        "fr": "Jibrīl عليه السلام."
+      },
+      "explanation": {
+        "fr": "Jibrīl عليه السلام enseigna au Prophète ﷺ le Wuḍūʾ et la prière.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 24"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Une lumière descend vers deux icônes : eau et prière.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (3 fragments dont glyphes orphelins) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.15",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission courage",
+      "prompt": {
+        "fr": "Au début, l’appel à l’Islam fut discret. Puis le Prophète ﷺ reçut l’ordre... A. D’appeler ouvertement à l’Islam B. De ne plus parler à personne"
+      },
+      "answer": {
+        "fr": "D’appeler ouvertement à l’Islam."
+      },
+      "explanation": {
+        "fr": "Après les premières années, l’appel à l’Islam devint public.",
+        "ar": "بعد بداية الدعوة أمر النبي ﷺ أن يدعو إلى الإسلام جهرا."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 26"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une petite lumière devient un grand faisceau visible."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.16",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte destination",
+      "prompt": {
+        "fr": "Certains Compagnons durent quitter La Mecque pour se protéger. Vers quel pays partirent-ils ? A. Al-Ḥabashah - l’Abyssinie B. La Chine"
+      },
+      "answer": {
+        "fr": "Al-Ḥabashah - l’Abyssinie."
+      },
+      "explanation": {
+        "fr": "Des Compagnons émigrèrent vers l’Abyssinie durant les premières années de l’Islam.",
+        "ar": "هاجر عدد من الصحابة إلى بلاد الحبشة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 27-29"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Des bateaux ou caravanes se déplacent vers une destination nommée « Al-Ḥabashah »."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.17",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui a rejoint l’équipe ?",
+      "prompt": {
+        "fr": "Quel homme courageux, oncle du Prophète ﷺ, accepta l’Islam durant cette période ? A. Ḥamzah رضي الله عنه B. Abū Lahab"
+      },
+      "answer": {
+        "fr": "Ḥamzah رضي الله عنه."
+      },
+      "explanation": {
+        "fr": "Ḥamzah رضي الله عنه entra dans l’Islam durant la période mecquoise.",
+        "ar": "أسلم حمزة رضي الله عنه في مكة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 30"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Une nouvelle carte rejoint l’équipe avec un bouclier de courage."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.18",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Voyage extraordinaire",
+      "prompt": {
+        "fr": "Lors de Al-Isrāʾ, quelle grande adoration fut rendue obligatoire ? A. Les cinq prières B. Le commerce"
+      },
+      "answer": {
+        "fr": "Les cinq prières."
+      },
+      "explanation": {
+        "fr": "Les prières furent prescrites et leur nombre quotidien fut établi à cinq.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 36"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Cinq étoiles de prière apparaissent l’une après l’autre.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.19",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Grande migration",
+      "prompt": {
+        "fr": "De quelle ville le Prophète ﷺ partit-il lorsqu’il fit la Hijrah ? A. La Mecque B. Médine"
+      },
+      "answer": {
+        "fr": "La Mecque."
+      },
+      "explanation": {
+        "fr": "Le Prophète ﷺ quitta La Mecque lors de la grande Hijrah.",
+        "ar": "هاجر النبي ﷺ من مكة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 39"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Un pion quitte une ville marquée « Makkah »."
+    },
+    {
+      "id": "REL-SIR-ARB-L1-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l1.20",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - La ville d’arrivée",
+      "prompt": {
+        "fr": "Dans quelle ville le Prophète ﷺ arriva-t-il après la Hijrah ? A. Médine - Ṭaybah B. Le Shām"
+      },
+      "answer": {
+        "fr": "Médine - Ṭaybah."
+      },
+      "explanation": {
+        "fr": "La Hijrah conduisit le Prophète ﷺ de La Mecque à Médine.",
+        "ar": "هاجر النبي ﷺ من مكة إلى المدينة، وُهي طيبة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 40"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "La route s’achève sur une grande porte marquée « Madinah »."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.01",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le juge du Ḥajar al-Aswad",
+      "prompt": {
+        "fr": "Lors de la reconstruction de la Kaʿbah, qui régla le désaccord concernant la Pierre Noire ? A. Muhammad ﷺ B. Un roi du Shām"
+      },
+      "answer": {
+        "fr": "Muhammad ﷺ."
+      },
+      "explanation": {
+        "fr": "Avant la prophétie, Muhammad ﷺ fut choisi pour régler le désaccord au sujet de la Pierre Noire.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 20-21"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Plusieurs mains se disputent une pierre, puis une solution commune apparaît.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (5 fragments dont glyphes orphelins) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.02",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La survivante de la famille",
+      "prompt": {
+        "fr": "Quel enfant du Prophète ﷺ lui survécut encore quelque temps après son décès ? A. Fāṭimah رضي الله عنها B. Al-Qāsim"
+      },
+      "answer": {
+        "fr": "Fāṭimah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "Fāṭimah رضي الله عنها vécut encore environ six mois après le décès du Prophète ﷺ.",
+        "ar": "عاشت فاطمة رضي الله عنها بعد وُفاة النبي ﷺ نحو ستة أشهر."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 19"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une frise familiale s’éteint doucement sauf une carte qui reste allumée."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.03",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Double départ",
+      "prompt": {
+        "fr": "Les Compagnons émigrèrent-ils vers l’Abyssinie une seule fois ou plus d’une fois ? A. Une seule fois B. Plus d’une fois"
+      },
+      "answer": {
+        "fr": "Plus d’une fois."
+      },
+      "explanation": {
+        "fr": "La Sīrah mentionne une première émigration puis une seconde vers l’Abyssinie.",
+        "ar": "كانت الهجرة إلى الحبشة مرتين."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 27-30"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Deux routes successives apparaissent vers la même destination."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.04",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le lion rejoint l’Islam",
+      "prompt": {
+        "fr": "À quelle période Ḥamzah رضي الله عنه embrassa-t-il l’Islam ? A. Durant la période mecquoise B. Après le pèlerinage d’adieu"
+      },
+      "answer": {
+        "fr": "Durant la période mecquoise."
+      },
+      "explanation": {
+        "fr": "Son entrée dans l’Islam eut lieu avant la Hijrah.",
+        "ar": "أسلم حمزة رضي الله عنه قبل الهجرة في مكة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 30"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une carte « Ḥamzah » rejoint le camp mecquois."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.05",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Deux pertes rapprochées",
+      "prompt": {
+        "fr": "Qui mourut peu après Abū Ṭālib ? A. Khadījah رضي الله عنها B. Fāṭimah رضي الله عنها"
+      },
+      "answer": {
+        "fr": "Khadījah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "La mort de Khadījah رضي الله عنها survint peu après celle d’Abū Ṭālib.",
+        "ar": "توفيت خديجة رضي الله عنها بعد أبي طالب بمدة يسيرة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 31-32"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Deux cartes d’une frise se grisent l’une après l’autre."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.06",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission Jinn",
+      "prompt": {
+        "fr": "Un groupe de jinn mentionné dans cette Sīrah accepta l’Islam. De quelle région étaient-ils associés ? A. Naṣībīn B. Al-Andalus"
+      },
+      "answer": {
+        "fr": "Naṣībīn."
+      },
+      "explanation": {
+        "fr": "La Sīrah mentionne l’Islam de jinn de Naṣībīn.",
+        "ar": "ذُكر إسلام نفر من جن نصيبين."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 33"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Des étoiles nocturnes convergent vers une carte « Naṣībīn »."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.07",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte mariage",
+      "prompt": {
+        "fr": "Quel mariage fut conclu en Ramaḍān après cette période difficile ? A. Le mariage avec Sawdah رضي الله عنها B. Le mariage avec Fāṭimah رضي الله عنها"
+      },
+      "answer": {
+        "fr": "Le mariage avec Sawdah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "Le Prophète ﷺ conclut son mariage avec Sawdah رضي الله عنها.",
+        "ar": "عقد النبي ﷺ على سودة رضي الله عنها."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 34"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une carte « Sawdah » rejoint une frise familiale."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.08",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le mois de ʿĀʾishah",
+      "prompt": {
+        "fr": "Dans quel mois fut conclu le mariage avec ʿĀʾishah رضي الله عنها ? A. Shawwāl B. Muḥarram"
+      },
+      "answer": {
+        "fr": "Shawwāl."
+      },
+      "explanation": {
+        "fr": "Le mariage avec ʿĀʾishah رضي الله عنها fut conclu en Shawwāl.",
+        "ar": "عقد النبي ﷺ على عائشة رضي الله عنها في شوال."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 35"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Un calendrier avance jusqu’à Shawwāl."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.09",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La première Bayʿah",
+      "prompt": {
+        "fr": "La première Bayʿah d’al-ʿAqabah réunit-elle des habitants de Médine ou du Shām ? A. Des habitants de Médine B. Des habitants du Shām"
+      },
+      "answer": {
+        "fr": "Des habitants de Médine."
+      },
+      "explanation": {
+        "fr": "La première Bayʿah d’al-ʿAqabah fut conclue avec des hommes venus de Ṭaybah, Médine.",
+        "ar": "كانت البيعة الأوُلى مع رجال من أهل طيبة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 37"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Des mains se rejoignent autour d’un symbole de Médine."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.10",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La Bayʿah s’agrandit",
+      "prompt": {
+        "fr": "La seconde rencontre d’al-ʿAqabah réunit-elle davantage de personnes que la première ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Oui."
+      },
+      "explanation": {
+        "fr": "La seconde Bayʿah d’al-ʿAqabah réunit un groupe bien plus nombreux.",
+        "ar": "كانت البيعة الثانية أكبر عددا من الأوُ لى."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 38"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Un petit cercle de joueurs devient un grand cercle."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.11",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Âge de la Hijrah",
+      "prompt": {
+        "fr": "Le Prophète ﷺ avait environ quel âge lorsqu’il arriva à Médine ? A. 53 ans B. 33 ans"
+      },
+      "answer": {
+        "fr": "53 ans."
+      },
+      "explanation": {
+        "fr": "La Hijrah eut lieu alors qu’il avait accompli environ cinquante-trois années.",
+        "ar": "كانت الهجرة إلى المدينة بعد إكمال نحو ثلاث وُخمسين سنة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 40"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Une jauge d’âge s’arrête sur 53, puis la porte de Médine s’ouvre."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.12",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Dix années à Médine",
+      "prompt": {
+        "fr": "Après la Hijrah, combien d’années environ le Prophète ﷺ demeura-t-il à Médine ? A. 10 ans B. 2 ans"
+      },
+      "answer": {
+        "fr": "10 ans."
+      },
+      "explanation": {
+        "fr": "Il demeura à Médine environ dix années jusqu’à son décès.",
+        "ar": "أقام النبي ﷺ في المدينة نحو عشر سنين."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 41"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Dix cases d’une frise médinoise s’illuminent."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.13",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission mosquée",
+      "prompt": {
+        "fr": "Quelle mosquée fut construite au début de l’arrivée à Médine ? A. La mosquée de Qubāʾ B. La mosquée de Cordoue"
+      },
+      "answer": {
+        "fr": "La mosquée de Qubāʾ."
+      },
+      "explanation": {
+        "fr": "La construction de la mosquée de Qubāʾ fait partie des premiers événements de la période médinoise.",
+        "ar": "كان بناء مسجد قباء من أوُائل أحداث العهد المدني."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 43"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Des briques s’assemblent pour former une petite mosquée."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.14",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La grande mosquée",
+      "prompt": {
+        "fr": "Quelle autre grande mosquée fut ensuite bâtie à Médine ? A. La Mosquée du Prophète ﷺ B. Une mosquée au Shām"
+      },
+      "answer": {
+        "fr": "La Mosquée du Prophète ﷺ."
+      },
+      "explanation": {
+        "fr": "Le Prophète ﷺ bâtit sa mosquée à Médine.",
+        "ar": "بنى النبي ﷺ مسجده في المدينة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 43"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Une mosquée plus grande se construit derrière la première."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.15",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Frères de Médine",
+      "prompt": {
+        "fr": "Entre quels deux groupes le Prophète ﷺ établit-il une fraternité ? A. Les Muhājirūn et les Anṣār B. Les Romains et les Perses"
+      },
+      "answer": {
+        "fr": "Les Muhājirūn et les Anṣār."
+      },
+      "explanation": {
+        "fr": "Une fraternité fut établie entre les Émigrés et les Auxiliaires.",
+        "ar": "آخى النبي ﷺ بين المهاجرين وُالأنصار."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 46"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Deux équipes de couleurs différentes se mélangent deux par deux."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.16",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le son nouveau",
+      "prompt": {
+        "fr": "Quelle pratique fut instituée à Médine pour appeler à la prière ? A. L’Adhān B. Une cloche"
+      },
+      "answer": {
+        "fr": "L’Adhān."
+      },
+      "explanation": {
+        "fr": "L’Adhān fut institué durant la période médinoise.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 47"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Des ondes sonores partent d’un minaret stylisé.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.17",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La direction change",
+      "prompt": {
+        "fr": "Quel élément de la prière changea durant les premières années à Médine ? A. La Qiblah B. Le nombre de jours de la semaine"
+      },
+      "answer": {
+        "fr": "La Qiblah."
+      },
+      "explanation": {
+        "fr": "La direction de la Qiblah fut changée durant cette période.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 49"
+        }
+      ],
+      "animationKey": "compass_scan",
+      "animationHint": "Une boussole pivote vers une nouvelle direction.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (4 fragments dont glyphes orphelins) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.18",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Ramaḍān arrive",
+      "prompt": {
+        "fr": "À quelle année de l’Hégire le jeûne de Ramaḍān fut-il rendu obligatoire ? A. La deuxième année B. La neuvième année"
+      },
+      "answer": {
+        "fr": "La deuxième année."
+      },
+      "explanation": {
+        "fr": "Le jeûne de Ramaḍān fut rendu obligatoire durant la deuxième année de l’Hégire.",
+        "ar": "فرض صيام رمضان في السنة الثانية للهجرة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 50"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Un croissant apparaît sur la case « année 2 »."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.19",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le mois avant Ramaḍān",
+      "prompt": {
+        "fr": "Dans quel mois fut prescrit le jeûne de Ramaḍān selon cette chronologie ? A. Shaʿbān B. Dhū al-Ḥijjah"
+      },
+      "answer": {
+        "fr": "Shaʿbān."
+      },
+      "explanation": {
+        "fr": "La prescription du jeûne est située en Shaʿbān de la deuxième année.",
+        "ar": "فرض الصيام في شعبان من السنة الثانية."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 50"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Le calendrier montre Shaʿbān puis Ramaḍān juste après."
+    },
+    {
+      "id": "REL-SIR-ARB-L2-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l2.20",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Mets l’ordre",
+      "prompt": {
+        "fr": "Quel ordre raconte correctement le début de la période médinoise ? A. Hijrah construction des mosquées fraternité Muhājirūn/Anṣār obligation du jeûne→→→ B. Obligation du jeûne naissance Hijrah construction des mosquées→→→"
+      },
+      "answer": {
+        "fr": "Hijrah construction des mosquées fraternité Muhājirūn/Anṣār obligation du jeûne→→→."
+      },
+      "explanation": {
+        "fr": "Après la Hijrah vinrent notamment la construction des mosquées, la fraternité entre les Compagnons puis la prescription du jeûne.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "13",
+          "locator": "Matn, vers 40-50"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Quatre cartes doivent être glissées dans le bon ordre sur une ligne du temps.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (2 fragments) : à saisir manuellement depuis le document de contrôle. Flèches de chronologie déplacées par l'extraction (« → » regroupées en fin de choix) : remettre chaque flèche entre les étapes depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.01",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Badr - le jour décisif",
+      "prompt": {
+        "fr": "Dans quel mois eut lieu la grande bataille de Badr ? A. Ramaḍān B. Muḥarram"
+      },
+      "answer": {
+        "fr": "Ramaḍān."
+      },
+      "explanation": {
+        "fr": "La grande bataille de Badr eut lieu durant Ramaḍān de la deuxième année de l’Hégire.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 51"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une carte « Badr » apparaît au milieu d’un calendrier de Ramaḍān.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.02",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le nombre 17",
+      "prompt": {
+        "fr": "Quel jour de Ramaḍān est associé à Badr dans cette chronologie ? A. Le 17 B. Le 1er"
+      },
+      "answer": {
+        "fr": "Le 17."
+      },
+      "explanation": {
+        "fr": "Badr est située au dix-septième jour de Ramaḍān.",
+        "ar": "كانت بدر الكبرى في السابع عشر من رمضان."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 51"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Le calendrier s’arrête sur le 17 avec un effet de verrouillage."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.03",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Zakāt al-Fiṭr",
+      "prompt": {
+        "fr": "Quelle aumône fut prescrite durant la même période que les événements de Badr ? A. Zakāt al-Fiṭr B. Une taxe de voyage"
+      },
+      "answer": {
+        "fr": "Zakāt al-Fiṭr."
+      },
+      "explanation": {
+        "fr": "La chronologie place la prescription de Zakāt al-Fiṭr dans cette période.",
+        "ar": "ذُكرت فريضة زكاة الفطر في أحداث السنة الثانية."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 52"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Un petit sac de nourriture rejoint une icône de solidarité."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.04",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Une fille du Prophète ﷺ",
+      "prompt": {
+        "fr": "Quelle fille du Prophète ﷺ, épouse de ʿUthmān رضي الله عنه, mourut autour de l’époque de Badr ? A. Ruqayyah رضي الله عنها B. Fāṭimah رضي الله عنها"
+      },
+      "answer": {
+        "fr": "Ruqayyah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "Ruqayyah رضي الله عنها, épouse de ʿUthmān رضي الله عنه, mourut à cette époque.",
+        "ar": "توفيت رقية رضي الله عنها زوُج عثمان رضي الله عنه في تلك الفترة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 53-54"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une carte familiale se grise tandis que la frise de Badr reste visible."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.05",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Alliance familiale",
+      "prompt": {
+        "fr": "Qui épousa Fāṭimah رضي الله عنها ? A. ʿAlī رضي الله عنه B. Abū Lahab"
+      },
+      "answer": {
+        "fr": "ʿAlī رضي الله عنه."
+      },
+      "explanation": {
+        "fr": "Fāṭimah رضي الله عنها épousa ʿAlī رضي الله عنه.",
+        "ar": "تزوُج علي رضي الله عنه فاطمة رضي الله عنها."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 55"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Deux cartes familiales se relient par un ruban."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.06",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Après la captivité",
+      "prompt": {
+        "fr": "Quel membre de la famille du Prophète ﷺ est mentionné comme ayant embrassé l’Islam après la captivité ? A. Al-ʿAbbās رضي الله عنه B. Abū Lahab"
+      },
+      "answer": {
+        "fr": "Al-ʿAbbās رضي الله عنه."
+      },
+      "explanation": {
+        "fr": "La chronologie mentionne l’Islam d’al-ʿAbbās رضي الله عنه après la captivité.",
+        "ar": "ذُكر إسلام العباس رضي الله عنه بعد الأسر."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 55"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une carte enfermée se libère puis s’illumine."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.07",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui fut affronté ?",
+      "prompt": {
+        "fr": "Quel groupe est associé à une expédition peu après Badr ? A. Banū Qaynuqāʿ B. Les habitants de l’Andalousie"
+      },
+      "answer": {
+        "fr": "Banū Qaynuqāʿ."
+      },
+      "explanation": {
+        "fr": "L’expédition de Banū Qaynuqāʿ est placée après les événements de Badr.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 56"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Une nouvelle case d’événement se débloque sur la frise.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.08",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La bataille de Sawīq",
+      "prompt": {
+        "fr": "Quel nom correspond à une expédition mentionnée après Banū Qaynuqāʿ ? A. As-Sawīq B. Tabūk"
+      },
+      "answer": {
+        "fr": "As-Sawīq."
+      },
+      "explanation": {
+        "fr": "L’expédition d’as-Sawīq fait partie des événements de cette période.",
+        "ar": "غزوُة السويق من أحداث تلك المرحلة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 57"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Un sac de provisions stylisé apparaît avec le nom « Sawīq »."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.09",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Deux tribus dans la même carte",
+      "prompt": {
+        "fr": "Quels noms sont associés ensemble à une expédition dans cette période ? A. Ghaṭafān et Banū Sulaym B. Quraysh et les Romains"
+      },
+      "answer": {
+        "fr": "Ghaṭafān et Banū Sulaym."
+      },
+      "explanation": {
+        "fr": "La chronologie mentionne Ghaṭafān et Banū Sulaym parmi les expéditions de cette période.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 58"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Deux emblèmes tribaux apparaissent sur la même carte.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.10",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "ʿUthmān رضي الله عنه",
+      "prompt": {
+        "fr": "Après Ruqayyah رضي الله عنها, quelle autre fille du Prophète ﷺ épousa ʿUthmān رضي الله عنه ? A. Umm Kulthūm رضي الله عنها B. Zaynab رضي الله عنها"
+      },
+      "answer": {
+        "fr": "Umm Kulthūm رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "ʿUthmān رضي الله عنه épousa ensuite Umm Kulthūm رضي الله عنها.",
+        "ar": "تزوُج عثمان رضي الله عنه أم كلثوم رضي الله عنها بعد رقية."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 59"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "La carte « ʿUthmān » se relie à une seconde carte familiale."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.11",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Nouvelle épouse",
+      "prompt": {
+        "fr": "Quelle épouse du Prophète ﷺ est mentionnée dans la même période ? A. Ḥafṣah رضي الله عنها B. Māriyah"
+      },
+      "answer": {
+        "fr": "Ḥafṣah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "Le Prophète ﷺ épousa Ḥafṣah رضي الله عنها.",
+        "ar": "تزوُج النبي ﷺ حفصة رضي الله عنها."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 59"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une nouvelle carte « Ḥafṣah » rejoint la frise familiale."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.12",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Uḥud",
+      "prompt": {
+        "fr": "Quelle grande bataille eut lieu après Badr ? A. Uḥud B. Tabūk"
+      },
+      "answer": {
+        "fr": "Uḥud."
+      },
+      "explanation": {
+        "fr": "La bataille d’Uḥud fait partie des grands événements de la troisième année.",
+        "ar": "كانت غزوُة أحد من أحداث السنة الثالثة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 60"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une montagne stylisée surgit derrière la carte « Uḥud »."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.13",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Après Uḥud",
+      "prompt": {
+        "fr": "Quelle expédition suivit immédiatement Uḥud dans cette chronologie ? A. Ḥamrāʾ al-Asad B. Al-Isrāʾ"
+      },
+      "answer": {
+        "fr": "Ḥamrāʾ al-Asad."
+      },
+      "explanation": {
+        "fr": "Ḥamrāʾ al-Asad est mentionnée à la suite d’Uḥud.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 60"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "La carte Uḥud avance directement vers une seconde case.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.14",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "L’interdiction",
+      "prompt": {
+        "fr": "Quelle boisson fut interdite de manière définitive dans cette période ? A. Le khamr - les boissons enivrantes B. L’eau"
+      },
+      "answer": {
+        "fr": "Le khamr - les boissons enivrantes."
+      },
+      "explanation": {
+        "fr": "L’interdiction du khamr est située dans cette chronologie médinoise.",
+        "ar": "حرمت الخمر في تلك المرحلة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 61"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Une coupe rouge reçoit un grand symbole d’interdiction."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.15",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Naissance d’al-Ḥasan",
+      "prompt": {
+        "fr": "Quel petit-fils du Prophète ﷺ naquit avant al-Ḥusayn رضي الله عنهما ? A. Al-Ḥasan رضي الله عنه B. Ibrāhīm"
+      },
+      "answer": {
+        "fr": "Al-Ḥasan رضي الله عنه."
+      },
+      "explanation": {
+        "fr": "La chronologie mentionne la naissance d’al-Ḥasan رضي الله عنه dans cette période.",
+        "ar": "وُلد الحسن رضي الله عنه في تلك الفترة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 61"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une étoile familiale « al-Ḥasan » apparaît sur l’arbre."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.16",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Année quatre",
+      "prompt": {
+        "fr": "Quelle expédition est placée au début de la quatrième année de l’Hégire ? A. Banū an-Naḍīr B. Ḥunayn"
+      },
+      "answer": {
+        "fr": "Banū an-Naḍīr."
+      },
+      "explanation": {
+        "fr": "L’expédition de Banū an-Naḍīr est située dans la quatrième année.",
+        "ar": "كانت غزوُة بني النضير في السنة الرابعة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "14",
+          "locator": "Matn, vers 62"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "La frise passe sur « année 4 » et révèle Banū an-Naḍīr."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.17",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Après Zaynab",
+      "prompt": {
+        "fr": "Quelle épouse le Prophète ﷺ épousa-t-il ensuite après le décès de Zaynab mentionné dans cette période ? A. Umm Salamah رضي الله عنها B. Ḥalīmah"
+      },
+      "answer": {
+        "fr": "Umm Salamah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "La chronologie place le mariage avec Umm Salamah رضي الله عنها après le décès de Zaynab.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 63"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Une carte s’efface puis une nouvelle carte « Umm Salamah » apparaît.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.18",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Deux événements",
+      "prompt": {
+        "fr": "Quel événement précède les Ahzāb dans cette chronologie ? A. Dhāt ar-Riqāʿ et Badr al-Mawʿid B. Le pèlerinage d’adieu"
+      },
+      "answer": {
+        "fr": "Dhāt ar-Riqāʿ et Badr al-Mawʿid."
+      },
+      "explanation": {
+        "fr": "Dhāt ar-Riqāʿ et Badr al-Mawʿid sont mentionnés avant les Ahzāb.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 64"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Deux cartes d’événements s’alignent avant une grande carte « Ahzāb ».",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.19",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Après les Ahzāb",
+      "prompt": {
+        "fr": "Quel groupe est mentionné juste après les Ahzāb ? A. Banū Qurayẓah B. Banū Naḍīr"
+      },
+      "answer": {
+        "fr": "Banū Qurayẓah."
+      },
+      "explanation": {
+        "fr": "L’événement de Banū Qurayẓah est placé après les Ahzāb.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 65"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "La carte « Ahzāb » se retourne et révèle « Banū Qurayẓah ».",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L3-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l3.20",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Deux nouveautés",
+      "prompt": {
+        "fr": "Quelles pratiques sont mentionnées ensemble dans cette période ? A. Ṣalāt al-Khawf et le Tayammum B. Zakāt al-Fiṭr et le Ḥajj d’adieu"
+      },
+      "answer": {
+        "fr": "Ṣalāt al-Khawf et le Tayammum."
+      },
+      "explanation": {
+        "fr": "La prière de la peur et le Tayammum apparaissent parmi les règles révélées durant cette période.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 66"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Deux cartes de règle s’ouvrent simultanément : prière et purification.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.01",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le second petit-fils",
+      "prompt": {
+        "fr": "Quel petit-fils du Prophète ﷺ est mentionné comme étant né après al-Ḥasan ? A. Al-Ḥusayn رضي الله عنه B. Ibrāhīm"
+      },
+      "answer": {
+        "fr": "Al-Ḥusayn رضي الله عنه."
+      },
+      "explanation": {
+        "fr": "La chronologie mentionne ensuite la naissance d’al-Ḥusayn رضي الله عنه.",
+        "ar": "ذُكر مولد الحسين رضي الله عنه بعد الحسن."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 67"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une seconde étoile familiale apparaît à côté d’al-Ḥasan."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.02",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "L’affaire de l’Ifk",
+      "prompt": {
+        "fr": "Durant quelle expédition est située l’affaire de l’Ifk ? A. Banū al-Muṣṭaliq B. Tabūk"
+      },
+      "answer": {
+        "fr": "Banū al-Muṣṭaliq."
+      },
+      "explanation": {
+        "fr": "L’affaire de l’Ifk est placée durant l’expédition de Banū al-Muṣṭaliq.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 68"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une carte « rumeur » apparaît puis est recouverte d’un sceau « vérité ».",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.03",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Une épouse après al-Muṣṭaliq",
+      "prompt": {
+        "fr": "Quelle femme, fille d’al-Ḥārith, épousa le Prophète ﷺ ? A. Juwayriyyah رضي الله عنها B. Sawdah رضي الله عنها"
+      },
+      "answer": {
+        "fr": "Juwayriyyah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "La chronologie mentionne le mariage avec Juwayriyyah bint al-Ḥārith رضي الله عنها.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 69"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une nouvelle carte familiale rejoint la frise après al-Muṣṭaliq.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.04",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Début de la sixième année",
+      "prompt": {
+        "fr": "Quelle expédition est placée au début de la sixième année ? A. Banū Liḥyān B. Badr"
+      },
+      "answer": {
+        "fr": "Banū Liḥyān."
+      },
+      "explanation": {
+        "fr": "Banū Liḥyān est mentionnée au commencement de la sixième année.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 70"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "La frise bascule sur « année 6 » et déverrouille Banū Liḥyān.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.05",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Route bloquée",
+      "prompt": {
+        "fr": "Le Prophète ﷺ fut empêché d’accomplir quelle adoration lorsqu’il se dirigea vers La Mecque ? A. La ʿUmrah B. Le jeûne de Ramaḍān"
+      },
+      "answer": {
+        "fr": "La ʿUmrah."
+      },
+      "explanation": {
+        "fr": "Il fut empêché d’entrer à La Mecque pour accomplir la ʿUmrah.",
+        "ar": "صد النبي ﷺ عن العمرة حين قصد مكة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 71"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Une route vers La Mecque se ferme temporairement par une barrière."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.06",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Sous l’arbre",
+      "prompt": {
+        "fr": "Quelle célèbre Bayʿah eut lieu durant la sixième année ? A. Bayʿat ar-Riḍwān B. La première Bayʿah d’al-ʿAqabah"
+      },
+      "answer": {
+        "fr": "Bayʿat ar-Riḍwān."
+      },
+      "explanation": {
+        "fr": "Bayʿat ar-Riḍwān fait partie des grands événements de la sixième année.",
+        "ar": "كانت بيعة الرضوان في السنة السادسة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 72"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Un arbre apparaît au centre et les cartes des Compagnons forment un cercle."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.07",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Khaybar",
+      "prompt": {
+        "fr": "À quelle année de l’Hégire la conquête de Khaybar est-elle placée ? A. La septième année B. La deuxième année"
+      },
+      "answer": {
+        "fr": "La septième année."
+      },
+      "explanation": {
+        "fr": "La conquête de Khaybar est située dans la septième année.",
+        "ar": "كان فتح خيبر في السنة السابعة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 73"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une forteresse se déverrouille sur la case « année 7 »."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.08",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Interdit à Khaybar",
+      "prompt": {
+        "fr": "Quelle viande fut interdite à Khaybar selon cette chronologie ? A. La viande des ânes domestiques B. La viande de mouton"
+      },
+      "answer": {
+        "fr": "La viande des ânes domestiques."
+      },
+      "explanation": {
+        "fr": "La viande des ânes domestiques fut interdite durant cette période.",
+        "ar": "حرمت لحوم الحمر الأهلية في خيبر."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 74"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Une icône d’âne domestique reçoit un symbole d’interdiction."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.09",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Autre interdiction",
+      "prompt": {
+        "fr": "Quelle autre pratique matrimoniale est mentionnée comme interdite dans la même période ? A. Le mariage temporaire B. Le mariage légal"
+      },
+      "answer": {
+        "fr": "Le mariage temporaire."
+      },
+      "explanation": {
+        "fr": "La chronologie associe également cette période à l’interdiction du mariage temporaire.",
+        "ar": "ذُكر تحريم متعة النساء في تلك الفترة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 74"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une carte temporaire se fissure puis disparaît."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.10",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le mariage d’Umm Ḥabībah",
+      "prompt": {
+        "fr": "Qui épousa le Prophète ﷺ durant cette période ? A. Umm Ḥabībah رضي الله عنها B. Ḥalīmah"
+      },
+      "answer": {
+        "fr": "Umm Ḥabībah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "Le mariage avec Umm Ḥabībah رضي الله عنها est mentionné dans cette chronologie.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 75"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une nouvelle carte d’épouse apparaît avec un sceau royal discret.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.11",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La carte Ṣafiyyah",
+      "prompt": {
+        "fr": "Quelle femme devint ensuite épouse du Prophète ﷺ ? A. Ṣafiyyah رضي الله عنها B. Ruqayyah رضي الله عنها"
+      },
+      "answer": {
+        "fr": "Ṣafiyyah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "La chronologie mentionne ensuite Ṣafiyyah رضي الله عنها parmi les épouses du Prophète ﷺ.",
+        "ar": "ذُكرت صفية رضي الله عنها من أمهات المؤمنين في هذه الفترة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 76"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une carte « Ṣafiyyah » rejoint la frise après Khaybar."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.12",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La dernière épouse mentionnée",
+      "prompt": {
+        "fr": "Quelle épouse est présentée comme la dernière de cette série de mariages ? A. Maymūnah رضي الله عنها B. Khadījah رضي الله عنها"
+      },
+      "answer": {
+        "fr": "Maymūnah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "Maymūnah رضي الله عنها est mentionnée comme le dernier mariage du Prophète ﷺ dans cette série.",
+        "ar": "ذُكر عقد ميمونة رضي الله عنها في آخر هذه الزيجات."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 77"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "La dernière case d’une rangée familiale se remplit."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.13",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Nouveau Compagnon célèbre",
+      "prompt": {
+        "fr": "Quel Compagnon connu pour transmettre de nombreux ḥadīth embrassa l’Islam dans cette période ? A. Abū Hurayrah رضي الله عنه B. Abū Lahab"
+      },
+      "answer": {
+        "fr": "Abū Hurayrah رضي الله عنه."
+      },
+      "explanation": {
+        "fr": "L’entrée en Islam d’Abū Hurayrah رضي الله عنه est mentionnée dans cette période.",
+        "ar": "ذُكر إسلام أبي هريرة رضي الله عنه في تلك المرحلة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 78"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une carte avec un petit symbole de chat rejoint la collection des Compagnons."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.14",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "ʿUmrat al-Qaḍāʾ",
+      "prompt": {
+        "fr": "Quelle ʿUmrah fut accomplie après l’empêchement précédent ? A. ʿUmrat al-Qaḍāʾ B. ʿUmrah depuis al-Jiʿrānah"
+      },
+      "answer": {
+        "fr": "ʿUmrat al-Qaḍāʾ."
+      },
+      "explanation": {
+        "fr": "La ʿUmrah de compensation est mentionnée après les événements de la sixième année.",
+        "ar": "ذُكرت عمرة القضاء بعد الحديبية."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 78"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "La barrière de l’ancienne route s’ouvre enfin."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.15",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Messages aux rois",
+      "prompt": {
+        "fr": "À qui le Prophète ﷺ envoya-t-il des messagers durant cette période ? A. À différents rois B. Uniquement aux habitants de Médine"
+      },
+      "answer": {
+        "fr": "À différents rois."
+      },
+      "explanation": {
+        "fr": "Des messagers furent envoyés vers des rois pour transmettre l’appel à l’Islam.",
+        "ar": "أرسل النبي ﷺ رسله إلى الملوك يدعوهم إلى الإسلام."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 79"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Plusieurs lettres scellées partent vers différentes couronnes."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.16",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Māriyah",
+      "prompt": {
+        "fr": "Quelle femme copte fut offerte au Prophète ﷺ ? A. Māriyah al-Qibṭiyyah B. Ḥalīmah"
+      },
+      "answer": {
+        "fr": "Māriyah al-Qibṭiyyah."
+      },
+      "explanation": {
+        "fr": "Māriyah al-Qibṭiyyah est mentionnée parmi les événements précédant la huitième année.",
+        "ar": "ذُكرت مارية القبطية في هذه المرحلة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 80"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une lettre venue d’Égypte arrive avec une carte « Māriyah »."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.17",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Muʾtah",
+      "prompt": {
+        "fr": "Quelle bataille est située en Jumādā durant la huitième année ? A. Muʾtah B. Badr"
+      },
+      "answer": {
+        "fr": "Muʾtah."
+      },
+      "explanation": {
+        "fr": "La bataille de Muʾtah est placée durant la huitième année.",
+        "ar": "كانت غزوُة مؤتة في السنة الثامنة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 81"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une carte « Muʾtah » apparaît sur « année 8 »."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.18",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La grande ouverture",
+      "prompt": {
+        "fr": "Dans quel mois eut lieu la conquête de La Mecque ? A. Ramaḍān B. Ṣafar"
+      },
+      "answer": {
+        "fr": "Ramaḍān."
+      },
+      "explanation": {
+        "fr": "La conquête de La Mecque eut lieu en Ramaḍān de la huitième année.",
+        "ar": "كان فتح مكة في رمضان من السنة الثامنة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 81"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Les portes de La Mecque s’ouvrent pendant qu’un croissant de Ramaḍān apparaît."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.19",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Après La Mecque",
+      "prompt": {
+        "fr": "Quelles batailles sont mentionnées après la conquête de La Mecque ? A. Ḥunayn puis aṭ-Ṭāʾif B. Badr puis Uḥud"
+      },
+      "answer": {
+        "fr": "Ḥunayn puis aṭ-Ṭāʾif."
+      },
+      "explanation": {
+        "fr": "Après la conquête de La Mecque vinrent Ḥunayn puis les événements d’aṭ-Ṭāʾif.",
+        "ar": "بعد فتح مكة كانت حنين ثم الطائف."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 82"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Deux cartes « Ḥunayn » et « Ṭāʾif » se débloquent après « Fatḥ Makkah »."
+    },
+    {
+      "id": "REL-SIR-ARB-L4-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l4.20",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Le parcours 6    8→",
+      "prompt": {
+        "fr": "Quel ordre raconte correctement le parcours de la sixième à la huitième année ? A. Ḥudaybiyah/Bayʿat ar-Riḍwān Khaybar ʿUmrat al-Qaḍāʾ Muʾtah Fatḥ Makkah→→→→ B. Fatḥ Makkah Badr naissance Khaybar→→→"
+      },
+      "answer": {
+        "fr": "Ḥudaybiyah/Bayʿat ar-Riḍwān Khaybar ʿUmrat al-Qaḍāʾ Muʾtah Fatḥ Makkah→→→→."
+      },
+      "explanation": {
+        "fr": "La chronologie conduit de la sixième année et al-Ḥudaybiyah à Khaybar, puis à la ʿUmrah de compensation, Muʾtah et enfin la conquête de La Mecque.",
+        "ar": "يمتد التسلسل من الحديبية إلى خيبر ثم عمرة القضاء ثم مؤتة ثم فتح مكة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 71-82"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Cinq cartes doivent être placées dans le bon ordre sur une grande route.",
+      "reviewNotes": "Flèches de chronologie déplacées par l'extraction (« → » regroupées en fin de choix) : remettre chaque flèche entre les étapes depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.01",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "ʿUmrah d’al-Jiʿrānah",
+      "prompt": {
+        "fr": "Après Ḥunayn et aṭ-Ṭāʾif, d’où le Prophète ﷺ accomplit-il une ʿUmrah ? A. Al-Jiʿrānah B. Al-Ḥabashah"
+      },
+      "answer": {
+        "fr": "Al-Jiʿrānah."
+      },
+      "explanation": {
+        "fr": "Une ʿUmrah depuis al-Jiʿrānah est située en Dhū al-Qaʿdah après ces événements.",
+        "ar": "اعتمر النبي ﷺ من الجعرانة في ذُي القعدة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 83"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Une route part d’al-Jiʿrānah vers La Mecque."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.02",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Une fille décède",
+      "prompt": {
+        "fr": "Quelle fille du Prophète ﷺ est mentionnée comme décédée durant cette année ? A. Zaynab رضي الله عنها B. Fāṭimah رضي الله عنها"
+      },
+      "answer": {
+        "fr": "Zaynab رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "La chronologie mentionne le décès de Zaynab رضي الله عنها.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 84"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une carte familiale « Zaynab » se grise doucement.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.03",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Naissance d’Ibrāhīm",
+      "prompt": {
+        "fr": "Quel fils du Prophète ﷺ naquit dans cette période ? A. Ibrāhīm B. Al-Qāsim"
+      },
+      "answer": {
+        "fr": "Ibrāhīm."
+      },
+      "explanation": {
+        "fr": "La naissance d’Ibrāhīm, fils du Prophète ﷺ, est située dans cette période.",
+        "ar": "وُلد إبراهيم ابن النبي ﷺ في تلك الفترة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "15",
+          "locator": "Matn, vers 84"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une nouvelle étoile « Ibrāhīm » apparaît sur l’arbre familial."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.04",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le geste de Sawdah",
+      "prompt": {
+        "fr": "À quelle épouse Sawdah رضي الله عنها donna-t-elle son tour ? A. ʿĀʾishah رضي الله عنها B. Umm Salamah رضي الله عنها"
+      },
+      "answer": {
+        "fr": "ʿĀʾishah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "Sawdah رضي الله عنها donna son tour à ʿĀʾishah رضي الله عنها.",
+        "ar": "وُهبت سودة رضي الله عنها نوبتها لعائشة رضي الله عنها."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 85"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Un jeton de tour glisse de « Sawdah » vers « ʿĀʾishah »."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.05",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le minbar",
+      "prompt": {
+        "fr": "Quel élément fut construit pour la mosquée durant cette période ? A. Le minbar B. Une tour de guet"
+      },
+      "answer": {
+        "fr": "Le minbar."
+      },
+      "explanation": {
+        "fr": "La fabrication du minbar du Prophète ﷺ est mentionnée dans cette période.",
+        "ar": "ذُكر عمل منبر النبي ﷺ في هذه المرحلة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 86"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Trois marches en bois apparaissent progressivement."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.06",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui guida le Ḥajj ?",
+      "prompt": {
+        "fr": "Qui conduisit les gens au Ḥajj durant cette année selon cette chronologie ? A. ʿAttāb B. Ḥamzah رضي الله عنه"
+      },
+      "answer": {
+        "fr": "ʿAttāb."
+      },
+      "explanation": {
+        "fr": "ʿAttāb est mentionné comme ayant dirigé les gens lors du Ḥajj.",
+        "ar": "ذُكر أن عتابا حج بالناس في تلك السنة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 86"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une caravane de pèlerins suit une carte « ʿAttāb »."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.07",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Tabūk",
+      "prompt": {
+        "fr": "À quelle année de l’Hégire l’expédition de Tabūk est-elle placée ? A. La neuvième année B. La troisième année"
+      },
+      "answer": {
+        "fr": "La neuvième année."
+      },
+      "explanation": {
+        "fr": "Tabūk est située dans la neuvième année de l’Hégire.",
+        "ar": "كانت غزوُة تبوك في السنة التاسعة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 87"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "La frise passe sur « année 9 » puis révèle « Tabūk »."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.08",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Masjid aḍ-Ḍirār",
+      "prompt": {
+        "fr": "Que devint Masjid aḍ-Ḍirār après Tabūk ? A. Il fut détruit B. Il devint la Mosquée du Prophète ﷺ"
+      },
+      "answer": {
+        "fr": "Il fut détruit."
+      },
+      "explanation": {
+        "fr": "La chronologie mentionne la destruction de Masjid aḍ-Ḍirār.",
+        "ar": "ذُكر هدم مسجد الضرار بعد تبوك."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 87"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Une construction sombre se fissure et disparaît."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.09",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le chef du Ḥajj",
+      "prompt": {
+        "fr": "Qui fut envoyé pour conduire le Ḥajj l’année suivante ? A. Abū Bakr رضي الله عنه B. Abū Lahab"
+      },
+      "answer": {
+        "fr": "Abū Bakr رضي الله عنه."
+      },
+      "explanation": {
+        "fr": "Abū Bakr رضي الله عنه conduisit les gens au Ḥajj.",
+        "ar": "حج أبو بكر رضي الله عنه بالناس."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 88"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une carte « Abū Bakr » prend la tête d’une caravane."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.10",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "L’annonce de ʿAlī",
+      "prompt": {
+        "fr": "Qui fut envoyé pour proclamer le message de Barāʾah ? A. ʿAlī رضي الله عنه B. Al-ʿAbbās رضي الله عنه"
+      },
+      "answer": {
+        "fr": "ʿAlī رضي الله عنه."
+      },
+      "explanation": {
+        "fr": "ʿAlī رضي الله عنه fut chargé de proclamer Barāʾah aux gens.",
+        "ar": "بعث النبي ﷺ عليا رضي الله عنه ليبلغ الناس براءة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 88"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Un parchemin scellé est remis à la carte « ʿAlī »."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.11",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Nouvelle règle du Ḥajj",
+      "prompt": {
+        "fr": "Quelle pratique fut interdite après cette annonce ? A. Le ṭawāf nu autour de la Kaʿbah B. Boire de l’eau"
+      },
+      "answer": {
+        "fr": "Le ṭawāf nu autour de la Kaʿbah."
+      },
+      "explanation": {
+        "fr": "L’annonce établit notamment qu’on ne devait plus faire le ṭawāf nu.",
+        "ar": "أعلن ألا يطوف بالبيت عريان."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 89"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une icône de Kaʿbah est entourée d’un nouveau panneau de règle."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.12",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Autre annonce",
+      "prompt": {
+        "fr": "Qui ne devait plus accomplir le Ḥajj après cette proclamation ? A. Les polythéistes B. Les musulmans"
+      },
+      "answer": {
+        "fr": "Les polythéistes."
+      },
+      "explanation": {
+        "fr": "La proclamation indiquait qu’aucun polythéiste ne devait désormais accomplir le Ḥajj.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 89"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Une porte de règle filtre les cartes avant l’entrée au Ḥajj.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.13",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "L’année des délégations",
+      "prompt": {
+        "fr": "Quel phénomène marqua fortement la neuvième année ? A. L’arrivée successive de nombreuses délégations B. La première révélation"
+      },
+      "answer": {
+        "fr": "L’arrivée successive de nombreuses délégations."
+      },
+      "explanation": {
+        "fr": "De nombreuses délégations vinrent rencontrer le Prophète ﷺ durant cette période.",
+        "ar": "تتابعت الوفود على النبي ﷺ في السنة التاسعة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 90"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "De multiples petites caravanes convergent vers Médine."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.14",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Un mois à l’écart",
+      "prompt": {
+        "fr": "Pendant combien de temps le Prophète ﷺ s’éloigna-t-il de ses épouses lors de l’événement mentionné ? A. Un mois B. Une année"
+      },
+      "answer": {
+        "fr": "Un mois."
+      },
+      "explanation": {
+        "fr": "La chronologie mentionne une période d’un mois.",
+        "ar": "ذُكرت مدة شهر في إيلائه ﷺ من نسائه."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 90"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Un calendrier compte un mois complet puis se referme."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.15",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Prière pour an-Najāshī",
+      "prompt": {
+        "fr": "Que fit le Prophète ﷺ lorsque an-Najāshī mourut ? A. Il accomplit la prière funéraire pour lui B. Il partit immédiatement en Abyssinie"
+      },
+      "answer": {
+        "fr": "Il accomplit la prière funéraire pour lui."
+      },
+      "explanation": {
+        "fr": "La mort d’an-Najāshī est mentionnée avec la prière funéraire accomplie pour lui.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 91"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une carte « an-Najāshī » se voile puis une icône de prière apparaît.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.16",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le décès d’Ibrāhīm",
+      "prompt": {
+        "fr": "Quel enfant du Prophète ﷺ mourut durant la dernière année de sa vie ? A. Ibrāhīm B. Fāṭimah رضي الله عنها"
+      },
+      "answer": {
+        "fr": "Ibrāhīm."
+      },
+      "explanation": {
+        "fr": "Ibrāhīm mourut durant la dernière année de la vie du Prophète ﷺ.",
+        "ar": "مات إبراهيم ابن النبي ﷺ في العام الأخير."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 92"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "L’étoile « Ibrāhīm » s’éteint doucement sur la frise finale."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.17",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le Ḥajj d’adieu",
+      "prompt": {
+        "fr": "Comment appelle-t-on le dernier Ḥajj accompli par le Prophète ﷺ ? A. Ḥajjat al-Wadāʿ - le pèlerinage d’adieu B. ʿUmrat al-Qaḍāʾ"
+      },
+      "answer": {
+        "fr": "Ḥajjat al-Wadāʿ."
+      },
+      "explanation": {
+        "fr": "Le dernier pèlerinage du Prophète ﷺ est connu comme le pèlerinage d’adieu.",
+        "ar": "حج النبي ﷺ حجة الوداع في آخر حياته."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 93"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une grande caravane avance sous une bannière « Ḥajjat al-Wadāʿ »."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.18",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le message de perfection",
+      "prompt": {
+        "fr": "Quel message coranique majeur est associé à cette période du pèlerinage d’adieu ? A. « Aujourd’hui, J’ai parachevé pour vous votre religion » B. « Lis au nom de ton Seigneur »"
+      },
+      "answer": {
+        "fr": "« Aujourd’hui, J’ai parachevé pour vous votre religion »."
+      },
+      "explanation": {
+        "fr": "La chronologie associe au pèlerinage d’adieu la révélation annonçant le parachèvement de la religion.",
+        "ar": "ارتبطت حجة الوداع بنزوُل قوله تعالى: اليوم أكملت لكم دينكم."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 94"
+        }
+      ],
+      "animationKey": "gauge_rise",
+      "animationHint": "Une jauge « Dīn » atteint 100 % puis un sceau apparaît."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.19",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Combien d’épouses lui survécurent ?",
+      "prompt": {
+        "fr": "Combien d’épouses du Prophète ﷺ sont mentionnées comme lui ayant survécu ? A. Neuf B. Deux"
+      },
+      "answer": {
+        "fr": "Neuf."
+      },
+      "explanation": {
+        "fr": "La chronologie indique que neuf de ses épouses vécurent encore après son décès.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 95"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Neuf cartes restent debout sur la frise finale.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-SIR-ARB-L5-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.sirah.urjuzah.l5.20",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS FINAL - Le dernier chapitre",
+      "prompt": {
+        "fr": "Quelle combinaison est correcte concernant le décès et l’inhumation du Prophète ﷺ ? A. Il mourut un lundi, à environ 63 ans, puis fut enterré dans la maison de ʿĀʾishah رضي الله عنها B. Il mourut à 40 ans et fut enterré à La Mecque"
+      },
+      "answer": {
+        "fr": "Il mourut un lundi, à environ 63 ans, puis fut enterré dans la maison de ʿĀʾishah رضي الله عنها."
+      },
+      "explanation": {
+        "fr": "Le Prophète ﷺ mourut un lundi après avoir accompli environ soixante-trois années et fut enterré dans la maison de ʿĀʾishah رضي الله عنها.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "16",
+          "locator": "Matn, vers 96-97"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "La frise entière se replie doucement vers Médine puis se fixe sur la maison de ʿĀʾishah.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (2 fragments) : à saisir manuellement depuis le document de contrôle."
+    }
+  ]
+}

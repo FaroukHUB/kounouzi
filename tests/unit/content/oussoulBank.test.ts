@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, CURATED_BANK, DUROUS_BANK, OUSSOUL_BANK, RAMADAN_BANK, RELIGION_BANKS, contentRegistry } from "@/config/content";
+import { CATEGORIES, CURATED_BANK, DUROUS_BANK, OUSSOUL_BANK, RAMADAN_BANK, RELIGION_BANKS, SIRAH_BANK, contentRegistry } from "@/config/content";
 import { createContentRegistry, createCuratedProvider, isPlayable, playabilityIssues } from "@/core/content";
 import { KNOWN_ANIMATION_KEYS, animationFamily } from "@/ui/cards/animations/families";
 
@@ -36,7 +36,7 @@ describe("banque religieuse Oussoul ath-Thalatha (import, tout en brouillon)", (
     expect(playabilityIssues(OUSSOUL_BANK[0]!, religion)).toEqual(["statut draft ≠ validated"]);
     expect(contentRegistry().availableCategories("child")).not.toContain("religion");
     expect(contentRegistry().slots("child").some((s) => s.categoryId === "religion")).toBe(false);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(225);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(325);
   });
 
   it("une carte passée à `validated` par relecture devient jouable telle quelle, avec sa source et son habillage", () => {
@@ -90,7 +90,7 @@ describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, tout en brouillo
   it("compte 100 cartes, 20 par niveau, identifiants uniques sur les trois banques, toutes `draft`, bilingues et sourcées avec pages", () => {
     expect(DUROUS_BANK).toHaveLength(100);
     for (const level of [1, 2, 3, 4, 5]) expect(DUROUS_BANK.filter((q) => q.difficulty === level)).toHaveLength(20);
-    expect(new Set(RELIGION_BANKS.flatMap((b) => b.questions.map((q) => q.id))).size).toBe(225);
+    expect(new Set(RELIGION_BANKS.flatMap((b) => b.questions.map((q) => q.id))).size).toBe(325);
     for (const q of DUROUS_BANK) {
       expect(q.status, q.id).toBe("draft");
       expect(q.id, q.id).toMatch(/^REL-DRS-ARB-L\d-\d\d$/);
@@ -111,5 +111,34 @@ describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, tout en brouillo
     const flagged = DUROUS_BANK.filter((q) => CURTAIN.test(q.prompt.fr)).map((q) => q.id);
     expect(flagged).toEqual(["REL-DRS-ARB-L3-14", "REL-DRS-ARB-L3-17", "REL-DRS-ARB-L4-02", "REL-DRS-ARB-L4-09", "REL-DRS-ARB-L4-19", "REL-DRS-ARB-L5-02"]);
     expect(DUROUS_BANK.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual(flagged);
+  });
+});
+
+describe("banque religieuse Sirah — al-Urjuzah al-Mi'iyyah (import PDF, tout en brouillon)", () => {
+  it("compte 100 cartes, 20 par niveau, toutes `draft`, sourcées avec ouvrage, auteur, page et repère de vers ; arabe présent ou vide et annoté", () => {
+    expect(SIRAH_BANK).toHaveLength(100);
+    for (const level of [1, 2, 3, 4, 5]) expect(SIRAH_BANK.filter((q) => q.difficulty === level)).toHaveLength(20);
+    for (const q of SIRAH_BANK) {
+      expect(q.status, q.id).toBe("draft");
+      expect(q.id, q.id).toMatch(/^REL-SIR-ARB-L\d-\d\d$/);
+      expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.sirah\.urjuzah\.l\d\.\d\d$/);
+      expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.?$/);
+      expect(q.explanation.fr, q.id).toMatch(/[.!?]$/);
+      // Un arabe recollé se termine toujours par une ponctuation finale ; sinon il est laissé vide et annoté, jamais approximé.
+      if (q.explanation.ar === "") expect(q.reviewNotes, q.id).toMatch(/arabe illisible/);
+      else expect(q.explanation.ar, q.id).toMatch(/^[^A-Za-z]*[.؟!]$/);
+      expect(q.sources[0], q.id).toMatchObject({ title: "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah", author: "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr" });
+      expect(q.sources[0]!.pages, q.id).toMatch(/^1[2-6]$/);
+      expect(q.sources[0]!.locator, q.id).toMatch(/^Matn, vers \d/);
+      expect(q.prompt.fr, q.id).not.toMatch(/dans (le|ce) (livre|passage|texte)|dans la source|d'après le livre|selon le livre/i);
+      expect(isPlayable(q, religion), q.id).toBe(false);
+    }
+    expect(SIRAH_BANK.filter((q) => q.explanation.ar === "")).toHaveLength(23);
+    // Deux chronologies dont l'extraction a déplacé les flèches sont annotées, jamais réordonnées par le code.
+    expect(SIRAH_BANK.filter((q) => /→/.test(q.prompt.fr)).map((q) => q.id)).toEqual(["REL-SIR-ARB-L2-20", "REL-SIR-ARB-L4-20"]);
+    for (const q of SIRAH_BANK.filter((q) => /→/.test(q.prompt.fr))) expect(q.reviewNotes, q.id).toMatch(/Flèches de chronologie/);
+    // Même validée par erreur, une carte sans explication arabe reste injouable.
+    const forced = { ...SIRAH_BANK.find((q) => q.explanation.ar === "")!, status: "validated" as const };
+    expect(playabilityIssues(forced, religion)).toContain("explication AR manquante");
   });
 });

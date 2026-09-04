@@ -40,6 +40,8 @@ export interface SourceRef {
   /** Fichier source de travail (contrôle humain), jamais affiché aux enfants. */
   readonly file?: string | undefined;
   readonly publisher?: string | undefined;
+  /** Repère dans l'ouvrage au-delà des pages (« Matn, vers 3-4 »). */
+  readonly locator?: string | undefined;
 }
 
 /**
