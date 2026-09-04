@@ -72,7 +72,9 @@ export type GameEvent =
       readonly winnerId: PlayerId | null;
     }
   /* ---- Défi famille ---- */
-  | { readonly type: "FamilyChallengeAssigned"; readonly playerId: PlayerId; readonly challengeId: string; readonly requestId: string; readonly category: ChallengeCategory; readonly reward: number; readonly ohNo: boolean; readonly consentRequired: boolean }
+  | { readonly type: "FamilyChallengeAssigned"; readonly playerId: PlayerId; readonly challengeId: string; readonly requestId: string; readonly category: ChallengeCategory; readonly reward: number; readonly ohNo: boolean; readonly consentRequired: boolean; readonly surahIds?: readonly string[] | undefined }
+  /** Une récitation réussie d'une sourate pas encore maîtrisée : l'état de récitation du joueur progresse. */
+  | { readonly type: "RecitationMastered"; readonly playerId: PlayerId; readonly surahId: string }
   | { readonly type: "FamilyChallengeAccepted"; readonly playerId: PlayerId; readonly challengeId: string }
   | { readonly type: "FamilyChallengeCompleted"; readonly playerId: PlayerId; readonly challengeId: string; readonly success: boolean }
   | { readonly type: "FamilyChallengeSkipped"; readonly playerId: PlayerId; readonly challengeId: string; readonly reason: ChallengeSkipReason }

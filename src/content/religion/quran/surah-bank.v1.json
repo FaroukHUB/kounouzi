@@ -1,0 +1,737 @@
+{
+  "schema_version": 1,
+  "bank_id": "kounouzi_surah_recitation_v1",
+  "description": "Références de sourates pour récitation orale uniquement. Aucun verset n'est stocké ni généré.",
+  "rules": {
+    "no_quran_text_generation": true,
+    "oral_validation_only": true,
+    "speech_recognition": false,
+    "selection_randomness": false,
+    "selection_strategy": "deterministic_rotation",
+    "level_mapping_is_game_difficulty_not_religious_rank": true
+  },
+  "surahs": [
+    {
+      "id": "surah_001",
+      "surah_number": 1,
+      "name_fr": "Al-Fātiḥah",
+      "name_ar": "الفاتحة",
+      "level": 1,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 1
+      }
+    },
+    {
+      "id": "surah_112",
+      "surah_number": 112,
+      "name_fr": "Al-Ikhlāṣ",
+      "name_ar": "الإخلاص",
+      "level": 1,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 112
+      }
+    },
+    {
+      "id": "surah_113",
+      "surah_number": 113,
+      "name_fr": "Al-Falaq",
+      "name_ar": "الفلق",
+      "level": 1,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 113
+      }
+    },
+    {
+      "id": "surah_114",
+      "surah_number": 114,
+      "name_fr": "An-Nās",
+      "name_ar": "الناس",
+      "level": 1,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 114
+      }
+    },
+    {
+      "id": "surah_108",
+      "surah_number": 108,
+      "name_fr": "Al-Kawthar",
+      "name_ar": "الكوثر",
+      "level": 1,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 108
+      }
+    },
+    {
+      "id": "surah_103",
+      "surah_number": 103,
+      "name_fr": "Al-ʿAṣr",
+      "name_ar": "العصر",
+      "level": 1,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 103
+      }
+    },
+    {
+      "id": "surah_110",
+      "surah_number": 110,
+      "name_fr": "An-Naṣr",
+      "name_ar": "النصر",
+      "level": 1,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 110
+      }
+    },
+    {
+      "id": "surah_109",
+      "surah_number": 109,
+      "name_fr": "Al-Kāfirūn",
+      "name_ar": "الكافرون",
+      "level": 1,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 109
+      }
+    },
+    {
+      "id": "surah_111",
+      "surah_number": 111,
+      "name_fr": "Al-Masad",
+      "name_ar": "المسد",
+      "level": 2,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 111
+      }
+    },
+    {
+      "id": "surah_106",
+      "surah_number": 106,
+      "name_fr": "Quraysh",
+      "name_ar": "قريش",
+      "level": 2,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 106
+      }
+    },
+    {
+      "id": "surah_105",
+      "surah_number": 105,
+      "name_fr": "Al-Fīl",
+      "name_ar": "الفيل",
+      "level": 2,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 105
+      }
+    },
+    {
+      "id": "surah_107",
+      "surah_number": 107,
+      "name_fr": "Al-Māʿūn",
+      "name_ar": "الماعون",
+      "level": 2,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 107
+      }
+    },
+    {
+      "id": "surah_097",
+      "surah_number": 97,
+      "name_fr": "Al-Qadr",
+      "name_ar": "القدر",
+      "level": 2,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 97
+      }
+    },
+    {
+      "id": "surah_095",
+      "surah_number": 95,
+      "name_fr": "At-Tīn",
+      "name_ar": "التين",
+      "level": 2,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 95
+      }
+    },
+    {
+      "id": "surah_094",
+      "surah_number": 94,
+      "name_fr": "Ash-Sharḥ",
+      "name_ar": "الشرح",
+      "level": 2,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 94
+      }
+    },
+    {
+      "id": "surah_093",
+      "surah_number": 93,
+      "name_fr": "Aḍ-Ḍuḥā",
+      "name_ar": "الضحى",
+      "level": 2,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 93
+      }
+    },
+    {
+      "id": "surah_099",
+      "surah_number": 99,
+      "name_fr": "Az-Zalzalah",
+      "name_ar": "الزلزلة",
+      "level": 3,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 99
+      }
+    },
+    {
+      "id": "surah_100",
+      "surah_number": 100,
+      "name_fr": "Al-ʿĀdiyāt",
+      "name_ar": "العاديات",
+      "level": 3,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 100
+      }
+    },
+    {
+      "id": "surah_101",
+      "surah_number": 101,
+      "name_fr": "Al-Qāriʿah",
+      "name_ar": "القارعة",
+      "level": 3,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 101
+      }
+    },
+    {
+      "id": "surah_102",
+      "surah_number": 102,
+      "name_fr": "At-Takāthur",
+      "name_ar": "التكاثر",
+      "level": 3,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 102
+      }
+    },
+    {
+      "id": "surah_104",
+      "surah_number": 104,
+      "name_fr": "Al-Humazah",
+      "name_ar": "الهمزة",
+      "level": 3,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 104
+      }
+    },
+    {
+      "id": "surah_098",
+      "surah_number": 98,
+      "name_fr": "Al-Bayyinah",
+      "name_ar": "البينة",
+      "level": 3,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 98
+      }
+    },
+    {
+      "id": "surah_096",
+      "surah_number": 96,
+      "name_fr": "Al-ʿAlaq",
+      "name_ar": "العلق",
+      "level": 3,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 96
+      }
+    },
+    {
+      "id": "surah_091",
+      "surah_number": 91,
+      "name_fr": "Ash-Shams",
+      "name_ar": "الشمس",
+      "level": 3,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 91
+      }
+    },
+    {
+      "id": "surah_092",
+      "surah_number": 92,
+      "name_fr": "Al-Layl",
+      "name_ar": "الليل",
+      "level": 4,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 92
+      }
+    },
+    {
+      "id": "surah_090",
+      "surah_number": 90,
+      "name_fr": "Al-Balad",
+      "name_ar": "البلد",
+      "level": 4,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 90
+      }
+    },
+    {
+      "id": "surah_089",
+      "surah_number": 89,
+      "name_fr": "Al-Fajr",
+      "name_ar": "الفجر",
+      "level": 4,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 89
+      }
+    },
+    {
+      "id": "surah_088",
+      "surah_number": 88,
+      "name_fr": "Al-Ghāshiyah",
+      "name_ar": "الغاشية",
+      "level": 4,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 88
+      }
+    },
+    {
+      "id": "surah_087",
+      "surah_number": 87,
+      "name_fr": "Al-Aʿlā",
+      "name_ar": "الأعلى",
+      "level": 4,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 87
+      }
+    },
+    {
+      "id": "surah_086",
+      "surah_number": 86,
+      "name_fr": "Aṭ-Ṭāriq",
+      "name_ar": "الطارق",
+      "level": 4,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 86
+      }
+    },
+    {
+      "id": "surah_085",
+      "surah_number": 85,
+      "name_fr": "Al-Burūj",
+      "name_ar": "البروج",
+      "level": 4,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 85
+      }
+    },
+    {
+      "id": "surah_084",
+      "surah_number": 84,
+      "name_fr": "Al-Inshiqāq",
+      "name_ar": "الانشقاق",
+      "level": 4,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 84
+      }
+    },
+    {
+      "id": "surah_083",
+      "surah_number": 83,
+      "name_fr": "Al-Muṭaffifīn",
+      "name_ar": "المطففين",
+      "level": 5,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 83
+      }
+    },
+    {
+      "id": "surah_082",
+      "surah_number": 82,
+      "name_fr": "Al-Infiṭār",
+      "name_ar": "الانفطار",
+      "level": 5,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 82
+      }
+    },
+    {
+      "id": "surah_081",
+      "surah_number": 81,
+      "name_fr": "At-Takwīr",
+      "name_ar": "التكوير",
+      "level": 5,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 81
+      }
+    },
+    {
+      "id": "surah_080",
+      "surah_number": 80,
+      "name_fr": "ʿAbasa",
+      "name_ar": "عبس",
+      "level": 5,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 80
+      }
+    },
+    {
+      "id": "surah_079",
+      "surah_number": 79,
+      "name_fr": "An-Nāziʿāt",
+      "name_ar": "النازعات",
+      "level": 5,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 79
+      }
+    },
+    {
+      "id": "surah_078",
+      "surah_number": 78,
+      "name_fr": "An-Nabaʾ",
+      "name_ar": "النبأ",
+      "level": 5,
+      "audience_scope": "all",
+      "challenge_types": [
+        "recitation"
+      ],
+      "recitation_scope": "full_surah",
+      "content_kind": "recitation_reference_only",
+      "status": "validated",
+      "display_quran_text": false,
+      "source": {
+        "type": "quran",
+        "surah_number": 78
+      }
+    }
+  ]
+}

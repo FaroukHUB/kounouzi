@@ -1585,7 +1585,8 @@
       "animationKey": "fatiha",
       "contentRef": {
         "kind": "validated_recitation",
-        "count": 1
+        "count": 1,
+        "surahId": "surah_001"
       }
     },
     {

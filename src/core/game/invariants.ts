@@ -32,7 +32,10 @@ export function checkInvariants(state: GameState): readonly string[] {
     if (!state.config.challenges.definitions.some((d) => d.id === c.challengeId)) violations.push(`défi inconnu ${c.challengeId}`);
     if (c.playerId !== state.players[state.activePlayerIndex]?.id) violations.push("le défi n'est pas pour le joueur actif");
     if (((state.challengeServed[c.playerId] ?? {})[c.challengeId] ?? 0) < 1) violations.push("défi en cours jamais compté comme proposé");
+    for (const id of c.surahIds ?? []) if (!state.config.challenges.recitations.some((r) => r.id === id)) violations.push(`sourate de récitation inconnue ${id}`);
+    if (c.surahIds && new Set(c.surahIds).size !== c.surahIds.length) violations.push("sourates de récitation dupliquées");
   }
+  for (const p of state.players) for (const id of p.masteredSurahs) if (state.config.challenges.recitations.length > 0 && !state.config.challenges.recitations.some((r) => r.id === id)) violations.push(`${p.id} maîtrise une sourate hors banque ${id}`);
   for (const [playerId, served] of Object.entries(state.challengeServed)) {
     if (!state.players.some((p) => p.id === playerId)) violations.push(`compteurs de défi d'un joueur inconnu ${playerId}`);
     for (const [id, n] of Object.entries(served)) if (n < 0 || !state.config.challenges.definitions.some((d) => d.id === id)) violations.push(`compteur de défi incohérent pour ${id}`);

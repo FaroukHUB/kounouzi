@@ -58,6 +58,8 @@ export function utteranceFor(event: GameEvent, state: GameState, locale: Locale)
       return { text: t(locale, event.success ? "narration.challenge.success" : "narration.challenge.failure"), lang: locale };
     case "FamilyChallengeSkipped":
       return { text: t(locale, "narration.challenge.skipped"), lang: locale };
+    case "RecitationMastered":
+      return { text: t(locale, "narration.recitation.mastered"), lang: locale };
     case "ChallengeRewardGranted":
       return { text: t(locale, "narration.challenge.reward", { amount: event.amount }), lang: locale };
     case "GameFinished": {

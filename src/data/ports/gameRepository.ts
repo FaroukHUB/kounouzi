@@ -11,6 +11,8 @@ export interface PlayerProfileDraft {
   readonly avatarId: string;
   readonly child?: { readonly birthYear: number; readonly schoolGrade: string };
   readonly adult?: { readonly initialLevel: AdultInitialLevel };
+  /** État de récitation du joueur : sourates maîtrisées (références seulement), mis à jour par les récitations réussies. */
+  readonly recitation?: { readonly mastered: readonly string[] };
 }
 
 export interface GameSummary {

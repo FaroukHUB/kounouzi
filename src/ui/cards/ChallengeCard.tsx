@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { useEffect } from "react";
-import { challengeById, playerAge, variantFor, type ChallengeSkipReason, type GameState } from "@/core/game";
+import { challengeById, playerAge, recitationById, variantFor, type ChallengeSkipReason, type GameState } from "@/core/game";
 import type { NarrationService } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Button } from "@/ui/primitives/Button";
@@ -78,6 +78,19 @@ export function ChallengeCard({ state, card, narrator, reduced, onUpdate, onAcce
       <p className="text-[clamp(1.2rem,3vw,1.6rem)] font-bold leading-snug" data-testid="challenge-text">
         {definition.text}
       </p>
+      {card.surahIds && card.surahIds.length > 0 ? (
+        <ul className="flex flex-col gap-2" data-testid="challenge-recitation">
+          {card.surahIds.map((id) => {
+            const surah = recitationById(state, id);
+            return surah ? (
+              <li key={id} className="rounded-2xl bg-[var(--k-sand)] px-4 py-3 text-lg font-bold">
+                {t(DEFAULT_LOCALE, "challenge.recite", { fr: surah.nameFr, ar: surah.nameAr })}
+              </li>
+            ) : null;
+          })}
+          <li className="text-xs text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "challenge.recitation.hint")}</li>
+        </ul>
+      ) : null}
       {variant ? (
         <p className="rounded-2xl bg-[var(--k-sand)] px-4 py-2 font-semibold" data-testid="challenge-variant">
           {t(DEFAULT_LOCALE, "challenge.variant", { text: variant.text })}

@@ -49,7 +49,7 @@ const CONSENT_IDS = new Set(["CH-041", "CH-045", "CH-046"]);
 const CONTENT_REFS = {
   "CH-091": { kind: "validated_recitation", count: 1 },
   "CH-092": { kind: "validated_recitation", count: 2 },
-  "CH-093": { kind: "validated_recitation", count: 1 },
+  "CH-093": { kind: "validated_recitation", count: 1, surahId: "surah_001" },
   "CH-094": { kind: "validated_question", categoryId: "religion", difficultyDelta: 0 },
   "CH-095": { kind: "validated_question", categoryId: "religion", difficultyDelta: 0 },
   "CH-096": { kind: "validated_question", categoryId: "religion", difficultyDelta: 0 },

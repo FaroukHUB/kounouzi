@@ -131,6 +131,13 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
         result = chain(result, (s) => step(s, [{ type: "ChallengeRewardGranted", playerId: player.id, challengeId: definition.id, amount: definition.reward }]));
         result = chain(result, (s) => applyTransaction(s, player.id, definition.reward, "challenge_reward", definition.id));
       }
+      // Récitation réussie : chaque sourate pas encore maîtrisée le devient (état de récitation du joueur, jamais un texte).
+      if (command.success && challenge.surahIds) {
+        for (const surahId of challenge.surahIds) {
+          if (playerById(result.state, player.id).masteredSurahs.includes(surahId)) continue;
+          result = chain(result, (s) => step(updatePlayer(s, player.id, { masteredSurahs: [...playerById(s, player.id).masteredSurahs, surahId] }), [{ type: "RecitationMastered", playerId: player.id, surahId }]));
+        }
+      }
       const queue = command.success ? [...(definition.onSuccess ?? []), ...phase.value.queue] : phase.value.queue;
       return ok(chain(result, (s) => processQueue(s, queue)));
     }

@@ -27,6 +27,8 @@ interface Row {
   readonly birthYear: string;
   readonly schoolGrade: string;
   readonly initialLevel: AdultInitialLevel;
+  /** Sourates maîtrisées du profil connu (jamais saisies ici : elles viennent des récitations réussies). */
+  readonly mastered?: readonly string[] | undefined;
 }
 
 const row = (i: number, profileType: ProfileType): Row => ({ displayName: "", profileType, avatarId: AVATARS[i % AVATARS.length]!.id, birthYear: "", schoolGrade: SCHOOL_GRADES[0], initialLevel: DEFAULT_ADULT_INITIAL_LEVEL });
@@ -39,6 +41,7 @@ const rowFromProfile = (p: SavedPlayerProfile): Row => ({
   birthYear: p.child ? String(p.child.birthYear) : "",
   schoolGrade: p.child?.schoolGrade ?? SCHOOL_GRADES[0],
   initialLevel: p.adult?.initialLevel ?? DEFAULT_ADULT_INITIAL_LEVEL,
+  mastered: p.recitation?.mastered,
 });
 
 /**
@@ -81,7 +84,7 @@ export function NewGameForm() {
     const profiles: PlayerProfileDraft[] = rows.map((r, i) => {
       // Un joueur connu garde son identifiant (sa mémoire pédagogique le suit) ; un nouveau reçoit un identifiant stable pour la suite.
       const id = r.id ?? (`player-${stamp}-${i + 1}` as PlayerId);
-      const base = { id, displayName: r.displayName.trim(), profileType: r.profileType, avatarId: r.avatarId };
+      const base = { id, displayName: r.displayName.trim(), profileType: r.profileType, avatarId: r.avatarId, ...(r.mastered && r.mastered.length > 0 ? { recitation: { mastered: r.mastered } } : {}) };
       return r.profileType === "child"
         ? { ...base, child: { birthYear: r.birthYear === "" ? thisYear - 8 : Number(r.birthYear), schoolGrade: r.schoolGrade } }
         : { ...base, adult: { initialLevel: r.initialLevel } };
@@ -91,7 +94,7 @@ export function NewGameForm() {
     const setup: GameSetup = {
       gameId,
       // L'âge (année en cours − année de naissance) ne sert qu'à l'éligibilité des Défis famille.
-      players: profiles.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, ...(p.child ? { age: thisYear - p.child.birthYear } : {}) })),
+      players: profiles.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, ...(p.child ? { age: thisYear - p.child.birthYear } : {}), masteredSurahs: p.recitation?.mastered ?? [] })),
       board: BOARD_32_V1,
       heritageSites: DEMO_HERITAGE_SITES,
       scenarios: DEMO_SCENARIOS,

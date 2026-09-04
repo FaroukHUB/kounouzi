@@ -224,7 +224,21 @@ export interface ChallengeVariant {
  */
 export type ChallengeContentRef =
   | { readonly kind: "validated_question"; readonly categoryId: string; readonly difficultyDelta: number }
-  | { readonly kind: "validated_recitation"; readonly count: number };
+  /** Récitation orale : `count` sourates (2 = parmi celles que le joueur maîtrise), ou une sourate imposée (`surahId`). */
+  | { readonly kind: "validated_recitation"; readonly count: number; readonly surahId?: string | undefined };
+
+/**
+ * Référence de récitation : nom et numéro d'une sourate validés pour le défi
+ * oral. AUCUN verset n'est stocké, affiché ni généré ; `level` est une
+ * difficulté de jeu, jamais un classement religieux.
+ */
+export interface RecitationRef {
+  readonly id: string;
+  readonly surahNumber: number;
+  readonly nameFr: string;
+  readonly nameAr: string;
+  readonly level: number;
+}
 
 export interface ChallengeDefinition {
   readonly id: string;
@@ -255,11 +269,13 @@ export interface ChallengesConfig {
   readonly settings: ChallengeSettings;
   /** Identifiants des défis dont la référence de contenu validé est satisfaite (calcul hors moteur, figé). */
   readonly contentAvailable: readonly string[];
+  /** Sourates validées pour la récitation (références seulement), figées dans la partie. */
+  readonly recitations: readonly RecitationRef[];
 }
 
 export const EMPTY_TOGGLES: ChallengesConfig["toggles"] = { movement: [], fun: [], family: [], contact: [], ohNo: [], memoryLogic: [], arabic: [], religion: [], boss: [] };
 /** Aucune banque : une case Défi ne propose alors aucun défi famille (parties migrées). */
-export const NO_CHALLENGES: ChallengesConfig = { definitions: [], toggles: EMPTY_TOGGLES, settings: ALL_CHALLENGES_ON, contentAvailable: [] };
+export const NO_CHALLENGES: ChallengesConfig = { definitions: [], toggles: EMPTY_TOGGLES, settings: ALL_CHALLENGES_ON, contentAvailable: [], recitations: [] };
 
 export const CHALLENGE_STAGES = ["assigned", "accepted"] as const;
 export type ChallengeStage = (typeof CHALLENGE_STAGES)[number];
@@ -274,6 +290,8 @@ export interface ChallengeState {
   readonly requestId: string;
   readonly stage: ChallengeStage;
   readonly served?: ServedQuestion | undefined;
+  /** Sourates à réciter (références), choisies à l'assignation de façon déterministe. */
+  readonly surahIds?: readonly string[] | undefined;
 }
 
 /* ---------------------------------------------------------------------------
@@ -350,6 +368,8 @@ export interface PlayerState {
   readonly solidarityGiven: number;
   /** Adversaire du dernier Duel déclenché par ce joueur : momentanément indisponible s'il existe un autre adversaire. */
   readonly lastDuelOpponentId?: PlayerId | undefined;
+  /** Sourates maîtrisées (références) : état de récitation du joueur, mis à jour par une récitation réussie. */
+  readonly masteredSurahs: readonly string[];
 }
 
 export const TRANSACTION_REASONS = [
@@ -482,7 +502,7 @@ export interface AnsweredQuestion {
   readonly difficulty: number;
 }
 
-export const GAME_SCHEMA_VERSION = 5 as const;
+export const GAME_SCHEMA_VERSION = 6 as const;
 
 export interface GameState {
   readonly schemaVersion: typeof GAME_SCHEMA_VERSION;
@@ -499,6 +519,8 @@ export interface GameState {
   readonly cellVisits: Readonly<Record<string, number>>;
   /** Par joueur, nombre de fois où chaque défi lui a été proposé dans cette partie (anti-répétition tant que son vivier n'est pas épuisé). */
   readonly challengeServed: Readonly<Record<string, Readonly<Record<string, number>>>>;
+  /** Par joueur, nombre de fois où chaque sourate lui a été proposée en récitation (anti-répétition). */
+  readonly recitationServed: Readonly<Record<string, Readonly<Record<string, number>>>>;
   readonly clock: PlayClock;
   /** Demande de fin (espace parent) : la partie s'arrête à la fin du tour de table. */
   readonly endRequested: boolean;

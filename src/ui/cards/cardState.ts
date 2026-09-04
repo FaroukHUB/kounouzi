@@ -53,6 +53,8 @@ export type CardState =
       readonly rewardAmount?: number | undefined;
       /** Instantané de la question figée (défi à contenu validé), conservé pour le résultat. */
       readonly question?: QuestionInstance | undefined;
+      /** Sourates à réciter (références), figées dans l'état. */
+      readonly surahIds?: readonly string[] | undefined;
     };
 
 /** À la reprise (aucun événement rejoué), la carte correspondant à la phase en attente. */
@@ -71,7 +73,7 @@ export function cardForPhase(state: GameState): CardState | null {
     case "awaiting_challenge": {
       const c = state.phase.challenge;
       // Reprise en plein défi : à l'étape exacte (accepté ou non), sans rejouer « OH NON ».
-      return { kind: "challenge", challengeId: c.challengeId, playerId: c.playerId, requestId: c.requestId, step: c.stage === "accepted" ? "accepted" : "reveal" };
+      return { kind: "challenge", challengeId: c.challengeId, playerId: c.playerId, requestId: c.requestId, step: c.stage === "accepted" ? "accepted" : "reveal", ...(c.surahIds ? { surahIds: c.surahIds } : {}) };
     }
     case "awaiting_recipient":
       return { kind: "recipient", playerId: activeId, candidates: state.phase.candidates, amount: state.phase.amount, reason: state.phase.reason, step: "offer" };

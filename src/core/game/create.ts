@@ -27,6 +27,8 @@ export interface PlayerSetup {
   readonly profileType: ProfileType;
   /** Âge (années) d'un enfant à la création : éligibilité des Défis famille uniquement. */
   readonly age?: number | undefined;
+  /** Sourates déjà maîtrisées (références) : état de récitation du profil. */
+  readonly masteredSurahs?: readonly string[] | undefined;
 }
 
 /** Tout ce qu'il faut pour créer une partie. Les configurations sont figées dans l'état. Aucune graine. */
@@ -91,6 +93,7 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     halted: false,
     solidarityActions: 0,
     solidarityGiven: 0,
+    masteredSurahs: [...(p.masteredSurahs ?? [])],
   }));
 
   const initial: GameState = {
@@ -106,6 +109,7 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     effects: [],
     cellVisits: {},
     challengeServed: {},
+    recitationServed: {},
     clock: { activePlaySeconds: 0, timeTargetReached: false },
     endRequested: false,
     counters: { transaction: 0, request: 0, effect: 0, transfer: 0, challenge: 0 },

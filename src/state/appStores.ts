@@ -50,6 +50,13 @@ export const gameStore = createGameStore({
     const learners = gameStore.getState().profiles.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, schoolGrade: p.child?.schoolGrade, initialLevel: p.adult?.initialLevel }));
     learningStore.getState().record(state.gameId, events, learners);
     playtestStore.getState().record(state.gameId, events, state);
+    // Récitation : une sourate maîtrisée suit le profil du joueur (références seulement, jamais un texte).
+    for (const e of events) {
+      if (e.type !== "RecitationMastered") continue;
+      const profile = gameStore.getState().profiles.find((p) => p.id === e.playerId);
+      const mastered = state.players.find((p) => p.id === e.playerId)?.masteredSurahs ?? [];
+      if (profile) void playerProfileRepository.save({ ...profile, recitation: { mastered: [...mastered] }, savedAt: now() }).catch((error: unknown) => console.error("[kounouzi] récitation", error));
+    }
   },
   onError: (error) => console.error("[kounouzi] persistance", error),
 });

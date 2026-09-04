@@ -58,6 +58,11 @@
   religieux, jamais servis sans contenu validé), résultats économiques réels
   des défis solidaires. Sélection déterministe cachée (ADR 0027).
 
+- `religion/quran/surah-bank.v1.json` — **références de récitation
+  uniquement** (38 sourates : identifiant, numéro, nom FR/AR, niveau de jeu).
+  Aucun verset stocké, affiché ni généré ; schéma strict ; validation orale par
+  la tablée (ADR 0028).
+
 Règles : explication FR **et** AR obligatoires pour toute question jouable ;
 `status = validated` obligatoire ; source primaire obligatoire si la catégorie
 l'exige (`requiresSource`). Voir `docs/decisions/0004`, `0020`, `0022`.

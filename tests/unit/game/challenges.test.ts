@@ -93,8 +93,8 @@ describe("Défis famille — filtres d'âge, réglages parents, contenu validé"
   it("âge : une enfant de 6 ans ne reçoit jamais un défi 8+ ou 10+ ; un adulte est éligible à tout ; un enfant d'âge inconnu est traité comme le plus jeune", () => {
     const config = challengesFixture();
     for (const d of FAMILY_CHALLENGES) {
-      expect(isChallengeEligible(d, { profileType: "child", age: 6 }, config), d.id).toBe(d.minAge <= 6 && !d.contentRef);
-      expect(isChallengeEligible(d, { profileType: "adult" }, config), d.id).toBe(!d.contentRef);
+      expect(isChallengeEligible(d, { profileType: "child", age: 6, masteredSurahs: [] }, config), d.id).toBe(d.minAge <= 6 && !d.contentRef);
+      expect(isChallengeEligible(d, { profileType: "adult", masteredSurahs: [] }, config), d.id).toBe(!d.contentRef);
     }
     expect(playerAge({ profileType: "child" })).toBe(5);
     expect(playerAge({ profileType: "adult" })).toBe(18);
@@ -106,7 +106,7 @@ describe("Défis famille — filtres d'âge, réglages parents, contenu validé"
   it("réglages parents : contact désactivé, « OH NON » désactivé, mouvement désactivé, boss désactivé", () => {
     const off = challengesFixture({ settings: { contact: false, ohNo: false, movement: false, boss: false } });
     for (const d of FAMILY_CHALLENGES) {
-      const eligible = isChallengeEligible(d, { profileType: "adult" }, off);
+      const eligible = isChallengeEligible(d, { profileType: "adult", masteredSurahs: [] }, off);
       if (d.consentRequired || d.ohNo || d.category === "movement" || d.boss || d.contentRef) expect(eligible, d.id).toBe(false);
       else expect(eligible, d.id).toBe(true);
     }
@@ -166,7 +166,7 @@ describe("Défis famille — filtres d'âge, réglages parents, contenu validé"
     expect(phaseOf(served.state)?.served?.ref).toMatchObject({ questionId: "REL-X" });
     roundTrip(served.state);
     // Sans le contenu disponible, le même défi n'est pas éligible.
-    expect(isChallengeEligible(religionOnly[0]!, { profileType: "adult" }, challengesFixture({ definitions: religionOnly }))).toBe(false);
+    expect(isChallengeEligible(religionOnly[0]!, { profileType: "adult", masteredSurahs: [] }, challengesFixture({ definitions: religionOnly }))).toBe(false);
   });
 });
 
@@ -241,6 +241,8 @@ describe("Défis famille — récompense, échec, étapes", () => {
     delete v4["challengeServed"];
     const counters = v4["counters"] as Record<string, unknown>;
     delete counters["challenge"];
+    delete v4["recitationServed"];
+    for (const p of v4["players"] as Record<string, unknown>[]) delete p["masteredSurahs"];
     v4["schemaVersion"] = 4;
     const migrated = deserializeGameState(JSON.stringify(v4));
     expect(migrated.ok).toBe(true);
@@ -248,7 +250,8 @@ describe("Défis famille — récompense, échec, étapes", () => {
     expect(migrated.value.schemaVersion).toBe(GAME_SCHEMA_VERSION);
     expect(migrated.value.config.challenges).toEqual(NO_CHALLENGES);
     expect(migrated.value.counters.challenge).toBe(0);
+    expect(migrated.value.players.every((p) => p.masteredSurahs.length === 0)).toBe(true);
     expect(selectChallenge(migrated.value, pid("maryam"))).toBeNull();
-    expect(landed.state.schemaVersion).toBe(5);
+    expect(landed.state.schemaVersion).toBe(GAME_SCHEMA_VERSION);
   });
 });

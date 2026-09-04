@@ -1,5 +1,5 @@
 import { resolveCell } from "./cells";
-import { selectChallenge } from "./challenges";
+import { selectChallenge, selectRecitations } from "./challenges";
 import { affordableAmount, applyTransaction, poorestPlayer, richestPlayer, transferMoney } from "./economy";
 import { queueEffect, clearEffects, takeEffect } from "./effects";
 import { holdingOf, holdingsOf } from "./holdings";
@@ -222,16 +222,22 @@ export function processQueue(state: GameState, initialQueue: readonly Outcome[])
 export function assignChallenge(state: GameState, playerId: PlayerId, exclude: readonly string[]): ((queue: readonly Outcome[]) => Step) | null {
   const definition = selectChallenge(state, playerId, exclude);
   if (!definition) return null;
+  const ref = definition.contentRef;
+  const surahIds = ref?.kind === "validated_recitation" ? selectRecitations(state, playerId, ref) : null;
+  if (ref?.kind === "validated_recitation" && !surahIds) return null;
   return (queue) => {
     const requestId = `q${state.counters.request + 1}`;
+    const mineRecitations = state.recitationServed[playerId] ?? {};
+    const recitationServed = surahIds ? { ...state.recitationServed, [playerId]: Object.fromEntries([...Object.entries(mineRecitations), ...surahIds.map((id) => [id, (mineRecitations[id] ?? 0) + 1] as const)]) } : state.recitationServed;
     const next: GameState = {
       ...state,
       counters: { ...state.counters, request: state.counters.request + 1, challenge: state.counters.challenge + 1 },
       challengeServed: { ...state.challengeServed, [playerId]: { ...(state.challengeServed[playerId] ?? {}), [definition.id]: ((state.challengeServed[playerId] ?? {})[definition.id] ?? 0) + 1 } },
-      phase: { kind: "awaiting_challenge", challenge: { challengeId: definition.id, playerId, requestId, stage: "assigned" }, queue: [...queue] },
+      recitationServed,
+      phase: { kind: "awaiting_challenge", challenge: { challengeId: definition.id, playerId, requestId, stage: "assigned", ...(surahIds ? { surahIds } : {}) }, queue: [...queue] },
     };
     return step(next, [
-      { type: "FamilyChallengeAssigned", playerId, challengeId: definition.id, requestId, category: definition.category, reward: definition.reward, ohNo: definition.ohNo, consentRequired: definition.consentRequired },
+      { type: "FamilyChallengeAssigned", playerId, challengeId: definition.id, requestId, category: definition.category, reward: definition.reward, ohNo: definition.ohNo, consentRequired: definition.consentRequired, ...(surahIds ? { surahIds } : {}) },
     ]);
   };
 }

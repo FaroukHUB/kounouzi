@@ -30,10 +30,10 @@ const duelSchema = z.object({
   stage: z.enum(DUEL_STAGES),
 });
 
-const challengeStateSchema = z.object({ challengeId: z.string(), playerId: z.string(), requestId: z.string(), stage: z.enum(CHALLENGE_STAGES), served: questionInstanceSchema.optional() });
+const challengeStateSchema = z.object({ challengeId: z.string(), playerId: z.string(), requestId: z.string(), stage: z.enum(CHALLENGE_STAGES), served: questionInstanceSchema.optional(), surahIds: z.array(z.string()).optional() });
 
-/** Forme sérialisée de l'état — version 5 (v4 + Défis famille : banque figée, réglages parents, défi en cours). */
-export const gameStateSchemaV5 = z.object({
+/** Forme sérialisée de l'état — version 6 (v5 + récitation : sourates de référence figées, maîtrise par joueur). */
+export const gameStateSchemaV6 = z.object({
   schemaVersion: z.literal(GAME_SCHEMA_VERSION),
   gameId: z.string(),
   config: z.object({
@@ -61,6 +61,7 @@ export const gameStateSchemaV5 = z.object({
       solidarityActions: z.number().int().nonnegative(),
       solidarityGiven: z.number().int().nonnegative(),
       lastDuelOpponentId: z.string().optional(),
+      masteredSurahs: z.array(z.string()),
     }),
   ),
   activePlayerIndex: z.number().int(),
@@ -83,6 +84,7 @@ export const gameStateSchemaV5 = z.object({
   effects: z.array(z.object({ id: z.string(), playerId: z.string(), spec: effectSpecSchema, queuedAtTurn: z.number().int(), expiresAtTurn: z.number().int().optional() })),
   cellVisits: z.record(z.string(), z.number().int().nonnegative()),
   challengeServed: z.record(z.string(), z.record(z.string(), z.number().int().nonnegative())),
+  recitationServed: z.record(z.string(), z.record(z.string(), z.number().int().nonnegative())),
   clock: z.object({ activePlaySeconds: z.number().nonnegative(), timeTargetReached: z.boolean() }),
   endRequested: z.boolean(),
   counters: z.object({ transaction: z.number().int(), request: z.number().int(), effect: z.number().int(), transfer: z.number().int(), challenge: z.number().int() }),
@@ -132,6 +134,18 @@ const MIGRATIONS: Readonly<Record<number, (data: Rec) => Rec>> = {
     const counters = asRec(data["counters"]);
     return { ...data, schemaVersion: 5, config: { ...config, challenges: config["challenges"] ?? NO_CHALLENGES }, challengeServed: data["challengeServed"] ?? {}, counters: { challenge: 0, ...counters } };
   },
+  // v5 → v6 : récitation. Aucune sourate de référence dans une partie v5 (les défis de récitation y restent inéligibles) ; aucune maîtrise connue.
+  5: (data) => {
+    const config = asRec(data["config"]);
+    const challenges = asRec(config["challenges"]);
+    return {
+      ...data,
+      schemaVersion: 6,
+      config: { ...config, challenges: { recitations: [], ...challenges } },
+      players: (Array.isArray(data["players"]) ? data["players"] : []).map((p) => ({ masteredSurahs: [], ...asRec(p) })),
+      recitationServed: data["recitationServed"] ?? {},
+    };
+  },
 };
 
 export function serializeGameState(state: GameState): string {
@@ -157,7 +171,7 @@ export function deserializeGameState(json: string): Result<GameState, Serializat
   }
   if (version !== GAME_SCHEMA_VERSION) return err({ code: "UNSUPPORTED_VERSION", version });
 
-  const parsed = gameStateSchemaV5.safeParse(record);
+  const parsed = gameStateSchemaV6.safeParse(record);
   if (!parsed.success) return err({ code: "INVALID_STATE", issues: parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`) });
   return ok(parsed.data as unknown as GameState);
 }

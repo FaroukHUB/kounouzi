@@ -102,11 +102,14 @@ export const challengeDefinitionSchema = z.object({
   contentRef: z
     .discriminatedUnion("kind", [
       z.object({ kind: z.literal("validated_question"), categoryId: z.string().min(1), difficultyDelta: z.number().int() }),
-      z.object({ kind: z.literal("validated_recitation"), count: z.number().int().positive() }),
+      z.object({ kind: z.literal("validated_recitation"), count: z.number().int().positive(), surahId: z.string().min(1).optional() }),
     ])
     .optional(),
   onSuccess: z.array(outcomeSchema).optional(),
 });
+
+/** Référence de récitation : strictement nom, numéro, niveau — aucun champ de texte coranique n'est admis. */
+export const recitationRefSchema = z.strictObject({ id: z.string().min(1), surahNumber: z.number().int().min(1).max(114), nameFr: z.string().min(1).max(40), nameAr: z.string().min(1).max(40), level: z.number().int().min(1).max(5) });
 
 export const challengesConfigSchema: z.ZodType<ChallengesConfig> = z
   .object({
@@ -114,11 +117,13 @@ export const challengesConfigSchema: z.ZodType<ChallengesConfig> = z
     toggles: z.object(Object.fromEntries(CHALLENGE_TOGGLES.map((t) => [t, z.array(z.enum(CHALLENGE_CATEGORIES))])) as Record<(typeof CHALLENGE_TOGGLES)[number], z.ZodArray<z.ZodEnum<{ [K in (typeof CHALLENGE_CATEGORIES)[number]]: K }>>>),
     settings: challengeSettingsSchema,
     contentAvailable: z.array(z.string()),
+    recitations: z.array(recitationRefSchema),
   })
   .superRefine((c, ctx) => {
     if (new Set(c.definitions.map((d) => d.id)).size !== c.definitions.length) ctx.addIssue({ code: "custom", message: "identifiants de défi dupliqués" });
     // Un défi religieux ne porte aucun texte religieux : il DOIT référencer du contenu validé.
     for (const d of c.definitions) if (d.category === "religion" && !d.contentRef) ctx.addIssue({ code: "custom", message: `${d.id} : un défi religieux doit référencer du contenu validé` });
+    if (new Set(c.recitations.map((r) => r.surahNumber)).size !== c.recitations.length) ctx.addIssue({ code: "custom", message: "numéros de sourate dupliqués" });
     const covered = new Set(Object.values(c.toggles).flat());
     for (const d of c.definitions) if (!covered.has(d.category)) ctx.addIssue({ code: "custom", message: `${d.id} : catégorie ${d.category} sans interrupteur parent` });
   });

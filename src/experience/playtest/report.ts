@@ -268,7 +268,9 @@ function describe(e: GameEvent, name: (id: PlayerId) => string): string | null {
     case "DuelResolved":
       return e.winnerId ? `${name(e.winnerId)} remporte le Duel (${e.challengerOutcome} / ${e.opponentOutcome}, ${e.categoryId ?? "?"})` : `Match nul (${e.challengerOutcome} / ${e.opponentOutcome}, ${e.categoryId ?? "?"})`;
     case "FamilyChallengeAssigned":
-      return `Défi famille pour ${name(e.playerId)} : ${e.challengeId} (${e.category}${e.ohNo ? ", OH NON" : ""}${e.consentRequired ? ", contact" : ""}, ${e.reward})`;
+      return `Défi famille pour ${name(e.playerId)} : ${e.challengeId} (${e.category}${e.ohNo ? ", OH NON" : ""}${e.consentRequired ? ", contact" : ""}, ${e.reward})${e.surahIds ? ` — récitation ${e.surahIds.join(", ")}` : ""}`;
+    case "RecitationMastered":
+      return `${name(e.playerId)} maîtrise ${e.surahId}`;
     case "FamilyChallengeAccepted":
       return `${name(e.playerId)} accepte le défi`;
     case "FamilyChallengeCompleted":

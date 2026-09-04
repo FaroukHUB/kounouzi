@@ -18,11 +18,11 @@ export { holdingOf, holdingsOf, effectivePrice } from "./holdings";
 export { ledgerBalance, transferMoney, affordableAmount, poorestPlayer, richestPlayer } from "./economy";
 export { duelWinner } from "./duel";
 export { duelCandidates } from "./outcomes";
-export { selectChallenge, isChallengeEligible, variantFor, playerAge, challengeById, ADULT_AGE, UNKNOWN_CHILD_AGE } from "./challenges";
+export { selectChallenge, isChallengeEligible, variantFor, playerAge, challengeById, recitationById, recitationCandidates, recitationLevelFor, selectRecitations, ADULT_AGE, UNKNOWN_CHILD_AGE } from "./challenges";
 export { effectsOf } from "./effects";
 export { computeRanking, heritageValueOf, shouldEndAfterTurn, scoreOf } from "./scoring";
 export { checkInvariants } from "./invariants";
-export { serializeGameState, deserializeGameState, gameStateSchemaV5, type SerializationError } from "./serialization";
+export { serializeGameState, deserializeGameState, gameStateSchemaV6, type SerializationError } from "./serialization";
 export {
   boardConfigSchema,
   heritageSiteSchema,
@@ -36,4 +36,5 @@ export {
   challengesConfigSchema,
   challengeDefinitionSchema,
   challengeSettingsSchema,
+  recitationRefSchema,
 } from "./config.schema";

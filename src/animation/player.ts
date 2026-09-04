@@ -150,7 +150,7 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
 
     // ---- Défi famille ----
     case "FamilyChallengeAssigned": {
-      const base = { kind: "challenge" as const, challengeId: event.challengeId, playerId: event.playerId, requestId: event.requestId };
+      const base = { kind: "challenge" as const, challengeId: event.challengeId, playerId: event.playerId, requestId: event.requestId, ...(event.surahIds ? { surahIds: event.surahIds } : {}) };
       if (!event.ohNo) {
         actions.openCard({ ...base, step: "reveal" });
         return;
