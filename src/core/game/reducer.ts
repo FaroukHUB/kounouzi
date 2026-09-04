@@ -9,7 +9,8 @@ import type { GameError } from "./errors";
 import { purchaseSite } from "./holdings";
 import { assignJourneySteps } from "./journeyScheduler";
 import { applyMove, computePath } from "./movement";
-import { processQueue, transferWithSolidarity } from "./outcomes";
+import { assignChallenge, processQueue, transferWithSolidarity } from "./outcomes";
+import { challengeById } from "./challenges";
 import { computeReward } from "./rewards";
 import { activePlayer, chain, playerById, step, updatePlayer, type Step } from "./step";
 import { closeTurn } from "./turn";
@@ -107,6 +108,45 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
       const { amount, reason, insufficient, queue } = phase.value;
       const result = reason === "gift" ? transferMoney(state, player.id, command.recipientId, amount, reason, insufficient) : transferWithSolidarity(state, player.id, command.recipientId, amount, reason, insufficient);
       return ok(chain(result, (s) => processQueue(s, queue)));
+    }
+
+    case "AcceptChallenge": {
+      const phase = expectPhase(state, "awaiting_challenge");
+      if (!phase.ok) return phase;
+      const challenge = phase.value.challenge;
+      if (challenge.stage !== "assigned") return err({ code: "CHALLENGE_STAGE", expected: "assigned", actual: challenge.stage });
+      return ok(step({ ...state, phase: { ...phase.value, challenge: { ...challenge, stage: "accepted" } } }, [{ type: "FamilyChallengeAccepted", playerId: player.id, challengeId: challenge.challengeId }]));
+    }
+
+    case "CompleteChallenge": {
+      const phase = expectPhase(state, "awaiting_challenge");
+      if (!phase.ok) return phase;
+      const challenge = phase.value.challenge;
+      if (challenge.stage !== "accepted") return err({ code: "CHALLENGE_STAGE", expected: "accepted", actual: challenge.stage });
+      const definition = challengeById(state, challenge.challengeId);
+      if (!definition) throw new Error(`défi ${challenge.challengeId} inconnu (invariant)`);
+      let result = step(state, [{ type: "FamilyChallengeCompleted", playerId: player.id, challengeId: definition.id, success: command.success }]);
+      // Réussi : le gain est crédité EXACTEMENT une fois (jamais de multiplicateur de question) ; raté : rien.
+      if (command.success && definition.reward > 0) {
+        result = chain(result, (s) => step(s, [{ type: "ChallengeRewardGranted", playerId: player.id, challengeId: definition.id, amount: definition.reward }]));
+        result = chain(result, (s) => applyTransaction(s, player.id, definition.reward, "challenge_reward", definition.id));
+      }
+      const queue = command.success ? [...(definition.onSuccess ?? []), ...phase.value.queue] : phase.value.queue;
+      return ok(chain(result, (s) => processQueue(s, queue)));
+    }
+
+    case "SkipChallenge": {
+      const phase = expectPhase(state, "awaiting_challenge");
+      if (!phase.ok) return phase;
+      const challenge = phase.value.challenge;
+      // Refus : 0 Kounouz, aucune autre pénalité.
+      const result = step(state, [{ type: "FamilyChallengeSkipped", playerId: player.id, challengeId: challenge.challengeId, reason: command.reason }]);
+      if (command.reason === "consent_refused") {
+        // L'autre personne refuse : aucun échec, le défi éligible suivant est proposé (déterministe).
+        const next = assignChallenge(result.state, player.id, [challenge.challengeId]);
+        if (next) return ok(chain(result, () => next(phase.value.queue)));
+      }
+      return ok(chain(result, (s) => processQueue(s, phase.value.queue)));
     }
   }
 }
@@ -247,6 +287,10 @@ function reduceSession(state: GameState, command: SessionCommand): Result<Step, 
     }
     case "ServeQuestion":
       return serveQuestion(state, command.requestId, command.question);
+    case "SetChallengeSettings": {
+      const next: GameState = { ...state, config: { ...state.config, challenges: { ...state.config.challenges, settings: command.settings } } };
+      return ok(step(next, [{ type: "ChallengeSettingsChanged", settings: command.settings }]));
+    }
   }
 }
 
@@ -255,6 +299,16 @@ function serveQuestion(state: GameState, requestId: string, q: ServedQuestion): 
     if (state.phase.served) return err({ code: "QUESTION_ALREADY_SERVED", requestId });
     const player = activePlayer(state);
     return ok(step({ ...state, phase: { ...state.phase, served: q } }, [{ type: "QuestionServed", requestId, playerId: player.id, question: summary(q) }]));
+  }
+  if (state.phase.kind === "awaiting_challenge" && state.phase.challenge.requestId === requestId) {
+    // Défi à contenu validé : la question est figée sur la demande du défi (reprise exacte).
+    if (state.phase.challenge.served) return err({ code: "QUESTION_ALREADY_SERVED", requestId });
+    const definition = challengeById(state, state.phase.challenge.challengeId);
+    const ref = definition?.contentRef;
+    if (!ref || ref.kind !== "validated_question") return err({ code: "NO_PENDING_QUESTION", requestId });
+    if (ref.categoryId !== "any" && q.categoryId !== ref.categoryId) return err({ code: "DUEL_CATEGORY_MISMATCH", expected: ref.categoryId, received: q.categoryId });
+    const challenge = { ...state.phase.challenge, served: q };
+    return ok(step({ ...state, phase: { ...state.phase, challenge } }, [{ type: "QuestionServed", requestId, playerId: challenge.playerId, question: summary(q) }]));
   }
   if (state.phase.kind === "awaiting_duel") {
     const duel = state.phase.duel;

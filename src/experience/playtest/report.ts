@@ -1,4 +1,4 @@
-import type { GameEvent, GameState } from "@/core/game";
+import { playerAge, type ChallengeCategory, type GameEvent, type GameState } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
 import { INTERACTION_KINDS, type InteractionKind, type PlaytestLog } from "./types";
 
@@ -15,6 +15,27 @@ export interface PlayerPlaytestStats {
   readonly heritage: number;
   readonly solidarityActions: number;
   readonly money: number;
+  /** Défis famille : proposés, réussis, ratés, passés, Kounouz gagnés. */
+  readonly challenges: number;
+  readonly challengesWon: number;
+  readonly challengesFailed: number;
+  readonly challengesSkipped: number;
+  readonly challengeKounouz: number;
+}
+
+/** Défis famille : vue d'ensemble (par catégorie, par tranche d'âge, cartes « OH NON »). */
+export interface ChallengeStats {
+  readonly proposed: number;
+  readonly succeeded: number;
+  readonly failed: number;
+  readonly skipped: number;
+  readonly consentRefused: number;
+  readonly unavailable: number;
+  readonly kounouz: number;
+  readonly ohNo: number;
+  readonly byCategory: readonly { readonly category: ChallengeCategory; readonly proposed: number; readonly succeeded: number }[];
+  /** Taux de réussite par tranche d'âge (défis validés : réussis / (réussis + ratés)). */
+  readonly byAgeBand: readonly { readonly band: string; readonly succeeded: number; readonly failed: number; readonly rate: number }[];
 }
 
 export interface InteractionTiming {
@@ -47,10 +68,23 @@ export interface PlaytestReport {
     readonly collectiveEvents: number;
   };
   readonly players: readonly PlayerPlaytestStats[];
+  readonly challenges: ChallengeStats;
   readonly interactions: readonly InteractionTiming[];
   readonly journal: readonly string[];
 }
 
+/** Tranche d'âge d'un joueur pour le diagnostic (jamais pour les règles). */
+export function ageBandOf(player: GameState["players"][number]): string {
+  if (player.profileType === "adult") return "adulte";
+  const age = playerAge(player);
+  return age < 8 ? "5-8" : age < 10 ? "8-10" : age < 12 ? "10-12" : age < 14 ? "12-14" : "14+";
+}
+
+const sumOf = (values: readonly number[]): number => {
+  let total = 0;
+  for (const v of values) total += v;
+  return total;
+};
 const mmss = (seconds: number) => `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
 
 /** Rapport de playtest : uniquement dérivé de l'état final et du journal d'événements. */
@@ -63,6 +97,10 @@ export function buildPlaytestReport(state: GameState, log: PlaytestLog): Playtes
   const duels = of("DuelResolved");
   const answers = of("AnswerRecorded");
   const scenarios = of("ScenarioTriggered");
+  const assigned = of("FamilyChallengeAssigned");
+  const completed = of("FamilyChallengeCompleted");
+  const skipped = of("FamilyChallengeSkipped");
+  const challengeRewards = of("ChallengeRewardGranted");
   const collectiveKinds = new Set(["collective_fund", "aid"]);
 
   const players = state.players.map((p): PlayerPlaytestStats => {
@@ -80,8 +118,37 @@ export function buildPlaytestReport(state: GameState, log: PlaytestLog): Playtes
       heritage: state.holdings.filter((h) => h.ownerId === p.id).length,
       solidarityActions: p.solidarityActions,
       money: p.money,
+      challenges: assigned.filter((c) => c.playerId === p.id).length,
+      challengesWon: completed.filter((c) => c.playerId === p.id && c.success).length,
+      challengesFailed: completed.filter((c) => c.playerId === p.id && !c.success).length,
+      challengesSkipped: skipped.filter((c) => c.playerId === p.id).length,
+      challengeKounouz: sumOf(challengeRewards.filter((c) => c.playerId === p.id).map((c) => c.amount)),
     };
   });
+
+  const categories = [...new Set(assigned.map((a) => a.category))];
+  const bands = [...new Set(state.players.map(ageBandOf))];
+  const challenges: ChallengeStats = {
+    proposed: assigned.length,
+    succeeded: completed.filter((c) => c.success).length,
+    failed: completed.filter((c) => !c.success).length,
+    skipped: skipped.length,
+    consentRefused: skipped.filter((s) => s.reason === "consent_refused").length,
+    unavailable: of("FamilyChallengeUnavailable").length,
+    kounouz: sumOf(challengeRewards.map((c) => c.amount)),
+    ohNo: assigned.filter((a) => a.ohNo).length,
+    byCategory: categories.map((category) => ({
+      category,
+      proposed: assigned.filter((a) => a.category === category).length,
+      succeeded: completed.filter((c) => c.success && assigned.some((a) => a.challengeId === c.challengeId && a.playerId === c.playerId && a.category === category)).length,
+    })),
+    byAgeBand: bands.map((band) => {
+      const ids = new Set(state.players.filter((p) => ageBandOf(p) === band).map((p) => p.id));
+      const succeeded = completed.filter((c) => ids.has(c.playerId) && c.success).length;
+      const failed = completed.filter((c) => ids.has(c.playerId) && !c.success).length;
+      return { band, succeeded, failed, rate: succeeded + failed === 0 ? 0 : Math.round((100 * succeeded) / (succeeded + failed)) };
+    }),
+  };
 
   const first = log.entries[0]?.at;
   const last = log.entries.at(-1)?.at;
@@ -107,6 +174,7 @@ export function buildPlaytestReport(state: GameState, log: PlaytestLog): Playtes
       collectiveEvents: of("MoneyTransferred").filter((t) => collectiveKinds.has(t.reason)).length,
     },
     players,
+    challenges,
     interactions: measureInteractions(log),
     journal: buildJournal(log, name),
   };
@@ -134,6 +202,7 @@ export function measureInteractions(log: PlaytestLog): readonly InteractionTimin
         o.untilNextBatch ||
         entry.events.some((e) => {
           if (o.kind === "duel") return e.type === "DuelResolved";
+          if (o.kind === "family_challenge") return e.type === "FamilyChallengeCompleted" || e.type === "FamilyChallengeSkipped";
           if (o.kind === "monument") return e.type === "SiteAcquired" || e.type === "PurchaseDeclined";
           if (o.kind === "question" || o.kind === "halt" || o.kind === "heritage_visit") return e.type === "AnswerRecorded" && e.requestId === o.requestId;
           return e.type === "TurnEnded" || e.type === "QuestionRequested" || e.type === "DuelOffered";
@@ -146,6 +215,7 @@ export function measureInteractions(log: PlaytestLog): readonly InteractionTimin
     for (const e of entry.events) {
       if (e.type === "QuestionRequested" && e.purpose !== "duel") open.push({ kind: e.purpose === "standard" ? "question" : e.purpose, at: entry.at, requestId: e.requestId });
       else if (e.type === "DuelOffered") open.push({ kind: "duel", at: entry.at });
+      else if (e.type === "FamilyChallengeAssigned") open.push({ kind: "family_challenge", at: entry.at });
       else if (e.type === "PurchaseOffered") open.push({ kind: "monument", at: entry.at });
       else if (e.type === "ScenarioTriggered" && (e.cellType === "event" || e.cellType === "management" || e.cellType === "solidarity" || e.cellType === "treasure")) {
         // Scénario automatique (le tour se clôt dans le même lot) : on mesure jusqu'au lot suivant (temps de lecture de la carte).
@@ -197,6 +267,20 @@ function describe(e: GameEvent, name: (id: PlayerId) => string): string | null {
       return `${name(e.challengerId)} défie ${name(e.opponentId)}`;
     case "DuelResolved":
       return e.winnerId ? `${name(e.winnerId)} remporte le Duel (${e.challengerOutcome} / ${e.opponentOutcome}, ${e.categoryId ?? "?"})` : `Match nul (${e.challengerOutcome} / ${e.opponentOutcome}, ${e.categoryId ?? "?"})`;
+    case "FamilyChallengeAssigned":
+      return `Défi famille pour ${name(e.playerId)} : ${e.challengeId} (${e.category}${e.ohNo ? ", OH NON" : ""}${e.consentRequired ? ", contact" : ""}, ${e.reward})`;
+    case "FamilyChallengeAccepted":
+      return `${name(e.playerId)} accepte le défi`;
+    case "FamilyChallengeCompleted":
+      return `${name(e.playerId)} : défi ${e.success ? "réussi" : "raté"}`;
+    case "FamilyChallengeSkipped":
+      return e.reason === "consent_refused" ? `${name(e.playerId)} : pas d'accord, autre défi` : `${name(e.playerId)} passe le défi`;
+    case "ChallengeRewardGranted":
+      return `  +${e.amount} pour ${name(e.playerId)} (défi ${e.challengeId})`;
+    case "FamilyChallengeUnavailable":
+      return `Aucun défi éligible pour ${name(e.playerId)}`;
+    case "ChallengeSettingsChanged":
+      return `Réglages Défis famille : ${Object.entries(e.settings).filter(([, on]) => !on).map(([k]) => k).join(", ") || "tout activé"}`;
     case "JourneyHalted":
       return `Halte : ${name(e.playerId)}`;
     case "HaltLifted":
@@ -256,10 +340,15 @@ export function reportToText(r: PlaytestReport): string {
   l.push(`Tours : ${r.turns}`, "");
   for (const p of r.players) {
     l.push(p.displayName + (p.profileType === "child" ? " (enfant)" : " (adulte)"));
-    l.push(`  Questions : ${p.questions}`, `  Correctes : ${p.correct}`, `  Presque : ${p.partial}`, `  Incorrectes : ${p.incorrect}`, `  Duels : ${p.duels}`, `  Duels gagnés : ${p.duelsWon}`, `  Patrimoine : ${p.heritage}`, `  Solidarité : ${p.solidarityActions}`, `  Kounouz : ${p.money}`, "");
+    l.push(`  Questions : ${p.questions}`, `  Correctes : ${p.correct}`, `  Presque : ${p.partial}`, `  Incorrectes : ${p.incorrect}`, `  Duels : ${p.duels}`, `  Duels gagnés : ${p.duelsWon}`, `  Défis famille : ${p.challenges} (réussis ${p.challengesWon}, ratés ${p.challengesFailed}, passés ${p.challengesSkipped}, +${p.challengeKounouz})`, `  Patrimoine : ${p.heritage}`, `  Solidarité : ${p.solidarityActions}`, `  Kounouz : ${p.money}`, "");
   }
   const c = r.counts;
   l.push("Interactions :", `  Questions : ${c.questions}`, `  Duels : ${c.duels} (enfant/adulte : ${c.duelsChildAdult}, victoires : ${c.duelsWon}, égalités : ${c.duelsDrawn})`, `  Haltes : ${c.halts}`, `  Monuments achetés : ${c.monumentsBought}`, `  Visites de patrimoine : ${c.heritageVisits}`, `  Transferts : ${c.transfers}`, `  Trésors : ${c.treasures}`, `  Choix Gestion : ${c.managementChoices}`, `  Actions Solidarité : ${c.solidarityActions}`, `  Événements collectifs : ${c.collectiveEvents}`, "");
+  const ch = r.challenges;
+  l.push("Défis famille :", `  Proposés : ${ch.proposed} (OH NON : ${ch.ohNo}, indisponibles : ${ch.unavailable})`, `  Réussis : ${ch.succeeded}`, `  Ratés : ${ch.failed}`, `  Passés : ${ch.skipped} (dont pas d'accord : ${ch.consentRefused})`, `  Kounouz gagnés : ${ch.kounouz}`);
+  for (const c of ch.byCategory) l.push(`  ${c.category} : ${c.proposed} proposés, ${c.succeeded} réussis`);
+  for (const b of ch.byAgeBand) l.push(`  Réussite ${b.band} : ${b.rate} % (${b.succeeded}/${b.succeeded + b.failed})`);
+  l.push("");
   l.push("Temps par interaction (approximatif) :");
   for (const t of r.interactions) if (t.count > 0) l.push(`  ${t.kind} : ${t.count} × ${(t.averageMs / 1000).toFixed(1)} s (total ${Math.round(t.totalMs / 1000)} s)`);
   l.push("", "Journal :", ...r.journal);

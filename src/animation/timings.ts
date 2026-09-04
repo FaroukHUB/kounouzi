@@ -23,6 +23,9 @@ export interface Timings {
   readonly haltMs: number;
   /** Transfert entre joueurs, protection, investissement, épargne : bandeaux. */
   readonly noticeMs: number;
+  /** Défi famille : « OH NOOON… » avant révélation, résultat, récompense. */
+  readonly ohNoMs: number;
+  readonly challengeResultMs: number;
 }
 
 export const DEFAULT_TIMINGS: Timings = {
@@ -41,6 +44,8 @@ export const DEFAULT_TIMINGS: Timings = {
   duelResultMs: 2400,
   haltMs: 1800,
   noticeMs: 1400,
+  ohNoMs: 1400,
+  challengeResultMs: 1300,
 };
 
 /** Mode « animations réduites » : même séquence, durées nulles. */

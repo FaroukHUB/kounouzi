@@ -1,4 +1,5 @@
 import { resolveCell } from "./cells";
+import { selectChallenge } from "./challenges";
 import { affordableAmount, applyTransaction, poorestPlayer, richestPlayer, transferMoney } from "./economy";
 import { queueEffect, clearEffects, takeEffect } from "./effects";
 import { holdingOf, holdingsOf } from "./holdings";
@@ -116,6 +117,16 @@ export function processQueue(state: GameState, initialQueue: readonly Outcome[])
         return chain(result, () => step({ ...s, phase: { kind: "awaiting_duel_opponent", candidates, queue: [...queue] } }, [{ type: "DuelOffered", challengerId: player.id, candidates }]));
       }
 
+      case "family_challenge": {
+        const s = result.state;
+        const assigned = assignChallenge(s, player.id, []);
+        if (!assigned) {
+          result = chain(result, () => step(s, [{ type: "FamilyChallengeUnavailable", playerId: player.id }]));
+          break;
+        }
+        return chain(result, () => assigned(queue));
+      }
+
       case "transfer_choice": {
         const s = result.state;
         const candidates = s.players.filter((p) => p.id !== player.id).map((p) => p.id);
@@ -201,6 +212,28 @@ export function processQueue(state: GameState, initialQueue: readonly Outcome[])
   }
 
   return chain(result, closeTurn);
+}
+
+/**
+ * Propose un Défi famille au joueur : sélection déterministe cachée, compteur
+ * de rotation avancé, défi compté comme proposé. Retourne `null` si aucun défi
+ * n'est éligible ; sinon une fonction qui pose la phase avec la file restante.
+ */
+export function assignChallenge(state: GameState, playerId: PlayerId, exclude: readonly string[]): ((queue: readonly Outcome[]) => Step) | null {
+  const definition = selectChallenge(state, playerId, exclude);
+  if (!definition) return null;
+  return (queue) => {
+    const requestId = `q${state.counters.request + 1}`;
+    const next: GameState = {
+      ...state,
+      counters: { ...state.counters, request: state.counters.request + 1, challenge: state.counters.challenge + 1 },
+      challengeServed: { ...state.challengeServed, [playerId]: { ...(state.challengeServed[playerId] ?? {}), [definition.id]: ((state.challengeServed[playerId] ?? {})[definition.id] ?? 0) + 1 } },
+      phase: { kind: "awaiting_challenge", challenge: { challengeId: definition.id, playerId, requestId, stage: "assigned" }, queue: [...queue] },
+    };
+    return step(next, [
+      { type: "FamilyChallengeAssigned", playerId, challengeId: definition.id, requestId, category: definition.category, reward: definition.reward, ohNo: definition.ohNo, consentRequired: definition.consentRequired },
+    ]);
+  };
 }
 
 /**

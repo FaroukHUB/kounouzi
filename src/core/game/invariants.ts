@@ -27,6 +27,16 @@ export function checkInvariants(state: GameState): readonly string[] {
     if (d.challengerId !== state.players[state.activePlayerIndex]?.id) violations.push("le défieur n'est pas le joueur actif");
     if (d.stage === "opponent" && d.challengerOutcome === undefined) violations.push("duel : réponse du défieur manquante");
   }
+  if (state.phase.kind === "awaiting_challenge") {
+    const c = state.phase.challenge;
+    if (!state.config.challenges.definitions.some((d) => d.id === c.challengeId)) violations.push(`défi inconnu ${c.challengeId}`);
+    if (c.playerId !== state.players[state.activePlayerIndex]?.id) violations.push("le défi n'est pas pour le joueur actif");
+    if (((state.challengeServed[c.playerId] ?? {})[c.challengeId] ?? 0) < 1) violations.push("défi en cours jamais compté comme proposé");
+  }
+  for (const [playerId, served] of Object.entries(state.challengeServed)) {
+    if (!state.players.some((p) => p.id === playerId)) violations.push(`compteurs de défi d'un joueur inconnu ${playerId}`);
+    for (const [id, n] of Object.entries(served)) if (n < 0 || !state.config.challenges.definitions.some((d) => d.id === id)) violations.push(`compteur de défi incohérent pour ${id}`);
+  }
   const transfers = state.ledger.filter((t) => t.reason === "transfer_sent" || t.reason === "transfer_received");
   const byTransfer = new Map<string, number>();
   for (const t of transfers) byTransfer.set(t.ref ?? "", (byTransfer.get(t.ref ?? "") ?? 0) + t.amount);

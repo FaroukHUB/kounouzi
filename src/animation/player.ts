@@ -148,6 +148,35 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       await sleep(t.duelResultMs);
       return;
 
+    // ---- Défi famille ----
+    case "FamilyChallengeAssigned": {
+      const base = { kind: "challenge" as const, challengeId: event.challengeId, playerId: event.playerId, requestId: event.requestId };
+      if (!event.ohNo) {
+        actions.openCard({ ...base, step: "reveal" });
+        return;
+      }
+      // « OH NOOON… » avant la révélation : présentation pure, le moteur attend déjà la décision.
+      actions.openCard({ ...base, step: "ohno" });
+      await sleep(t.ohNoMs);
+      actions.updateCard({ step: "reveal" });
+      return;
+    }
+    case "FamilyChallengeAccepted":
+      actions.updateCard({ step: "accepted" });
+      return;
+    case "FamilyChallengeCompleted":
+      actions.updateCard({ step: "result", success: event.success });
+      await sleep(t.challengeResultMs);
+      return;
+    case "ChallengeRewardGranted":
+      actions.updateCard({ step: "reward", rewardAmount: event.amount });
+      await sleep(t.rewardMs);
+      return;
+    case "FamilyChallengeSkipped":
+      actions.updateCard({ step: "result", skipped: event.reason });
+      await sleep(t.challengeResultMs / 2);
+      return;
+
     // ---- Halte du voyage ----
     case "JourneyHalted":
       actions.openCard({ kind: "halt", playerId: event.playerId });
@@ -196,6 +225,9 @@ function settle(event: GameEvent, actions: AnimationActions): void {
       return;
     case "CellArrived":
       actions.setArrival(null);
+      return;
+    case "FamilyChallengeAssigned":
+      if (event.ohNo) actions.updateCard({ step: "reveal" });
       return;
     case "TurnStarted":
     case "TurnSkipped":
@@ -257,6 +289,14 @@ export function estimateDuration(event: GameEvent, t: Timings): number {
       return t.duelResultMs;
     case "JourneyHalted":
       return t.haltMs;
+    case "FamilyChallengeAssigned":
+      return event.ohNo ? t.ohNoMs : 0;
+    case "FamilyChallengeCompleted":
+      return t.challengeResultMs;
+    case "FamilyChallengeSkipped":
+      return t.challengeResultMs / 2;
+    case "ChallengeRewardGranted":
+      return t.rewardMs;
     case "HeritageRevisited":
     case "HaltLifted":
     case "HaltTurnLost":

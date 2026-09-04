@@ -21,5 +21,5 @@ export interface PlaytestLog {
   readonly entries: readonly PlaytestEntry[];
 }
 
-export const INTERACTION_KINDS = ["question", "duel", "monument", "heritage_visit", "event", "management", "solidarity", "treasure", "halt"] as const;
+export const INTERACTION_KINDS = ["question", "duel", "family_challenge", "monument", "heritage_visit", "event", "management", "solidarity", "treasure", "halt"] as const;
 export type InteractionKind = (typeof INTERACTION_KINDS)[number];

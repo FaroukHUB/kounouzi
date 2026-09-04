@@ -99,6 +99,8 @@ export interface Policy {
   recipient?(candidates: readonly PlayerId[], index: number): PlayerId;
   /** Secondes de jeu actif à créditer avant chaque Chemin (0 = horloge immobile). */
   secondsPerTurn?: number;
+  /** Décision face à un Défi famille proposé (défaut : accepter puis réussir). */
+  challenge?(challengeId: string, index: number): "success" | "failure" | "skip" | "consent_refused";
 }
 
 /** Qui doit répondre dans la phase courante (joueur actif, ou dueliste en cours). */
@@ -108,7 +110,7 @@ export function responder(state: GameState): PlayerId {
 }
 
 /** Commande « par défaut » pour la phase courante ; `null` si la partie est finie. */
-export function nextCommand(state: GameState, policy: Policy, counters: { answers: number; purchases: number; choices: number; duels: number; transfers: number }): Command | null {
+export function nextCommand(state: GameState, policy: Policy, counters: { answers: number; purchases: number; choices: number; duels: number; transfers: number; challenges?: number }): Command | null {
   const playerId = active(state);
   switch (state.phase.kind) {
     case "awaiting_journey":
@@ -130,6 +132,13 @@ export function nextCommand(state: GameState, policy: Policy, counters: { answer
       return { type: "ChooseOpponent", playerId, opponentId: (policy.opponent ?? ((c) => c[0]!))(state.phase.candidates, counters.duels++) };
     case "awaiting_recipient":
       return { type: "ChooseRecipient", playerId, recipientId: (policy.recipient ?? ((c) => c[0]!))(state.phase.candidates, counters.transfers++) };
+    case "awaiting_challenge": {
+      const c = state.phase.challenge;
+      const decision = (policy.challenge ?? (() => "success"))(c.challengeId, (counters.challenges = (counters.challenges ?? 0) + 1) - 1);
+      if (c.stage === "accepted") return { type: "CompleteChallenge", playerId, success: decision === "success" };
+      if (decision === "skip" || decision === "consent_refused") return { type: "SkipChallenge", playerId, reason: decision === "skip" ? "declined" : "consent_refused" };
+      return { type: "AcceptChallenge", playerId };
+    }
     case "finished":
       return null;
   }
@@ -162,7 +171,7 @@ export function simulate(setup: GameSetup, policy: Policy = DEFAULT_POLICY, maxC
   let state = created.state;
   const events: GameEvent[] = [...created.events];
   const commands: Command[] = [];
-  const counters = { answers: 0, purchases: 0, choices: 0, duels: 0, transfers: 0 };
+  const counters = { answers: 0, purchases: 0, choices: 0, duels: 0, transfers: 0, challenges: 0 };
 
   const apply = (command: Command) => {
     const next = run(state, command);
@@ -200,7 +209,7 @@ export function advanceUntil(
   while (state.status === "in_progress" && !stop(state, events)) {
     if (i++ >= maxCommands) throw new Error("advanceUntil: limite atteinte");
     // Même politique que la simulation, mais sans achat (les tests contrôlent l'économie).
-    const command = nextCommand(state, { ...policy, buy: () => false }, { answers: i, purchases: 0, choices: i, duels: i, transfers: i });
+    const command = nextCommand(state, { ...policy, buy: () => false }, { answers: i, purchases: 0, choices: i, duels: i, transfers: i, challenges: i });
     if (!command) throw new Error("finished");
     const next = run(state, command);
     state = next.state;

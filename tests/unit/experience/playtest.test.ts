@@ -8,7 +8,8 @@ import { createMemoryPlaytestRepository } from "@/data/local";
 import { buildPlaytestReport, measureInteractions, reportToText, type PlaytestLog } from "@/experience/playtest";
 import { createPlaytestStore } from "@/state/playtestStore";
 import { scenariosOf } from "../../fixtures/game/scenarios.fixture";
-import { active, create, journey, makeLineSetup, makeSetup, pid, players, run, simulate, answer } from "../../fixtures/game/setup.fixture";
+import { DEFAULT_POLICY, active, create, journey, lineBoard, makeLineSetup, makeSetup, pid, players, run, simulate, answer } from "../../fixtures/game/setup.fixture";
+import { challengesFixture } from "../../fixtures/game/challenges.fixture";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 
@@ -28,6 +29,37 @@ function logOf(sim: ReturnType<typeof simulate>, setup: Parameters<typeof simula
   expect(serializeGameState(s)).toBe(serializeGameState(sim.state));
   return { gameId: sim.state.gameId, entries };
 }
+
+describe("diagnostic de playtest — Défis famille", () => {
+  it("proposés / réussis / ratés / passés, catégories, Kounouz via défis, taux par tranche d'âge, cartes OH NON : tout vient des événements", () => {
+    const players = [
+      { id: pid("maryam"), displayName: "Maryam", profileType: "child" as const, age: 6 },
+      { id: pid("papa"), displayName: "Papa", profileType: "adult" as const },
+      { id: pid("yacine"), displayName: "Yacine", profileType: "child" as const, age: 11 },
+    ];
+    const setup = makeLineSetup({ board: lineBoard({ 1: "challenge", 2: "challenge", 3: "challenge", 4: "challenge", 5: "challenge", 6: "challenge", 7: "challenge" }), scenarios: scenariosOf("challenge-family"), players, challenges: challengesFixture() });
+    const policy = { ...DEFAULT_POLICY, challenge: (_: string, i: number) => (["success", "failure", "skip", "success"] as const)[i % 4]! };
+    const sim = simulate(setup, policy);
+    const log = logOf(sim, setup);
+    const report = buildPlaytestReport(sim.state, log);
+    const count = (t: GameEvent["type"]) => sim.events.filter((e) => e.type === t).length;
+    expect(report.challenges.proposed).toBe(count("FamilyChallengeAssigned"));
+    expect(report.challenges.succeeded + report.challenges.failed).toBe(count("FamilyChallengeCompleted"));
+    expect(report.challenges.skipped).toBe(count("FamilyChallengeSkipped"));
+    expect(report.challenges.kounouz).toBe(sim.events.filter((e): e is Extract<GameEvent, { type: "ChallengeRewardGranted" }> => e.type === "ChallengeRewardGranted").reduce((s, e) => s + e.amount, 0));
+    expect(report.challenges.ohNo).toBe(sim.events.filter((e) => e.type === "FamilyChallengeAssigned" && e.ohNo).length);
+    expect(report.challenges.byCategory.reduce((s, c) => s + c.proposed, 0)).toBe(report.challenges.proposed);
+    expect(report.challenges.byAgeBand.map((b) => b.band).sort()).toEqual(["5-8", "10-12", "adulte"].sort());
+    for (const b of report.challenges.byAgeBand) expect(b.rate).toBe(b.succeeded + b.failed === 0 ? 0 : Math.round((100 * b.succeeded) / (b.succeeded + b.failed)));
+    expect(report.players.reduce((s, p) => s + p.challengeKounouz, 0)).toBe(report.challenges.kounouz);
+    const timing = report.interactions.find((t) => t.kind === "family_challenge")!;
+    expect(timing.count).toBe(report.challenges.succeeded + report.challenges.failed + report.challenges.skipped);
+    const text = reportToText(report);
+    expect(text).toContain("Défis famille :");
+    expect(text).toMatch(/Réussite 5-8 : \d+ %/);
+    expect(report.journal.some((l) => /Défi famille pour Maryam/.test(l))).toBe(true);
+  });
+});
 
 describe("diagnostic de playtest (local, dérivé des événements)", () => {
   it("les statistiques correspondent exactement aux événements réellement joués", () => {

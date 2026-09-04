@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { questionInstanceSchema } from "@/core/content/schema";
 import { ANSWER_OUTCOMES, PROFILE_TYPES, err, ok, type Result } from "@/core/shared";
-import { effectSpecSchema, familyAssistConfigSchema, journeyCycleSchema, outcomeSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
-import { CELL_TYPES, DUEL_STAGES, GAME_SCHEMA_VERSION, INSUFFICIENT_POLICIES, TRANSACTION_REASONS, TRANSFER_REASONS, type GameState } from "./types";
+import { challengesConfigSchema, effectSpecSchema, familyAssistConfigSchema, journeyCycleSchema, outcomeSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
+import { CELL_TYPES, CHALLENGE_STAGES, DUEL_STAGES, GAME_SCHEMA_VERSION, INSUFFICIENT_POLICIES, NO_CHALLENGES, TRANSACTION_REASONS, TRANSFER_REASONS, type GameState } from "./types";
 
 const choiceOptionSchema = z.object({ id: z.string(), outcomes: z.array(outcomeSchema) });
 
@@ -30,8 +30,10 @@ const duelSchema = z.object({
   stage: z.enum(DUEL_STAGES),
 });
 
-/** Forme sérialisée de l'état — version 4 (v3 + Duel, Halte, visites, transferts, effets étendus). */
-export const gameStateSchemaV4 = z.object({
+const challengeStateSchema = z.object({ challengeId: z.string(), playerId: z.string(), requestId: z.string(), stage: z.enum(CHALLENGE_STAGES), served: questionInstanceSchema.optional() });
+
+/** Forme sérialisée de l'état — version 5 (v4 + Défis famille : banque figée, réglages parents, défi en cours). */
+export const gameStateSchemaV5 = z.object({
   schemaVersion: z.literal(GAME_SCHEMA_VERSION),
   gameId: z.string(),
   config: z.object({
@@ -41,6 +43,7 @@ export const gameStateSchemaV4 = z.object({
     rules: rulesConfigSchema,
     journey: journeyCycleSchema,
     familyAssist: familyAssistConfigSchema,
+    challenges: challengesConfigSchema,
     scenarioOffset: z.number().int().nonnegative(),
   }),
   players: z.array(
@@ -48,6 +51,7 @@ export const gameStateSchemaV4 = z.object({
       id: z.string(),
       displayName: z.string(),
       profileType: z.enum(PROFILE_TYPES),
+      age: z.number().int().nonnegative().optional(),
       seat: z.number().int(),
       position: z.number().int(),
       money: z.number().int(),
@@ -68,6 +72,7 @@ export const gameStateSchemaV4 = z.object({
     z.object({ kind: z.literal("awaiting_choice"), choiceId: z.string(), options: z.array(choiceOptionSchema), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_duel_opponent"), candidates: z.array(z.string()), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_duel"), duel: duelSchema, queue: z.array(outcomeSchema) }),
+    z.object({ kind: z.literal("awaiting_challenge"), challenge: challengeStateSchema, queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_recipient"), amount: z.number().int(), reason: z.enum(TRANSFER_REASONS), insufficient: z.enum(INSUFFICIENT_POLICIES), candidates: z.array(z.string()), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("finished") }),
   ]),
@@ -77,9 +82,10 @@ export const gameStateSchemaV4 = z.object({
   holdings: z.array(z.object({ siteId: z.string(), ownerId: z.string(), price: z.number().int(), heritageValue: z.number().int(), acquiredTurn: z.number().int() })),
   effects: z.array(z.object({ id: z.string(), playerId: z.string(), spec: effectSpecSchema, queuedAtTurn: z.number().int(), expiresAtTurn: z.number().int().optional() })),
   cellVisits: z.record(z.string(), z.number().int().nonnegative()),
+  challengeServed: z.record(z.string(), z.record(z.string(), z.number().int().nonnegative())),
   clock: z.object({ activePlaySeconds: z.number().nonnegative(), timeTargetReached: z.boolean() }),
   endRequested: z.boolean(),
-  counters: z.object({ transaction: z.number().int(), request: z.number().int(), effect: z.number().int(), transfer: z.number().int() }),
+  counters: z.object({ transaction: z.number().int(), request: z.number().int(), effect: z.number().int(), transfer: z.number().int(), challenge: z.number().int() }),
   status: z.enum(["in_progress", "finished"]),
   ranking: z.array(z.object({ rank: z.number().int(), playerId: z.string(), score: z.number(), money: z.number().int(), heritageValue: z.number().int() })).optional(),
 });
@@ -120,6 +126,12 @@ const MIGRATIONS: Readonly<Record<number, (data: Rec) => Rec>> = {
       counters: { transfer: 0, ...counters },
     };
   },
+  // v4 → v5 : Défis famille. Une partie v4 n'a pas de banque figée : aucune case Défi ne proposera de défi famille (le Duel continue).
+  4: (data) => {
+    const config = asRec(data["config"]);
+    const counters = asRec(data["counters"]);
+    return { ...data, schemaVersion: 5, config: { ...config, challenges: config["challenges"] ?? NO_CHALLENGES }, challengeServed: data["challengeServed"] ?? {}, counters: { challenge: 0, ...counters } };
+  },
 };
 
 export function serializeGameState(state: GameState): string {
@@ -145,7 +157,7 @@ export function deserializeGameState(json: string): Result<GameState, Serializat
   }
   if (version !== GAME_SCHEMA_VERSION) return err({ code: "UNSUPPORTED_VERSION", version });
 
-  const parsed = gameStateSchemaV4.safeParse(record);
+  const parsed = gameStateSchemaV5.safeParse(record);
   if (!parsed.success) return err({ code: "INVALID_STATE", issues: parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`) });
   return ok(parsed.data as unknown as GameState);
 }

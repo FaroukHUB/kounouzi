@@ -225,6 +225,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | 5     | Mémoire pédagogique et Learning Engine : mémoire par joueur, sélection sans hasard, niveau par catégorie, révision espacée, persistance locale, agrégations « Mes Trésors » | livrée |
 | 5.1   | Fun et interactions : variété des catégories, Duel Kounouzi adapté, Halte du voyage, visites de patrimoine et Défi Patrimoine, transferts, scénarios à décisions, effets temporaires, séquences déterministes | livrée |
 | 5.2   | Catégorie de Duel neutre (deux mémoires), adversaires disponibles, diagnostic de playtest local (`/diagnostic/<gameId>`, export JSON/TXT, aucune télémétrie) | livrée |
+| Défis | Défis famille : banque de 100 défis (données), case Défi `family_challenge` distinct du Duel, sélection déterministe cachée par joueur, réglages parents, consentement, refus sans pénalité, gain unique, contenu religieux validé seulement, diagnostic (ADR 0027) | livrée |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
 | 7     | Mes trésors, écran parent                                    | à venir  |
 | 8     | Back-office de contenu                                       | à venir  |

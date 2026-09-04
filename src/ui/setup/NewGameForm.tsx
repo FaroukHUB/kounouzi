@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AVATARS } from "@/config/avatars";
 import { BOARD_32_V1 } from "@/config/board";
+import { DEFAULT_CHALLENGE_SETTINGS, challengesConfigFor } from "@/config/challenges";
+import { contentRegistry } from "@/config/content";
 import { DEMO_HERITAGE_SITES, DEMO_RULES_QUICK, DEMO_SCENARIOS } from "@/config/demo";
 import { DEFAULT_GAME_MODE, GAME_MODE_IDS, endConditionOf, type GameModeId } from "@/config/game-modes";
 import { journeyCycleForOrdinal } from "@/config/journey";
@@ -88,12 +90,15 @@ export function NewGameForm() {
     await Promise.all(profiles.map((p) => playerProfileRepository.save({ ...p, savedAt }).catch(() => undefined)));
     const setup: GameSetup = {
       gameId,
-      players: profiles.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType })),
+      // L'âge (année en cours − année de naissance) ne sert qu'à l'éligibilité des Défis famille.
+      players: profiles.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, ...(p.child ? { age: thisYear - p.child.birthYear } : {}) })),
       board: BOARD_32_V1,
       heritageSites: DEMO_HERITAGE_SITES,
       scenarios: DEMO_SCENARIOS,
       rules: { ...DEMO_RULES_QUICK, id: `rules-demo-${mode}`, endCondition: endConditionOf(mode) },
       journey: journeyCycleForOrdinal(familyGameOrdinal),
+      // Défis famille : banque figée dans la partie, réglages parents tous actifs (modifiables dans les réglages), contenu validé disponible calculé ici.
+      challenges: challengesConfigFor(DEFAULT_CHALLENGE_SETTINGS, contentRegistry()),
       // Séquences de scénarios : rotation inter-parties par le même numéro persistant (jamais un tirage).
       scenarioOffset: Math.max(0, familyGameOrdinal - 1),
     };

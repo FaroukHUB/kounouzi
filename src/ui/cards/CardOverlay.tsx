@@ -2,10 +2,12 @@
 
 import { AnimatePresence, motion } from "motion/react";
 import type { GameState } from "@/core/game";
+import type { ChallengeSkipReason } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, PlayerId, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
 import type { NarrationService } from "@/experience/narration";
 import { useUiStore } from "@/state/uiStore";
+import { ChallengeCard } from "./ChallengeCard";
 import { ChoiceCard } from "./ChoiceCard";
 import { DuelCard } from "./DuelCard";
 import { HaltCard } from "./HaltCard";
@@ -27,10 +29,13 @@ export interface CardOverlayProps {
   readonly onChoose: (choiceId: string, optionId: string) => void;
   readonly onChooseOpponent: (opponentId: PlayerId) => void;
   readonly onChooseRecipient: (recipientId: PlayerId) => void;
+  readonly onAcceptChallenge: () => void;
+  readonly onCompleteChallenge: (success: boolean) => void;
+  readonly onSkipChallenge: (reason: ChallengeSkipReason) => void;
 }
 
 /** Couche des cartes au-dessus du plateau (le plateau se met légèrement en retrait). */
-export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer, onDecidePurchase, onChoose, onChooseOpponent, onChooseRecipient }: CardOverlayProps) {
+export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer, onDecidePurchase, onChoose, onChooseOpponent, onChooseRecipient, onAcceptChallenge, onCompleteChallenge, onSkipChallenge }: CardOverlayProps) {
   const card = useUiStore((s) => s.card);
   const updateCard = useUiStore((s) => s.updateCard);
 
@@ -107,6 +112,25 @@ export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer
         return <DuelCard state={state} profiles={profiles} card={c} />;
       case "halt":
         return <HaltCard />;
+      case "challenge":
+        return (
+          <ChallengeCard
+            state={state}
+            card={c}
+            narrator={narrator}
+            reduced={reduced}
+            onUpdate={(patch) => updateCard(patch)}
+            onAccept={onAcceptChallenge}
+            onComplete={(success) => {
+              updateCard({ step: "submitted" });
+              onCompleteChallenge(success);
+            }}
+            onSkip={(reason) => {
+              updateCard({ step: "submitted" });
+              onSkipChallenge(reason);
+            }}
+          />
+        );
     }
   };
 

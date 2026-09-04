@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { journeyCycleIssues } from "./journeyScheduler";
-import { CELL_TYPES, FAMILY_ASSIST_LEVELS, HERITAGE_KINDS, INSUFFICIENT_POLICIES, TRANSFER_REASONS, type Outcome } from "./types";
+import { CELL_TYPES, CHALLENGE_CATEGORIES, CHALLENGE_TOGGLES, FAMILY_ASSIST_LEVELS, HERITAGE_KINDS, INSUFFICIENT_POLICIES, TRANSFER_REASONS, type ChallengesConfig, type Outcome } from "./types";
 
 /* Plateau ---------------------------------------------------------------- */
 
@@ -65,6 +65,7 @@ export const outcomeSchema: z.ZodType<Outcome> = z.lazy(() =>
       z.object({ kind: z.literal("choice"), choiceId: z.string().min(1), options: z.array(z.object({ id: z.string().min(1), outcomes: z.array(outcomeSchema) })).min(1) }),
       z.object({ kind: z.literal("duel") }),
       z.object({ kind: z.literal("halt") }),
+      z.object({ kind: z.literal("family_challenge") }),
       z.object({ kind: z.literal("transfer_choice"), amount: z.number().int().positive(), reason: z.enum(TRANSFER_REASONS), insufficient: insufficientSchema }),
       z.object({ kind: z.literal("give_to_poorest"), amount: z.number().int().positive(), reason: z.enum(TRANSFER_REASONS), insufficient: insufficientSchema }),
       z.object({ kind: z.literal("aid_from_richest"), amount: z.number().int().positive(), insufficient: insufficientSchema }),
@@ -80,6 +81,47 @@ export const outcomeSchema: z.ZodType<Outcome> = z.lazy(() =>
 );
 
 export const scenarioSchema = z.object({ id: z.string().min(1), cellType: z.enum(CELL_TYPES), outcomes: z.array(outcomeSchema) });
+
+/* Défis famille (données) ------------------------------------------------ */
+
+export const challengeSettingsSchema = z.object(Object.fromEntries(CHALLENGE_TOGGLES.map((t) => [t, z.boolean()])) as Record<(typeof CHALLENGE_TOGGLES)[number], z.ZodBoolean>);
+
+export const challengeDefinitionSchema = z.object({
+  id: z.string().min(1),
+  title: z.string().min(1),
+  category: z.enum(CHALLENGE_CATEGORIES),
+  minAge: z.number().int().min(0),
+  reward: z.number().int().nonnegative(),
+  text: z.string().min(1),
+  adaptation: z.string().min(1).optional(),
+  variants: z.array(z.object({ ageMin: z.number().int().min(0), ageMax: z.number().int().positive().optional(), text: z.string().min(1) })),
+  ohNo: z.boolean(),
+  boss: z.boolean(),
+  consentRequired: z.boolean(),
+  animationKey: z.string().min(1),
+  contentRef: z
+    .discriminatedUnion("kind", [
+      z.object({ kind: z.literal("validated_question"), categoryId: z.string().min(1), difficultyDelta: z.number().int() }),
+      z.object({ kind: z.literal("validated_recitation"), count: z.number().int().positive() }),
+    ])
+    .optional(),
+  onSuccess: z.array(outcomeSchema).optional(),
+});
+
+export const challengesConfigSchema: z.ZodType<ChallengesConfig> = z
+  .object({
+    definitions: z.array(challengeDefinitionSchema),
+    toggles: z.object(Object.fromEntries(CHALLENGE_TOGGLES.map((t) => [t, z.array(z.enum(CHALLENGE_CATEGORIES))])) as Record<(typeof CHALLENGE_TOGGLES)[number], z.ZodArray<z.ZodEnum<{ [K in (typeof CHALLENGE_CATEGORIES)[number]]: K }>>>),
+    settings: challengeSettingsSchema,
+    contentAvailable: z.array(z.string()),
+  })
+  .superRefine((c, ctx) => {
+    if (new Set(c.definitions.map((d) => d.id)).size !== c.definitions.length) ctx.addIssue({ code: "custom", message: "identifiants de défi dupliqués" });
+    // Un défi religieux ne porte aucun texte religieux : il DOIT référencer du contenu validé.
+    for (const d of c.definitions) if (d.category === "religion" && !d.contentRef) ctx.addIssue({ code: "custom", message: `${d.id} : un défi religieux doit référencer du contenu validé` });
+    const covered = new Set(Object.values(c.toggles).flat());
+    for (const d of c.definitions) if (!covered.has(d.category)) ctx.addIssue({ code: "custom", message: `${d.id} : catégorie ${d.category} sans interrupteur parent` });
+  });
 
 /* Règles ----------------------------------------------------------------- */
 

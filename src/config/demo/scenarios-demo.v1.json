@@ -296,6 +296,15 @@
       ]
     },
     {
+      "id": "challenge-family",
+      "cellType": "challenge",
+      "outcomes": [
+        {
+          "kind": "family_challenge"
+        }
+      ]
+    },
+    {
       "id": "challenge-question",
       "cellType": "challenge",
       "outcomes": [

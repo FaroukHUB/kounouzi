@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { CATEGORIES, GEO_FACTS, contentRegistry } from "@/config/content";
 import { createContentRegistry, createFactualProvider, factPlayabilityIssues, questionRefKey, rebuildMaths, type GeoFact } from "@/core/content";
 import { deserializeGameState, reduce, serializeGameState } from "@/core/game";
+import { GAME_SCHEMA_VERSION } from "@/core/game";
 import { active, answer, create, eventsOf, journey, makeLineSetup, makeSetup, pid, run } from "../../fixtures/game/setup.fixture";
 import { resolveFor } from "../../fixtures/learning/resolve.fixture";
 
@@ -66,7 +67,7 @@ describe("question figée dans l'état (ServeQuestion)", () => {
     v2["schemaVersion"] = 2;
     const migrated = deserializeGameState(JSON.stringify(v2));
     expect(migrated.ok).toBe(true);
-    if (migrated.ok) expect(migrated.value.schemaVersion).toBe(4);
+    if (migrated.ok) expect(migrated.value.schemaVersion).toBe(GAME_SCHEMA_VERSION);
     if (migrated.ok) expect(migrated.value.phase).toMatchObject({ kind: "awaiting_answer", purpose: { kind: "standard" } });
   });
 });

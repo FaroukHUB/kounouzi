@@ -158,6 +158,9 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         onChoose={(choiceId, optionId) => dispatch({ type: "Choose", playerId: activeId, choiceId, optionId })}
         onChooseOpponent={(opponentId) => dispatch({ type: "ChooseOpponent", playerId: activeId, opponentId })}
         onChooseRecipient={(recipientId) => dispatch({ type: "ChooseRecipient", playerId: activeId, recipientId })}
+        onAcceptChallenge={() => dispatch({ type: "AcceptChallenge", playerId: activeId })}
+        onCompleteChallenge={(success) => dispatch({ type: "CompleteChallenge", playerId: activeId, success })}
+        onSkipChallenge={(reason) => dispatch({ type: "SkipChallenge", playerId: activeId, reason })}
       />
 
       <aside className="flex w-full flex-col gap-3 p-3 lg:w-80 lg:rounded-[1.8rem] lg:border lg:border-[rgba(120,80,30,0.18)] lg:bg-[rgba(255,250,240,0.55)] lg:p-4 lg:shadow-[0_24px_50px_-30px_rgba(60,35,10,0.6)]">
@@ -184,6 +187,8 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         onTogglePause={() => setPaused((p) => !p)}
         endRequested={state.endRequested}
         onRequestEnd={() => dispatch({ type: "RequestGameEnd" })}
+        challengeSettings={state.config.challenges.definitions.length > 0 ? state.config.challenges.settings : null}
+        onChallengeSettings={(settings) => dispatch({ type: "SetChallengeSettings", settings })}
       />
     </div>
   );

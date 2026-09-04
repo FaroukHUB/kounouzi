@@ -1,0 +1,1720 @@
+{
+  "$comment": "Banque canonique V1 des Défis famille, importée depuis le PDF de conception (données, jamais de logique). Sélection par rotation déterministe cachée (jamais de hasard). Les défis religieux ne portent AUCUN texte religieux : ils référencent uniquement du contenu déjà validé (`contentRef`) et ne sont servis que s'il existe. Contact = consentement obligatoire, catégorie désactivable. Refus = 0 Kounouz, aucune autre pénalité.",
+  "version": 1,
+  "toggles": {
+    "movement": [
+      "movement"
+    ],
+    "fun": [
+      "animals"
+    ],
+    "family": [
+      "family",
+      "solidarity"
+    ],
+    "ohNo": [
+      "oh_no"
+    ],
+    "memoryLogic": [
+      "memory",
+      "reflection",
+      "logic",
+      "observation",
+      "language",
+      "maths",
+      "geography"
+    ],
+    "arabic": [
+      "arabic"
+    ],
+    "religion": [
+      "religion"
+    ],
+    "boss": [
+      "boss"
+    ]
+  },
+  "challenges": [
+    {
+      "id": "CH-001",
+      "title": "Les 5 petits sauts",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 5,
+      "text": "Fais 5 petits sauts sur place.",
+      "adaptation": "Pour 5-8 ans : 5 sauts. 8+ : 8 sauts.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "5 sauts"
+        },
+        {
+          "ageMin": 8,
+          "text": "8 sauts"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "bounce_5"
+    },
+    {
+      "id": "CH-002",
+      "title": "Équilibre éclair",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Tiens sur un pied sans poser l’autre.",
+      "adaptation": "5-8 : 5 s. 8-10 : 10 s. 10+ : 15 s.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "5 s"
+        },
+        {
+          "ageMin": 8,
+          "ageMax": 10,
+          "text": "10 s"
+        },
+        {
+          "ageMin": 10,
+          "text": "15 s"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "balance"
+    },
+    {
+      "id": "CH-003",
+      "title": "Marche arrière",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Fais 5 pas à reculons, doucement, sans toucher un obstacle.",
+      "adaptation": "Zone dégagée obligatoire.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "reverse_steps"
+    },
+    {
+      "id": "CH-004",
+      "title": "Nez mystère",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 5,
+      "text": "Ferme les yeux et touche ton nez avec ton index.",
+      "adaptation": "Un seul essai.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "nose_touch"
+    },
+    {
+      "id": "CH-005",
+      "title": "Statue",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Reste complètement immobile.",
+      "adaptation": "5-8 : 15 s. 8+ : 25 s.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "15 s"
+        },
+        {
+          "ageMin": 8,
+          "text": "25 s"
+        }
+      ],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "freeze"
+    },
+    {
+      "id": "CH-006",
+      "title": "Sur la pointe des pieds",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Tiens sur la pointe des pieds sans bouger.",
+      "adaptation": "5-8 : 5 s. 8+ : 10 s.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "5 s"
+        },
+        {
+          "ageMin": 8,
+          "text": "10 s"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "tiptoe"
+    },
+    {
+      "id": "CH-007",
+      "title": "La ligne invisible",
+      "category": "movement",
+      "minAge": 8,
+      "reward": 15,
+      "text": "Marche 6 pas en posant le talon juste devant les orteils de l’autre pied.",
+      "adaptation": "Pour 5-8, remplacer par 5 pas normaux sur une ligne.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "tightrope"
+    },
+    {
+      "id": "CH-008",
+      "title": "Le coussin royal",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Garde un petit coussin léger sur ta tête sans le faire tomber.",
+      "adaptation": "5-8 : 5 s. 8+ : 10 s.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "5 s"
+        },
+        {
+          "ageMin": 8,
+          "text": "10 s"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "cushion_balance"
+    },
+    {
+      "id": "CH-009",
+      "title": "Main croisée",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Touche ton oreille droite avec ta main gauche, puis ton oreille gauche avec ta main droite, 4 fois.",
+      "adaptation": "Rythme libre.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "cross_hands"
+    },
+    {
+      "id": "CH-010",
+      "title": "Genou levé",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Lève un genou et compte jusqu’à 10 sans poser le pied.",
+      "adaptation": "Pour 5-8 : compter jusqu’à 5.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "compter jusqu’à 5"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "knee_hold"
+    },
+    {
+      "id": "CH-011",
+      "title": "Le défi pompes",
+      "category": "movement",
+      "minAge": 10,
+      "reward": 20,
+      "text": "Réussis le nombre de pompes adapté à ton niveau.",
+      "adaptation": "10-12 : 3 pompes. 12-14 : 5. Adulte : 7. Catégorie physique désactivable.",
+      "variants": [
+        {
+          "ageMin": 10,
+          "ageMax": 12,
+          "text": "3 pompes"
+        },
+        {
+          "ageMin": 12,
+          "ageMax": 14,
+          "text": "5"
+        },
+        {
+          "ageMin": 18,
+          "text": "7"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "pushups"
+    },
+    {
+      "id": "CH-012",
+      "title": "Robot en marche",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Fais 8 pas en marchant comme un robot.",
+      "adaptation": "Aucun mouvement acrobatique.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "robot_walk"
+    },
+    {
+      "id": "CH-013",
+      "title": "Tour et ligne",
+      "category": "movement",
+      "minAge": 8,
+      "reward": 10,
+      "text": "Tourne doucement une fois sur toi-même puis fais 4 pas tout droit.",
+      "adaptation": "Un seul tour maximum.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "spin_line"
+    },
+    {
+      "id": "CH-014",
+      "title": "Bras en croix",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Garde les bras tendus en croix.",
+      "adaptation": "5-8 : 8 s. 8+ : 15 s.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "8 s"
+        },
+        {
+          "ageMin": 8,
+          "text": "15 s"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "arms_cross"
+    },
+    {
+      "id": "CH-015",
+      "title": "La main sur la tête",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 5,
+      "text": "Garde une main posée sur ta tête jusqu’à la fin de cette carte.",
+      "adaptation": "Très simple.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "hand_head"
+    },
+    {
+      "id": "CH-016",
+      "title": "Passe le coussin",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Passe un petit coussin d’une main à l’autre 10 fois sans le faire tomber.",
+      "adaptation": "Objet léger uniquement.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "cushion_pass"
+    },
+    {
+      "id": "CH-017",
+      "title": "La marche géante",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Fais 5 grands pas très lents comme si tu étais un géant.",
+      "adaptation": "Pas de saut.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "giant_steps"
+    },
+    {
+      "id": "CH-018",
+      "title": "La marche minuscule",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Fais 10 tout petits pas sans dépasser la longueur de ton pied.",
+      "adaptation": "Simple coordination.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "tiny_steps"
+    },
+    {
+      "id": "CH-019",
+      "title": "Pose miroir",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Le jeu affiche une pose très simple. Reproduis-la pendant 5 secondes.",
+      "adaptation": "Bibliothèque de poses sans exercice technique.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "pose_match"
+    },
+    {
+      "id": "CH-020",
+      "title": "BOSS coordination",
+      "category": "movement",
+      "minAge": 5,
+      "reward": 30,
+      "text": "Réussis : équilibre + 5 petits sauts + toucher ton nez les yeux fermés.",
+      "adaptation": "Chaque étape utilise la variante adaptée à l’âge.",
+      "variants": [],
+      "ohNo": true,
+      "boss": true,
+      "consentRequired": false,
+      "animationKey": "movement_boss"
+    },
+    {
+      "id": "CH-021",
+      "title": "Le lion",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Fais le rugissement d’un lion.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "lion_roar"
+    },
+    {
+      "id": "CH-022",
+      "title": "La vache",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Imite le meuglement d’une vache.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "cow_moo"
+    },
+    {
+      "id": "CH-023",
+      "title": "Le chat",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Imite un chat pendant 5 secondes.",
+      "adaptation": "Son ou gestes, sans imiter une personne.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "cat"
+    },
+    {
+      "id": "CH-024",
+      "title": "L’éléphant",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Imite le cri ou la trompe d’un éléphant.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "elephant"
+    },
+    {
+      "id": "CH-025",
+      "title": "La poule",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Imite une poule jusqu’à ce qu’un joueur trouve l’animal.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "chicken"
+    },
+    {
+      "id": "CH-026",
+      "title": "La grenouille",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Fais deviner une grenouille uniquement avec des gestes.",
+      "adaptation": "Pas besoin de sauter haut.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "frog"
+    },
+    {
+      "id": "CH-027",
+      "title": "Le pingouin",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Marche 5 pas comme un pingouin.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "penguin"
+    },
+    {
+      "id": "CH-028",
+      "title": "Le poisson muet",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Fais deviner un poisson sans faire aucun son.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "fish_mime"
+    },
+    {
+      "id": "CH-029",
+      "title": "Le lapin",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Fais deviner un lapin avec des gestes.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "rabbit"
+    },
+    {
+      "id": "CH-030",
+      "title": "La girafe",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Fais deviner une girafe sans parler.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "giraffe"
+    },
+    {
+      "id": "CH-031",
+      "title": "Trois cris",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Enchaîne le cri de 3 animaux choisis par la carte.",
+      "adaptation": "Le jeu choisit dans une séquence déterministe d’animaux.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "three_sounds"
+    },
+    {
+      "id": "CH-032",
+      "title": "Animal mystère",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Le jeu te donne 3 indices. Devine l’animal.",
+      "adaptation": "Indices adaptés à l’âge.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "animal_riddle"
+    },
+    {
+      "id": "CH-033",
+      "title": "Mime surprise",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Le jeu affiche un animal : fais-le deviner à la famille sans parler.",
+      "adaptation": "Jamais d’imitation de personne.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "animal_mime"
+    },
+    {
+      "id": "CH-034",
+      "title": "Son interdit",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Fais deviner un animal uniquement avec son cri, sans geste.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "sound_only"
+    },
+    {
+      "id": "CH-035",
+      "title": "Geste interdit",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Fais deviner un animal uniquement avec des gestes, sans son.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "gesture_only"
+    },
+    {
+      "id": "CH-036",
+      "title": "Le zoo express",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Cite 5 animaux en 10 secondes.",
+      "adaptation": "5-8 : 4 animaux.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "4 animaux"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "zoo_list"
+    },
+    {
+      "id": "CH-037",
+      "title": "Animal en A",
+      "category": "animals",
+      "minAge": 8,
+      "reward": 15,
+      "text": "Cite un animal dont le nom commence par la lettre affichée.",
+      "adaptation": "Lettre tirée d’une séquence déterministe et filtrée pour avoir une réponse.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "animal_letter"
+    },
+    {
+      "id": "CH-038",
+      "title": "Qui vit où ?",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Le jeu donne un animal. Dis s’il vit surtout dans l’eau, sur terre ou dans les airs.",
+      "adaptation": "Catalogue vérifié.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "habitat"
+    },
+    {
+      "id": "CH-039",
+      "title": "BOSS zoo",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 30,
+      "text": "Fais deviner 3 animaux différents en moins de 40 secondes.",
+      "adaptation": "Pas d’imitation de personnes.",
+      "variants": [],
+      "ohNo": true,
+      "boss": true,
+      "consentRequired": false,
+      "animationKey": "zoo_boss"
+    },
+    {
+      "id": "CH-040",
+      "title": "Le faux animal",
+      "category": "animals",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Parmi 3 noms affichés, trouve celui qui n’est pas un animal.",
+      "adaptation": "Contenu simple adapté à l’âge.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "animal_intruder"
+    },
+    {
+      "id": "CH-041",
+      "title": "Bisou sur le front",
+      "category": "family",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Fais un bisou sur le front de chaque membre de ta famille qui accepte.",
+      "adaptation": "Défi de contact activable par les parents. Consentement obligatoire.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": true,
+      "animationKey": "family_kiss"
+    },
+    {
+      "id": "CH-042",
+      "title": "Tour des compliments",
+      "category": "family",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Fais un compliment sincère à chaque joueur.",
+      "adaptation": "Pas sur le physique obligatoire ; qualité ou action préférable.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "compliments"
+    },
+    {
+      "id": "CH-043",
+      "title": "Une qualité",
+      "category": "family",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Dis une qualité du joueur à ta gauche.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "quality"
+    },
+    {
+      "id": "CH-044",
+      "title": "Merci pour...",
+      "category": "family",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Remercie un joueur pour quelque chose de précis.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "thanks"
+    },
+    {
+      "id": "CH-045",
+      "title": "High-five familial",
+      "category": "family",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Fais un high-five à chaque joueur qui accepte.",
+      "adaptation": "Contact activable et consentement obligatoire.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": true,
+      "animationKey": "high_five"
+    },
+    {
+      "id": "CH-046",
+      "title": "Poignée de main inventée",
+      "category": "family",
+      "minAge": 8,
+      "reward": 15,
+      "text": "Invente une poignée de main très simple avec un joueur qui accepte.",
+      "adaptation": "Contact activable.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": true,
+      "animationKey": "handshake"
+    },
+    {
+      "id": "CH-047",
+      "title": "Le cœur avec les mains",
+      "category": "family",
+      "minAge": 5,
+      "reward": 5,
+      "text": "Fais un cœur avec tes mains et dédie-le à toute la table.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "hand_heart"
+    },
+    {
+      "id": "CH-048",
+      "title": "Applaudissements",
+      "category": "family",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Fais applaudir toute la table en moins de 15 secondes.",
+      "adaptation": "Sans toucher ni crier sur quelqu’un.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "clap_all"
+    },
+    {
+      "id": "CH-049",
+      "title": "Souhait gentil",
+      "category": "family",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Choisis un joueur et souhaite-lui quelque chose de bien.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "good_wish"
+    },
+    {
+      "id": "CH-050",
+      "title": "Ce que j’aime chez nous",
+      "category": "family",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Dis une chose que tu aimes dans ta famille.",
+      "adaptation": "Ne pas forcer à révéler une information intime.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "family_value"
+    },
+    {
+      "id": "CH-051",
+      "title": "Don solidaire",
+      "category": "solidarity",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Donne 5 Kounouz au joueur de ton choix. Si tu le fais, gagne 15 Kounouz.",
+      "adaptation": "Transfert réel : -5 puis récompense +15.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "gift_5",
+      "onSuccess": [
+        {
+          "kind": "transfer_choice",
+          "amount": 5,
+          "reason": "gift",
+          "insufficient": "cap_to_balance"
+        }
+      ]
+    },
+    {
+      "id": "CH-052",
+      "title": "Aide au plus petit solde",
+      "category": "solidarity",
+      "minAge": 8,
+      "reward": 20,
+      "text": "Donne 10 Kounouz au joueur ayant le moins de Kounouz. Tu gagnes ensuite 20 Kounouz.",
+      "adaptation": "Si égalité, cible déterministe par ordre de siège.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "help_lowest",
+      "onSuccess": [
+        {
+          "kind": "give_to_poorest",
+          "amount": 10,
+          "reason": "solidarity",
+          "insufficient": "cap_to_balance"
+        }
+      ]
+    },
+    {
+      "id": "CH-053",
+      "title": "Partage surprise",
+      "category": "solidarity",
+      "minAge": 8,
+      "reward": 0,
+      "text": "Choisis : garder 10 Kounouz ou en donner 5 à deux joueurs et gagner 25 Kounouz.",
+      "adaptation": "Vraie décision économique.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "share_choice",
+      "onSuccess": [
+        {
+          "kind": "choice",
+          "choiceId": "CH-053",
+          "options": [
+            {
+              "id": "keep",
+              "outcomes": [
+                {
+                  "kind": "money",
+                  "amount": 10
+                }
+              ]
+            },
+            {
+              "id": "share",
+              "outcomes": [
+                {
+                  "kind": "transfer_choice",
+                  "amount": 5,
+                  "reason": "gift",
+                  "insufficient": "cap_to_balance"
+                },
+                {
+                  "kind": "transfer_choice",
+                  "amount": 5,
+                  "reason": "gift",
+                  "insufficient": "cap_to_balance"
+                },
+                {
+                  "kind": "money",
+                  "amount": 25
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CH-054",
+      "title": "Le mot gentil",
+      "category": "family",
+      "minAge": 5,
+      "reward": 10,
+      "text": "Dis une phrase encourageante à la personne qui a le moins de Kounouz.",
+      "adaptation": "Aucun commentaire humiliant.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "encourage"
+    },
+    {
+      "id": "CH-055",
+      "title": "BOSS famille",
+      "category": "family",
+      "minAge": 5,
+      "reward": 30,
+      "text": "Réussis 3 missions : un compliment, un merci précis et un geste gentil sans contact.",
+      "adaptation": "Aucun contact obligatoire.",
+      "variants": [],
+      "ohNo": true,
+      "boss": true,
+      "consentRequired": false,
+      "animationKey": "family_boss"
+    },
+    {
+      "id": "CH-056",
+      "title": "Interdit de dire oui ou non",
+      "category": "oh_no",
+      "minAge": 8,
+      "reward": 25,
+      "text": "Jusqu’à ton prochain tour, tu n’as pas le droit de dire « oui » ni « non ».",
+      "adaptation": "Pour 5-8 : durée limitée à 30 secondes.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "durée limitée à 30 secondes"
+        }
+      ],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "no_yes_no"
+    },
+    {
+      "id": "CH-057",
+      "title": "Silence !",
+      "category": "oh_no",
+      "minAge": 8,
+      "reward": 20,
+      "text": "Reste silencieux jusqu’à ton prochain tour.",
+      "adaptation": "Pour 5-8 : 20 secondes seulement.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "20 secondes seulement"
+        }
+      ],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "silence"
+    },
+    {
+      "id": "CH-058",
+      "title": "Chuchote seulement",
+      "category": "oh_no",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Jusqu’à ton prochain tour, parle uniquement en chuchotant.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "whisper"
+    },
+    {
+      "id": "CH-059",
+      "title": "Mode robot",
+      "category": "oh_no",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Jusqu’à ton prochain tour, parle avec une voix de robot.",
+      "adaptation": "Ce n’est pas l’imitation d’une personne.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "robot_voice"
+    },
+    {
+      "id": "CH-060",
+      "title": "Ne ris pas !",
+      "category": "oh_no",
+      "minAge": 5,
+      "reward": 25,
+      "text": "Pendant 30 secondes, essaie de ne pas rire pendant que les autres tentent de te faire rire sans te toucher.",
+      "adaptation": "5-8 : 20 secondes.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "20 secondes"
+        }
+      ],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "dont_laugh"
+    },
+    {
+      "id": "CH-061",
+      "title": "Ne souris pas !",
+      "category": "oh_no",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Reste sérieux pendant 20 secondes.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "dont_smile"
+    },
+    {
+      "id": "CH-062",
+      "title": "Le mot interdit",
+      "category": "oh_no",
+      "minAge": 8,
+      "reward": 20,
+      "text": "Jusqu’à ton prochain tour, tu n’as pas le droit de prononcer le mot « Kounouz ».",
+      "adaptation": "Pour 5-8 : 30 secondes.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "30 secondes"
+        }
+      ],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "forbidden_word"
+    },
+    {
+      "id": "CH-063",
+      "title": "Ton prénom est interdit",
+      "category": "oh_no",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Pendant 30 secondes, ne prononce pas ton propre prénom.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "no_name"
+    },
+    {
+      "id": "CH-064",
+      "title": "Réponse complète",
+      "category": "oh_no",
+      "minAge": 8,
+      "reward": 20,
+      "text": "Jusqu’à ton prochain tour, chaque fois que tu réponds, tu dois faire une phrase complète.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "full_sentence"
+    },
+    {
+      "id": "CH-065",
+      "title": "Statue OH NON",
+      "category": "oh_no",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Reste en position de statue pendant que le prochain joueur commence son tour.",
+      "adaptation": "Pas de posture inconfortable.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "statue_turn"
+    },
+    {
+      "id": "CH-066",
+      "title": "Main sur la tête",
+      "category": "oh_no",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Garde une main sur ta tête jusqu’à ton prochain tour.",
+      "adaptation": "Si gêne, défi remplaçable.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "head_until_turn"
+    },
+    {
+      "id": "CH-067",
+      "title": "Bras croisés",
+      "category": "oh_no",
+      "minAge": 8,
+      "reward": 15,
+      "text": "Garde les bras croisés jusqu’à ton prochain tour.",
+      "adaptation": "Pour 5-8 : 20 secondes.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "20 secondes"
+        }
+      ],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "arms_until_turn"
+    },
+    {
+      "id": "CH-068",
+      "title": "Le mot secret",
+      "category": "oh_no",
+      "minAge": 10,
+      "reward": 25,
+      "text": "Le jeu affiche un mot banal. Tu dois éviter de le prononcer jusqu’à ton prochain tour.",
+      "adaptation": "Mot choisi dans une liste sûre et déterministe.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "secret_word"
+    },
+    {
+      "id": "CH-069",
+      "title": "Double contrainte",
+      "category": "oh_no",
+      "minAge": 8,
+      "reward": 30,
+      "text": "Pendant 30 secondes : ne dis ni « oui » ni « non » et garde une main sur ta tête.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "double_constraint"
+    },
+    {
+      "id": "CH-070",
+      "title": "BOSS OH NON",
+      "category": "oh_no",
+      "minAge": 5,
+      "reward": 40,
+      "text": "Enchaîne : 20 secondes sans rire + 10 secondes de silence + un cri d’animal.",
+      "adaptation": "Durées adaptées à l’âge.",
+      "variants": [],
+      "ohNo": true,
+      "boss": true,
+      "consentRequired": false,
+      "animationKey": "oh_no_boss"
+    },
+    {
+      "id": "CH-071",
+      "title": "Mémoire 5 images",
+      "category": "memory",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Observe 5 images pendant 10 secondes, puis cite-en au moins 4.",
+      "adaptation": "5-8 : 4 images, en retrouver 3.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "4 images, en retrouver 3"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "memory_icons"
+    },
+    {
+      "id": "CH-072",
+      "title": "Suite de chiffres",
+      "category": "memory",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Mémorise puis répète la suite de chiffres affichée.",
+      "adaptation": "5-8 : 3 chiffres. 8-10 : 4. 10+ : 5-6.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "3 chiffres"
+        },
+        {
+          "ageMin": 8,
+          "ageMax": 10,
+          "text": "4"
+        },
+        {
+          "ageMin": 10,
+          "text": "5-6"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "digit_sequence"
+    },
+    {
+      "id": "CH-073",
+      "title": "Suite de mots",
+      "category": "memory",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Mémorise puis répète les mots dans le bon ordre.",
+      "adaptation": "5-8 : 3 mots. 8+ : 4-5.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "3 mots"
+        },
+        {
+          "ageMin": 8,
+          "text": "4-5"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "word_sequence"
+    },
+    {
+      "id": "CH-074",
+      "title": "Couleurs en ordre",
+      "category": "memory",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Mémorise l’ordre des couleurs puis reproduis-le.",
+      "adaptation": "Nombre de couleurs adapté au niveau.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "color_sequence"
+    },
+    {
+      "id": "CH-075",
+      "title": "Qu’est-ce qui manque ?",
+      "category": "memory",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Observe 5 objets. Le jeu en cache un. Trouve lequel.",
+      "adaptation": "5-8 : 4 objets.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "4 objets"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "missing_item"
+    },
+    {
+      "id": "CH-076",
+      "title": "5 fruits",
+      "category": "reflection",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Cite 5 fruits en 15 secondes.",
+      "adaptation": "5-8 : 4 fruits.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "4 fruits"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "fruit_list"
+    },
+    {
+      "id": "CH-077",
+      "title": "5 pays",
+      "category": "geography",
+      "minAge": 8,
+      "reward": 20,
+      "text": "Cite 5 pays en 20 secondes.",
+      "adaptation": "5-8 : 3 pays si le profil a déjà vu la géographie.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "3 pays si le profil a déjà vu la géographie"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "country_list"
+    },
+    {
+      "id": "CH-078",
+      "title": "Les capitales",
+      "category": "geography",
+      "minAge": 8,
+      "reward": 25,
+      "text": "Le jeu donne un pays déjà étudié. Donne sa capitale.",
+      "adaptation": "Uniquement catalogue géographique validé et adapté au niveau.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "capital"
+    },
+    {
+      "id": "CH-079",
+      "title": "Même couleur",
+      "category": "observation",
+      "minAge": 5,
+      "reward": 15,
+      "text": "Trouve 3 objets autour de toi qui ont la couleur affichée.",
+      "adaptation": "Ne pas demander de se déplacer loin.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "same_color"
+    },
+    {
+      "id": "CH-080",
+      "title": "La lettre éclair",
+      "category": "language",
+      "minAge": 8,
+      "reward": 20,
+      "text": "Trouve 5 mots commençant par la lettre affichée.",
+      "adaptation": "5-8 : 3 mots ; lettre filtrée.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "3 mots ; lettre filtrée"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "letter_words"
+    },
+    {
+      "id": "CH-081",
+      "title": "Phrase imposée",
+      "category": "language",
+      "minAge": 8,
+      "reward": 25,
+      "text": "Fais une phrase correcte avec les 3 mots affichés.",
+      "adaptation": "Mots adaptés à l’âge.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "sentence_words"
+    },
+    {
+      "id": "CH-082",
+      "title": "Calcul express",
+      "category": "maths",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Résous le calcul mental proposé.",
+      "adaptation": "Générateur mathématique déjà adapté au profil.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "mental_math"
+    },
+    {
+      "id": "CH-083",
+      "title": "Triple calcul",
+      "category": "maths",
+      "minAge": 8,
+      "reward": 40,
+      "text": "Réussis 3 petits calculs de suite.",
+      "adaptation": "Niveau personnalisé ; aucun chrono nécessaire.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "three_math"
+    },
+    {
+      "id": "CH-084",
+      "title": "Énigme éclair",
+      "category": "logic",
+      "minAge": 5,
+      "reward": 25,
+      "text": "Résous une petite énigme adaptée à ton âge.",
+      "adaptation": "Banque validée, aucune question ambiguë.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "riddle"
+    },
+    {
+      "id": "CH-085",
+      "title": "BOSS mémoire",
+      "category": "memory",
+      "minAge": 10,
+      "reward": 50,
+      "text": "Mémorise 5 éléments, réponds à un calcul puis restitue les 5 éléments.",
+      "adaptation": "8-10 : 4 éléments. 5-8 : 3 éléments + calcul très simple.",
+      "variants": [
+        {
+          "ageMin": 8,
+          "ageMax": 10,
+          "text": "4 éléments"
+        },
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "3 éléments + calcul très simple"
+        }
+      ],
+      "ohNo": true,
+      "boss": true,
+      "consentRequired": false,
+      "animationKey": "memory_boss"
+    },
+    {
+      "id": "CH-086",
+      "title": "3 mots arabes",
+      "category": "arabic",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Dis 3 mots arabes que tu connais et leur sens en français.",
+      "adaptation": "5-8 : 2 mots.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "2 mots"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "arabic_words"
+    },
+    {
+      "id": "CH-087",
+      "title": "Les couleurs en arabe",
+      "category": "arabic",
+      "minAge": 8,
+      "reward": 20,
+      "text": "Donne en arabe la couleur affichée.",
+      "adaptation": "Uniquement vocabulaire déjà validé/appris par le joueur.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "arabic_color"
+    },
+    {
+      "id": "CH-088",
+      "title": "Compter en arabe",
+      "category": "arabic",
+      "minAge": 5,
+      "reward": 20,
+      "text": "Compte en arabe jusqu’au nombre demandé.",
+      "adaptation": "5-8 : jusqu’à 5. 8+ : 10 ou plus selon niveau.",
+      "variants": [
+        {
+          "ageMin": 5,
+          "ageMax": 8,
+          "text": "jusqu’à 5"
+        },
+        {
+          "ageMin": 8,
+          "text": "10 ou plus selon niveau"
+        }
+      ],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "arabic_count"
+    },
+    {
+      "id": "CH-089",
+      "title": "Mot à traduire",
+      "category": "arabic",
+      "minAge": 8,
+      "reward": 25,
+      "text": "Traduis le mot arabe affiché.",
+      "adaptation": "Le mot vient uniquement du catalogue arabe validé du niveau.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "arabic_translate"
+    },
+    {
+      "id": "CH-090",
+      "title": "BOSS arabe",
+      "category": "arabic",
+      "minAge": 8,
+      "reward": 50,
+      "text": "Réussis 3 mini-défis d’arabe de ton niveau.",
+      "adaptation": "Vocabulaire, nombre, traduction ; déterministe.",
+      "variants": [],
+      "ohNo": true,
+      "boss": true,
+      "consentRequired": false,
+      "animationKey": "arabic_boss"
+    },
+    {
+      "id": "CH-091",
+      "title": "Récitation niveau",
+      "category": "religion",
+      "minAge": 5,
+      "reward": 30,
+      "text": "Récite une sourate déjà validée pour ton niveau.",
+      "adaptation": "Le jeu référence un `validated_content_id`; aucun texte religieux n’est généré ici.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "surah_recite",
+      "contentRef": {
+        "kind": "validated_recitation",
+        "count": 1
+      }
+    },
+    {
+      "id": "CH-092",
+      "title": "Deux sourates",
+      "category": "religion",
+      "minAge": 8,
+      "reward": 40,
+      "text": "Récite deux sourates courtes déjà maîtrisées.",
+      "adaptation": "Seulement si le profil possède au moins 2 sourates éligibles.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "two_surahs",
+      "contentRef": {
+        "kind": "validated_recitation",
+        "count": 2
+      }
+    },
+    {
+      "id": "CH-093",
+      "title": "Al-Fātiḥah",
+      "category": "religion",
+      "minAge": 5,
+      "reward": 40,
+      "text": "Récite Al-Fātiḥah.",
+      "adaptation": "Validation collective/orale. Aucun speech recognition.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "fatiha",
+      "contentRef": {
+        "kind": "validated_recitation",
+        "count": 1
+      }
+    },
+    {
+      "id": "CH-094",
+      "title": "Les cinq piliers",
+      "category": "religion",
+      "minAge": 8,
+      "reward": 30,
+      "text": "Cite les cinq piliers de l’Islam.",
+      "adaptation": "Pour un profil plus jeune, proposer une mission religieuse plus simple.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "five_pillars",
+      "contentRef": {
+        "kind": "validated_question",
+        "categoryId": "religion",
+        "difficultyDelta": 0
+      }
+    },
+    {
+      "id": "CH-095",
+      "title": "Les six piliers",
+      "category": "religion",
+      "minAge": 10,
+      "reward": 40,
+      "text": "Cite les six piliers de l’Îmân.",
+      "adaptation": "Uniquement pour niveaux éligibles.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "six_iman",
+      "contentRef": {
+        "kind": "validated_question",
+        "categoryId": "religion",
+        "difficultyDelta": 0
+      }
+    },
+    {
+      "id": "CH-096",
+      "title": "Tawḥīd avec tes mots",
+      "category": "religion",
+      "minAge": 10,
+      "reward": 30,
+      "text": "Explique avec tes mots ce que signifie adorer Allah seul.",
+      "adaptation": "Référence uniquement à un contenu religieux validé ; validation collective.",
+      "variants": [],
+      "ohNo": false,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "tawhid_words",
+      "contentRef": {
+        "kind": "validated_question",
+        "categoryId": "religion",
+        "difficultyDelta": 0
+      }
+    },
+    {
+      "id": "CH-097",
+      "title": "Question +1 niveau",
+      "category": "religion",
+      "minAge": 8,
+      "reward": 50,
+      "text": "Réponds à une question religieuse validée d’un niveau au-dessus du tien.",
+      "adaptation": "Seulement si une question éligible existe ; sinon défi suivant déterministe.",
+      "variants": [],
+      "ohNo": true,
+      "boss": false,
+      "consentRequired": false,
+      "animationKey": "religion_plus_one",
+      "contentRef": {
+        "kind": "validated_question",
+        "categoryId": "religion",
+        "difficultyDelta": 1
+      }
+    },
+    {
+      "id": "CH-098",
+      "title": "BOSS aventure",
+      "category": "boss",
+      "minAge": 5,
+      "reward": 50,
+      "text": "Réussis : un défi de mouvement simple + un défi animal + un défi mémoire.",
+      "adaptation": "Sous-défis déterministes et adaptés au profil.",
+      "variants": [],
+      "ohNo": true,
+      "boss": true,
+      "consentRequired": false,
+      "animationKey": "adventure_boss"
+    },
+    {
+      "id": "CH-099",
+      "title": "BOSS famille + savoir",
+      "category": "boss",
+      "minAge": 5,
+      "reward": 50,
+      "text": "Fais un compliment sincère à 2 joueurs puis réussis une question de connaissance adaptée.",
+      "adaptation": "La question vient d’un moteur de contenu validé.",
+      "variants": [],
+      "ohNo": true,
+      "boss": true,
+      "consentRequired": false,
+      "animationKey": "family_knowledge_boss",
+      "contentRef": {
+        "kind": "validated_question",
+        "categoryId": "any",
+        "difficultyDelta": 0
+      }
+    },
+    {
+      "id": "CH-100",
+      "title": "GRAND BOSS KOUNOUZI",
+      "category": "boss",
+      "minAge": 5,
+      "reward": 75,
+      "text": "Réussis 3 épreuves : une épreuve fun, une épreuve de mémoire ou logique, puis une épreuve de savoir.",
+      "adaptation": "Les 3 sous-épreuves sont choisies par rotation déterministe cachée, jamais au hasard.",
+      "variants": [],
+      "ohNo": true,
+      "boss": true,
+      "consentRequired": false,
+      "animationKey": "grand_boss",
+      "contentRef": {
+        "kind": "validated_question",
+        "categoryId": "any",
+        "difficultyDelta": 0
+      }
+    }
+  ]
+}

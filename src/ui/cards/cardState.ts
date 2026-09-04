@@ -1,6 +1,6 @@
 import type { QuestionInstance } from "@/core/content";
 import type { AnswerOutcome, PlayerId, ValidationMode } from "@/core/shared";
-import type { CellType, GameState, QuestionPurposeKind, TransferReason } from "@/core/game";
+import type { CellType, ChallengeSkipReason, GameState, QuestionPurposeKind, TransferReason } from "@/core/game";
 
 export type QuestionStep = "dealt" | "opening" | "question" | "revealed" | "explanation" | "mastery" | "submitted" | "result" | "reward";
 
@@ -40,7 +40,20 @@ export type CardState =
       readonly opponentOutcome?: AnswerOutcome | undefined;
       readonly winnerId?: PlayerId | null | undefined;
     }
-  | { readonly kind: "halt"; readonly playerId: PlayerId };
+  | { readonly kind: "halt"; readonly playerId: PlayerId }
+  /** Défi famille : « OH NON » éventuel → révélation → accepté → validation → résultat → gain. */
+  | {
+      readonly kind: "challenge";
+      readonly challengeId: string;
+      readonly playerId: PlayerId;
+      readonly requestId: string;
+      readonly step: "ohno" | "reveal" | "accepted" | "submitted" | "result" | "reward";
+      readonly success?: boolean | undefined;
+      readonly skipped?: ChallengeSkipReason | undefined;
+      readonly rewardAmount?: number | undefined;
+      /** Instantané de la question figée (défi à contenu validé), conservé pour le résultat. */
+      readonly question?: QuestionInstance | undefined;
+    };
 
 /** À la reprise (aucun événement rejoué), la carte correspondant à la phase en attente. */
 export function cardForPhase(state: GameState): CardState | null {
@@ -55,6 +68,11 @@ export function cardForPhase(state: GameState): CardState | null {
     }
     case "awaiting_duel_opponent":
       return { kind: "opponent", challengerId: activeId, candidates: state.phase.candidates, step: "offer" };
+    case "awaiting_challenge": {
+      const c = state.phase.challenge;
+      // Reprise en plein défi : à l'étape exacte (accepté ou non), sans rejouer « OH NON ».
+      return { kind: "challenge", challengeId: c.challengeId, playerId: c.playerId, requestId: c.requestId, step: c.stage === "accepted" ? "accepted" : "reveal" };
+    }
     case "awaiting_recipient":
       return { kind: "recipient", playerId: activeId, candidates: state.phase.candidates, amount: state.phase.amount, reason: state.phase.reason, step: "offer" };
     case "awaiting_purchase": {
@@ -75,6 +93,12 @@ export function servedFor(state: GameState, requestId: string) {
     const d = state.phase.duel;
     if (requestId === d.challengerRequestId) return { served: d.challengerServed ?? null, pending: !d.challengerServed };
     if (requestId === d.opponentRequestId) return { served: d.opponentServed ?? null, pending: !d.opponentServed };
+  }
+  if (state.phase.kind === "awaiting_challenge" && state.phase.challenge.requestId === requestId) {
+    const c = state.phase.challenge;
+    const ref = state.config.challenges.definitions.find((d) => d.id === c.challengeId)?.contentRef;
+    const needs = ref?.kind === "validated_question";
+    return { served: c.served ?? null, pending: needs && !c.served };
   }
   return { served: null, pending: false };
 }

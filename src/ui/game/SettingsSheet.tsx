@@ -1,5 +1,6 @@
 "use client";
 
+import { CHALLENGE_TOGGLES, type ChallengeSettings } from "@/core/game";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { NARRATION_RATES, useSessionStore } from "@/state/sessionStore";
 import { Button } from "@/ui/primitives/Button";
@@ -13,6 +14,9 @@ export interface SettingsSheetProps {
   readonly onTogglePause: () => void;
   readonly endRequested: boolean;
   readonly onRequestEnd: () => void;
+  /** Réglages parents des Défis famille de la partie (`null` : aucune banque dans cette partie). */
+  readonly challengeSettings: ChallengeSettings | null;
+  readonly onChallengeSettings: (settings: ChallengeSettings) => void;
 }
 
 /** Réglages d'expérience (préférences locales). Aucune règle de jeu. */
@@ -67,6 +71,18 @@ export function SettingsSheet(props: SettingsSheetProps) {
             <span>{t(DEFAULT_LOCALE, "settings.preciseTimer")}</span>
             <input type="checkbox" className="size-6" checked={s.preciseTimer} onChange={(e) => s.setPreciseTimer(e.target.checked)} />
           </label>
+
+          {props.challengeSettings ? (
+            <fieldset className="flex flex-col gap-2 border-t pt-4" data-testid="challenge-settings">
+              <legend className="font-semibold">{t(DEFAULT_LOCALE, "settings.challenges.title")}</legend>
+              {CHALLENGE_TOGGLES.map((toggle) => (
+                <label key={toggle} className="flex items-center justify-between gap-3 text-sm">
+                  <span>{t(DEFAULT_LOCALE, `settings.challenges.${toggle}`)}</span>
+                  <input type="checkbox" className="size-6" checked={props.challengeSettings![toggle]} onChange={(e) => props.onChallengeSettings({ ...props.challengeSettings!, [toggle]: e.target.checked })} data-testid={`challenge-toggle-${toggle}`} />
+                </label>
+              ))}
+            </fieldset>
+          ) : null}
 
           <div className="flex gap-2 border-t pt-4">
             <Button variant="secondary" className="flex-1" onClick={props.onTogglePause}>

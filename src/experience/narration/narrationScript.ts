@@ -52,6 +52,14 @@ export function utteranceFor(event: GameEvent, state: GameState, locale: Locale)
       return { text: t(locale, "narration.saving", { amount: event.payout }), lang: locale };
     case "InvestmentSettled":
       return { text: event.payout > 0 ? t(locale, "narration.investment.win", { amount: event.payout }) : t(locale, "narration.investment.lose"), lang: locale };
+    case "FamilyChallengeAssigned":
+      return { text: event.ohNo ? `${t(locale, "narration.challenge.ohNo")} ${t(locale, "narration.challenge.assigned", { name: name(event.playerId) })}` : t(locale, "narration.challenge.assigned", { name: name(event.playerId) }), lang: locale, important: true };
+    case "FamilyChallengeCompleted":
+      return { text: t(locale, event.success ? "narration.challenge.success" : "narration.challenge.failure"), lang: locale };
+    case "FamilyChallengeSkipped":
+      return { text: t(locale, "narration.challenge.skipped"), lang: locale };
+    case "ChallengeRewardGranted":
+      return { text: t(locale, "narration.challenge.reward", { amount: event.amount }), lang: locale };
     case "GameFinished": {
       const winner = event.ranking[0];
       return winner ? { text: t(locale, "narration.finished", { name: name(winner.playerId) }), lang: locale, important: true } : null;

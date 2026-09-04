@@ -159,6 +159,8 @@ export type Outcome =
   | { readonly kind: "duel" }
   /** Halte du voyage : le prochain tour commence par un Défi de reprise. */
   | { readonly kind: "halt" }
+  /** Défi famille : un défi de la banque (données), choisi par rotation déterministe cachée. Le Duel reste distinct. */
+  | { readonly kind: "family_challenge" }
   /** Le joueur actif choisit un destinataire et lui transfère `amount`. */
   | { readonly kind: "transfer_choice"; readonly amount: number; readonly reason: TransferReason; readonly insufficient: InsufficientPolicy }
   /** Le joueur actif donne `amount` au joueur qui a le moins d'argent (autre que lui). */
@@ -192,6 +194,86 @@ export interface Scenario {
   readonly id: string;
   readonly cellType: CellType;
   readonly outcomes: readonly Outcome[];
+}
+
+/* ---------------------------------------------------------------------------
+ * Défis famille — DONNÉES (banque), sélection déterministe, réglages parents
+ * ------------------------------------------------------------------------- */
+
+export const CHALLENGE_CATEGORIES = ["movement", "animals", "family", "solidarity", "oh_no", "memory", "reflection", "geography", "observation", "language", "maths", "logic", "arabic", "religion", "boss"] as const;
+export type ChallengeCategory = (typeof CHALLENGE_CATEGORIES)[number];
+
+/** Réglages parents : chaque interrupteur active un groupe de catégories (données) ou un drapeau de carte. */
+export const CHALLENGE_TOGGLES = ["movement", "fun", "family", "contact", "ohNo", "memoryLogic", "arabic", "religion", "boss"] as const;
+export type ChallengeToggle = (typeof CHALLENGE_TOGGLES)[number];
+export type ChallengeSettings = Readonly<Record<ChallengeToggle, boolean>>;
+export const ALL_CHALLENGES_ON: ChallengeSettings = { movement: true, fun: true, family: true, contact: true, ohNo: true, memoryLogic: true, arabic: true, religion: true, boss: true };
+
+/** Variante d'âge d'un défi (« 5-8 : 5 s ») ; `ageMax` exclusif, absent = sans limite. */
+export interface ChallengeVariant {
+  readonly ageMin: number;
+  readonly ageMax?: number | undefined;
+  readonly text: string;
+}
+
+/**
+ * Référence à du contenu DÉJÀ VALIDÉ : un défi religieux ne porte jamais de
+ * texte religieux ; il n'est éligible que si le contenu référencé existe
+ * (`ChallengesConfig.contentAvailable`, calculé hors du moteur depuis le
+ * registre validé, figé à la création).
+ */
+export type ChallengeContentRef =
+  | { readonly kind: "validated_question"; readonly categoryId: string; readonly difficultyDelta: number }
+  | { readonly kind: "validated_recitation"; readonly count: number };
+
+export interface ChallengeDefinition {
+  readonly id: string;
+  readonly title: string;
+  readonly category: ChallengeCategory;
+  /** Âge minimal (années) ; un adulte est éligible à tout. */
+  readonly minAge: number;
+  /** Gain crédité EXACTEMENT une fois en cas de réussite ; échec ou refus = 0. */
+  readonly reward: number;
+  readonly text: string;
+  readonly adaptation?: string | undefined;
+  readonly variants: readonly ChallengeVariant[];
+  /** Carte « OH NON » : alerte amusante avant révélation (présentation). */
+  readonly ohNo: boolean;
+  readonly boss: boolean;
+  /** Défi de contact : consentement obligatoire ; désactivable par les parents. */
+  readonly consentRequired: boolean;
+  readonly animationKey: string;
+  readonly contentRef?: ChallengeContentRef | undefined;
+  /** Résultats économiques appliqués après une réussite (défis solidaires : transfert réel, choix). */
+  readonly onSuccess?: readonly Outcome[] | undefined;
+}
+
+export interface ChallengesConfig {
+  readonly definitions: readonly ChallengeDefinition[];
+  /** Interrupteur → catégories qu'il active (`contact` et `ohNo` gouvernent des drapeaux de carte). */
+  readonly toggles: Readonly<Record<ChallengeToggle, readonly ChallengeCategory[]>>;
+  readonly settings: ChallengeSettings;
+  /** Identifiants des défis dont la référence de contenu validé est satisfaite (calcul hors moteur, figé). */
+  readonly contentAvailable: readonly string[];
+}
+
+export const EMPTY_TOGGLES: ChallengesConfig["toggles"] = { movement: [], fun: [], family: [], contact: [], ohNo: [], memoryLogic: [], arabic: [], religion: [], boss: [] };
+/** Aucune banque : une case Défi ne propose alors aucun défi famille (parties migrées). */
+export const NO_CHALLENGES: ChallengesConfig = { definitions: [], toggles: EMPTY_TOGGLES, settings: ALL_CHALLENGES_ON, contentAvailable: [] };
+
+export const CHALLENGE_STAGES = ["assigned", "accepted"] as const;
+export type ChallengeStage = (typeof CHALLENGE_STAGES)[number];
+export const CHALLENGE_SKIP_REASONS = ["declined", "consent_refused"] as const;
+export type ChallengeSkipReason = (typeof CHALLENGE_SKIP_REASONS)[number];
+
+/** Défi famille en cours — état persistant explicite (sauvegarde et reprise en plein défi). */
+export interface ChallengeState {
+  readonly challengeId: string;
+  readonly playerId: PlayerId;
+  /** Identifiant de demande : une question validée peut y être figée (`served`) pour un défi à contenu. */
+  readonly requestId: string;
+  readonly stage: ChallengeStage;
+  readonly served?: ServedQuestion | undefined;
 }
 
 /* ---------------------------------------------------------------------------
@@ -253,6 +335,8 @@ export interface PlayerState {
   readonly id: PlayerId;
   readonly displayName: string;
   readonly profileType: ProfileType;
+  /** Âge (années) au moment de la création, pour l'éligibilité des défis ; absent pour un adulte. */
+  readonly age?: number | undefined;
   readonly seat: number;
   readonly position: number;
   readonly money: number;
@@ -284,6 +368,7 @@ export const TRANSACTION_REASONS = [
   "saving_payout",
   "heritage_maintenance",
   "heritage_bonus",
+  "challenge_reward",
 ] as const;
 export type TransactionReason = (typeof TRANSACTION_REASONS)[number];
 
@@ -355,6 +440,8 @@ export type TurnPhase =
   /** Le joueur actif choisit son adversaire (décision stratégique autorisée ; jamais la question ni la difficulté). */
   | { readonly kind: "awaiting_duel_opponent"; readonly candidates: readonly PlayerId[]; readonly queue: readonly Outcome[] }
   | { readonly kind: "awaiting_duel"; readonly duel: DuelState; readonly queue: readonly Outcome[] }
+  /** Défi famille : le joueur actif accepte ou passe, puis la tablée valide Réussi / Raté. */
+  | { readonly kind: "awaiting_challenge"; readonly challenge: ChallengeState; readonly queue: readonly Outcome[] }
   /** Le joueur actif choisit à qui transférer (partage, cadeau, don). */
   | { readonly kind: "awaiting_recipient"; readonly amount: number; readonly reason: TransferReason; readonly insufficient: InsufficientPolicy; readonly candidates: readonly PlayerId[]; readonly queue: readonly Outcome[] }
   | { readonly kind: "finished" };
@@ -375,6 +462,8 @@ export interface GameConfig {
   readonly rules: RulesConfig;
   readonly journey: JourneyCycle;
   readonly familyAssist: FamilyAssistConfig;
+  /** Défis famille : banque (données), interrupteurs parents, contenu validé disponible. */
+  readonly challenges: ChallengesConfig;
   /** Décalage de la séquence de scénarios (rotation inter-parties par numéro de partie ; jamais un tirage). */
   readonly scenarioOffset: number;
 }
@@ -393,7 +482,7 @@ export interface AnsweredQuestion {
   readonly difficulty: number;
 }
 
-export const GAME_SCHEMA_VERSION = 4 as const;
+export const GAME_SCHEMA_VERSION = 5 as const;
 
 export interface GameState {
   readonly schemaVersion: typeof GAME_SCHEMA_VERSION;
@@ -408,10 +497,12 @@ export interface GameState {
   readonly effects: readonly QueuedEffect[];
   /** Nombre d'arrivées sur chaque case (sélection déterministe des scénarios). */
   readonly cellVisits: Readonly<Record<string, number>>;
+  /** Par joueur, nombre de fois où chaque défi lui a été proposé dans cette partie (anti-répétition tant que son vivier n'est pas épuisé). */
+  readonly challengeServed: Readonly<Record<string, Readonly<Record<string, number>>>>;
   readonly clock: PlayClock;
   /** Demande de fin (espace parent) : la partie s'arrête à la fin du tour de table. */
   readonly endRequested: boolean;
-  readonly counters: { readonly transaction: number; readonly request: number; readonly effect: number; readonly transfer: number };
+  readonly counters: { readonly transaction: number; readonly request: number; readonly effect: number; readonly transfer: number; readonly challenge: number };
   readonly status: "in_progress" | "finished";
   readonly ranking?: readonly RankingEntry[];
 }

@@ -40,6 +40,7 @@ export const TEST_SCENARIOS: readonly Scenario[] = [
   { id: "treasure-boost", cellType: "treasure", outcomes: [{ kind: "effect", effect: { type: "reward_multiplier", multiplier: 2, uses: 1, consumeOn: "reward_granted" } }] },
   /* ---- Phase 5.1 : interactions ---- */
   { id: "challenge-duel", cellType: "challenge", outcomes: [{ kind: "duel" }] },
+  { id: "challenge-family", cellType: "challenge", outcomes: [{ kind: "family_challenge" }] },
   { id: "event-halt", cellType: "event", outcomes: [{ kind: "halt" }] },
   { id: "event-share", cellType: "event", outcomes: [{ kind: "transfer_choice", amount: 50, reason: "gift", insufficient: "cap_to_balance" }] },
   { id: "event-collective", cellType: "event", outcomes: [{ kind: "collective_fund", amount: 50, insufficient: "cap_to_balance" }] },

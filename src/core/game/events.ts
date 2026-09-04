@@ -1,5 +1,5 @@
 import type { AnswerOutcome, ExplanationMastery, GameId, PlayerId, ValidationMode } from "@/core/shared";
-import type { AnsweredQuestion, CellType, EffectSpec, OutcomePayout, QueuedEffect, RankingEntry, TransactionReason, TransferReason } from "./types";
+import type { AnsweredQuestion, CellType, ChallengeCategory, ChallengeSettings, ChallengeSkipReason, EffectSpec, OutcomePayout, QueuedEffect, RankingEntry, TransactionReason, TransferReason } from "./types";
 
 export type QuestionPurposeKind = "standard" | "halt" | "heritage_visit" | "duel";
 
@@ -71,6 +71,15 @@ export type GameEvent =
       /** `null` = match nul. */
       readonly winnerId: PlayerId | null;
     }
+  /* ---- Défi famille ---- */
+  | { readonly type: "FamilyChallengeAssigned"; readonly playerId: PlayerId; readonly challengeId: string; readonly requestId: string; readonly category: ChallengeCategory; readonly reward: number; readonly ohNo: boolean; readonly consentRequired: boolean }
+  | { readonly type: "FamilyChallengeAccepted"; readonly playerId: PlayerId; readonly challengeId: string }
+  | { readonly type: "FamilyChallengeCompleted"; readonly playerId: PlayerId; readonly challengeId: string; readonly success: boolean }
+  | { readonly type: "FamilyChallengeSkipped"; readonly playerId: PlayerId; readonly challengeId: string; readonly reason: ChallengeSkipReason }
+  | { readonly type: "ChallengeRewardGranted"; readonly playerId: PlayerId; readonly challengeId: string; readonly amount: number }
+  /** Aucun défi éligible (banque vide, réglages, âge) : la case ne propose rien, le tour continue. */
+  | { readonly type: "FamilyChallengeUnavailable"; readonly playerId: PlayerId }
+  | { readonly type: "ChallengeSettingsChanged"; readonly settings: ChallengeSettings }
   | { readonly type: "TurnEnded"; readonly turnNumber: number; readonly playerId: PlayerId }
   /** La durée cible est atteinte : le tour de table en cours sera le dernier. */
   | { readonly type: "TimeTargetReached"; readonly activePlaySeconds: number }

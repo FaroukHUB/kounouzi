@@ -86,6 +86,9 @@ export function DiagnosticScreen({ gameId }: { readonly gameId: GameId }) {
           ["Choix Gestion", String(report.counts.managementChoices)],
           ["Solidarité", String(report.counts.solidarityActions)],
           ["Collectifs", String(report.counts.collectiveEvents)],
+          ["Défis famille", `${report.challenges.proposed} (OH NON ${report.challenges.ohNo})`],
+          ["Défis réussis / ratés / passés", `${report.challenges.succeeded} / ${report.challenges.failed} / ${report.challenges.skipped}`],
+          ["Kounouz via défis", String(report.challenges.kounouz)],
         ].map(([k, v]) => (
           <div key={k} className="rounded-2xl bg-white p-3 shadow-sm">
             <div className="text-xs font-bold uppercase tracking-wider text-[var(--k-ink-soft)]">{k}</div>
@@ -122,6 +125,22 @@ export function DiagnosticScreen({ gameId }: { readonly gameId: GameId }) {
             ))}
           </tbody>
         </table>
+      </section>
+
+      <section className="rounded-2xl bg-white p-3 shadow-sm" data-testid="diag-challenges">
+        <h2 className="mb-2 font-bold">Défis famille</h2>
+        <ul className="grid grid-cols-2 gap-1 text-sm sm:grid-cols-3">
+          {report.challenges.byCategory.map((c) => (
+            <li key={c.category}>
+              <span className="font-semibold">{c.category}</span> : {c.proposed} proposés, {c.succeeded} réussis
+            </li>
+          ))}
+          {report.challenges.byAgeBand.map((b) => (
+            <li key={b.band}>
+              <span className="font-semibold">Réussite {b.band}</span> : {b.rate} % ({b.succeeded}/{b.succeeded + b.failed})
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section className="rounded-2xl bg-white p-3 shadow-sm">

@@ -50,6 +50,14 @@
   portent le thème du chapitre en `locator`. Arabe du PDF très abîmé : huit
   explications laissées vides avec `reviewNotes`, onze recollées à relire.
 
+- `challenges/family-challenges.v1.json` — banque canonique V1 des **Défis
+  famille** (100 défis, importés du PDF de conception par
+  `scripts/content/import-defis.mjs`). Données pures : catégorie, âge minimal,
+  gain, texte, adaptation et variantes d'âge, drapeaux OH NON / boss / contact,
+  clé d'animation, référence de contenu validé (défis religieux : aucun texte
+  religieux, jamais servis sans contenu validé), résultats économiques réels
+  des défis solidaires. Sélection déterministe cachée (ADR 0027).
+
 Règles : explication FR **et** AR obligatoires pour toute question jouable ;
 `status = validated` obligatoire ; source primaire obligatoire si la catégorie
 l'exige (`requiresSource`). Voir `docs/decisions/0004`, `0020`, `0022`.

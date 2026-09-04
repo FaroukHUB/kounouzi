@@ -18,4 +18,6 @@ export type GameError =
   | { readonly code: "INVALID_OPPONENT"; readonly opponentId: PlayerId }
   | { readonly code: "INVALID_RECIPIENT"; readonly recipientId: PlayerId }
   /** Les deux questions d'un Duel doivent appartenir à la même catégorie. */
-  | { readonly code: "DUEL_CATEGORY_MISMATCH"; readonly expected: string; readonly received: string };
+  | { readonly code: "DUEL_CATEGORY_MISMATCH"; readonly expected: string; readonly received: string }
+  /** Un défi doit être accepté avant d'être validé ; accepté, il ne peut plus l'être à nouveau. */
+  | { readonly code: "CHALLENGE_STAGE"; readonly expected: "assigned" | "accepted"; readonly actual: "assigned" | "accepted" };
