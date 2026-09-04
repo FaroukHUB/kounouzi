@@ -23,7 +23,7 @@
       },
       "explanation": {
         "fr": "Le Prophète ﷺ est né durant l’année connue comme l’Année de l’Éléphant.",
-        "ar": "وُلد النبي ﷺ في عام الفيل."
+        "ar": "وُلِد النبي ﷺ في عام الفيل."
       },
       "sources": [
         {
@@ -34,8 +34,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Un calendrier se déroule, puis un éléphant stylisé apparaît sur la bonne année.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « وُ|د ا » : à rétablir depuis le document de contrôle."
+      "animationHint": "Un calendrier se déroule, puis un éléphant stylisé apparaît sur la bonne année."
     },
     {
       "id": "REL-SIR-ARB-L1-02",
@@ -55,7 +54,7 @@
       },
       "explanation": {
         "fr": "Sa naissance est située un lundi.",
-        "ar": "وُلد النبي ﷺ يوم الاثنين."
+        "ar": "وُلِد النبي ﷺ يوم الاثنين."
       },
       "sources": [
         {
@@ -66,8 +65,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une carte se retourne sur un soleil levant marqué « lundi ».",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « وُ|د ا » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une carte se retourne sur un soleil levant marqué « lundi »."
     },
     {
       "id": "REL-SIR-ARB-L1-03",
@@ -87,7 +85,7 @@
       },
       "explanation": {
         "fr": "Sa naissance a eu lieu durant le mois de Rabīʿ al-Awwal.",
-        "ar": "كانت وُلادته ﷺ في شهر ربيع الأوُل."
+        "ar": "كانت ولادته ﷺ في شهر ربيع الأول."
       },
       "sources": [
         {
@@ -111,14 +109,14 @@
       "status": "draft",
       "title": "Qui suis-je ?",
       "prompt": {
-        "fr": "J’ai allaité et pris soin du Prophète ﷺ lorsqu’il était petit. Je m’appelle... A. Ḥalīmah B. Fāṭimah"
+        "fr": "J’ai allaité et pris soin du Prophète ﷺ lorsqu’il était petit. Je m’appelle… A. Ḥalīmah B. Fāṭimah"
       },
       "answer": {
         "fr": "Ḥalīmah."
       },
       "explanation": {
         "fr": "Ḥalīmah faisait partie de celles qui ont pris soin du Prophète ﷺ durant sa petite enfance.",
-        "ar": "أرضعت حليمة النبي ﷺ وُاعتنت به في صغره."
+        "ar": "أرضعت حليمة النبي ﷺ واعتنت به في صغره."
       },
       "sources": [
         {
@@ -149,7 +147,7 @@
       },
       "explanation": {
         "fr": "Sa mère est décédée alors qu’il était encore un jeune enfant.",
-        "ar": "توفيت أمه وُالنبي ﷺ في نحو السادسة من عمره."
+        "ar": "توفيت أمه والنبي ﷺ في نحو السادسة من عمره."
       },
       "sources": [
         {
@@ -211,7 +209,7 @@
       },
       "explanation": {
         "fr": "Abū Ṭālib prit ensuite le Prophète ﷺ sous sa protection.",
-        "ar": "كفل أبو طالب النبي ﷺ بعد وُفاة جده."
+        "ar": "كفل أبو طالب النبي ﷺ بعد وفاة جده."
       },
       "sources": [
         {
@@ -266,7 +264,7 @@
       "status": "draft",
       "title": "Mission commerçant",
       "prompt": {
-        "fr": "À environ 25 ans, Muhammad ﷺ voyagea pour faire du commerce pour... A. Khadījah B. Ḥalīmah"
+        "fr": "À environ 25 ans, Muhammad ﷺ voyagea pour faire du commerce pour… A. Khadījah B. Ḥalīmah"
       },
       "answer": {
         "fr": "Khadījah."
@@ -304,7 +302,7 @@
       },
       "explanation": {
         "fr": "Le Prophète ﷺ épousa Khadījah رضي الله عنها.",
-        "ar": "تزوُج النبي ﷺ خديجة رضي الله عنها."
+        "ar": "تزوج النبي ﷺ خديجة رضي الله عنها."
       },
       "sources": [
         {
@@ -366,7 +364,7 @@
       },
       "explanation": {
         "fr": "La mission prophétique débuta lorsqu’il atteignit l’âge de quarante ans.",
-        "ar": "بدأ الوحي للنبي ﷺ وُهو ابن أربعين سنة."
+        "ar": "بدأ الوحي للنبي ﷺ وهو ابن أربعين سنة."
       },
       "sources": [
         {
@@ -397,7 +395,7 @@
       },
       "explanation": {
         "fr": "Les premiers versets révélés mentionnés commencent par « Iqraʾ ».",
-        "ar": "أوُل ما نزل من الوحي كان من سورة اقرأ."
+        "ar": "أول ما نزل من الوحي كان من سورة اقرأ."
       },
       "sources": [
         {
@@ -428,7 +426,7 @@
       },
       "explanation": {
         "fr": "Jibrīl عليه السلام enseigna au Prophète ﷺ le Wuḍūʾ et la prière.",
-        "ar": ""
+        "ar": "علّم جبريل عليه السلام النبي ﷺ الوضوء والصلاة."
       },
       "sources": [
         {
@@ -439,8 +437,7 @@
         }
       ],
       "animationKey": "wave_ripple",
-      "animationHint": "Une lumière descend vers deux icônes : eau et prière.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une lumière descend vers deux icônes : eau et prière."
     },
     {
       "id": "REL-SIR-ARB-L1-15",
@@ -453,14 +450,14 @@
       "status": "draft",
       "title": "Mission courage",
       "prompt": {
-        "fr": "Au début, l’appel à l’Islam fut discret. Puis le Prophète ﷺ reçut l’ordre... A. D’appeler ouvertement à l’Islam B. De ne plus parler à personne"
+        "fr": "Au début, l’appel à l’Islam fut discret. Puis le Prophète ﷺ reçut l’ordre… A. D’appeler ouvertement à l’Islam B. De ne plus parler à personne"
       },
       "answer": {
         "fr": "D’appeler ouvertement à l’Islam."
       },
       "explanation": {
         "fr": "Après les premières années, l’appel à l’Islam devint public.",
-        "ar": "بعد بداية الدعوة أمر النبي ﷺ أن يدعو إلى الإسلام جهرا."
+        "ar": "بعد بداية الدعوة أُمر النبي ﷺ أن يدعو إلى الإسلام جهرا."
       },
       "sources": [
         {
@@ -471,8 +468,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une petite lumière devient un grand faisceau visible.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction «  أ|مر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une petite lumière devient un grand faisceau visible."
     },
     {
       "id": "REL-SIR-ARB-L1-16",
@@ -554,7 +550,7 @@
       },
       "explanation": {
         "fr": "Les prières furent prescrites et leur nombre quotidien fut établi à cinq.",
-        "ar": ""
+        "ar": "فُرضت الصلوات، واستقرت خمس صلوات في اليوم والليلة."
       },
       "sources": [
         {
@@ -565,8 +561,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Cinq étoiles de prière apparaissent l’une après l’autre.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Cinq étoiles de prière apparaissent l’une après l’autre."
     },
     {
       "id": "REL-SIR-ARB-L1-19",
@@ -617,7 +612,7 @@
       },
       "explanation": {
         "fr": "La Hijrah conduisit le Prophète ﷺ de La Mecque à Médine.",
-        "ar": "هاجر النبي ﷺ من مكة إلى المدينة، وُهي طيبة."
+        "ar": "هاجر النبي ﷺ من مكة إلى المدينة، وهي طيبة."
       },
       "sources": [
         {
@@ -648,7 +643,7 @@
       },
       "explanation": {
         "fr": "Avant la prophétie, Muhammad ﷺ fut choisi pour régler le désaccord au sujet de la Pierre Noire.",
-        "ar": ""
+        "ar": "حَكَم النبي ﷺ قبل البعثة في أمر وضع الحجر الأسود."
       },
       "sources": [
         {
@@ -659,8 +654,7 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "Plusieurs mains se disputent une pierre, puis une solution commune apparaît.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Plusieurs mains se disputent une pierre, puis une solution commune apparaît."
     },
     {
       "id": "REL-SIR-ARB-L2-02",
@@ -680,7 +674,7 @@
       },
       "explanation": {
         "fr": "Fāṭimah رضي الله عنها vécut encore environ six mois après le décès du Prophète ﷺ.",
-        "ar": "عاشت فاطمة رضي الله عنها بعد وُفاة النبي ﷺ نحو ستة أشهر."
+        "ar": "عاشت فاطمة رضي الله عنها بعد وفاة النبي ﷺ نحو ستة أشهر."
       },
       "sources": [
         {
@@ -815,8 +809,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Des étoiles nocturnes convergent vers une carte « Naṣībīn ».",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Des étoiles nocturnes convergent vers une carte « Naṣībīn »."
     },
     {
       "id": "REL-SIR-ARB-L2-07",
@@ -898,7 +891,7 @@
       },
       "explanation": {
         "fr": "La première Bayʿah d’al-ʿAqabah fut conclue avec des hommes venus de Ṭaybah, Médine.",
-        "ar": "كانت البيعة الأوُلى مع رجال من أهل طيبة."
+        "ar": "كانت البيعة الأولى مع رجال من أهل طيبة."
       },
       "sources": [
         {
@@ -929,7 +922,7 @@
       },
       "explanation": {
         "fr": "La seconde Bayʿah d’al-ʿAqabah réunit un groupe bien plus nombreux.",
-        "ar": "كانت البيعة الثانية أكبر عددا من الأوُ لى."
+        "ar": "كانت البيعة الثانية أكبر عددا من الأولى."
       },
       "sources": [
         {
@@ -960,7 +953,7 @@
       },
       "explanation": {
         "fr": "La Hijrah eut lieu alors qu’il avait accompli environ cinquante-trois années.",
-        "ar": "كانت الهجرة إلى المدينة بعد إكمال نحو ثلاث وُخمسين سنة."
+        "ar": "كانت الهجرة إلى المدينة بعد إكمال نحو ثلاث وخمسين سنة."
       },
       "sources": [
         {
@@ -1022,7 +1015,7 @@
       },
       "explanation": {
         "fr": "La construction de la mosquée de Qubāʾ fait partie des premiers événements de la période médinoise.",
-        "ar": "كان بناء مسجد قباء من أوُائل أحداث العهد المدني."
+        "ar": "كان بناء مسجد قباء من أوائل أحداث العهد المدني."
       },
       "sources": [
         {
@@ -1084,7 +1077,7 @@
       },
       "explanation": {
         "fr": "Une fraternité fut établie entre les Émigrés et les Auxiliaires.",
-        "ar": "آخى النبي ﷺ بين المهاجرين وُالأنصار."
+        "ar": "آخى النبي ﷺ بين المهاجرين والأنصار."
       },
       "sources": [
         {
@@ -1115,7 +1108,7 @@
       },
       "explanation": {
         "fr": "L’Adhān fut institué durant la période médinoise.",
-        "ar": ""
+        "ar": "شُرع الأذان في المدينة."
       },
       "sources": [
         {
@@ -1126,8 +1119,7 @@
         }
       ],
       "animationKey": "wave_ripple",
-      "animationHint": "Des ondes sonores partent d’un minaret stylisé.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Des ondes sonores partent d’un minaret stylisé."
     },
     {
       "id": "REL-SIR-ARB-L2-17",
@@ -1147,7 +1139,7 @@
       },
       "explanation": {
         "fr": "La direction de la Qiblah fut changée durant cette période.",
-        "ar": ""
+        "ar": "حُوّلت القبلة في أوائل العهد المدني."
       },
       "sources": [
         {
@@ -1158,8 +1150,7 @@
         }
       ],
       "animationKey": "compass_scan",
-      "animationHint": "Une boussole pivote vers une nouvelle direction.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une boussole pivote vers une nouvelle direction."
     },
     {
       "id": "REL-SIR-ARB-L2-18",
@@ -1179,7 +1170,7 @@
       },
       "explanation": {
         "fr": "Le jeûne de Ramaḍān fut rendu obligatoire durant la deuxième année de l’Hégire.",
-        "ar": "فرض صيام رمضان في السنة الثانية للهجرة."
+        "ar": "فُرض صيام رمضان في السنة الثانية للهجرة."
       },
       "sources": [
         {
@@ -1190,8 +1181,7 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "Un croissant apparaît sur la case « année 2 ».",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ف|رض  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Un croissant apparaît sur la case « année 2 »."
     },
     {
       "id": "REL-SIR-ARB-L2-19",
@@ -1211,7 +1201,7 @@
       },
       "explanation": {
         "fr": "La prescription du jeûne est située en Shaʿbān de la deuxième année.",
-        "ar": "فرض الصيام في شعبان من السنة الثانية."
+        "ar": "فُرض الصيام في شعبان من السنة الثانية."
       },
       "sources": [
         {
@@ -1222,8 +1212,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Le calendrier montre Shaʿbān puis Ramaḍān juste après.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ف|رض  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Le calendrier montre Shaʿbān puis Ramaḍān juste après."
     },
     {
       "id": "REL-SIR-ARB-L2-20",
@@ -1236,14 +1225,14 @@
       "status": "draft",
       "title": "BOSS - Mets l’ordre",
       "prompt": {
-        "fr": "Quel ordre raconte correctement le début de la période médinoise ? A. Hijrah construction des mosquées fraternité Muhājirūn/Anṣār obligation du jeûne→→→ B. Obligation du jeûne naissance Hijrah construction des mosquées→→→"
+        "fr": "Quel ordre raconte correctement le début de la période médinoise ? A. Hijrah → construction des mosquées → fraternité Muhājirūn/Anṣār → obligation du jeûne B. Obligation du jeûne → naissance → Hijrah → construction des mosquées"
       },
       "answer": {
-        "fr": "Hijrah construction des mosquées fraternité Muhājirūn/Anṣār obligation du jeûne→→→."
+        "fr": "Hijrah → construction des mosquées → fraternité Muhājirūn/Anṣār → obligation du jeûne."
       },
       "explanation": {
         "fr": "Après la Hijrah vinrent notamment la construction des mosquées, la fraternité entre les Compagnons puis la prescription du jeûne.",
-        "ar": ""
+        "ar": "بعد الهجرة جاء بناء المساجد والمؤاخاة ثم فُرض الصيام."
       },
       "sources": [
         {
@@ -1254,8 +1243,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Quatre cartes doivent être glissées dans le bon ordre sur une ligne du temps.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (3 fragments) : à saisir manuellement depuis le document de contrôle. Flèches de chronologie déplacées par l'extraction (« → » regroupées en fin de choix) : remettre chaque flèche entre les étapes depuis le document de contrôle."
+      "animationHint": "Quatre cartes doivent être glissées dans le bon ordre sur une ligne du temps."
     },
     {
       "id": "REL-SIR-ARB-L3-01",
@@ -1275,7 +1263,7 @@
       },
       "explanation": {
         "fr": "La grande bataille de Badr eut lieu durant Ramaḍān de la deuxième année de l’Hégire.",
-        "ar": ""
+        "ar": "وقعت غزوة بدر الكبرى في رمضان من السنة الثانية."
       },
       "sources": [
         {
@@ -1286,8 +1274,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Une carte « Badr » apparaît au milieu d’un calendrier de Ramaḍān.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une carte « Badr » apparaît au milieu d’un calendrier de Ramaḍān."
     },
     {
       "id": "REL-SIR-ARB-L3-02",
@@ -1349,8 +1336,7 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "Un petit sac de nourriture rejoint une icône de solidarité.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كرت » : à rétablir depuis le document de contrôle."
+      "animationHint": "Un petit sac de nourriture rejoint une icône de solidarité."
     },
     {
       "id": "REL-SIR-ARB-L3-04",
@@ -1370,7 +1356,7 @@
       },
       "explanation": {
         "fr": "Ruqayyah رضي الله عنها, épouse de ʿUthmān رضي الله عنه, mourut à cette époque.",
-        "ar": "توفيت رقية رضي الله عنها زوُج عثمان رضي الله عنه في تلك الفترة."
+        "ar": "توفيت رقية رضي الله عنها زوج عثمان رضي الله عنه في تلك الفترة."
       },
       "sources": [
         {
@@ -1401,7 +1387,7 @@
       },
       "explanation": {
         "fr": "Fāṭimah رضي الله عنها épousa ʿAlī رضي الله عنه.",
-        "ar": "تزوُج علي رضي الله عنه فاطمة رضي الله عنها."
+        "ar": "تزوج علي رضي الله عنه فاطمة رضي الله عنها."
       },
       "sources": [
         {
@@ -1443,8 +1429,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une carte enfermée se libère puis s’illumine.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une carte enfermée se libère puis s’illumine."
     },
     {
       "id": "REL-SIR-ARB-L3-07",
@@ -1464,7 +1449,7 @@
       },
       "explanation": {
         "fr": "L’expédition de Banū Qaynuqāʿ est placée après les événements de Badr.",
-        "ar": ""
+        "ar": "ذُكرت غزوة بني قينقاع بعد بدر."
       },
       "sources": [
         {
@@ -1475,8 +1460,7 @@
         }
       ],
       "animationKey": "intruder_out",
-      "animationHint": "Une nouvelle case d’événement se débloque sur la frise.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une nouvelle case d’événement se débloque sur la frise."
     },
     {
       "id": "REL-SIR-ARB-L3-08",
@@ -1496,7 +1480,7 @@
       },
       "explanation": {
         "fr": "L’expédition d’as-Sawīq fait partie des événements de cette période.",
-        "ar": "غزوُة السويق من أحداث تلك المرحلة."
+        "ar": "غزوة السويق من أحداث تلك المرحلة."
       },
       "sources": [
         {
@@ -1527,7 +1511,7 @@
       },
       "explanation": {
         "fr": "La chronologie mentionne Ghaṭafān et Banū Sulaym parmi les expéditions de cette période.",
-        "ar": ""
+        "ar": "ذُكرت غزوة غطفان وبني سليم في تلك الفترة."
       },
       "sources": [
         {
@@ -1538,8 +1522,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Deux emblèmes tribaux apparaissent sur la même carte.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Deux emblèmes tribaux apparaissent sur la même carte."
     },
     {
       "id": "REL-SIR-ARB-L3-10",
@@ -1559,7 +1542,7 @@
       },
       "explanation": {
         "fr": "ʿUthmān رضي الله عنه épousa ensuite Umm Kulthūm رضي الله عنها.",
-        "ar": "تزوُج عثمان رضي الله عنه أم كلثوم رضي الله عنها بعد رقية."
+        "ar": "تزوج عثمان رضي الله عنه أم كلثوم رضي الله عنها بعد رقية."
       },
       "sources": [
         {
@@ -1590,7 +1573,7 @@
       },
       "explanation": {
         "fr": "Le Prophète ﷺ épousa Ḥafṣah رضي الله عنها.",
-        "ar": "تزوُج النبي ﷺ حفصة رضي الله عنها."
+        "ar": "تزوج النبي ﷺ حفصة رضي الله عنها."
       },
       "sources": [
         {
@@ -1621,7 +1604,7 @@
       },
       "explanation": {
         "fr": "La bataille d’Uḥud fait partie des grands événements de la troisième année.",
-        "ar": "كانت غزوُة أحد من أحداث السنة الثالثة."
+        "ar": "كانت غزوة أحد من أحداث السنة الثالثة."
       },
       "sources": [
         {
@@ -1652,7 +1635,7 @@
       },
       "explanation": {
         "fr": "Ḥamrāʾ al-Asad est mentionnée à la suite d’Uḥud.",
-        "ar": ""
+        "ar": "ذُكرت حمراء الأسد عقب غزوة أحد."
       },
       "sources": [
         {
@@ -1663,8 +1646,7 @@
         }
       ],
       "animationKey": "wave_ripple",
-      "animationHint": "La carte Uḥud avance directement vers une seconde case.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "La carte Uḥud avance directement vers une seconde case."
     },
     {
       "id": "REL-SIR-ARB-L3-14",
@@ -1684,7 +1666,7 @@
       },
       "explanation": {
         "fr": "L’interdiction du khamr est située dans cette chronologie médinoise.",
-        "ar": "حرمت الخمر في تلك المرحلة."
+        "ar": "حُرمت الخمر في تلك المرحلة."
       },
       "sources": [
         {
@@ -1695,8 +1677,7 @@
         }
       ],
       "animationKey": "intruder_out",
-      "animationHint": "Une coupe rouge reçoit un grand symbole d’interdiction.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ح|رمت » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une coupe rouge reçoit un grand symbole d’interdiction."
     },
     {
       "id": "REL-SIR-ARB-L3-15",
@@ -1727,8 +1708,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une étoile familiale « al-Ḥasan » apparaît sur l’arbre.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « وُ|لد  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une étoile familiale « al-Ḥasan » apparaît sur l’arbre."
     },
     {
       "id": "REL-SIR-ARB-L3-16",
@@ -1748,7 +1728,7 @@
       },
       "explanation": {
         "fr": "L’expédition de Banū an-Naḍīr est située dans la quatrième année.",
-        "ar": "كانت غزوُة بني النضير في السنة الرابعة."
+        "ar": "كانت غزوة بني النضير في السنة الرابعة."
       },
       "sources": [
         {
@@ -1779,7 +1759,7 @@
       },
       "explanation": {
         "fr": "La chronologie place le mariage avec Umm Salamah رضي الله عنها après le décès de Zaynab.",
-        "ar": ""
+        "ar": "ذُكر زواج النبي ﷺ بأم سلمة رضي الله عنها بعد وفاة زينب."
       },
       "sources": [
         {
@@ -1790,8 +1770,7 @@
         }
       ],
       "animationKey": "intruder_out",
-      "animationHint": "Une carte s’efface puis une nouvelle carte « Umm Salamah » apparaît.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une carte s’efface puis une nouvelle carte « Umm Salamah » apparaît."
     },
     {
       "id": "REL-SIR-ARB-L3-18",
@@ -1811,7 +1790,7 @@
       },
       "explanation": {
         "fr": "Dhāt ar-Riqāʿ et Badr al-Mawʿid sont mentionnés avant les Ahzāb.",
-        "ar": ""
+        "ar": "ذُكرت ذات الرقاع وبدر الموعد قبل غزوة الأحزاب."
       },
       "sources": [
         {
@@ -1822,8 +1801,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Deux cartes d’événements s’alignent avant une grande carte « Ahzāb ».",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Deux cartes d’événements s’alignent avant une grande carte « Ahzāb »."
     },
     {
       "id": "REL-SIR-ARB-L3-19",
@@ -1843,7 +1821,7 @@
       },
       "explanation": {
         "fr": "L’événement de Banū Qurayẓah est placé après les Ahzāb.",
-        "ar": ""
+        "ar": "ذُكرت بنو قريظة بعد غزوة الأحزاب."
       },
       "sources": [
         {
@@ -1854,8 +1832,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "La carte « Ahzāb » se retourne et révèle « Banū Qurayẓah ».",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "La carte « Ahzāb » se retourne et révèle « Banū Qurayẓah »."
     },
     {
       "id": "REL-SIR-ARB-L3-20",
@@ -1875,7 +1852,7 @@
       },
       "explanation": {
         "fr": "La prière de la peur et le Tayammum apparaissent parmi les règles révélées durant cette période.",
-        "ar": ""
+        "ar": "ذُكرت صلاة الخوف والتيمم ضمن أحكام هذه المرحلة."
       },
       "sources": [
         {
@@ -1886,8 +1863,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Deux cartes de règle s’ouvrent simultanément : prière et purification.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Deux cartes de règle s’ouvrent simultanément : prière et purification."
     },
     {
       "id": "REL-SIR-ARB-L4-01",
@@ -1918,8 +1894,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une seconde étoile familiale apparaît à côté d’al-Ḥasan.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une seconde étoile familiale apparaît à côté d’al-Ḥasan."
     },
     {
       "id": "REL-SIR-ARB-L4-02",
@@ -1939,7 +1914,7 @@
       },
       "explanation": {
         "fr": "L’affaire de l’Ifk est placée durant l’expédition de Banū al-Muṣṭaliq.",
-        "ar": ""
+        "ar": "وقعت حادثة الإفك في غزوة بني المصطلق."
       },
       "sources": [
         {
@@ -1950,8 +1925,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une carte « rumeur » apparaît puis est recouverte d’un sceau « vérité ».",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une carte « rumeur » apparaît puis est recouverte d’un sceau « vérité »."
     },
     {
       "id": "REL-SIR-ARB-L4-03",
@@ -1971,7 +1945,7 @@
       },
       "explanation": {
         "fr": "La chronologie mentionne le mariage avec Juwayriyyah bint al-Ḥārith رضي الله عنها.",
-        "ar": ""
+        "ar": "ذُكر زواج النبي ﷺ بجويرية بنت الحارث رضي الله عنها."
       },
       "sources": [
         {
@@ -1982,8 +1956,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Une nouvelle carte familiale rejoint la frise après al-Muṣṭaliq.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une nouvelle carte familiale rejoint la frise après al-Muṣṭaliq."
     },
     {
       "id": "REL-SIR-ARB-L4-04",
@@ -2003,7 +1976,7 @@
       },
       "explanation": {
         "fr": "Banū Liḥyān est mentionnée au commencement de la sixième année.",
-        "ar": ""
+        "ar": "ذُكرت غزوة بني لحيان في أول السنة السادسة."
       },
       "sources": [
         {
@@ -2014,8 +1987,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "La frise bascule sur « année 6 » et déverrouille Banū Liḥyān.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "La frise bascule sur « année 6 » et déverrouille Banū Liḥyān."
     },
     {
       "id": "REL-SIR-ARB-L4-05",
@@ -2035,7 +2007,7 @@
       },
       "explanation": {
         "fr": "Il fut empêché d’entrer à La Mecque pour accomplir la ʿUmrah.",
-        "ar": "صد النبي ﷺ عن العمرة حين قصد مكة."
+        "ar": "صُد النبي ﷺ عن العمرة حين قصد مكة."
       },
       "sources": [
         {
@@ -2046,8 +2018,7 @@
         }
       ],
       "animationKey": "shield_guard",
-      "animationHint": "Une route vers La Mecque se ferme temporairement par une barrière.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ص|د ا » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une route vers La Mecque se ferme temporairement par une barrière."
     },
     {
       "id": "REL-SIR-ARB-L4-06",
@@ -2129,7 +2100,7 @@
       },
       "explanation": {
         "fr": "La viande des ânes domestiques fut interdite durant cette période.",
-        "ar": "حرمت لحوم الحمر الأهلية في خيبر."
+        "ar": "حُرمت لحوم الحمر الأهلية في خيبر."
       },
       "sources": [
         {
@@ -2140,8 +2111,7 @@
         }
       ],
       "animationKey": "intruder_out",
-      "animationHint": "Une icône d’âne domestique reçoit un symbole d’interdiction.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ح|رمت » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une icône d’âne domestique reçoit un symbole d’interdiction."
     },
     {
       "id": "REL-SIR-ARB-L4-09",
@@ -2172,8 +2142,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une carte temporaire se fissure puis disparaît.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une carte temporaire se fissure puis disparaît."
     },
     {
       "id": "REL-SIR-ARB-L4-10",
@@ -2193,7 +2162,7 @@
       },
       "explanation": {
         "fr": "Le mariage avec Umm Ḥabībah رضي الله عنها est mentionné dans cette chronologie.",
-        "ar": ""
+        "ar": "ذُكر زواج النبي ﷺ بأم حبيبة رضي الله عنها."
       },
       "sources": [
         {
@@ -2204,8 +2173,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une nouvelle carte d’épouse apparaît avec un sceau royal discret.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une nouvelle carte d’épouse apparaît avec un sceau royal discret."
     },
     {
       "id": "REL-SIR-ARB-L4-11",
@@ -2236,8 +2204,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Une carte « Ṣafiyyah » rejoint la frise après Khaybar.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كرت » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une carte « Ṣafiyyah » rejoint la frise après Khaybar."
     },
     {
       "id": "REL-SIR-ARB-L4-12",
@@ -2268,8 +2235,7 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "La dernière case d’une rangée familiale se remplit.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "La dernière case d’une rangée familiale se remplit."
     },
     {
       "id": "REL-SIR-ARB-L4-13",
@@ -2300,8 +2266,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une carte avec un petit symbole de chat rejoint la collection des Compagnons.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une carte avec un petit symbole de chat rejoint la collection des Compagnons."
     },
     {
       "id": "REL-SIR-ARB-L4-14",
@@ -2332,8 +2297,7 @@
         }
       ],
       "animationKey": "shield_guard",
-      "animationHint": "La barrière de l’ancienne route s’ouvre enfin.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كرت » : à rétablir depuis le document de contrôle."
+      "animationHint": "La barrière de l’ancienne route s’ouvre enfin."
     },
     {
       "id": "REL-SIR-ARB-L4-15",
@@ -2395,8 +2359,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une lettre venue d’Égypte arrive avec une carte « Māriyah ».",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كرت » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une lettre venue d’Égypte arrive avec une carte « Māriyah »."
     },
     {
       "id": "REL-SIR-ARB-L4-17",
@@ -2416,7 +2379,7 @@
       },
       "explanation": {
         "fr": "La bataille de Muʾtah est placée durant la huitième année.",
-        "ar": "كانت غزوُة مؤتة في السنة الثامنة."
+        "ar": "كانت غزوة مؤتة في السنة الثامنة."
       },
       "sources": [
         {
@@ -2500,12 +2463,12 @@
       "ageBand": "12-14",
       "audienceScope": "all",
       "status": "draft",
-      "title": "BOSS - Le parcours 6    8→",
+      "title": "BOSS - Le parcours 6 → 8",
       "prompt": {
-        "fr": "Quel ordre raconte correctement le parcours de la sixième à la huitième année ? A. Ḥudaybiyah/Bayʿat ar-Riḍwān Khaybar ʿUmrat al-Qaḍāʾ Muʾtah Fatḥ Makkah→→→→ B. Fatḥ Makkah Badr naissance Khaybar→→→"
+        "fr": "Quel ordre raconte correctement le parcours de la sixième à la huitième année ? A. Ḥudaybiyah/Bayʿat ar-Riḍwān → Khaybar → ʿUmrat al-Qaḍāʾ → Muʾtah → Fatḥ Makkah B. Fatḥ Makkah → Badr → naissance → Khaybar"
       },
       "answer": {
-        "fr": "Ḥudaybiyah/Bayʿat ar-Riḍwān Khaybar ʿUmrat al-Qaḍāʾ Muʾtah Fatḥ Makkah→→→→."
+        "fr": "Ḥudaybiyah/Bayʿat ar-Riḍwān → Khaybar → ʿUmrat al-Qaḍāʾ → Muʾtah → Fatḥ Makkah."
       },
       "explanation": {
         "fr": "La chronologie conduit de la sixième année et al-Ḥudaybiyah à Khaybar, puis à la ʿUmrah de compensation, Muʾtah et enfin la conquête de La Mecque.",
@@ -2520,8 +2483,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Cinq cartes doivent être placées dans le bon ordre sur une grande route.",
-      "reviewNotes": "Flèches de chronologie déplacées par l'extraction (« → » regroupées en fin de choix) : remettre chaque flèche entre les étapes depuis le document de contrôle."
+      "animationHint": "Cinq cartes doivent être placées dans le bon ordre sur une grande route."
     },
     {
       "id": "REL-SIR-ARB-L5-01",
@@ -2541,7 +2503,7 @@
       },
       "explanation": {
         "fr": "Une ʿUmrah depuis al-Jiʿrānah est située en Dhū al-Qaʿdah après ces événements.",
-        "ar": "اعتمر النبي ﷺ من الجعرانة في ذُي القعدة."
+        "ar": "اعتمر النبي ﷺ من الجعرانة في ذي القعدة."
       },
       "sources": [
         {
@@ -2572,7 +2534,7 @@
       },
       "explanation": {
         "fr": "La chronologie mentionne le décès de Zaynab رضي الله عنها.",
-        "ar": ""
+        "ar": "ذُكرت وفاة زينب رضي الله عنها في تلك السنة."
       },
       "sources": [
         {
@@ -2583,8 +2545,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une carte familiale « Zaynab » se grise doucement.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une carte familiale « Zaynab » se grise doucement."
     },
     {
       "id": "REL-SIR-ARB-L5-03",
@@ -2615,8 +2576,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une nouvelle étoile « Ibrāhīm » apparaît sur l’arbre familial.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « وُ|لد  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une nouvelle étoile « Ibrāhīm » apparaît sur l’arbre familial."
     },
     {
       "id": "REL-SIR-ARB-L5-04",
@@ -2636,7 +2596,7 @@
       },
       "explanation": {
         "fr": "Sawdah رضي الله عنها donna son tour à ʿĀʾishah رضي الله عنها.",
-        "ar": "وُهبت سودة رضي الله عنها نوبتها لعائشة رضي الله عنها."
+        "ar": "وهبت سودة رضي الله عنها نوبتها لعائشة رضي الله عنها."
       },
       "sources": [
         {
@@ -2678,8 +2638,7 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "Trois marches en bois apparaissent progressivement.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Trois marches en bois apparaissent progressivement."
     },
     {
       "id": "REL-SIR-ARB-L5-06",
@@ -2710,8 +2669,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une caravane de pèlerins suit une carte « ʿAttāb ».",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une caravane de pèlerins suit une carte « ʿAttāb »."
     },
     {
       "id": "REL-SIR-ARB-L5-07",
@@ -2731,7 +2689,7 @@
       },
       "explanation": {
         "fr": "Tabūk est située dans la neuvième année de l’Hégire.",
-        "ar": "كانت غزوُة تبوك في السنة التاسعة."
+        "ar": "كانت غزوة تبوك في السنة التاسعة."
       },
       "sources": [
         {
@@ -2773,8 +2731,7 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "Une construction sombre se fissure et disparaît.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une construction sombre se fissure et disparaît."
     },
     {
       "id": "REL-SIR-ARB-L5-09",
@@ -2856,7 +2813,7 @@
       },
       "explanation": {
         "fr": "L’annonce établit notamment qu’on ne devait plus faire le ṭawāf nu.",
-        "ar": "أعلن ألا يطوف بالبيت عريان."
+        "ar": "أُعلن ألا يطوف بالبيت عريان."
       },
       "sources": [
         {
@@ -2867,8 +2824,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une icône de Kaʿbah est entourée d’un nouveau panneau de règle.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « أ|علن » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une icône de Kaʿbah est entourée d’un nouveau panneau de règle."
     },
     {
       "id": "REL-SIR-ARB-L5-12",
@@ -2888,7 +2844,7 @@
       },
       "explanation": {
         "fr": "La proclamation indiquait qu’aucun polythéiste ne devait désormais accomplir le Ḥajj.",
-        "ar": ""
+        "ar": "أُعلن ألا يحج بعد ذلك مشرك."
       },
       "sources": [
         {
@@ -2899,8 +2855,7 @@
         }
       ],
       "animationKey": "door_pick",
-      "animationHint": "Une porte de règle filtre les cartes avant l’entrée au Ḥajj.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une porte de règle filtre les cartes avant l’entrée au Ḥajj."
     },
     {
       "id": "REL-SIR-ARB-L5-13",
@@ -2962,8 +2917,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Un calendrier compte un mois complet puis se referme.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كرت » : à rétablir depuis le document de contrôle."
+      "animationHint": "Un calendrier compte un mois complet puis se referme."
     },
     {
       "id": "REL-SIR-ARB-L5-15",
@@ -2983,7 +2937,7 @@
       },
       "explanation": {
         "fr": "La mort d’an-Najāshī est mentionnée avec la prière funéraire accomplie pour lui.",
-        "ar": ""
+        "ar": "ذُكرت وفاة النجاشي وصلاة النبي ﷺ عليه."
       },
       "sources": [
         {
@@ -2994,8 +2948,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une carte « an-Najāshī » se voile puis une icône de prière apparaît.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une carte « an-Najāshī » se voile puis une icône de prière apparaît."
     },
     {
       "id": "REL-SIR-ARB-L5-16",
@@ -3077,7 +3030,7 @@
       },
       "explanation": {
         "fr": "La chronologie associe au pèlerinage d’adieu la révélation annonçant le parachèvement de la religion.",
-        "ar": "ارتبطت حجة الوداع بنزوُل قوله تعالى: اليوم أكملت لكم دينكم."
+        "ar": "ارتبطت حجة الوداع بنزول قوله تعالى: اليوم أكملت لكم دينكم."
       },
       "sources": [
         {
@@ -3108,7 +3061,7 @@
       },
       "explanation": {
         "fr": "La chronologie indique que neuf de ses épouses vécurent encore après son décès.",
-        "ar": ""
+        "ar": "ذُكر أن تسعا من أزواجه ﷺ عشن بعد وفاته."
       },
       "sources": [
         {
@@ -3119,8 +3072,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Neuf cartes restent debout sur la frise finale.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Neuf cartes restent debout sur la frise finale."
     },
     {
       "id": "REL-SIR-ARB-L5-20",
@@ -3140,7 +3092,7 @@
       },
       "explanation": {
         "fr": "Le Prophète ﷺ mourut un lundi après avoir accompli environ soixante-trois années et fut enterré dans la maison de ʿĀʾishah رضي الله عنها.",
-        "ar": ""
+        "ar": "توفي النبي ﷺ يوم الاثنين بعد أن أكمل نحو ثلاث وستين سنة، ودُفن في بيت عائشة رضي الله عنها."
       },
       "sources": [
         {
@@ -3151,8 +3103,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "La frise entière se replie doucement vers Médine puis se fixe sur la maison de ʿĀʾishah.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (3 fragments) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "La frise entière se replie doucement vers Médine puis se fixe sur la maison de ʿĀʾishah."
     }
   ]
 }

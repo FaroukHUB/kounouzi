@@ -96,8 +96,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Une carte « mission » se déploie : un chemin lumineux et plusieurs fausses pistes qui disparaissent.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « يُ|عبد » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une carte « mission » se déploie : un chemin lumineux et plusieurs fausses pistes qui disparaissent."
     },
     {
       "id": "REL-KAL-ARB-L1-04",
@@ -117,7 +116,7 @@
       },
       "explanation": {
         "fr": "Allah compare la bonne parole à un arbre bon, ferme et porteur de fruits.",
-        "ar": "شبه الله الكلمة الطيبة بالشجرة الطيبة الثابتة المثمرة."
+        "ar": "شبَّه الله الكلمة الطيبة بالشجرة الطيبة الثابتة المثمرة."
       },
       "sources": [
         {
@@ -128,8 +127,7 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "Une graine pousse rapidement et devient un arbre solide chargé de fruits.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « شب|ه ا » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une graine pousse rapidement et devient un arbre solide chargé de fruits."
     },
     {
       "id": "REL-KAL-ARB-L1-05",
@@ -149,7 +147,7 @@
       },
       "explanation": {
         "fr": "La foi en Allah et le rejet du ṭāghūt sont décrits comme le fait de s’accrocher à l’anse la plus solide.",
-        "ar": "وصف الله الإيُمان به والكفر بالطاغوت بالاستمساك بالعروة الوثقى."
+        "ar": "وصف الله الإيمان به والكفر بالطاغوت بالاستمساك بالعروة الوثقى."
       },
       "sources": [
         {
@@ -180,7 +178,7 @@
       },
       "explanation": {
         "fr": "La parole du Tawḥīd est décrite comme la parole de la taqwā, à laquelle les croyants s’attachent.",
-        "ar": ""
+        "ar": "وُصفت كلمة التوحيد بأنها كلمة التقوى التي يلزمها المؤمنون."
       },
       "sources": [
         {
@@ -191,8 +189,7 @@
         }
       ],
       "animationKey": "shield_guard",
-      "animationHint": "Un bouclier portant le mot « taqwā » apparaît devant le joueur.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Un bouclier portant le mot « taqwā » apparaît devant le joueur."
     },
     {
       "id": "REL-KAL-ARB-L2-02",
@@ -212,7 +209,7 @@
       },
       "explanation": {
         "fr": "Le Prophète ﷺ a enseigné que « Lā ilāha illā Allāh » fait partie des plus grands et meilleurs rappels.",
-        "ar": "بين النبي ﷺ فضل «لا إله إلا الله» وأنها من أفضل الذكر."
+        "ar": "بيَّن النبي ﷺ فضل «لا إله إلا الله» وأنها من أفضل الذكر."
       },
       "sources": [
         {
@@ -223,8 +220,7 @@
         }
       ],
       "animationKey": "wave_ripple",
-      "animationHint": "Plusieurs bulles de dhikr passent ; une seule devient brillante et reste au centre.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « بي|ن ا » : à rétablir depuis le document de contrôle."
+      "animationHint": "Plusieurs bulles de dhikr passent ; une seule devient brillante et reste au centre."
     },
     {
       "id": "REL-KAL-ARB-L2-03",
@@ -244,7 +240,7 @@
       },
       "explanation": {
         "fr": "Dire la parole ne suffit pas sans remplir ses conditions ; les savants ont comparé cela à une clé qui a besoin de dents.",
-        "ar": ""
+        "ar": "لا يكفي التلفظ بالكلمة دون شروطها، وشبَّهها العلماء بمفتاح له أسنان."
       },
       "sources": [
         {
@@ -255,8 +251,7 @@
         }
       ],
       "animationKey": "door_pick",
-      "animationHint": "Une clé sans dents essaie d’ouvrir une porte puis reçoit ses dents une à une et l’ouvre.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (3 fragments) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Une clé sans dents essaie d’ouvrir une porte puis reçoit ses dents une à une et l’ouvre."
     },
     {
       "id": "REL-KAL-ARB-L2-04",
@@ -276,7 +271,7 @@
       },
       "explanation": {
         "fr": "Le texte cite le ḥadīth indiquant que le plus heureux de l’intercession est celui qui prononce cette parole avec sincérité.",
-        "ar": ""
+        "ar": "ذُكر في الحديث أن أسعد الناس بشفاعة النبي ﷺ من قال «لا إله إلا الله» خالصًا من قلبه."
       },
       "sources": [
         {
@@ -287,8 +282,7 @@
         }
       ],
       "animationKey": "wave_ripple",
-      "animationHint": "Un cœur apparaît ; les décorations extérieures disparaissent et seul le cœur lumineux reste.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (5 fragments) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Un cœur apparaît ; les décorations extérieures disparaissent et seul le cœur lumineux reste."
     },
     {
       "id": "REL-KAL-ARB-L2-05",
@@ -370,7 +364,7 @@
       },
       "explanation": {
         "fr": "Le croyant prononce la parole du Tawḥīd avec certitude, sans doute dans son cœur.",
-        "ar": "يُقول المؤمن كلمة التوحيد بيقين لا شك معه في قلبه."
+        "ar": "يقول المؤمن كلمة التوحيد بيقين لا شك معه في قلبه."
       },
       "sources": [
         {
@@ -401,7 +395,7 @@
       },
       "explanation": {
         "fr": "La sincérité purifie l’intention du shirk et de l’ostentation.",
-        "ar": "الإخلاص يُصًفي النية من الشرك والريُ اء."
+        "ar": "الإخلاص يصفّي النية من الشرك والرياء."
       },
       "sources": [
         {
@@ -412,8 +406,7 @@
         }
       ],
       "animationKey": "wave_ripple",
-      "animationHint": "Les applaudissements du public s’éteignent ; une lumière reste dirigée vers un seul objectif.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ًف|ي ا » : à rétablir depuis le document de contrôle."
+      "animationHint": "Les applaudissements du public s’éteignent ; une lumière reste dirigée vers un seul objectif."
     },
     {
       "id": "REL-KAL-ARB-L3-04",
@@ -433,7 +426,7 @@
       },
       "explanation": {
         "fr": "La personne doit dire cette parole avec vérité, en accord entre son cœur et sa langue.",
-        "ar": ""
+        "ar": "لا بد أن يقولها العبد بصدق، موافقًا قلبه لسانه."
       },
       "sources": [
         {
@@ -444,8 +437,7 @@
         }
       ],
       "animationKey": "wave_ripple",
-      "animationHint": "Un scanner compare le cœur et la langue : les deux doivent afficher le même symbole.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (3 fragments) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Un scanner compare le cœur et la langue : les deux doivent afficher le même symbole."
     },
     {
       "id": "REL-KAL-ARB-L3-05",
@@ -465,7 +457,7 @@
       },
       "explanation": {
         "fr": "Le croyant aime Allah, Son Messager ﷺ, la religion et ce que la parole du Tawḥīd implique.",
-        "ar": ""
+        "ar": "يحب المؤمن الله ورسوله ﷺ والدين وما تقتضيه كلمة التوحيد."
       },
       "sources": [
         {
@@ -476,8 +468,7 @@
         }
       ],
       "animationKey": "wave_ripple",
-      "animationHint": "Un cœur se remplit progressivement lorsque les bons choix sont sélectionnés.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Un cœur se remplit progressivement lorsque les bons choix sont sélectionnés."
     },
     {
       "id": "REL-KAL-ARB-L4-01",
@@ -559,7 +550,7 @@
       },
       "explanation": {
         "fr": "Son sens repose sur deux éléments : la négation de toute divinité adorée en vérité en dehors d’Allah et l’affirmation de l’adoration pour Allah seul.",
-        "ar": "معناها يُقوم على النفي والإثبات: نفي العبادة عما سوى الله وإثباتها لله وحده."
+        "ar": "معناها يقوم على النفي والإثبات: نفي العبادة عما سوى الله وإثباتها لله وحده."
       },
       "sources": [
         {
@@ -590,7 +581,7 @@
       },
       "explanation": {
         "fr": "Le texte insiste : la simple prononciation ne suffit pas ; il faut comprendre son sens, y croire et agir selon ce qu’elle implique.",
-        "ar": "مجرد النطق لا يُكفي، بل لا بد من فهم معناها واعتقاده والعمل بمقتضاها."
+        "ar": "مجرد النطق لا يكفي، بل لا بد من فهم معناها واعتقاده والعمل بمقتضاها."
       },
       "sources": [
         {
@@ -621,7 +612,7 @@
       },
       "explanation": {
         "fr": "L’invocation est une adoration ; le Tawḥīd exige de diriger l’adoration vers Allah seul.",
-        "ar": "الدعاء عبادة، والتوحيد يُقتضي صرف العبادة لله وحده."
+        "ar": "الدعاء عبادة، والتوحيد يقتضي صرف العبادة لله وحده."
       },
       "sources": [
         {
@@ -652,7 +643,7 @@
       },
       "explanation": {
         "fr": "Le texte place en tête des annulatifs le fait d’associer à Allah dans l’adoration.",
-        "ar": "ذُكر النص في أول النواقض الشرك في عبادة الله."
+        "ar": "ذكر النص في أول النواقض الشرك في عبادة الله."
       },
       "sources": [
         {
@@ -683,7 +674,7 @@
       },
       "explanation": {
         "fr": "Le texte cite comme annulatif le fait de placer des intermédiaires entre soi et Allah en les invoquant, leur demandant l’intercession et s’en remettant à eux.",
-        "ar": ""
+        "ar": "ذكر النص من النواقض اتخاذ وسائط بين العبد وربه، يدعوهم ويسألهم الشفاعة ويتوكل عليهم."
       },
       "sources": [
         {
@@ -694,8 +685,7 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Un pont artificiel apparaît entre le joueur et sa destination, puis s’effondre.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Un pont artificiel apparaît entre le joueur et sa destination, puis s’effondre."
     },
     {
       "id": "REL-KAL-ARB-L5-03",
@@ -715,7 +705,7 @@
       },
       "explanation": {
         "fr": "Le texte cite comme annulatif le fait de croire qu’une autre guidance est plus parfaite que celle du Prophète ﷺ, ou qu’un autre jugement lui est supérieur.",
-        "ar": ""
+        "ar": "ذكر النص من النواقض اعتقاد أن هدي غير النبي ﷺ أكمل من هديه أو أن حكم غيره أحسن من حكمه."
       },
       "sources": [
         {
@@ -726,8 +716,7 @@
         }
       ],
       "animationKey": "intruder_out",
-      "animationHint": "Deux routes apparaissent ; la fausse route tente de se placer au-dessus de la route prophétique puis est barrée.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+      "animationHint": "Deux routes apparaissent ; la fausse route tente de se placer au-dessus de la route prophétique puis est barrée."
     },
     {
       "id": "REL-KAL-ARB-L5-04",
@@ -747,7 +736,7 @@
       },
       "explanation": {
         "fr": "La moquerie envers quelque chose de la religion du Messager ﷺ, sa récompense ou son châtiment, est citée parmi les annulatifs.",
-        "ar": "الاستهزاء بشيء من ديُن الرسول ﷺ أو ثوابه أو عقابه مذكور ضمن النواقض."
+        "ar": "الاستهزاء بشيء من دين الرسول ﷺ أو ثوابه أو عقابه مذكور ضمن النواقض."
       },
       "sources": [
         {
@@ -779,7 +768,7 @@
       },
       "explanation": {
         "fr": "Le dixième annulatif cité est le fait de se détourner de la religion d’Allah, sans l’apprendre ni agir selon elle.",
-        "ar": ""
+        "ar": "العاشر من النواقض المذكورة هو الإعراض عن دين الله، فلا يتعلمه ولا يعمل به."
       },
       "sources": [
         {
@@ -791,7 +780,7 @@
       ],
       "animationKey": "shield_guard",
       "animationHint": "Le plateau s’assombrit derrière le joueur qui tourne le dos ; une alerte « connaissance + action » apparaît.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle. L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
     }
   ]
 }

@@ -114,8 +114,8 @@ describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, tout en brouillo
   });
 });
 
-describe("banque religieuse Sirah — al-Urjuzah al-Mi'iyyah (import PDF, tout en brouillon)", () => {
-  it("compte 100 cartes, 20 par niveau, toutes `draft`, sourcées avec ouvrage, auteur, page et repère de vers ; arabe présent ou vide et annoté", () => {
+describe("banque religieuse Sirah — al-Urjuzah al-Mi'iyyah (import DOCX, tout en brouillon)", () => {
+  it("compte 100 cartes, 20 par niveau, toutes `draft`, sourcées avec ouvrage, auteur, page et repère de vers ; arabe intact partout", () => {
     expect(SIRAH_BANK).toHaveLength(100);
     for (const level of [1, 2, 3, 4, 5]) expect(SIRAH_BANK.filter((q) => q.difficulty === level)).toHaveLength(20);
     for (const q of SIRAH_BANK) {
@@ -124,21 +124,23 @@ describe("banque religieuse Sirah — al-Urjuzah al-Mi'iyyah (import PDF, tout e
       expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.sirah\.urjuzah\.l\d\.\d\d$/);
       expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.?$/);
       expect(q.explanation.fr, q.id).toMatch(/[.!?]$/);
-      // Un arabe recollé se termine toujours par une ponctuation finale ; sinon il est laissé vide et annoté, jamais approximé.
-      if (q.explanation.ar === "") expect(q.reviewNotes, q.id).toMatch(/arabe illisible/);
-      else expect(q.explanation.ar, q.id).toMatch(/^[^A-Za-z]*[.؟!]$/);
+      // Import DOCX : l'arabe est intact (aucun recollage, aucune saisie manuelle).
+      expect(q.explanation.ar, q.id).toMatch(/^[^A-Za-z]*[.؟!]$/);
+      expect(q.reviewNotes, q.id).toBeUndefined();
       expect(q.sources[0], q.id).toMatchObject({ title: "Sharḥ al-Urjūzah al-Mi’iyyah fī Dhikr Ḥāl Ashraf al-Bariyyah", author: "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr" });
       expect(q.sources[0]!.pages, q.id).toMatch(/^1[2-6]$/);
       expect(q.sources[0]!.locator, q.id).toMatch(/^Matn, vers \d/);
       expect(q.prompt.fr, q.id).not.toMatch(/dans (le|ce) (livre|passage|texte)|dans la source|d'après le livre|selon le livre/i);
       expect(isPlayable(q, religion), q.id).toBe(false);
     }
-    expect(SIRAH_BANK.filter((q) => q.explanation.ar === "")).toHaveLength(23);
-    // Deux chronologies dont l'extraction a déplacé les flèches sont annotées, jamais réordonnées par le code.
-    expect(SIRAH_BANK.filter((q) => /→/.test(q.prompt.fr)).map((q) => q.id)).toEqual(["REL-SIR-ARB-L2-20", "REL-SIR-ARB-L4-20"]);
-    for (const q of SIRAH_BANK.filter((q) => /→/.test(q.prompt.fr))) expect(q.reviewNotes, q.id).toMatch(/Flèches de chronologie/);
-    // Même validée par erreur, une carte sans explication arabe reste injouable.
-    const forced = { ...SIRAH_BANK.find((q) => q.explanation.ar === "")!, status: "validated" as const };
+    // Les deux chronologies portent leurs flèches entre les étapes (« A. Hijrah → construction … »), jamais regroupées en fin de choix.
+    for (const id of ["REL-SIR-ARB-L2-20", "REL-SIR-ARB-L4-20"]) {
+      const prompt = SIRAH_BANK.find((q) => q.id === id)!.prompt.fr;
+      expect(prompt, id).toMatch(/\S → \S/);
+      expect(prompt, id).not.toMatch(/→→/);
+    }
+    // Même validée par erreur, une carte dont l'arabe serait vidé reste injouable.
+    const forced = { ...SIRAH_BANK[0]!, status: "validated" as const, explanation: { ...SIRAH_BANK[0]!.explanation, ar: "" } };
     expect(playabilityIssues(forced, religion)).toContain("explication AR manquante");
   });
 });
@@ -164,8 +166,8 @@ describe("banque religieuse Al-Qawaid al-Arba (import PDF, tout en brouillon)", 
   });
 });
 
-describe("banque religieuse Kalimah at-Tawhid (import PDF, tout en brouillon)", () => {
-  it("compte 25 cartes, 5 par niveau, toutes `draft`, sourcées avec ouvrage, auteur, thème et page ; arabe complet ou vide et annoté", () => {
+describe("banque religieuse Kalimah at-Tawhid (import DOCX, tout en brouillon)", () => {
+  it("compte 25 cartes, 5 par niveau, toutes `draft`, sourcées avec ouvrage, auteur, thème et page ; arabe intact partout", () => {
     expect(KALIMAH_BANK).toHaveLength(25);
     for (const level of [1, 2, 3, 4, 5]) expect(KALIMAH_BANK.filter((q) => q.difficulty === level)).toHaveLength(5);
     for (const q of KALIMAH_BANK) {
@@ -173,14 +175,14 @@ describe("banque religieuse Kalimah at-Tawhid (import PDF, tout en brouillon)", 
       expect(q.id, q.id).toMatch(/^REL-KAL-ARB-L\d-\d\d$/);
       expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.tawhid\.kalimah\.l\d\.\d\d$/);
       expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.?$/);
-      if (q.explanation.ar === "") expect(q.reviewNotes, q.id).toMatch(/arabe illisible/);
-      else expect(q.explanation.ar, q.id).toMatch(/^[^A-Za-z]*[.؟!]$/);
+      expect(q.explanation.ar, q.id).toMatch(/^[^A-Za-z]*[.؟!]$/);
       expect(q.sources[0], q.id).toMatchObject({ title: "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs", author: "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr" });
       expect(q.sources[0]!.pages, q.id).toMatch(/^\d+$/);
       expect(q.sources[0]!.locator, q.id).toBeTruthy();
       expect(isPlayable(q, religion), q.id).toBe(false);
     }
-    expect(KALIMAH_BANK.filter((q) => q.explanation.ar === "").map((q) => q.id)).toEqual(["REL-KAL-ARB-L2-01", "REL-KAL-ARB-L2-03", "REL-KAL-ARB-L2-04", "REL-KAL-ARB-L3-04", "REL-KAL-ARB-L3-05", "REL-KAL-ARB-L5-02", "REL-KAL-ARB-L5-03", "REL-KAL-ARB-L5-05"]);
-    expect(KALIMAH_BANK.filter((q) => /derrière le rideau/.test(q.reviewNotes ?? "")).map((q) => q.id)).toEqual(["REL-KAL-ARB-L5-04", "REL-KAL-ARB-L5-05"]);
+    expect(KALIMAH_BANK.filter((q) => q.explanation.ar === "")).toEqual([]);
+    // Seules notes restantes : deux énoncés qui laissent voir le texte, à reformuler en relecture.
+    expect(KALIMAH_BANK.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual(["REL-KAL-ARB-L5-04", "REL-KAL-ARB-L5-05"]);
   });
 });

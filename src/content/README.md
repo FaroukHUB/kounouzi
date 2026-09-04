@@ -32,11 +32,8 @@
   al-Miʾiyyah » (Sharḥ al-Urjūzah al-Miʾiyyah fī Dhikr Ḥāl Ashraf al-Bariyyah,
   commentaire de Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr sur le matn
   d'Ibn Abī al-ʿIzz al-Ḥanafī), 100 cartes en 5 niveaux importées depuis le
-  PDF de contrôle par le même script, toutes `draft`. Les sources portent un
-  `locator` (« Matn, vers 3-4 ») en plus de la page. L'extraction PDF coupe
-  l'arabe : seuls les cas simples sont recollés (signalés à relire) ; les
-  autres explications arabes sont laissées **vides** avec `reviewNotes`, à
-  saisir depuis le document de contrôle (un DOCX donnerait l'arabe intact).
+  DOCX de contrôle par le même script, toutes `draft`, arabe intact. Les
+  sources portent un `locator` (« Matn, vers 3-4 ») en plus de la page.
 - `questions/religion/al-qawaid-al-arba.v1.json` — banque « Al-Qawāʿid
   al-Arbaʿ » (Sharḥ al-Qawāʿid al-Arbaʿ, Shaykh ʿAbd ar-Razzāq ibn ʿAbd
   al-Muḥsin al-Badr, Dār al-Imām Muslim, 1441 H / 2020), 25 cartes en
@@ -46,9 +43,9 @@
 - `questions/religion/kalimah-at-tawhid.v1.json` — banque « Kalimah
   at-Tawḥīd » (Kalimah at-Tawhid : Lā ilāha illā Allāh, ses mérites, son sens,
   ses conditions et ses annulatifs, Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin
-  al-Badr), 25 cartes en 5 niveaux, mêmes règles, toutes `draft`. Les sources
-  portent le thème du chapitre en `locator`. Arabe du PDF très abîmé : huit
-  explications laissées vides avec `reviewNotes`, onze recollées à relire.
+  al-Badr), 25 cartes en 5 niveaux, mêmes règles, toutes `draft`, importées
+  depuis le DOCX de contrôle (arabe intact). Les sources portent le thème du
+  chapitre en `locator`.
 
 - `challenges/family-challenges.v1.json` — banque canonique V1 des **Défis
   famille** (100 défis, importés du PDF de conception par
