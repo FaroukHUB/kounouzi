@@ -135,7 +135,7 @@ const bank = {
 // Corrections humaines validées (revue) : réappliquées à chaque réimport, jamais perdues.
 const corrected = applyCorrections(bank, loadCorrections());
 writeFileSync(output, JSON.stringify(corrected.bank, null, 2) + "\n");
-console.log(`corrections humaines appliquées : ${corrected.applied}`);
+console.log(`corrections humaines appliquées : ${corrected.applied} ; cartes validées (décision humaine) : ${corrected.validated}`);
 console.log(`cartes : ${cards.length}`, JSON.stringify(byLevel));
 console.log(`arabe réassemblé (à relire) : ${repaired.length}`, repaired.join(", "));
 console.log(`arabe à saisir manuellement : ${manual.length}`, manual.join(", "));

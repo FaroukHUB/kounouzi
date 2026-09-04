@@ -30,7 +30,7 @@ describe("corrections humaines (revue du 2026-09-04) : données appliquées par-
     for (const q of ALL) expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.(\s|$)/);
   });
 
-  it("chaque arabe posé par une correction vient d'une carte vérifiée dans la source ; les 23 cartes vérifiées ont un arabe complet, sans note, et tout reste en brouillon", () => {
+  it("chaque arabe posé par une correction vient d'une carte vérifiée dans la source ; les 23 cartes vérifiées ont un arabe complet, sans note, et sont validées comme le reste", () => {
     expect(VERIFIED).toHaveLength(23);
     for (const c of ENTRIES) {
       if (c.set && "explanation.ar" in c.set) expect(VERIFIED, `${c.id} : arabe corrigé hors vérification de source`).toContain(c.id);
@@ -40,10 +40,10 @@ describe("corrections humaines (revue du 2026-09-04) : données appliquées par-
       expect(q, id).toBeDefined();
       expect(/[؀-ۿ]/.test(q!.explanation.ar), id).toBe(true);
       expect(q!.reviewNotes, id).toBeUndefined();
-      expect(q!.status, id).toBe("draft");
+      expect(q!.status, id).toBe("validated");
     }
     expect(ALL).toHaveLength(375);
-    expect(ALL.some((q) => q.status === "validated")).toBe(false);
+    expect(ALL.every((q) => q.status === "validated")).toBe(true);
     // Plus aucune note d'import en attente dans les banques religieuses.
     expect(ALL.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual([]);
   });

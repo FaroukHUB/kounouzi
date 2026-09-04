@@ -13,7 +13,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission éclair",
       "prompt": {
         "fr": "Qui t’a créé ?"
@@ -43,7 +43,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Choisis la bonne réponse",
       "prompt": {
         "fr": "Qui nous donne notre nourriture et notre subsistance ?"
@@ -73,7 +73,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Allah nous a créés sans raison."
@@ -103,7 +103,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui suis-je ?",
       "prompt": {
         "fr": "Allah m’a envoyé pour montrer aux hommes le bon chemin. Qui suis-je ?"
@@ -133,7 +133,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Complète la phrase",
       "prompt": {
         "fr": "J’adore ______ seul."
@@ -163,7 +163,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte piège",
       "prompt": {
         "fr": "Peut-on adorer Allah et adorer quelqu’un d’autre avec Lui ?"
@@ -193,7 +193,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Réponse éclair",
       "prompt": {
         "fr": "Qui est ton Seigneur ?"
@@ -223,7 +223,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Allah est le Seigneur de toutes les créatures."
@@ -253,7 +253,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Trouve l’intrus",
       "prompt": {
         "fr": "Trois cartes montrent des signes d’Allah : le soleil, la lune et la nuit. Une carte s’est glissée par erreur : un jouet. Laquelle est l’intruse ?"
@@ -283,7 +283,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Défi des deux",
       "prompt": {
         "fr": "Cite deux signes d’Allah parmi le soleil, la lune, la nuit et le jour."
@@ -313,7 +313,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui a fait cela ?",
       "prompt": {
         "fr": "Qui a créé le soleil et la lune ?"
@@ -343,7 +343,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Le soleil mérite d’être adoré parce qu’il est très grand."
@@ -373,7 +373,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Petite situation",
       "prompt": {
         "fr": "Tu veux demander à Allah de t’aider. Que peux-tu faire ?"
@@ -403,7 +403,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Complète",
       "prompt": {
         "fr": "Quand j’invoque, j’invoque ______."
@@ -433,7 +433,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Choisis la bonne porte",
       "prompt": {
         "fr": "En qui le croyant place-t-il sa confiance ?"
@@ -463,7 +463,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mot mystère",
       "prompt": {
         "fr": "Le mot qui signifie « adorer Allah seul », c’est... Tawhid ou Shirk ?"
@@ -493,7 +493,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Attention au piège",
       "prompt": {
         "fr": "Le shirk, c’est : adorer Allah seul, ou donner une adoration à autre qu’Allah ?"
@@ -523,7 +523,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le plus grand ordre",
       "prompt": {
         "fr": "Quelle est la plus grande chose qu’Allah nous ordonne : le Tawhid ou dormir ?"
@@ -553,7 +553,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le grand interdit",
       "prompt": {
         "fr": "Quelle est la plus grande chose qu’Allah nous interdit : le shirk ou jouer ?"
@@ -583,7 +583,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS de fin",
       "prompt": {
         "fr": "Kounouzi te donne trois réponses à trouver : Mon Seigneur ? Celui que j’adore ? Celui qui m’a créé ?"
@@ -613,7 +613,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Trouve le cœur",
       "prompt": {
         "fr": "Laquelle de ces adorations se passe surtout dans le cœur : la confiance en Allah ou courir ?"
@@ -643,7 +643,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission langue",
       "prompt": {
         "fr": "Laquelle peut être une adoration faite avec la langue : dire une bonne parole ou dormir ?"
@@ -673,7 +673,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Toutes les adorations se font seulement avec le corps."
@@ -703,7 +703,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte piège",
       "prompt": {
         "fr": "L’invocation est-elle une adoration ?"
@@ -733,7 +733,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission secours",
       "prompt": {
         "fr": "Tu demandes quelque chose que seul Allah peut donner. À qui t’adresses-tu : Allah ou une statue ?"
@@ -763,7 +763,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Deux façons d’invoquer",
       "prompt": {
         "fr": "Vrai ou faux ? Une invocation peut être une demande adressée à Allah, et l’invocation fait aussi partie des formes d’adoration."
@@ -793,7 +793,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Trouve l’intrus",
       "prompt": {
         "fr": "Lequel n’est pas une adoration du cœur : l’espoir, la peur, la confiance ou jouer au ballon ?"
@@ -823,7 +823,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Défi mémoire",
       "prompt": {
         "fr": "Cite deux adorations du cœur."
@@ -853,7 +853,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mini-situation",
       "prompt": {
         "fr": "Adam prie uniquement pour que ses amis disent : « Waouh, il est super ! » Est-ce une bonne intention ?"
@@ -883,7 +883,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte Lion",
       "prompt": {
         "fr": "Tu vois un lion courir vers toi et tu as peur. Est-ce forcément une mauvaise peur ?"
@@ -913,7 +913,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Avoir peur d’un feu qui peut te brûler est une peur naturelle."
@@ -943,7 +943,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Choisis le bon espoir",
       "prompt": {
         "fr": "Quand tu espères le pardon et la récompense, vers qui dois-tu tourner ton cœur : Allah ou une idole ?"
@@ -973,7 +973,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission équilibre",
       "prompt": {
         "fr": "Un croyant peut-il espérer la récompense d’Allah ?"
@@ -1003,7 +1003,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mot mystère",
       "prompt": {
         "fr": "Je veux qu’Allah accepte mon adoration et je la fais pour Lui seul. Quel mot correspond le mieux : sincérité ou frime ?"
@@ -1033,7 +1033,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le coffre des adorations",
       "prompt": {
         "fr": "Parmi ces quatre choses, laquelle appartient au cœur : l’espoir en Allah, sauter, boire ou dormir ?"
@@ -1063,7 +1063,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Défi 3 indices",
       "prompt": {
         "fr": "Je suis une adoration du cœur ; tu comptes sur Allah ; je commence par « confi... ». Qui suis-je ?"
@@ -1093,7 +1093,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Le Tawhid concerne aussi les adorations du cœur."
@@ -1123,7 +1123,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Choisis ton camp",
       "prompt": {
         "fr": "Quelle phrase correspond au Tawhid : « J’adore Allah seul » ou « Je donne une adoration à Allah et à quelqu’un d’autre » ?"
@@ -1153,7 +1153,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission détective",
       "prompt": {
         "fr": "Quel comportement cache un problème : faire une adoration pour Allah, ou la faire seulement pour être admiré par les gens ?"
@@ -1183,7 +1183,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Le coffre du cœur",
       "prompt": {
         "fr": "Kounouzi ouvre quatre cartes : Peur - Espoir - Confiance - Invocation. Lesquelles peuvent être des adorations pour Allah ?"
@@ -1213,7 +1213,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission confiance",
       "prompt": {
         "fr": "Yacine prépare bien son contrôle, révise sérieusement, puis dit : « J’ai fait ce que je pouvais, maintenant je place ma confiance en Allah. » Bonne attitude ou mauvaise attitude ?"
@@ -1243,7 +1243,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte piège",
       "prompt": {
         "fr": "Adam dit : « Je fais confiance uniquement au médicament, c’est lui qui me guérira tout seul. » Qu’est-ce qui ne va pas : il prend un médicament, ou son cœur s’attache au moyen au lieu d’Allah ?"
@@ -1273,7 +1273,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Choisis le bon chemin",
       "prompt": {
         "fr": "Pour traverser une route dangereuse : A) fermer les yeux et dire « je fais confiance à Allah » ; B) regarder, prendre les précautions nécessaires et placer sa confiance en Allah."
@@ -1303,7 +1303,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Utiliser un moyen permis signifie qu’on ne fait plus confiance à Allah."
@@ -1333,7 +1333,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission cœur",
       "prompt": {
         "fr": "Le Tawakkul se trouve principalement : dans le cœur ou dans les chaussures ?"
@@ -1363,7 +1363,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le coffre de l’espoir",
       "prompt": {
         "fr": "Tu fais une bonne action et tu espères qu’Allah te récompense. Cette espérance est- elle une adoration du cœur ?"
@@ -1393,7 +1393,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Trouve l’intrus",
       "prompt": {
         "fr": "Laquelle ne correspond pas à une adoration du cœur : espérer Allah, craindre Allah, placer sa confiance en Allah, faire rebondir un ballon ?"
@@ -1423,7 +1423,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission courage",
       "prompt": {
         "fr": "Un chien agressif court vers toi et tu as peur. Est-ce forcément une mauvaise peur ?"
@@ -1453,7 +1453,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte détective",
       "prompt": {
         "fr": "Deux enfants ont peur : Maryam a peur d’un incendie ; Yacine croit qu’un mort peut lui nuire de manière invisible par lui-même. Lequel correspond à une peur naturelle ?"
@@ -1483,7 +1483,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le retour secret",
       "prompt": {
         "fr": "Tu as fait une erreur, tu la regrettes et ton cœur revient vers Allah. Quel est le meilleur mot : Inâbah ou sommeil ?"
@@ -1513,7 +1513,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission retour",
       "prompt": {
         "fr": "Après avoir désobéi, quelle attitude est meilleure : continuer sans se soucier de rien, ou revenir vers Allah et chercher à se corriger ?"
@@ -1543,7 +1543,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte secours",
       "prompt": {
         "fr": "Tu es dans une difficulté et tu demandes à Allah de t’aider. Comment appelle-t-on cela : demander l’aide d’Allah ou abandonner ?"
@@ -1573,7 +1573,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Situation express",
       "prompt": {
         "fr": "Ton sac est trop lourd et ton frère est juste à côté de toi. Peut-il t’aider à le porter ?"
@@ -1603,7 +1603,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Attention au piège",
       "prompt": {
         "fr": "Tu demandes à quelqu’un une chose que seul Allah peut accomplir. Est-ce la même chose que demander à ton frère de porter une chaise ?"
@@ -1633,7 +1633,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Bouclier invisible",
       "prompt": {
         "fr": "Quand tu dis « Aʿūdhu billāhi mina sh-shayṭāni r-rajīm », que demandes-tu : la protection d’Allah ou de la nourriture ?"
@@ -1663,7 +1663,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Complète le bouclier",
       "prompt": {
         "fr": "« Je cherche refuge auprès de ______ contre le mal. »"
@@ -1693,7 +1693,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui suis-je ?",
       "prompt": {
         "fr": "Je suis dans le cœur. Je fais que tu retournes vers Allah après t’être éloigné. Je commence par I."
@@ -1723,7 +1723,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les trois portes",
       "prompt": {
         "fr": "Associe : 1) « J’espère la récompense d’Allah » ; 2) « Je compte sur Allah après avoir fait ce que je peux » ; 3) « Je cherche protection auprès d’Allah » avec Rajâ’, Tawakkul, Istiʿâdhah."
@@ -1753,7 +1753,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Duel des choix",
       "prompt": {
         "fr": "Yacine veut réussir un examen. Plan A : il ne révise pas et dit « Allah m’aidera ». Plan B : il révise, demande l’aide d’Allah et place sa confiance en Lui. Quel plan correspond le mieux au Tawakkul ?"
@@ -1783,7 +1783,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Le coffre du cœur",
       "prompt": {
         "fr": "Kounouzi ouvre quatre coffres : Espoir - Confiance - Retour vers Allah - Recherche de protection. À qui doivent être consacrées ces adorations ?"
@@ -1813,7 +1813,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission parachute",
       "prompt": {
         "fr": "Yacine veut réussir quelque chose. Il fait tout ce qui est raisonnablement possible, puis son cœur s’en remet à Allah. Quel mot correspond : Tawakkul ou abandon ?"
@@ -1843,7 +1843,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le coffre à trois étages",
       "prompt": {
         "fr": "Kounouzi possède trois étages : Islam - Îmân - Ihsân. Que représentent-ils : trois niveaux de la religion ou trois prières ?"
@@ -1873,7 +1873,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le lion arrive !",
       "prompt": {
         "fr": "Un lion court vers toi et tu as peur. Cette peur signifie-t-elle automatiquement que tu as commis une faute religieuse ?"
@@ -1903,7 +1903,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Coffre à cinq clés",
       "prompt": {
         "fr": "Combien l’Islam possède-t-il de piliers : 3, 5 ou 8 ?"
@@ -1933,7 +1933,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La flèche retour",
       "prompt": {
         "fr": "Tu t’éloignes, puis ton cœur revient sincèrement vers Allah. Quel mot correspond : Inâbah ou Ghaflah ?"
@@ -1963,7 +1963,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission Messager ﷺ",
       "prompt": {
         "fr": "Allah ordonne quelque chose par l’intermédiaire de Son Messager ﷺ. Quelle attitude correspond à la croyance qu’il est le Messager d’Allah : lui obéir ou l’ignorer systématiquement ?"
@@ -1993,7 +1993,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Bouclier activé",
       "prompt": {
         "fr": "Quand tu dis « Aʿūdhu billāhi mina sh-shayṭāni r-rajīm », que cherches-tu : la protection d’Allah ou une récompense d’un joueur ?"
@@ -2023,7 +2023,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Défi des six",
       "prompt": {
         "fr": "Peux-tu citer au moins quatre des six piliers de l’Îmân ?"
@@ -2053,7 +2053,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La carte du sacrifice",
       "prompt": {
         "fr": "Un sacrifice est accompli comme acte religieux de rapprochement et d’adoration. À qui doit-il être consacré ?"
@@ -2083,7 +2083,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Code secret de la Shahâdah",
       "prompt": {
         "fr": "Que signifie « Lâ ilâha illa Allah » : personne n’existe sauf Allah, ou nul ne mérite véritablement l’adoration sauf Allah ?"
@@ -2113,7 +2113,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "SOS",
       "prompt": {
         "fr": "Une personne se trouve dans une grande difficulté et appelle au secours. Comment appelle-t-on la demande de secours : Istighâthah ou Zakât ?"
@@ -2143,7 +2143,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Personne ne regarde...",
       "prompt": {
         "fr": "Tu es seul. Personne autour de toi ne voit ce que tu fais, mais tu te rappelles qu’Allah te voit. Quelle notion cela rappelle-t-il : Ihsân ou commerce ?"
@@ -2173,7 +2173,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Engagement verrouillé",
       "prompt": {
         "fr": "Quelqu’un s’impose une adoration par un engagement religieux. Comment s’appelle cet engagement ?"
@@ -2203,7 +2203,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Triple mission du Messager ﷺ",
       "prompt": {
         "fr": "Laquelle ne fait pas partie de ce qu’implique l’attestation que Muhammad ﷺ est le Messager d’Allah : lui obéir, croire ce qu’il annonce, éviter ce qu’il interdit, inventer une religion différente ?"
@@ -2233,7 +2233,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le coffre de l’espoir",
       "prompt": {
         "fr": "Tu accomplis une bonne action et tu espères la récompense et la miséricorde d’Allah. Quelle adoration du cœur utilises-tu ?"
@@ -2263,7 +2263,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le combo Islam",
       "prompt": {
         "fr": "Quelle combinaison correspond le mieux à l’Islam : Tawhid + obéissance à Allah + désaveu du shirk, ou connaissance sans soumission ni obéissance ?"
@@ -2293,7 +2293,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission aide",
       "prompt": {
         "fr": "Maryam demande à Allah de l’aider à rester ferme dans une difficulté. Quel terme correspond à la demande d’aide : Istiʿânah ou Inâbah ?"
@@ -2323,7 +2323,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte règle du jeu",
       "prompt": {
         "fr": "Quelqu’un dit : « J’adore Allah, mais j’invente moi-même une nouvelle manière de L’adorer. » Est-ce conforme à ce qu’implique l’attestation que Muhammad ﷺ est le Messager d’Allah ?"
@@ -2353,7 +2353,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Duel Tawhid",
       "prompt": {
         "fr": "Deux phrases apparaissent : A) « Allah est mon Seigneur mais je donne une adoration à autre que Lui. » B) « Allah est mon Seigneur et je Lui consacre mon adoration. » Laquelle correspond au Tawhid ?"
@@ -2383,7 +2383,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Les trois étages",
       "prompt": {
         "fr": "Kounouzi ouvre trois portes : ISLAM - ÎMÂN - IHSÂN. Associe : 1) les cinq piliers ; 2) les six piliers de la croyance ; 3) la surveillance d’Allah dans l’adoration."
@@ -2413,7 +2413,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Double verrou",
       "prompt": {
         "fr": "Une personne reconnaît qu’Allah est le Créateur, mais elle dirige une adoration vers autre que Lui. A-t-elle réalisé complètement le Tawhid demandé ?"
@@ -2443,7 +2443,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le code « Lâ ilâha illa Allah »",
       "prompt": {
         "fr": "Quelle formule est la plus précise : « Il n’existe rien sauf Allah » ou « Nul ne mérite véritablement d’être adoré sauf Allah » ?"
@@ -2473,7 +2473,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission médecine",
       "prompt": {
         "fr": "Tu prends un traitement prescrit, mais ton cœur sait que le médicament n’agit que par la permission d’Allah. Quelle attitude est correcte ?"
@@ -2503,7 +2503,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Trois marches",
       "prompt": {
         "fr": "Classe du premier au plus élevé : Ihsân - Islam - Îmân."
@@ -2533,7 +2533,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Détecteur d’intention",
       "prompt": {
         "fr": "Deux personnes accomplissent extérieurement la même adoration. L’une cherche Allah, l’autre cherche uniquement l’admiration des gens. Leurs actes sont-ils identiques du point de vue de l’intention ?"
@@ -2563,7 +2563,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission Messager ﷺ",
       "prompt": {
         "fr": "Complète : attester que Muhammad ﷺ est le Messager d’Allah implique de lui ______ dans ce qu’il ordonne, le ______ dans ce qu’il annonce, éviter ce qu’il ______, et adorer Allah uniquement selon ce qu’il a ______."
@@ -2593,7 +2593,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte frontière",
       "prompt": {
         "fr": "Quelqu’un demande à une personne vivante, présente et capable : « Aide-moi à pousser cette voiture. » Est-ce équivalent à lui demander une chose que seule la puissance d’Allah peut accomplir ?"
@@ -2623,7 +2623,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les six sceaux",
       "prompt": {
         "fr": "Kounouzi efface deux intrus : Allah - anges - livres - messagers - Jour dernier - destin - commerce - voyage. Quels sont les deux intrus ?"
@@ -2653,7 +2653,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Tribunal des moyens",
       "prompt": {
         "fr": "Quelle affirmation est correcte : A) « J’utilise le moyen et je crois qu’il agit indépendamment d’Allah. » B) « J’utilise le moyen permis tout en sachant que le résultat dépend d’Allah. »"
@@ -2683,7 +2683,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le miroir de l’Ihsân",
       "prompt": {
         "fr": "Personne ne voit ton acte. Qu’est-ce qui doit néanmoins influencer ton comportement ?"
@@ -2713,7 +2713,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Piège du sacrifice",
       "prompt": {
         "fr": "Deux personnes égorgent chacune un animal. Pour l’une, c’est simplement pour manger. Pour l’autre, c’est un acte religieux de sacrifice. S’agit-il nécessairement du même acte du point de vue religieux ?"
@@ -2743,7 +2743,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le mot caché",
       "prompt": {
         "fr": "Je réunis : soumission à Allah par le Tawhid ; obéissance ; désaveu du shirk. Qui suis- je ?"
@@ -2773,7 +2773,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission cœur + corps",
       "prompt": {
         "fr": "Peut-on avoir dans une même adoration une action du corps, une intention, de l’espoir et de la soumission ?"
@@ -2803,7 +2803,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui décide ?",
       "prompt": {
         "fr": "Un joueur affirme : « Puisque mon intention est bonne, je peux inventer n’importe quelle nouvelle manière d’adorer Allah. » Correct ou incorrect ?"
@@ -2833,7 +2833,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission retour",
       "prompt": {
         "fr": "Quelle différence y a-t-il entre simplement regretter une erreur et faire Inâbah ?"
@@ -2863,7 +2863,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Coffre Tawhid",
       "prompt": {
         "fr": "Quelle combinaison est correcte : A) Allah crée, mais l’adoration peut être donnée à plusieurs ; B) Allah crée et Lui seul mérite l’adoration."
@@ -2893,7 +2893,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le bon type de peur",
       "prompt": {
         "fr": "Trois situations : 1) peur d’un serpent ; 2) crainte d’Allah ; 3) peur qu’un mort lointain puisse te nuire invisiblement par lui-même. Sont-elles toutes de même nature ?"
@@ -2923,7 +2923,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Défi Shahâdah",
       "prompt": {
         "fr": "Dans « Lâ ilâha illa Allah », il y a négation + affirmation. Que nie-t-on et qu’affirme-t- on ?"
@@ -2953,7 +2953,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Duel des niveaux",
       "prompt": {
         "fr": "Associe Islam - Îmân - Ihsân avec : A) six piliers de la croyance ; B) cinq piliers apparents ; C) surveillance d’Allah et excellence dans l’adoration."
@@ -2983,7 +2983,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS FINAL - Les quatre clés",
       "prompt": {
         "fr": "Explique en une phrase : Tawhid - Tawakkul - Ihsân - Suivre le Messager ﷺ."

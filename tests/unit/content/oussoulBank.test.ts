@@ -5,12 +5,12 @@ import { KNOWN_ANIMATION_KEYS, animationFamily } from "@/ui/cards/animations/fam
 
 const religion = CATEGORIES.find((c) => c.id === "religion")!;
 
-describe("banque religieuse Oussoul ath-Thalatha (import, tout en brouillon)", () => {
-  it("compte 100 cartes, 20 par niveau, identifiants uniques, toutes `draft`", () => {
+describe("banque religieuse Oussoul ath-Thalatha (import, validée humainement)", () => {
+  it("compte 100 cartes, 20 par niveau, identifiants uniques, toutes `validated`", () => {
     expect(OUSSOUL_BANK).toHaveLength(100);
     for (const level of [1, 2, 3, 4, 5]) expect(OUSSOUL_BANK.filter((q) => q.difficulty === level)).toHaveLength(20);
     expect(new Set(OUSSOUL_BANK.map((q) => q.id)).size).toBe(100);
-    expect(OUSSOUL_BANK.every((q) => q.status === "draft")).toBe(true);
+    expect(OUSSOUL_BANK.every((q) => q.status === "validated")).toBe(true);
     expect(OUSSOUL_BANK.every((q) => q.categoryId === "religion" && q.audienceScope === "all")).toBe(true);
   });
 
@@ -31,17 +31,16 @@ describe("banque religieuse Oussoul ath-Thalatha (import, tout en brouillon)", (
     for (const q of OUSSOUL_BANK) expect(q.prompt.fr, q.id).not.toMatch(/dans (le|ce) (livre|passage|texte)|dans la source|d'après le livre|selon le livre/i);
   });
 
-  it("aucune carte `draft` n'est jouable : la religion ne fournit rien tant que rien n'est validé", () => {
-    expect(OUSSOUL_BANK.every((q) => !isPlayable(q, religion))).toBe(true);
-    expect(playabilityIssues(OUSSOUL_BANK[0]!, religion)).toEqual(["statut draft ≠ validated"]);
-    expect(contentRegistry().availableCategories("child")).not.toContain("religion");
-    expect(contentRegistry().slots("child").some((s) => s.categoryId === "religion")).toBe(false);
+  it("les 375 cartes religieuses validées sont jouables ; une carte remise en brouillon ne l'est plus (la garde reste la seule porte)", () => {
+    expect(OUSSOUL_BANK.every((q) => isPlayable(q, religion))).toBe(true);
+    expect(playabilityIssues({ ...OUSSOUL_BANK[0]!, status: "draft" }, religion)).toEqual(["statut draft ≠ validated"]);
+    expect(contentRegistry().availableCategories("child")).toContain("religion");
+    expect(contentRegistry().slots("child").filter((s) => s.categoryId === "religion")).toHaveLength(375);
     expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(375);
   });
 
-  it("une carte passée à `validated` par relecture devient jouable telle quelle, avec sa source et son habillage", () => {
-    const validated = OUSSOUL_BANK.map((q) => ({ ...q, status: "validated" as const }));
-    const registry = createContentRegistry(CATEGORIES, [createCuratedProvider(validated, CATEGORIES)]);
+  it("une carte validée est servie telle quelle, avec sa source et son habillage", () => {
+    const registry = createContentRegistry(CATEGORIES, [createCuratedProvider(OUSSOUL_BANK, CATEGORIES)]);
     const slots = registry.slots("child").filter((s) => s.categoryId === "religion");
     expect(slots).toHaveLength(100);
     const q = slots[0]!.instantiate(0)!;
@@ -62,20 +61,20 @@ describe("banque religieuse Oussoul ath-Thalatha (import, tout en brouillon)", (
   });
 });
 
-describe("banque religieuse Wa Ja'a Shahr Ramadan (import, tout en brouillon)", () => {
-  it("compte 25 cartes, 5 par niveau, toutes `draft`, sourcées avec ouvrage, auteur, éditeur et pages, bilingues", () => {
+describe("banque religieuse Wa Ja'a Shahr Ramadan (import, validée humainement)", () => {
+  it("compte 25 cartes, 5 par niveau, toutes `validated`, sourcées avec ouvrage, auteur, éditeur et pages, bilingues", () => {
     expect(RAMADAN_BANK).toHaveLength(25);
     for (const level of [1, 2, 3, 4, 5]) expect(RAMADAN_BANK.filter((q) => q.difficulty === level)).toHaveLength(5);
     expect(new Set([...RAMADAN_BANK, ...OUSSOUL_BANK].map((q) => q.id)).size).toBe(125);
     for (const q of RAMADAN_BANK) {
-      expect(q.status, q.id).toBe("draft");
+      expect(q.status, q.id).toBe("validated");
       expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.ramadan\.wajaa\.l\d\.\d\d$/);
       // Toutes les explications arabes sont présentes (L5-01 relue caractère par caractère sur le PDF de contrôle, jamais approximée).
       expect(/[؀-ۿ]/.test(q.explanation.ar), q.id).toBe(true);
       expect(q.sources[0], q.id).toMatchObject({ title: "Wa Ja'a Shahr Ramadan", author: "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr", publisher: "Dar al-Fadhila, 2014", file: "waja-a-shahr-ramadan.pdf" });
       expect(q.sources[0]!.pages, q.id).toMatch(/^\d/);
       expect(q.prompt.fr, q.id).not.toMatch(/dans (le|ce) (livre|passage|texte)|dans la source|d'après le livre|selon le livre/i);
-      expect(isPlayable(q, religion), q.id).toBe(false);
+      expect(isPlayable(q, religion), q.id).toBe(true);
     }
     // Plus aucune note d'import : L5-01 (verset) et le titre arabe de L4-02 ont été vérifiés dans la source.
     expect(RAMADAN_BANK.filter((q) => q.reviewNotes)).toEqual([]);
@@ -88,14 +87,14 @@ describe("banque religieuse Wa Ja'a Shahr Ramadan (import, tout en brouillon)", 
   });
 });
 
-describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, tout en brouillon)", () => {
+describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, validée humainement)", () => {
   const CURTAIN = /\b(le texte|l[’']explication|le commentaire|le livre|la source)\b/i;
-  it("compte 100 cartes, 20 par niveau, identifiants uniques sur les trois banques, toutes `draft`, bilingues et sourcées avec pages", () => {
+  it("compte 100 cartes, 20 par niveau, identifiants uniques sur les trois banques, toutes `validated`, bilingues et sourcées avec pages", () => {
     expect(DUROUS_BANK).toHaveLength(100);
     for (const level of [1, 2, 3, 4, 5]) expect(DUROUS_BANK.filter((q) => q.difficulty === level)).toHaveLength(20);
     expect(new Set(RELIGION_BANKS.flatMap((b) => b.questions.map((q) => q.id))).size).toBe(375);
     for (const q of DUROUS_BANK) {
-      expect(q.status, q.id).toBe("draft");
+      expect(q.status, q.id).toBe("validated");
       expect(q.id, q.id).toMatch(/^REL-DRS-ARB-L\d-\d\d$/);
       expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.bases\.durous\.l\d\.\d\d$/);
       expect(q.title, q.id).toBeTruthy();
@@ -107,7 +106,7 @@ describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, tout en brouillo
       expect(q.sources[0], q.id).toMatchObject({ title: "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah", author: "Shaykh ʿAbd ar-Razzāq al-Badr" });
       expect(q.sources[0]!.pages, q.id).toMatch(/^\d/);
       expect(q.animationHint, q.id).toBeTruthy();
-      expect(isPlayable(q, religion), q.id).toBe(false);
+      expect(isPlayable(q, religion), q.id).toBe(true);
     }
   });
   it("plus aucun énoncé ne laisse voir le texte ou le commentaire : les reformulations validées en relecture sont appliquées (corrections humaines)", () => {
@@ -117,12 +116,12 @@ describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, tout en brouillo
   });
 });
 
-describe("banque religieuse Sirah — al-Urjuzah al-Mi'iyyah (import DOCX, tout en brouillon)", () => {
-  it("compte 100 cartes, 20 par niveau, toutes `draft`, sourcées avec ouvrage, auteur, page et repère de vers ; arabe intact partout", () => {
+describe("banque religieuse Sirah — al-Urjuzah al-Mi'iyyah (import DOCX, validée humainement)", () => {
+  it("compte 100 cartes, 20 par niveau, toutes `validated`, sourcées avec ouvrage, auteur, page et repère de vers ; arabe intact partout", () => {
     expect(SIRAH_BANK).toHaveLength(100);
     for (const level of [1, 2, 3, 4, 5]) expect(SIRAH_BANK.filter((q) => q.difficulty === level)).toHaveLength(20);
     for (const q of SIRAH_BANK) {
-      expect(q.status, q.id).toBe("draft");
+      expect(q.status, q.id).toBe("validated");
       expect(q.id, q.id).toMatch(/^REL-SIR-ARB-L\d-\d\d$/);
       expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.sirah\.urjuzah\.l\d\.\d\d$/);
       expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.?$/);
@@ -134,7 +133,7 @@ describe("banque religieuse Sirah — al-Urjuzah al-Mi'iyyah (import DOCX, tout 
       expect(q.sources[0]!.pages, q.id).toMatch(/^1[2-6]$/);
       expect(q.sources[0]!.locator, q.id).toMatch(/^Matn, vers \d/);
       expect(q.prompt.fr, q.id).not.toMatch(/dans (le|ce) (livre|passage|texte)|dans la source|d'après le livre|selon le livre/i);
-      expect(isPlayable(q, religion), q.id).toBe(false);
+      expect(isPlayable(q, religion), q.id).toBe(true);
     }
     // Les deux chronologies portent leurs flèches entre les étapes (« A. Hijrah → construction … »), jamais regroupées en fin de choix.
     for (const id of ["REL-SIR-ARB-L2-20", "REL-SIR-ARB-L4-20"]) {
@@ -148,19 +147,19 @@ describe("banque religieuse Sirah — al-Urjuzah al-Mi'iyyah (import DOCX, tout 
   });
 });
 
-describe("banque religieuse Al-Qawaid al-Arba (import PDF, tout en brouillon)", () => {
-  it("compte 25 cartes, 5 par niveau, toutes `draft`, bilingues, sourcées avec ouvrage, auteur, éditeur et pages", () => {
+describe("banque religieuse Al-Qawaid al-Arba (import PDF, validée humainement)", () => {
+  it("compte 25 cartes, 5 par niveau, toutes `validated`, bilingues, sourcées avec ouvrage, auteur, éditeur et pages", () => {
     expect(QAWAID_BANK).toHaveLength(25);
     for (const level of [1, 2, 3, 4, 5]) expect(QAWAID_BANK.filter((q) => q.difficulty === level)).toHaveLength(5);
     for (const q of QAWAID_BANK) {
-      expect(q.status, q.id).toBe("draft");
+      expect(q.status, q.id).toBe("validated");
       expect(q.id, q.id).toMatch(/^REL-QAW-ARB-L\d-\d\d$/);
       expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.tawhid\.qawaid\.l\d\.\d\d$/);
       expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.?$/);
       expect(q.explanation.ar, q.id).toMatch(/^[^A-Za-z]*[.؟!]$/);
       expect(q.sources[0], q.id).toMatchObject({ title: "Sharḥ al-Qawāʿid al-Arbaʿ", author: "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr", publisher: "Dār al-Imām Muslim, 1441 H / 2020" });
       expect(q.sources[0]!.pages, q.id).toMatch(/^\d/);
-      expect(isPlayable(q, religion), q.id).toBe(false);
+      expect(isPlayable(q, religion), q.id).toBe(true);
     }
   });
   it("les cinq signes perdus à l'extraction ont été rétablis depuis la source (damma visible) et plus rien n'est annoté ; l'énoncé « rideau » est reformulé", () => {
@@ -172,12 +171,12 @@ describe("banque religieuse Al-Qawaid al-Arba (import PDF, tout en brouillon)", 
   });
 });
 
-describe("banque religieuse Kalimah at-Tawhid (import DOCX, tout en brouillon)", () => {
-  it("compte 25 cartes, 5 par niveau, toutes `draft`, sourcées avec ouvrage, auteur, thème et page ; arabe intact partout", () => {
+describe("banque religieuse Kalimah at-Tawhid (import DOCX, validée humainement)", () => {
+  it("compte 25 cartes, 5 par niveau, toutes `validated`, sourcées avec ouvrage, auteur, thème et page ; arabe intact partout", () => {
     expect(KALIMAH_BANK).toHaveLength(25);
     for (const level of [1, 2, 3, 4, 5]) expect(KALIMAH_BANK.filter((q) => q.difficulty === level)).toHaveLength(5);
     for (const q of KALIMAH_BANK) {
-      expect(q.status, q.id).toBe("draft");
+      expect(q.status, q.id).toBe("validated");
       expect(q.id, q.id).toMatch(/^REL-KAL-ARB-L\d-\d\d$/);
       expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.tawhid\.kalimah\.l\d\.\d\d$/);
       expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.?$/);
@@ -185,7 +184,7 @@ describe("banque religieuse Kalimah at-Tawhid (import DOCX, tout en brouillon)",
       expect(q.sources[0], q.id).toMatchObject({ title: "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs", author: "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr" });
       expect(q.sources[0]!.pages, q.id).toMatch(/^\d+$/);
       expect(q.sources[0]!.locator, q.id).toBeTruthy();
-      expect(isPlayable(q, religion), q.id).toBe(false);
+      expect(isPlayable(q, religion), q.id).toBe(true);
     }
     expect(KALIMAH_BANK.filter((q) => q.explanation.ar === "")).toEqual([]);
     // Énoncés reformulés en relecture : plus aucune note.

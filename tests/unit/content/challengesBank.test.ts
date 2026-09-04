@@ -54,17 +54,19 @@ describe("banque canonique des Défis famille (données importées du PDF)", () 
     expect(FAMILY_CHALLENGES.filter((c) => c.boss).map((c) => c.id)).toEqual(["CH-020", "CH-039", "CH-055", "CH-070", "CH-085", "CH-090", "CH-098", "CH-099", "CH-100"]);
   });
 
-  it("défis religieux : aucun texte religieux, tous référencent du contenu validé ; sans contenu validé disponible, aucun n'est proposable", () => {
+  it("défis religieux : aucun texte religieux, tous référencent du contenu validé ; proposables uniquement quand le registre sert du contenu validé", () => {
     const religion = FAMILY_CHALLENGES.filter((c) => c.category === "religion");
     expect(religion).toHaveLength(7);
     for (const c of religion) expect(c.contentRef, c.id).toBeDefined();
     // Le schéma refuse un défi religieux sans référence.
     const bad = { definitions: [{ ...religion[0]!, contentRef: undefined }], toggles: CHALLENGE_TOGGLE_CATEGORIES, settings: DEFAULT_CHALLENGE_SETTINGS, contentAvailable: [] };
     expect(challengesConfigSchema.safeParse(bad).success).toBe(false);
-    // Registre réel : aucune question religieuse validée aujourd'hui → aucun défi religieux disponible ; les récitations jamais.
+    // Registre réel : les banques religieuses validées rendent CH-094 à CH-097 disponibles ; les récitations restent décidées par joueur dans le moteur.
     const config = challengesConfigFor(DEFAULT_CHALLENGE_SETTINGS, contentRegistry());
-    expect(config.contentAvailable.filter((id) => religion.some((c) => c.id === id))).toEqual([]);
+    expect(config.contentAvailable.filter((id) => religion.some((c) => c.id === id))).toEqual(["CH-094", "CH-095", "CH-096", "CH-097"]);
     expect(config.contentAvailable).not.toContain("CH-091");
+    expect(config.contentAvailable).not.toContain("CH-092");
+    expect(config.contentAvailable).not.toContain("CH-093");
     // Les boss « savoir » (catégorie libre) peuvent s'appuyer sur les maths algorithmiques déjà jouables.
     expect(config.contentAvailable).toEqual(expect.arrayContaining(["CH-099", "CH-100"]));
   });

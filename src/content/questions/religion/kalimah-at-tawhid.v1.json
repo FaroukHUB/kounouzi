@@ -13,7 +13,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La parole trésor",
       "prompt": {
         "fr": "Quelle phrase est appelée la parole du Tawḥīd ? A. Lā ilāha illā Allāh B. Une formule inventée par chacun"
@@ -44,7 +44,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le bon chemin",
       "prompt": {
         "fr": "Que signifie « Lā ilāha illā Allāh » ? A. Nul ne mérite d’être adoré en vérité sauf Allah B. On peut adorer Allah et d’autres avec Lui"
@@ -75,7 +75,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission des messagers",
       "prompt": {
         "fr": "Quel message les messagers ont-ils apporté ? A. Adorez Allah et éloignez-vous du ṭāghūt B. Adorez plusieurs divinités"
@@ -106,7 +106,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "L’arbre mystérieux",
       "prompt": {
         "fr": "Dans le Coran, à quoi la bonne parole est-elle comparée ? A. À un bon arbre B. À un château de sable"
@@ -137,7 +137,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La poignée incassable",
       "prompt": {
         "fr": "Quelle image le Coran utilise-t-il pour montrer la solidité du Tawḥīd ? A. L’anse la plus solide B. Une corde cassée"
@@ -168,7 +168,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le bouclier de la taqwā",
       "prompt": {
         "fr": "Quelle expression est aussi utilisée pour « Lā ilāha illā Allāh » ? A. La parole de la taqwā B. La parole du commerce"
@@ -199,7 +199,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le meilleur dhikr",
       "prompt": {
         "fr": "Quel dhikr est présenté comme le meilleur ? A. Lā ilāha illā Allāh B. Une phrase inventée sans preuve"
@@ -230,7 +230,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La clé du Paradis",
       "prompt": {
         "fr": "On compare parfois « Lā ilāha illā Allāh » à une clé. De quoi a-t-elle besoin pour ouvrir correctement ? A. De ses conditions B. De décorations seulement"
@@ -261,7 +261,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Cœur sincère",
       "prompt": {
         "fr": "Qui est le plus heureux de l’intercession du Prophète ﷺ ? A. Celui qui dit « Lā ilāha illā Allāh » sincèrement de son cœur B. Celui qui la dit pour être vu"
@@ -292,7 +292,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le défi des deux coffres",
       "prompt": {
         "fr": "Quel coffre contient une vraie qualité de la parole du Tawḥīd ? A. Elle est l’anse la plus solide B. Elle permet d’adorer plusieurs divinités"
@@ -323,7 +323,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La première dent de la clé",
       "prompt": {
         "fr": "Quelle condition s’oppose à l’ignorance ? A. La connaissance B. Le doute"
@@ -354,7 +354,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le détecteur de doute",
       "prompt": {
         "fr": "Quelle condition s’oppose au doute ? A. La certitude B. L’hésitation"
@@ -385,7 +385,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission invisible",
       "prompt": {
         "fr": "Quelle condition signifie faire cette parole pour Allah seul, sans ostentation ? A. La sincérité B. La recherche des compliments"
@@ -416,7 +416,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le test vérité",
       "prompt": {
         "fr": "Quelle condition s’oppose au mensonge ? A. La véracité B. Le jeu d’apparence"
@@ -447,7 +447,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le cœur qui aime",
       "prompt": {
         "fr": "Quelle condition s’oppose à la haine de cette parole et de ce qu’elle implique ? A. L’amour B. L’indifférence"
@@ -478,7 +478,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La clé presque complète",
       "prompt": {
         "fr": "Quelle condition signifie se soumettre à ce que cette parole exige ? A. L’obéissance et la soumission B. Refuser d’agir"
@@ -509,7 +509,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La dernière porte",
       "prompt": {
         "fr": "Quelle condition signifie accepter cette parole sans la rejeter ? A. L’acceptation B. Le refus"
@@ -540,7 +540,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le double verrou",
       "prompt": {
         "fr": "Pour comprendre « Lā ilāha illā Allāh », quelles sont les deux étapes ? A. Nier l’adoration de tout autre qu’Allah puis l’affirmer pour Allah seul B. Affirmer toutes les adorations sans distinction"
@@ -571,7 +571,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Parole ou mission ?",
       "prompt": {
         "fr": "Un joueur prononce la parole du Tawḥīd mais refuse d’en comprendre le sens et d’agir selon elle. Est-ce le but recherché ? A. Non B. Oui, les mots seuls suffisent toujours"
@@ -602,7 +602,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le GPS du cœur",
       "prompt": {
         "fr": "Si une invocation est dirigée comme adoration vers autre qu’Allah, est-ce compatible avec le sens du Tawḥīd ? A. Non B. Oui"
@@ -633,7 +633,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Alerte rouge n°1",
       "prompt": {
         "fr": "Quel acte est présenté comme le premier grand annulatif de la parole du Tawḥīd ? A. Le shirk dans l’adoration d’Allah B. Une erreur de calcul"
@@ -664,7 +664,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le faux intermédiaire",
       "prompt": {
         "fr": "Quel cas est présenté comme un annulatif ? A. Prendre des intermédiaires entre soi et Allah, les invoquer et compter sur eux B. Demander directement à Allah"
@@ -695,7 +695,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui guide le mieux ?",
       "prompt": {
         "fr": "Quelle croyance est présentée comme un annulatif ? A. Croire qu’une autre voie est meilleure que la voie du Prophète ﷺ B. Suivre la voie du Prophète ﷺ"
@@ -726,7 +726,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte moquerie",
       "prompt": {
         "fr": "Se moquer d’un élément de la religion, de sa récompense ou de son châtiment : qu’est-ce que c’est ? A. Un des annulatifs de « Lā ilāha illā Allāh » B. Quelque chose qui renforce le Tawḥīd"
@@ -757,7 +757,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Le joueur qui tourne le dos",
       "prompt": {
         "fr": "Un joueur se détourne complètement de la religion d’Allah : il ne cherche ni à l’apprendre ni à agir selon elle. Dans quelle catégorie cela se classe-t-il ? A. Parmi les annulatifs B. Parmi les conditions du Tawḥīd"

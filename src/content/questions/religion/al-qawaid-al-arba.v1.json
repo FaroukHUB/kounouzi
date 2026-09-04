@@ -14,7 +14,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui donne tout ?",
       "prompt": {
         "fr": "Qui est le Créateur et Celui qui nous accorde notre subsistance ? A. Allah B. Une statue"
@@ -45,7 +45,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission adoration",
       "prompt": {
         "fr": "Si Allah seul nous a créés et nous donne nos bienfaits, qui devons-nous adorer ? A. Allah seul B. N’importe qui"
@@ -76,7 +76,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Les polythéistes combattaient-ils tous l’idée qu’Allah est le Créateur ? Vrai / Faux"
@@ -107,7 +107,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le piège de la statue",
       "prompt": {
         "fr": "Une statue peut-elle créer, donner la vie et accorder la subsistance ? A. Oui B. Non"
@@ -138,7 +138,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - La bonne combinaison",
       "prompt": {
         "fr": "Quelle combinaison est correcte ? A. Allah crée + Allah seul mérite l’adoration B. Allah crée + on peut adorer autre que Lui"
@@ -169,7 +169,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission rapprochement",
       "prompt": {
         "fr": "Certains polythéistes disaient adorer d’autres êtres pour quoi ? A. Pour se rapprocher davantage d’Allah B. Pour apprendre à lire"
@@ -200,7 +200,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte intercession",
       "prompt": {
         "fr": "À qui doit-on demander l’intercession qui appartient à Allah ? A. À Allah B. À une statue"
@@ -231,7 +231,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Deux cadenas",
       "prompt": {
         "fr": "Quelles deux conditions sont rappelées pour l’intercession acceptée ? A. Permission d’Allah + agrément d’Allah B. Richesse + célébrité"
@@ -262,7 +262,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte piège",
       "prompt": {
         "fr": "Peut-on demander à une créature absente ou morte une chose que seul Allah peut accomplir ? A. Oui B. Non"
@@ -293,7 +293,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Vrai ou faux ?",
       "prompt": {
         "fr": "Dire « je n’adore pas cette personne, je la prends seulement comme intermédiaire » enlève-t-il automatiquement le problème ? Vrai / Faux"
@@ -324,7 +324,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La collection étrange",
       "prompt": {
         "fr": "Le Prophète ﷺ a-t-il rencontré une seule forme de shirk ou plusieurs ? A. Une seule B. Plusieurs formes"
@@ -355,7 +355,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Trouve l’intrus",
       "prompt": {
         "fr": "Lequel n’est PAS cité parmi les choses que certains polythéistes adoraient ? A. Les anges B. Les prophètes C. Les arbres et les pierres D. Une équation de maths"
@@ -386,7 +386,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Même règle ?",
       "prompt": {
         "fr": "Le jugement changeait-il selon qu’ils adoraient une pierre, un ange ou un pieux ? A. Oui B. Non"
@@ -417,7 +417,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Soleil et lune",
       "prompt": {
         "fr": "Que doit faire le croyant vis-à-vis du soleil et de la lune ? A. Les adorer B. Reconnaître qu’ils sont des créatures d’Allah"
@@ -448,7 +448,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Le principe caché",
       "prompt": {
         "fr": "Quel principe relie toutes les cartes précédentes ? A. Peu importe l’objet : une adoration donnée à autre qu’Allah reste interdite B. Certaines créatures deviennent divines si elles sont respectées"
@@ -479,7 +479,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mode tempête",
       "prompt": {
         "fr": "Comment beaucoup des premiers polythéistes réagissaient-ils lorsqu’un danger extrême les frappait ? A. Ils invoquaient Allah avec sincérité B. Ils oubliaient complètement Allah"
@@ -510,7 +510,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mode calme",
       "prompt": {
         "fr": "Et quand le danger disparaissait ? A. Certains retournaient à leur shirk B. Ils restaient toujours sincères"
@@ -541,7 +541,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Comparaison difficile",
       "prompt": {
         "fr": "Pourquoi le shirk de certains contemporains est-il considéré comme plus grave que celui des premiers polythéistes ? A. Parce qu’ils peuvent persister dans le shirk même pendant la détresse B. Parce qu’ils voyagent davantage"
@@ -572,7 +572,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le naufrage",
       "prompt": {
         "fr": "Un homme pense que seul Allah peut réellement le sauver d’un naufrage. Que doit-il faire ? A. Invoquer Allah seul B. Invoquer un mort absent"
@@ -603,7 +603,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Deux situations",
       "prompt": {
         "fr": "Le Tawhid doit-il rester le même dans l’aisance et dans la difficulté ? A. Oui B. Non"
@@ -634,7 +634,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Rubūbiyyah ne suffit pas",
       "prompt": {
         "fr": "Pourquoi reconnaître qu’Allah est le Créateur ne suffisait-il pas aux polythéistes décrits dans la première règle ? A. Parce qu’ils ne Lui consacraient pas l’adoration exclusivement B. Parce qu’ils ne connaissaient pas le commerce"
@@ -665,7 +665,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Intercession validée",
       "prompt": {
         "fr": "Quelle formulation est la plus fidèle à l’intercession affirmée ? A. Elle appartient à Allah, se fait avec Sa permission et Son agrément B. Elle est disponible indépendamment d’Allah"
@@ -696,7 +696,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Diversité trompeuse",
       "prompt": {
         "fr": "Pourquoi la troisième règle cite-t-elle autant d’objets d’adoration différents ? A. Pour montrer que changer l’objet n’enlève pas le shirk B. Pour établir une liste de choses autorisées à adorer"
@@ -727,7 +727,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Comparaison des deux époques",
       "prompt": {
         "fr": "Quel contraste central fonde la quatrième règle ? A. Premiers polythéistes : shirk surtout dans l’aisance et retour à Allah dans la détresse ; certains tardifs : shirk dans les deux situations B. Premiers polythéistes : aucun shirk ; tardifs : aucun shirk"
@@ -758,7 +758,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS FINAL - Les 4 règles",
       "prompt": {
         "fr": "Quel résumé correspond le mieux aux quatre règles ? A. Reconnaître Allah comme Créateur ne suffit pas ; faux intermédiaires et intercession ne justifient pas l’adoration ; la diversité des objets adorés ne change rien ; le Tawhid vaut dans l’aisance et la détresse B. Il suffit de croire qu’Allah existe, puis chacun choisit ses intermédiaires"

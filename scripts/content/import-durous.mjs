@@ -260,7 +260,7 @@ const bank = {
 // Corrections humaines validées (revue) : réappliquées à chaque réimport, jamais perdues.
 const corrected = applyCorrections(bank, loadCorrections());
 writeFileSync(output, JSON.stringify(corrected.bank, null, 2) + "\n");
-console.log(`corrections humaines appliquées : ${corrected.applied}`);
+console.log(`corrections humaines appliquées : ${corrected.applied} ; cartes validées (décision humaine) : ${corrected.validated}`);
 const byKey = cards.reduce((acc, c) => ({ ...acc, [c.animationKey]: (acc[c.animationKey] ?? 0) + 1 }), {});
 console.log(`cartes : ${cards.length}`, JSON.stringify(byLevel));
 console.log(`réponses « lettre » résolues vers le texte du choix : ${letterAnswers.length}`);

@@ -27,11 +27,16 @@ describe("garde-fous de la banque curée", () => {
     expect(playabilityIssues(validReligious, undefined)).toContain("catégorie inconnue : religion");
   });
 
-  it("aucune carte religieuse validée : la catégorie ne fournit rien plutôt qu'un contenu inventé (les 100 cartes importées restent `draft`)", () => {
-    expect(CURATED_BANK.filter((q) => q.categoryId === "religion" && q.status === "validated")).toHaveLength(0);
+  it("religion : les 375 cartes validées humainement sont servies (enfant et adulte) ; rien d'autre n'est inventé", () => {
+    expect(CURATED_BANK.filter((q) => q.categoryId === "religion" && q.status === "validated")).toHaveLength(375);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "religion" && q.status !== "validated")).toHaveLength(0);
     const registry = contentRegistry();
-    expect(registry.availableCategories("child")).not.toContain("religion");
-    expect(registry.resolve({ categoryId: "religion", difficulty: 2, profileType: "child", variation: 0 })).toBeNull();
+    expect(registry.availableCategories("child")).toContain("religion");
+    expect(registry.availableCategories("adult")).toContain("religion");
+    const q = registry.resolve({ categoryId: "religion", difficulty: 2, profileType: "child", variation: 0 });
+    expect(q?.ref.origin).toBe("curated");
+    expect(q?.explanation.ar).not.toBe("");
+    expect(q?.sources.length).toBeGreaterThan(0);
   });
 
   it("une question curée valide devient jouable, une invalide n'est jamais servie", () => {
@@ -75,9 +80,9 @@ describe("catalogue géographique et gabarits", () => {
     expect(a).not.toEqual(provider.resolve({ categoryId: "geography", difficulty: 2, profileType: "adult", variation: 6 }));
   });
 
-  it("le registre de l'application propose mathématiques et géographie, rien de curé pour l'instant", () => {
-    expect(contentRegistry().availableCategories("child")).toEqual(["maths", "geography"]);
-    expect(contentRegistry().availableCategories("adult")).toEqual(["maths", "geography"]);
+  it("le registre de l'application propose religion (banques validées humainement), mathématiques et géographie ; les autres catégories curées n'ont encore rien de validé", () => {
+    expect(contentRegistry().availableCategories("child")).toEqual(["religion", "maths", "geography"]);
+    expect(contentRegistry().availableCategories("adult")).toEqual(["religion", "maths", "geography"]);
   });
 });
 

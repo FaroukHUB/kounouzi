@@ -14,7 +14,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Ramadan est un mois béni."
@@ -45,7 +45,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les portes surprises",
       "prompt": {
         "fr": "Quand Ramadan arrive, que se passe-t-il ? A. Les portes du Paradis s’ouvrent B. Toutes les portes se ferment"
@@ -76,7 +76,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission jeûne",
       "prompt": {
         "fr": "Pendant la journée de jeûne, de quoi s’abstient-on ? A. Manger et boire B. Respirer"
@@ -107,7 +107,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le livre du mois",
       "prompt": {
         "fr": "Quel livre a été descendu durant le mois de Ramadan ?"
@@ -138,7 +138,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Après Ramadan...",
       "prompt": {
         "fr": "Yacine prie pendant Ramadan. Ramadan se termine. Que doit-il faire ? A. Continuer à prier B. Arrêter jusqu’au prochain Ramadan"
@@ -169,7 +169,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Trouve l’intrus",
       "prompt": {
         "fr": "Ramadan nous entraîne à patienter : A. Dans l’obéissance à Allah B. Pour éviter les péchés C. Face à ce qu’Allah décrète D. Pour gagner à un jeu vidéo"
@@ -200,7 +200,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les deux joies",
       "prompt": {
         "fr": "Le jeûneur possède deux joies. L’une arrive lorsqu’il... A. Rompt son jeûne B. Perd son goûter"
@@ -231,7 +231,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission intention",
       "prompt": {
         "fr": "Maryam jeûne uniquement parce que tout le monde autour d’elle jeûne. Yacine jeûne parce qu’il croit en Allah et espère Sa récompense. Quelle intention est meilleure ?"
@@ -262,7 +262,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les trois clés du retour",
       "prompt": {
         "fr": "Après une faute, quelle combinaison correspond à une repentance sincère ? A. Regretter + arrêter + décider de ne pas recommencer B. Rire + continuer + recommencer demain"
@@ -293,7 +293,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "L’école de Ramadan",
       "prompt": {
         "fr": "Quel est le meilleur résultat après Ramadan ? A. Reprendre exactement toutes ses mauvaises habitudes B. Continuer une partie des bonnes habitudes apprises"
@@ -324,7 +324,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission réparation",
       "prompt": {
         "fr": "Tu t’es repenti d’avoir pris quelque chose appartenant à une autre personne. Une étape supplémentaire est nécessaire. Laquelle ?"
@@ -355,7 +355,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Détecteur de jeûne",
       "prompt": {
         "fr": "Deux personnes ne mangent pas de la journée. L’une profite aussi de Ramadan pour le Coran, le dhikr et les prières. Leur jeûne est-il forcément de même qualité ?"
@@ -386,7 +386,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte piège",
       "prompt": {
         "fr": "Jeûner signifie uniquement ne pas manger et ne pas boire. Vrai ou faux ?"
@@ -417,7 +417,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Duo du Coran",
       "prompt": {
         "fr": "Pendant Ramadan, avec quel ange le Prophète ﷺ révisait-il le Coran ?"
@@ -448,7 +448,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission après la sortie",
       "prompt": {
         "fr": "Une personne remplit la mosquée pendant Ramadan puis abandonne complètement la prière après Ramadan. Quel est le problème ?"
@@ -479,7 +479,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Défi patience",
       "prompt": {
         "fr": "Classe chaque situation : 1. Continuer sa prière malgré la fatigue 2. Résister à un péché 3. Accepter patiemment une difficulté qu’on ne contrôle pas"
@@ -510,7 +510,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission « إيمانًا واحتسابًا »",
       "prompt": {
         "fr": "Que signifie jeûner avec foi et en recherchant la récompense ?"
@@ -541,7 +541,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission taqwâ",
       "prompt": {
         "fr": "Pourquoi le jeûne peut-il entraîner à la taqwâ ?"
@@ -572,7 +572,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le défi cigarette",
       "prompt": {
         "fr": "Quelqu’un affirme : « Je ne peux absolument pas arrêter de fumer. » Mais pendant Ramadan, il reste toute la journée sans cigarette. Quelle leçon peut-il en tirer ?"
@@ -603,7 +603,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le piège du Ramadan uniquement",
       "prompt": {
         "fr": "« Je respecte mes obligations seulement pendant Ramadan. » Bonne ou mauvaise logique ?"
@@ -634,7 +634,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Pourquoi jeûner ?",
       "prompt": {
         "fr": "Quel objectif majeur du jeûne est explicitement mentionné dans le Coran ?"
@@ -665,7 +665,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La vraie victoire",
       "prompt": {
         "fr": "Quel signe montre davantage qu’une personne a profité de Ramadan ? A. Elle a beaucoup changé pendant 30 jours puis tout abandonné B. Ramadan a laissé des traces durables dans ses habitudes et son obéissance"
@@ -696,7 +696,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le coffre Ar-Rayyân",
       "prompt": {
         "fr": "Quelle particularité est mentionnée pour les jeûneurs au Paradis ?"
@@ -727,7 +727,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission Coran",
       "prompt": {
         "fr": "Donne deux raisons pour lesquelles Ramadan est particulièrement lié au Coran."
@@ -758,7 +758,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS FINAL - Repentance complète",
       "prompt": {
         "fr": "Une personne regrette sincèrement un péché, l’abandonne et décide de ne plus recommencer. Mais ce péché concernait l’argent d’une autre personne. Que manque-t- il ?"

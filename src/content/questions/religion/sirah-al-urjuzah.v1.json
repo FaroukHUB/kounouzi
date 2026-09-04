@@ -13,7 +13,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le calendrier secret",
       "prompt": {
         "fr": "À quelle grande année est liée la naissance du Prophète Muhammad ﷺ ? A. L’Année de l’Éléphant B. L’année de la Hijrah"
@@ -44,7 +44,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Le Prophète ﷺ est né un lundi. Vrai / Faux"
@@ -75,7 +75,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le mois mystère",
       "prompt": {
         "fr": "Dans quel mois est né le Prophète ﷺ ? A. Ramaḍān B. Rabīʿ al-Awwal"
@@ -106,7 +106,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui suis-je ?",
       "prompt": {
         "fr": "J’ai allaité et pris soin du Prophète ﷺ lorsqu’il était petit. Je m’appelle… A. Ḥalīmah B. Fāṭimah"
@@ -137,7 +137,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission âge",
       "prompt": {
         "fr": "Le Prophète ﷺ avait environ quel âge lorsque sa mère est décédée ? A. 6 ans B. 16 ans"
@@ -168,7 +168,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le protecteur",
       "prompt": {
         "fr": "Après le décès de sa mère, son grand-père s’occupa de lui. Comment s’appelait-il ? A. ʿAbd al-Muṭṭalib B. ʿUmar"
@@ -199,7 +199,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission famille",
       "prompt": {
         "fr": "Après la mort de son grand-père, qui prit soin du Prophète ﷺ ? A. Son oncle Abū Ṭālib B. Un roi"
@@ -230,7 +230,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte voyage",
       "prompt": {
         "fr": "Vers quelle région le jeune Muhammad ﷺ voyagea-t-il avec son oncle ? A. Le Shām B. L’Andalousie"
@@ -261,7 +261,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission commerçant",
       "prompt": {
         "fr": "À environ 25 ans, Muhammad ﷺ voyagea pour faire du commerce pour… A. Khadījah B. Ḥalīmah"
@@ -292,7 +292,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le mariage",
       "prompt": {
         "fr": "Quelle femme devint l’épouse du Prophète ﷺ après ce voyage commercial ? A. Khadījah رضي الله عنها B. Ḥalīmah"
@@ -323,7 +323,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte famille",
       "prompt": {
         "fr": "Tous ses enfants mentionnés dans cette partie étaient de Khadījah رضي الله عنها, sauf un. Lequel ? A. Ibrāhīm B. Fāṭimah"
@@ -354,7 +354,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le nombre magique",
       "prompt": {
         "fr": "Quel âge avait le Prophète ﷺ lorsque la révélation commença ? A. 20 ans B. 40 ans"
@@ -385,7 +385,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le premier message",
       "prompt": {
         "fr": "Quel mot correspond au début de la première sourate révélée mentionnée dans cette Sīrah ? A. Iqraʾ - « Lis ! » B. Uktub - « Écris ! »"
@@ -416,7 +416,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "L’enseignant venu du ciel",
       "prompt": {
         "fr": "Quel ange enseigna au Prophète ﷺ le Wuḍūʾ et la prière ? A. Jibrīl عليه السلام B. Un roi humain"
@@ -447,7 +447,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission courage",
       "prompt": {
         "fr": "Au début, l’appel à l’Islam fut discret. Puis le Prophète ﷺ reçut l’ordre… A. D’appeler ouvertement à l’Islam B. De ne plus parler à personne"
@@ -478,7 +478,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte destination",
       "prompt": {
         "fr": "Certains Compagnons durent quitter La Mecque pour se protéger. Vers quel pays partirent-ils ? A. Al-Ḥabashah - l’Abyssinie B. La Chine"
@@ -509,7 +509,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui a rejoint l’équipe ?",
       "prompt": {
         "fr": "Quel homme courageux, oncle du Prophète ﷺ, accepta l’Islam durant cette période ? A. Ḥamzah رضي الله عنه B. Abū Lahab"
@@ -540,7 +540,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Voyage extraordinaire",
       "prompt": {
         "fr": "Lors de Al-Isrāʾ, quelle grande adoration fut rendue obligatoire ? A. Les cinq prières B. Le commerce"
@@ -571,7 +571,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Grande migration",
       "prompt": {
         "fr": "De quelle ville le Prophète ﷺ partit-il lorsqu’il fit la Hijrah ? A. La Mecque B. Médine"
@@ -602,7 +602,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - La ville d’arrivée",
       "prompt": {
         "fr": "Dans quelle ville le Prophète ﷺ arriva-t-il après la Hijrah ? A. Médine - Ṭaybah B. Le Shām"
@@ -633,7 +633,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le juge du Ḥajar al-Aswad",
       "prompt": {
         "fr": "Lors de la reconstruction de la Kaʿbah, qui régla le désaccord concernant la Pierre Noire ? A. Muhammad ﷺ B. Un roi du Shām"
@@ -664,7 +664,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La survivante de la famille",
       "prompt": {
         "fr": "Quel enfant du Prophète ﷺ lui survécut encore quelque temps après son décès ? A. Fāṭimah رضي الله عنها B. Al-Qāsim"
@@ -695,7 +695,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Double départ",
       "prompt": {
         "fr": "Les Compagnons émigrèrent-ils vers l’Abyssinie une seule fois ou plus d’une fois ? A. Une seule fois B. Plus d’une fois"
@@ -726,7 +726,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le lion rejoint l’Islam",
       "prompt": {
         "fr": "À quelle période Ḥamzah رضي الله عنه embrassa-t-il l’Islam ? A. Durant la période mecquoise B. Après le pèlerinage d’adieu"
@@ -757,7 +757,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Deux pertes rapprochées",
       "prompt": {
         "fr": "Qui mourut peu après Abū Ṭālib ? A. Khadījah رضي الله عنها B. Fāṭimah رضي الله عنها"
@@ -788,7 +788,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission Jinn",
       "prompt": {
         "fr": "Un groupe de jinn mentionné dans cette Sīrah accepta l’Islam. De quelle région étaient-ils associés ? A. Naṣībīn B. Al-Andalus"
@@ -819,7 +819,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte mariage",
       "prompt": {
         "fr": "Quel mariage fut conclu en Ramaḍān après cette période difficile ? A. Le mariage avec Sawdah رضي الله عنها B. Le mariage avec Fāṭimah رضي الله عنها"
@@ -850,7 +850,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le mois de ʿĀʾishah",
       "prompt": {
         "fr": "Dans quel mois fut conclu le mariage avec ʿĀʾishah رضي الله عنها ? A. Shawwāl B. Muḥarram"
@@ -881,7 +881,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La première Bayʿah",
       "prompt": {
         "fr": "La première Bayʿah d’al-ʿAqabah réunit-elle des habitants de Médine ou du Shām ? A. Des habitants de Médine B. Des habitants du Shām"
@@ -912,7 +912,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La Bayʿah s’agrandit",
       "prompt": {
         "fr": "La seconde rencontre d’al-ʿAqabah réunit-elle davantage de personnes que la première ? A. Oui B. Non"
@@ -943,7 +943,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Âge de la Hijrah",
       "prompt": {
         "fr": "Le Prophète ﷺ avait environ quel âge lorsqu’il arriva à Médine ? A. 53 ans B. 33 ans"
@@ -974,7 +974,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Dix années à Médine",
       "prompt": {
         "fr": "Après la Hijrah, combien d’années environ le Prophète ﷺ demeura-t-il à Médine ? A. 10 ans B. 2 ans"
@@ -1005,7 +1005,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission mosquée",
       "prompt": {
         "fr": "Quelle mosquée fut construite au début de l’arrivée à Médine ? A. La mosquée de Qubāʾ B. La mosquée de Cordoue"
@@ -1036,7 +1036,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La grande mosquée",
       "prompt": {
         "fr": "Quelle autre grande mosquée fut ensuite bâtie à Médine ? A. La Mosquée du Prophète ﷺ B. Une mosquée au Shām"
@@ -1067,7 +1067,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Frères de Médine",
       "prompt": {
         "fr": "Entre quels deux groupes le Prophète ﷺ établit-il une fraternité ? A. Les Muhājirūn et les Anṣār B. Les Romains et les Perses"
@@ -1098,7 +1098,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le son nouveau",
       "prompt": {
         "fr": "Quelle pratique fut instituée à Médine pour appeler à la prière ? A. L’Adhān B. Une cloche"
@@ -1129,7 +1129,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La direction change",
       "prompt": {
         "fr": "Quel élément de la prière changea durant les premières années à Médine ? A. La Qiblah B. Le nombre de jours de la semaine"
@@ -1160,7 +1160,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Ramaḍān arrive",
       "prompt": {
         "fr": "À quelle année de l’Hégire le jeûne de Ramaḍān fut-il rendu obligatoire ? A. La deuxième année B. La neuvième année"
@@ -1191,7 +1191,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le mois avant Ramaḍān",
       "prompt": {
         "fr": "Dans quel mois fut prescrit le jeûne de Ramaḍān selon cette chronologie ? A. Shaʿbān B. Dhū al-Ḥijjah"
@@ -1222,7 +1222,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Mets l’ordre",
       "prompt": {
         "fr": "Quel ordre raconte correctement le début de la période médinoise ? A. Hijrah → construction des mosquées → fraternité Muhājirūn/Anṣār → obligation du jeûne B. Obligation du jeûne → naissance → Hijrah → construction des mosquées"
@@ -1253,7 +1253,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Badr - le jour décisif",
       "prompt": {
         "fr": "Dans quel mois eut lieu la grande bataille de Badr ? A. Ramaḍān B. Muḥarram"
@@ -1284,7 +1284,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le nombre 17",
       "prompt": {
         "fr": "Quel jour de Ramaḍān est associé à Badr dans cette chronologie ? A. Le 17 B. Le 1er"
@@ -1315,7 +1315,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Zakāt al-Fiṭr",
       "prompt": {
         "fr": "Quelle aumône fut prescrite durant la même période que les événements de Badr ? A. Zakāt al-Fiṭr B. Une taxe de voyage"
@@ -1346,7 +1346,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Une fille du Prophète ﷺ",
       "prompt": {
         "fr": "Quelle fille du Prophète ﷺ, épouse de ʿUthmān رضي الله عنه, mourut autour de l’époque de Badr ? A. Ruqayyah رضي الله عنها B. Fāṭimah رضي الله عنها"
@@ -1377,7 +1377,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Alliance familiale",
       "prompt": {
         "fr": "Qui épousa Fāṭimah رضي الله عنها ? A. ʿAlī رضي الله عنه B. Abū Lahab"
@@ -1408,7 +1408,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Après la captivité",
       "prompt": {
         "fr": "Quel membre de la famille du Prophète ﷺ est mentionné comme ayant embrassé l’Islam après la captivité ? A. Al-ʿAbbās رضي الله عنه B. Abū Lahab"
@@ -1439,7 +1439,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui fut affronté ?",
       "prompt": {
         "fr": "Quel groupe est associé à une expédition peu après Badr ? A. Banū Qaynuqāʿ B. Les habitants de l’Andalousie"
@@ -1470,7 +1470,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La bataille de Sawīq",
       "prompt": {
         "fr": "Quel nom correspond à une expédition mentionnée après Banū Qaynuqāʿ ? A. As-Sawīq B. Tabūk"
@@ -1501,7 +1501,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Deux tribus dans la même carte",
       "prompt": {
         "fr": "Quels noms sont associés ensemble à une expédition dans cette période ? A. Ghaṭafān et Banū Sulaym B. Quraysh et les Romains"
@@ -1532,7 +1532,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "ʿUthmān رضي الله عنه",
       "prompt": {
         "fr": "Après Ruqayyah رضي الله عنها, quelle autre fille du Prophète ﷺ épousa ʿUthmān رضي الله عنه ? A. Umm Kulthūm رضي الله عنها B. Zaynab رضي الله عنها"
@@ -1563,7 +1563,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Nouvelle épouse",
       "prompt": {
         "fr": "Quelle épouse du Prophète ﷺ est mentionnée dans la même période ? A. Ḥafṣah رضي الله عنها B. Māriyah"
@@ -1594,7 +1594,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Uḥud",
       "prompt": {
         "fr": "Quelle grande bataille eut lieu après Badr ? A. Uḥud B. Tabūk"
@@ -1625,7 +1625,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Après Uḥud",
       "prompt": {
         "fr": "Quelle expédition suivit immédiatement Uḥud dans cette chronologie ? A. Ḥamrāʾ al-Asad B. Al-Isrāʾ"
@@ -1656,7 +1656,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "L’interdiction",
       "prompt": {
         "fr": "Quelle boisson fut interdite de manière définitive dans cette période ? A. Le khamr - les boissons enivrantes B. L’eau"
@@ -1687,7 +1687,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Naissance d’al-Ḥasan",
       "prompt": {
         "fr": "Quel petit-fils du Prophète ﷺ naquit avant al-Ḥusayn رضي الله عنهما ? A. Al-Ḥasan رضي الله عنه B. Ibrāhīm"
@@ -1718,7 +1718,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Année quatre",
       "prompt": {
         "fr": "Quelle expédition est placée au début de la quatrième année de l’Hégire ? A. Banū an-Naḍīr B. Ḥunayn"
@@ -1749,7 +1749,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Après Zaynab",
       "prompt": {
         "fr": "Quelle épouse le Prophète ﷺ épousa-t-il ensuite après le décès de Zaynab mentionné dans cette période ? A. Umm Salamah رضي الله عنها B. Ḥalīmah"
@@ -1780,7 +1780,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Deux événements",
       "prompt": {
         "fr": "Quel événement précède les Ahzāb dans cette chronologie ? A. Dhāt ar-Riqāʿ et Badr al-Mawʿid B. Le pèlerinage d’adieu"
@@ -1811,7 +1811,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Après les Ahzāb",
       "prompt": {
         "fr": "Quel groupe est mentionné juste après les Ahzāb ? A. Banū Qurayẓah B. Banū Naḍīr"
@@ -1842,7 +1842,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Deux nouveautés",
       "prompt": {
         "fr": "Quelles pratiques sont mentionnées ensemble dans cette période ? A. Ṣalāt al-Khawf et le Tayammum B. Zakāt al-Fiṭr et le Ḥajj d’adieu"
@@ -1873,7 +1873,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le second petit-fils",
       "prompt": {
         "fr": "Quel petit-fils du Prophète ﷺ est mentionné comme étant né après al-Ḥasan ? A. Al-Ḥusayn رضي الله عنه B. Ibrāhīm"
@@ -1904,7 +1904,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "L’affaire de l’Ifk",
       "prompt": {
         "fr": "Durant quelle expédition est située l’affaire de l’Ifk ? A. Banū al-Muṣṭaliq B. Tabūk"
@@ -1935,7 +1935,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Une épouse après al-Muṣṭaliq",
       "prompt": {
         "fr": "Quelle femme, fille d’al-Ḥārith, épousa le Prophète ﷺ ? A. Juwayriyyah رضي الله عنها B. Sawdah رضي الله عنها"
@@ -1966,7 +1966,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Début de la sixième année",
       "prompt": {
         "fr": "Quelle expédition est placée au début de la sixième année ? A. Banū Liḥyān B. Badr"
@@ -1997,7 +1997,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Route bloquée",
       "prompt": {
         "fr": "Le Prophète ﷺ fut empêché d’accomplir quelle adoration lorsqu’il se dirigea vers La Mecque ? A. La ʿUmrah B. Le jeûne de Ramaḍān"
@@ -2028,7 +2028,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Sous l’arbre",
       "prompt": {
         "fr": "Quelle célèbre Bayʿah eut lieu durant la sixième année ? A. Bayʿat ar-Riḍwān B. La première Bayʿah d’al-ʿAqabah"
@@ -2059,7 +2059,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Khaybar",
       "prompt": {
         "fr": "À quelle année de l’Hégire la conquête de Khaybar est-elle placée ? A. La septième année B. La deuxième année"
@@ -2090,7 +2090,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Interdit à Khaybar",
       "prompt": {
         "fr": "Quelle viande fut interdite à Khaybar selon cette chronologie ? A. La viande des ânes domestiques B. La viande de mouton"
@@ -2121,7 +2121,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Autre interdiction",
       "prompt": {
         "fr": "Quelle autre pratique matrimoniale est mentionnée comme interdite dans la même période ? A. Le mariage temporaire B. Le mariage légal"
@@ -2152,7 +2152,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le mariage d’Umm Ḥabībah",
       "prompt": {
         "fr": "Qui épousa le Prophète ﷺ durant cette période ? A. Umm Ḥabībah رضي الله عنها B. Ḥalīmah"
@@ -2183,7 +2183,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La carte Ṣafiyyah",
       "prompt": {
         "fr": "Quelle femme devint ensuite épouse du Prophète ﷺ ? A. Ṣafiyyah رضي الله عنها B. Ruqayyah رضي الله عنها"
@@ -2214,7 +2214,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La dernière épouse mentionnée",
       "prompt": {
         "fr": "Quelle épouse est présentée comme la dernière de cette série de mariages ? A. Maymūnah رضي الله عنها B. Khadījah رضي الله عنها"
@@ -2245,7 +2245,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Nouveau Compagnon célèbre",
       "prompt": {
         "fr": "Quel Compagnon connu pour transmettre de nombreux ḥadīth embrassa l’Islam dans cette période ? A. Abū Hurayrah رضي الله عنه B. Abū Lahab"
@@ -2276,7 +2276,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "ʿUmrat al-Qaḍāʾ",
       "prompt": {
         "fr": "Quelle ʿUmrah fut accomplie après l’empêchement précédent ? A. ʿUmrat al-Qaḍāʾ B. ʿUmrah depuis al-Jiʿrānah"
@@ -2307,7 +2307,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Messages aux rois",
       "prompt": {
         "fr": "À qui le Prophète ﷺ envoya-t-il des messagers durant cette période ? A. À différents rois B. Uniquement aux habitants de Médine"
@@ -2338,7 +2338,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Māriyah",
       "prompt": {
         "fr": "Quelle femme copte fut offerte au Prophète ﷺ ? A. Māriyah al-Qibṭiyyah B. Ḥalīmah"
@@ -2369,7 +2369,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Muʾtah",
       "prompt": {
         "fr": "Quelle bataille est située en Jumādā durant la huitième année ? A. Muʾtah B. Badr"
@@ -2400,7 +2400,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La grande ouverture",
       "prompt": {
         "fr": "Dans quel mois eut lieu la conquête de La Mecque ? A. Ramaḍān B. Ṣafar"
@@ -2431,7 +2431,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Après La Mecque",
       "prompt": {
         "fr": "Quelles batailles sont mentionnées après la conquête de La Mecque ? A. Ḥunayn puis aṭ-Ṭāʾif B. Badr puis Uḥud"
@@ -2462,7 +2462,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Le parcours 6 → 8",
       "prompt": {
         "fr": "Quel ordre raconte correctement le parcours de la sixième à la huitième année ? A. Ḥudaybiyah/Bayʿat ar-Riḍwān → Khaybar → ʿUmrat al-Qaḍāʾ → Muʾtah → Fatḥ Makkah B. Fatḥ Makkah → Badr → naissance → Khaybar"
@@ -2493,7 +2493,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "ʿUmrah d’al-Jiʿrānah",
       "prompt": {
         "fr": "Après Ḥunayn et aṭ-Ṭāʾif, d’où le Prophète ﷺ accomplit-il une ʿUmrah ? A. Al-Jiʿrānah B. Al-Ḥabashah"
@@ -2524,7 +2524,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Une fille décède",
       "prompt": {
         "fr": "Quelle fille du Prophète ﷺ est mentionnée comme décédée durant cette année ? A. Zaynab رضي الله عنها B. Fāṭimah رضي الله عنها"
@@ -2555,7 +2555,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Naissance d’Ibrāhīm",
       "prompt": {
         "fr": "Quel fils du Prophète ﷺ naquit dans cette période ? A. Ibrāhīm B. Al-Qāsim"
@@ -2586,7 +2586,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le geste de Sawdah",
       "prompt": {
         "fr": "À quelle épouse Sawdah رضي الله عنها donna-t-elle son tour ? A. ʿĀʾishah رضي الله عنها B. Umm Salamah رضي الله عنها"
@@ -2617,7 +2617,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le minbar",
       "prompt": {
         "fr": "Quel élément fut construit pour la mosquée durant cette période ? A. Le minbar B. Une tour de guet"
@@ -2648,7 +2648,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui guida le Ḥajj ?",
       "prompt": {
         "fr": "Qui conduisit les gens au Ḥajj durant cette année selon cette chronologie ? A. ʿAttāb B. Ḥamzah رضي الله عنه"
@@ -2679,7 +2679,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Tabūk",
       "prompt": {
         "fr": "À quelle année de l’Hégire l’expédition de Tabūk est-elle placée ? A. La neuvième année B. La troisième année"
@@ -2710,7 +2710,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Masjid aḍ-Ḍirār",
       "prompt": {
         "fr": "Que devint Masjid aḍ-Ḍirār après Tabūk ? A. Il fut détruit B. Il devint la Mosquée du Prophète ﷺ"
@@ -2741,7 +2741,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le chef du Ḥajj",
       "prompt": {
         "fr": "Qui fut envoyé pour conduire le Ḥajj l’année suivante ? A. Abū Bakr رضي الله عنه B. Abū Lahab"
@@ -2772,7 +2772,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "L’annonce de ʿAlī",
       "prompt": {
         "fr": "Qui fut envoyé pour proclamer le message de Barāʾah ? A. ʿAlī رضي الله عنه B. Al-ʿAbbās رضي الله عنه"
@@ -2803,7 +2803,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Nouvelle règle du Ḥajj",
       "prompt": {
         "fr": "Quelle pratique fut interdite après cette annonce ? A. Le ṭawāf nu autour de la Kaʿbah B. Boire de l’eau"
@@ -2834,7 +2834,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Autre annonce",
       "prompt": {
         "fr": "Qui ne devait plus accomplir le Ḥajj après cette proclamation ? A. Les polythéistes B. Les musulmans"
@@ -2865,7 +2865,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "L’année des délégations",
       "prompt": {
         "fr": "Quel phénomène marqua fortement la neuvième année ? A. L’arrivée successive de nombreuses délégations B. La première révélation"
@@ -2896,7 +2896,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Un mois à l’écart",
       "prompt": {
         "fr": "Pendant combien de temps le Prophète ﷺ s’éloigna-t-il de ses épouses lors de l’événement mentionné ? A. Un mois B. Une année"
@@ -2927,7 +2927,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Prière pour an-Najāshī",
       "prompt": {
         "fr": "Que fit le Prophète ﷺ lorsque an-Najāshī mourut ? A. Il accomplit la prière funéraire pour lui B. Il partit immédiatement en Abyssinie"
@@ -2958,7 +2958,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le décès d’Ibrāhīm",
       "prompt": {
         "fr": "Quel enfant du Prophète ﷺ mourut durant la dernière année de sa vie ? A. Ibrāhīm B. Fāṭimah رضي الله عنها"
@@ -2989,7 +2989,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le Ḥajj d’adieu",
       "prompt": {
         "fr": "Comment appelle-t-on le dernier Ḥajj accompli par le Prophète ﷺ ? A. Ḥajjat al-Wadāʿ - le pèlerinage d’adieu B. ʿUmrat al-Qaḍāʾ"
@@ -3020,7 +3020,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le message de perfection",
       "prompt": {
         "fr": "Quel message coranique majeur est associé à cette période du pèlerinage d’adieu ? A. « Aujourd’hui, J’ai parachevé pour vous votre religion » B. « Lis au nom de ton Seigneur »"
@@ -3051,7 +3051,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Combien d’épouses lui survécurent ?",
       "prompt": {
         "fr": "Combien d’épouses du Prophète ﷺ sont mentionnées comme lui ayant survécu ? A. Neuf B. Deux"
@@ -3082,7 +3082,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS FINAL - Le dernier chapitre",
       "prompt": {
         "fr": "Quelle combinaison est correcte concernant le décès et l’inhumation du Prophète ﷺ ? A. Il mourut un lundi, à environ 63 ans, puis fut enterré dans la maison de ʿĀʾishah رضي الله عنها B. Il mourut à 40 ans et fut enterré à La Mecque"

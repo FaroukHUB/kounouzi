@@ -85,19 +85,19 @@ const geo = geoCatalogueSchema.parse(countriesJson);
 export const GEO_FACTS: readonly GeoFact[] = geo.facts.map((f) => ({ ...f, sources: geo.sources }));
 /** Faits réellement validés (banque réelle) : aucun pour l'instant. */
 export const VALIDATED_GEO_FACTS: readonly GeoFact[] = GEO_FACTS.filter((f) => f.status === "validated");
-/** Banque religieuse « Oussoul ath-Thalatha » : 100 cartes issues du PDF de contrôle humain, toutes `draft` jusqu'à validation explicite. */
+/** Banque religieuse « Oussoul ath-Thalatha » : 100 cartes issues du PDF de contrôle humain, validées humainement (validation.v1.json). */
 export const OUSSOUL_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(oussoulJson).questions;
-/** Banque religieuse « Wa Ja'a Shahr Ramadan » : 25 cartes issues du PDF de contrôle humain, toutes `draft` jusqu'à validation explicite. */
+/** Banque religieuse « Wa Ja'a Shahr Ramadan » : 25 cartes issues du PDF de contrôle humain, validées humainement (validation.v1.json). */
 export const RAMADAN_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(ramadanJson).questions;
-/** Banque religieuse « Ad-Durous al-Muhimmah » : 100 cartes issues du document de contrôle humain, toutes `draft` jusqu'à validation explicite. */
+/** Banque religieuse « Ad-Durous al-Muhimmah » : 100 cartes issues du document de contrôle humain, validées humainement (validation.v1.json). */
 export const DUROUS_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(durousJson).questions;
-/** Banque religieuse « Sirah — al-Urjuzah al-Mi'iyyah » : 100 cartes issues du PDF de contrôle humain, toutes `draft` jusqu'à validation explicite. */
+/** Banque religieuse « Sirah — al-Urjuzah al-Mi'iyyah » : 100 cartes issues du PDF de contrôle humain, validées humainement (validation.v1.json). */
 export const SIRAH_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(sirahJson).questions;
-/** Banque religieuse « Al-Qawaid al-Arba » : 25 cartes issues du PDF de contrôle humain, toutes `draft` jusqu'à validation explicite. */
+/** Banque religieuse « Al-Qawaid al-Arba » : 25 cartes issues du PDF de contrôle humain, validées humainement (validation.v1.json). */
 export const QAWAID_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(qawaidJson).questions;
-/** Banque religieuse « Kalimah at-Tawhid » : 25 cartes issues du PDF de contrôle humain, toutes `draft` jusqu'à validation explicite. */
+/** Banque religieuse « Kalimah at-Tawhid » : 25 cartes issues du PDF de contrôle humain, validées humainement (validation.v1.json). */
 export const KALIMAH_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(kalimahJson).questions;
-/** Banques religieuses importées (une par ouvrage), toutes en brouillon à l'import. */
+/** Banques religieuses importées (une par ouvrage) : `draft` à l'import, `validated` par la décision humaine appliquée en données. */
 export const RELIGION_BANKS: ReadonlyArray<{ readonly id: string; readonly work: string; readonly questions: readonly CuratedQuestion[]; readonly perLevel: number }> = [
   { id: "oussoul-ath-thalatha", work: "Sharh Thalathat al-Usul", questions: OUSSOUL_BANK, perLevel: 20 },
   { id: "wa-jaa-shahr-ramadan", work: "Wa Ja'a Shahr Ramadan", questions: RAMADAN_BANK, perLevel: 5 },

@@ -13,7 +13,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le coffre à 5 clés",
       "prompt": {
         "fr": "Combien l’Islam possède-t-il de grands piliers ? A. 3 B. 5 C. 10"
@@ -43,7 +43,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Trouve le pilier",
       "prompt": {
         "fr": "Laquelle de ces cartes représente un pilier de l’Islam ? A. La prière B. Jouer C. Dormir"
@@ -73,7 +73,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le coffre à 6 cadenas",
       "prompt": {
         "fr": "Combien y a-t-il de piliers de la foi, l’Îmân ? A. 5 B. 6 C. 12"
@@ -103,7 +103,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Qui s’est caché ?",
       "prompt": {
         "fr": "Laquelle de ces réponses fait partie de la foi ? A. Croire aux anges B. Croire aux dragons"
@@ -133,7 +133,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai ou faux ?",
       "prompt": {
         "fr": "Croire au Jour dernier fait partie de l’Îmân. Vrai / Faux"
@@ -163,7 +163,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Choisis la bonne porte",
       "prompt": {
         "fr": "Qui mérite notre adoration ? A. Allah seul B. Une créature"
@@ -193,7 +193,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mot mystère",
       "prompt": {
         "fr": "Adorer Allah seul nous fait penser à quel mot ? A. Tawhid B. Sommeil"
@@ -223,7 +223,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La sourate trésor",
       "prompt": {
         "fr": "Quelle sourate est très importante dans notre prière et que nous récitons encore et encore ?"
@@ -253,7 +253,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Bouclier avant lecture",
       "prompt": {
         "fr": "Avant de lire le Coran, tu veux demander à Allah de te protéger de Shayṭān. Que peux-tu faire ?"
@@ -283,7 +283,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission préparation",
       "prompt": {
         "fr": "Maryam veut prier. Que choisit-elle ? A. Se préparer en état de purification B. Dire que ce n’est pas important"
@@ -313,7 +313,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La boussole de la prière",
       "prompt": {
         "fr": "Vers quelle direction se tourne-t-on pour prier ? A. La Qiblah B. La télévision"
@@ -343,7 +343,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission Wuḍūʾ : le visage",
       "prompt": {
         "fr": "Quelle partie dois-tu laver pendant les ablutions ? A. Le visage B. Ton bonnet"
@@ -373,7 +373,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission Wuḍūʾ : les bras",
       "prompt": {
         "fr": "Jusqu’où lave-t-on les bras pendant le Wuḍūʾ ? A. Jusqu’aux coudes B. Seulement les doigts"
@@ -403,7 +403,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte tête",
       "prompt": {
         "fr": "Pendant le Wuḍūʾ, que fait-on avec la tête ? A. On l’essuie B. On met un chapeau"
@@ -433,7 +433,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les deux derniers",
       "prompt": {
         "fr": "Quelle partie doit aussi être lavée pendant les ablutions ? A. Les pieds B. Les chaussures"
@@ -463,7 +463,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Position secrète : Rukūʿ",
       "prompt": {
         "fr": "Tu es incliné dans la prière. Quelle parole correspond à cette position ? A. Subḥāna Rabbiyal-ʿAẓīm B. Bonjour !"
@@ -493,7 +493,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Position secrète : Sujūd",
       "prompt": {
         "fr": "Tu es prosterné. Que dis-tu ? A. Subḥāna Rabbiyal-Aʿlā B. Bonne nuit !"
@@ -523,7 +523,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Défi repas",
       "prompt": {
         "fr": "Une assiette arrive devant Yacine. Avec quelle main mange-t-il ? A. La droite B. La gauche"
@@ -553,7 +553,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission voisin",
       "prompt": {
         "fr": "Ton voisin est tranquille chez lui. Quelle attitude est la meilleure ? A. Éviter de lui faire du mal B. L’embêter exprès"
@@ -583,7 +583,7 @@
       "difficulty": 1,
       "ageBand": "5-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "BOSS - Le coffre confié",
       "prompt": {
         "fr": "Papa te confie quelque chose et te dit : « Garde-le bien pour moi. » Quelle attitude ouvre le coffre ? A. Protéger ce qui t’a été confié B. Le perdre volontairement"
@@ -613,7 +613,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les 5 piliers en équipe",
       "prompt": {
         "fr": "Quel groupe contient uniquement les cinq piliers de l’Islam ? A. Shahādah, prière, zakāt, jeûne de Ramadan, ḥajj B. Prière, sommeil, voyage, jeu, repas"
@@ -643,7 +643,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le sac de Zakāt",
       "prompt": {
         "fr": "La Zakāt va notamment des plus riches vers qui ? A. Les pauvres B. Les joueurs les plus rapides"
@@ -673,7 +673,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Ramadan : entraînement du cœur",
       "prompt": {
         "fr": "Le jeûne de Ramadan aide surtout à entraîner quoi ? A. La piété et la maîtrise de soi B. La vitesse de course"
@@ -703,7 +703,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le passeport du Ḥajj",
       "prompt": {
         "fr": "Pour celui qui en a la capacité, combien de fois le Ḥajj est-il obligatoire dans la vie ? A. Une fois B. Tous les mois"
@@ -733,7 +733,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les 6 étoiles de l’Îmân",
       "prompt": {
         "fr": "Quel nombre complète la constellation de la foi ? A. 5 B. 6 C. 8"
@@ -763,7 +763,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La carte du Jour dernier",
       "prompt": {
         "fr": "Laquelle appartient au Jour dernier ? A. La résurrection B. Une partie de cache-cache"
@@ -793,7 +793,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les 3 portes du Tawhid",
       "prompt": {
         "fr": "Combien de grandes catégories de Tawhid sont exposées ? A. 2 B. 3 C. 7"
@@ -823,7 +823,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "À qui va cette adoration ?",
       "prompt": {
         "fr": "Une invocation est une adoration. À qui doit-elle être consacrée ? A. À Allah seul B. À n’importe quelle créature"
@@ -853,7 +853,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le tiers du Coran",
       "prompt": {
         "fr": "Quelle sourate est décrite comme équivalant à un tiers du Coran ? A. Al-Ikhlāṣ B. Al-Fīl"
@@ -883,7 +883,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le bouclier du Dhikr",
       "prompt": {
         "fr": "Dans Sūrat An-Nās, qu’est-ce qui aide à repousser le whisperer lorsqu’Allah est mentionné ? A. Le Dhikr d’Allah B. Crier plus fort"
@@ -913,7 +913,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La priorité de la prière",
       "prompt": {
         "fr": "Parmi les piliers de l’Islam après les deux témoignages, quelle adoration occupe une place majeure ? A. La prière B. Le voyage"
@@ -943,7 +943,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le visage + deux invités",
       "prompt": {
         "fr": "Quand on lave le visage au Wuḍūʾ, quelles actions en font partie ? A. Rincer la bouche et le nez B. Laver les chaussures"
@@ -973,7 +973,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La tête en un passage",
       "prompt": {
         "fr": "Pendant le Wuḍūʾ, que fait-on pour la tête ? A. On l’essuie B. On la lave trois fois"
@@ -1003,7 +1003,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les oreilles suivent",
       "prompt": {
         "fr": "Avec quelle eau les oreilles sont-elles essuyées selon la description donnée ? A. Celle utilisée pour essuyer la tête B. De l’eau sucrée"
@@ -1033,7 +1033,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Piège dans la prière",
       "prompt": {
         "fr": "Que se passe-t-il si quelqu’un mange volontairement pendant la prière ? A. La prière est annulée B. Rien du tout"
@@ -1063,7 +1063,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La Qiblah déviée",
       "prompt": {
         "fr": "Une légère déviation involontaire et une grosse déviation de la Qiblah ont-elles le même effet ? A. Oui B. Non"
@@ -1093,7 +1093,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La main droite gagne",
       "prompt": {
         "fr": "Tu commences à manger. Quelle combinaison est correcte ? A. Dire le nom d’Allah et manger de la main droite B. Manger de la gauche sans rien dire"
@@ -1123,7 +1123,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mange près de toi",
       "prompt": {
         "fr": "Dans un plat partagé, où est-il enseigné de manger ? A. Ce qui est devant toi B. Chercher partout dans le plat"
@@ -1153,7 +1153,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le coffre de confiance",
       "prompt": {
         "fr": "Un ami te prête un objet. Quel comportement correspond à l’Amānah ? A. Le garder et le rendre B. Le cacher pour toujours"
@@ -1183,7 +1183,7 @@
       "difficulty": 2,
       "ageBand": "8-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le voisin invisible",
       "prompt": {
         "fr": "Le voisin n’est pas dans ta famille. Faut-il quand même respecter ses droits ? A. Oui B. Non"
@@ -1213,7 +1213,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Deux pièces, une clé",
       "prompt": {
         "fr": "La parole « Lā ilāha illa Allāh » comporte deux idées complémentaires. Lesquelles ? A. Nier l’adoration de tout autre qu’Allah et l’affirmer pour Allah seul B. Dire deux fois la même chose"
@@ -1243,7 +1243,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les 8 serrures",
       "prompt": {
         "fr": "Combien de conditions de « Lā ilāha illa Allāh » sont exposées dans cette section ? A. 6 B. 8 C. 12"
@@ -1273,7 +1273,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mission suivre le Messager ﷺ",
       "prompt": {
         "fr": "Que demande le témoignage « Muḥammad est le Messager d’Allah » ? A. Lui obéir, croire ses informations, éviter ses interdits et adorer Allah selon ce qu’il a enseigné B. Simplement connaître son nom"
@@ -1303,7 +1303,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Constellation complète",
       "prompt": {
         "fr": "Lequel manque : Allah, anges, Livres, Messagers, Jour dernier, ... ? A. Destin B. Voyage"
@@ -1333,7 +1333,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Après la mort",
       "prompt": {
         "fr": "Le Jour dernier commence-t-il uniquement au moment de la résurrection générale ? A. Oui B. Non"
@@ -1363,7 +1363,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Les 3 familles du Tawhid",
       "prompt": {
         "fr": "Associe : Seigneurie / Adoration / Noms et Attributs."
@@ -1393,7 +1393,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le grand piège",
       "prompt": {
         "fr": "Donner une adoration réservée à Allah à autre qu’Allah correspond à quoi ? A. Une simple erreur de calcul B. Du shirk majeur"
@@ -1423,7 +1423,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Ikhlāṣ ou Kāfirūn ?",
       "prompt": {
         "fr": "Laquelle met particulièrement en avant le Tawhid de connaissance : Al-Ikhlāṣ ou Al-Kāfirūn ?"
@@ -1453,7 +1453,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le refuge",
       "prompt": {
         "fr": "Sūrat Al-Falaq nous apprend à chercher protection contre quoi ? A. Les maux créés B. Les devoirs d’école"
@@ -1483,7 +1483,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "L’arme silencieuse",
       "prompt": {
         "fr": "Que met en avant Sūrat An-Nās contre les insufflations ? A. Le rappel d’Allah B. Ignorer toute adoration"
@@ -1513,7 +1513,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La première grande vérification",
       "prompt": {
         "fr": "Quelle adoration est présentée comme la première sur laquelle le serviteur sera interrogé parmi ses œuvres ? A. La prière B. Le voyage"
@@ -1543,7 +1543,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Niyyah ou nettoyage ?",
       "prompt": {
         "fr": "Tu laves les membres du Wuḍūʾ uniquement pour te nettoyer, sans intention de purification. Est-ce la même chose ? A. Oui B. Non"
@@ -1573,7 +1573,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le parcours du Wuḍūʾ",
       "prompt": {
         "fr": "Quelle idée est également obligatoire : faire les actes dans l’ordre ou au hasard ? A. Dans l’ordre B. Au hasard"
@@ -1603,7 +1603,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Une seule passe",
       "prompt": {
         "fr": "Pendant le Wuḍūʾ, essuie-t-on la tête trois fois, comme on lave les autres membres ? A. Oui B. Non"
@@ -1633,7 +1633,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Parole volontaire",
       "prompt": {
         "fr": "Parler volontairement pendant la prière, sans nécessité liée à la prière, l’annule-t-il ? A. Oui B. Non"
@@ -1663,7 +1663,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Erreur ou ignorance",
       "prompt": {
         "fr": "Une parole prononcée dans la prière par oubli ou ignorance du jugement est-elle traitée comme la parole volontaire ? A. Oui B. Non"
@@ -1693,7 +1693,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le mythe des 3 mouvements",
       "prompt": {
         "fr": "Existe-t-il une règle fixant exactement « trois mouvements » comme limite avant d’annuler la prière ? A. Oui B. Non"
@@ -1723,7 +1723,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Vrai de l’intérieur",
       "prompt": {
         "fr": "Le Ṣidq, la véracité, concerne seulement les mots prononcés ? A. Oui B. Non"
@@ -1753,7 +1753,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Plus qu’un objet",
       "prompt": {
         "fr": "L’Amānah concerne-t-elle seulement les objets prêtés ? A. Oui B. Non"
@@ -1783,7 +1783,7 @@
       "difficulty": 3,
       "ageBand": "10-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le frein intérieur",
       "prompt": {
         "fr": "Quel caractère retient le croyant de nombreux mauvais comportements ? A. Al-Ḥayāʾ, la pudeur B. La précipitation"
@@ -1813,7 +1813,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Définition éclair",
       "prompt": {
         "fr": "Quelle définition est la plus proche de l’Islam dans cette section ? A. Se soumettre à Allah par le Tawhid et Lui obéir B. Suivre uniquement ses envies"
@@ -1843,7 +1843,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Pas seulement des mots",
       "prompt": {
         "fr": "Dire « Lā ilāha illa Allāh » sans en connaître le sens et sans réaliser ce qu’elle implique suffit-il ? A. Oui B. Non"
@@ -1873,7 +1873,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Noms et Attributs",
       "prompt": {
         "fr": "Quelle règle est exposée ? A. Affirmer ce qui est venu dans le Coran et la Sunnah sans déformation, négation, recherche du comment ni ressemblance B. Inventer de nouveaux attributs"
@@ -1903,7 +1903,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Trois catégories liées",
       "prompt": {
         "fr": "Les trois catégories du Tawhid sont-elles indépendantes au point de pouvoir en accepter une et rejeter les autres ? A. Oui B. Non"
@@ -1933,7 +1933,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Shirk majeur",
       "prompt": {
         "fr": "Quel type de shirk fait sortir de l’Islam selon cette section ? A. Le shirk majeur B. Toute petite erreur"
@@ -1963,7 +1963,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le sixième pilier",
       "prompt": {
         "fr": "Croire au Qadar, en son bien et son mal, appartient à quoi ? A. Aux piliers de l’Îmân B. Aux Sunan du repas"
@@ -1993,7 +1993,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Suivre, pas inventer",
       "prompt": {
         "fr": "Quel principe complète la sincérité dans l’acceptation d’un acte ? A. Suivre la voie du Messager ﷺ B. Inventer sa propre forme d’adoration"
@@ -2023,7 +2023,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Prière et reste des œuvres",
       "prompt": {
         "fr": "Quelle idée est mise en avant au sujet de la prière ? A. Sa rectitude est d’une importance majeure pour le reste des œuvres B. Elle n’a aucun lien avec la vie religieuse"
@@ -2053,7 +2053,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Pilier ou obligation ?",
       "prompt": {
         "fr": "Si une obligation de la prière est oubliée, que se passe-t-il ? A. Elle peut être compensée par les prosternations de l’oubli B. Elle devient automatiquement un pilier"
@@ -2083,7 +2083,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Takbīr spécial",
       "prompt": {
         "fr": "Quel Takbīr est un pilier de la prière ? A. Takbīrat al-Iḥrām B. Tous les Takbīr exactement au même rang"
@@ -2113,7 +2113,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Premier et dernier Tashahhud",
       "prompt": {
         "fr": "Le premier et le dernier Tashahhud ont-ils exactement le même statut ? A. Oui B. Non"
@@ -2143,7 +2143,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La tranquillité",
       "prompt": {
         "fr": "La Ṭumaʾnīnah est-elle demandée uniquement au Rukūʿ ? A. Oui B. Non"
@@ -2173,7 +2173,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Volontaire vs oubli",
       "prompt": {
         "fr": "Pourquoi le moteur du jeu doit-il distinguer une parole volontaire d’une parole par oubli en prière ? A. Parce que le jugement exposé n’est pas le même B. Parce que les deux annulent toujours"
@@ -2203,7 +2203,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Déviation sévère",
       "prompt": {
         "fr": "Qu’est-ce qui est explicitement visé comme annulatif : une petite déviation ou une forte déviation de la Qiblah ? A. Une forte déviation B. Une petite déviation"
@@ -2233,7 +2233,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Intention du Wuḍūʾ",
       "prompt": {
         "fr": "La Niyyah peut-elle disparaître au milieu du Wuḍūʾ si la personne transforme son intention en simple nettoyage ? A. Sans effet B. Cela rompt la continuité de l’intention de purification"
@@ -2263,7 +2263,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Barrière sur la peau",
       "prompt": {
         "fr": "Une couche qui empêche l’eau d’atteindre la peau doit-elle être retirée avant le Wuḍūʾ ? A. Oui B. Non"
@@ -2293,7 +2293,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Istinjāʾ à chaque Wuḍūʾ ?",
       "prompt": {
         "fr": "Faut-il obligatoirement refaire l’Istinjāʾ avant chaque Wuḍūʾ même si rien n’est sorti ? A. Oui B. Non"
@@ -2323,7 +2323,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le Ṣidq complet",
       "prompt": {
         "fr": "Quelle formulation est la plus précise ? A. Le cœur et la langue concordent B. On dit seulement ce que les autres veulent entendre"
@@ -2353,7 +2353,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La vraie force",
       "prompt": {
         "fr": "Parmi les nobles caractères, quelle maîtrise est la marque de la véritable force ? A. Se maîtriser lors de la colère B. Crier plus fort"
@@ -2383,7 +2383,7 @@
       "difficulty": 4,
       "ageBand": "12-14",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La générosité élargie",
       "prompt": {
         "fr": "La générosité se limite-t-elle à donner de l’argent ? A. Oui B. Non"
@@ -2413,7 +2413,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "La serrure manquante",
       "prompt": {
         "fr": "Parmi ces propositions, laquelle n’appartient pas aux conditions exposées de « Lā ilāha illa Allāh » ? A. La connaissance B. La certitude C. La sincérité D. La célébrité"
@@ -2443,7 +2443,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Deux questions fondamentales",
       "prompt": {
         "fr": "Quelles deux questions résument les deux témoignages ? A. Qui adorais-tu ? et qu’as-tu répondu aux Messagers ? B. Quel âge avais-tu ? et où habitais-tu ?"
@@ -2473,7 +2473,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Deux conditions d’acceptation",
       "prompt": {
         "fr": "Quel duo est présenté comme fondamental pour qu’un acte soit correct ? A. Ikhlāṣ pour Allah + Mutābaʿah du Messager ﷺ B. Popularité + difficulté"
@@ -2503,7 +2503,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Innovation rejetée",
       "prompt": {
         "fr": "Quel principe est cité au sujet d’un acte introduit dans la religion sans fondement ? A. Il est rejeté B. Il devient automatiquement meilleur"
@@ -2533,7 +2533,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Pourquoi trois catégories ?",
       "prompt": {
         "fr": "La division du Tawhid en trois catégories est présentée comme issue de quoi ? A. De l’étude et de l’induction du Coran et de la Sunnah B. D’un tirage aléatoire"
@@ -2563,7 +2563,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Définition du shirk majeur",
       "prompt": {
         "fr": "Quelle formulation est la plus proche de la définition donnée ? A. Mettre un autre qu’Allah à égalité avec Allah dans un droit qui Lui appartient B. Oublier une Sunnah"
@@ -2593,7 +2593,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Noms et Attributs : frontière",
       "prompt": {
         "fr": "Quelle limite méthodologique est répétée ? A. Ne pas dépasser le Coran et le hadith dans ce domaine B. Construire des descriptions par imagination"
@@ -2623,7 +2623,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Carte de l’Au-delà",
       "prompt": {
         "fr": "Lequel de ces ensembles correspond au contenu mentionné dans la foi au Jour dernier ? A. Tombe, résurrection, rassemblement, balance, ṣirāṭ, Paradis et Enfer B. Sommeil, voyage, sport"
@@ -2653,7 +2653,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Colonne centrale",
       "prompt": {
         "fr": "Pourquoi la prière reçoit-elle une place particulière dans cette partie ? A. Elle est l’un des plus grands piliers après les témoignages et organise la relation du serviteur à son Seigneur B. Parce qu’elle est facultative"
@@ -2683,7 +2683,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Oubli d’une obligation",
       "prompt": {
         "fr": "Quel mécanisme est mentionné lorsque l’une des obligations de la prière est oubliée ? A. Sujūd as-Sahw B. Recommencer systématiquement toute la journée"
@@ -2713,7 +2713,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le statut du dernier Tashahhud",
       "prompt": {
         "fr": "Quelle distinction est exposée ? A. Dernier Tashahhud + assise = piliers ; premier Tashahhud = obligation B. Tous sont de simples options"
@@ -2743,7 +2743,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Mouvement excessif",
       "prompt": {
         "fr": "Quelle formulation est la plus fidèle ? A. Le mouvement important et continu, étranger à la prière, peut l’annuler ; la règle fixe des trois mouvements n’est pas retenue ici B. Tout mouvement minuscule annule"
@@ -2773,7 +2773,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Niyyah précise",
       "prompt": {
         "fr": "Une personne accomplit exactement les gestes du Wuḍūʾ mais vise seulement à se rafraîchir. Quel élément manque ? A. La Niyyah de purification B. Le nombre de pièces dans sa poche"
@@ -2803,7 +2803,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Intention interrompue",
       "prompt": {
         "fr": "Changer volontairement l’intention de purification en simple nettoyage avant de terminer le Wuḍūʾ est-il sans effet ? A. Oui B. Non"
@@ -2833,7 +2833,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Événement pendant le Wuḍūʾ",
       "prompt": {
         "fr": "Si un annulatif du Wuḍūʾ survient pendant qu’on l’accomplit, le parcours continue-t-il normalement ? A. Oui B. Non"
@@ -2863,7 +2863,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Couche ou couleur ?",
       "prompt": {
         "fr": "Quel contraste est donné ? A. Une couche qui bloque l’eau doit être retirée ; une coloration sans couche comme le henné ne bloque pas l’eau B. Toute couleur annule automatiquement"
@@ -2893,7 +2893,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Pourquoi être bon ?",
       "prompt": {
         "fr": "Le bon comportement doit-il dépendre uniquement de la manière dont les autres nous traitent ? A. Oui B. Non"
@@ -2923,7 +2923,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Amanah étendue",
       "prompt": {
         "fr": "Laquelle illustre le mieux la conception large de l’Amānah exposée ? A. Préserver les droits, les biens et les responsabilités confiées B. Garder uniquement un cadenas physique"
@@ -2953,7 +2953,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Le courage le plus difficile",
       "prompt": {
         "fr": "Quelle victoire intérieure est présentée comme une véritable force ? A. Maîtriser sa colère B. Gagner tous les débats"
@@ -2983,7 +2983,7 @@
       "difficulty": 5,
       "ageBand": "14+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "title": "Adab en situation",
       "prompt": {
         "fr": "Tu entres à la mosquée. Quelle attitude correspond à l’adab mentionné ? A. Entrer avec le pied droit et demander à Allah de t’ouvrir les portes de Sa miséricorde B. Entrer en courant sans attention"

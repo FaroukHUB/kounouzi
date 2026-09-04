@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { LEARNING_CONFIG, learnerContextFor } from "@/config/learning";
+import { DEFAULT_CHALLENGE_SETTINGS, FAMILY_CHALLENGES, challengesConfigFor } from "@/config/challenges";
 import { contentRegistry } from "@/config/content";
 import { targetLevel, emptyMemory } from "@/core/learning";
 import { pendingRequest } from "@/experience/questionResolver";
@@ -39,10 +40,27 @@ describe("Défi famille à contenu validé : la question est choisie par le Lear
     expect(question!.difficulty).toBeGreaterThanOrEqual(targetLevel(emptyMemory(pid("papa")), "maths", learner, LEARNING_CONFIG) + 1);
   });
 
-  it("un défi sans contenu ne demande jamais de question ; un défi religieux n'est proposable qu'avec du contenu validé (aucun aujourd'hui)", () => {
+  it("un défi sans contenu ne demande jamais de question ; un défi religieux n'est proposable qu'avec du contenu validé", () => {
     const landed = journey(create(makeLineSetup({ cells: { 1: "challenge" }, scenarios: scenariosOf("challenge-family"), players, challenges: challengesFixture() })).state);
     expect(pendingRequest(landed.state)).toBeNull();
     expect(resolveFor(landed.state, profiles)).toBeNull();
-    expect(contentRegistry().slots("child").some((s) => s.categoryId === "religion")).toBe(false);
+    expect(contentRegistry().slots("child").some((s) => s.categoryId === "religion")).toBe(true);
+  });
+
+  it("CH-094 avec les banques religieuses validées : la question servie est une carte Religion validée, sourcée, bilingue, figée dans l'état", () => {
+    const real = challengesConfigFor(DEFAULT_CHALLENGE_SETTINGS, contentRegistry());
+    expect(real.contentAvailable).toEqual(expect.arrayContaining(["CH-094", "CH-095", "CH-096", "CH-097"]));
+    const config = challengesFixture({ definitions: FAMILY_CHALLENGES.filter((d) => d.id === "CH-094"), contentAvailable: real.contentAvailable });
+    const landed = journey(create(makeLineSetup({ cells: { 1: "challenge" }, scenarios: scenariosOf("challenge-family"), players, challenges: config })).state);
+    expect(pendingRequest(landed.state)).toEqual({ requestId: "q1", playerId: pid("papa"), constraint: { categoryId: "religion", difficultyDelta: 0 } });
+    const question = resolveFor(landed.state, profiles);
+    expect(question?.categoryId).toBe("religion");
+    expect(question?.ref.origin).toBe("curated");
+    expect(question?.explanation.fr).not.toBe("");
+    expect(question?.explanation.ar).not.toBe("");
+    expect(question?.sources.length).toBeGreaterThan(0);
+    const served = run(landed.state, { type: "ServeQuestion", requestId: "q1", question: question! });
+    expect(served.state.phase.kind === "awaiting_challenge" && served.state.phase.challenge.served?.categoryId).toBe("religion");
+    expect(resolveFor(landed.state, profiles)?.ref).toEqual(question?.ref);
   });
 });
