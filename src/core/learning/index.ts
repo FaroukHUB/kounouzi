@@ -8,6 +8,7 @@ export * from "./types";
 export { learningConfigSchema, type LearningConfig } from "./config";
 export { applyAttempt, categoryProgressOf, initialCategoryProgress, outcomeWeight } from "./update";
 export { selectQuestion, rankSlots, compareScored, targetLevel, type SelectionInput, type SelectionResult, type ScoredSlot } from "./select";
+export { selectDuelCategory, commonEligibleCategories, type DuelParticipant, type DuelCategoryInput, type DuelCategoryChoice } from "./duel";
 export { summarizeMemory, type LearningSummary, type CategoryStats } from "./stats";
 export { serializeMemory, deserializeMemory, learningMemorySchemaV1, type LearningSerializationError } from "./serialization";
 export { addDays, daysBetween, isDue, parseIso } from "./time";

@@ -89,7 +89,8 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
       const challengerRequestId = `q${state.counters.request + 1}`;
       const opponentRequestId = `q${state.counters.request + 2}`;
       const duel: DuelState = { challengerId: player.id, opponentId: command.opponentId, categoryId: null, challengerRequestId, opponentRequestId, stage: "challenger" };
-      const next: GameState = { ...state, counters: { ...state.counters, request: state.counters.request + 2 }, phase: { kind: "awaiting_duel", duel, queue: phase.value.queue } };
+      const remembered = updatePlayer(state, player.id, { lastDuelOpponentId: command.opponentId });
+      const next: GameState = { ...remembered, counters: { ...state.counters, request: state.counters.request + 2 }, phase: { kind: "awaiting_duel", duel, queue: phase.value.queue } };
       return ok(
         step(next, [
           { type: "DuelStarted", challengerId: player.id, opponentId: command.opponentId },

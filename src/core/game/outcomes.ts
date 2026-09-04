@@ -111,7 +111,7 @@ export function processQueue(state: GameState, initialQueue: readonly Outcome[])
 
       case "duel": {
         const s = result.state;
-        const candidates = s.players.filter((p) => p.id !== player.id).map((p) => p.id);
+        const candidates = duelCandidates(s, player.id);
         if (candidates.length === 0) break;
         return chain(result, () => step({ ...s, phase: { kind: "awaiting_duel_opponent", candidates, queue: [...queue] } }, [{ type: "DuelOffered", challengerId: player.id, candidates }]));
       }
@@ -201,6 +201,18 @@ export function processQueue(state: GameState, initialQueue: readonly Outcome[])
   }
 
   return chain(result, closeTurn);
+}
+
+/**
+ * Adversaires proposés : tous les autres joueurs, sauf l'adversaire du dernier
+ * Duel déclenché par ce joueur quand un autre adversaire existe (à deux
+ * joueurs, la règle ne s'applique pas). Il redevient disponible au Duel suivant.
+ */
+export function duelCandidates(state: GameState, challengerId: PlayerId): readonly PlayerId[] {
+  const others = state.players.filter((p) => p.id !== challengerId).map((p) => p.id);
+  const last = playerById(state, challengerId).lastDuelOpponentId;
+  const available = last ? others.filter((id) => id !== last) : others;
+  return available.length > 0 ? available : others;
 }
 
 /**

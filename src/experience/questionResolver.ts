@@ -1,6 +1,6 @@
 import type { ContentRegistry, QuestionInstance } from "@/core/content";
 import type { GameState } from "@/core/game";
-import { emptyMemory, selectQuestion, type LearningConfig, type PlayerLearningMemory } from "@/core/learning";
+import { emptyMemory, selectDuelCategory, selectQuestion, type DuelParticipant, type LearningConfig, type PlayerLearningMemory } from "@/core/learning";
 import type { PlayerId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
 import { learnerContextFor } from "@/config/learning";
@@ -32,31 +32,46 @@ export function pendingRequest(state: GameState): { readonly requestId: string; 
  * Learning Engine selon la mémoire du joueur QUI RÉPOND. Le résultat est
  * ensuite FIGÉ dans l'état par `ServeQuestion`.
  *
- * Duel : la catégorie commune est choisie déterministement à la première
- * question (meilleur créneau du défieur parmi les catégories où l'adversaire
- * possède aussi du contenu autorisé pour SON audience) ; l'adversaire reçoit
- * ensuite SA meilleure question dans cette catégorie.
+ * Duel : la catégorie commune est choisie AVANT toute question, parmi les
+ * catégories où les deux joueurs possèdent du contenu autorisé, par un score
+ * combiné des DEUX mémoires (`selectDuelCategory`, symétrique). Chaque
+ * dueliste reçoit ensuite SA question dans cette catégorie, à sa difficulté.
  */
 export function resolveQuestion({ state, profiles, registry, memoryOf, config, now }: ResolveInput): QuestionInstance | null {
   const pending = pendingRequest(state);
   if (!pending) return null;
   const player = state.players.find((p) => p.id === pending.playerId);
   if (!player) return null;
-  const profile = profiles.find((p) => p.id === player.id);
-  const learner = learnerContextFor({ id: player.id, profileType: player.profileType, schoolGrade: profile?.child?.schoolGrade, initialLevel: profile?.adult?.initialLevel });
-  const memory = memoryOf(player.id) ?? emptyMemory(player.id);
-  let slots = registry.slots(player.profileType);
+  const participant = (id: PlayerId): DuelParticipant | null => {
+    const p = state.players.find((x) => x.id === id);
+    if (!p) return null;
+    const profile = profiles.find((d) => d.id === id);
+    return {
+      memory: memoryOf(id) ?? emptyMemory(id),
+      learner: learnerContextFor({ id, profileType: p.profileType, schoolGrade: profile?.child?.schoolGrade, initialLevel: profile?.adult?.initialLevel }),
+      slots: registry.slots(p.profileType),
+    };
+  };
+  const me = participant(player.id);
+  if (!me) return null;
+  let slots = me.slots;
 
   if (state.phase.kind === "awaiting_duel") {
     const d = state.phase.duel;
-    if (d.categoryId) {
-      slots = slots.filter((s) => s.categoryId === d.categoryId);
-    } else {
-      const otherId = player.id === d.challengerId ? d.opponentId : d.challengerId;
-      const other = state.players.find((p) => p.id === otherId);
-      const shared = new Set(other ? registry.slots(other.profileType).map((s) => s.categoryId) : []);
-      slots = slots.filter((s) => shared.has(s.categoryId));
-    }
+    const categoryId = d.categoryId ?? duelCategoryFor(state, participant, config, now);
+    if (!categoryId) return null;
+    slots = slots.filter((s) => s.categoryId === categoryId);
   }
-  return selectQuestion({ memory, learner, slots, config, now })?.question ?? null;
+  return selectQuestion({ memory: me.memory, learner: me.learner, slots, config, now })?.question ?? null;
+}
+
+/** La catégorie du Duel en attente, calculée depuis les DEUX mémoires (identique quel que soit le sens du défi). */
+export function duelCategoryFor(state: GameState, participant: (id: PlayerId) => DuelParticipant | null, config: LearningConfig, now: string): string | null {
+  if (state.phase.kind !== "awaiting_duel") return null;
+  const d = state.phase.duel;
+  if (d.categoryId) return d.categoryId;
+  const challenger = participant(d.challengerId);
+  const opponent = participant(d.opponentId);
+  if (!challenger || !opponent) return null;
+  return selectDuelCategory({ challenger, opponent, config, now })?.categoryId ?? null;
 }

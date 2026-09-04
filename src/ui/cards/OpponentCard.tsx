@@ -23,11 +23,16 @@ export function OpponentCard({ state, profiles, card, narrator, onChoose }: { re
     <CardShell cellType="challenge" title={`⚔ ${t(DEFAULT_LOCALE, "duel.title")}`} subtitle={t(DEFAULT_LOCALE, "cell.challenge")} testId="opponent-card">
       <p className="text-center text-xl font-bold">{prompt}</p>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        {card.candidates.map((id) => (
-          <button key={id} type="button" disabled={card.step !== "offer"} onClick={() => onChoose(id)} className="flex min-h-24 items-center justify-center rounded-2xl border border-[var(--k-line)] bg-white p-2 active:scale-95" data-testid={`opponent-${id}`}>
-            <PlayerFace state={state} profiles={profiles} playerId={id} />
-          </button>
-        ))}
+        {state.players
+          .filter((p) => p.id !== card.challengerId)
+          .map((p) => {
+            const available = card.candidates.includes(p.id);
+            return (
+              <button key={p.id} type="button" disabled={card.step !== "offer" || !available} onClick={() => onChoose(p.id)} className={`flex min-h-24 items-center justify-center rounded-2xl border border-[var(--k-line)] bg-white p-2 active:scale-95 ${available ? "" : "opacity-40"}`} data-testid={available ? `opponent-${p.id}` : `opponent-unavailable-${p.id}`} data-available={available}>
+                <PlayerFace state={state} profiles={profiles} playerId={p.id} />
+              </button>
+            );
+          })}
       </div>
       <p className="text-center text-xs text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "duel.hint")}</p>
     </CardShell>

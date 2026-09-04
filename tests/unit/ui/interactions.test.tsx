@@ -41,6 +41,11 @@ describe("cartes du Duel Kounouzi (rendu statique)", () => {
     expect(html).toContain('data-testid="opponent-p3"');
     expect(html).not.toContain('data-testid="opponent-p1"');
     expect(html).toContain("ni vitesse, ni chrono");
+    // Un joueur momentanément indisponible reste visible mais désactivé, sans explication.
+    const limited = renderToStaticMarkup(<OpponentCard state={state} profiles={profiles} card={{ ...card, candidates: [pid("p3")] }} narrator={narrator} onChoose={() => {}} />);
+    expect(limited).toContain('data-testid="opponent-p3"');
+    expect(limited).toMatch(/<button[^>]*disabled=""[^>]*data-testid="opponent-unavailable-p2"|<button[^>]*data-testid="opponent-unavailable-p2"[^>]*disabled=""/);
+    expect(limited).not.toMatch(/interdit|harc/i);
   });
 
   it("face-à-face VS, « à toi ! », puis résultat clair avec le vainqueur", () => {

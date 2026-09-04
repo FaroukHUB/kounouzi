@@ -17,6 +17,7 @@ export { computeReward, type RewardComputation } from "./rewards";
 export { holdingOf, holdingsOf, effectivePrice } from "./holdings";
 export { ledgerBalance, transferMoney, affordableAmount, poorestPlayer, richestPlayer } from "./economy";
 export { duelWinner } from "./duel";
+export { duelCandidates } from "./outcomes";
 export { effectsOf } from "./effects";
 export { computeRanking, heritageValueOf, shouldEndAfterTurn, scoreOf } from "./scoring";
 export { checkInvariants } from "./invariants";

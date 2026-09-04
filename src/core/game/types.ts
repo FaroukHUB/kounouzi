@@ -264,6 +264,8 @@ export interface PlayerState {
   /** Dimension solidarité (tracée à part ; aucune formule de score encore). */
   readonly solidarityActions: number;
   readonly solidarityGiven: number;
+  /** Adversaire du dernier Duel déclenché par ce joueur : momentanément indisponible s'il existe un autre adversaire. */
+  readonly lastDuelOpponentId?: PlayerId | undefined;
 }
 
 export const TRANSACTION_REASONS = [

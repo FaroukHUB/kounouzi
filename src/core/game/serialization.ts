@@ -56,6 +56,7 @@ export const gameStateSchemaV4 = z.object({
       halted: z.boolean(),
       solidarityActions: z.number().int().nonnegative(),
       solidarityGiven: z.number().int().nonnegative(),
+      lastDuelOpponentId: z.string().optional(),
     }),
   ),
   activePlayerIndex: z.number().int(),

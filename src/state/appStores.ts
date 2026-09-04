@@ -1,8 +1,18 @@
-import { createIndexedDbGameRepository, createIndexedDbLearningRepository, createIndexedDbPlayerProfileRepository, createMemoryGameRepository, createMemoryLearningRepository, createMemoryPlayerProfileRepository } from "@/data/local";
+import {
+  createIndexedDbGameRepository,
+  createIndexedDbLearningRepository,
+  createIndexedDbPlayerProfileRepository,
+  createIndexedDbPlaytestRepository,
+  createMemoryGameRepository,
+  createMemoryLearningRepository,
+  createMemoryPlayerProfileRepository,
+  createMemoryPlaytestRepository,
+} from "@/data/local";
 import { LEARNING_CONFIG, learnerContextFor } from "@/config/learning";
 import { NullNarrator, WebSpeechNarrator, type NarrationService } from "@/experience/narration";
 import { createGameStore, useGameStoreOf, type GameStoreState } from "./gameStore";
 import { createLearningStore, useLearningStoreOf, type LearningStoreState } from "./learningStore";
+import { createPlaytestStore } from "./playtestStore";
 import { useUiStore } from "./uiStore";
 
 const isBrowser = typeof window !== "undefined";
@@ -24,6 +34,13 @@ export const learningStore = createLearningStore({
   onError: (error) => console.error("[kounouzi] mémoire pédagogique", error),
 });
 
+/** Diagnostic de playtest LOCAL (développement) : observation passive, rien n'est envoyé nulle part. */
+export const playtestStore = createPlaytestStore({
+  repository: hasIndexedDb ? createIndexedDbPlaytestRepository() : createMemoryPlaytestRepository(),
+  now: () => Date.now(),
+  onError: (error) => console.error("[kounouzi] playtest", error),
+});
+
 export const gameStore = createGameStore({
   repository,
   now,
@@ -32,6 +49,7 @@ export const gameStore = createGameStore({
     // Mémoire pédagogique : chaque réponse à une question servie est enregistrée pour son joueur (enfant ou adulte).
     const learners = gameStore.getState().profiles.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, schoolGrade: p.child?.schoolGrade, initialLevel: p.adult?.initialLevel }));
     learningStore.getState().record(state.gameId, events, learners);
+    playtestStore.getState().record(state.gameId, events, state);
   },
   onError: (error) => console.error("[kounouzi] persistance", error),
 });

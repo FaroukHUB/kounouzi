@@ -186,6 +186,10 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   `QuestionRef`) : une partie reprend exactement la même question quel que
   soit le contenu du moment. Le contenu de démonstration (`unverified`,
   `DEMO_CONTENT_ENABLED`) est distinct du contenu validé.
+- **Playtest local** (ADR 0025, `src/experience/playtest`, `playtestStore`) :
+  observation passive et horodatée des lots d'événements, rapport dérivé
+  (métriques, temps par interaction, journal), écran développeur
+  `/diagnostic/<gameId>`. Aucune influence sur le jeu, aucune télémétrie.
 - **Learning Engine** (ADR 0023, `src/core/learning`) : mémoire pédagogique
   générique par joueur (`player_knowledge_state`, `player_attempts`,
   `player_category_progress`), sélection **sans hasard** par score
@@ -216,6 +220,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | 4     | Cartes interactives, validation, explications FR/AR, récompenses ×2, monuments, choix, scénarios, contenu minimal — **première partie jouable** | livrée |
 | 5     | Mémoire pédagogique et Learning Engine : mémoire par joueur, sélection sans hasard, niveau par catégorie, révision espacée, persistance locale, agrégations « Mes Trésors » | livrée |
 | 5.1   | Fun et interactions : variété des catégories, Duel Kounouzi adapté, Halte du voyage, visites de patrimoine et Défi Patrimoine, transferts, scénarios à décisions, effets temporaires, séquences déterministes | livrée |
+| 5.2   | Catégorie de Duel neutre (deux mémoires), adversaires disponibles, diagnostic de playtest local (`/diagnostic/<gameId>`, export JSON/TXT, aucune télémétrie) | livrée |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
 | 7     | Mes trésors, écran parent                                    | à venir  |
 | 8     | Back-office de contenu                                       | à venir  |
