@@ -210,7 +210,7 @@
       },
       "explanation": {
         "fr": "L’intercession affirmée est demandée à Allah et ne se produit qu’avec Sa permission.",
-        "ar": "الشفاعة المثبتة تطلب من الله ولا تكون إلا بإذنه."
+        "ar": "الشفاعة المثبتة تُطلب من الله ولا تكون إلا بإذنه."
       },
       "sources": [
         {
@@ -221,8 +221,7 @@
         }
       ],
       "animationKey": "door_pick",
-      "animationHint": "Une clé « permission d’Allah » déverrouille une porte « shafāʿah ».",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction «  ت|طلب » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une clé « permission d’Allah » déverrouille une porte « shafāʿah »."
     },
     {
       "id": "REL-QAW-ARB-L2-03",
@@ -273,7 +272,7 @@
       },
       "explanation": {
         "fr": "Ce qui relève uniquement de la puissance d’Allah doit être demandé à Allah seul.",
-        "ar": "ما لا يقدر عليه إلا الله لا يطلب إلا من الله وحده."
+        "ar": "ما لا يقدر عليه إلا الله لا يُطلب إلا من الله وحده."
       },
       "sources": [
         {
@@ -284,8 +283,7 @@
         }
       ],
       "animationKey": "door_pick",
-      "animationHint": "Une requête quitte une mauvaise destination et revient vers une porte unique.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction «  ي|طلب » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une requête quitte une mauvaise destination et revient vers une porte unique."
     },
     {
       "id": "REL-QAW-ARB-L2-05",
@@ -367,7 +365,7 @@
       },
       "explanation": {
         "fr": "Le commentaire cite notamment anges, prophètes, pieux, arbres, pierres, soleil et lune.",
-        "ar": "ذكر من معبوداتهم الملائكة والأنبياء والصالحون والأشجار والأحجار والشمس والقمر."
+        "ar": "ذُكر من معبوداتهم الملائكة والأنبياء والصالحون والأشجار والأحجار والشمس والقمر."
       },
       "sources": [
         {
@@ -378,8 +376,7 @@
         }
       ],
       "animationKey": "wave_ripple",
-      "animationHint": "Les cartes défilent rapidement ; l’équation tombe hors du plateau.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذ|كر  » : à rétablir depuis le document de contrôle."
+      "animationHint": "Les cartes défilent rapidement ; l’équation tombe hors du plateau."
     },
     {
       "id": "REL-QAW-ARB-L3-03",
@@ -647,7 +644,7 @@
       },
       "explanation": {
         "fr": "La reconnaissance de la Seigneurie d’Allah doit être accompagnée du Tawhid dans l’adoration.",
-        "ar": "الإقرار بربوبية الله لا يكفي حتى يفرد سبحانه بالعبادة."
+        "ar": "الإقرار بربوبية الله لا يكفي حتى يُفرد سبحانه بالعبادة."
       },
       "sources": [
         {
@@ -658,8 +655,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une première clé ouvre un demi-verrou ; la seconde « adoration seule » termine l’ouverture.",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction «  ي|فرد » : à rétablir depuis le document de contrôle."
+      "animationHint": "Une première clé ouvre un demi-verrou ; la seconde « adoration seule » termine l’ouverture."
     },
     {
       "id": "REL-QAW-ARB-L5-02",
@@ -710,7 +706,7 @@
       },
       "explanation": {
         "fr": "Le principe reste identique même si l’objet adoré change : ange, prophète, pieux, arbre, pierre, soleil ou lune.",
-        "ar": "تعدد المعبودات لا يغير حقيقة الشرك إذا صرفت العبادة لغير الله."
+        "ar": "تعدد المعبودات لا يغير حقيقة الشرك إذا صُرفت العبادة لغير الله."
       },
       "sources": [
         {
@@ -721,8 +717,7 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Sept cartes différentes fusionnent dans une seule carte « même principe ».",
-      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction «  ص|رفت » : à rétablir depuis le document de contrôle."
+      "animationHint": "Sept cartes différentes fusionnent dans une seule carte « même principe »."
     },
     {
       "id": "REL-QAW-ARB-L5-04",

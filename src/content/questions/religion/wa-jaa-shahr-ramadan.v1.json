@@ -511,7 +511,7 @@
       "ageBand": "12-14",
       "audienceScope": "all",
       "status": "draft",
-      "title": "Mission",
+      "title": "Mission « إيمانًا واحتسابًا »",
       "prompt": {
         "fr": "Que signifie jeûner avec foi et en recherchant la récompense ?"
       },
@@ -531,8 +531,7 @@
           "publisher": "Dar al-Fadhila, 2014"
         }
       ],
-      "animationKey": "heart_glow",
-      "reviewNotes": "Titre d'origine éclaté à l'extraction (expression arabe entre guillemets, fragments « إيمان / ً / ا واحتساب / ً / ا ») : à confirmer dans la source, comme l'explication arabe recollée."
+      "animationKey": "heart_glow"
     },
     {
       "id": "REL-RAM-ARB-L4-03",
@@ -645,7 +644,7 @@
       },
       "explanation": {
         "fr": "Le jeûne a été prescrit afin que le croyant progresse dans la crainte pieuse et l’obéissance à Allah.",
-        "ar": ""
+        "ar": "شُرع الصيام لتحقيق التقوى: ﴿لَعَلَّكُمْ تَتَّقُونَ﴾."
       },
       "sources": [
         {
@@ -656,8 +655,7 @@
           "publisher": "Dar al-Fadhila, 2014"
         }
       ],
-      "animationKey": "boss_chest",
-      "reviewNotes": "Explication arabe illisible à l'extraction (20 fragments) : à saisir manuellement depuis le PDF de contrôle."
+      "animationKey": "boss_chest"
     },
     {
       "id": "REL-RAM-ARB-L5-02",

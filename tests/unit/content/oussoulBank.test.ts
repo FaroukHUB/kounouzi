@@ -70,18 +70,20 @@ describe("banque religieuse Wa Ja'a Shahr Ramadan (import, tout en brouillon)", 
     for (const q of RAMADAN_BANK) {
       expect(q.status, q.id).toBe("draft");
       expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.ramadan\.wajaa\.l\d\.\d\d$/);
-      // Une seule carte a une explication arabe illisible à l'extraction (L5-01) : laissée vide et annotée, jamais approximée.
-      if (q.id === "REL-RAM-ARB-L5-01") expect(q.explanation.ar, q.id).toBe("");
-      else expect(/[؀-ۿ]/.test(q.explanation.ar), q.id).toBe(true);
+      // Toutes les explications arabes sont présentes (L5-01 relue caractère par caractère sur le PDF de contrôle, jamais approximée).
+      expect(/[؀-ۿ]/.test(q.explanation.ar), q.id).toBe(true);
       expect(q.sources[0], q.id).toMatchObject({ title: "Wa Ja'a Shahr Ramadan", author: "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr", publisher: "Dar al-Fadhila, 2014", file: "waja-a-shahr-ramadan.pdf" });
       expect(q.sources[0]!.pages, q.id).toMatch(/^\d/);
       expect(q.prompt.fr, q.id).not.toMatch(/dans (le|ce) (livre|passage|texte)|dans la source|d'après le livre|selon le livre/i);
       expect(isPlayable(q, religion), q.id).toBe(false);
     }
-    // L5-01 : arabe à saisir ; L4-02 : titre d'origine à confirmer dans la source.
-    expect(RAMADAN_BANK.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual(["REL-RAM-ARB-L4-02", "REL-RAM-ARB-L5-01"]);
+    // Plus aucune note d'import : L5-01 (verset) et le titre arabe de L4-02 ont été vérifiés dans la source.
+    expect(RAMADAN_BANK.filter((q) => q.reviewNotes)).toEqual([]);
+    expect(RAMADAN_BANK.find((q) => q.id === "REL-RAM-ARB-L5-01")!.explanation.ar).toMatch(/^شُرع الصيام لتحقيق التقوى: ﴿.+﴾\.$/);
+    expect(RAMADAN_BANK.find((q) => q.id === "REL-RAM-ARB-L4-02")!.title).toBe("Mission « إيمانًا واحتسابًا »");
     // Même validée par erreur, une carte sans explication arabe reste injouable.
-    const forced = { ...RAMADAN_BANK.find((q) => q.id === "REL-RAM-ARB-L5-01")!, status: "validated" as const };
+    const l501 = RAMADAN_BANK.find((q) => q.id === "REL-RAM-ARB-L5-01")!;
+    const forced = { ...l501, explanation: { ...l501.explanation, ar: "" }, status: "validated" as const };
     expect(playabilityIssues(forced, religion)).toContain("explication AR manquante");
   });
 });
@@ -161,8 +163,10 @@ describe("banque religieuse Al-Qawaid al-Arba (import PDF, tout en brouillon)", 
       expect(isPlayable(q, religion), q.id).toBe(false);
     }
   });
-  it("les jonctions où un signe diacritique a été perdu restent annotées (jamais reconstruites) ; l'énoncé « rideau » est reformulé", () => {
-    expect(QAWAID_BANK.filter((q) => /Signe diacritique perdu/.test(q.reviewNotes ?? "")).map((q) => q.id)).toEqual(["REL-QAW-ARB-L2-02", "REL-QAW-ARB-L2-04", "REL-QAW-ARB-L3-02", "REL-QAW-ARB-L5-01", "REL-QAW-ARB-L5-03"]);
+  it("les cinq signes perdus à l'extraction ont été rétablis depuis la source (damma visible) et plus rien n'est annoté ; l'énoncé « rideau » est reformulé", () => {
+    expect(QAWAID_BANK.filter((q) => q.reviewNotes)).toEqual([]);
+    const damma = { "REL-QAW-ARB-L2-02": "تُطلب", "REL-QAW-ARB-L2-04": "يُطلب", "REL-QAW-ARB-L3-02": "ذُكر", "REL-QAW-ARB-L5-01": "يُفرد", "REL-QAW-ARB-L5-03": "صُرفت" };
+    for (const [id, word] of Object.entries(damma)) expect(QAWAID_BANK.find((q) => q.id === id)!.explanation.ar, id).toContain(word);
     expect(QAWAID_BANK.filter((q) => /derrière le rideau/.test(q.reviewNotes ?? ""))).toEqual([]);
     expect(QAWAID_BANK.filter((q) => /le livre/i.test(q.explanation.fr) || /le commentaire/i.test(q.prompt.fr))).toEqual([]);
   });

@@ -5,13 +5,15 @@ import corrections from "@/content/questions/religion/corrections.v1.json";
 const ALL = RELIGION_BANKS.flatMap((b) => b.questions);
 const byId = new Map(ALL.map((q) => [q.id, q]));
 
-/** Cartes dont l'arabe reste bloqué en attente de vérification dans la source : aucune correction ne doit y toucher l'arabe (sauf l'espace certain de L5-20). */
-const BLOCKED_AR = ["REL-OSS-SAS-L1-03", "REL-OSS-SAS-L2-05", "REL-OSS-SAS-L2-06", "REL-OSS-SAS-L2-17", "REL-OSS-SAS-L4-18", "REL-OSS-SAS-L5-01", "REL-OSS-SAS-L5-06", "REL-OSS-SAS-L5-07", "REL-RAM-ARB-L1-02", "REL-RAM-ARB-L1-04", "REL-RAM-ARB-L2-03", "REL-RAM-ARB-L4-02", "REL-RAM-ARB-L4-04", "REL-RAM-ARB-L4-05", "REL-RAM-ARB-L5-02", "REL-RAM-ARB-L5-04", "REL-RAM-ARB-L5-01", "REL-QAW-ARB-L2-02", "REL-QAW-ARB-L2-04", "REL-QAW-ARB-L3-02", "REL-QAW-ARB-L5-01", "REL-QAW-ARB-L5-03"];
+/** Les 23 cartes dont l'arabe a été vérifié directement contre le PDF de contrôle original (2026-09-04). */
+const VERIFIED = corrections.sourceVerified.ids;
+type Correction = { id: string; set?: Record<string, string>; clearReviewNotes?: boolean; reviewNotes?: string; reason: string };
+const ENTRIES: readonly Correction[] = corrections.corrections;
 
 describe("corrections humaines (revue du 2026-09-04) : données appliquées par-dessus l'import, jamais perdues", () => {
   it("chaque correction vise une carte existante et ses valeurs sont exactement celles de la banque (réimport idempotent)", () => {
-    expect(corrections.corrections).toHaveLength(29);
-    for (const c of corrections.corrections) {
+    expect(corrections.corrections).toHaveLength(34);
+    for (const c of ENTRIES) {
       const q = byId.get(c.id);
       expect(q, c.id).toBeDefined();
       for (const [path, value] of Object.entries(c.set ?? {})) {
@@ -28,11 +30,21 @@ describe("corrections humaines (revue du 2026-09-04) : données appliquées par-
     for (const q of ALL) expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.(\s|$)/);
   });
 
-  it("aucun arabe abîmé n'est reconstruit par les corrections : les cartes bloquées gardent leur arabe d'import et restent en brouillon", () => {
-    for (const c of corrections.corrections) {
-      if (BLOCKED_AR.includes(c.id)) expect(c.set && "explanation.ar" in c.set, c.id).toBeFalsy();
+  it("chaque arabe posé par une correction vient d'une carte vérifiée dans la source ; les 23 cartes vérifiées ont un arabe complet, sans note, et tout reste en brouillon", () => {
+    expect(VERIFIED).toHaveLength(23);
+    for (const c of ENTRIES) {
+      if (c.set && "explanation.ar" in c.set) expect(VERIFIED, `${c.id} : arabe corrigé hors vérification de source`).toContain(c.id);
     }
-    for (const id of BLOCKED_AR) expect(byId.get(id)?.status, id).toBe("draft");
+    for (const id of VERIFIED) {
+      const q = byId.get(id);
+      expect(q, id).toBeDefined();
+      expect(/[؀-ۿ]/.test(q!.explanation.ar), id).toBe(true);
+      expect(q!.reviewNotes, id).toBeUndefined();
+      expect(q!.status, id).toBe("draft");
+    }
+    expect(ALL).toHaveLength(375);
     expect(ALL.some((q) => q.status === "validated")).toBe(false);
+    // Plus aucune note d'import en attente dans les banques religieuses.
+    expect(ALL.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual([]);
   });
 });

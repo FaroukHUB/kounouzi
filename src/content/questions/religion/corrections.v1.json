@@ -1,5 +1,5 @@
 {
-  "$comment": "Corrections HUMAINES validées (revue du 2026-09-04) appliquées par-dessus l'import automatique : réponses « lettre » remplacées par le texte exact du bon choix, énoncés reformulés pour garder le livre derrière le rideau, ponctuation et espaces certains. AUCUN arabe abîmé n'est reconstruit ici. Réappliquées à chaque réimport (scripts/content/apply-corrections.mjs).",
+  "$comment": "Corrections HUMAINES validées (revue du 2026-09-04) appliquées par-dessus l'import automatique : réponses « lettre » remplacées par le texte exact du bon choix, énoncés reformulés pour garder le livre derrière le rideau, ponctuation et espaces certains. AUCUN arabe n'est reconstruit par supposition : chaque explication arabe posée ici a été relue caractère par caractère sur la page rendue du PDF de contrôle (voir `sourceVerified`). Réappliquées à chaque réimport (scripts/content/apply-corrections.mjs).",
   "version": 1,
   "reviewedAt": "2026-09-04",
   "corrections": [
@@ -46,20 +46,20 @@
     {
       "id": "REL-RAM-ARB-L5-01",
       "set": {
-        "explanation.fr": "Le jeûne a été prescrit afin que le croyant progresse dans la crainte pieuse et l’obéissance à Allah."
+        "explanation.fr": "Le jeûne a été prescrit afin que le croyant progresse dans la crainte pieuse et l’obéissance à Allah.",
+        "explanation.ar": "شُرع الصيام لتحقيق التقوى: ﴿لَعَلَّكُمْ تَتَّقُونَ﴾."
       },
-      "clearReviewNotes": false,
-      "reason": "débris « .﴾ » retiré du FR ; l'arabe reste à saisir"
+      "clearReviewNotes": true,
+      "reason": "débris « .﴾ » retiré du FR ; explication arabe relue caractère par caractère sur la page 12 du PDF de contrôle (vérification visuelle du rendu, 2026-09-04)"
     },
     {
       "id": "REL-RAM-ARB-L4-02",
       "set": {
-        "title": "Mission",
+        "title": "Mission « إيمانًا واحتسابًا »",
         "prompt.fr": "Que signifie jeûner avec foi et en recherchant la récompense ?"
       },
-      "clearReviewNotes": false,
-      "reviewNotes": "Titre d'origine éclaté à l'extraction (expression arabe entre guillemets, fragments « إيمان / ً / ا واحتساب / ً / ا ») : à confirmer dans la source, comme l'explication arabe recollée.",
-      "reason": "énoncé contaminé par les fragments du titre"
+      "clearReviewNotes": true,
+      "reason": "énoncé contaminé par les fragments du titre ; titre arabe et explication arabe relus sur la page 10 du PDF de contrôle (2026-09-04)"
     },
     {
       "id": "REL-RAM-ARB-L1-02",
@@ -245,6 +245,75 @@
       },
       "clearReviewNotes": true,
       "reason": "réponse alignée mot pour mot sur le choix A"
+    },
+    {
+      "id": "REL-QAW-ARB-L2-02",
+      "set": {
+        "explanation.ar": "الشفاعة المثبتة تُطلب من الله ولا تكون إلا بإذنه."
+      },
+      "clearReviewNotes": true,
+      "reason": "damma visible dans la source « تُطلب » (page 8 du PDF de contrôle, relecture visuelle 2026-09-04)"
+    },
+    {
+      "id": "REL-QAW-ARB-L2-04",
+      "set": {
+        "explanation.ar": "ما لا يقدر عليه إلا الله لا يُطلب إلا من الله وحده."
+      },
+      "clearReviewNotes": true,
+      "reason": "damma visible dans la source « يُطلب » (page 10 du PDF de contrôle, relecture visuelle 2026-09-04)"
+    },
+    {
+      "id": "REL-QAW-ARB-L3-02",
+      "set": {
+        "explanation.ar": "ذُكر من معبوداتهم الملائكة والأنبياء والصالحون والأشجار والأحجار والشمس والقمر."
+      },
+      "clearReviewNotes": true,
+      "reason": "damma visible dans la source « ذُكر » (page 13 du PDF de contrôle, relecture visuelle 2026-09-04)"
+    },
+    {
+      "id": "REL-QAW-ARB-L5-01",
+      "set": {
+        "explanation.ar": "الإقرار بربوبية الله لا يكفي حتى يُفرد سبحانه بالعبادة."
+      },
+      "clearReviewNotes": true,
+      "reason": "damma visible dans la source « يُفرد » (page 22 du PDF de contrôle, relecture visuelle 2026-09-04)"
+    },
+    {
+      "id": "REL-QAW-ARB-L5-03",
+      "set": {
+        "explanation.ar": "تعدد المعبودات لا يغير حقيقة الشرك إذا صُرفت العبادة لغير الله."
+      },
+      "clearReviewNotes": true,
+      "reason": "damma visible dans la source « صُرفت » (page 24 du PDF de contrôle, relecture visuelle 2026-09-04)"
     }
-  ]
+  ],
+  "sourceVerified": {
+    "$comment": "Cartes dont l'explication arabe a été vérifiée directement contre le PDF de contrôle original (page rendue en image, relecture visuelle + comparaison des caractères extraits par poppler). Sans changement quand la banque était déjà exacte.",
+    "verifiedAt": "2026-09-04",
+    "ids": [
+      "REL-OSS-SAS-L1-03",
+      "REL-OSS-SAS-L2-05",
+      "REL-OSS-SAS-L2-06",
+      "REL-OSS-SAS-L2-17",
+      "REL-OSS-SAS-L4-18",
+      "REL-OSS-SAS-L5-01",
+      "REL-OSS-SAS-L5-06",
+      "REL-OSS-SAS-L5-07",
+      "REL-OSS-SAS-L5-20",
+      "REL-RAM-ARB-L1-02",
+      "REL-RAM-ARB-L1-04",
+      "REL-RAM-ARB-L2-03",
+      "REL-RAM-ARB-L4-02",
+      "REL-RAM-ARB-L4-04",
+      "REL-RAM-ARB-L4-05",
+      "REL-RAM-ARB-L5-01",
+      "REL-RAM-ARB-L5-02",
+      "REL-RAM-ARB-L5-04",
+      "REL-QAW-ARB-L2-02",
+      "REL-QAW-ARB-L2-04",
+      "REL-QAW-ARB-L3-02",
+      "REL-QAW-ARB-L5-01",
+      "REL-QAW-ARB-L5-03"
+    ]
+  }
 }
