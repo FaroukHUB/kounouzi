@@ -17,6 +17,8 @@ export interface CategoryDefinition {
   readonly visualKey: string;
   /** `true` (religion) : aucune question publiable sans source primaire. */
   readonly requiresSource: boolean;
+  /** `true` (religion) : l'explication FR/AR est affichée et lue après la réponse ; `false` : passage direct au résultat. */
+  readonly showsExplanation: boolean;
   readonly generationMode: GenerationMode;
   readonly active: boolean;
 }

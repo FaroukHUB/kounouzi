@@ -16,6 +16,7 @@ import { LongPressButton } from "./LongPressButton";
 import { CardAnimation } from "./animations/CardAnimation";
 import { siteDisplayName } from "./MonumentCard";
 import { servedFor, type CardState } from "./cardState";
+import { afterValidation } from "./questionFlow";
 
 type QuestionCardState = Extract<CardState, { kind: "question" }>;
 
@@ -33,8 +34,10 @@ export interface QuestionCardProps {
 /**
  * La carte question : touche → tourbillon → retournement → question →
  * réponse orale → révélation (appui long) → Correct / Presque / Incorrect
- * (collectif, ou auto-évaluation explicite) → explication FR puis AR →
- * « connaissais-tu déjà ? » → envoi au moteur → résultat → récompense.
+ * (collectif, ou auto-évaluation explicite) → [catégorie avec explication :
+ * explication FR puis AR → « connaissais-tu déjà ? »] → envoi au moteur →
+ * résultat → récompense. Sans explication (maths, géographie…), la réponse
+ * validée part directement au moteur.
  */
 const PURPOSE_CELL: Record<QuestionCardState["purpose"], CellType> = { standard: "question", halt: "halt", heritage_visit: "heritage", duel: "challenge" };
 
@@ -77,9 +80,12 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
     if (step === "explanation") {
       narrator.speak({ text: question.explanation.fr, lang: "fr", important: true });
       narrator.speak({ text: question.explanation.ar, lang: "ar" });
+      // Dès que la tablée passe à la suite (ou que la carte disparaît), la voix se tait : jamais de chevauchement avec le tour suivant.
+      return () => narrator.stop();
     }
     if (step === "result" && card.outcome) narrator.speak({ text: t(DEFAULT_LOCALE, `narration.result.${card.outcome}`), lang: "fr" });
     if (step === "reward" && card.rewardAmount) narrator.speak({ text: t(DEFAULT_LOCALE, "narration.reward", { amount: card.rewardAmount }), lang: "fr" });
+    return undefined;
   }, [step, question, narrator, card.outcome, card.rewardAmount]);
 
   if (!question) {
@@ -151,7 +157,17 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
           <p className="font-semibold">{t(DEFAULT_LOCALE, "card.validation.title")}</p>
           <div className="grid grid-cols-3 gap-2" data-testid="validation">
             {(["correct", "partial", "incorrect"] as const).map((o) => (
-              <Button key={o} size="lg" variant={o === "correct" ? "primary" : "secondary"} onClick={() => onUpdate({ step: "explanation", outcome: o })} data-testid={`validate-${o}`}>
+              <Button
+                key={o}
+                size="lg"
+                variant={o === "correct" ? "primary" : "secondary"}
+                onClick={() => {
+                  const next = afterValidation(category, o);
+                  if (next.kind === "explain") onUpdate({ step: "explanation", outcome: o });
+                  else onSubmit(next.outcome, next.mastery, card.validationMode);
+                }}
+                data-testid={`validate-${o}`}
+              >
                 {t(DEFAULT_LOCALE, `card.validation.${o}`)}
               </Button>
             ))}

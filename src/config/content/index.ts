@@ -28,7 +28,7 @@ const frenchFirst = z.object({ fr: z.string().min(1), ar: z.string().min(1).opti
 const sourceSchema = z.object({ title: z.string().min(1), url: z.string().url().optional(), author: z.string().optional(), retrievedAt: z.string().optional(), pages: z.string().optional(), file: z.string().optional(), publisher: z.string().optional() });
 
 export const categoriesSchema = z.object({
-  categories: z.array(z.object({ id: z.string().min(1), label: bilingual, visualKey: z.string().min(1), requiresSource: z.boolean(), generationMode: z.enum(GENERATION_MODES), active: z.boolean() })).min(1),
+  categories: z.array(z.object({ id: z.string().min(1), label: bilingual, visualKey: z.string().min(1), requiresSource: z.boolean(), showsExplanation: z.boolean(), generationMode: z.enum(GENERATION_MODES), active: z.boolean() })).min(1),
 });
 const review = z.object({ ar: z.enum(["provisional", "reviewed"]) }).optional();
 export const geoCatalogueSchema = z.object({

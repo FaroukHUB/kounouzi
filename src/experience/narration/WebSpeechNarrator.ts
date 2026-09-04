@@ -16,6 +16,8 @@ export class WebSpeechNarrator implements NarrationService {
   private rate: keyof typeof RATE_VALUES = "normal";
   private last: Utterance | null = null;
   private voices: SpeechSynthesisVoice[] = [];
+  /** Génération courante : un `stop()` l'incrémente, ce qui périme les fins et minuteries des phrases annulées. */
+  private generation = 0;
 
   constructor() {
     this.synth = typeof window !== "undefined" && "speechSynthesis" in window ? window.speechSynthesis : null;
@@ -40,6 +42,7 @@ export class WebSpeechNarrator implements NarrationService {
   stop(): void {
     this.queue = [];
     this.speaking = false;
+    this.generation += 1;
     this.synth?.cancel();
   }
 
@@ -80,6 +83,7 @@ export class WebSpeechNarrator implements NarrationService {
     const next = this.queue.shift();
     if (!next) return;
     this.speaking = true;
+    const gen = this.generation;
     try {
       const u = new SpeechSynthesisUtterance(next.text);
       u.lang = BCP47[next.lang];
@@ -87,6 +91,8 @@ export class WebSpeechNarrator implements NarrationService {
       const voice = this.pickVoice(next.lang);
       if (voice) u.voice = voice;
       const done = () => {
+        // Une phrase annulée par `stop()` (ou sa minuterie) ne doit pas couper la phrase suivante.
+        if (gen !== this.generation) return;
         this.speaking = false;
         this.drain();
       };

@@ -142,7 +142,11 @@ long) ; la tablée choisit **Correct / Presque / Incorrect**.
 - `validation_mode = collective` par défaut ;
 - action discrète « Auto-évaluation » → `validation_mode = self` ;
 - le moteur ne déduit jamais le mode ; aucune notion de validateur désigné ni
-  de permission en V1.
+  de permission en V1 ;
+- l'explication FR/AR n'est affichée et lue qu'après une réponse d'une
+  catégorie qui la déclare (`showsExplanation`, donnée : religion) ; ailleurs
+  la réponse validée part directement au moteur. Quitter l'explication coupe
+  la voix : aucun chevauchement avec le tour suivant (ADR 0026).
 
 ## 5 bis. Couche expérience (Phase 3)
 

@@ -1,13 +1,13 @@
 {
-  "$comment": "Catégories V1 (données). requiresSource=true : aucune question publiable sans source primaire. Une catégorie active sans contenu jouable ne fournit simplement rien.",
+  "$comment": "Catégories V1 (données). requiresSource=true : aucune question publiable sans source primaire. showsExplanation=true : l'explication FR/AR est affichée et lue après la réponse (religion) ; false : on passe directement au résultat. Une catégorie active sans contenu jouable ne fournit simplement rien.",
   "categories": [
-    { "id": "religion", "label": { "fr": "Religion", "ar": "الدين" }, "visualKey": "book", "requiresSource": true, "generationMode": "curated", "active": true },
-    { "id": "maths", "label": { "fr": "Mathématiques", "ar": "الرياضيات" }, "visualKey": "slate", "requiresSource": false, "generationMode": "algorithmic", "active": true },
-    { "id": "geography", "label": { "fr": "Géographie", "ar": "الجغرافيا" }, "visualKey": "globe", "requiresSource": false, "generationMode": "factual", "active": true },
-    { "id": "history", "label": { "fr": "Histoire et patrimoine", "ar": "التاريخ والتراث" }, "visualKey": "monument", "requiresSource": false, "generationMode": "curated", "active": true },
-    { "id": "arabic", "label": { "fr": "Langue arabe", "ar": "اللغة العربية" }, "visualKey": "letters", "requiresSource": false, "generationMode": "curated", "active": true },
-    { "id": "logic", "label": { "fr": "Logique", "ar": "المنطق" }, "visualKey": "puzzle", "requiresSource": false, "generationMode": "curated", "active": true },
-    { "id": "management", "label": { "fr": "Gestion", "ar": "التدبير" }, "visualKey": "coins", "requiresSource": false, "generationMode": "curated", "active": true },
-    { "id": "culture", "label": { "fr": "Culture générale", "ar": "الثقافة العامة" }, "visualKey": "spark", "requiresSource": false, "generationMode": "curated", "active": true }
+    { "id": "religion", "label": { "fr": "Religion", "ar": "الدين" }, "visualKey": "book", "requiresSource": true, "showsExplanation": true, "generationMode": "curated", "active": true },
+    { "id": "maths", "label": { "fr": "Mathématiques", "ar": "الرياضيات" }, "visualKey": "slate", "requiresSource": false, "showsExplanation": false, "generationMode": "algorithmic", "active": true },
+    { "id": "geography", "label": { "fr": "Géographie", "ar": "الجغرافيا" }, "visualKey": "globe", "requiresSource": false, "showsExplanation": false, "generationMode": "factual", "active": true },
+    { "id": "history", "label": { "fr": "Histoire et patrimoine", "ar": "التاريخ والتراث" }, "visualKey": "monument", "requiresSource": false, "showsExplanation": false, "generationMode": "curated", "active": true },
+    { "id": "arabic", "label": { "fr": "Langue arabe", "ar": "اللغة العربية" }, "visualKey": "letters", "requiresSource": false, "showsExplanation": false, "generationMode": "curated", "active": true },
+    { "id": "logic", "label": { "fr": "Logique", "ar": "المنطق" }, "visualKey": "puzzle", "requiresSource": false, "showsExplanation": false, "generationMode": "curated", "active": true },
+    { "id": "management", "label": { "fr": "Gestion", "ar": "التدبير" }, "visualKey": "coins", "requiresSource": false, "showsExplanation": false, "generationMode": "curated", "active": true },
+    { "id": "culture", "label": { "fr": "Culture générale", "ar": "الثقافة العامة" }, "visualKey": "spark", "requiresSource": false, "showsExplanation": false, "generationMode": "curated", "active": true }
   ]
 }
