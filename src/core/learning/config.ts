@@ -64,6 +64,9 @@ export const learningConfigSchema = z.object({
     /** Pénalité par occurrence de la catégorie dans la fenêtre récente (variété). */
     categoryExposure: z.number().min(0),
     mastered: z.number().min(0),
+    /** Pénalités d'une formulation / d'une notion déjà rencontrée DANS LA PARTIE EN COURS (quel que soit l'âge de l'essai). */
+    repeatInGame: z.number().min(0),
+    repeatNodeInGame: z.number().min(0),
   }),
 });
 

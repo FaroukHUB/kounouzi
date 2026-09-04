@@ -8,7 +8,7 @@ import {
   createMemoryPlayerProfileRepository,
   createMemoryPlaytestRepository,
 } from "@/data/local";
-import { LEARNING_CONFIG, learnerContextFor } from "@/config/learning";
+import { LEARNING_CONFIG, ageOf, learnerContextFor } from "@/config/learning";
 import { NullNarrator, WebSpeechNarrator, type NarrationService } from "@/experience/narration";
 import { createGameStore, useGameStoreOf, type GameStoreState } from "./gameStore";
 import { createLearningStore, useLearningStoreOf, type LearningStoreState } from "./learningStore";
@@ -47,7 +47,8 @@ export const gameStore = createGameStore({
   onEvents: (events, state) => {
     useUiStore.getState().enqueueBatch(events, state);
     // Mémoire pédagogique : chaque réponse à une question servie est enregistrée pour son joueur (enfant ou adulte).
-    const learners = gameStore.getState().profiles.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, schoolGrade: p.child?.schoolGrade, initialLevel: p.adult?.initialLevel }));
+    const at = now();
+    const learners = gameStore.getState().profiles.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, age: ageOf(p, at), initialLevel: p.adult?.initialLevel }));
     learningStore.getState().record(state.gameId, events, learners);
     playtestStore.getState().record(state.gameId, events, state);
     // Récitation : une sourate maîtrisée suit le profil du joueur (références seulement, jamais un texte).

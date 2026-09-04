@@ -22,7 +22,7 @@ import { CardOverlay } from "@/ui/cards/CardOverlay";
 import { Button } from "@/ui/primitives/Button";
 import { FinalRanking } from "./FinalRanking";
 import { JourneyPanel } from "./JourneyPanel";
-import { PlayerPanel } from "./PlayerPanel";
+import { PlayerCorners, PlayerPanel } from "./PlayerPanel";
 import { SettingsSheet } from "./SettingsSheet";
 import { TimeBadge } from "./TimeBadge";
 import { TurnBanner } from "./TurnBanner";
@@ -124,17 +124,31 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const dispatch = gameStore.getState().dispatch;
   const startJourney = () => dispatch({ type: "StartJourney", playerId: activeId });
   const cardOpen = ui.card !== null;
+  /** Jusqu'à 4 joueurs : les tuiles entourent le plateau (gros chiffres) ; au-delà, liste dans le panneau latéral. */
+  const corners = state.players.length <= 4;
 
   return (
     <div className="bg-table relative flex min-h-dvh flex-col lg:flex-row lg:items-center lg:justify-center lg:gap-6 lg:p-6" data-testid="game-screen" data-phase={state.phase.kind}>
       <TurnBanner banner={ui.banner} state={shown} />
 
+      {corners ? (
+        <div className="grid grid-cols-2 gap-2 px-3 pt-3 lg:hidden" data-testid="player-corners-mobile">
+          <PlayerCorners state={shown} profiles={profiles} />
+        </div>
+      ) : null}
       <motion.main
-        className="flex flex-1 items-center justify-center p-3 lg:flex-none"
+        className={`flex flex-1 items-center justify-center p-3 lg:flex-none ${corners ? "lg:grid lg:grid-cols-[14rem_auto_14rem] lg:grid-rows-2 lg:gap-4" : ""}`}
         animate={{ scale: cardOpen ? 0.96 : 1, opacity: cardOpen ? 0.6 : 1 }}
         transition={{ type: "tween", duration: reduced ? 0 : 0.3 }}
         style={{ willChange: cardOpen ? "transform, opacity" : "auto" }}
+        data-layout={corners ? "corners" : "list"}
       >
+        {corners ? (
+          <div className="contents max-lg:hidden" data-testid="player-corners">
+            <PlayerCorners state={shown} profiles={profiles} />
+          </div>
+        ) : null}
+        <div className={corners ? "lg:col-start-2 lg:row-span-2 lg:self-center" : ""}>
         <Board
           board={state.config.board}
           highlightedCell={ui.highlightedCell}
@@ -146,6 +160,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           pawns={<PawnLayer players={state.players} profiles={profiles} visuals={ui.pawnVisuals} activePlayerId={shownActiveId} cellCount={state.config.board.cellCount} stepMs={timings.stepMs} />}
           center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}
         />
+        </div>
       </motion.main>
 
       <CardOverlay
@@ -173,7 +188,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
             ⚙
           </Button>
         </header>
-        <PlayerPanel state={shown} profiles={profiles} />
+        {corners ? null : <PlayerPanel state={shown} profiles={profiles} />}
         {paused ? <p className="rounded-xl bg-white px-3 py-2 text-center text-sm font-semibold">{t(DEFAULT_LOCALE, "game.paused")}</p> : null}
       </aside>
 

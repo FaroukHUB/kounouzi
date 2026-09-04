@@ -26,6 +26,8 @@ export interface Timings {
   /** Défi famille : « OH NOOON… » avant révélation, résultat, récompense. */
   readonly ohNoMs: number;
   readonly challengeResultMs: number;
+  /** Paiement / don entre joueurs : bandeau explicite, plus long qu'un simple avis. */
+  readonly transferMs: number;
 }
 
 export const DEFAULT_TIMINGS: Timings = {
@@ -46,6 +48,7 @@ export const DEFAULT_TIMINGS: Timings = {
   noticeMs: 1400,
   ohNoMs: 1400,
   challengeResultMs: 1300,
+  transferMs: 2600,
 };
 
 /** Mode « animations réduites » : même séquence, durées nulles. */

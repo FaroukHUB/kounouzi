@@ -78,7 +78,7 @@ export const curatedBankSchema = z.object({
   ).refine((qs) => qs.every((q) => q.status !== "validated" || q.explanation.ar.trim() !== ""), { message: "une question validée exige une explication arabe" }),
 });
 const band = z.tuple([z.number().int().min(1).max(5), z.number().int().min(1).max(5)]);
-export const bandsSchema = z.object({ child: z.record(z.string(), band), adult: z.record(z.string(), band) });
+export const bandsSchema = z.object({ child: z.array(z.object({ maxAge: z.number().int().min(0).optional(), band })).min(1), adult: z.record(z.string(), band) });
 
 export const CATEGORIES: readonly CategoryDefinition[] = categoriesSchema.parse(categoriesJson).categories;
 const geo = geoCatalogueSchema.parse(countriesJson);
@@ -118,8 +118,12 @@ export interface DifficultyBand {
 }
 
 /** Bande de difficulté d'un profil : uniquement un POINT DE DÉPART (amorçage du Learning Engine), jamais un plafond. */
-export function difficultyBandFor(profile: { readonly profileType: ProfileType; readonly schoolGrade?: string | undefined; readonly initialLevel?: AdultInitialLevel | undefined }): DifficultyBand {
-  const entry = profile.profileType === "child" ? BANDS.child[profile.schoolGrade ?? ""] : BANDS.adult[profile.initialLevel ?? "standard"];
+/** Bande d'amorçage : par ÂGE pour un enfant (âge inconnu = la plus jeune), par niveau initial pour un adulte. */
+export function difficultyBandFor(profile: { readonly profileType: ProfileType; readonly age?: number | undefined; readonly initialLevel?: AdultInitialLevel | undefined }): DifficultyBand {
+  const entry =
+    profile.profileType === "child"
+      ? (profile.age === undefined ? BANDS.child[0] : BANDS.child.find((b) => b.maxAge === undefined || profile.age! <= b.maxAge))?.band
+      : BANDS.adult[profile.initialLevel ?? "standard"];
   const [min, max] = entry ?? [2, 4];
   return { min, max };
 }

@@ -83,9 +83,9 @@ describe("catalogue géographique et gabarits", () => {
 
 describe("bandes de difficulté provisoires", () => {
   it("dérivent de la classe ou du niveau initial, avec un repli sûr", () => {
-    expect(difficultyBandFor({ profileType: "child", schoolGrade: "CP" })).toEqual({ min: 1, max: 2 });
+    expect(difficultyBandFor({ profileType: "child", age: 6 })).toEqual({ min: 1, max: 2 });
     expect(difficultyBandFor({ profileType: "adult", initialLevel: "advanced" })).toEqual({ min: 4, max: 5 });
     expect(difficultyBandFor({ profileType: "adult" })).toEqual({ min: 3, max: 5 });
-    expect(difficultyBandFor({ profileType: "child", schoolGrade: "inconnue" })).toEqual({ min: 2, max: 4 });
+    expect(difficultyBandFor({ profileType: "child" })).toEqual({ min: 1, max: 2 });
   });
 });

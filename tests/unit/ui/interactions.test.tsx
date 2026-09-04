@@ -17,7 +17,7 @@ import { advanceUntil, answer, create, journey, makeLineSetup, makeSetup, pid, p
 import { resolveFor } from "../../fixtures/learning/resolve.fixture";
 
 const narrator = new NullNarrator();
-const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: ["Maryam", "Papa", "Yacine"][i]!, profileType: p.profileType, avatarId: ["amber", "teal", "ruby"][i]!, ...(p.profileType === "child" ? { child: { birthYear: 2019, schoolGrade: "CP" } } : { adult: { initialLevel: "standard" as const } }) }));
+const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: ["Maryam", "Papa", "Yacine"][i]!, profileType: p.profileType, avatarId: ["amber", "teal", "ruby"][i]!, ...(p.profileType === "child" ? { child: { birthYear: 2019 } } : { adult: { initialLevel: "standard" as const } }) }));
 const named = (s: ReturnType<typeof create>["state"]) => ({ ...s, players: s.players.map((p, i) => ({ ...p, displayName: ["Maryam", "Papa", "Yacine"][i]! })) });
 /** `renderToStaticMarkup` échappe les apostrophes. */
 const escaped = (text: string) => text.replace(/'/g, "&#x27;");
@@ -156,8 +156,9 @@ describe("file d'animation, bandeaux et narration des nouvelles mécaniques", ()
 
   it("les bandeaux et la narration nomment les joueurs", () => {
     const state = named(create(makeSetup()).state);
-    expect(bannerText({ kind: "transfer", fromPlayerId: p1, toPlayerId: p2, amount: 50, contribution: false }, state)).toBe("Maryam donne 50 à Papa");
-    expect(bannerText({ kind: "transfer", fromPlayerId: p2, toPlayerId: p1, amount: 25, contribution: true }, state)).toBe("Papa contribue 25 au patrimoine de Maryam");
+    expect(bannerText({ kind: "transfer", fromPlayerId: p1, toPlayerId: p2, amount: 50, contribution: false }, state)).toBe("Maryam donne 50 Kounouz à Papa");
+    // Paiement explicite : qui paie, combien, à qui, et pourquoi (le monument du propriétaire).
+    expect(bannerText({ kind: "transfer", fromPlayerId: p2, toPlayerId: p1, amount: 25, contribution: true }, state)).toBe("Papa paie 25 Kounouz à Maryam — monument de Maryam");
     expect(bannerText({ kind: "halt_lifted", playerId: p1 }, state)).toBe("Maryam reprend la route !");
     expect(bannerText({ kind: "shield", amount: 150 }, state)).toContain("annulée");
     expect(utteranceFor({ type: "DuelStarted", challengerId: p1, opponentId: p2 }, state, "fr")?.text).toBe("Maryam défie Papa !");

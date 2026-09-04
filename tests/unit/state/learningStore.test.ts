@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { LEARNING_CONFIG, learnerContextFor } from "@/config/learning";
+import { LEARNING_CONFIG, ageOf, learnerContextFor } from "@/config/learning";
 import type { GameEvent } from "@/core/game";
 import type { GameId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
@@ -8,8 +8,8 @@ import { createLearningStore } from "@/state/learningStore";
 import { active, answer, create, journey, makeLineSetup, makeSetup, pid, run } from "../../fixtures/game/setup.fixture";
 import { T0, resolveFor } from "../../fixtures/learning/resolve.fixture";
 
-const profiles: readonly PlayerProfileDraft[] = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", ...(i % 2 === 0 ? { child: { birthYear: 2018, schoolGrade: "CE2" } } : { adult: { initialLevel: "standard" as const } }) }));
-const learners = profiles.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, schoolGrade: p.child?.schoolGrade, initialLevel: p.adult?.initialLevel }));
+const profiles: readonly PlayerProfileDraft[] = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", ...(i % 2 === 0 ? { child: { birthYear: 2018 } } : { adult: { initialLevel: "standard" as const } }) }));
+const learners = profiles.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, age: ageOf(p, T0), initialLevel: p.adult?.initialLevel }));
 
 function harness(repository = createMemoryLearningRepository()) {
   let tick = 0;

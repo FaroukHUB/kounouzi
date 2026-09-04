@@ -6,7 +6,7 @@ import { GAME_SCHEMA_VERSION } from "@/core/game";
 import { active, answer, create, eventsOf, journey, makeLineSetup, makeSetup, pid, run } from "../../fixtures/game/setup.fixture";
 import { resolveFor } from "../../fixtures/learning/resolve.fixture";
 
-const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", child: { birthYear: 2018, schoolGrade: "CE2" } }));
+const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", child: { birthYear: 2018 } }));
 
 describe("question figée dans l'état (ServeQuestion)", () => {
   it("fige la question distribuée avec sa référence versionnée ; refuse un double service ou un service hors demande", () => {

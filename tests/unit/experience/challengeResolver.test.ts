@@ -12,7 +12,7 @@ const players = [
   { id: pid("papa"), displayName: "Papa", profileType: "adult" as const },
   { id: pid("maryam"), displayName: "Maryam", profileType: "child" as const, age: 9 },
 ];
-const profiles = players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", ...(p.profileType === "child" ? { child: { birthYear: 2017, schoolGrade: "CE2" } } : { adult: { initialLevel: "standard" as const } }) }));
+const profiles = players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", ...(p.profileType === "child" ? { child: { birthYear: 2017 } } : { adult: { initialLevel: "standard" as const } }) }));
 
 const mathsChallenge = (id: string, difficultyDelta: number) => ({ id, title: "Calcul", category: "maths" as const, minAge: 5, reward: 20, text: "Résous le calcul.", variants: [], ohNo: false, boss: false, consentRequired: false, animationKey: "mental_math", contentRef: { kind: "validated_question" as const, categoryId: "maths", difficultyDelta } });
 

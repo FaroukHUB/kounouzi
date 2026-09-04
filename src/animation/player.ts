@@ -194,7 +194,7 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       return;
     case "MoneyTransferred":
       actions.closeCard();
-      return banner(actions, { kind: "transfer", fromPlayerId: event.fromPlayerId, toPlayerId: event.toPlayerId, amount: event.amount, contribution: event.reason === "heritage_contribution" }, t.noticeMs, sleep);
+      return banner(actions, { kind: "transfer", fromPlayerId: event.fromPlayerId, toPlayerId: event.toPlayerId, amount: event.amount, contribution: event.reason === "heritage_contribution" }, t.transferMs, sleep);
     case "PenaltyShielded":
       return banner(actions, { kind: "shield", amount: event.amount }, t.noticeMs, sleep);
     case "InvestmentSettled":
@@ -297,10 +297,11 @@ export function estimateDuration(event: GameEvent, t: Timings): number {
       return t.challengeResultMs / 2;
     case "ChallengeRewardGranted":
       return t.rewardMs;
+    case "MoneyTransferred":
+      return t.transferMs;
     case "HeritageRevisited":
     case "HaltLifted":
     case "HaltTurnLost":
-    case "MoneyTransferred":
     case "PenaltyShielded":
     case "InvestmentSettled":
     case "SavingMatured":

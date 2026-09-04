@@ -4,7 +4,7 @@ import { challengeById } from "@/core/game";
 import { emptyMemory, selectDuelCategory, selectQuestion, targetLevel, type DuelParticipant, type LearningConfig, type PlayerLearningMemory } from "@/core/learning";
 import type { PlayerId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
-import { learnerContextFor } from "@/config/learning";
+import { ageOf, learnerContextFor } from "@/config/learning";
 
 export interface ResolveInput {
   readonly state: GameState;
@@ -62,7 +62,7 @@ export function resolveQuestion({ state, profiles, registry, memoryOf, config, n
     const profile = profiles.find((d) => d.id === id);
     return {
       memory: memoryOf(id) ?? emptyMemory(id),
-      learner: learnerContextFor({ id, profileType: p.profileType, schoolGrade: profile?.child?.schoolGrade, initialLevel: profile?.adult?.initialLevel }),
+      learner: learnerContextFor({ id, profileType: p.profileType, age: profile ? ageOf(profile, now) : undefined, initialLevel: profile?.adult?.initialLevel }),
       slots: registry.slots(p.profileType),
     };
   };
@@ -82,7 +82,7 @@ export function resolveQuestion({ state, profiles, registry, memoryOf, config, n
     if (categoryId !== "any") slots = slots.filter((s) => s.categoryId === categoryId);
     if (difficultyDelta > 0) slots = slots.filter((s) => s.difficulty >= targetLevel(me.memory, s.categoryId, me.learner, config) + difficultyDelta);
   }
-  return selectQuestion({ memory: me.memory, learner: me.learner, slots, config, now })?.question ?? null;
+  return selectQuestion({ memory: me.memory, learner: me.learner, slots, config, now, gameId: state.gameId })?.question ?? null;
 }
 
 /** La catégorie du Duel en attente, calculée depuis les DEUX mémoires (identique quel que soit le sens du défi). */

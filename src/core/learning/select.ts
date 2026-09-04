@@ -20,6 +20,8 @@ export interface SelectionInput {
   readonly config: LearningConfig;
   /** Horloge injectée (ISO). */
   readonly now: string;
+  /** Partie en cours : ce qui y a déjà été posé est fortement pénalisé (anti-répétition par partie). */
+  readonly gameId?: string | undefined;
 }
 
 export interface ScoredSlot {
@@ -54,6 +56,9 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
   // Exposition récente par catégorie : nombre d'essais de la catégorie dans la fenêtre (variété sans quota).
   const exposure = new Map<string, number>();
   for (const a of memory.attempts.slice(-config.antiRepetition.recentCategoryWindow)) exposure.set(a.categoryId, (exposure.get(a.categoryId) ?? 0) + 1);
+  const inGame = input.gameId === undefined ? [] : memory.attempts.filter((a) => a.gameId === input.gameId);
+  const gameRefs = new Set(inGame.map((a) => questionRefKey(a.ref)));
+  const gameNodes = new Set(inGame.map((a) => a.knowledgeNodeId));
 
   const scored: ScoredSlot[] = [];
   for (const slot of input.slots) {
@@ -90,6 +95,14 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
     if (recentRefs.has(refKey)) {
       score -= w.repeatQuestion;
       reasons.push("formulation récente");
+    }
+    if (gameRefs.has(refKey)) {
+      score -= w.repeatInGame;
+      reasons.push("déjà posée dans la partie");
+    }
+    if (!due && gameNodes.has(slot.knowledgeNodeId)) {
+      score -= w.repeatNodeInGame;
+      reasons.push("notion déjà vue dans la partie");
     }
     if (!due && recentNodes.has(slot.knowledgeNodeId)) {
       score -= w.repeatNode;

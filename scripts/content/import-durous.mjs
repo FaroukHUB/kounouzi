@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 /**
- * Import d'une banque religieuse Kounouzi au format « document de contrôle »
- * (DOCX/PDF humain → données structurées). Entrée : le TEXTE extrait du
+ * Import d'une banque de questions Kounouzi au format « document de contrôle »
+ * (DOCX/PDF humain → données structurées ; modèle : docs/import/MODELE_QUESTIONS.md).
+ * La catégorie est le premier segment du nœud (« religion.tawhid.qawaid » →
+ * religion, « maths.calcul » → maths). La ligne « Source : » est obligatoire
+ * pour la religion (la catégorie l'exige) et facultative ailleurs ; la ligne
+ * « Animation suggérée : » est facultative. Entrée : le TEXTE extrait du
  * document (un paragraphe ou une ligne par ligne), sortie : JSON versionné
  * consommé par le Content Engine. Toutes les cartes sortent en `draft` ; rien
  * n'est inventé ni complété : le script ne fait que découper, et recoller les
@@ -70,6 +74,7 @@ const lines = readFileSync(input, "utf8")
   .map((l) => l.replace(/\s+$/, ""))
   .filter((l) => l.trim() !== "");
 
+const categoryId = nodePrefix.split(".")[0];
 const cards = [];
 const letterAnswers = [];
 const curtain = [];
@@ -122,13 +127,13 @@ while (i < lines.length) {
   let answer = lines[i++].replace(/^RÉPONSE :\s*/, "").trim();
   const explanationFr = [lines[i++].replace(/^Explication FR :\s*/, "")];
   // Jusqu'à « Source : » : suite de l'explication FR, puis explication AR (éventuellement en fragments).
-  const between = collectUntil((l) => l.startsWith("Source :"));
+  const between = collectUntil((l) => l.startsWith("Source :") || l.startsWith("Animation suggérée :") || isHeader(l));
   // Une ligne avec des mots latins est la suite du FR (même si elle cite « رضي الله عنها ») ; sinon fragment arabe, ou glyphe orphelin.
   const isFr = (l) => LATIN_WORD.test(l);
   const pieces = between.filter((l) => !isFr(l) && (ARABIC.test(l) || STRAY_GLYPH.test(l.trim()))).map((l) => l.trim());
   explanationFr.push(...between.filter((l) => isFr(l)));
-  const source = joinWrapped([lines[i++].replace(/^Source :\s*/, ""), ...collectUntil((l) => l.startsWith("Animation suggérée :"))]);
-  const hint = joinWrapped([lines[i++].replace(/^Animation suggérée :\s*/, ""), ...collectUntil(isHeader)]);
+  const source = lines[i]?.startsWith("Source :") ? joinWrapped([lines[i++].replace(/^Source :\s*/, ""), ...collectUntil((l) => l.startsWith("Animation suggérée :") || isHeader(l))]) : "";
+  const hint = lines[i]?.startsWith("Animation suggérée :") ? joinWrapped([lines[i++].replace(/^Animation suggérée :\s*/, ""), ...collectUntil(isHeader)]) : "";
 
   // « RÉPONSE : A. » ou « A. texte » désigne le choix A : on reprend son texte tel quel (aucune reformulation).
   const letter = answer.match(/^([A-D])\.(?:\s+(.+))?$/);
@@ -142,10 +147,11 @@ while (i < lines.length) {
   const arrowsMoved = /→→|→\.?$/.test([question, ...choices, answer].join(" "));
   if (arrowsMoved) arrows.push(id);
 
-  const src = parseSource(source, id);
-  work = work || src.title;
-  author = author || src.author;
-  baseText = baseText || src.baseText;
+  const src = source ? parseSource(source, id) : null;
+  if (!src && categoryId === "religion") throw new Error(`carte ${id} : une carte de religion exige une ligne « Source : »`);
+  work = work || src?.title || "";
+  author = author || src?.author || "";
+  baseText = baseText || src?.baseText || "";
   const joined = assembleArabic(pieces, id);
   const notes = [
     joined.note ?? "",
@@ -156,7 +162,7 @@ while (i < lines.length) {
   cards.push({
     id,
     version: 1,
-    categoryId: "religion",
+    categoryId,
     knowledgeNodeId: `${nodePrefix}.l${level}.${number}`,
     difficulty: level,
     ageBand,
@@ -166,9 +172,9 @@ while (i < lines.length) {
     prompt: { fr: [question, ...choices].join(" ").replace(/\s+/g, " ").trim() },
     answer: { fr: answer.replace(/\s+/g, " ") },
     explanation: { fr: joinWrapped(explanationFr), ar: joined.ar },
-    sources: [{ title: src.title, author: src.author, pages: src.pages, ...(src.locator ? { locator: src.locator } : {}), ...(publisher ? { publisher } : {}) }],
+    sources: src ? [{ title: src.title, author: src.author, pages: src.pages, ...(src.locator ? { locator: src.locator } : {}), ...(publisher ? { publisher } : {}) }] : [],
     animationKey: animationKeyFor(hint),
-    animationHint: hint,
+    ...(hint ? { animationHint: hint } : {}),
     ...(notes.length > 0 ? { reviewNotes: notes.join(" ") } : {}),
   });
 }
@@ -242,7 +248,7 @@ function assembleArabic(pieces, id) {
 
 const byLevel = cards.reduce((acc, c) => ({ ...acc, [c.difficulty]: (acc[c.difficulty] ?? 0) + 1 }), {});
 const bank = {
-  $comment: `Banque religieuse importée depuis le document de contrôle humain (source de fond : ${work}, ${author}${baseText ? `, sur le matn d'${baseText}` : ""}). TOUTES les cartes sont \`draft\` tant qu'elles ne sont pas explicitement passées à \`validated\` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code ; \`animationHint\` est la suggestion visuelle de l'auteur, \`animationKey\` la famille déduite (présentation pure).`,
+  $comment: `Banque ${categoryId === "religion" ? "religieuse" : `« ${categoryId} »`} importée depuis le document de contrôle humain${work ? ` (source de fond : ${work}, ${author}${baseText ? `, sur le matn d'${baseText}` : ""})` : ""}. TOUTES les cartes sont \`draft\` tant qu'elles ne sont pas explicitement passées à \`validated\` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code ; \`animationHint\` est la suggestion visuelle de l'auteur, \`animationKey\` la famille déduite (présentation pure).`,
   version: 1,
   work,
   author,

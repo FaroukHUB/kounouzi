@@ -9,7 +9,6 @@ import { contentRegistry } from "@/config/content";
 import { DEMO_HERITAGE_SITES, DEMO_RULES_QUICK, DEMO_SCENARIOS } from "@/config/demo";
 import { DEFAULT_GAME_MODE, GAME_MODE_IDS, endConditionOf, type GameModeId } from "@/config/game-modes";
 import { journeyCycleForOrdinal } from "@/config/journey";
-import { SCHOOL_GRADES } from "@/config/profiles";
 import { MAX_PLAYERS, MIN_PLAYERS, type GameSetup } from "@/core/game";
 import { ADULT_INITIAL_LEVELS, DEFAULT_ADULT_INITIAL_LEVEL, type AdultInitialLevel, type GameId, type PlayerId, type ProfileType } from "@/core/shared";
 import type { PlayerProfileDraft, SavedPlayerProfile } from "@/data/ports";
@@ -25,13 +24,12 @@ interface Row {
   readonly profileType: ProfileType;
   readonly avatarId: string;
   readonly birthYear: string;
-  readonly schoolGrade: string;
   readonly initialLevel: AdultInitialLevel;
   /** Sourates maîtrisées du profil connu (jamais saisies ici : elles viennent des récitations réussies). */
   readonly mastered?: readonly string[] | undefined;
 }
 
-const row = (i: number, profileType: ProfileType): Row => ({ displayName: "", profileType, avatarId: AVATARS[i % AVATARS.length]!.id, birthYear: "", schoolGrade: SCHOOL_GRADES[0], initialLevel: DEFAULT_ADULT_INITIAL_LEVEL });
+const row = (i: number, profileType: ProfileType): Row => ({ displayName: "", profileType, avatarId: AVATARS[i % AVATARS.length]!.id, birthYear: "", initialLevel: DEFAULT_ADULT_INITIAL_LEVEL });
 
 const rowFromProfile = (p: SavedPlayerProfile): Row => ({
   id: p.id,
@@ -39,7 +37,6 @@ const rowFromProfile = (p: SavedPlayerProfile): Row => ({
   profileType: p.profileType,
   avatarId: p.avatarId,
   birthYear: p.child ? String(p.child.birthYear) : "",
-  schoolGrade: p.child?.schoolGrade ?? SCHOOL_GRADES[0],
   initialLevel: p.adult?.initialLevel ?? DEFAULT_ADULT_INITIAL_LEVEL,
   mastered: p.recitation?.mastered,
 });
@@ -86,7 +83,7 @@ export function NewGameForm() {
       const id = r.id ?? (`player-${stamp}-${i + 1}` as PlayerId);
       const base = { id, displayName: r.displayName.trim(), profileType: r.profileType, avatarId: r.avatarId, ...(r.mastered && r.mastered.length > 0 ? { recitation: { mastered: r.mastered } } : {}) };
       return r.profileType === "child"
-        ? { ...base, child: { birthYear: r.birthYear === "" ? thisYear - 8 : Number(r.birthYear), schoolGrade: r.schoolGrade } }
+        ? { ...base, child: { birthYear: r.birthYear === "" ? thisYear - 8 : Number(r.birthYear) } }
         : { ...base, adult: { initialLevel: r.initialLevel } };
     });
     const savedAt = new Date().toISOString();
@@ -181,22 +178,10 @@ export function NewGameForm() {
                 </div>
               </div>
               {r.profileType === "child" ? (
-                <>
-                  <label className="flex flex-col text-sm font-semibold">
-                    {t(DEFAULT_LOCALE, "setup.birthYear")}
-                    <input className="mt-1 min-h-11 w-28 rounded-xl border px-3 font-normal" inputMode="numeric" value={r.birthYear} onChange={(e) => update(i, { birthYear: e.target.value })} placeholder={String(thisYear - 8)} />
-                  </label>
-                  <label className="flex flex-col text-sm font-semibold">
-                    {t(DEFAULT_LOCALE, "setup.grade")}
-                    <select className="mt-1 min-h-11 rounded-xl border px-3 font-normal" value={r.schoolGrade} onChange={(e) => update(i, { schoolGrade: e.target.value })}>
-                      {SCHOOL_GRADES.map((g) => (
-                        <option key={g} value={g}>
-                          {g}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                </>
+                <label className="flex flex-col text-sm font-semibold">
+                  {t(DEFAULT_LOCALE, "setup.birthYear")}
+                  <input className="mt-1 min-h-11 w-28 rounded-xl border px-3 font-normal" inputMode="numeric" value={r.birthYear} onChange={(e) => update(i, { birthYear: e.target.value })} placeholder={String(thisYear - 8)} />
+                </label>
               ) : (
                 <label className="flex flex-col text-sm font-semibold">
                   {t(DEFAULT_LOCALE, "setup.initialLevel")}

@@ -25,7 +25,7 @@ describe("garde-fou FamilyAssist : jamais de trace dans la mémoire pédagogique
     const record = (setup: GameSetup): Record<string, PlayerLearningMemory> => {
       const sim = simulate(setup);
       const memories: Record<string, PlayerLearningMemory> = {};
-      const learners = setup.players.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, schoolGrade: "CE2" }));
+      const learners = setup.players.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, age: 8 }));
       let n = 0;
       for (const e of sim.events as readonly GameEvent[]) {
         if (e.type !== "AnswerRecorded") continue;

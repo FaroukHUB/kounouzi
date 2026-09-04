@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { LEARNING_CONFIG, learnerContextFor, seedLevelFor } from "@/config/learning";
+import { LEARNING_CONFIG, ageOf, learnerContextFor, seedLevelFor } from "@/config/learning";
 import type { QuestionRef } from "@/core/content";
 import { addDays, applyAttempt, attemptId, deserializeMemory, emptyMemory, learningConfigSchema, serializeMemory, summarizeMemory, type Attempt, type LearnerContext, type PlayerLearningMemory } from "@/core/learning";
 import type { AnswerOutcome, ExplanationMastery, GameId } from "@/core/shared";
@@ -44,9 +44,18 @@ describe("configuration du Learning Engine (données)", () => {
     expect(cfg.level.minAttempts).toBeGreaterThan(1);
   });
 
-  it("l'amorçage vient de la classe ou du niveau initial, adulte sans classe compris", () => {
-    expect(seedLevelFor({ profileType: "child", schoolGrade: "CP" })).toBe(1.5);
-    expect(seedLevelFor({ profileType: "child", schoolGrade: "CE1" })).toBe(2);
+  it("l'amorçage vient de l'ÂGE (jamais de la classe : même point de départ en France et en Algérie) ou du niveau initial adulte", () => {
+    expect(seedLevelFor({ profileType: "child", age: 6 })).toBe(1.5);
+    expect(seedLevelFor({ profileType: "child", age: 7 })).toBe(2);
+    expect(seedLevelFor({ profileType: "child", age: 9 })).toBe(2.5);
+    expect(seedLevelFor({ profileType: "child", age: 11 })).toBe(3);
+    expect(seedLevelFor({ profileType: "child", age: 15 })).toBe(4);
+    expect(seedLevelFor({ profileType: "child" })).toBe(1.5);
+    expect(ageOf({ profileType: "child", child: { birthYear: 2018 } }, "2026-09-04T00:00:00Z")).toBe(8);
+    expect(ageOf({ profileType: "adult" }, "2026-09-04T00:00:00Z")).toBeUndefined();
+    // Progression LENTE (Phase 5.4) : au moins six essais informatifs, seuil de montée relevé.
+    expect(cfg.level.minAttempts).toBeGreaterThanOrEqual(6);
+    expect(cfg.level.upThreshold).toBeGreaterThanOrEqual(0.85);
     expect(seedLevelFor({ profileType: "adult" })).toBe(4);
     expect(seedLevelFor({ profileType: "adult", initialLevel: "discovery" })).toBe(3);
     expect(learnerContextFor({ id: pid("x"), profileType: "adult" })).toEqual({ playerId: "x", profileType: "adult", seedLevel: 4 });
@@ -76,7 +85,7 @@ describe("mémoire pédagogique par joueur (enfant ou adulte, même modèle)", (
   });
 
   it("adulte sans classe scolaire : la mémoire fonctionne exactement de la même façon, amorcée par son niveau initial", () => {
-    const m = play(emptyMemory(adult.playerId), adult, Array.from({ length: 8 }, () => ({ categoryId: "geography", node: "geo.country.dz.capital", difficulty: 4, outcome: "correct" as const })));
+    const m = play(emptyMemory(adult.playerId), adult, Array.from({ length: 2 * cfg.level.minAttempts }, () => ({ categoryId: "geography", node: "geo.country.dz.capital", difficulty: 4, outcome: "correct" as const })));
     expect(m.categories["geography"]!.seedLevel).toBe(4);
     expect(m.categories["geography"]!.estimatedLevel).toBe(5);
     expect(m.knowledge["geo.country.dz.capital"]!.mastery).toBeGreaterThan(cfg.mastery.masteredThreshold);

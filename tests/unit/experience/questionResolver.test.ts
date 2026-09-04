@@ -8,7 +8,7 @@ import { create, journey, makeLineSetup, makeSetup } from "../../fixtures/game/s
 import { TEST_ARABIC } from "../../fixtures/content/curated.fixture";
 import { T0, resolveFor } from "../../fixtures/learning/resolve.fixture";
 
-const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", ...(i % 2 === 0 ? { child: { birthYear: 2018, schoolGrade: "CE1" } } : { adult: { initialLevel: "standard" as const } }) }));
+const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", ...(i % 2 === 0 ? { child: { birthYear: 2018 } } : { adult: { initialLevel: "standard" as const } }) }));
 
 describe("résolution d'une question pour une demande du moteur (Learning Engine)", () => {
   it("ne résout rien hors phase de question", () => {

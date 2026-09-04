@@ -3,7 +3,7 @@ import { BOARD_32_V1 } from "@/config/board";
 import { contentRegistry } from "@/config/content";
 import { DEMO_HERITAGE_SITES, DEMO_RULES_QUICK, DEMO_SCENARIOS } from "@/config/demo";
 import { JOURNEY_CYCLE_V1 } from "@/config/journey";
-import { LEARNING_CONFIG, learnerContextFor } from "@/config/learning";
+import { LEARNING_CONFIG, ageOf, learnerContextFor } from "@/config/learning";
 import { checkInvariants, createGame, deserializeGameState, reduce, serializeGameState, type Command, type GameEvent, type GameSetup, type GameState } from "@/core/game";
 import { addDays, applyAttempt, attemptId, emptyMemory, type PlayerLearningMemory } from "@/core/learning";
 import { isAudienceAllowed, type GameId, type PlayerId } from "@/core/shared";
@@ -19,8 +19,8 @@ import { T0 } from "../../fixtures/learning/resolve.fixture";
  * Patrimoine). Sans React, sans navigateur, sans hasard.
  */
 const profiles: readonly PlayerProfileDraft[] = [
-  { id: "maryam" as PlayerId, displayName: "Maryam", profileType: "child", avatarId: "amber", child: { birthYear: 2020, schoolGrade: "CP" } },
-  { id: "yacine" as PlayerId, displayName: "Yacine", profileType: "child", avatarId: "teal", child: { birthYear: 2015, schoolGrade: "6e" } },
+  { id: "maryam" as PlayerId, displayName: "Maryam", profileType: "child", avatarId: "amber", child: { birthYear: 2020 } },
+  { id: "yacine" as PlayerId, displayName: "Yacine", profileType: "child", avatarId: "teal", child: { birthYear: 2015 } },
   { id: "maman" as PlayerId, displayName: "Maman", profileType: "adult", avatarId: "ruby", adult: { initialLevel: "standard" } },
   { id: "papa" as PlayerId, displayName: "Papa", profileType: "adult", avatarId: "violet", adult: { initialLevel: "advanced" } },
 ];
@@ -52,7 +52,7 @@ function playFamily(turns: number, policy: Policy, extra: Partial<GameSetup> = {
   const events: GameEvent[] = [...created.value.events];
   const commands: Command[] = [];
   const memories: Record<string, PlayerLearningMemory> = Object.fromEntries(profiles.map((p) => [p.id, emptyMemory(p.id)]));
-  const learners = profiles.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, schoolGrade: p.child?.schoolGrade, initialLevel: p.adult?.initialLevel }));
+  const learners = profiles.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, age: ageOf(p, T0), initialLevel: p.adult?.initialLevel }));
   const served: { playerId: PlayerId; categoryId: string; audienceScope: string; difficulty: number }[] = [];
   const counters = { answers: 0, purchases: 0, choices: 0, duels: 0, transfers: 0 };
   const registry = contentRegistry();
