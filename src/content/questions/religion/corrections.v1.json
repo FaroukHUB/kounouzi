@@ -1,0 +1,250 @@
+{
+  "$comment": "Corrections HUMAINES validées (revue du 2026-09-04) appliquées par-dessus l'import automatique : réponses « lettre » remplacées par le texte exact du bon choix, énoncés reformulés pour garder le livre derrière le rideau, ponctuation et espaces certains. AUCUN arabe abîmé n'est reconstruit ici. Réappliquées à chaque réimport (scripts/content/apply-corrections.mjs).",
+  "version": 1,
+  "reviewedAt": "2026-09-04",
+  "corrections": [
+    {
+      "id": "REL-OSS-SAS-L5-20",
+      "set": {
+        "explanation.ar": "تجمع هذه المعاني أصولاً عظيمة من التوحيد والعبادة والاتباع ومراقبة الله."
+      },
+      "clearReviewNotes": true,
+      "reason": "espace perdu à la jonction (présent dans le fragment)"
+    },
+    {
+      "id": "REL-OSS-SAS-L3-03",
+      "set": {
+        "answer.fr": "Regarder, prendre les précautions nécessaires et placer sa confiance en Allah."
+      },
+      "clearReviewNotes": true,
+      "reason": "réponse « B. » → texte du choix B"
+    },
+    {
+      "id": "REL-OSS-SAS-L4-19",
+      "set": {
+        "answer.fr": "« Allah est mon Seigneur et je Lui consacre mon adoration. »"
+      },
+      "clearReviewNotes": true,
+      "reason": "réponse « B. » → texte du choix B"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-09",
+      "set": {
+        "answer.fr": "« J’utilise le moyen permis tout en sachant que le résultat dépend d’Allah. »"
+      },
+      "clearReviewNotes": true,
+      "reason": "réponse « B. » → texte du choix B"
+    },
+    {
+      "id": "REL-OSS-SAS-L5-16",
+      "set": {
+        "answer.fr": "Allah crée et Lui seul mérite l’adoration."
+      },
+      "clearReviewNotes": true,
+      "reason": "réponse « B. » → texte du choix B"
+    },
+    {
+      "id": "REL-RAM-ARB-L5-01",
+      "set": {
+        "explanation.fr": "Le jeûne a été prescrit afin que le croyant progresse dans la crainte pieuse et l’obéissance à Allah."
+      },
+      "clearReviewNotes": false,
+      "reason": "débris « .﴾ » retiré du FR ; l'arabe reste à saisir"
+    },
+    {
+      "id": "REL-RAM-ARB-L4-02",
+      "set": {
+        "title": "Mission",
+        "prompt.fr": "Que signifie jeûner avec foi et en recherchant la récompense ?"
+      },
+      "clearReviewNotes": false,
+      "reviewNotes": "Titre d'origine éclaté à l'extraction (expression arabe entre guillemets, fragments « إيمان / ً / ا واحتساب / ً / ا ») : à confirmer dans la source, comme l'explication arabe recollée.",
+      "reason": "énoncé contaminé par les fragments du titre"
+    },
+    {
+      "id": "REL-RAM-ARB-L1-02",
+      "set": {
+        "answer.fr": "Les portes du Paradis s’ouvrent."
+      },
+      "clearReviewNotes": true,
+      "reason": "préfixe de lettre retiré"
+    },
+    {
+      "id": "REL-RAM-ARB-L5-02",
+      "set": {
+        "answer.fr": "Ramadan a laissé des traces durables dans ses habitudes et son obéissance."
+      },
+      "clearReviewNotes": true,
+      "reason": "préfixe retiré, texte complet du choix B"
+    },
+    {
+      "id": "REL-RAM-ARB-L1-03",
+      "set": {
+        "answer.fr": "Manger et boire."
+      },
+      "clearReviewNotes": true,
+      "reason": "préfixe de lettre retiré"
+    },
+    {
+      "id": "REL-RAM-ARB-L1-05",
+      "set": {
+        "answer.fr": "Continuer à prier."
+      },
+      "clearReviewNotes": true,
+      "reason": "préfixe de lettre retiré"
+    },
+    {
+      "id": "REL-RAM-ARB-L2-01",
+      "set": {
+        "answer.fr": "Pour gagner à un jeu vidéo."
+      },
+      "clearReviewNotes": true,
+      "reason": "préfixe de lettre retiré"
+    },
+    {
+      "id": "REL-RAM-ARB-L2-02",
+      "set": {
+        "answer.fr": "Lorsqu’il rompt son jeûne."
+      },
+      "clearReviewNotes": true,
+      "reason": "préfixe de lettre retiré"
+    },
+    {
+      "id": "REL-RAM-ARB-L2-04",
+      "set": {
+        "answer.fr": "Regretter + arrêter + décider de ne pas recommencer."
+      },
+      "clearReviewNotes": true,
+      "reason": "préfixe de lettre retiré"
+    },
+    {
+      "id": "REL-RAM-ARB-L2-05",
+      "set": {
+        "answer.fr": "Continuer une partie des bonnes habitudes apprises."
+      },
+      "clearReviewNotes": true,
+      "reason": "préfixe de lettre retiré"
+    },
+    {
+      "id": "REL-RAM-ARB-L4-04",
+      "set": {
+        "explanation.fr": "Cet exemple montre comment Ramadan peut aider à quitter une mauvaise habitude."
+      },
+      "clearReviewNotes": true,
+      "reason": "« L'ouvrage utilise… » → formulation neutre"
+    },
+    {
+      "id": "REL-DRS-ARB-L2-13",
+      "set": {
+        "prompt.fr": "Pendant le Wuḍūʾ, que fait-on pour la tête ? A. On l’essuie B. On la lave trois fois",
+        "answer.fr": "On l’essuie.",
+        "explanation.fr": "L’essuyage de la tête est une obligation du Wuḍūʾ."
+      },
+      "clearReviewNotes": true,
+      "reason": "rideau"
+    },
+    {
+      "id": "REL-DRS-ARB-L3-14",
+      "set": {
+        "prompt.fr": "Pendant le Wuḍūʾ, essuie-t-on la tête trois fois, comme on lave les autres membres ? A. Oui B. Non",
+        "explanation.fr": "L’essuyage de la tête est une obligation ; il ne se répète pas comme le lavage des autres membres."
+      },
+      "clearReviewNotes": true,
+      "reason": "rideau"
+    },
+    {
+      "id": "REL-DRS-ARB-L3-17",
+      "set": {
+        "prompt.fr": "Existe-t-il une règle fixant exactement « trois mouvements » comme limite avant d’annuler la prière ? A. Oui B. Non",
+        "explanation.fr": "Ce qui peut annuler la prière, c’est le mouvement important et continu qui en détourne ; la limite de trois mouvements n’a pas de preuve."
+      },
+      "clearReviewNotes": true,
+      "reason": "rideau"
+    },
+    {
+      "id": "REL-DRS-ARB-L4-02",
+      "set": {
+        "prompt.fr": "Dire « Lā ilāha illa Allāh » sans en connaître le sens et sans réaliser ce qu’elle implique suffit-il ? A. Oui B. Non",
+        "explanation.fr": "Il faut connaître le sens de la parole du Tawhid et réaliser ce qu’elle implique."
+      },
+      "clearReviewNotes": true,
+      "reason": "rideau"
+    },
+    {
+      "id": "REL-DRS-ARB-L4-09",
+      "set": {
+        "prompt.fr": "Si une obligation de la prière est oubliée, que se passe-t-il ? A. Elle peut être compensée par les prosternations de l’oubli B. Elle devient automatiquement un pilier"
+      },
+      "clearReviewNotes": true,
+      "reason": "rideau"
+    },
+    {
+      "id": "REL-DRS-ARB-L4-19",
+      "set": {
+        "prompt.fr": "Parmi les nobles caractères, quelle maîtrise est la marque de la véritable force ? A. Se maîtriser lors de la colère B. Crier plus fort",
+        "explanation.fr": "La vraie force, c’est la capacité de contenir sa colère et de maîtriser son âme."
+      },
+      "clearReviewNotes": true,
+      "reason": "rideau"
+    },
+    {
+      "id": "REL-DRS-ARB-L5-02",
+      "set": {
+        "prompt.fr": "Quelles deux questions résument les deux témoignages ? A. Qui adorais-tu ? et qu’as-tu répondu aux Messagers ? B. Quel âge avais-tu ? et où habitais-tu ?",
+        "answer.fr": "Qui adorais-tu ? et qu’as-tu répondu aux Messagers ?",
+        "explanation.fr": "« Lā ilāha illa Allāh » renvoie à l’adoration d’Allah seul, et « Muḥammad rasūl Allāh » au suivi du Messager ﷺ."
+      },
+      "clearReviewNotes": true,
+      "reason": "rideau ; point parasite après « ? »"
+    },
+    {
+      "id": "REL-QAW-ARB-L4-03",
+      "set": {
+        "prompt.fr": "Pourquoi le shirk de certains contemporains est-il considéré comme plus grave que celui des premiers polythéistes ? A. Parce qu’ils peuvent persister dans le shirk même pendant la détresse B. Parce qu’ils voyagent davantage"
+      },
+      "clearReviewNotes": true,
+      "reason": "rideau"
+    },
+    {
+      "id": "REL-QAW-ARB-L1-04",
+      "set": {
+        "explanation.fr": "Les objets adorés ne créent pas, ne donnent pas la vie et ne possèdent pas ces pouvoirs."
+      },
+      "clearReviewNotes": true,
+      "reason": "« Le livre rappelle… » → formulation neutre"
+    },
+    {
+      "id": "REL-QAW-ARB-L2-05",
+      "set": {
+        "explanation.fr": "Les premiers polythéistes utilisaient justement l’argument du rapprochement et de l’intercession."
+      },
+      "clearReviewNotes": true,
+      "reason": "« Le livre explique… » → formulation neutre"
+    },
+    {
+      "id": "REL-KAL-ARB-L5-04",
+      "set": {
+        "prompt.fr": "Se moquer d’un élément de la religion, de sa récompense ou de son châtiment : qu’est-ce que c’est ? A. Un des annulatifs de « Lā ilāha illā Allāh » B. Quelque chose qui renforce le Tawḥīd",
+        "answer.fr": "Un des annulatifs de « Lā ilāha illā Allāh »."
+      },
+      "clearReviewNotes": true,
+      "reason": "rideau"
+    },
+    {
+      "id": "REL-KAL-ARB-L5-05",
+      "set": {
+        "prompt.fr": "Un joueur se détourne complètement de la religion d’Allah : il ne cherche ni à l’apprendre ni à agir selon elle. Dans quelle catégorie cela se classe-t-il ? A. Parmi les annulatifs B. Parmi les conditions du Tawḥīd"
+      },
+      "clearReviewNotes": true,
+      "reason": "rideau"
+    },
+    {
+      "id": "REL-KAL-ARB-L2-04",
+      "set": {
+        "answer.fr": "Celui qui dit « Lā ilāha illā Allāh » sincèrement de son cœur."
+      },
+      "clearReviewNotes": true,
+      "reason": "réponse alignée mot pour mot sur le choix A"
+    }
+  ]
+}

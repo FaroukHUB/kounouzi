@@ -267,7 +267,7 @@
         "fr": "Qui est le plus heureux de l’intercession du Prophète ﷺ ? A. Celui qui dit « Lā ilāha illā Allāh » sincèrement de son cœur B. Celui qui la dit pour être vu"
       },
       "answer": {
-        "fr": "Celui qui la dit sincèrement de son cœur."
+        "fr": "Celui qui dit « Lā ilāha illā Allāh » sincèrement de son cœur."
       },
       "explanation": {
         "fr": "Le texte cite le ḥadīth indiquant que le plus heureux de l’intercession est celui qui prononce cette parole avec sincérité.",
@@ -729,10 +729,10 @@
       "status": "draft",
       "title": "Carte moquerie",
       "prompt": {
-        "fr": "Que dit le texte au sujet de celui qui se moque d’un élément de la religion, de sa récompense ou de son châtiment ? A. Cela fait partie des annulatifs cités B. Cela renforce le Tawḥīd"
+        "fr": "Se moquer d’un élément de la religion, de sa récompense ou de son châtiment : qu’est-ce que c’est ? A. Un des annulatifs de « Lā ilāha illā Allāh » B. Quelque chose qui renforce le Tawḥīd"
       },
       "answer": {
-        "fr": "Cela fait partie des annulatifs cités."
+        "fr": "Un des annulatifs de « Lā ilāha illā Allāh »."
       },
       "explanation": {
         "fr": "La moquerie envers quelque chose de la religion du Messager ﷺ, sa récompense ou son châtiment, est citée parmi les annulatifs.",
@@ -747,8 +747,7 @@
         }
       ],
       "animationKey": "intruder_out",
-      "animationHint": "Une carte « moquerie » se fissure puis reçoit un panneau d’interdiction.",
-      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+      "animationHint": "Une carte « moquerie » se fissure puis reçoit un panneau d’interdiction."
     },
     {
       "id": "REL-KAL-ARB-L5-05",
@@ -761,7 +760,7 @@
       "status": "draft",
       "title": "BOSS - Le joueur qui tourne le dos",
       "prompt": {
-        "fr": "Un joueur se détourne complètement de la religion d’Allah : il ne cherche ni à l’apprendre ni à agir selon elle. Dans quelle catégorie le texte place-t-il cela ? A. Parmi les annulatifs B. Parmi les conditions du Tawḥīd"
+        "fr": "Un joueur se détourne complètement de la religion d’Allah : il ne cherche ni à l’apprendre ni à agir selon elle. Dans quelle catégorie cela se classe-t-il ? A. Parmi les annulatifs B. Parmi les conditions du Tawḥīd"
       },
       "answer": {
         "fr": "Parmi les annulatifs."
@@ -779,8 +778,7 @@
         }
       ],
       "animationKey": "shield_guard",
-      "animationHint": "Le plateau s’assombrit derrière le joueur qui tourne le dos ; une alerte « connaissance + action » apparaît.",
-      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+      "animationHint": "Le plateau s’assombrit derrière le joueur qui tourne le dos ; une alerte « connaissance + action » apparaît."
     }
   ]
 }

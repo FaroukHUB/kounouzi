@@ -116,7 +116,7 @@
         "fr": "Non."
       },
       "explanation": {
-        "fr": "Le livre rappelle que les objets adorés ne créent pas, ne donnent pas la vie et ne possèdent pas ces pouvoirs.",
+        "fr": "Les objets adorés ne créent pas, ne donnent pas la vie et ne possèdent pas ces pouvoirs.",
         "ar": "المعبودات الباطلة لا تخلق ولا ترزق ولا تحيي ولا تميت."
       },
       "sources": [
@@ -304,7 +304,7 @@
         "fr": "Faux."
       },
       "explanation": {
-        "fr": "Le livre explique que les premiers polythéistes utilisaient justement l’argument du rapprochement et de l’intercession.",
+        "fr": "Les premiers polythéistes utilisaient justement l’argument du rapprochement et de l’intercession.",
         "ar": "الاحتجاج بالقرب والشفاعة كان من حجج المشركين، ولا يجعل صرف العبادة صحيحا."
       },
       "sources": [
@@ -547,7 +547,7 @@
       "status": "draft",
       "title": "Comparaison difficile",
       "prompt": {
-        "fr": "Pourquoi le commentaire considère-t-il le shirk de certains contemporains comme plus grave ? A. Parce qu’ils peuvent persister dans le shirk même pendant la détresse B. Parce qu’ils voyagent davantage"
+        "fr": "Pourquoi le shirk de certains contemporains est-il considéré comme plus grave que celui des premiers polythéistes ? A. Parce qu’ils peuvent persister dans le shirk même pendant la détresse B. Parce qu’ils voyagent davantage"
       },
       "answer": {
         "fr": "Parce qu’ils peuvent persister dans le shirk même pendant la détresse."
@@ -565,8 +565,7 @@
         }
       ],
       "animationKey": "gauge_rise",
-      "animationHint": "Deux jauges « aisance » et « détresse » restent rouges chez le second profil.",
-      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+      "animationHint": "Deux jauges « aisance » et « détresse » restent rouges chez le second profil."
     },
     {
       "id": "REL-QAW-ARB-L4-04",

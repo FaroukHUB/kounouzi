@@ -11,6 +11,7 @@
  *   ex. … oussoul.txt src/content/questions/religion/oussoul-ath-thalatha.v1.json religion.tawhid.oussoul
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import { applyCorrections, loadCorrections } from "./apply-corrections.mjs";
 
 const [, , input, output, nodePrefix, publisher] = process.argv;
 if (!input || !output || !nodePrefix) {
@@ -131,7 +132,10 @@ const bank = {
   category: nodePrefix.split(".").slice(0, 2).join("."),
   questions: cards,
 };
-writeFileSync(output, JSON.stringify(bank, null, 2) + "\n");
+// Corrections humaines validées (revue) : réappliquées à chaque réimport, jamais perdues.
+const corrected = applyCorrections(bank, loadCorrections());
+writeFileSync(output, JSON.stringify(corrected.bank, null, 2) + "\n");
+console.log(`corrections humaines appliquées : ${corrected.applied}`);
 console.log(`cartes : ${cards.length}`, JSON.stringify(byLevel));
 console.log(`arabe réassemblé (à relire) : ${repaired.length}`, repaired.join(", "));
 console.log(`arabe à saisir manuellement : ${manual.length}`, manual.join(", "));

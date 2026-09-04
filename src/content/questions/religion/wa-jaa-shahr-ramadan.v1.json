@@ -51,7 +51,7 @@
         "fr": "Quand Ramadan arrive, que se passe-t-il ? A. Les portes du Paradis s’ouvrent B. Toutes les portes se ferment"
       },
       "answer": {
-        "fr": "A. Les portes du Paradis s’ouvrent."
+        "fr": "Les portes du Paradis s’ouvrent."
       },
       "explanation": {
         "fr": "Ramadan est une grande occasion de faire le bien.",
@@ -82,7 +82,7 @@
         "fr": "Pendant la journée de jeûne, de quoi s’abstient-on ? A. Manger et boire B. Respirer"
       },
       "answer": {
-        "fr": "A. Manger et boire."
+        "fr": "Manger et boire."
       },
       "explanation": {
         "fr": "Pendant le jeûne, le musulman s’abstient notamment de manger et de boire du fajr jusqu’au coucher du soleil.",
@@ -144,7 +144,7 @@
         "fr": "Yacine prie pendant Ramadan. Ramadan se termine. Que doit-il faire ? A. Continuer à prier B. Arrêter jusqu’au prochain Ramadan"
       },
       "answer": {
-        "fr": "A. Continuer à prier."
+        "fr": "Continuer à prier."
       },
       "explanation": {
         "fr": "L’adoration d’Allah ne s’arrête pas lorsque Ramadan se termine.",
@@ -175,7 +175,7 @@
         "fr": "Ramadan nous entraîne à patienter : A. Dans l’obéissance à Allah B. Pour éviter les péchés C. Face à ce qu’Allah décrète D. Pour gagner à un jeu vidéo"
       },
       "answer": {
-        "fr": "D. Pour gagner à un jeu vidéo."
+        "fr": "Pour gagner à un jeu vidéo."
       },
       "explanation": {
         "fr": "Le mois de Ramadan est une école de patience dans plusieurs domaines.",
@@ -206,7 +206,7 @@
         "fr": "Le jeûneur possède deux joies. L’une arrive lorsqu’il... A. Rompt son jeûne B. Perd son goûter"
       },
       "answer": {
-        "fr": "A. Lorsqu’il rompt son jeûne."
+        "fr": "Lorsqu’il rompt son jeûne."
       },
       "explanation": {
         "fr": "Le jeûneur se réjouit lors de la rupture du jeûne et lorsqu’il rencontrera son Seigneur.",
@@ -268,7 +268,7 @@
         "fr": "Après une faute, quelle combinaison correspond à une repentance sincère ? A. Regretter + arrêter + décider de ne pas recommencer B. Rire + continuer + recommencer demain"
       },
       "answer": {
-        "fr": "A. Regretter + arrêter + décider de ne pas recommencer."
+        "fr": "Regretter + arrêter + décider de ne pas recommencer."
       },
       "explanation": {
         "fr": "Parmi les conditions citées : regretter le péché, l’abandonner et être décidé à ne pas y retourner.",
@@ -299,7 +299,7 @@
         "fr": "Quel est le meilleur résultat après Ramadan ? A. Reprendre exactement toutes ses mauvaises habitudes B. Continuer une partie des bonnes habitudes apprises"
       },
       "answer": {
-        "fr": "B. Continuer une partie des bonnes habitudes apprises."
+        "fr": "Continuer une partie des bonnes habitudes apprises."
       },
       "explanation": {
         "fr": "Ramadan doit aider le musulman à progresser durablement dans l’obéissance.",
@@ -511,9 +511,9 @@
       "ageBand": "12-14",
       "audienceScope": "all",
       "status": "draft",
-      "title": "Mission « ا",
+      "title": "Mission",
       "prompt": {
-        "fr": "ً ا واحتساب ً » إيمان Que signifie jeûner avec foi et en recherchant la récompense ?"
+        "fr": "Que signifie jeûner avec foi et en recherchant la récompense ?"
       },
       "answer": {
         "fr": "Jeûner en croyant en Allah et en l’obligation du jeûne, tout en espérant Sa récompense."
@@ -531,7 +531,8 @@
           "publisher": "Dar al-Fadhila, 2014"
         }
       ],
-      "animationKey": "heart_glow"
+      "animationKey": "heart_glow",
+      "reviewNotes": "Titre d'origine éclaté à l'extraction (expression arabe entre guillemets, fragments « إيمان / ً / ا واحتساب / ً / ا ») : à confirmer dans la source, comme l'explication arabe recollée."
     },
     {
       "id": "REL-RAM-ARB-L4-03",
@@ -581,7 +582,7 @@
         "fr": "Qu’il est capable de s’en éloigner et que Ramadan peut devenir une occasion de l’abandonner définitivement."
       },
       "explanation": {
-        "fr": "L’ouvrage utilise cet exemple pour montrer comment Ramadan peut aider à quitter une mauvaise habitude.",
+        "fr": "Cet exemple montre comment Ramadan peut aider à quitter une mauvaise habitude.",
         "ar": "من استطاع ترك التدخين نهار رمضان يستطيع أن يجاهد نفسه على تركه نهائيًا."
       },
       "sources": [
@@ -643,7 +644,7 @@
         "fr": "Acquérir la taqwâ."
       },
       "explanation": {
-        "fr": "Le jeûne a été prescrit afin que le croyant progresse dans la crainte pieuse et l’obéissance à Allah. .﴾",
+        "fr": "Le jeûne a été prescrit afin que le croyant progresse dans la crainte pieuse et l’obéissance à Allah.",
         "ar": ""
       },
       "sources": [
@@ -672,7 +673,7 @@
         "fr": "Quel signe montre davantage qu’une personne a profité de Ramadan ? A. Elle a beaucoup changé pendant 30 jours puis tout abandonné B. Ramadan a laissé des traces durables dans ses habitudes et son obéissance"
       },
       "answer": {
-        "fr": "B. Ramadan a laissé des traces durables."
+        "fr": "Ramadan a laissé des traces durables dans ses habitudes et son obéissance."
       },
       "explanation": {
         "fr": "Ramadan est présenté comme une école dont les effets devraient accompagner le croyant après le mois.",

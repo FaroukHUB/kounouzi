@@ -70,15 +70,16 @@ describe("banque religieuse Wa Ja'a Shahr Ramadan (import, tout en brouillon)", 
     for (const q of RAMADAN_BANK) {
       expect(q.status, q.id).toBe("draft");
       expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.ramadan\.wajaa\.l\d\.\d\d$/);
-      // Une seule carte a une explication arabe illisible à l'extraction : laissée vide et annotée, jamais approximée.
-      if (q.reviewNotes) expect(q.explanation.ar, q.id).toBe("");
+      // Une seule carte a une explication arabe illisible à l'extraction (L5-01) : laissée vide et annotée, jamais approximée.
+      if (q.id === "REL-RAM-ARB-L5-01") expect(q.explanation.ar, q.id).toBe("");
       else expect(/[؀-ۿ]/.test(q.explanation.ar), q.id).toBe(true);
       expect(q.sources[0], q.id).toMatchObject({ title: "Wa Ja'a Shahr Ramadan", author: "Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr", publisher: "Dar al-Fadhila, 2014", file: "waja-a-shahr-ramadan.pdf" });
       expect(q.sources[0]!.pages, q.id).toMatch(/^\d/);
       expect(q.prompt.fr, q.id).not.toMatch(/dans (le|ce) (livre|passage|texte)|dans la source|d'après le livre|selon le livre/i);
       expect(isPlayable(q, religion), q.id).toBe(false);
     }
-    expect(RAMADAN_BANK.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual(["REL-RAM-ARB-L5-01"]);
+    // L5-01 : arabe à saisir ; L4-02 : titre d'origine à confirmer dans la source.
+    expect(RAMADAN_BANK.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual(["REL-RAM-ARB-L4-02", "REL-RAM-ARB-L5-01"]);
     // Même validée par erreur, une carte sans explication arabe reste injouable.
     const forced = { ...RAMADAN_BANK.find((q) => q.id === "REL-RAM-ARB-L5-01")!, status: "validated" as const };
     expect(playabilityIssues(forced, religion)).toContain("explication AR manquante");
@@ -107,10 +108,10 @@ describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, tout en brouillo
       expect(isPlayable(q, religion), q.id).toBe(false);
     }
   });
-  it("les énoncés qui laissent voir le texte ou le commentaire sont annotés pour reformulation, jamais réécrits par le code", () => {
-    const flagged = DUROUS_BANK.filter((q) => CURTAIN.test(q.prompt.fr)).map((q) => q.id);
-    expect(flagged).toEqual(["REL-DRS-ARB-L3-14", "REL-DRS-ARB-L3-17", "REL-DRS-ARB-L4-02", "REL-DRS-ARB-L4-09", "REL-DRS-ARB-L4-19", "REL-DRS-ARB-L5-02"]);
-    expect(DUROUS_BANK.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual(flagged);
+  it("plus aucun énoncé ne laisse voir le texte ou le commentaire : les reformulations validées en relecture sont appliquées (corrections humaines)", () => {
+    expect(DUROUS_BANK.filter((q) => CURTAIN.test(q.prompt.fr) || /ce passage/i.test(q.prompt.fr)).map((q) => q.id)).toEqual([]);
+    expect(DUROUS_BANK.filter((q) => q.reviewNotes)).toEqual([]);
+    expect(DUROUS_BANK.find((q) => q.id === "REL-DRS-ARB-L5-02")?.answer.fr).toBe("Qui adorais-tu ? et qu’as-tu répondu aux Messagers ?");
   });
 });
 
@@ -160,9 +161,10 @@ describe("banque religieuse Al-Qawaid al-Arba (import PDF, tout en brouillon)", 
       expect(isPlayable(q, religion), q.id).toBe(false);
     }
   });
-  it("les jonctions où un signe diacritique a été perdu et l'énoncé qui laisse voir le texte sont annotés, jamais corrigés par le code", () => {
+  it("les jonctions où un signe diacritique a été perdu restent annotées (jamais reconstruites) ; l'énoncé « rideau » est reformulé", () => {
     expect(QAWAID_BANK.filter((q) => /Signe diacritique perdu/.test(q.reviewNotes ?? "")).map((q) => q.id)).toEqual(["REL-QAW-ARB-L2-02", "REL-QAW-ARB-L2-04", "REL-QAW-ARB-L3-02", "REL-QAW-ARB-L5-01", "REL-QAW-ARB-L5-03"]);
-    expect(QAWAID_BANK.filter((q) => /derrière le rideau/.test(q.reviewNotes ?? "")).map((q) => q.id)).toEqual(["REL-QAW-ARB-L4-03"]);
+    expect(QAWAID_BANK.filter((q) => /derrière le rideau/.test(q.reviewNotes ?? ""))).toEqual([]);
+    expect(QAWAID_BANK.filter((q) => /le livre/i.test(q.explanation.fr) || /le commentaire/i.test(q.prompt.fr))).toEqual([]);
   });
 });
 
@@ -182,7 +184,8 @@ describe("banque religieuse Kalimah at-Tawhid (import DOCX, tout en brouillon)",
       expect(isPlayable(q, religion), q.id).toBe(false);
     }
     expect(KALIMAH_BANK.filter((q) => q.explanation.ar === "")).toEqual([]);
-    // Seules notes restantes : deux énoncés qui laissent voir le texte, à reformuler en relecture.
-    expect(KALIMAH_BANK.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual(["REL-KAL-ARB-L5-04", "REL-KAL-ARB-L5-05"]);
+    // Énoncés reformulés en relecture : plus aucune note.
+    expect(KALIMAH_BANK.filter((q) => q.reviewNotes)).toEqual([]);
+    expect(KALIMAH_BANK.find((q) => q.id === "REL-KAL-ARB-L2-04")?.answer.fr).toBe("Celui qui dit « Lā ilāha illā Allāh » sincèrement de son cœur.");
   });
 });

@@ -976,13 +976,13 @@
       "status": "draft",
       "title": "La tête en un passage",
       "prompt": {
-        "fr": "Dans ce passage du Wuḍūʾ, que fait-on ? A. On essuie la tête B. On la lave trois fois"
+        "fr": "Pendant le Wuḍūʾ, que fait-on pour la tête ? A. On l’essuie B. On la lave trois fois"
       },
       "answer": {
-        "fr": "On essuie la tête."
+        "fr": "On l’essuie."
       },
       "explanation": {
-        "fr": "Le texte expose l’essuyage de la tête comme obligation du Wuḍūʾ.",
+        "fr": "L’essuyage de la tête est une obligation du Wuḍūʾ.",
         "ar": "مسح الرأس فرض من فروض الوضوء."
       },
       "sources": [
@@ -1606,13 +1606,13 @@
       "status": "draft",
       "title": "Une seule passe",
       "prompt": {
-        "fr": "Pour la tête, le texte mentionne-t-il de répéter l’essuyage trois fois ? A. Oui B. Non"
+        "fr": "Pendant le Wuḍūʾ, essuie-t-on la tête trois fois, comme on lave les autres membres ? A. Oui B. Non"
       },
       "answer": {
         "fr": "Non."
       },
       "explanation": {
-        "fr": "L’obligation exposée est d’essuyer la tête ; le texte précise que la tête n’est pas répétée comme les membres lavés.",
+        "fr": "L’essuyage de la tête est une obligation ; il ne se répète pas comme le lavage des autres membres.",
         "ar": "مسح الرأس فرض، ولا يستحب تكراره كالأعضاء المغسولة."
       },
       "sources": [
@@ -1623,8 +1623,7 @@
         }
       ],
       "animationKey": "wave_ripple",
-      "animationHint": "Une unique vague passe puis s’arrête.",
-      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+      "animationHint": "Une unique vague passe puis s’arrête."
     },
     {
       "id": "REL-DRS-ARB-L3-15",
@@ -1697,13 +1696,13 @@
       "status": "draft",
       "title": "Le mythe des 3 mouvements",
       "prompt": {
-        "fr": "Le texte fixe-t-il exactement « trois mouvements » comme limite universelle avant d’annuler la prière ? A. Oui B. Non"
+        "fr": "Existe-t-il une règle fixant exactement « trois mouvements » comme limite avant d’annuler la prière ? A. Oui B. Non"
       },
       "answer": {
         "fr": "Non."
       },
       "explanation": {
-        "fr": "Il évoque le mouvement important et continu qui détourne de la prière, et précise que le chiffre de trois mouvements n’a pas de preuve ici.",
+        "fr": "Ce qui peut annuler la prière, c’est le mouvement important et continu qui en détourne ; la limite de trois mouvements n’a pas de preuve.",
         "ar": "الحركة الكثيرة المتوالية قد تبطل الصلاة، وتحديدها بثلاث حركات لا دليل عليه."
       },
       "sources": [
@@ -1714,8 +1713,7 @@
         }
       ],
       "animationKey": "intruder_out",
-      "animationHint": "Un compteur 1-2-3 apparaît puis se brise.",
-      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+      "animationHint": "Un compteur 1-2-3 apparaît puis se brise."
     },
     {
       "id": "REL-DRS-ARB-L3-18",
@@ -1848,13 +1846,13 @@
       "status": "draft",
       "title": "Pas seulement des mots",
       "prompt": {
-        "fr": "Dire « Lā ilāha illa Allāh » sans en connaître le sens et sans réaliser ce qu’elle implique suffit-il selon l’explication ? A. Oui B. Non"
+        "fr": "Dire « Lā ilāha illa Allāh » sans en connaître le sens et sans réaliser ce qu’elle implique suffit-il ? A. Oui B. Non"
       },
       "answer": {
         "fr": "Non."
       },
       "explanation": {
-        "fr": "Le commentaire insiste sur la connaissance du sens et la réalisation de ce qu’implique la parole du Tawhid.",
+        "fr": "Il faut connaître le sens de la parole du Tawhid et réaliser ce qu’elle implique.",
         "ar": "لا يكفي مجرد النطق بكلمة التوحيد، بل لابد من العلم بمعناها وتحقيق مقتضاها."
       },
       "sources": [
@@ -1865,8 +1863,7 @@
         }
       ],
       "animationKey": "intruder_out",
-      "animationHint": "Une clé sans dents échoue, puis une clé complète ouvre la serrure.",
-      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+      "animationHint": "Une clé sans dents échoue, puis une clé complète ouvre la serrure."
     },
     {
       "id": "REL-DRS-ARB-L4-03",
@@ -2059,7 +2056,7 @@
       "status": "draft",
       "title": "Pilier ou obligation ?",
       "prompt": {
-        "fr": "Si une obligation de la prière est oubliée, que mentionne le commentaire ? A. Elle peut être compensée par les prosternations de l’oubli B. Elle devient automatiquement un pilier"
+        "fr": "Si une obligation de la prière est oubliée, que se passe-t-il ? A. Elle peut être compensée par les prosternations de l’oubli B. Elle devient automatiquement un pilier"
       },
       "answer": {
         "fr": "Elle peut être compensée par les prosternations de l’oubli."
@@ -2076,8 +2073,7 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une pièce manquante est compensée par un badge « Sujūd as-Sahw ».",
-      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+      "animationHint": "Une pièce manquante est compensée par un badge « Sujūd as-Sahw »."
     },
     {
       "id": "REL-DRS-ARB-L4-10",
@@ -2360,13 +2356,13 @@
       "status": "draft",
       "title": "La vraie force",
       "prompt": {
-        "fr": "Dans l’explication des nobles caractères, quelle maîtrise est rapprochée de la véritable force ? A. Se maîtriser lors de la colère B. Crier plus fort"
+        "fr": "Parmi les nobles caractères, quelle maîtrise est la marque de la véritable force ? A. Se maîtriser lors de la colère B. Crier plus fort"
       },
       "answer": {
         "fr": "Se maîtriser lors de la colère."
       },
       "explanation": {
-        "fr": "Le commentaire rattache la vraie force à la capacité de contenir sa colère et de maîtriser son âme.",
+        "fr": "La vraie force, c’est la capacité de contenir sa colère et de maîtriser son âme.",
         "ar": "من حقيقة القوة والشجاعة أن يملك الإنسان نفسه عند الغضب."
       },
       "sources": [
@@ -2377,8 +2373,7 @@
         }
       ],
       "animationKey": "gauge_rise",
-      "animationHint": "Une jauge de colère monte puis redescend sous contrôle.",
-      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+      "animationHint": "Une jauge de colère monte puis redescend sous contrôle."
     },
     {
       "id": "REL-DRS-ARB-L4-20",
@@ -2451,13 +2446,13 @@
       "status": "draft",
       "title": "Deux questions fondamentales",
       "prompt": {
-        "fr": "Quelles deux idées résument les deux témoignages dans l’explication finale de cette section ? A. Qui adorais-tu ? et qu’as-tu répondu aux Messagers ? B. Quel âge avais-tu ? et où habitais-tu ?"
+        "fr": "Quelles deux questions résument les deux témoignages ? A. Qui adorais-tu ? et qu’as-tu répondu aux Messagers ? B. Quel âge avais-tu ? et où habitais-tu ?"
       },
       "answer": {
-        "fr": "Qui adorais-tu ? et qu’as-tu répondu aux Messagers ?."
+        "fr": "Qui adorais-tu ? et qu’as-tu répondu aux Messagers ?"
       },
       "explanation": {
-        "fr": "Le commentaire relie « Lā ilāha illa Allāh » à l’adoration d’Allah seul et « Muḥammad rasūl Allāh » au suivi du Messager ﷺ.",
+        "fr": "« Lā ilāha illa Allāh » renvoie à l’adoration d’Allah seul, et « Muḥammad rasūl Allāh » au suivi du Messager ﷺ.",
         "ar": "خلاصة الشهادتين: إخلاص العبادة لله، ومتابعة الرسول ﷺ."
       },
       "sources": [
@@ -2468,8 +2463,7 @@
         }
       ],
       "animationKey": "door_pick",
-      "animationHint": "Deux portes apparaissent, chacune liée à un témoignage.",
-      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+      "animationHint": "Deux portes apparaissent, chacune liée à un témoignage."
     },
     {
       "id": "REL-DRS-ARB-L5-03",

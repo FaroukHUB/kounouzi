@@ -32,6 +32,7 @@
  *   ex. … durous.txt src/content/questions/religion/ad-durous-al-mouhimmah.v1.json religion.bases.durous REL-DRS-ARB
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import { applyCorrections, loadCorrections } from "./apply-corrections.mjs";
 
 const [, , input, output, nodePrefix, idPrefix, publisher] = process.argv;
 if (!input || !output || !nodePrefix || !idPrefix) {
@@ -256,7 +257,10 @@ const bank = {
   category: nodePrefix.split(".").slice(0, 2).join("."),
   questions: cards,
 };
-writeFileSync(output, JSON.stringify(bank, null, 2) + "\n");
+// Corrections humaines validées (revue) : réappliquées à chaque réimport, jamais perdues.
+const corrected = applyCorrections(bank, loadCorrections());
+writeFileSync(output, JSON.stringify(corrected.bank, null, 2) + "\n");
+console.log(`corrections humaines appliquées : ${corrected.applied}`);
 const byKey = cards.reduce((acc, c) => ({ ...acc, [c.animationKey]: (acc[c.animationKey] ?? 0) + 1 }), {});
 console.log(`cartes : ${cards.length}`, JSON.stringify(byLevel));
 console.log(`réponses « lettre » résolues vers le texte du choix : ${letterAnswers.length}`);
