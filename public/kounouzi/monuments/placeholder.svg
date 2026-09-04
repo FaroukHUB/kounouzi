@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 120" role="img" aria-label="Monument (illustration provisoire)">
+  <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef2ff"/><stop offset="1" stop-color="#c7d2fe"/></linearGradient></defs>
+  <rect width="160" height="120" fill="url(#sky)"/>
+  <g fill="#3730a3" fill-opacity="0.85">
+    <rect x="18" y="62" width="124" height="44"/>
+    <path d="M30 62 L30 40 Q45 22 60 40 L60 62Z M100 62 L100 40 Q115 22 130 40 L130 62Z"/>
+    <rect x="70" y="30" width="20" height="32"/>
+    <path d="M62 30 Q80 10 98 30Z"/>
+    <rect x="74" y="14" width="12" height="16"/>
+  </g>
+  <g fill="#eef2ff"><rect x="40" y="78" width="10" height="16"/><rect x="75" y="78" width="10" height="28"/><rect x="110" y="78" width="10" height="16"/></g>
+</svg>

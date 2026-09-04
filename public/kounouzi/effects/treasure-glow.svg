@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Lueur de trésor (provisoire)">
+  <defs><radialGradient id="r" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fde68a"/><stop offset="0.55" stop-color="#facc15" stop-opacity="0.45"/><stop offset="1" stop-color="#facc15" stop-opacity="0"/></radialGradient></defs>
+  <circle cx="100" cy="100" r="100" fill="url(#r)"/>
+  <g stroke="#fbbf24" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round"><path d="M100 10v22M100 168v22M10 100h22M168 100h22M36 36l16 16M148 148l16 16M164 36l-16 16M52 148l-16 16"/></g>
+</svg>

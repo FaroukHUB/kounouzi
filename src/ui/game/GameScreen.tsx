@@ -126,7 +126,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const cardOpen = ui.card !== null;
 
   return (
-    <div className="relative flex min-h-dvh flex-col bg-[var(--k-sand)] lg:flex-row lg:items-center lg:justify-center lg:gap-6 lg:p-6" data-testid="game-screen" data-phase={state.phase.kind}>
+    <div className="bg-table relative flex min-h-dvh flex-col lg:flex-row lg:items-center lg:justify-center lg:gap-6 lg:p-6" data-testid="game-screen" data-phase={state.phase.kind}>
       <TurnBanner banner={ui.banner} state={shown} />
 
       <motion.main
@@ -140,6 +140,9 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           highlightedCell={ui.highlightedCell}
           arrivalCell={ui.arrivalCell}
           previewPath={ui.pathPreview}
+          holdings={shown.holdings}
+          players={state.players}
+          profiles={profiles}
           pawns={<PawnLayer players={state.players} profiles={profiles} visuals={ui.pawnVisuals} activePlayerId={shownActiveId} cellCount={state.config.board.cellCount} stepMs={timings.stepMs} />}
           center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}
         />
@@ -157,10 +160,10 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         onChooseRecipient={(recipientId) => dispatch({ type: "ChooseRecipient", playerId: activeId, recipientId })}
       />
 
-      <aside className="flex w-full flex-col gap-3 p-3 lg:w-80">
+      <aside className="flex w-full flex-col gap-3 p-3 lg:w-80 lg:rounded-[1.8rem] lg:border lg:border-[rgba(120,80,30,0.18)] lg:bg-[rgba(255,250,240,0.55)] lg:p-4 lg:shadow-[0_24px_50px_-30px_rgba(60,35,10,0.6)]">
         <header className="flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-black tracking-tight">{t(DEFAULT_LOCALE, "app.name")}</h1>
+            <h1 className="font-display text-xl font-black tracking-[0.08em] text-[var(--k-teal-dark)]">{t(DEFAULT_LOCALE, "app.name")}</h1>
             <TimeBadge state={shown} precise={session.preciseTimer} />
           </div>
           <Button variant="secondary" onClick={() => setSettingsOpen(true)} aria-label={t(DEFAULT_LOCALE, "game.settings")}>

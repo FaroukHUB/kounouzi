@@ -26,10 +26,11 @@ export function DuelCard({ state, profiles, card }: { readonly state: GameState;
   const subtitle = category ? t(DEFAULT_LOCALE, "duel.category", { category }) : t(DEFAULT_LOCALE, "cell.challenge");
 
   return (
-    <CardShell cellType="challenge" title={`⚔ ${t(DEFAULT_LOCALE, "duel.title")}`} subtitle={subtitle} testId="duel-card">
-      <div className="flex items-center justify-around gap-4 py-2" data-stage={card.stage}>
+    <CardShell cellType="challenge" title={`⚔ ${t(DEFAULT_LOCALE, "duel.title")}`} subtitle={subtitle} testId="duel-card" tall>
+      <div className="relative flex items-center justify-around gap-4 py-3" data-stage={card.stage}>
+        {card.stage === "result" && card.winnerId ? <span className="k-rays pointer-events-none absolute inset-0 m-auto size-48 rounded-full opacity-60" style={{ background: "conic-gradient(from 0deg, rgba(212,160,23,0.35) 0 10%, transparent 10% 25%, rgba(212,160,23,0.35) 25% 35%, transparent 35% 50%, rgba(212,160,23,0.35) 50% 60%, transparent 60% 75%, rgba(212,160,23,0.35) 75% 85%, transparent 85%)" }} aria-hidden="true" /> : null}
         <PlayerFace state={state} profiles={profiles} playerId={card.challengerId} size="lg" highlight={card.stage === "turn" ? card.duelistId === card.challengerId : card.winnerId === card.challengerId} />
-        <motion.span initial={{ scale: 0.4, rotate: -12, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 260, damping: 14 }} className="text-4xl font-black text-[var(--k-ruby)]">
+        <motion.span initial={{ scale: 0.4, rotate: -12, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 260, damping: 14 }} className="font-display relative flex size-16 items-center justify-center rounded-full bg-[var(--k-ruby)] text-2xl font-black text-white shadow-[0_10px_20px_-8px_rgba(185,28,60,0.8)]">
           {t(DEFAULT_LOCALE, "duel.vs")}
         </motion.span>
         <PlayerFace state={state} profiles={profiles} playerId={card.opponentId} size="lg" highlight={card.stage === "turn" ? card.duelistId === card.opponentId : card.winnerId === card.opponentId} />
@@ -62,7 +63,7 @@ export function DuelCard({ state, profiles, card }: { readonly state: GameState;
               </div>
             ))}
           </dl>
-          <motion.p initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 240, damping: 16 }} className="text-center text-2xl font-black text-[var(--k-teal)]" data-testid="duel-verdict">
+          <motion.p initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 240, damping: 16 }} className="font-display text-center text-3xl font-black text-[var(--k-teal)]" data-testid="duel-verdict">
             {card.winnerId ? t(DEFAULT_LOCALE, "duel.result.win", { name: name(card.winnerId) }) : t(DEFAULT_LOCALE, "duel.result.draw")}
           </motion.p>
         </div>

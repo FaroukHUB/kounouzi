@@ -10,8 +10,8 @@ export function FinalRanking({ state }: { readonly state: GameState }) {
   const winner = ranking[0] ? state.players.find((p) => p.id === ranking[0]!.playerId) : undefined;
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 z-30 flex items-center justify-center bg-[var(--k-ink)]/60 p-4">
-      <motion.section initial={{ scale: 0.92, y: 16 }} animate={{ scale: 1, y: 0 }} className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl" aria-labelledby="ranking-title">
-        <h2 id="ranking-title" className="text-2xl font-black">
+      <motion.section initial={{ scale: 0.92, y: 16 }} animate={{ scale: 1, y: 0 }} className="bg-parchment w-full max-w-md rounded-3xl p-6 shadow-2xl ring-1 ring-[rgba(212,160,23,0.45)]" aria-labelledby="ranking-title">
+        <h2 id="ranking-title" className="font-display text-2xl font-black">
           {t(DEFAULT_LOCALE, "game.finished.title")}
         </h2>
         {winner ? <p className="mt-1 text-lg text-[var(--k-teal)]">{t(DEFAULT_LOCALE, "game.finished.winner", { name: winner.displayName })}</p> : null}

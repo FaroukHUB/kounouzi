@@ -6,6 +6,7 @@ import type { GameState } from "@/core/game";
 import type { NarrationService } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Button } from "@/ui/primitives/Button";
+import { monumentImage } from "@/ui/theme/assets";
 import { CardShell } from "./CardShell";
 import type { CardState } from "./cardState";
 
@@ -27,6 +28,9 @@ export function MonumentCard({ state, card, narrator, onDecide }: { readonly sta
 
   return (
     <CardShell cellType="heritage" title={name} subtitle={t(DEFAULT_LOCALE, "monument.title")} testId="monument-card">
+      {/* Emplacement de l'illustration du monument (asset remplaçable par site) */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={monumentImage(card.siteId)} alt="" aria-hidden="true" className="h-36 w-full rounded-2xl border border-[rgba(120,80,30,0.2)] object-cover shadow-inner" decoding="async" data-testid="monument-illustration" />
       <p className="text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "monument.history.pending")}</p>
       <dl className="grid grid-cols-2 gap-3">
         <div className="rounded-2xl bg-[var(--k-sand)] px-4 py-3">

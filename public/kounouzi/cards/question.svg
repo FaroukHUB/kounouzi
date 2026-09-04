@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 160" role="img" aria-label="Bandeau de carte question (provisoire)">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1"><stop offset="0" stop-color="#f59e0b" stop-opacity="0.25"/><stop offset="1" stop-color="#f59e0b" stop-opacity="0.05"/></linearGradient>
+    <pattern id="p" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M14 0v28M0 14h28" stroke="#f59e0b" stroke-opacity="0.18" stroke-width="1"/></pattern>
+  </defs>
+  <rect width="560" height="160" fill="url(#bg)"/>
+  <rect width="560" height="160" fill="url(#p)"/>
+  <g transform="translate(432 32) scale(4)" fill="none" stroke="#f59e0b" stroke-opacity="0.55" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9a3 3 0 1 1 4.5 2.6c-.9.5-1.5 1.2-1.5 2.4M12 18h.01"/></g>
+</svg>

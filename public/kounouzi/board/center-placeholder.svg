@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Centre du plateau (provisoire)">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="45%" r="60%"><stop offset="0" stop-color="#fbf4e6"/><stop offset="1" stop-color="#e6d5b8"/></radialGradient>
+    <pattern id="p" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M20 0v40M0 20h40" stroke="#b5894a" stroke-opacity="0.16" stroke-width="1"/></pattern>
+  </defs>
+  <circle cx="200" cy="200" r="196" fill="url(#g)"/>
+  <circle cx="200" cy="200" r="196" fill="url(#p)"/>
+  <circle cx="200" cy="200" r="170" fill="none" stroke="#b5894a" stroke-opacity="0.45" stroke-width="2"/>
+  <circle cx="200" cy="200" r="158" fill="none" stroke="#b5894a" stroke-opacity="0.25" stroke-width="1"/>
+  <g fill="none" stroke="#0f766e" stroke-opacity="0.55" stroke-width="2">
+    <path d="M200 60 L216 184 L340 200 L216 216 L200 340 L184 216 L60 200 L184 184 Z"/>
+    <path d="M200 120 L228 172 L280 200 L228 228 L200 280 L172 228 L120 200 L172 172 Z"/>
+  </g>
+  <circle cx="200" cy="200" r="22" fill="#0f766e" fill-opacity="0.9"/>
+</svg>

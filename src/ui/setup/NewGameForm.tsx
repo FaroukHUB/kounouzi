@@ -103,15 +103,16 @@ export function NewGameForm() {
 
   return (
     <form
-      className="mx-auto flex w-full max-w-3xl flex-col gap-6 p-4 sm:p-8"
+      className="bg-table flex min-h-dvh w-full justify-center p-4 sm:p-8"
       onSubmit={(e) => {
         e.preventDefault();
         void submit();
       }}
       data-testid="new-game-form"
     >
+      <div className="flex w-full max-w-3xl flex-col gap-6">
       <header>
-        <h1 className="text-3xl font-black tracking-tight">{t(DEFAULT_LOCALE, "setup.title")}</h1>
+        <h1 className="font-display text-3xl font-black tracking-tight text-[var(--k-teal-dark)]">{t(DEFAULT_LOCALE, "setup.title")}</h1>
         <p className="text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "setup.subtitle")}</p>
       </header>
 
@@ -232,6 +233,7 @@ export function NewGameForm() {
       <Button size="xl" type="submit" data-testid="start-game">
         {t(DEFAULT_LOCALE, "setup.start")}
       </Button>
+      </div>
     </form>
   );
 }

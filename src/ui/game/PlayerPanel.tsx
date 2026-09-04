@@ -19,9 +19,9 @@ export function PlayerPanel({ state, profiles }: { readonly state: GameState; re
             key={p.id}
             data-player={p.id}
             data-active={active}
-            className={`flex items-center gap-3 rounded-2xl border px-3 py-2 transition ${active ? "border-[var(--k-teal)] bg-white shadow-md" : "border-transparent bg-white/60"}`}
+            className={`flex items-center gap-3 rounded-2xl border px-3 py-2 transition ${active ? "border-[var(--k-gold)] bg-[var(--k-cream)] shadow-[0_10px_24px_-14px_rgba(60,35,10,0.8)]" : "border-[rgba(120,80,30,0.12)] bg-[rgba(255,250,240,0.7)]"}`}
           >
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-full text-white" style={{ backgroundColor: avatar.color }}>
+            <span className={`flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-white text-white shadow ${active ? "ring-2 ring-[var(--k-gold)]" : ""}`} style={{ background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5) 0%, ${avatar.color} 45%)` }}>
               <AvatarGlyph shape={avatar.shape} className="size-5" />
             </span>
             <span className="min-w-0 flex-1">
@@ -30,7 +30,7 @@ export function PlayerPanel({ state, profiles }: { readonly state: GameState; re
                 {t(DEFAULT_LOCALE, "game.money")} {p.money} · {t(DEFAULT_LOCALE, "game.heritage")} {heritage}
               </span>
             </span>
-            {active ? <span className="rounded-full bg-[var(--k-teal)] px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide text-white">●</span> : null}
+            {active ? <span className="rounded-full bg-[var(--k-teal)] px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wide text-white">{t(DEFAULT_LOCALE, "game.turn", { turn: state.turnNumber })}</span> : null}
           </li>
         );
       })}
