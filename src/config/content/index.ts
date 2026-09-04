@@ -11,7 +11,6 @@ import {
   type CategoryDefinition,
   type ContentRegistry,
   type CuratedQuestion,
-  type DifficultyBand,
   type GeoFact,
 } from "@/core/content";
 import categoriesJson from "@/config/categories/categories.v1.json";
@@ -77,7 +76,12 @@ const BANDS = bandsSchema.parse(bandsJson);
 
 export const categoryById = (id: string): CategoryDefinition | undefined => CATEGORIES.find((c) => c.id === id);
 
-/** Bande de difficulté provisoire d'un profil (Phase 4) ; remplacée par le Learning Engine en Phase 5. */
+export interface DifficultyBand {
+  readonly min: number;
+  readonly max: number;
+}
+
+/** Bande de difficulté d'un profil : uniquement un POINT DE DÉPART (amorçage du Learning Engine), jamais un plafond. */
 export function difficultyBandFor(profile: { readonly profileType: ProfileType; readonly schoolGrade?: string | undefined; readonly initialLevel?: AdultInitialLevel | undefined }): DifficultyBand {
   const entry = profile.profileType === "child" ? BANDS.child[profile.schoolGrade ?? ""] : BANDS.adult[profile.initialLevel ?? "standard"];
   const [min, max] = entry ?? [2, 4];

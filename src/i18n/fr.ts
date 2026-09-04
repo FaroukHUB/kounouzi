@@ -39,6 +39,9 @@ export const fr = {
   "setup.start": "Commencer la partie",
   "setup.errors.name": "Chaque joueur a besoin d'un prénom.",
   "setup.errors.birthYear": "Année de naissance invalide.",
+  "setup.knownPlayers": "Joueurs connus",
+  "setup.knownPlayers.hint": "Touche un prénom pour le rajouter avec sa progression.",
+  "setup.knownPlayers.added": "déjà dans la partie",
 
   "level.discovery": "Découverte",
   "level.standard": "Standard",

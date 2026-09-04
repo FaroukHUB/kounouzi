@@ -97,12 +97,30 @@ export interface QuestionRequest {
   readonly variation: number;
 }
 
+/**
+ * Une question POTENTIELLE vue par le Learning Engine : une notion, une
+ * difficulté, une audience, et une instanciation déterministe (la variation
+ * est un compteur, jamais un tirage). Un créneau curé ou factuel n'a qu'une
+ * formulation ; un créneau algorithmique en produit autant qu'on lui demande.
+ */
+export interface KnowledgeSlot {
+  /** Identifiant stable et unique dans le registre (départage déterministe). */
+  readonly slotId: string;
+  readonly categoryId: CategoryId;
+  readonly knowledgeNodeId: string;
+  readonly difficulty: number;
+  readonly audienceScope: AudienceScope;
+  instantiate(variation: number): QuestionInstance | null;
+}
+
 /** Un fournisseur par régime. Même contrat, aucune connaissance de l'origine côté interface. */
 export interface ContentProvider {
   readonly mode: GenerationMode;
   supports(categoryId: CategoryId): boolean;
   /** `null` si aucune question appropriée n'existe : la catégorie est alors ignorée, jamais remplie artificiellement. */
   resolve(request: QuestionRequest): QuestionInstance | null;
+  /** Tous les créneaux jouables par ce profil (frontière d'audience déjà appliquée), dans un ordre stable. */
+  slots(profileType: ProfileType): readonly KnowledgeSlot[];
 }
 
 export const CURATED_STATUSES = ["draft", "generated", "to_verify", "validated", "rejected", "archived"] as const;

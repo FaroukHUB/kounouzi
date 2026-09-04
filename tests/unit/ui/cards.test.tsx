@@ -1,14 +1,13 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { contentRegistry } from "@/config/content";
 import { NullNarrator } from "@/experience/narration";
-import { resolveQuestion } from "@/experience/questionResolver";
 import { ChoiceCard, optionLabel, scenarioTitle } from "@/ui/cards/ChoiceCard";
 import { MonumentCard, siteDisplayName } from "@/ui/cards/MonumentCard";
 import { QuestionCard } from "@/ui/cards/QuestionCard";
 import { cardForPhase } from "@/ui/cards/cardState";
 import { create, journey, makeLineSetup, makeSetup, players, run } from "../../fixtures/game/setup.fixture";
 import { scenariosOf } from "../../fixtures/game/scenarios.fixture";
+import { resolveFor } from "../../fixtures/learning/resolve.fixture";
 
 const narrator = new NullNarrator();
 const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", child: { birthYear: 2018, schoolGrade: "CE2" } }));
@@ -16,7 +15,7 @@ const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.disp
 describe("carte question (rendu statique)", () => {
   const pending = journey(create(makeLineSetup()).state);
   // La carte affiche la question FIGÉE dans l'état : on la sert d'abord (comme le fait GameScreen).
-  const asked = run(pending.state, { type: "ServeQuestion", requestId: "q1", question: resolveQuestion(pending.state, profiles, contentRegistry())! });
+  const asked = run(pending.state, { type: "ServeQuestion", requestId: "q1", question: resolveFor(pending.state, profiles)! });
   const base = { kind: "question" as const, requestId: "q1", validationMode: "collective" as const };
   const render = (card: Parameters<typeof QuestionCard>[0]["card"], state = asked.state) => renderToStaticMarkup(<QuestionCard state={state} profiles={profiles} card={card} narrator={narrator} reduced={true} onUpdate={() => {}} onSubmit={() => {}} />);
 

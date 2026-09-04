@@ -1,5 +1,5 @@
 import { isAudienceAllowed } from "@/core/shared";
-import type { Bilingual, ContentProvider, QuestionInstance, QuestionRequest, SourceRef } from "@/core/content/types";
+import type { Bilingual, ContentProvider, KnowledgeSlot, QuestionInstance, QuestionRequest, SourceRef } from "@/core/content/types";
 
 export const GEOGRAPHY_CATEGORY_ID = "geography";
 export const GEO_TEMPLATE_VERSION = 1;
@@ -86,28 +86,44 @@ const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 export function createFactualProvider(allFacts: readonly GeoFact[], options: FactualProviderOptions = { allowUnverified: false }): ContentProvider {
   const facts = allFacts.filter((f) => (options.allowUnverified ? f.status === "unverified" || factPlayabilityIssues(f).length === 0 : factPlayabilityIssues(f).length === 0));
+  const difficultyOf = (f: GeoFact, tpl: Template) => Math.min(5, f.difficulty + tpl.difficultyOffset);
+  const toInstance = (f: GeoFact, tpl: Template): QuestionInstance => ({
+    ref: { origin: "factual", factId: f.id, factVersion: f.version, templateId: tpl.id, templateVersion: GEO_TEMPLATE_VERSION },
+    categoryId: GEOGRAPHY_CATEGORY_ID,
+    knowledgeNodeId: tpl.node(f),
+    difficulty: difficultyOf(f, tpl),
+    audienceScope: "all",
+    prompt: tpl.prompt(f),
+    answer: tpl.answer(f),
+    explanation: tpl.explanation(f),
+    sources: f.sources,
+    review: { ar: f.review?.ar ?? "provisional" },
+  });
   return {
     mode: "factual",
     supports: (categoryId) => categoryId === GEOGRAPHY_CATEGORY_ID && facts.length > 0,
     resolve: (request: QuestionRequest): QuestionInstance | null => {
       if (request.categoryId !== GEOGRAPHY_CATEGORY_ID || !isAudienceAllowed("all", request.profileType)) return null;
       // Candidats (fait × gabarit) dans une fenêtre de difficulté, ordre stable ; parcours par le compteur.
-      const candidates = facts.flatMap((f) => GEO_TEMPLATES.map((tpl) => ({ f, tpl, d: Math.min(5, f.difficulty + tpl.difficultyOffset) }))).filter((c) => Math.abs(c.d - request.difficulty) <= 1);
-      const pool = candidates.length > 0 ? candidates : facts.flatMap((f) => GEO_TEMPLATES.map((tpl) => ({ f, tpl, d: Math.min(5, f.difficulty + tpl.difficultyOffset) })));
+      const all = facts.flatMap((f) => GEO_TEMPLATES.map((tpl) => ({ f, tpl, d: difficultyOf(f, tpl) })));
+      const candidates = all.filter((c) => Math.abs(c.d - request.difficulty) <= 1);
+      const pool = candidates.length > 0 ? candidates : all;
       const pick = pool[request.variation % pool.length];
       if (!pick) return null;
-      return {
-        ref: { origin: "factual", factId: pick.f.id, factVersion: pick.f.version, templateId: pick.tpl.id, templateVersion: GEO_TEMPLATE_VERSION },
-        categoryId: GEOGRAPHY_CATEGORY_ID,
-        knowledgeNodeId: pick.tpl.node(pick.f),
-        difficulty: pick.d,
-        audienceScope: "all",
-        prompt: pick.tpl.prompt(pick.f),
-        answer: pick.tpl.answer(pick.f),
-        explanation: pick.tpl.explanation(pick.f),
-        sources: pick.f.sources,
-        review: { ar: pick.f.review?.ar ?? "provisional" },
-      };
+      return toInstance(pick.f, pick.tpl);
     },
+    slots: (profileType): readonly KnowledgeSlot[] =>
+      isAudienceAllowed("all", profileType)
+        ? facts.flatMap((f) =>
+            GEO_TEMPLATES.map((tpl) => ({
+              slotId: `factual:${f.id}:${tpl.id}`,
+              categoryId: GEOGRAPHY_CATEGORY_ID,
+              knowledgeNodeId: tpl.node(f),
+              difficulty: difficultyOf(f, tpl),
+              audienceScope: "all" as const,
+              instantiate: () => toInstance(f, tpl),
+            })),
+          )
+        : [],
   };
 }

@@ -2,15 +2,15 @@ import { describe, expect, it } from "vitest";
 import { CATEGORIES, GEO_FACTS, contentRegistry } from "@/config/content";
 import { createContentRegistry, createFactualProvider, factPlayabilityIssues, questionRefKey, rebuildMaths, type GeoFact } from "@/core/content";
 import { deserializeGameState, reduce, serializeGameState } from "@/core/game";
-import { resolveQuestion } from "@/experience/questionResolver";
 import { active, answer, create, eventsOf, journey, makeLineSetup, makeSetup, pid, run } from "../../fixtures/game/setup.fixture";
+import { resolveFor } from "../../fixtures/learning/resolve.fixture";
 
 const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", child: { birthYear: 2018, schoolGrade: "CE2" } }));
 
 describe("question figée dans l'état (ServeQuestion)", () => {
   it("fige la question distribuée avec sa référence versionnée ; refuse un double service ou un service hors demande", () => {
     const asked = journey(create(makeLineSetup()).state);
-    const q = resolveQuestion(asked.state, profiles, contentRegistry())!;
+    const q = resolveFor(asked.state, profiles)!;
     const served = run(asked.state, { type: "ServeQuestion", requestId: "q1", question: q });
     expect(served.state.phase).toMatchObject({ kind: "awaiting_answer", served: q });
     expect(eventsOf(served.events, "QuestionServed")[0]).toMatchObject({ requestId: "q1", playerId: pid("p1"), question: { ref: q.ref, knowledgeNodeId: q.knowledgeNodeId, difficulty: q.difficulty } });
@@ -25,7 +25,7 @@ describe("question figée dans l'état (ServeQuestion)", () => {
     // 1. distribuer une question (géographie, catalogue A)
     const asked = journey(create(makeLineSetup({ players: makeSetup().players.slice(0, 2) })).state);
     const registryA = createContentRegistry(CATEGORIES, [createFactualProvider(GEO_FACTS, { allowUnverified: true })]);
-    const original = resolveQuestion(asked.state, profiles, registryA)!;
+    const original = resolveFor(asked.state, profiles, registryA)!;
     expect(original.ref.origin).toBe("factual");
     // 2. sauvegarder en awaiting_answer avec la question figée
     const served = run(asked.state, { type: "ServeQuestion", requestId: "q1", question: original });
@@ -41,7 +41,7 @@ describe("question figée dans l'état (ServeQuestion)", () => {
     // 5. même question, mêmes paramètres, même réponse, mêmes explications, même version
     expect(phase.kind === "awaiting_answer" ? phase.served : null).toEqual(original);
     // Une nouvelle résolution avec le contenu modifié donnerait autre chose : la reprise ne s'y fie pas.
-    expect(resolveQuestion(restored.value, profiles, registryB)).not.toEqual(original);
+    expect(resolveFor(restored.value, profiles, registryB)).not.toEqual(original);
   });
 
   it("une question algorithmique conserve ses opérandes réels et se reconstruit à l'identique", () => {
@@ -58,7 +58,7 @@ describe("question figée dans l'état (ServeQuestion)", () => {
 
   it("sérialisation v3 : l'état avec question servie fait l'aller-retour ; une v2 migre sans question figée", () => {
     const asked = journey(create(makeLineSetup()).state);
-    const q = resolveQuestion(asked.state, profiles, contentRegistry())!;
+    const q = resolveFor(asked.state, profiles)!;
     const served = run(asked.state, { type: "ServeQuestion", requestId: "q1", question: q });
     const back = deserializeGameState(serializeGameState(served.state));
     expect(back.ok && back.value).toEqual(served.state);

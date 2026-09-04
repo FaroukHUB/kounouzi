@@ -8,11 +8,12 @@ import { useReducedMotion, useTimings } from "@/animation/useReducedMotion";
 import type { GameEvent, GameState } from "@/core/game";
 import type { GameId, PlayerId } from "@/core/shared";
 import { contentRegistry } from "@/config/content";
+import { LEARNING_CONFIG } from "@/config/learning";
 import { utteranceFor } from "@/experience/narration";
 import { resolveQuestion } from "@/experience/questionResolver";
 import { startPlayClock } from "@/experience/playClock";
 import { DEFAULT_LOCALE, t } from "@/i18n";
-import { gameStore, narrator, useGameStore } from "@/state/appStores";
+import { gameStore, learningStore, narrator, useGameStore, useLearningStore } from "@/state/appStores";
 import { useSessionStore } from "@/state/sessionStore";
 import { useUiStore } from "@/state/uiStore";
 import { Board } from "@/ui/board/Board";
@@ -30,6 +31,8 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const status = useGameStore((s) => s.status);
   const state = useGameStore((s) => s.state);
   const profiles = useGameStore((s) => s.profiles);
+  const memories = useLearningStore((s) => s.memories);
+  const loadedLearners = useLearningStore((s) => s.loaded);
   const ui = useUiStore();
   const timings = useTimings();
   const reduced = useReducedMotion();
@@ -68,13 +71,21 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   }, []);
   useAnimationQueue(timings, onPlay, state);
 
-  // Distribution : dès qu'une question est demandée, elle est résolue UNE fois puis figée dans l'état (ServeQuestion).
-  // Si aucune question n'existe, la carte propose « Passer » ; rien n'est inventé.
+  // Mémoire pédagogique : la mémoire de chaque joueur de la partie est chargée avant toute distribution.
+  useEffect(() => {
+    if (!state) return;
+    void learningStore.getState().ensureLoaded(state.players.map((p) => p.id));
+  }, [state]);
+
+  // Distribution : dès qu'une question est demandée, le Learning Engine la choisit UNE fois (mémoire du joueur actif),
+  // puis elle est figée dans l'état (ServeQuestion). Si aucune question n'existe, la carte propose « Passer » ; rien n'est inventé.
   useEffect(() => {
     if (!state || state.phase.kind !== "awaiting_answer" || state.phase.served) return;
-    const question = resolveQuestion(state, profiles, contentRegistry());
+    const activeId = state.players[state.activePlayerIndex]?.id;
+    if (!activeId || !loadedLearners.includes(activeId)) return;
+    const question = resolveQuestion({ state, profiles, registry: contentRegistry(), memoryOf: (id) => memories[id], config: LEARNING_CONFIG, now: new Date().toISOString() });
     if (question) gameStore.getState().dispatch({ type: "ServeQuestion", requestId: state.phase.requestId, question });
-  }, [state, profiles]);
+  }, [state, profiles, memories, loadedLearners]);
 
   // Temps de jeu actif : uniquement partie visible, non en pause, en cours.
   useEffect(() => {

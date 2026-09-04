@@ -1,4 +1,4 @@
-import type { Bilingual, QuestionInstance, QuestionRef, QuestionRequest } from "@/core/content/types";
+import type { Bilingual, KnowledgeSlot, QuestionInstance, QuestionRef, QuestionRequest } from "@/core/content/types";
 import { pickInRange } from "./sequence";
 
 export const MATHS_CATEGORY_ID = "maths";
@@ -98,7 +98,8 @@ export function renderMultiplication(a: number, b: number): MathsQuestion {
   const p = a * b;
   return {
     generatorId: "maths.multiplication",
-    knowledgeNodeId: `maths.multiplication.table-${n(Math.min(a, b))}`,
+    // La notion suivie est la TABLE du premier opérande : « table de 7 » produit 7 × 8, 7 × 6, 7 × 9…
+    knowledgeNodeId: `maths.multiplication.table-${n(a)}`,
     params: { a, b },
     prompt: { fr: `${n(a)} × ${n(b)} = ?`, ar: `${n(a)} × ${n(b)} = ؟` },
     answer: { fr: n(p), ar: n(p) },
@@ -157,6 +158,45 @@ function toInstance(q: MathsQuestion, difficulty: number): QuestionInstance {
     sources: [],
     review: { ar: MATHS_ARABIC_REVIEW },
   };
+}
+
+/**
+ * Créneaux de connaissance pour le Learning Engine : une notion × une
+ * difficulté, avec instanciation par compteur (parcours d'intervalle, aucun
+ * hasard). Addition, soustraction et division : une notion par difficulté ;
+ * multiplication : une notion par table, aux difficultés où la table apparaît.
+ */
+export function mathsSlots(): readonly KnowledgeSlot[] {
+  const slots: KnowledgeSlot[] = [];
+  for (let d = 1; d <= 5; d += 1) {
+    const simple: readonly (readonly [string, (difficulty: number, variation: number) => MathsQuestion])[] = [
+      ["addition", addition],
+      ["subtraction", subtraction],
+      ["division", division],
+    ];
+    for (const [op, generate] of simple) {
+      slots.push({
+        slotId: `maths.${op}@d${d}`,
+        categoryId: MATHS_CATEGORY_ID,
+        knowledgeNodeId: `maths.${op}.d${d}`,
+        difficulty: d,
+        audienceScope: "all",
+        instantiate: (variation) => toInstance(generate(d, variation), d),
+      });
+    }
+    const r = MULTIPLICATION[d - 1]!;
+    for (let table = r.a[0]; table <= r.a[1]; table += 1) {
+      slots.push({
+        slotId: `maths.multiplication.table-${n(table)}@d${d}`,
+        categoryId: MATHS_CATEGORY_ID,
+        knowledgeNodeId: `maths.multiplication.table-${n(table)}`,
+        difficulty: d,
+        audienceScope: "all",
+        instantiate: (variation) => toInstance(renderMultiplication(table, pickInRange(r.b[0], r.b[1], variation)), d),
+      });
+    }
+  }
+  return slots;
 }
 
 /** Reconstruit EXACTEMENT la question d'une référence algorithmique (identité, mémoire, vérification). */

@@ -42,6 +42,9 @@ export const ar: Dictionary = {
   "setup.start": "بدء اللعبة",
   "setup.errors.name": "كل لاعب يحتاج إلى اسم.",
   "setup.errors.birthYear": "سنة الميلاد غير صالحة.",
+  "setup.knownPlayers": "لاعبون معروفون",
+  "setup.knownPlayers.hint": "المس اسمًا لإضافته مع تقدّمه.",
+  "setup.knownPlayers.added": "موجود في اللعبة",
 
   "level.discovery": "اكتشاف",
   "level.standard": "قياسي",

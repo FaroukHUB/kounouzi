@@ -98,8 +98,8 @@ téléphone au niveau du joueur, aucune photo.
 La mémoire pédagogique est commune à tous les joueurs :
 `player_knowledge_state` (agrégat borné par notion), `player_attempts`
 (journal), `player_category_progress` (dérivé). Le niveau initial adulte et la
-classe scolaire ne servent qu'à **amorcer et borner** ; le niveau réel est
-appris par catégorie, indépendamment.
+classe scolaire ne servent qu'à **amorcer** ; le niveau réel est appris par
+catégorie, indépendamment (ADR 0023). Aucune donnée économique n'y entre.
 
 ## 4. Règles absolues
 
@@ -165,13 +165,24 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
 - **Cartes** (ADR 0021) : ouvertes et refermées par la file d'animation,
   état transitoire reconstruit depuis la phase à la reprise.
 - **Contenu** (ADR 0020, 0022) : `src/core/content` (maths algorithmiques,
-  géographie factuelle, banque curée gardée) ; résolution déterministe d'une
-  question par demande, sélection provisoire jusqu'au Learning Engine. La
-  question distribuée est **figée dans l'état** (`ServeQuestion` →
-  `phase.served`, référence versionnée `QuestionRef`) : une partie reprend
-  exactement la même question quel que soit le contenu du moment. Le contenu
-  de démonstration (`unverified`, `DEMO_CONTENT_ENABLED`) est distinct du
-  contenu validé.
+  géographie factuelle, banque curée gardée) ; chaque fournisseur énumère ses
+  **créneaux de connaissance** (`KnowledgeSlot` : notion, difficulté,
+  audience, instanciation par compteur). La question distribuée est **figée
+  dans l'état** (`ServeQuestion` → `phase.served`, référence versionnée
+  `QuestionRef`) : une partie reprend exactement la même question quel que
+  soit le contenu du moment. Le contenu de démonstration (`unverified`,
+  `DEMO_CONTENT_ENABLED`) est distinct du contenu validé.
+- **Learning Engine** (ADR 0023, `src/core/learning`) : mémoire pédagogique
+  générique par joueur (`player_knowledge_state`, `player_attempts`,
+  `player_category_progress`), sélection **sans hasard** par score
+  pédagogique et départage stable, niveau par catégorie à évolution lente
+  amorcé par la classe ou le niveau initial, révision espacée simplifiée à
+  horloge injectée, agrégations « Mes Trésors » dérivées. `learningStore`
+  enregistre chaque réponse à une question servie et persiste par le port
+  `LearningRepository` (IndexedDB) ; les profils joueurs persistants
+  (`PlayerProfileRepository`) donnent l'identifiant stable qui porte la
+  mémoire d'une partie à l'autre. L'équilibrage familial ne peut rien y
+  changer (garde-fou structurel et testé).
 
 ## 6. Persistance
 
@@ -189,7 +200,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | 2     | Moteur de jeu pur : tours, roue, déplacement, économie, patrimoine, effets, fin, sérialisation | livrée |
 | 3     | Plateau, Chemin, pions, animations, narration, Zustand, IndexedDB, reprise | livrée |
 | 4     | Cartes interactives, validation, explications FR/AR, récompenses ×2, monuments, choix, scénarios, contenu minimal — **première partie jouable** | livrée |
-| 5     | Mémoire pédagogique et algorithme adaptatif                  | à venir  |
+| 5     | Mémoire pédagogique et Learning Engine : mémoire par joueur, sélection sans hasard, niveau par catégorie, révision espacée, persistance locale, agrégations « Mes Trésors » | livrée |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
 | 7     | Mes trésors, écran parent                                    | à venir  |
 | 8     | Back-office de contenu                                       | à venir  |

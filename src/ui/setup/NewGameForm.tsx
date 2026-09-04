@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AVATARS } from "@/config/avatars";
 import { BOARD_32_V1 } from "@/config/board";
 import { DEMO_HERITAGE_SITES, DEMO_RULES_QUICK, DEMO_SCENARIOS } from "@/config/demo";
@@ -10,13 +10,15 @@ import { journeyCycleForOrdinal } from "@/config/journey";
 import { SCHOOL_GRADES } from "@/config/profiles";
 import { MAX_PLAYERS, MIN_PLAYERS, type GameSetup } from "@/core/game";
 import { ADULT_INITIAL_LEVELS, DEFAULT_ADULT_INITIAL_LEVEL, type AdultInitialLevel, type GameId, type PlayerId, type ProfileType } from "@/core/shared";
-import type { PlayerProfileDraft } from "@/data/ports";
+import type { PlayerProfileDraft, SavedPlayerProfile } from "@/data/ports";
 import { DEFAULT_LOCALE, t } from "@/i18n";
-import { gameStore } from "@/state/appStores";
+import { gameStore, playerProfileRepository } from "@/state/appStores";
 import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
 import { Button } from "@/ui/primitives/Button";
 
 interface Row {
+  /** Identifiant STABLE d'un profil connu (il porte la mémoire pédagogique) ; absent pour un nouveau joueur. */
+  readonly id?: PlayerId | undefined;
   readonly displayName: string;
   readonly profileType: ProfileType;
   readonly avatarId: string;
@@ -27,15 +29,40 @@ interface Row {
 
 const row = (i: number, profileType: ProfileType): Row => ({ displayName: "", profileType, avatarId: AVATARS[i % AVATARS.length]!.id, birthYear: "", schoolGrade: SCHOOL_GRADES[0], initialLevel: DEFAULT_ADULT_INITIAL_LEVEL });
 
-/** Écran de création : 2 à 6 joueurs, enfants et adultes, pion, durée. Aucune mémoire pédagogique encore. */
+const rowFromProfile = (p: SavedPlayerProfile): Row => ({
+  id: p.id,
+  displayName: p.displayName,
+  profileType: p.profileType,
+  avatarId: p.avatarId,
+  birthYear: p.child ? String(p.child.birthYear) : "",
+  schoolGrade: p.child?.schoolGrade ?? SCHOOL_GRADES[0],
+  initialLevel: p.adult?.initialLevel ?? DEFAULT_ADULT_INITIAL_LEVEL,
+});
+
+/**
+ * Écran de création : 2 à 6 joueurs, enfants et adultes, pion, durée. Un
+ * joueur connu (profil persistant) reprend son identifiant stable, donc sa
+ * mémoire pédagogique ; un nouveau prénom crée un profil.
+ */
 export function NewGameForm() {
   const router = useRouter();
   const [rows, setRows] = useState<Row[]>([row(0, "child"), row(1, "adult")]);
+  const [known, setKnown] = useState<readonly SavedPlayerProfile[]>([]);
   const [mode, setMode] = useState<GameModeId>(DEFAULT_GAME_MODE);
   const [error, setError] = useState<string | null>(null);
   const thisYear = new Date().getFullYear();
 
+  useEffect(() => {
+    playerProfileRepository.list().then(setKnown, () => setKnown([]));
+  }, []);
+
   const update = (i: number, patch: Partial<Row>) => setRows((rs) => rs.map((r, j) => (j === i ? { ...r, ...patch } : r)));
+  const addKnown = (p: SavedPlayerProfile) =>
+    setRows((rs) => {
+      if (rs.some((r) => r.id === p.id) || rs.length >= MAX_PLAYERS) return rs;
+      const emptyIndex = rs.findIndex((r) => r.id === undefined && r.displayName.trim() === "");
+      return emptyIndex >= 0 ? rs.map((r, j) => (j === emptyIndex ? rowFromProfile(p) : r)) : [...rs, rowFromProfile(p)];
+    });
 
   const submit = async () => {
     if (rows.some((r) => r.displayName.trim() === "")) return setError(t(DEFAULT_LOCALE, "setup.errors.name"));
@@ -45,16 +72,20 @@ export function NewGameForm() {
         if (!Number.isInteger(y) || y < thisYear - 20 || y > thisYear) return setError(t(DEFAULT_LOCALE, "setup.errors.birthYear"));
       }
     }
-    // Identifiant technique unique (aucun effet sur le jeu) ; numéro de partie familiale monotone (rotation interne du Chemin).
-    const gameId = `game-${Date.now().toString(36)}` as GameId;
+    // Identifiants techniques uniques (aucun effet sur le jeu) ; numéro de partie familiale monotone (rotation interne du Chemin).
+    const stamp = Date.now().toString(36);
+    const gameId = `game-${stamp}` as GameId;
     const familyGameOrdinal = await gameStore.getState().allocateFamilyGameOrdinal();
     const profiles: PlayerProfileDraft[] = rows.map((r, i) => {
-      const id = `p${i + 1}` as PlayerId;
+      // Un joueur connu garde son identifiant (sa mémoire pédagogique le suit) ; un nouveau reçoit un identifiant stable pour la suite.
+      const id = r.id ?? (`player-${stamp}-${i + 1}` as PlayerId);
       const base = { id, displayName: r.displayName.trim(), profileType: r.profileType, avatarId: r.avatarId };
       return r.profileType === "child"
         ? { ...base, child: { birthYear: r.birthYear === "" ? thisYear - 8 : Number(r.birthYear), schoolGrade: r.schoolGrade } }
         : { ...base, adult: { initialLevel: r.initialLevel } };
     });
+    const savedAt = new Date().toISOString();
+    await Promise.all(profiles.map((p) => playerProfileRepository.save({ ...p, savedAt }).catch(() => undefined)));
     const setup: GameSetup = {
       gameId,
       players: profiles.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType })),
@@ -81,6 +112,29 @@ export function NewGameForm() {
         <h1 className="text-3xl font-black tracking-tight">{t(DEFAULT_LOCALE, "setup.title")}</h1>
         <p className="text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "setup.subtitle")}</p>
       </header>
+
+      {known.length > 0 ? (
+        <section className="rounded-3xl bg-white p-4 shadow-sm" aria-labelledby="known-players" data-testid="known-players">
+          <h2 id="known-players" className="text-sm font-semibold">
+            {t(DEFAULT_LOCALE, "setup.knownPlayers")}
+          </h2>
+          <p className="text-xs text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "setup.knownPlayers.hint")}</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {known.map((p) => {
+              const added = rows.some((r) => r.id === p.id);
+              return (
+                <button key={p.id} type="button" onClick={() => addKnown(p)} disabled={added} aria-pressed={added} className={`inline-flex min-h-10 items-center gap-2 rounded-full border px-3 text-sm font-semibold ${added ? "border-[var(--k-teal)] bg-[var(--k-teal)]/10" : "border-[var(--k-line)] bg-white"}`} data-testid="known-player">
+                  <span className="flex size-6 items-center justify-center rounded-full text-white" style={{ backgroundColor: AVATARS.find((a) => a.id === p.avatarId)?.color ?? "var(--k-teal)" }}>
+                    <AvatarGlyph shape={AVATARS.find((a) => a.id === p.avatarId)?.shape ?? AVATARS[0]!.shape} />
+                  </span>
+                  <span>{p.displayName}</span>
+                  <span className="text-xs font-normal text-[var(--k-ink-soft)]">{added ? t(DEFAULT_LOCALE, "setup.knownPlayers.added") : t(DEFAULT_LOCALE, `setup.${p.profileType}`)}</span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      ) : null}
 
       <ol className="flex flex-col gap-4">
         {rows.map((r, i) => (
