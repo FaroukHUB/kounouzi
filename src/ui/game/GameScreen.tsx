@@ -128,7 +128,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const corners = state.players.length <= 4;
 
   return (
-    <div className="bg-table relative flex min-h-dvh flex-col lg:flex-row lg:items-center lg:justify-center lg:gap-6 lg:p-6" data-testid="game-screen" data-phase={state.phase.kind}>
+    <div className={`bg-table relative flex min-h-dvh flex-col lg:flex-row lg:items-center lg:justify-center lg:p-6 ${corners ? "lg:gap-0" : "lg:gap-6"}`} data-testid="game-screen" data-phase={state.phase.kind}>
       <TurnBanner banner={ui.banner} state={shown} />
 
       {corners ? (
@@ -137,7 +137,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         </div>
       ) : null}
       <motion.main
-        className={`flex flex-1 items-center justify-center p-3 lg:flex-none ${corners ? "lg:grid lg:grid-cols-[14rem_auto_14rem] lg:grid-rows-2 lg:gap-4" : ""}`}
+        className={`flex flex-1 items-center justify-center p-3 lg:flex-none ${corners ? "lg:grid lg:grid-cols-[11rem_auto_11rem] lg:grid-rows-2 lg:gap-x-3 lg:gap-y-2" : ""}`}
         animate={{ scale: cardOpen ? 0.96 : 1, opacity: cardOpen ? 0.6 : 1 }}
         transition={{ type: "tween", duration: reduced ? 0 : 0.3 }}
         style={{ willChange: cardOpen ? "transform, opacity" : "auto" }}
@@ -178,7 +178,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         onSkipChallenge={(reason) => dispatch({ type: "SkipChallenge", playerId: activeId, reason })}
       />
 
-      <aside className="flex w-full flex-col gap-3 p-3 lg:w-80 lg:rounded-[1.8rem] lg:border lg:border-[rgba(120,80,30,0.18)] lg:bg-[rgba(255,250,240,0.55)] lg:p-4 lg:shadow-[0_24px_50px_-30px_rgba(60,35,10,0.6)]">
+      <aside className={`flex w-full flex-col gap-3 p-3 lg:rounded-[1.8rem] lg:border lg:border-[rgba(120,80,30,0.18)] lg:bg-[rgba(255,250,240,0.55)] lg:shadow-[0_24px_50px_-30px_rgba(60,35,10,0.6)] ${corners ? "lg:absolute lg:inset-x-0 lg:bottom-3 lg:mx-auto lg:w-fit lg:max-w-md lg:flex-row lg:items-center lg:gap-4 lg:px-4 lg:py-2" : "lg:w-80 lg:p-4"}`}>
         <header className="flex items-center justify-between">
           <div>
             <h1 className="font-display text-xl font-black tracking-[0.08em] text-[var(--k-teal-dark)]">{t(DEFAULT_LOCALE, "app.name")}</h1>

@@ -21,17 +21,17 @@ export function PlayerTile({ state, profiles, playerId, className = "" }: { read
     <div
       data-player={p.id}
       data-active={active}
-      className={`flex items-center gap-3 rounded-2xl border px-3 py-2 transition ${active ? "border-[var(--k-gold)] bg-[var(--k-cream)] shadow-[0_10px_24px_-14px_rgba(60,35,10,0.8)]" : "border-[rgba(120,80,30,0.12)] bg-[rgba(255,250,240,0.85)]"} ${className}`}
+      className={`flex items-center gap-2 rounded-2xl border px-3 py-2 transition ${active ? "border-[var(--k-gold)] bg-[var(--k-cream)] shadow-[0_10px_24px_-14px_rgba(60,35,10,0.8)]" : "border-[rgba(120,80,30,0.12)] bg-[rgba(255,250,240,0.85)]"} ${className}`}
     >
       <span className={`flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white text-white shadow ${active ? "ring-2 ring-[var(--k-gold)]" : ""}`} style={{ background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5) 0%, ${avatar.color} 45%)` }}>
         <AvatarGlyph shape={avatar.shape} className="size-5" />
       </span>
       <span className="min-w-0 flex-1">
-        <span className="flex items-center gap-2">
+        <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <span className="truncate font-semibold">{p.displayName}</span>
           {active ? <span className="rounded-full bg-[var(--k-teal)] px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-wide text-white">{t(DEFAULT_LOCALE, "game.turn", { turn: state.turnNumber })}</span> : null}
         </span>
-        <span className="flex items-baseline gap-2">
+        <span className="flex flex-wrap items-baseline gap-x-2">
           <span className="font-display text-[clamp(1.5rem,2.6vw,2rem)] font-black leading-none tabular-nums text-[var(--k-teal-dark)]" data-testid="player-money">
             {p.money}
           </span>
@@ -65,7 +65,7 @@ export function PlayerCorners({ state, profiles }: { readonly state: GameState; 
   return (
     <>
       {state.players.slice(0, 4).map((p, i) => (
-        <PlayerTile key={p.id} state={state} profiles={profiles} playerId={p.id} className={`lg:w-56 ${CORNER[i] ?? ""}`} />
+        <PlayerTile key={p.id} state={state} profiles={profiles} playerId={p.id} className={`lg:w-44 ${CORNER[i] ?? ""}`} />
       ))}
     </>
   );
