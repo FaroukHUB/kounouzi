@@ -232,6 +232,7 @@ export const ar: Dictionary = {
   "card.explanation.fr": "بالفرنسية",
   "card.explanation.ar": "بالعربية",
   "card.explanation.listenAr": "استمع بالعربية",
+  "card.explanation.noArVoice": "الصوت العربي غير متوفر على هذا الجهاز؛ يبقى الشرح معروضًا.",
   "card.source": "المصدر",
   "card.next": "التالي",
   "card.mastery.question": "هل كنت تعرف هذا الشرح من قبل؟",
@@ -277,6 +278,7 @@ export const ar: Dictionary = {
   "scenario.choose": "ماذا تفعل؟",
 
   "narration.question": "سؤال: {prompt}",
+  "narration.choice": "الجواب {letter}: {text}",
   "narration.answer": "الجواب هو: {answer}.",
   "narration.result.correct": "جواب صحيح!",
   "narration.result.partial": "تقريبًا!",

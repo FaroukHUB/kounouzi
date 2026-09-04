@@ -32,6 +32,8 @@ describe("narrateurs", () => {
     const n: NarrationService = new NullNarrator();
     expect(n.isSupported()).toBe(false);
     expect(() => n.speak({ text: "x", lang: "fr" })).not.toThrow();
+    expect(() => n.speakSequence([{ text: "x", lang: "fr" }])).not.toThrow();
+    expect(n.hasVoice("ar")).toBe(false);
     expect(n.getAvailableVoices()).toEqual([]);
   });
 
@@ -40,11 +42,14 @@ describe("narrateurs", () => {
     expect(n.isSupported()).toBe(false);
     expect(() => {
       n.speak({ text: "Bonjour", lang: "fr", important: true });
+      n.speakSequence([{ text: "Question : ?", lang: "fr", important: true }, { text: "Réponse A : oui", lang: "fr", important: true }]);
       n.replayLast();
       n.stop();
       n.setRate("fast");
       n.setEnabled(false);
     }).not.toThrow();
     expect(n.getAvailableVoices()).toEqual([]);
+    expect(n.hasVoice("fr")).toBe(false);
+    expect(n.hasVoice("ar")).toBe(false);
   });
 });

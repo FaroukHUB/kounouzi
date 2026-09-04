@@ -6,7 +6,7 @@ import { categoryById } from "@/config/content";
 import type { CellType, GameState } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
-import type { NarrationService } from "@/experience/narration";
+import { questionUtterances, splitChoices, type NarrationService } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Bidi } from "@/ui/primitives/Bidi";
 import { Button } from "@/ui/primitives/Button";
@@ -56,6 +56,7 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
   const ownerName = visit ? (state.players.find((p) => p.id === visit.ownerId)?.displayName ?? "") : "";
   const contribution = state.config.rules.heritageVisit.contribution;
   const step = card.step;
+  const prompt = question ? splitChoices(question.prompt.fr) : null;
   const intro =
     card.purpose === "heritage_visit" && visit ? (
       <div className="rounded-2xl bg-[var(--k-sand)] px-4 py-3 text-sm" data-testid="visit-intro">
@@ -75,7 +76,8 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
   // Narration coordonnée aux étapes (jamais bloquante pour le moteur).
   useEffect(() => {
     if (!question) return;
-    if (step === "question") narrator.speak({ text: t(DEFAULT_LOCALE, "narration.question", { prompt: question.prompt.fr }), lang: "fr", important: true });
+    // Énoncé puis chaque choix en phrase séparée (« Réponse A : … », « Réponse B : … ») : la voix marque une vraie pause.
+    if (step === "question") narrator.speakSequence(questionUtterances(question.prompt.fr, DEFAULT_LOCALE));
     if (step === "revealed") narrator.speak({ text: t(DEFAULT_LOCALE, "narration.answer", { answer: question.answer.fr }), lang: "fr", important: true });
     if (step === "explanation") {
       // Lecture en français seulement ; l'arabe reste visible et s'écoute à la demande (« Écouter en arabe »).
@@ -131,8 +133,9 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
       {intro}
       {step === "question" && question.animationKey ? <CardAnimation animationKey={question.animationKey} reduced={reduced} accent={CELL_STYLE[cellType].accent} /> : null}
       <p className="text-[clamp(1.25rem,3vw,1.75rem)] font-bold leading-snug" data-testid="question-prompt">
-        {question.prompt.fr}
+        {prompt?.question ?? question.prompt.fr}
       </p>
+      {prompt && prompt.choices.length > 0 ? <ChoiceList choices={prompt.choices} testId="question-choices" /> : null}
 
       {step === "question" ? (
         <>
@@ -189,16 +192,23 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
             {question.explanation.ar}
           </Bidi>
           {question.explanation.ar.trim() !== "" && narrator.isSupported() ? (
-            <Button
-              variant="secondary"
-              onClick={() => {
-                narrator.stop();
-                narrator.speak({ text: question.explanation.ar, lang: "ar" });
-              }}
-              data-testid="explanation-listen-ar"
-            >
-              {t(DEFAULT_LOCALE, "card.explanation.listenAr")}
-            </Button>
+            narrator.hasVoice("ar") ? (
+              <Button
+                variant="secondary"
+                onClick={() => {
+                  narrator.stop();
+                  narrator.speak({ text: question.explanation.ar, lang: "ar" });
+                }}
+                data-testid="explanation-listen-ar"
+              >
+                {t(DEFAULT_LOCALE, "card.explanation.listenAr")}
+              </Button>
+            ) : (
+              // Sans voix arabe sur l'appareil, l'arabe n'est jamais lu par une autre voix : il reste affiché.
+              <p className="text-xs text-[var(--k-ink-soft)]" data-testid="explanation-no-ar-voice">
+                {t(DEFAULT_LOCALE, "card.explanation.noArVoice")}
+              </p>
+            )
           ) : null}
           {question.sources.length > 0 ? (
             <p className="text-xs text-[var(--k-ink-soft)]">
@@ -255,5 +265,24 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
         </motion.div>
       ) : null}
     </CardShell>
+  );
+}
+
+/** Choix d'une question, chacun sur sa ligne avec sa lettre : dérivé de l'énoncé au rendu, jamais des données. */
+export function ChoiceList({ choices, testId }: { readonly choices: readonly { readonly letter: string; readonly text: string }[]; readonly testId: string }) {
+  return (
+    <ul className="flex flex-col gap-2" data-testid={testId}>
+      {choices.map((c) => (
+        <li key={c.letter} className="flex items-start gap-3 rounded-2xl bg-white/70 px-4 py-2 text-lg font-semibold leading-snug">
+          <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--k-teal)] text-sm font-black text-white" aria-hidden="true">
+            {c.letter}
+          </span>
+          <span>
+            <span className="sr-only">{t(DEFAULT_LOCALE, "narration.choice", { letter: c.letter, text: "" })}</span>
+            {c.text}
+          </span>
+        </li>
+      ))}
+    </ul>
   );
 }

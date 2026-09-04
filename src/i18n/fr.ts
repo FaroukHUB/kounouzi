@@ -229,6 +229,7 @@ export const fr = {
   "card.explanation.fr": "En français",
   "card.explanation.ar": "En arabe",
   "card.explanation.listenAr": "Écouter en arabe",
+  "card.explanation.noArVoice": "Voix arabe indisponible sur cet appareil : l’explication reste affichée.",
   "card.source": "Source",
   "card.next": "Suite",
   "card.mastery.question": "Connaissais-tu déjà cette explication ?",
@@ -274,6 +275,7 @@ export const fr = {
   "scenario.choose": "Que fais-tu ?",
 
   "narration.question": "Question : {prompt}",
+  "narration.choice": "Réponse {letter} : {text}",
   "narration.answer": "La réponse est : {answer}.",
   "narration.result.correct": "Bonne réponse !",
   "narration.result.partial": "Presque !",

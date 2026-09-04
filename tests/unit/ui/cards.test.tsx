@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { NullNarrator } from "@/experience/narration";
+import { RELIGION_BANKS } from "@/config/content";
+import { NullNarrator, splitChoices } from "@/experience/narration";
 import { ChoiceCard, optionLabel, scenarioTitle } from "@/ui/cards/ChoiceCard";
 import { MonumentCard, siteDisplayName } from "@/ui/cards/MonumentCard";
 import { QuestionCard } from "@/ui/cards/QuestionCard";
@@ -33,6 +34,18 @@ describe("carte question (rendu statique)", () => {
     expect(q).not.toContain('data-testid="question-answer"');
   });
 
+  it("les choix écrits dans l'énoncé (« A. … B. … ») s'affichent sur des lignes séparées, chacun avec sa lettre ; l'énoncé garde la question seule", () => {
+    const religious = RELIGION_BANKS.flatMap((b) => b.questions).find((q) => / A\. .+ B\. /.test(q.prompt.fr))!;
+    const instance = { ref: { origin: "curated" as const, questionId: religious.id, contentVersion: religious.version }, categoryId: religious.categoryId, knowledgeNodeId: religious.knowledgeNodeId, difficulty: religious.difficulty, audienceScope: religious.audienceScope, prompt: religious.prompt, answer: religious.answer, explanation: religious.explanation, sources: religious.sources, review: { ar: "reviewed" as const } };
+    const servedReligion = run(pending.state, { type: "ServeQuestion", requestId: "q1", question: instance });
+    const q = render({ ...base, step: "question" }, servedReligion.state);
+    expect(q).toContain('data-testid="question-choices"');
+    expect(q).toContain(splitChoices(religious.prompt.fr).question);
+    for (const c of splitChoices(religious.prompt.fr).choices) expect(q).toContain(c.text);
+    // Une question sans choix (maths) n'affiche aucune liste.
+    expect(render({ ...base, step: "question" })).not.toContain('data-testid="question-choices"');
+  });
+
   it("après révélation : réponse, Correct / Presque / Incorrect et auto-évaluation explicite", () => {
     const r = render({ ...base, step: "revealed" });
     expect(r).toContain('data-testid="question-answer"');
@@ -48,10 +61,16 @@ describe("carte question (rendu statique)", () => {
     // Sans voix disponible (narrateur muet), pas de bouton « Écouter en arabe » ; avec une voix, il est proposé et l'arabe n'est jamais lu automatiquement.
     expect(e).not.toContain('data-testid="explanation-listen-ar"');
     const spoken: string[] = [];
-    const voiced = { ...narrator, isSupported: () => true, speak: (u: { text: string; lang: string }) => spoken.push(u.lang), stop: () => {}, replayLast: () => {}, getAvailableVoices: () => [], setEnabled: () => {}, setRate: () => {} };
+    const voiced = { ...narrator, isSupported: () => true, hasVoice: () => true, speak: (u: { text: string; lang: string }) => spoken.push(u.lang), speakSequence: (us: readonly { text: string; lang: string }[]) => us.forEach((u) => spoken.push(u.lang)), stop: () => {}, replayLast: () => {}, getAvailableVoices: () => [], setEnabled: () => {}, setRate: () => {} };
     const withVoice = renderToStaticMarkup(<QuestionCard state={asked.state} profiles={profiles} card={{ ...base, step: "explanation", outcome: "correct" }} narrator={voiced} reduced={true} onUpdate={() => {}} onSubmit={() => {}} />);
     expect(withVoice).toContain('data-testid="explanation-listen-ar"');
+    expect(withVoice).not.toContain('data-testid="explanation-no-ar-voice"');
     expect(spoken).toEqual([]);
+    // Voix disponible mais aucune voix arabe : pas de bouton, une indication ; l'arabe reste affiché et n'est jamais lu par une autre voix.
+    const noArabic = renderToStaticMarkup(<QuestionCard state={asked.state} profiles={profiles} card={{ ...base, step: "explanation", outcome: "correct" }} narrator={{ ...voiced, hasVoice: () => false }} reduced={true} onUpdate={() => {}} onSubmit={() => {}} />);
+    expect(noArabic).not.toContain('data-testid="explanation-listen-ar"');
+    expect(noArabic).toContain('data-testid="explanation-no-ar-voice"');
+    expect(noArabic).toContain('lang="ar" dir="rtl"');
     const m = render({ ...base, step: "mastery", outcome: "correct" });
     for (const k of ["none", "fr", "ar", "both"]) expect(m).toContain(`data-testid="mastery-${k}"`);
   });

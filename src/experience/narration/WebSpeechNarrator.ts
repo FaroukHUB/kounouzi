@@ -1,4 +1,7 @@
+import { PRONUNCIATION } from "@/config/narration";
+import type { Locale } from "@/core/shared";
 import type { NarrationService, Utterance, VoiceInfo } from "./NarrationService";
+import { planUtterances, type PronunciationLexicon } from "./speechText";
 
 const RATE_VALUES = { slow: 0.85, normal: 1, fast: 1.2 } as const;
 const BCP47 = { fr: "fr-FR", ar: "ar" } as const;
@@ -14,12 +17,14 @@ export class WebSpeechNarrator implements NarrationService {
   private speaking = false;
   private enabled = true;
   private rate: keyof typeof RATE_VALUES = "normal";
-  private last: Utterance | null = null;
+  private last: readonly Utterance[] | null = null;
+  private readonly lexicon: PronunciationLexicon;
   private voices: SpeechSynthesisVoice[] = [];
   /** Génération courante : un `stop()` l'incrémente, ce qui périme les fins et minuteries des phrases annulées. */
   private generation = 0;
 
-  constructor() {
+  constructor(options: { readonly lexicon?: PronunciationLexicon } = {}) {
+    this.lexicon = options.lexicon ?? PRONUNCIATION;
     this.synth = typeof window !== "undefined" && "speechSynthesis" in window ? window.speechSynthesis : null;
     if (this.synth) {
       this.refreshVoices();
@@ -33,10 +38,20 @@ export class WebSpeechNarrator implements NarrationService {
   }
 
   speak(utterance: Utterance): void {
-    if (utterance.important) this.last = utterance;
+    this.speakSequence([utterance]);
+  }
+
+  speakSequence(utterances: readonly Utterance[]): void {
+    if (utterances.some((u) => u.important)) this.last = utterances;
     if (!this.enabled || !this.isSupported()) return;
-    this.queue.push(utterance);
+    // Plan de lecture : translittérations prononçables, passages arabes dits en arabe ou tus sans voix arabe.
+    const plan = utterances.flatMap((u) => planUtterances(u, { hasArabicVoice: this.hasVoice("ar"), lexicon: this.lexicon }));
+    this.queue.push(...plan);
     this.drain();
+  }
+
+  hasVoice(lang: Locale): boolean {
+    return this.isSupported() && this.pickVoice(lang) !== null;
   }
 
   stop(): void {
@@ -49,7 +64,7 @@ export class WebSpeechNarrator implements NarrationService {
   replayLast(): void {
     if (!this.last) return;
     this.stop();
-    this.speak(this.last);
+    this.speakSequence(this.last);
   }
 
   getAvailableVoices(): readonly VoiceInfo[] {
