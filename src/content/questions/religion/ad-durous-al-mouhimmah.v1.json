@@ -1,0 +1,3015 @@
+{
+  "$comment": "Banque religieuse importée depuis le document de contrôle humain (source de fond : Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah, Shaykh ʿAbd ar-Razzāq al-Badr). TOUTES les cartes sont `draft` tant qu'elles ne sont pas explicitement passées à `validated` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code ; `animationHint` est la suggestion visuelle de l'auteur, `animationKey` la famille déduite (présentation pure).",
+  "version": 1,
+  "work": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+  "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+  "category": "religion.bases",
+  "questions": [
+    {
+      "id": "REL-DRS-ARB-L1-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.01",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le coffre à 5 clés",
+      "prompt": {
+        "fr": "Combien l’Islam possède-t-il de grands piliers ? A. 3 B. 5 C. 10"
+      },
+      "answer": {
+        "fr": "5."
+      },
+      "explanation": {
+        "fr": "L’Islam repose sur cinq grands piliers.",
+        "ar": "أركان الإسلام خمسة، وهي الأسس العظيمة التي يقوم عليها الإسلام."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "35-36"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Cinq clés apparaissent une à une puis le coffre s’ouvre."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.02",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Trouve le pilier",
+      "prompt": {
+        "fr": "Laquelle de ces cartes représente un pilier de l’Islam ? A. La prière B. Jouer C. Dormir"
+      },
+      "answer": {
+        "fr": "La prière."
+      },
+      "explanation": {
+        "fr": "La prière fait partie des cinq piliers de l’Islam.",
+        "ar": "الصلاة ركن من أركان الإسلام."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "35 et 49"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Trois cartes glissent ; la carte prière s’illumine."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.03",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le coffre à 6 cadenas",
+      "prompt": {
+        "fr": "Combien y a-t-il de piliers de la foi, l’Îmân ? A. 5 B. 6 C. 12"
+      },
+      "answer": {
+        "fr": "6."
+      },
+      "explanation": {
+        "fr": "La foi repose sur six grands piliers.",
+        "ar": "أركان الإيمان ستة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "53"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Six cadenas s’allument puis disparaissent."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.04",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui s’est caché ?",
+      "prompt": {
+        "fr": "Laquelle de ces réponses fait partie de la foi ? A. Croire aux anges B. Croire aux dragons"
+      },
+      "answer": {
+        "fr": "Croire aux anges."
+      },
+      "explanation": {
+        "fr": "Croire aux anges fait partie des six piliers de l’Îmân.",
+        "ar": "الإيمان بالملائكة من أركان الإيمان الستة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "53"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Deux silhouettes apparaissent ; la bonne carte se révèle."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.05",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai ou faux ?",
+      "prompt": {
+        "fr": "Croire au Jour dernier fait partie de l’Îmân. Vrai / Faux"
+      },
+      "answer": {
+        "fr": "Vrai."
+      },
+      "explanation": {
+        "fr": "Le croyant croit au Jour dernier et à ce qu’Allah nous a enseigné à son sujet.",
+        "ar": "الإيمان باليوم الآخر من أركان الإيمان."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "53 et 57-58"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Un soleil se couche puis une carte Vrai/Faux se retourne."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.06",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Choisis la bonne porte",
+      "prompt": {
+        "fr": "Qui mérite notre adoration ? A. Allah seul B. Une créature"
+      },
+      "answer": {
+        "fr": "Allah seul."
+      },
+      "explanation": {
+        "fr": "Toutes les adorations doivent être consacrées à Allah seul.",
+        "ar": "العبادة حق لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "37-38"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Deux portes ; seule la bonne porte s’ouvre."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.07",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mot mystère",
+      "prompt": {
+        "fr": "Adorer Allah seul nous fait penser à quel mot ? A. Tawhid B. Sommeil"
+      },
+      "answer": {
+        "fr": "Tawhid."
+      },
+      "explanation": {
+        "fr": "Le Tawhid implique de consacrer l’adoration à Allah seul.",
+        "ar": "التوحيد يقتضي إفراد الله وحده بالعبادة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "37-38 et 61-64"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Les lettres T-A-W-H-I-D se dévoilent progressivement."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.08",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La sourate trésor",
+      "prompt": {
+        "fr": "Quelle sourate est très importante dans notre prière et que nous récitons encore et encore ?"
+      },
+      "answer": {
+        "fr": "Sourate Al-Fātiḥah."
+      },
+      "explanation": {
+        "fr": "Al-Fātiḥah occupe une place essentielle dans la prière et contient de nombreux enseignements.",
+        "ar": "لسورة الفاتحة مكانة عظيمة في الصلاة، وفيها معانٍ ودروس عظيمة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "10-16"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une carte en forme de parchemin se déploie."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.09",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Bouclier avant lecture",
+      "prompt": {
+        "fr": "Avant de lire le Coran, tu veux demander à Allah de te protéger de Shayṭān. Que peux-tu faire ?"
+      },
+      "answer": {
+        "fr": "Chercher refuge auprès d’Allah."
+      },
+      "explanation": {
+        "fr": "L’Istiʿādhah consiste à demander à Allah de nous protéger de Shayṭān.",
+        "ar": "الاستعاذة هي الالتجاء إلى الله وطلب الحماية من الشيطان."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "12-13"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Un bouclier apparaît devant un livre."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.10",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission préparation",
+      "prompt": {
+        "fr": "Maryam veut prier. Que choisit-elle ? A. Se préparer en état de purification B. Dire que ce n’est pas important"
+      },
+      "answer": {
+        "fr": "Se préparer en état de purification."
+      },
+      "explanation": {
+        "fr": "La purification fait partie des conditions importantes de la prière.",
+        "ar": "الطهارة شرط لصحة الصلاة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "142-144"
+        }
+      ],
+      "animationKey": "gauge_rise",
+      "animationHint": "Une goutte d’eau remplit une jauge de préparation."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.11",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La boussole de la prière",
+      "prompt": {
+        "fr": "Vers quelle direction se tourne-t-on pour prier ? A. La Qiblah B. La télévision"
+      },
+      "answer": {
+        "fr": "La Qiblah."
+      },
+      "explanation": {
+        "fr": "Se tourner vers la Qiblah fait partie des conditions de la prière.",
+        "ar": "استقبال القبلة من شروط الصلاة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "142-143"
+        }
+      ],
+      "animationKey": "compass_scan",
+      "animationHint": "Une boussole se stabilise vers la Qiblah."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.12",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission Wuḍūʾ : le visage",
+      "prompt": {
+        "fr": "Quelle partie dois-tu laver pendant les ablutions ? A. Le visage B. Ton bonnet"
+      },
+      "answer": {
+        "fr": "Le visage."
+      },
+      "explanation": {
+        "fr": "Laver le visage fait partie des obligations du Wuḍūʾ.",
+        "ar": "غسل الوجه من فروض الوضوء."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "147"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Des gouttes parcourent un pictogramme de visage."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.13",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission Wuḍūʾ : les bras",
+      "prompt": {
+        "fr": "Jusqu’où lave-t-on les bras pendant le Wuḍūʾ ? A. Jusqu’aux coudes B. Seulement les doigts"
+      },
+      "answer": {
+        "fr": "Jusqu’aux coudes."
+      },
+      "explanation": {
+        "fr": "Les mains et les bras sont lavés jusqu’aux coudes.",
+        "ar": "تُغسل اليدان إلى المرفقين في الوضوء."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "148"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une ligne monte des doigts jusqu’aux coudes."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.14",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte tête",
+      "prompt": {
+        "fr": "Pendant le Wuḍūʾ, que fait-on avec la tête ? A. On l’essuie B. On met un chapeau"
+      },
+      "answer": {
+        "fr": "On l’essuie."
+      },
+      "explanation": {
+        "fr": "Passer les mains mouillées sur la tête fait partie du Wuḍūʾ.",
+        "ar": "مسح الرأس من فروض الوضوء."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "148"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Une vague légère passe sur un pictogramme de tête."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.15",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les deux derniers",
+      "prompt": {
+        "fr": "Quelle partie doit aussi être lavée pendant les ablutions ? A. Les pieds B. Les chaussures"
+      },
+      "answer": {
+        "fr": "Les pieds."
+      },
+      "explanation": {
+        "fr": "Les pieds sont lavés avec les chevilles lors du Wuḍūʾ.",
+        "ar": "غسل الرجلين مع الكعبين من فروض الوضوء."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "148-149"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Deux empreintes apparaissent avec des gouttes."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.16",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Position secrète : Rukūʿ",
+      "prompt": {
+        "fr": "Tu es incliné dans la prière. Quelle parole correspond à cette position ? A. Subḥāna Rabbiyal-ʿAẓīm B. Bonjour !"
+      },
+      "answer": {
+        "fr": "Subḥāna Rabbiyal-ʿAẓīm."
+      },
+      "explanation": {
+        "fr": "Cette glorification est dite pendant le Rukūʿ.",
+        "ar": "يقال في الركوع: «سبحان ربي العظيم»."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "136"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Le pictogramme s’incline doucement."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.17",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Position secrète : Sujūd",
+      "prompt": {
+        "fr": "Tu es prosterné. Que dis-tu ? A. Subḥāna Rabbiyal-Aʿlā B. Bonne nuit !"
+      },
+      "answer": {
+        "fr": "Subḥāna Rabbiyal-Aʿlā."
+      },
+      "explanation": {
+        "fr": "Cette glorification est dite pendant la prosternation.",
+        "ar": "يقال في السجود: «سبحان ربي الأعلى»."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "136"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Le pictogramme passe en prosternation."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.18",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Défi repas",
+      "prompt": {
+        "fr": "Une assiette arrive devant Yacine. Avec quelle main mange-t-il ? A. La droite B. La gauche"
+      },
+      "answer": {
+        "fr": "La droite."
+      },
+      "explanation": {
+        "fr": "Parmi les bonnes manières enseignées figure le fait de manger et boire avec la main droite.",
+        "ar": "من آداب الطعام والشراب الأكل والشرب باليمين."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "164"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une assiette glisse ; la main droite se surligne."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.19",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission voisin",
+      "prompt": {
+        "fr": "Ton voisin est tranquille chez lui. Quelle attitude est la meilleure ? A. Éviter de lui faire du mal B. L’embêter exprès"
+      },
+      "answer": {
+        "fr": "Éviter de lui faire du mal."
+      },
+      "explanation": {
+        "fr": "Parmi les bons comportements se trouvent le respect du voisin et le fait de ne pas lui nuire.",
+        "ar": "من الأخلاق الحسنة الإحسان إلى الجار والابتعاد عن أذيته."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "162 et 168"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Deux maisons apparaissent ; un bouclier protège celle du voisin."
+    },
+    {
+      "id": "REL-DRS-ARB-L1-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l1.20",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Le coffre confié",
+      "prompt": {
+        "fr": "Papa te confie quelque chose et te dit : « Garde-le bien pour moi. » Quelle attitude ouvre le coffre ? A. Protéger ce qui t’a été confié B. Le perdre volontairement"
+      },
+      "answer": {
+        "fr": "Protéger ce qui t’a été confié."
+      },
+      "explanation": {
+        "fr": "Le musulman doit préserver l’Amānah, ce qui lui est confié.",
+        "ar": "المسلم يحفظ الأمانة ولا يضيّعها."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "158-159"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Un coffre marqué « Amānah » se verrouille puis s’ouvre."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.01",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les 5 piliers en équipe",
+      "prompt": {
+        "fr": "Quel groupe contient uniquement les cinq piliers de l’Islam ? A. Shahādah, prière, zakāt, jeûne de Ramadan, ḥajj B. Prière, sommeil, voyage, jeu, repas"
+      },
+      "answer": {
+        "fr": "Shahādah, prière, zakāt, jeûne de Ramadan, ḥajj."
+      },
+      "explanation": {
+        "fr": "Les cinq piliers sont la Shahādah, la prière, la Zakāt, le jeûne de Ramadan et le Ḥajj pour celui qui en a la capacité.",
+        "ar": "أركان الإسلام خمسة: الشهادتان، والصلاة، والزكاة، وصوم رمضان، والحج للمستطيع."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "35 et 48-51"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Cinq jetons se rangent sur un socle."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.02",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le sac de Zakāt",
+      "prompt": {
+        "fr": "La Zakāt va notamment des plus riches vers qui ? A. Les pauvres B. Les joueurs les plus rapides"
+      },
+      "answer": {
+        "fr": "Les pauvres."
+      },
+      "explanation": {
+        "fr": "La Zakāt est prise des riches et rendue aux pauvres ; elle favorise l’entraide et la solidarité.",
+        "ar": "تؤخذ الزكاة من الأغنياء وتُرد على الفقراء، وفيها تكافل ورحمة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "49-50"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Des pièces quittent un coffre plein vers un coffre vide."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.03",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Ramadan : entraînement du cœur",
+      "prompt": {
+        "fr": "Le jeûne de Ramadan aide surtout à entraîner quoi ? A. La piété et la maîtrise de soi B. La vitesse de course"
+      },
+      "answer": {
+        "fr": "La piété et la maîtrise de soi."
+      },
+      "explanation": {
+        "fr": "Le jeûne est lié à la Taqwā et habitue l’âme à patienter et à délaisser ce qu’Allah interdit.",
+        "ar": "الصيام يحقق التقوى ويعوّد النفس على الصبر وترك المحرمات."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "50"
+        }
+      ],
+      "animationKey": "gauge_rise",
+      "animationHint": "Une jauge « maîtrise » monte pendant que des tentations s’éloignent."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.04",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le passeport du Ḥajj",
+      "prompt": {
+        "fr": "Pour celui qui en a la capacité, combien de fois le Ḥajj est-il obligatoire dans la vie ? A. Une fois B. Tous les mois"
+      },
+      "answer": {
+        "fr": "Une fois."
+      },
+      "explanation": {
+        "fr": "Le Ḥajj est obligatoire une fois pour celui qui en a la capacité.",
+        "ar": "الحج واجب مرة واحدة في العمر على المستطيع."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "51"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Un passeport reçoit un seul tampon."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.05",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les 6 étoiles de l’Îmân",
+      "prompt": {
+        "fr": "Quel nombre complète la constellation de la foi ? A. 5 B. 6 C. 8"
+      },
+      "answer": {
+        "fr": "6."
+      },
+      "explanation": {
+        "fr": "L’Îmân repose sur six piliers.",
+        "ar": "الإيمان يقوم على ستة أركان."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "53"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Six étoiles s’allument."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.06",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La carte du Jour dernier",
+      "prompt": {
+        "fr": "Laquelle appartient au Jour dernier ? A. La résurrection B. Une partie de cache-cache"
+      },
+      "answer": {
+        "fr": "La résurrection."
+      },
+      "explanation": {
+        "fr": "La foi au Jour dernier comprend ce qui vient après la mort, notamment la résurrection et le rassemblement.",
+        "ar": "الإيمان باليوم الآخر يشمل ما بعد الموت، ومنه البعث والنشور."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "57-58"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une carte « après la mort » se déploie en plusieurs étapes."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.07",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les 3 portes du Tawhid",
+      "prompt": {
+        "fr": "Combien de grandes catégories de Tawhid sont exposées ? A. 2 B. 3 C. 7"
+      },
+      "answer": {
+        "fr": "3."
+      },
+      "explanation": {
+        "fr": "Elles concernent la Seigneurie, l’adoration, et les Noms et Attributs d’Allah.",
+        "ar": "أقسام التوحيد ثلاثة: توحيد الربوبية، وتوحيد الألوهية، وتوحيد الأسماء والصفات."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "61-64"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Trois portes apparaissent avec trois symboles distincts."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.08",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "À qui va cette adoration ?",
+      "prompt": {
+        "fr": "Une invocation est une adoration. À qui doit-elle être consacrée ? A. À Allah seul B. À n’importe quelle créature"
+      },
+      "answer": {
+        "fr": "À Allah seul."
+      },
+      "explanation": {
+        "fr": "Les actes d’adoration sont un droit d’Allah et doivent Lui être consacrés.",
+        "ar": "العبادات حق لله، ويجب إخلاصها له وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "64-76"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une flèche se dirige vers une seule destination."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.09",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le tiers du Coran",
+      "prompt": {
+        "fr": "Quelle sourate est décrite comme équivalant à un tiers du Coran ? A. Al-Ikhlāṣ B. Al-Fīl"
+      },
+      "answer": {
+        "fr": "Al-Ikhlāṣ."
+      },
+      "explanation": {
+        "fr": "Le commentaire rappelle le hadith selon lequel Sūrat Al-Ikhlāṣ équivaut à un tiers du Coran.",
+        "ar": "ورد أن سورة الإخلاص تعدل ثلث القرآن."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "32"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Un parchemin se divise en trois, puis une partie s’illumine."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.10",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le bouclier du Dhikr",
+      "prompt": {
+        "fr": "Dans Sūrat An-Nās, qu’est-ce qui aide à repousser le whisperer lorsqu’Allah est mentionné ? A. Le Dhikr d’Allah B. Crier plus fort"
+      },
+      "answer": {
+        "fr": "Le Dhikr d’Allah."
+      },
+      "explanation": {
+        "fr": "Le commentaire souligne que le rappel d’Allah est une grande protection contre les insinuations de Shayṭān.",
+        "ar": "ذكر الله من أعظم ما يحفظ العبد من وساوس الشيطان."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "34"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Un nuage sombre recule quand apparaît « Dhikr »."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.11",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La priorité de la prière",
+      "prompt": {
+        "fr": "Parmi les piliers de l’Islam après les deux témoignages, quelle adoration occupe une place majeure ? A. La prière B. Le voyage"
+      },
+      "answer": {
+        "fr": "La prière."
+      },
+      "explanation": {
+        "fr": "La prière est l’un des plus grands piliers de l’Islam après les deux témoignages.",
+        "ar": "الصلاة من أعظم أركان الإسلام بعد الشهادتين."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "48-49"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une colonne centrale se dresse."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.12",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le visage + deux invités",
+      "prompt": {
+        "fr": "Quand on lave le visage au Wuḍūʾ, quelles actions en font partie ? A. Rincer la bouche et le nez B. Laver les chaussures"
+      },
+      "answer": {
+        "fr": "Rincer la bouche et le nez."
+      },
+      "explanation": {
+        "fr": "Le rinçage de la bouche et l’aspiration de l’eau par le nez sont rattachés au lavage du visage.",
+        "ar": "المضمضة والاستنشاق داخلان في غسل الوجه في الوضوء."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "147-148"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Un pictogramme visage se complète par bouche puis nez."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.13",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La tête en un passage",
+      "prompt": {
+        "fr": "Dans ce passage du Wuḍūʾ, que fait-on ? A. On essuie la tête B. On la lave trois fois"
+      },
+      "answer": {
+        "fr": "On essuie la tête."
+      },
+      "explanation": {
+        "fr": "Le texte expose l’essuyage de la tête comme obligation du Wuḍūʾ.",
+        "ar": "مسح الرأس فرض من فروض الوضوء."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "147-148"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Une seule vague traverse la tête."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.14",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les oreilles suivent",
+      "prompt": {
+        "fr": "Avec quelle eau les oreilles sont-elles essuyées selon la description donnée ? A. Celle utilisée pour essuyer la tête B. De l’eau sucrée"
+      },
+      "answer": {
+        "fr": "Celle utilisée pour essuyer la tête."
+      },
+      "explanation": {
+        "fr": "Les oreilles sont essuyées avec l’eau utilisée pour la tête.",
+        "ar": "تمسح الأذنان بالماء الذي يمسح به الرأس."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "148"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Deux petites icônes oreilles se relient à la tête."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.15",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Piège dans la prière",
+      "prompt": {
+        "fr": "Que se passe-t-il si quelqu’un mange volontairement pendant la prière ? A. La prière est annulée B. Rien du tout"
+      },
+      "answer": {
+        "fr": "La prière est annulée."
+      },
+      "explanation": {
+        "fr": "Manger volontairement fait partie des actes qui annulent la prière.",
+        "ar": "الأكل عمدا من مبطلات الصلاة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "142-143"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Une carte repas tombe et un signal STOP apparaît."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.16",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La Qiblah déviée",
+      "prompt": {
+        "fr": "Une légère déviation involontaire et une grosse déviation de la Qiblah ont-elles le même effet ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le texte distingue une légère déviation, qui ne nuit pas, d’une forte déviation qui annule la prière.",
+        "ar": "الانحراف اليسير عن القبلة لا يضر، وأما الانحراف الشديد فيبطل الصلاة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "143"
+        }
+      ],
+      "animationKey": "compass_scan",
+      "animationHint": "Une boussole montre une petite puis une grande déviation."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.17",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La main droite gagne",
+      "prompt": {
+        "fr": "Tu commences à manger. Quelle combinaison est correcte ? A. Dire le nom d’Allah et manger de la main droite B. Manger de la gauche sans rien dire"
+      },
+      "answer": {
+        "fr": "Dire le nom d’Allah et manger de la main droite."
+      },
+      "explanation": {
+        "fr": "Parmi les adab du repas : mentionner Allah et manger de la main droite.",
+        "ar": "من آداب الطعام التسمية والأكل باليمين."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "164"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Deux badges « Bismillah » et « droite » s’activent."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.18",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mange près de toi",
+      "prompt": {
+        "fr": "Dans un plat partagé, où est-il enseigné de manger ? A. Ce qui est devant toi B. Chercher partout dans le plat"
+      },
+      "answer": {
+        "fr": "Ce qui est devant toi."
+      },
+      "explanation": {
+        "fr": "Le commentaire cite parmi les adab le fait de manger ce qui se trouve devant soi.",
+        "ar": "من آداب الطعام أن يأكل المرء مما يليه."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "164"
+        }
+      ],
+      "animationKey": "compass_scan",
+      "animationHint": "Un cercle lumineux indique la zone devant le joueur."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.19",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le coffre de confiance",
+      "prompt": {
+        "fr": "Un ami te prête un objet. Quel comportement correspond à l’Amānah ? A. Le garder et le rendre B. Le cacher pour toujours"
+      },
+      "answer": {
+        "fr": "Le garder et le rendre."
+      },
+      "explanation": {
+        "fr": "L’Amānah comprend la préservation des droits et de ce qui nous est confié.",
+        "ar": "الأمانة تشمل حفظ حقوق الناس وما اؤتمن عليه الإنسان."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "158-159"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Un objet entre dans un coffre puis revient à son propriétaire."
+    },
+    {
+      "id": "REL-DRS-ARB-L2-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l2.20",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le voisin invisible",
+      "prompt": {
+        "fr": "Le voisin n’est pas dans ta famille. Faut-il quand même respecter ses droits ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Oui."
+      },
+      "explanation": {
+        "fr": "Parmi les adab islamiques : préserver les droits du voisin, éviter de lui nuire et chercher à lui faire du bien.",
+        "ar": "من الآداب الإسلامية حفظ حق الجار والبعد عن أذيته والإحسان إليه."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "162 et 168"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Une barrière protectrice apparaît entre deux maisons sans les séparer."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.01",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Deux pièces, une clé",
+      "prompt": {
+        "fr": "La parole « Lā ilāha illa Allāh » comporte deux idées complémentaires. Lesquelles ? A. Nier l’adoration de tout autre qu’Allah et l’affirmer pour Allah seul B. Dire deux fois la même chose"
+      },
+      "answer": {
+        "fr": "Nier l’adoration de tout autre qu’Allah et l’affirmer pour Allah seul."
+      },
+      "explanation": {
+        "fr": "Le commentaire explique la négation et l’affirmation : aucune adoration n’est due à autre qu’Allah, et toute adoration revient à Allah seul.",
+        "ar": "كلمة التوحيد تقوم على النفي والإثبات: نفي العبادة عما سوى الله وإثباتها لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "36-38"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Deux pièces de puzzle « négation » et « affirmation » s’emboîtent."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.02",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les 8 serrures",
+      "prompt": {
+        "fr": "Combien de conditions de « Lā ilāha illa Allāh » sont exposées dans cette section ? A. 6 B. 8 C. 12"
+      },
+      "answer": {
+        "fr": "8."
+      },
+      "explanation": {
+        "fr": "Le commentaire présente huit conditions, dont la connaissance, la certitude, la sincérité et la véracité.",
+        "ar": "ذُكرت لكلمة التوحيد ثمانية شروط، منها العلم واليقين والإخلاص والصدق."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "39-44"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Huit serrures s’allument autour d’une clé."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.03",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission suivre le Messager ﷺ",
+      "prompt": {
+        "fr": "Que demande le témoignage « Muḥammad est le Messager d’Allah » ? A. Lui obéir, croire ses informations, éviter ses interdits et adorer Allah selon ce qu’il a enseigné B. Simplement connaître son nom"
+      },
+      "answer": {
+        "fr": "Lui obéir, croire ses informations, éviter ses interdits et adorer Allah selon ce qu’il a enseigné."
+      },
+      "explanation": {
+        "fr": "Le témoignage implique obéissance, véracité envers ses informations, éloignement de ses interdits et suivi de sa voie dans l’adoration.",
+        "ar": "شهادة أن محمدا رسول الله تقتضي طاعته وتصديقه واجتناب نهيه وألا يعبد الله إلا بما شرع."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "45-47"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Quatre jetons se placent autour d’un sceau."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.04",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Constellation complète",
+      "prompt": {
+        "fr": "Lequel manque : Allah, anges, Livres, Messagers, Jour dernier, ... ? A. Destin B. Voyage"
+      },
+      "answer": {
+        "fr": "Le Destin."
+      },
+      "explanation": {
+        "fr": "Le sixième pilier est la foi au Qadar, en son bien et son mal.",
+        "ar": "الركن السادس هو الإيمان بالقدر خيره وشره."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "53-60"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "La sixième étoile rejoint la constellation."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.05",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Après la mort",
+      "prompt": {
+        "fr": "Le Jour dernier commence-t-il uniquement au moment de la résurrection générale ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le commentaire présente la mort comme le début du passage vers l’au-delà et inclut la tombe parmi les premières étapes.",
+        "ar": "الموت بداية اليوم الآخر، والقبر أول منازل الآخرة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "57-58"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une frise « mort -> tombe -> résurrection » se dévoile."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.06",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Les 3 familles du Tawhid",
+      "prompt": {
+        "fr": "Associe : Seigneurie / Adoration / Noms et Attributs."
+      },
+      "answer": {
+        "fr": "Rubūbiyyah / Ulūhiyyah / Al-Asmāʾ waṣ-Ṣifāt."
+      },
+      "explanation": {
+        "fr": "Le Tawhid est exposé en trois catégories qui se complètent.",
+        "ar": "التوحيد ثلاثة أقسام مترابطة: الربوبية والألوهية والأسماء والصفات."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "61-64"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Trois cartes se placent dans trois emplacements."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.07",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le grand piège",
+      "prompt": {
+        "fr": "Donner une adoration réservée à Allah à autre qu’Allah correspond à quoi ? A. Une simple erreur de calcul B. Du shirk majeur"
+      },
+      "answer": {
+        "fr": "Du shirk majeur."
+      },
+      "explanation": {
+        "fr": "Le texte explique que détourner un acte d’adoration vers autre qu’Allah relève du shirk majeur.",
+        "ar": "صرف شيء من العبادة لغير الله من الشرك الأكبر."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "64-76"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Une flèche quitte la bonne voie et déclenche un signal d’alerte."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.08",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Ikhlāṣ ou Kāfirūn ?",
+      "prompt": {
+        "fr": "Laquelle met particulièrement en avant le Tawhid de connaissance : Al-Ikhlāṣ ou Al-Kāfirūn ?"
+      },
+      "answer": {
+        "fr": "Al-Ikhlāṣ."
+      },
+      "explanation": {
+        "fr": "Le commentaire distingue Al-Ikhlāṣ pour le Tawhid de connaissance et Al-Kāfirūn pour le Tawhid pratique de l’adoration.",
+        "ar": "سورة الإخلاص في التوحيد العلمي، وسورة الكافرون في التوحيد العملي."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "29-32"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Deux cartes se retournent avec deux étiquettes différentes."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.09",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le refuge",
+      "prompt": {
+        "fr": "Sūrat Al-Falaq nous apprend à chercher protection contre quoi ? A. Les maux créés B. Les devoirs d’école"
+      },
+      "answer": {
+        "fr": "Les maux créés."
+      },
+      "explanation": {
+        "fr": "La sourate enseigne à chercher refuge auprès d’Allah contre différents maux.",
+        "ar": "سورة الفلق تعلم الاستعاذة بالله من الشرور."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "33"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Un bouclier se déploie face à plusieurs ombres."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.10",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "L’arme silencieuse",
+      "prompt": {
+        "fr": "Que met en avant Sūrat An-Nās contre les insufflations ? A. Le rappel d’Allah B. Ignorer toute adoration"
+      },
+      "answer": {
+        "fr": "Le rappel d’Allah."
+      },
+      "explanation": {
+        "fr": "Le commentaire insiste sur la protection que constitue le Dhikr d’Allah contre Shayṭān.",
+        "ar": "ذكر الله من أعظم الوقاية من وساوس الشيطان."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "34"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Une onde de Dhikr repousse un brouillard."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.11",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La première grande vérification",
+      "prompt": {
+        "fr": "Quelle adoration est présentée comme la première sur laquelle le serviteur sera interrogé parmi ses œuvres ? A. La prière B. Le voyage"
+      },
+      "answer": {
+        "fr": "La prière."
+      },
+      "explanation": {
+        "fr": "Le commentaire rapporte la grande importance de la prière et qu’elle est la première œuvre examinée.",
+        "ar": "الصلاة أول ما يحاسب عليه العبد من عمله."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "49"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Une liste d’œuvres apparaît ; « prière » monte en première position."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.12",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Niyyah ou nettoyage ?",
+      "prompt": {
+        "fr": "Tu laves les membres du Wuḍūʾ uniquement pour te nettoyer, sans intention de purification. Est-ce la même chose ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "La Niyyah est une condition : une simple intention de propreté ne remplace pas l’intention de purification.",
+        "ar": "النية شرط في الوضوء، ومجرد قصد النظافة لا يقوم مقام نية الطهارة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "145"
+        }
+      ],
+      "animationKey": "gauge_rise",
+      "animationHint": "Deux jauges « propreté » et « purification » se séparent."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.13",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le parcours du Wuḍūʾ",
+      "prompt": {
+        "fr": "Quelle idée est également obligatoire : faire les actes dans l’ordre ou au hasard ? A. Dans l’ordre B. Au hasard"
+      },
+      "answer": {
+        "fr": "Dans l’ordre."
+      },
+      "explanation": {
+        "fr": "Le texte compte l’ordre et la continuité parmi les obligations du Wuḍūʾ.",
+        "ar": "الترتيب والموالاة من فروض الوضوء."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "147-149"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Les étapes s’alignent en chaîne."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.14",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Une seule passe",
+      "prompt": {
+        "fr": "Pour la tête, le texte mentionne-t-il de répéter l’essuyage trois fois ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "L’obligation exposée est d’essuyer la tête ; le texte précise que la tête n’est pas répétée comme les membres lavés.",
+        "ar": "مسح الرأس فرض، ولا يستحب تكراره كالأعضاء المغسولة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "147-149"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Une unique vague passe puis s’arrête.",
+      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.15",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Parole volontaire",
+      "prompt": {
+        "fr": "Parler volontairement pendant la prière, sans nécessité liée à la prière, l’annule-t-il ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Oui."
+      },
+      "explanation": {
+        "fr": "La parole volontaire fait partie des annulatifs de la prière.",
+        "ar": "الكلام العمد من مبطلات الصلاة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "142-143"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Une bulle de parole déclenche un signal rouge."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.16",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Erreur ou ignorance",
+      "prompt": {
+        "fr": "Une parole prononcée dans la prière par oubli ou ignorance du jugement est-elle traitée comme la parole volontaire ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le commentaire précise que la parole par oubli ou ignorance n’annule pas la prière dans ce cas.",
+        "ar": "الكلام سهوا أو جهلا بالحكم لا يبطل الصلاة في هذه المسألة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "143"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Deux chemins « volontaire » et « oubli » se séparent."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.17",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le mythe des 3 mouvements",
+      "prompt": {
+        "fr": "Le texte fixe-t-il exactement « trois mouvements » comme limite universelle avant d’annuler la prière ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Il évoque le mouvement important et continu qui détourne de la prière, et précise que le chiffre de trois mouvements n’a pas de preuve ici.",
+        "ar": "الحركة الكثيرة المتوالية قد تبطل الصلاة، وتحديدها بثلاث حركات لا دليل عليه."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "143"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Un compteur 1-2-3 apparaît puis se brise.",
+      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.18",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Vrai de l’intérieur",
+      "prompt": {
+        "fr": "Le Ṣidq, la véracité, concerne seulement les mots prononcés ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le commentaire décrit la véracité comme l’accord du cœur et de la langue.",
+        "ar": "الصدق مواطأة القلب للسان، فيوافق الظاهر الباطن."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "157-158"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Deux icônes cœur et langue s’alignent."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.19",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Plus qu’un objet",
+      "prompt": {
+        "fr": "L’Amānah concerne-t-elle seulement les objets prêtés ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Elle comprend aussi les droits des personnes et de nombreuses responsabilités confiées à l’être humain.",
+        "ar": "الأمانة أوسع من الأشياء المودعة، وتشمل حقوق العباد ومسؤوليات الإنسان."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "158-159"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Un coffre s’agrandit et révèle plusieurs catégories."
+    },
+    {
+      "id": "REL-DRS-ARB-L3-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l3.20",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le frein intérieur",
+      "prompt": {
+        "fr": "Quel caractère retient le croyant de nombreux mauvais comportements ? A. Al-Ḥayāʾ, la pudeur B. La précipitation"
+      },
+      "answer": {
+        "fr": "Al-Ḥayāʾ."
+      },
+      "explanation": {
+        "fr": "Le commentaire présente la pudeur comme un caractère qui retient de nombreux actes mauvais.",
+        "ar": "الحياء خلق عظيم يحجز صاحبه عن كثير من الشر."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "159-160"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Un frein symbolique arrête une icône avant une zone rouge."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.01",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Définition éclair",
+      "prompt": {
+        "fr": "Quelle définition est la plus proche de l’Islam dans cette section ? A. Se soumettre à Allah par le Tawhid et Lui obéir B. Suivre uniquement ses envies"
+      },
+      "answer": {
+        "fr": "Se soumettre à Allah par le Tawhid et Lui obéir."
+      },
+      "explanation": {
+        "fr": "L’Islam est présenté comme la soumission à Allah par le Tawhid et l’obéissance.",
+        "ar": "الإسلام هو الاستسلام لله بالتوحيد والانقياد له بالطاعة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "35"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une bannière « soumission - Tawhid - obéissance » se déploie."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.02",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Pas seulement des mots",
+      "prompt": {
+        "fr": "Dire « Lā ilāha illa Allāh » sans en connaître le sens et sans réaliser ce qu’elle implique suffit-il selon l’explication ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le commentaire insiste sur la connaissance du sens et la réalisation de ce qu’implique la parole du Tawhid.",
+        "ar": "لا يكفي مجرد النطق بكلمة التوحيد، بل لابد من العلم بمعناها وتحقيق مقتضاها."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "37-40"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Une clé sans dents échoue, puis une clé complète ouvre la serrure.",
+      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.03",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Noms et Attributs",
+      "prompt": {
+        "fr": "Quelle règle est exposée ? A. Affirmer ce qui est venu dans le Coran et la Sunnah sans déformation, négation, recherche du comment ni ressemblance B. Inventer de nouveaux attributs"
+      },
+      "answer": {
+        "fr": "Affirmer ce qui est venu dans le Coran et la Sunnah sans déformation, négation, recherche du comment ni ressemblance."
+      },
+      "explanation": {
+        "fr": "Les Noms et Attributs sont affirmés tels qu’ils sont venus, sans Taḥrīf, Taʿṭīl, Takyīf ni Tamthīl.",
+        "ar": "تثبت أسماء الله وصفاته كما جاءت بلا تحريف ولا تعطيل ولا تكييف ولا تمثيل."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "69-71"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Quatre panneaux d’interdiction entourent une carte centrale."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.04",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Trois catégories liées",
+      "prompt": {
+        "fr": "Les trois catégories du Tawhid sont-elles indépendantes au point de pouvoir en accepter une et rejeter les autres ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le commentaire les présente comme liées et interdépendantes.",
+        "ar": "أقسام التوحيد مترابطة متلازمة، لا ينفك بعضها عن بعض."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "61-64"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Trois anneaux s’entrelacent."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.05",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Shirk majeur",
+      "prompt": {
+        "fr": "Quel type de shirk fait sortir de l’Islam selon cette section ? A. Le shirk majeur B. Toute petite erreur"
+      },
+      "answer": {
+        "fr": "Le shirk majeur."
+      },
+      "explanation": {
+        "fr": "Le texte distingue le shirk majeur, qui est incompatible avec le fondement du Tawhid.",
+        "ar": "الشرك الأكبر ناقض لأصل التوحيد ومخرج من الملة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "74-76"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une frontière rouge apparaît autour d’une carte « majeur »."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.06",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le sixième pilier",
+      "prompt": {
+        "fr": "Croire au Qadar, en son bien et son mal, appartient à quoi ? A. Aux piliers de l’Îmân B. Aux Sunan du repas"
+      },
+      "answer": {
+        "fr": "Aux piliers de l’Îmân."
+      },
+      "explanation": {
+        "fr": "La foi au Qadar est l’un des six piliers de la foi.",
+        "ar": "الإيمان بالقدر خيره وشره من أركان الإيمان الستة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "53-60"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "La sixième pièce complète un cercle."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.07",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Suivre, pas inventer",
+      "prompt": {
+        "fr": "Quel principe complète la sincérité dans l’acceptation d’un acte ? A. Suivre la voie du Messager ﷺ B. Inventer sa propre forme d’adoration"
+      },
+      "answer": {
+        "fr": "Suivre la voie du Messager ﷺ."
+      },
+      "explanation": {
+        "fr": "Le commentaire associe l’Ikhlāṣ pour Allah et la Mutābaʿah du Messager ﷺ.",
+        "ar": "العمل المقبول يقوم على الإخلاص لله والمتابعة للرسول ﷺ."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "47-48"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Deux colonnes « sincérité » et « suivi » soutiennent une plateforme."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.08",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Prière et reste des œuvres",
+      "prompt": {
+        "fr": "Quelle idée est mise en avant au sujet de la prière ? A. Sa rectitude est d’une importance majeure pour le reste des œuvres B. Elle n’a aucun lien avec la vie religieuse"
+      },
+      "answer": {
+        "fr": "Sa rectitude est d’une importance majeure pour le reste des œuvres."
+      },
+      "explanation": {
+        "fr": "La prière est présentée comme le pilier central après les témoignages et comme une œuvre dont l’état a une importance déterminante.",
+        "ar": "الصلاة من أعظم أركان الإسلام، ولصلاحها شأن عظيم في عمل العبد."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "48-49"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une colonne centrale soutient plusieurs cartes d’œuvres."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.09",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Pilier ou obligation ?",
+      "prompt": {
+        "fr": "Si une obligation de la prière est oubliée, que mentionne le commentaire ? A. Elle peut être compensée par les prosternations de l’oubli B. Elle devient automatiquement un pilier"
+      },
+      "answer": {
+        "fr": "Elle peut être compensée par les prosternations de l’oubli."
+      },
+      "explanation": {
+        "fr": "Les obligations sont en dessous des piliers ; leur oubli est compensé par Sujūd as-Sahw, contrairement à l’abandon volontaire.",
+        "ar": "واجبات الصلاة دون الأركان، وإذا تركت سهوا جبرت بسجود السهو."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "130-133"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une pièce manquante est compensée par un badge « Sujūd as-Sahw ».",
+      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.10",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Takbīr spécial",
+      "prompt": {
+        "fr": "Quel Takbīr est un pilier de la prière ? A. Takbīrat al-Iḥrām B. Tous les Takbīr exactement au même rang"
+      },
+      "answer": {
+        "fr": "Takbīrat al-Iḥrām."
+      },
+      "explanation": {
+        "fr": "Le commentaire distingue Takbīrat al-Iḥrām comme pilier, tandis que les autres Takbīr mentionnés relèvent des obligations.",
+        "ar": "تكبيرة الإحرام ركن، وسائر التكبيرات المذكورة من واجبات الصلاة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "128-130"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Un Takbīr reçoit un sceau « pilier », les autres « obligation »."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.11",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Premier et dernier Tashahhud",
+      "prompt": {
+        "fr": "Le premier et le dernier Tashahhud ont-ils exactement le même statut ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le premier Tashahhud est traité parmi les obligations, tandis que le dernier Tashahhud et son assise sont parmi les piliers.",
+        "ar": "التشهد الأول من الواجبات، أما التشهد الأخير والجلوس له فمن الأركان."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "128-133"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Deux cartes « premier » et « dernier » prennent des badges différents."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.12",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La tranquillité",
+      "prompt": {
+        "fr": "La Ṭumaʾnīnah est-elle demandée uniquement au Rukūʿ ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le commentaire indique que la tranquillité est demandée dans l’ensemble de la prière.",
+        "ar": "الطمأنينة مطلوبة في الصلاة كلها."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "120-128"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Une onde se propage à toutes les positions de prière."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.13",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Volontaire vs oubli",
+      "prompt": {
+        "fr": "Pourquoi le moteur du jeu doit-il distinguer une parole volontaire d’une parole par oubli en prière ? A. Parce que le jugement exposé n’est pas le même B. Parce que les deux annulent toujours"
+      },
+      "answer": {
+        "fr": "Parce que le jugement exposé n’est pas le même."
+      },
+      "explanation": {
+        "fr": "Le texte distingue nettement la parole volontaire de celle faite par oubli ou ignorance.",
+        "ar": "يفرق الحكم بين الكلام العمد والكلام سهوا أو جهلا."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "142-143"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Deux cartes presque identiques se séparent en deux verdicts."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.14",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Déviation sévère",
+      "prompt": {
+        "fr": "Qu’est-ce qui est explicitement visé comme annulatif : une petite déviation ou une forte déviation de la Qiblah ? A. Une forte déviation B. Une petite déviation"
+      },
+      "answer": {
+        "fr": "Une forte déviation."
+      },
+      "explanation": {
+        "fr": "Le texte précise qu’une légère déviation ne nuit pas, contrairement à une forte déviation.",
+        "ar": "الانحراف الشديد عن جهة القبلة يبطل الصلاة، أما اليسير فلا يضر."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "143"
+        }
+      ],
+      "animationKey": "compass_scan",
+      "animationHint": "Un cadran montre la zone acceptable et la zone rouge."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.15",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Intention du Wuḍūʾ",
+      "prompt": {
+        "fr": "La Niyyah peut-elle disparaître au milieu du Wuḍūʾ si la personne transforme son intention en simple nettoyage ? A. Sans effet B. Cela rompt la continuité de l’intention de purification"
+      },
+      "answer": {
+        "fr": "Cela rompt la continuité de l’intention de purification."
+      },
+      "explanation": {
+        "fr": "Le commentaire inclut la continuité de l’intention jusqu’à la fin du Wuḍūʾ parmi ses conditions.",
+        "ar": "استصحاب حكم النية حتى تمام الوضوء من شروطه."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "145"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une ligne d’intention doit rester continue jusqu’à l’arrivée."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.16",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Barrière sur la peau",
+      "prompt": {
+        "fr": "Une couche qui empêche l’eau d’atteindre la peau doit-elle être retirée avant le Wuḍūʾ ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Oui."
+      },
+      "explanation": {
+        "fr": "Le texte demande de retirer ce qui empêche l’eau d’atteindre la peau ; une simple coloration sans couche n’a pas le même effet.",
+        "ar": "يجب إزالة ما يمنع وصول الماء إلى البشرة، أما اللون الذي لا جرم له فلا يمنع."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "146"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Une couche opaque disparaît puis l’eau atteint la peau."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.17",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Istinjāʾ à chaque Wuḍūʾ ?",
+      "prompt": {
+        "fr": "Faut-il obligatoirement refaire l’Istinjāʾ avant chaque Wuḍūʾ même si rien n’est sorti ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le commentaire précise que l’Istinjāʾ ou l’Istijmār concerne le cas où quelque chose est sorti des voies naturelles ; ce n’est pas une étape obligatoire avant chaque Wuḍūʾ sans cause.",
+        "ar": "الاستنجاء أو الاستجمار يكون عند خروج الخارج، وليس شرطا قبل كل وضوء إذا لم يوجد خارج."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "145"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une étape « conditionnelle » s’allume seulement quand nécessaire."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.18",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le Ṣidq complet",
+      "prompt": {
+        "fr": "Quelle formulation est la plus précise ? A. Le cœur et la langue concordent B. On dit seulement ce que les autres veulent entendre"
+      },
+      "answer": {
+        "fr": "Le cœur et la langue concordent."
+      },
+      "explanation": {
+        "fr": "La véracité est décrite comme l’accord de l’intérieur et de l’extérieur.",
+        "ar": "الصدق أن يوافق اللسان ما في القلب، فيتفق الظاهر والباطن."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "157-158"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Cœur et langue se synchronisent."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.19",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La vraie force",
+      "prompt": {
+        "fr": "Dans l’explication des nobles caractères, quelle maîtrise est rapprochée de la véritable force ? A. Se maîtriser lors de la colère B. Crier plus fort"
+      },
+      "answer": {
+        "fr": "Se maîtriser lors de la colère."
+      },
+      "explanation": {
+        "fr": "Le commentaire rattache la vraie force à la capacité de contenir sa colère et de maîtriser son âme.",
+        "ar": "من حقيقة القوة والشجاعة أن يملك الإنسان نفسه عند الغضب."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "160-161"
+        }
+      ],
+      "animationKey": "gauge_rise",
+      "animationHint": "Une jauge de colère monte puis redescend sous contrôle.",
+      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+    },
+    {
+      "id": "REL-DRS-ARB-L4-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l4.20",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La générosité élargie",
+      "prompt": {
+        "fr": "La générosité se limite-t-elle à donner de l’argent ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Elle comprend aussi la bonne manière de traiter les autres, l’aide et le soutien.",
+        "ar": "الكرم أوسع من بذل المال، ويشمل حسن المعاملة ومد يد المساعدة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "161"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Un coffre d’argent s’élargit en icônes aide, sourire et soutien."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.01",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La serrure manquante",
+      "prompt": {
+        "fr": "Parmi ces propositions, laquelle n’appartient pas aux conditions exposées de « Lā ilāha illa Allāh » ? A. La connaissance B. La certitude C. La sincérité D. La célébrité"
+      },
+      "answer": {
+        "fr": "La célébrité."
+      },
+      "explanation": {
+        "fr": "La section expose des conditions telles que connaissance, certitude, acceptation, soumission, véracité, sincérité, amour et rejet de ce qui est adoré en dehors d’Allah.",
+        "ar": "ذكرت شروط كلمة التوحيد، ومنها العلم واليقين والقبول والانقياد والصدق والإخلاص والمحبة والكفر بما يعبد من دون الله."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "39-44"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Huit runes correctes entourent une neuvième fausse qui s’efface."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.02",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Deux questions fondamentales",
+      "prompt": {
+        "fr": "Quelles deux idées résument les deux témoignages dans l’explication finale de cette section ? A. Qui adorais-tu ? et qu’as-tu répondu aux Messagers ? B. Quel âge avais-tu ? et où habitais-tu ?"
+      },
+      "answer": {
+        "fr": "Qui adorais-tu ? et qu’as-tu répondu aux Messagers ?."
+      },
+      "explanation": {
+        "fr": "Le commentaire relie « Lā ilāha illa Allāh » à l’adoration d’Allah seul et « Muḥammad rasūl Allāh » au suivi du Messager ﷺ.",
+        "ar": "خلاصة الشهادتين: إخلاص العبادة لله، ومتابعة الرسول ﷺ."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "47-48"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Deux portes apparaissent, chacune liée à un témoignage.",
+      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.03",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Deux conditions d’acceptation",
+      "prompt": {
+        "fr": "Quel duo est présenté comme fondamental pour qu’un acte soit correct ? A. Ikhlāṣ pour Allah + Mutābaʿah du Messager ﷺ B. Popularité + difficulté"
+      },
+      "answer": {
+        "fr": "Ikhlāṣ pour Allah + Mutābaʿah du Messager ﷺ."
+      },
+      "explanation": {
+        "fr": "L’acte doit être sincère pour Allah et conforme à la Sunnah.",
+        "ar": "العمل المقبول يكون خالصا لله وصوابا على سنة الرسول ﷺ."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "47-48"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Deux clés doivent être insérées simultanément."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.04",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Innovation rejetée",
+      "prompt": {
+        "fr": "Quel principe est cité au sujet d’un acte introduit dans la religion sans fondement ? A. Il est rejeté B. Il devient automatiquement meilleur"
+      },
+      "answer": {
+        "fr": "Il est rejeté."
+      },
+      "explanation": {
+        "fr": "Le commentaire cite les textes mettant en garde contre les innovations et indiquant que ce qui est introduit sans fondement est rejeté.",
+        "ar": "ما أحدث في الدين مما ليس منه فهو مردود."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "47"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Une carte « ajout » tente d’entrer puis est repoussée."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.05",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Pourquoi trois catégories ?",
+      "prompt": {
+        "fr": "La division du Tawhid en trois catégories est présentée comme issue de quoi ? A. De l’étude et de l’induction du Coran et de la Sunnah B. D’un tirage aléatoire"
+      },
+      "answer": {
+        "fr": "De l’étude et de l’induction du Coran et de la Sunnah."
+      },
+      "explanation": {
+        "fr": "Le commentaire explique que cette classification est connue par l’examen des textes du Coran et de la Sunnah.",
+        "ar": "تقسيم التوحيد إلى ثلاثة أقسام مستفاد بالاستقراء والتتبع لنصوص الكتاب والسنة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "61-64"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Des fragments de textes convergent vers trois colonnes."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-06",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.06",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Définition du shirk majeur",
+      "prompt": {
+        "fr": "Quelle formulation est la plus proche de la définition donnée ? A. Mettre un autre qu’Allah à égalité avec Allah dans un droit qui Lui appartient B. Oublier une Sunnah"
+      },
+      "answer": {
+        "fr": "Mettre un autre qu’Allah à égalité avec Allah dans un droit qui Lui appartient."
+      },
+      "explanation": {
+        "fr": "Le shirk majeur consiste à donner à autre qu’Allah quelque chose de ce qui revient exclusivement à Allah.",
+        "ar": "الشرك الأكبر هو تسوية غير الله بالله في شيء من حقوق الله."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "74-76"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Une balance interdite tente de placer deux plateaux à égalité."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-07",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.07",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Noms et Attributs : frontière",
+      "prompt": {
+        "fr": "Quelle limite méthodologique est répétée ? A. Ne pas dépasser le Coran et le hadith dans ce domaine B. Construire des descriptions par imagination"
+      },
+      "answer": {
+        "fr": "Ne pas dépasser le Coran et le hadith dans ce domaine."
+      },
+      "explanation": {
+        "fr": "Le commentaire rapporte le principe d’affirmer ce qu’Allah et Son Messager ont affirmé, sans dépasser les textes.",
+        "ar": "في باب الأسماء والصفات يثبت ما جاء في الكتاب والسنة ولا يتجاوز القرآن والحديث."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "69-71"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une frontière lumineuse entoure deux sources « Coran » et « Sunnah »."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-08",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.08",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte de l’Au-delà",
+      "prompt": {
+        "fr": "Lequel de ces ensembles correspond au contenu mentionné dans la foi au Jour dernier ? A. Tombe, résurrection, rassemblement, balance, ṣirāṭ, Paradis et Enfer B. Sommeil, voyage, sport"
+      },
+      "answer": {
+        "fr": "Tombe, résurrection, rassemblement, balance, ṣirāṭ, Paradis et Enfer."
+      },
+      "explanation": {
+        "fr": "La foi au Jour dernier englobe ce qui vient après la mort : tombe, résurrection, rassemblement, jugement et demeure finale.",
+        "ar": "الإيمان باليوم الآخر يشمل ما بعد الموت من القبر والبعث والنشور والحساب والجزاء والجنة والنار."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "57-58"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une frise complète de l’Au-delà se déroule."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-09",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.09",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Colonne centrale",
+      "prompt": {
+        "fr": "Pourquoi la prière reçoit-elle une place particulière dans cette partie ? A. Elle est l’un des plus grands piliers après les témoignages et organise la relation du serviteur à son Seigneur B. Parce qu’elle est facultative"
+      },
+      "answer": {
+        "fr": "Elle est l’un des plus grands piliers après les témoignages et organise la relation du serviteur à son Seigneur."
+      },
+      "explanation": {
+        "fr": "Le commentaire insiste sur sa place majeure et sur la nécessité d’en préserver conditions, piliers et obligations.",
+        "ar": "للصلاة منزلة عظيمة، وهي من أعظم أركان الإسلام بعد الشهادتين، ويجب حفظ شروطها وأركانها وواجباتها."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "48-49"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une colonne soutient trois anneaux « conditions / piliers / obligations »."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-10",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.10",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Oubli d’une obligation",
+      "prompt": {
+        "fr": "Quel mécanisme est mentionné lorsque l’une des obligations de la prière est oubliée ? A. Sujūd as-Sahw B. Recommencer systématiquement toute la journée"
+      },
+      "answer": {
+        "fr": "Sujūd as-Sahw."
+      },
+      "explanation": {
+        "fr": "Les obligations oubliées sont compensées par les prosternations de l’oubli, contrairement à leur abandon volontaire.",
+        "ar": "إذا ترك واجب من واجبات الصلاة سهوا جبر بسجود السهو، أما تركه عمدا فيبطل الصلاة."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "128-133"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Un indicateur « oubli » déclenche automatiquement une carte Sujūd as-Sahw."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-11",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.11",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le statut du dernier Tashahhud",
+      "prompt": {
+        "fr": "Quelle distinction est exposée ? A. Dernier Tashahhud + assise = piliers ; premier Tashahhud = obligation B. Tous sont de simples options"
+      },
+      "answer": {
+        "fr": "Dernier Tashahhud + assise = piliers ; premier Tashahhud = obligation."
+      },
+      "explanation": {
+        "fr": "Le dernier Tashahhud et son assise sont classés parmi les piliers ; le premier parmi les obligations.",
+        "ar": "التشهد الأخير والجلوس له من الأركان، والتشهد الأول من الواجبات."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "128-133"
+        }
+      ],
+      "animationKey": "compass_scan",
+      "animationHint": "Un tableau à deux colonnes classe les éléments."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-12",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.12",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mouvement excessif",
+      "prompt": {
+        "fr": "Quelle formulation est la plus fidèle ? A. Le mouvement important et continu, étranger à la prière, peut l’annuler ; la règle fixe des trois mouvements n’est pas retenue ici B. Tout mouvement minuscule annule"
+      },
+      "answer": {
+        "fr": "Le mouvement important et continu, étranger à la prière, peut l’annuler ; la règle fixe des trois mouvements n’est pas retenue ici."
+      },
+      "explanation": {
+        "fr": "Le commentaire refuse de fixer universellement le seuil à trois mouvements et vise le mouvement important et successif.",
+        "ar": "الحركة الكثيرة المتوالية من غير جنس الصلاة قد تبطلها، وتحديد ذلك بثلاث حركات لا دليل عليه."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "143"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Un compteur « 3 » est barré, puis une jauge « beaucoup / continu » apparaît."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-13",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.13",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Niyyah précise",
+      "prompt": {
+        "fr": "Une personne accomplit exactement les gestes du Wuḍūʾ mais vise seulement à se rafraîchir. Quel élément manque ? A. La Niyyah de purification B. Le nombre de pièces dans sa poche"
+      },
+      "answer": {
+        "fr": "La Niyyah de purification."
+      },
+      "explanation": {
+        "fr": "La Niyyah est une condition de la purification ; les mêmes gestes avec une autre intention ne réalisent pas le même acte d’adoration.",
+        "ar": "النية شرط للطهارة، فمجرد غسل الأعضاء بقصد التبرد أو النظافة لا يكون وضوءا شرعيا."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "145"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Deux parcours identiques visuellement se séparent selon l’intention."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-14",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.14",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Intention interrompue",
+      "prompt": {
+        "fr": "Changer volontairement l’intention de purification en simple nettoyage avant de terminer le Wuḍūʾ est-il sans effet ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le commentaire exige la continuité du jugement de la Niyyah jusqu’à l’achèvement du Wuḍūʾ.",
+        "ar": "استصحاب حكم النية إلى تمام الوضوء شرط."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "145"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une ligne verte devient grise et le parcours s’arrête."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-15",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.15",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Événement pendant le Wuḍūʾ",
+      "prompt": {
+        "fr": "Si un annulatif du Wuḍūʾ survient pendant qu’on l’accomplit, le parcours continue-t-il normalement ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "La cessation de ce qui annule le Wuḍūʾ est mentionnée parmi ses conditions.",
+        "ar": "انقطاع موجب الوضوء من شروط صحة الوضوء."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "145"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Une alerte interrompt la chaîne des étapes."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-16",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.16",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Couche ou couleur ?",
+      "prompt": {
+        "fr": "Quel contraste est donné ? A. Une couche qui bloque l’eau doit être retirée ; une coloration sans couche comme le henné ne bloque pas l’eau B. Toute couleur annule automatiquement"
+      },
+      "answer": {
+        "fr": "Une couche qui bloque l’eau doit être retirée ; une coloration sans couche comme le henné ne bloque pas l’eau."
+      },
+      "explanation": {
+        "fr": "Le critère est l’existence d’un corps empêchant l’eau d’atteindre la peau, non la simple couleur.",
+        "ar": "العبرة بوجود جرم يمنع وصول الماء إلى البشرة، أما مجرد اللون كالحناء فلا يمنع."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "146"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Deux surfaces : peinture épaisse bloquée, coloration fine traversée."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-17",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.17",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Pourquoi être bon ?",
+      "prompt": {
+        "fr": "Le bon comportement doit-il dépendre uniquement de la manière dont les autres nous traitent ? A. Oui B. Non"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le commentaire encourage les bons caractères en recherchant ce qui est auprès d’Allah, et non comme simple échange avec les gens.",
+        "ar": "حسن الخلق يكون ابتغاء ما عند الله، لا لمجرد المعاوضة مع الناس."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "156-157"
+        }
+      ],
+      "animationKey": "gauge_rise",
+      "animationHint": "Une balance « récompense des gens / agrément d’Allah » se stabilise sur la seconde."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-18",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.18",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Amanah étendue",
+      "prompt": {
+        "fr": "Laquelle illustre le mieux la conception large de l’Amānah exposée ? A. Préserver les droits, les biens et les responsabilités confiées B. Garder uniquement un cadenas physique"
+      },
+      "answer": {
+        "fr": "Préserver les droits, les biens et les responsabilités confiées."
+      },
+      "explanation": {
+        "fr": "L’Amānah est générale : religion, droits des gens, biens et responsabilités confiées.",
+        "ar": "الأمانة عامة، وتشمل الدين وحقوق العباد والأموال والمسؤوليات."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "158-159"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Un coffre se transforme en réseau de responsabilités."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-19",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.19",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le courage le plus difficile",
+      "prompt": {
+        "fr": "Quelle victoire intérieure est présentée comme une véritable force ? A. Maîtriser sa colère B. Gagner tous les débats"
+      },
+      "answer": {
+        "fr": "Maîtriser sa colère."
+      },
+      "explanation": {
+        "fr": "Le commentaire relie la véritable force à la maîtrise de soi lors de la colère.",
+        "ar": "القوة الحقيقية أن يملك الإنسان نفسه عند الغضب."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "160-161"
+        }
+      ],
+      "animationKey": "compass_scan",
+      "animationHint": "Une jauge rouge redescend avant d’atteindre la zone critique."
+    },
+    {
+      "id": "REL-DRS-ARB-L5-20",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.bases.durous.l5.20",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Adab en situation",
+      "prompt": {
+        "fr": "Tu entres à la mosquée. Quelle attitude correspond à l’adab mentionné ? A. Entrer avec le pied droit et demander à Allah de t’ouvrir les portes de Sa miséricorde B. Entrer en courant sans attention"
+      },
+      "answer": {
+        "fr": "Entrer avec le pied droit et demander à Allah de t’ouvrir les portes de Sa miséricorde."
+      },
+      "explanation": {
+        "fr": "Le commentaire mentionne l’entrée avec le pied droit et l’invocation demandant la miséricorde d’Allah ; à la sortie, le pied gauche et la demande de Sa faveur.",
+        "ar": "من آداب دخول المسجد تقديم الرجل اليمنى وسؤال الله من رحمته، وعند الخروج تقديم اليسرى وسؤاله من فضله."
+      },
+      "sources": [
+        {
+          "title": "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah",
+          "author": "Shaykh ʿAbd ar-Razzāq al-Badr",
+          "pages": "165-166"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Deux portes « entrée / sortie » montrent des gestes distincts."
+    }
+  ]
+}

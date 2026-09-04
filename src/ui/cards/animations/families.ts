@@ -84,6 +84,18 @@ const MAP: Readonly<Record<string, AnimationFamily>> = {
   repair_return: "arrow",
   detector_scan: "scan",
   break_chain: "seal",
+  /* ---- Ad-Durous al-Muhimmah (clés déduites des suggestions libres de l'auteur) ---- */
+  chest_reveal: "chest",
+  door_pick: "door",
+  shield_guard: "shield",
+  intruder_out: "intruder",
+  compass_scan: "scan",
+  gauge_rise: "levels",
+  keys_count: "levels",
+  arrow_path: "arrow",
+  wave_ripple: "ripple",
+  card_flip: "flip",
+  stars_spark: "spark",
 };
 
 export function animationFamily(key: string | undefined): AnimationFamily {

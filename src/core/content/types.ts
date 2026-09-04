@@ -157,6 +157,8 @@ export interface CuratedQuestion {
   readonly sources: readonly SourceRef[];
   readonly title?: string | undefined;
   readonly animationKey?: string | undefined;
+  /** Suggestion visuelle libre de l'auteur de la banque (pour la couche de présentation, jamais pour le jeu). */
+  readonly animationHint?: string | undefined;
   /** Tranche d'âge indicative de la banque (« 5-8 »), information de contrôle. */
   readonly ageBand?: string | undefined;
   /** Note de relecture humaine (ex. arabe à saisir) : une carte annotée reste en brouillon. */

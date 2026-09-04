@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, CURATED_BANK, OUSSOUL_BANK, RAMADAN_BANK, RELIGION_BANKS, contentRegistry } from "@/config/content";
+import { CATEGORIES, CURATED_BANK, DUROUS_BANK, OUSSOUL_BANK, RAMADAN_BANK, RELIGION_BANKS, contentRegistry } from "@/config/content";
 import { createContentRegistry, createCuratedProvider, isPlayable, playabilityIssues } from "@/core/content";
 import { KNOWN_ANIMATION_KEYS, animationFamily } from "@/ui/cards/animations/families";
 
@@ -36,7 +36,7 @@ describe("banque religieuse Oussoul ath-Thalatha (import, tout en brouillon)", (
     expect(playabilityIssues(OUSSOUL_BANK[0]!, religion)).toEqual(["statut draft ≠ validated"]);
     expect(contentRegistry().availableCategories("child")).not.toContain("religion");
     expect(contentRegistry().slots("child").some((s) => s.categoryId === "religion")).toBe(false);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(125);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(225);
   });
 
   it("une carte passée à `validated` par relecture devient jouable telle quelle, avec sa source et son habillage", () => {
@@ -82,5 +82,34 @@ describe("banque religieuse Wa Ja'a Shahr Ramadan (import, tout en brouillon)", 
     // Même validée par erreur, une carte sans explication arabe reste injouable.
     const forced = { ...RAMADAN_BANK.find((q) => q.id === "REL-RAM-ARB-L5-01")!, status: "validated" as const };
     expect(playabilityIssues(forced, religion)).toContain("explication AR manquante");
+  });
+});
+
+describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, tout en brouillon)", () => {
+  const CURTAIN = /\b(le texte|l[’']explication|le commentaire|le livre|la source)\b/i;
+  it("compte 100 cartes, 20 par niveau, identifiants uniques sur les trois banques, toutes `draft`, bilingues et sourcées avec pages", () => {
+    expect(DUROUS_BANK).toHaveLength(100);
+    for (const level of [1, 2, 3, 4, 5]) expect(DUROUS_BANK.filter((q) => q.difficulty === level)).toHaveLength(20);
+    expect(new Set(RELIGION_BANKS.flatMap((b) => b.questions.map((q) => q.id))).size).toBe(225);
+    for (const q of DUROUS_BANK) {
+      expect(q.status, q.id).toBe("draft");
+      expect(q.id, q.id).toMatch(/^REL-DRS-ARB-L\d-\d\d$/);
+      expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.bases\.durous\.l\d\.\d\d$/);
+      expect(q.title, q.id).toBeTruthy();
+      expect(q.prompt.fr.length, q.id).toBeGreaterThan(10);
+      // Jamais une lettre seule en réponse : le texte du choix est repris tel quel.
+      expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.?$/);
+      expect(q.explanation.fr.length, q.id).toBeGreaterThan(5);
+      expect(/[؀-ۿ]/.test(q.explanation.ar), q.id).toBe(true);
+      expect(q.sources[0], q.id).toMatchObject({ title: "Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah", author: "Shaykh ʿAbd ar-Razzāq al-Badr" });
+      expect(q.sources[0]!.pages, q.id).toMatch(/^\d/);
+      expect(q.animationHint, q.id).toBeTruthy();
+      expect(isPlayable(q, religion), q.id).toBe(false);
+    }
+  });
+  it("les énoncés qui laissent voir le texte ou le commentaire sont annotés pour reformulation, jamais réécrits par le code", () => {
+    const flagged = DUROUS_BANK.filter((q) => CURTAIN.test(q.prompt.fr)).map((q) => q.id);
+    expect(flagged).toEqual(["REL-DRS-ARB-L3-14", "REL-DRS-ARB-L3-17", "REL-DRS-ARB-L4-02", "REL-DRS-ARB-L4-09", "REL-DRS-ARB-L4-19", "REL-DRS-ARB-L5-02"]);
+    expect(DUROUS_BANK.filter((q) => q.reviewNotes).map((q) => q.id)).toEqual(flagged);
   });
 });

@@ -18,6 +18,16 @@
 - `questions/religion/wa-jaa-shahr-ramadan.v1.json` — banque « Wa Ja'a Shahr
   Ramadan » (Shaykh Abd ar-Razzaq ibn Abd al-Muhsin al-Badr, Dar al-Fadhila,
   2014), 25 cartes en 5 niveaux, mêmes règles, toutes `draft`.
+- `questions/religion/ad-durous-al-mouhimmah.v1.json` — banque « Ad-Durous
+  al-Muhimmah » (Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah, commentaire de
+  Shaykh ʿAbd ar-Razzāq al-Badr sur le texte de Shaykh ʿAbd al-ʿAzīz ibn Bāz),
+  100 cartes en 5 niveaux importées depuis le document de contrôle (DOCX) par
+  `scripts/content/import-durous.mjs`, toutes `draft`. `animationHint` est la
+  suggestion visuelle libre de l'auteur ; `animationKey` en est déduite par
+  mots-clés (présentation pure). Une réponse « A. » est remplacée par le texte
+  du choix A, tel quel. Les énoncés qui laissent voir le texte ou le
+  commentaire portent une `reviewNotes` : à reformuler en relecture, jamais
+  par le code.
 
 Règles : explication FR **et** AR obligatoires pour toute question jouable ;
 `status = validated` obligatoire ; source primaire obligatoire si la catégorie
