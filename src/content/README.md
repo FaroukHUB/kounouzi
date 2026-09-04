@@ -43,6 +43,12 @@
   5 niveaux, mêmes règles, toutes `draft`. Cinq explications arabes ont perdu
   un signe diacritique à l'extraction : la jonction est annotée dans
   `reviewNotes`, à rétablir en relecture.
+- `questions/religion/kalimah-at-tawhid.v1.json` — banque « Kalimah
+  at-Tawḥīd » (Kalimah at-Tawhid : Lā ilāha illā Allāh, ses mérites, son sens,
+  ses conditions et ses annulatifs, Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin
+  al-Badr), 25 cartes en 5 niveaux, mêmes règles, toutes `draft`. Les sources
+  portent le thème du chapitre en `locator`. Arabe du PDF très abîmé : huit
+  explications laissées vides avec `reviewNotes`, onze recollées à relire.
 
 Règles : explication FR **et** AR obligatoires pour toute question jouable ;
 `status = validated` obligatoire ; source primaire obligatoire si la catégorie

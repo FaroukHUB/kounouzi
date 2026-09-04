@@ -16,6 +16,7 @@
  *   الشرح بالعربية: …
  *   Source : <ouvrage> - commentaire de <auteur>, PDF transmis, p. 35-36.
  *         ou <ouvrage> - <auteur>, PDF p. 33-36.
+ *         ou <ouvrage>, Shaykh <auteur>. <thème>. PDF p. 40.
  *         ou <ouvrage> - commentaire de <auteur>, sur le matn d'…. Matn, vers 3-4, PDF p. 12.
  *   Animation suggérée : <description libre>
  *
@@ -37,8 +38,9 @@ if (!input || !output || !nodePrefix || !idPrefix) {
 const ARABIC = /[؀-ۿﭐ-﷿ﹰ-﻿]/;
 const AR_PREFIX = "الشرح بالعربية";
 const AR_PREFIX_RE = /^الشرح بالعربية\s*:\s*/;
+const DIACRITIC_END = /[ً-ْٰ]$/;
 /** Glyphe orphelin d'une extraction PDF (signe diacritique rendu « O », « W », « ? »…). */
-const STRAY_GLYPH = /^[A-Za-z?]{1,2}$/;
+const STRAY_GLYPH = /^(?:[A-Za-z?.9_]{1,2}|[\x00-\x1f]+)$/;
 const LATIN_WORD = /[A-Za-zÀ-ÿʿʾĀāĪīŪūḤḥṢṣḌḍṬṭẒẓ]{3,}/;
 /** Énoncés qui laissent voir le livre : signalés pour reformulation humaine, jamais réécrits ici. */
 const CURTAIN = /\b(le texte|l[’']explication|le commentaire|le livre|la source)\b/i;
@@ -65,7 +67,7 @@ function animationKeyFor(hint) {
 
 const lines = readFileSync(input, "utf8")
   .split(/\r?\n/)
-  .map((l) => l.replace(/[\x00-\x1f]/g, "").replace(/\s+$/, ""))
+  .map((l) => l.replace(/\s+$/, ""))
   .filter((l) => l.trim() !== "");
 
 const cards = [];
@@ -88,7 +90,7 @@ function collectUntil(stop) {
   return parts;
 }
 const joinWrapped = (parts) => parts.reduce((acc, l) => (acc.endsWith("-") && !acc.endsWith(" -") ? acc + l.trim() : acc + " " + l.trim()), "").replace(/\s+/g, " ").trim();
-const isHeader = (l) => /^\d\.\d\d - /.test(l) || /^NIVEAU \d$/.test(l);
+const isHeader = (l) => /^\d\.\d{1,2} - /.test(l) || /^NIVEAU \d$/.test(l);
 
 while (i < lines.length) {
   const line = lines[i];
@@ -96,20 +98,20 @@ while (i < lines.length) {
   if (lvl) {
     level = Number(lvl[1]);
     i += 1;
-    const pub = lines[i]?.match(/^Public indicatif : (.+?) - \d+ cartes?$/);
+    const pub = lines[i]?.match(/^(?:Public indicatif : )?(.+?) - \d+ cartes?$/);
     if (pub) {
       ageBand = pub[1].replace(/\s*\/\s*adultes/, "").replace(/\s*ans\s*/g, "").trim();
       i += 1;
     }
     continue;
   }
-  const head = line.match(/^(\d)\.(\d\d) - (.+)$/);
+  const head = line.match(/^(\d)\.(\d{1,2}) - (.+)$/);
   if (!head || level === 0) {
     i += 1;
     continue;
   }
   if (Number(head[1]) !== level) throw new Error(`carte ${head[1]}.${head[2]} hors du niveau ${level}`);
-  const number = head[2];
+  const number = head[2].padStart(2, "0");
   const id = `${idPrefix}-L${level}-${number}`;
   const title = head[3].trim();
   i += 1;
@@ -180,6 +182,8 @@ function parseSource(source, id) {
   if (matn) return { title: matn[1].trim(), author: matn[2].trim(), pages: matn[5], locator: matn[4].replace(/\s+/g, " ").trim(), baseText: matn[3].trim() };
   const plain = source.match(/^(.+?) - (?:commentaire de\s+)?(.+?), (?:PDF transmis, p\.|PDF p\.) (.+?)\.?$/);
   if (plain) return { title: plain[1].trim(), author: plain[2].trim(), pages: plain[3].trim(), locator: "", baseText: "" };
+  const themed = source.match(/^(.+), (Shaykh [^.]+?)\. (.+?)\. PDF p\. (.+?)\.?$/);
+  if (themed) return { title: themed[1].trim(), author: themed[2].trim(), pages: themed[4].trim(), locator: themed[3].trim(), baseText: "" };
   throw new Error(`carte ${id} : source non reconnue « ${source} »`);
 }
 
@@ -207,23 +211,31 @@ function assembleArabic(pieces, id) {
     if (flag) repaired.push(id);
     return note ? { ar: text, note } : { ar: text };
   };
+  /** Recollage tête + fin : la coupure suit un signe diacritique ou une frontière de mot ; une jonction au milieu d'un mot sans signe a pu perdre des lettres. */
+  const junction = (headRaw, tail, between = "") => (DIACRITIC_END.test(headRaw) || /\s$/.test(headRaw) || between ? accept(strip(headRaw + between + tail), true) : fail("jonction sans signe diacritique, lettres peut-être perdues"));
   const clean = pieces.filter(Boolean);
   if (clean.length === 0) return fail("absente");
   if (clean.length === 1) {
     if (isGlyph(clean[0])) return fail("glyphe seul");
     const idx = clean[0].indexOf(AR_PREFIX);
     if (idx === 0) return accept(strip(clean[0]), false);
-    if (idx > 0) return accept(strip(clean[0].slice(idx) + clean[0].slice(0, idx)), true);
+    if (idx > 0) return junction(clean[0].slice(idx), clean[0].slice(0, idx));
     return fail("1 fragment sans en-tête");
   }
   const headLine = clean[clean.length - 1];
-  const middle = clean.slice(1, -1);
-  const simple = clean.length <= 3 && headLine.startsWith(AR_PREFIX) && !clean[0].includes(AR_PREFIX) && !isGlyph(clean[0]);
-  if (simple && middle.every((f) => /^[ء-ي]{1,2}$/.test(f))) return accept(strip([...clean].reverse().join("")), true);
-  if (simple && middle.every(isGlyph)) {
-    const text = strip(headLine + clean[0]);
-    const junction = `${strip(headLine).slice(-2)}|${clean[0].slice(0, 3)}`;
-    return accept(text, true, `Signe diacritique perdu à l'extraction à la jonction « ${junction} » : à rétablir depuis le document de contrôle.`);
+  // Une ligne arabe complète accompagnée de seuls glyphes orphelins (caractères de contrôle) : reprise telle quelle.
+  if (headLine.startsWith(AR_PREFIX) && clean.slice(0, -1).every(isGlyph)) return accept(strip(headLine), false);
+  // Fin, [lettre(s) isolée(s)], début — avec d'éventuels glyphes orphelins (signes diacritiques perdus) entre les morceaux.
+  const core = clean.filter((f) => !isGlyph(f));
+  const glyphs = clean.length - core.length;
+  const tail = core[0];
+  const between = core.slice(1, -1);
+  const simple = core.length >= 2 && core.length <= 3 && !isGlyph(clean[0]) && headLine === core[core.length - 1] && headLine.startsWith(AR_PREFIX) && !tail.includes(AR_PREFIX) && between.every((f) => /^[ء-ي]{1,2}$/.test(f));
+  if (simple && glyphs === 0) return junction(headLine, tail, between.reverse().join(""));
+  if (simple) {
+    const text = strip(headLine + between.reverse().join("") + tail);
+    const junctionMark = `${strip(headLine).slice(-2)}|${tail.slice(0, 3)}`;
+    return accept(text, true, `Signe diacritique perdu à l'extraction à la jonction « ${junctionMark} » : à rétablir depuis le document de contrôle.`);
   }
   return fail(`${clean.length} fragments`);
 }

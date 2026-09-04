@@ -34,7 +34,8 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Un calendrier se déroule, puis un éléphant stylisé apparaît sur la bonne année."
+      "animationHint": "Un calendrier se déroule, puis un éléphant stylisé apparaît sur la bonne année.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « وُ|د ا » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L1-02",
@@ -65,7 +66,8 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une carte se retourne sur un soleil levant marqué « lundi »."
+      "animationHint": "Une carte se retourne sur un soleil levant marqué « lundi ».",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « وُ|د ا » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L1-03",
@@ -469,7 +471,8 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une petite lumière devient un grand faisceau visible."
+      "animationHint": "Une petite lumière devient un grand faisceau visible.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction «  أ|مر  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L1-16",
@@ -657,7 +660,7 @@
       ],
       "animationKey": "stars_spark",
       "animationHint": "Plusieurs mains se disputent une pierre, puis une solution commune apparaît.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (5 fragments) : à saisir manuellement depuis le document de contrôle."
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L2-02",
@@ -812,7 +815,8 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Des étoiles nocturnes convergent vers une carte « Naṣībīn »."
+      "animationHint": "Des étoiles nocturnes convergent vers une carte « Naṣībīn ».",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L2-07",
@@ -1155,7 +1159,7 @@
       ],
       "animationKey": "compass_scan",
       "animationHint": "Une boussole pivote vers une nouvelle direction.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (4 fragments) : à saisir manuellement depuis le document de contrôle."
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L2-18",
@@ -1186,7 +1190,8 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "Un croissant apparaît sur la case « année 2 »."
+      "animationHint": "Un croissant apparaît sur la case « année 2 ».",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ف|رض  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L2-19",
@@ -1217,7 +1222,8 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Le calendrier montre Shaʿbān puis Ramaḍān juste après."
+      "animationHint": "Le calendrier montre Shaʿbān puis Ramaḍān juste après.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ف|رض  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L2-20",
@@ -1249,7 +1255,7 @@
       ],
       "animationKey": "arrow_path",
       "animationHint": "Quatre cartes doivent être glissées dans le bon ordre sur une ligne du temps.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (2 fragments) : à saisir manuellement depuis le document de contrôle. Flèches de chronologie déplacées par l'extraction (« → » regroupées en fin de choix) : remettre chaque flèche entre les étapes depuis le document de contrôle."
+      "reviewNotes": "Explication arabe illisible à l'extraction (3 fragments) : à saisir manuellement depuis le document de contrôle. Flèches de chronologie déplacées par l'extraction (« → » regroupées en fin de choix) : remettre chaque flèche entre les étapes depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L3-01",
@@ -1343,7 +1349,8 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "Un petit sac de nourriture rejoint une icône de solidarité."
+      "animationHint": "Un petit sac de nourriture rejoint une icône de solidarité.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كرت » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L3-04",
@@ -1436,7 +1443,8 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une carte enfermée se libère puis s’illumine."
+      "animationHint": "Une carte enfermée se libère puis s’illumine.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L3-07",
@@ -1687,7 +1695,8 @@
         }
       ],
       "animationKey": "intruder_out",
-      "animationHint": "Une coupe rouge reçoit un grand symbole d’interdiction."
+      "animationHint": "Une coupe rouge reçoit un grand symbole d’interdiction.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ح|رمت » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L3-15",
@@ -1718,7 +1727,8 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une étoile familiale « al-Ḥasan » apparaît sur l’arbre."
+      "animationHint": "Une étoile familiale « al-Ḥasan » apparaît sur l’arbre.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « وُ|لد  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L3-16",
@@ -1908,7 +1918,8 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une seconde étoile familiale apparaît à côté d’al-Ḥasan."
+      "animationHint": "Une seconde étoile familiale apparaît à côté d’al-Ḥasan.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L4-02",
@@ -2035,7 +2046,8 @@
         }
       ],
       "animationKey": "shield_guard",
-      "animationHint": "Une route vers La Mecque se ferme temporairement par une barrière."
+      "animationHint": "Une route vers La Mecque se ferme temporairement par une barrière.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ص|د ا » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L4-06",
@@ -2128,7 +2140,8 @@
         }
       ],
       "animationKey": "intruder_out",
-      "animationHint": "Une icône d’âne domestique reçoit un symbole d’interdiction."
+      "animationHint": "Une icône d’âne domestique reçoit un symbole d’interdiction.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ح|رمت » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L4-09",
@@ -2159,7 +2172,8 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une carte temporaire se fissure puis disparaît."
+      "animationHint": "Une carte temporaire se fissure puis disparaît.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L4-10",
@@ -2222,7 +2236,8 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Une carte « Ṣafiyyah » rejoint la frise après Khaybar."
+      "animationHint": "Une carte « Ṣafiyyah » rejoint la frise après Khaybar.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كرت » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L4-12",
@@ -2253,7 +2268,8 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "La dernière case d’une rangée familiale se remplit."
+      "animationHint": "La dernière case d’une rangée familiale se remplit.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L4-13",
@@ -2284,7 +2300,8 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une carte avec un petit symbole de chat rejoint la collection des Compagnons."
+      "animationHint": "Une carte avec un petit symbole de chat rejoint la collection des Compagnons.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L4-14",
@@ -2315,7 +2332,8 @@
         }
       ],
       "animationKey": "shield_guard",
-      "animationHint": "La barrière de l’ancienne route s’ouvre enfin."
+      "animationHint": "La barrière de l’ancienne route s’ouvre enfin.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كرت » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L4-15",
@@ -2377,7 +2395,8 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une lettre venue d’Égypte arrive avec une carte « Māriyah »."
+      "animationHint": "Une lettre venue d’Égypte arrive avec une carte « Māriyah ».",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كرت » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L4-17",
@@ -2596,7 +2615,8 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une nouvelle étoile « Ibrāhīm » apparaît sur l’arbre familial."
+      "animationHint": "Une nouvelle étoile « Ibrāhīm » apparaît sur l’arbre familial.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « وُ|لد  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L5-04",
@@ -2658,7 +2678,8 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "Trois marches en bois apparaissent progressivement."
+      "animationHint": "Trois marches en bois apparaissent progressivement.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L5-06",
@@ -2689,7 +2710,8 @@
         }
       ],
       "animationKey": "card_flip",
-      "animationHint": "Une caravane de pèlerins suit une carte « ʿAttāb »."
+      "animationHint": "Une caravane de pèlerins suit une carte « ʿAttāb ».",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L5-07",
@@ -2751,7 +2773,8 @@
         }
       ],
       "animationKey": "stars_spark",
-      "animationHint": "Une construction sombre se fissure et disparaît."
+      "animationHint": "Une construction sombre se fissure et disparaît.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كر  » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L5-09",
@@ -2844,7 +2867,8 @@
         }
       ],
       "animationKey": "keys_count",
-      "animationHint": "Une icône de Kaʿbah est entourée d’un nouveau panneau de règle."
+      "animationHint": "Une icône de Kaʿbah est entourée d’un nouveau panneau de règle.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « أ|علن » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L5-12",
@@ -2938,7 +2962,8 @@
         }
       ],
       "animationKey": "arrow_path",
-      "animationHint": "Un calendrier compte un mois complet puis se referme."
+      "animationHint": "Un calendrier compte un mois complet puis se referme.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ذُ|كرت » : à rétablir depuis le document de contrôle."
     },
     {
       "id": "REL-SIR-ARB-L5-15",
@@ -3127,7 +3152,7 @@
       ],
       "animationKey": "arrow_path",
       "animationHint": "La frise entière se replie doucement vers Médine puis se fixe sur la maison de ʿĀʾishah.",
-      "reviewNotes": "Explication arabe illisible à l'extraction (2 fragments) : à saisir manuellement depuis le document de contrôle."
+      "reviewNotes": "Explication arabe illisible à l'extraction (3 fragments) : à saisir manuellement depuis le document de contrôle."
     }
   ]
 }

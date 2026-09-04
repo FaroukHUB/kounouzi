@@ -1,0 +1,797 @@
+{
+  "$comment": "Banque religieuse importée depuis le document de contrôle humain (source de fond : Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs, Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr). TOUTES les cartes sont `draft` tant qu'elles ne sont pas explicitement passées à `validated` après relecture humaine ; seules les cartes validées sont jouables. Aucun contenu n'est inventé ni complété par le code ; `animationHint` est la suggestion visuelle de l'auteur, `animationKey` la famille déduite (présentation pure).",
+  "version": 1,
+  "work": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+  "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+  "category": "religion.tawhid",
+  "questions": [
+    {
+      "id": "REL-KAL-ARB-L1-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l1.01",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La parole trésor",
+      "prompt": {
+        "fr": "Quelle phrase est appelée la parole du Tawḥīd ? A. Lā ilāha illā Allāh B. Une formule inventée par chacun"
+      },
+      "answer": {
+        "fr": "Lā ilāha illā Allāh."
+      },
+      "explanation": {
+        "fr": "C’est la grande parole du Tawḥīd : elle affirme que l’adoration revient à Allah seul.",
+        "ar": "هذه هي كلمة التوحيد العظيمة، ومعناها أن العبادة لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "2",
+          "locator": "Titre et thème général"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Un coffre s’ouvre et laisse apparaître « Lā ilāha illā Allāh » en lettres lumineuses."
+    },
+    {
+      "id": "REL-KAL-ARB-L1-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l1.02",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le bon chemin",
+      "prompt": {
+        "fr": "Que signifie « Lā ilāha illā Allāh » ? A. Nul ne mérite d’être adoré en vérité sauf Allah B. On peut adorer Allah et d’autres avec Lui"
+      },
+      "answer": {
+        "fr": "Nul ne mérite d’être adoré en vérité sauf Allah."
+      },
+      "explanation": {
+        "fr": "La parole du Tawḥīd nie l’adoration de tout autre qu’Allah et affirme l’adoration pour Allah seul.",
+        "ar": "تنفي كلمة التوحيد العبادة عما سوى الله، وتثبت العبادة لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "40",
+          "locator": "Sens de la parole du Tawḥīd"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Deux chemins apparaissent ; tous s’éteignent sauf celui qui mène vers « Allah seul »."
+    },
+    {
+      "id": "REL-KAL-ARB-L1-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l1.03",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission des messagers",
+      "prompt": {
+        "fr": "Quel message les messagers ont-ils apporté ? A. Adorez Allah et éloignez-vous du ṭāghūt B. Adorez plusieurs divinités"
+      },
+      "answer": {
+        "fr": "Adorez Allah et éloignez-vous du ṭāghūt."
+      },
+      "explanation": {
+        "fr": "Allah a envoyé les messagers pour appeler à L’adorer Lui seul et à délaisser ce qui est adoré en dehors de Lui.",
+        "ar": "أرسل الله الرسل ليدعوا إلى عبادته وحده واجتناب ما يُعبد من دونه."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "40",
+          "locator": "Sens de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Une carte « mission » se déploie : un chemin lumineux et plusieurs fausses pistes qui disparaissent.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « يُ|عبد » : à rétablir depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L1-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l1.04",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "L’arbre mystérieux",
+      "prompt": {
+        "fr": "Dans le Coran, à quoi la bonne parole est-elle comparée ? A. À un bon arbre B. À un château de sable"
+      },
+      "answer": {
+        "fr": "À un bon arbre."
+      },
+      "explanation": {
+        "fr": "Allah compare la bonne parole à un arbre bon, ferme et porteur de fruits.",
+        "ar": "شبه الله الكلمة الطيبة بالشجرة الطيبة الثابتة المثمرة."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "8",
+          "locator": "Mérites de la parole du Tawḥīd"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Une graine pousse rapidement et devient un arbre solide chargé de fruits.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « شب|ه ا » : à rétablir depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L1-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l1.05",
+      "difficulty": 1,
+      "ageBand": "5-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La poignée incassable",
+      "prompt": {
+        "fr": "Quelle image le Coran utilise-t-il pour montrer la solidité du Tawḥīd ? A. L’anse la plus solide B. Une corde cassée"
+      },
+      "answer": {
+        "fr": "L’anse la plus solide."
+      },
+      "explanation": {
+        "fr": "La foi en Allah et le rejet du ṭāghūt sont décrits comme le fait de s’accrocher à l’anse la plus solide.",
+        "ar": "وصف الله الإيُمان به والكفر بالطاغوت بالاستمساك بالعروة الوثقى."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "9",
+          "locator": "Mérites de la parole du Tawḥīd"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Une poignée dorée apparaît ; le joueur la saisit et elle résiste à plusieurs secousses."
+    },
+    {
+      "id": "REL-KAL-ARB-L2-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l2.01",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le bouclier de la taqwā",
+      "prompt": {
+        "fr": "Quelle expression est aussi utilisée pour « Lā ilāha illā Allāh » ? A. La parole de la taqwā B. La parole du commerce"
+      },
+      "answer": {
+        "fr": "La parole de la taqwā."
+      },
+      "explanation": {
+        "fr": "La parole du Tawḥīd est décrite comme la parole de la taqwā, à laquelle les croyants s’attachent.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "10",
+          "locator": "Mérites de la parole du Tawḥīd"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Un bouclier portant le mot « taqwā » apparaît devant le joueur.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L2-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l2.02",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le meilleur dhikr",
+      "prompt": {
+        "fr": "Quel dhikr est présenté comme le meilleur ? A. Lā ilāha illā Allāh B. Une phrase inventée sans preuve"
+      },
+      "answer": {
+        "fr": "Lā ilāha illā Allāh."
+      },
+      "explanation": {
+        "fr": "Le Prophète ﷺ a enseigné que « Lā ilāha illā Allāh » fait partie des plus grands et meilleurs rappels.",
+        "ar": "بين النبي ﷺ فضل «لا إله إلا الله» وأنها من أفضل الذكر."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "23",
+          "locator": "Mérites de la parole du Tawḥīd"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Plusieurs bulles de dhikr passent ; une seule devient brillante et reste au centre.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « بي|ن ا » : à rétablir depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L2-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l2.03",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La clé du Paradis",
+      "prompt": {
+        "fr": "On compare parfois « Lā ilāha illā Allāh » à une clé. De quoi a-t-elle besoin pour ouvrir correctement ? A. De ses conditions B. De décorations seulement"
+      },
+      "answer": {
+        "fr": "De ses conditions."
+      },
+      "explanation": {
+        "fr": "Dire la parole ne suffit pas sans remplir ses conditions ; les savants ont comparé cela à une clé qui a besoin de dents.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "27",
+          "locator": "Introduction aux conditions"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Une clé sans dents essaie d’ouvrir une porte puis reçoit ses dents une à une et l’ouvre.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (3 fragments) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L2-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l2.04",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Cœur sincère",
+      "prompt": {
+        "fr": "Qui est le plus heureux de l’intercession du Prophète ﷺ ? A. Celui qui dit « Lā ilāha illā Allāh » sincèrement de son cœur B. Celui qui la dit pour être vu"
+      },
+      "answer": {
+        "fr": "Celui qui la dit sincèrement de son cœur."
+      },
+      "explanation": {
+        "fr": "Le texte cite le ḥadīth indiquant que le plus heureux de l’intercession est celui qui prononce cette parole avec sincérité.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "24",
+          "locator": "Mérites de la parole du Tawḥīd"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Un cœur apparaît ; les décorations extérieures disparaissent et seul le cœur lumineux reste.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (5 fragments) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L2-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l2.05",
+      "difficulty": 2,
+      "ageBand": "8-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le défi des deux coffres",
+      "prompt": {
+        "fr": "Quel coffre contient une vraie qualité de la parole du Tawḥīd ? A. Elle est l’anse la plus solide B. Elle permet d’adorer plusieurs divinités"
+      },
+      "answer": {
+        "fr": "Elle est l’anse la plus solide."
+      },
+      "explanation": {
+        "fr": "Parmi ses grands mérites : elle lie le serviteur au Tawḥīd et à l’adoration d’Allah seul.",
+        "ar": "من فضائلها العظيمة أنها تربط العبد بالتوحيد وعبادة الله وحده."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "9",
+          "locator": "Mérites de la parole du Tawḥīd"
+        }
+      ],
+      "animationKey": "chest_reveal",
+      "animationHint": "Deux coffres tremblent ; le faux se transforme en fumée et le bon s’ouvre."
+    },
+    {
+      "id": "REL-KAL-ARB-L3-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l3.01",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La première dent de la clé",
+      "prompt": {
+        "fr": "Quelle condition s’oppose à l’ignorance ? A. La connaissance B. Le doute"
+      },
+      "answer": {
+        "fr": "La connaissance."
+      },
+      "explanation": {
+        "fr": "Il faut connaître le sens de la parole du Tawḥīd : ce qu’elle nie et ce qu’elle affirme.",
+        "ar": "لا بد من العلم بمعنى كلمة التوحيد وما تنفيه وما تثبته."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "28",
+          "locator": "Conditions de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une clé gagne sa première dent marquée « connaissance »."
+    },
+    {
+      "id": "REL-KAL-ARB-L3-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l3.02",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le détecteur de doute",
+      "prompt": {
+        "fr": "Quelle condition s’oppose au doute ? A. La certitude B. L’hésitation"
+      },
+      "answer": {
+        "fr": "La certitude."
+      },
+      "explanation": {
+        "fr": "Le croyant prononce la parole du Tawḥīd avec certitude, sans doute dans son cœur.",
+        "ar": "يُقول المؤمن كلمة التوحيد بيقين لا شك معه في قلبه."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "30",
+          "locator": "Conditions de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "stars_spark",
+      "animationHint": "Un détecteur passe du rouge « doute » au vert « certitude »."
+    },
+    {
+      "id": "REL-KAL-ARB-L3-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l3.03",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Mission invisible",
+      "prompt": {
+        "fr": "Quelle condition signifie faire cette parole pour Allah seul, sans ostentation ? A. La sincérité B. La recherche des compliments"
+      },
+      "answer": {
+        "fr": "La sincérité."
+      },
+      "explanation": {
+        "fr": "La sincérité purifie l’intention du shirk et de l’ostentation.",
+        "ar": "الإخلاص يُصًفي النية من الشرك والريُ اء."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "31",
+          "locator": "Conditions de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Les applaudissements du public s’éteignent ; une lumière reste dirigée vers un seul objectif.",
+      "reviewNotes": "Signe diacritique perdu à l'extraction à la jonction « ًف|ي ا » : à rétablir depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L3-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l3.04",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le test vérité",
+      "prompt": {
+        "fr": "Quelle condition s’oppose au mensonge ? A. La véracité B. Le jeu d’apparence"
+      },
+      "answer": {
+        "fr": "La véracité."
+      },
+      "explanation": {
+        "fr": "La personne doit dire cette parole avec vérité, en accord entre son cœur et sa langue.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "32",
+          "locator": "Conditions de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Un scanner compare le cœur et la langue : les deux doivent afficher le même symbole.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (3 fragments) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L3-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l3.05",
+      "difficulty": 3,
+      "ageBand": "10-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le cœur qui aime",
+      "prompt": {
+        "fr": "Quelle condition s’oppose à la haine de cette parole et de ce qu’elle implique ? A. L’amour B. L’indifférence"
+      },
+      "answer": {
+        "fr": "L’amour."
+      },
+      "explanation": {
+        "fr": "Le croyant aime Allah, Son Messager ﷺ, la religion et ce que la parole du Tawḥīd implique.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "33",
+          "locator": "Conditions de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "wave_ripple",
+      "animationHint": "Un cœur se remplit progressivement lorsque les bons choix sont sélectionnés.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L4-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l4.01",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La clé presque complète",
+      "prompt": {
+        "fr": "Quelle condition signifie se soumettre à ce que cette parole exige ? A. L’obéissance et la soumission B. Refuser d’agir"
+      },
+      "answer": {
+        "fr": "L’obéissance et la soumission."
+      },
+      "explanation": {
+        "fr": "La parole du Tawḥīd implique de se soumettre à Allah et à Sa législation.",
+        "ar": "تقتضي كلمة التوحيد الانقياد لله ولشرعه."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "34",
+          "locator": "Conditions de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Une pièce de puzzle « soumission » complète presque la clé."
+    },
+    {
+      "id": "REL-KAL-ARB-L4-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l4.02",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "La dernière porte",
+      "prompt": {
+        "fr": "Quelle condition signifie accepter cette parole sans la rejeter ? A. L’acceptation B. Le refus"
+      },
+      "answer": {
+        "fr": "L’acceptation."
+      },
+      "explanation": {
+        "fr": "Il faut accepter la parole du Tawḥīd et ce qu’elle implique, sans la repousser.",
+        "ar": "لا بد من قبول كلمة التوحيد وما تقتضيه وعدم ردها."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "34",
+          "locator": "Conditions de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "door_pick",
+      "animationHint": "Une grande porte s’ouvre seulement lorsque le joueur choisit « accepter »."
+    },
+    {
+      "id": "REL-KAL-ARB-L4-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l4.03",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le double verrou",
+      "prompt": {
+        "fr": "Pour comprendre « Lā ilāha illā Allāh », quelles sont les deux étapes ? A. Nier l’adoration de tout autre qu’Allah puis l’affirmer pour Allah seul B. Affirmer toutes les adorations sans distinction"
+      },
+      "answer": {
+        "fr": "Nier l’adoration de tout autre qu’Allah puis l’affirmer pour Allah seul."
+      },
+      "explanation": {
+        "fr": "Son sens repose sur deux éléments : la négation de toute divinité adorée en vérité en dehors d’Allah et l’affirmation de l’adoration pour Allah seul.",
+        "ar": "معناها يُقوم على النفي والإثبات: نفي العبادة عما سوى الله وإثباتها لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "41",
+          "locator": "Sens de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "keys_count",
+      "animationHint": "Deux verrous apparaissent : « NON à toute fausse adoration » puis « OUI à Allah seul »."
+    },
+    {
+      "id": "REL-KAL-ARB-L4-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l4.04",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Parole ou mission ?",
+      "prompt": {
+        "fr": "Un joueur prononce la parole du Tawḥīd mais refuse d’en comprendre le sens et d’agir selon elle. Est-ce le but recherché ? A. Non B. Oui, les mots seuls suffisent toujours"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Le texte insiste : la simple prononciation ne suffit pas ; il faut comprendre son sens, y croire et agir selon ce qu’elle implique.",
+        "ar": "مجرد النطق لا يُكفي، بل لا بد من فهم معناها واعتقاده والعمل بمقتضاها."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "36",
+          "locator": "Sens et réalisation du Tawḥīd"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Un bouton « parole » s’allume, mais la mission reste bloquée jusqu’à ce que « comprendre » et « agir » soient activés."
+    },
+    {
+      "id": "REL-KAL-ARB-L4-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l4.05",
+      "difficulty": 4,
+      "ageBand": "12-14",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le GPS du cœur",
+      "prompt": {
+        "fr": "Si une invocation est dirigée comme adoration vers autre qu’Allah, est-ce compatible avec le sens du Tawḥīd ? A. Non B. Oui"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "L’invocation est une adoration ; le Tawḥīd exige de diriger l’adoration vers Allah seul.",
+        "ar": "الدعاء عبادة، والتوحيد يُقتضي صرف العبادة لله وحده."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "43",
+          "locator": "Sens de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Un GPS spirituel recalcule la route et refuse toute destination d’adoration autre qu’Allah."
+    },
+    {
+      "id": "REL-KAL-ARB-L5-01",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l5.01",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Alerte rouge n°1",
+      "prompt": {
+        "fr": "Quel acte est présenté comme le premier grand annulatif de la parole du Tawḥīd ? A. Le shirk dans l’adoration d’Allah B. Une erreur de calcul"
+      },
+      "answer": {
+        "fr": "Le shirk dans l’adoration d’Allah."
+      },
+      "explanation": {
+        "fr": "Le texte place en tête des annulatifs le fait d’associer à Allah dans l’adoration.",
+        "ar": "ذُكر النص في أول النواقض الشرك في عبادة الله."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "50",
+          "locator": "Annulatifs de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "card_flip",
+      "animationHint": "Une alarme rouge se déclenche sur une carte « shirk dans l’adoration »."
+    },
+    {
+      "id": "REL-KAL-ARB-L5-02",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l5.02",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Le faux intermédiaire",
+      "prompt": {
+        "fr": "Quel cas est présenté comme un annulatif ? A. Prendre des intermédiaires entre soi et Allah, les invoquer et compter sur eux B. Demander directement à Allah"
+      },
+      "answer": {
+        "fr": "Prendre des intermédiaires entre soi et Allah, les invoquer et compter sur eux."
+      },
+      "explanation": {
+        "fr": "Le texte cite comme annulatif le fait de placer des intermédiaires entre soi et Allah en les invoquant, leur demandant l’intercession et s’en remettant à eux.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "51",
+          "locator": "Annulatifs de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "arrow_path",
+      "animationHint": "Un pont artificiel apparaît entre le joueur et sa destination, puis s’effondre.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L5-03",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l5.03",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Qui guide le mieux ?",
+      "prompt": {
+        "fr": "Quelle croyance est présentée comme un annulatif ? A. Croire qu’une autre voie est meilleure que la voie du Prophète ﷺ B. Suivre la voie du Prophète ﷺ"
+      },
+      "answer": {
+        "fr": "Croire qu’une autre voie est meilleure que la voie du Prophète ﷺ."
+      },
+      "explanation": {
+        "fr": "Le texte cite comme annulatif le fait de croire qu’une autre guidance est plus parfaite que celle du Prophète ﷺ, ou qu’un autre jugement lui est supérieur.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "51",
+          "locator": "Annulatifs de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Deux routes apparaissent ; la fausse route tente de se placer au-dessus de la route prophétique puis est barrée.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle."
+    },
+    {
+      "id": "REL-KAL-ARB-L5-04",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l5.04",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "Carte moquerie",
+      "prompt": {
+        "fr": "Que dit le texte au sujet de celui qui se moque d’un élément de la religion, de sa récompense ou de son châtiment ? A. Cela fait partie des annulatifs cités B. Cela renforce le Tawḥīd"
+      },
+      "answer": {
+        "fr": "Cela fait partie des annulatifs cités."
+      },
+      "explanation": {
+        "fr": "La moquerie envers quelque chose de la religion du Messager ﷺ, sa récompense ou son châtiment, est citée parmi les annulatifs.",
+        "ar": "الاستهزاء بشيء من ديُن الرسول ﷺ أو ثوابه أو عقابه مذكور ضمن النواقض."
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "52",
+          "locator": "Annulatifs de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "intruder_out",
+      "animationHint": "Une carte « moquerie » se fissure puis reçoit un panneau d’interdiction.",
+      "reviewNotes": "L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+    },
+    {
+      "id": "REL-KAL-ARB-L5-05",
+      "version": 1,
+      "categoryId": "religion",
+      "knowledgeNodeId": "religion.tawhid.kalimah.l5.05",
+      "difficulty": 5,
+      "ageBand": "14+",
+      "audienceScope": "all",
+      "status": "draft",
+      "title": "BOSS - Le joueur qui tourne le dos",
+      "prompt": {
+        "fr": "Un joueur se détourne complètement de la religion d’Allah : il ne cherche ni à l’apprendre ni à agir selon elle. Dans quelle catégorie le texte place-t-il cela ? A. Parmi les annulatifs B. Parmi les conditions du Tawḥīd"
+      },
+      "answer": {
+        "fr": "Parmi les annulatifs."
+      },
+      "explanation": {
+        "fr": "Le dixième annulatif cité est le fait de se détourner de la religion d’Allah, sans l’apprendre ni agir selon elle.",
+        "ar": ""
+      },
+      "sources": [
+        {
+          "title": "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs",
+          "author": "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr",
+          "pages": "53",
+          "locator": "Annulatifs de « Lā ilāha illā Allāh »"
+        }
+      ],
+      "animationKey": "shield_guard",
+      "animationHint": "Le plateau s’assombrit derrière le joueur qui tourne le dos ; une alerte « connaissance + action » apparaît.",
+      "reviewNotes": "Explication arabe illisible à l'extraction (réassemblage incertain) : à saisir manuellement depuis le document de contrôle. L'énoncé mentionne le texte ou le commentaire : à reformuler en relecture pour garder le livre derrière le rideau (la source reste sous la réponse)."
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, CURATED_BANK, DUROUS_BANK, OUSSOUL_BANK, QAWAID_BANK, RAMADAN_BANK, RELIGION_BANKS, SIRAH_BANK, contentRegistry } from "@/config/content";
+import { CATEGORIES, CURATED_BANK, DUROUS_BANK, KALIMAH_BANK, OUSSOUL_BANK, QAWAID_BANK, RAMADAN_BANK, RELIGION_BANKS, SIRAH_BANK, contentRegistry } from "@/config/content";
 import { createContentRegistry, createCuratedProvider, isPlayable, playabilityIssues } from "@/core/content";
 import { KNOWN_ANIMATION_KEYS, animationFamily } from "@/ui/cards/animations/families";
 
@@ -36,7 +36,7 @@ describe("banque religieuse Oussoul ath-Thalatha (import, tout en brouillon)", (
     expect(playabilityIssues(OUSSOUL_BANK[0]!, religion)).toEqual(["statut draft ≠ validated"]);
     expect(contentRegistry().availableCategories("child")).not.toContain("religion");
     expect(contentRegistry().slots("child").some((s) => s.categoryId === "religion")).toBe(false);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(350);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "religion")).toHaveLength(375);
   });
 
   it("une carte passée à `validated` par relecture devient jouable telle quelle, avec sa source et son habillage", () => {
@@ -90,7 +90,7 @@ describe("banque religieuse Ad-Durous al-Muhimmah (import DOCX, tout en brouillo
   it("compte 100 cartes, 20 par niveau, identifiants uniques sur les trois banques, toutes `draft`, bilingues et sourcées avec pages", () => {
     expect(DUROUS_BANK).toHaveLength(100);
     for (const level of [1, 2, 3, 4, 5]) expect(DUROUS_BANK.filter((q) => q.difficulty === level)).toHaveLength(20);
-    expect(new Set(RELIGION_BANKS.flatMap((b) => b.questions.map((q) => q.id))).size).toBe(350);
+    expect(new Set(RELIGION_BANKS.flatMap((b) => b.questions.map((q) => q.id))).size).toBe(375);
     for (const q of DUROUS_BANK) {
       expect(q.status, q.id).toBe("draft");
       expect(q.id, q.id).toMatch(/^REL-DRS-ARB-L\d-\d\d$/);
@@ -161,5 +161,26 @@ describe("banque religieuse Al-Qawaid al-Arba (import PDF, tout en brouillon)", 
   it("les jonctions où un signe diacritique a été perdu et l'énoncé qui laisse voir le texte sont annotés, jamais corrigés par le code", () => {
     expect(QAWAID_BANK.filter((q) => /Signe diacritique perdu/.test(q.reviewNotes ?? "")).map((q) => q.id)).toEqual(["REL-QAW-ARB-L2-02", "REL-QAW-ARB-L2-04", "REL-QAW-ARB-L3-02", "REL-QAW-ARB-L5-01", "REL-QAW-ARB-L5-03"]);
     expect(QAWAID_BANK.filter((q) => /derrière le rideau/.test(q.reviewNotes ?? "")).map((q) => q.id)).toEqual(["REL-QAW-ARB-L4-03"]);
+  });
+});
+
+describe("banque religieuse Kalimah at-Tawhid (import PDF, tout en brouillon)", () => {
+  it("compte 25 cartes, 5 par niveau, toutes `draft`, sourcées avec ouvrage, auteur, thème et page ; arabe complet ou vide et annoté", () => {
+    expect(KALIMAH_BANK).toHaveLength(25);
+    for (const level of [1, 2, 3, 4, 5]) expect(KALIMAH_BANK.filter((q) => q.difficulty === level)).toHaveLength(5);
+    for (const q of KALIMAH_BANK) {
+      expect(q.status, q.id).toBe("draft");
+      expect(q.id, q.id).toMatch(/^REL-KAL-ARB-L\d-\d\d$/);
+      expect(q.knowledgeNodeId, q.id).toMatch(/^religion\.tawhid\.kalimah\.l\d\.\d\d$/);
+      expect(q.answer.fr, q.id).not.toMatch(/^[A-D]\.?$/);
+      if (q.explanation.ar === "") expect(q.reviewNotes, q.id).toMatch(/arabe illisible/);
+      else expect(q.explanation.ar, q.id).toMatch(/^[^A-Za-z]*[.؟!]$/);
+      expect(q.sources[0], q.id).toMatchObject({ title: "Kalimah at-Tawhid: Lā ilāha illā Allāh - ses mérites, son sens, ses conditions et ses annulatifs", author: "Shaykh ʿAbd ar-Razzāq ibn ʿAbd al-Muḥsin al-Badr" });
+      expect(q.sources[0]!.pages, q.id).toMatch(/^\d+$/);
+      expect(q.sources[0]!.locator, q.id).toBeTruthy();
+      expect(isPlayable(q, religion), q.id).toBe(false);
+    }
+    expect(KALIMAH_BANK.filter((q) => q.explanation.ar === "").map((q) => q.id)).toEqual(["REL-KAL-ARB-L2-01", "REL-KAL-ARB-L2-03", "REL-KAL-ARB-L2-04", "REL-KAL-ARB-L3-04", "REL-KAL-ARB-L3-05", "REL-KAL-ARB-L5-02", "REL-KAL-ARB-L5-03", "REL-KAL-ARB-L5-05"]);
+    expect(KALIMAH_BANK.filter((q) => /derrière le rideau/.test(q.reviewNotes ?? "")).map((q) => q.id)).toEqual(["REL-KAL-ARB-L5-04", "REL-KAL-ARB-L5-05"]);
   });
 });
