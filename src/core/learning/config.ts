@@ -67,6 +67,18 @@ export const learningConfigSchema = z.object({
     /** Pénalités d'une formulation / d'une notion déjà rencontrée DANS LA PARTIE EN COURS (quel que soit l'âge de l'essai). */
     repeatInGame: z.number().min(0),
     repeatNodeInGame: z.number().min(0),
+    /** Pénalités d'une formulation / d'une notion déjà posée À UN AUTRE JOUEUR de la même partie (anti-répétition par tablée). */
+    repeatAtTable: z.number().min(0),
+    repeatNodeAtTable: z.number().min(0),
+  }),
+  variety: z.object({
+    /**
+     * Marge de score (points) à l'intérieur de laquelle les meilleurs
+     * créneaux sont considérés équivalents : la clé de départage fournie par
+     * l'appelant (`tieBreak`, hors noyau) choisit parmi eux. À 0, seuls les
+     * ex æquo stricts sont concernés ; sans clé, le premier de l'ordre stable.
+     */
+    tieBreakMargin: z.number().min(0),
   }),
 });
 

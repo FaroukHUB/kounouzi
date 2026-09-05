@@ -59,27 +59,34 @@ export function createLearningStore(deps: LearningStoreDeps): StoreApi<LearningS
     record: (gameId, events, learners) => {
       const recorded: Attempt[] = [];
       for (const e of events) {
-        if (e.type !== "AnswerRecorded" || !e.question) continue;
-        const learner = learners.find((l) => l.playerId === e.playerId);
+        // Une réponse à une question servie, ou un Défi famille dont la question validée a été jouée : même essai pour la mémoire.
+        const played =
+          e.type === "AnswerRecorded" && e.question
+            ? { playerId: e.playerId, requestId: e.requestId, question: e.question, outcome: e.outcome, validationMode: e.validationMode, explanationMastery: e.explanationMastery, challenge: false }
+            : e.type === "FamilyChallengeCompleted" && e.question && e.requestId
+              ? { playerId: e.playerId, requestId: e.requestId, question: e.question, outcome: e.success ? ("correct" as const) : ("incorrect" as const), validationMode: "collective" as const, explanationMastery: "none" as const, challenge: true }
+              : null;
+        if (!played) continue;
+        const learner = learners.find((l) => l.playerId === played.playerId);
         if (!learner) continue;
         const attempt: Attempt = {
-          id: attemptId(gameId, e.requestId),
-          playerId: e.playerId,
+          id: attemptId(gameId, played.requestId),
+          playerId: played.playerId,
           gameId,
-          knowledgeNodeId: e.question.knowledgeNodeId,
-          ref: e.question.ref,
-          categoryId: e.question.categoryId,
-          difficulty: e.question.difficulty,
-          outcome: e.outcome,
-          validationMode: e.validationMode,
-          explanationKnown: e.explanationMastery,
-          rewardGranted: events.some((r) => r.type === "RewardGranted" && r.requestId === e.requestId && r.playerId === e.playerId),
+          knowledgeNodeId: played.question.knowledgeNodeId,
+          ref: played.question.ref,
+          categoryId: played.question.categoryId,
+          difficulty: played.question.difficulty,
+          outcome: played.outcome,
+          validationMode: played.validationMode,
+          explanationKnown: played.explanationMastery,
+          rewardGranted: events.some((r) => (r.type === "RewardGranted" && r.requestId === played.requestId && r.playerId === played.playerId) || (played.challenge && r.type === "ChallengeRewardGranted" && r.playerId === played.playerId)),
           answeredAt: deps.now(),
         };
-        const before = get().memories[e.playerId] ?? emptyMemory(e.playerId);
+        const before = get().memories[played.playerId] ?? emptyMemory(played.playerId);
         const after = applyAttempt(before, attempt, learner, deps.config);
         if (after === before) continue;
-        set((s) => ({ memories: { ...s.memories, [e.playerId]: after }, loaded: s.loaded.includes(e.playerId) ? s.loaded : [...s.loaded, e.playerId] }));
+        set((s) => ({ memories: { ...s.memories, [played.playerId]: after }, loaded: s.loaded.includes(played.playerId) ? s.loaded : [...s.loaded, played.playerId] }));
         deps.repository.save(after).catch((error: unknown) => deps.onError?.(error));
         recorded.push(attempt);
       }

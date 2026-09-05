@@ -83,7 +83,8 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
     if (!state) return;
     const pending = pendingRequest(state);
     if (!pending || !loadedLearners.includes(pending.playerId)) return;
-    const question = resolveQuestion({ state, profiles, registry: contentRegistry(), memoryOf: (id) => memories[id], config: LEARNING_CONFIG, now: new Date().toISOString() });
+    // Quiz : parmi les questions équivalentes pour ce joueur, le tirage se fait ICI (hors noyau) ; le Chemin, lui, ne tire jamais rien.
+    const question = resolveQuestion({ state, profiles, registry: contentRegistry(), memoryOf: (id) => memories[id], config: LEARNING_CONFIG, now: new Date().toISOString(), tieBreak: Math.random() });
     if (question) gameStore.getState().dispatch({ type: "ServeQuestion", requestId: pending.requestId, question });
   }, [state, profiles, memories, loadedLearners]);
 

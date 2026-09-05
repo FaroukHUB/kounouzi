@@ -39,6 +39,19 @@ describe("learningStore (mémoire pédagogique persistante)", () => {
     expect(h.store.getState().record(served.state.gameId, answered.events, learners)).toHaveLength(0);
   });
 
+  it("un Défi famille dont la question validée a été jouée compte comme un essai (réussi = correct, raté = incorrect) ; sans question, rien", () => {
+    const h = harness();
+    const question = { ref: { origin: "curated" as const, questionId: "REL-X", contentVersion: 1 }, knowledgeNodeId: "religion.x", categoryId: "religion", difficulty: 2 };
+    const won: GameEvent[] = [{ type: "FamilyChallengeCompleted", playerId: pid("p1"), challengeId: "CH-094", success: true, requestId: "c1", question }, { type: "ChallengeRewardGranted", playerId: pid("p1"), challengeId: "CH-094", amount: 15 }];
+    const recorded = h.store.getState().record("g" as GameId, won, learners);
+    expect(recorded).toHaveLength(1);
+    expect(recorded[0]).toMatchObject({ id: "g:c1", playerId: "p1", knowledgeNodeId: "religion.x", ref: question.ref, categoryId: "religion", outcome: "correct", rewardGranted: true, validationMode: "collective", explanationKnown: "none" });
+    const lost: GameEvent[] = [{ type: "FamilyChallengeCompleted", playerId: pid("p1"), challengeId: "CH-094", success: false, requestId: "c2", question }];
+    expect(h.store.getState().record("g" as GameId, lost, learners)[0]).toMatchObject({ id: "g:c2", outcome: "incorrect", rewardGranted: false });
+    const plain: GameEvent[] = [{ type: "FamilyChallengeCompleted", playerId: pid("p1"), challengeId: "CH-005", success: true }];
+    expect(h.store.getState().record("g" as GameId, plain, learners)).toHaveLength(0);
+  });
+
   it("ignore une réponse sans question servie (« Passer ») : rien n'est inventé", () => {
     const h = harness();
     const events: GameEvent[] = [{ type: "AnswerRecorded", requestId: "q9", playerId: pid("p1"), outcome: "incorrect", explanationMastery: "none", validationMode: "collective", purpose: "standard" }];

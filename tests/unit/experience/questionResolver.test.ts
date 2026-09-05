@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES } from "@/config/content";
+import { CATEGORIES, contentRegistry } from "@/config/content";
 import { LEARNING_CONFIG } from "@/config/learning";
 import { createAlgorithmicProvider, createContentRegistry, createCuratedProvider } from "@/core/content";
 import { applyAttempt, attemptId, emptyMemory, type PlayerLearningMemory } from "@/core/learning";
 import { pid } from "../../fixtures/game/setup.fixture";
 import { create, journey, makeLineSetup, makeSetup } from "../../fixtures/game/setup.fixture";
 import { TEST_ARABIC } from "../../fixtures/content/curated.fixture";
+import { resolveQuestion } from "@/experience/questionResolver";
 import { T0, resolveFor } from "../../fixtures/learning/resolve.fixture";
 
 const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", ...(i % 2 === 0 ? { child: { birthYear: 2018 } } : { adult: { initialLevel: "standard" as const } }) }));
@@ -26,7 +27,7 @@ describe("résolution d'une question pour une demande du moteur (Learning Engine
     expect(q1!.difficulty).toBe(2); // enfant CE1 : bande [1,3] → amorçage 2
   });
 
-  it("la mémoire du joueur actif change la question ; celle des autres joueurs n'y change rien", () => {
+  it("la mémoire du joueur actif change la question ; celle des autres joueurs ne compte que pour ce qu'ils ont joué DANS CETTE PARTIE (tablée)", () => {
     const registry = createContentRegistry(CATEGORIES, [createAlgorithmicProvider(), createCuratedProvider(TEST_ARABIC, CATEGORIES)]);
     const asked = journey(create(makeLineSetup()).state);
     const fresh = resolveFor(asked.state, profiles, registry)!;
@@ -35,7 +36,20 @@ describe("résolution d'une question pour une demande du moteur (Learning Engine
     memory = applyAttempt(memory, { id: attemptId(asked.state.gameId, "x1"), playerId: pid("p1"), gameId: asked.state.gameId, knowledgeNodeId: fresh.knowledgeNodeId, ref: fresh.ref, categoryId: fresh.categoryId, difficulty: fresh.difficulty, outcome: "correct", validationMode: "collective", explanationKnown: "none", rewardGranted: true, answeredAt: T0 }, learner, LEARNING_CONFIG);
     const next = resolveFor(asked.state, profiles, registry, { p1: memory })!;
     expect(next.ref).not.toEqual(fresh.ref);
-    // La mémoire d'un autre joueur ne modifie pas la sélection du joueur actif.
-    expect(resolveFor(asked.state, profiles, registry, { p2: memory })).toEqual(fresh);
+    // Ce qu'un AUTRE joueur a joué dans cette partie est écarté pour le joueur actif (anti-répétition par tablée)…
+    const p2Memory = applyAttempt(emptyMemory(pid("p2")), { ...memory.attempts[0]!, id: attemptId(asked.state.gameId, "y1"), playerId: pid("p2") }, { playerId: pid("p2"), profileType: "adult", seedLevel: 3 }, LEARNING_CONFIG);
+    expect(resolveFor(asked.state, profiles, registry, { p2: p2Memory })!.ref).not.toEqual(fresh.ref);
+    // … mais ce qu'il a joué dans une AUTRE partie ne change rien pour le joueur actif.
+    const elsewhere = applyAttempt(emptyMemory(pid("p2")), { ...memory.attempts[0]!, id: "game-autre:y1", gameId: "game-autre" as never, playerId: pid("p2") }, { playerId: pid("p2"), profileType: "adult", seedLevel: 3 }, LEARNING_CONFIG);
+    expect(resolveFor(asked.state, profiles, registry, { p2: elsewhere })).toEqual(fresh);
+  });
+
+  it("la clé de départage vient de l'appelant : même clé ⇒ même question, clés différentes ⇒ variété parmi les équivalentes", () => {
+    const asked = journey(create(makeLineSetup()).state);
+    const at = (tieBreak: number) => resolveQuestion({ state: asked.state, profiles, registry: contentRegistry(), memoryOf: () => undefined, config: LEARNING_CONFIG, now: T0, tieBreak })!;
+    expect(at(0.5).ref).toEqual(at(0.5).ref);
+    expect(resolveFor(asked.state, profiles)!.ref).toEqual(at(0).ref);
+    const refs = new Set([0, 0.25, 0.5, 0.75, 0.99].map((k) => JSON.stringify(at(k).ref)));
+    expect(refs.size).toBeGreaterThan(1);
   });
 });

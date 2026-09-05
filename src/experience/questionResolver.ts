@@ -15,6 +15,8 @@ export interface ResolveInput {
   readonly config: LearningConfig;
   /** Horloge injectée (ISO). */
   readonly now: string;
+  /** Clé de départage dans [0, 1) fournie par l'appelant (l'interface tire au sort ; les tests la fixent) : choisit parmi les questions équivalentes. */
+  readonly tieBreak?: number | undefined;
 }
 
 export interface PendingQuestion {
@@ -51,7 +53,7 @@ export function pendingRequest(state: GameState): PendingQuestion | null {
  * combiné des DEUX mémoires (`selectDuelCategory`, symétrique). Chaque
  * dueliste reçoit ensuite SA question dans cette catégorie, à sa difficulté.
  */
-export function resolveQuestion({ state, profiles, registry, memoryOf, config, now }: ResolveInput): QuestionInstance | null {
+export function resolveQuestion({ state, profiles, registry, memoryOf, config, now, tieBreak }: ResolveInput): QuestionInstance | null {
   const pending = pendingRequest(state);
   if (!pending) return null;
   const player = state.players.find((p) => p.id === pending.playerId);
@@ -82,7 +84,9 @@ export function resolveQuestion({ state, profiles, registry, memoryOf, config, n
     if (categoryId !== "any") slots = slots.filter((s) => s.categoryId === categoryId);
     if (difficultyDelta > 0) slots = slots.filter((s) => s.difficulty >= targetLevel(me.memory, s.categoryId, me.learner, config) + difficultyDelta);
   }
-  return selectQuestion({ memory: me.memory, learner: me.learner, slots, config, now, gameId: state.gameId })?.question ?? null;
+  // Anti-répétition par tablée : ce qui a déjà été posé aux AUTRES joueurs de cette partie compte aussi.
+  const tableAttempts = state.players.filter((p) => p.id !== player.id).flatMap((p) => (memoryOf(p.id)?.attempts ?? []).filter((a) => a.gameId === state.gameId));
+  return selectQuestion({ memory: me.memory, learner: me.learner, slots, config, now, gameId: state.gameId, tableAttempts, tieBreak })?.question ?? null;
 }
 
 /** La catégorie du Duel en attente, calculée depuis les DEUX mémoires (identique quel que soit le sens du défi). */

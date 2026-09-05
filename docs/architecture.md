@@ -92,9 +92,12 @@ acquis avant qu'elles ne commencent.
   joueur, consommés aux points de déclenchement.
 - **Fin** : condition configurable (`turns_per_player` en V1), classement
   déterministe par score puis argent puis siège.
-- **Déterminisme** : aucun hasard nulle part ; même configuration + mêmes
-  commandes ⇒ mêmes événements et même état sérialisé (testé). Règle étendue
-  au futur Learning Engine (sélection déterministe, départage stable).
+- **Déterminisme** : aucun hasard dans le noyau (dés, Chemin, économie,
+  défis) ; même configuration + mêmes commandes ⇒ mêmes événements et même
+  état sérialisé (testé). Seule exception, décidée en ADR 0032 : le choix
+  d'une question (quiz) reçoit une clé de départage tirée HORS du noyau, qui
+  ne choisit qu'entre questions équivalentes ; la question servie est ensuite
+  figée dans l'état.
 
 ## 3. Modèle joueur (validé)
 
@@ -196,8 +199,10 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   `/diagnostic/<gameId>`. Aucune influence sur le jeu, aucune télémétrie.
 - **Learning Engine** (ADR 0023, `src/core/learning`) : mémoire pédagogique
   générique par joueur (`player_knowledge_state`, `player_attempts`,
-  `player_category_progress`), sélection **sans hasard** par score
-  pédagogique et départage stable, niveau par catégorie à évolution lente
+  `player_category_progress`), sélection par score pédagogique et départage
+  stable, clé de départage fournie par l'appelant entre créneaux équivalents
+  et anti-répétition par joueur, par partie et par tablée (ADR 0032), niveau
+  par catégorie à évolution lente
   amorcé par la classe ou le niveau initial, révision espacée simplifiée à
   horloge injectée, agrégations « Mes Trésors » dérivées. `learningStore`
   enregistre chaque réponse à une question servie et persiste par le port
@@ -229,6 +234,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | Défis | Défis famille : banque de 100 défis (données), case Défi `family_challenge` distinct du Duel, sélection déterministe cachée par joueur, réglages parents, consentement, refus sans pénalité, gain unique, contenu religieux validé seulement, diagnostic (ADR 0027) ; récitation par références de sourates seulement, maîtrise par joueur (ADR 0028) | livrée |
 | Religion | Six banques religieuses (375 cartes) importées `draft` depuis les documents de contrôle, corrigées par couche de données, arabe vérifié contre les sources originales, puis **validées humainement** par une liste d'identifiants appliquée à chaque réimport, sous les gardes existantes (ADR 0030) ; catégorie Religion et défis CH-094 à CH-097 jouables | livrée |
 | Voix | Choix « A. / B. » lus en phrases séparées (« Réponse A : … ») et affichés sur des lignes séparées (dérivé au rendu), lexique de prononciation en données pour les translittérations et ﷺ, arabe dit seulement avec une voix arabe (ADR 0031) | livrée |
+| Quiz | Anti-répétition par tablée, clé de départage tirée hors noyau entre questions équivalentes (le Chemin reste déterministe), questions des Défis famille comptées dans la mémoire (ADR 0032) | livrée |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
 | 7     | Mes trésors, écran parent                                    | à venir  |
 | 8     | Back-office de contenu                                       | à venir  |

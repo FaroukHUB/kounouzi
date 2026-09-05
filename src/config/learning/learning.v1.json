@@ -1,5 +1,5 @@
 {
-  "$comment": "Réglages du Learning Engine (Phase 5, ajustés Phase 5.4 après le premier playtest : progression plus lente, anti-répétition renforcée et par partie). PROVISOIRES : à ajuster après de vraies parties. Tout coefficient pédagogique vit ici, jamais dans le code.",
+  "$comment": "Réglages du Learning Engine (Phase 5, ajustés Phase 5.4 après le premier playtest : progression plus lente, anti-répétition renforcée et par partie). PROVISOIRES : à ajuster après de vraies parties. Tout coefficient pédagogique vit ici, jamais dans le code. Anti-répétition par TABLÉE (repeatAtTable / repeatNodeAtTable) et marge de départage (variety.tieBreakMargin) : parmi les meilleurs créneaux équivalents, la clé de départage fournie hors noyau choisit (ADR 0032).",
   "id": "learning.v1",
   "version": 1,
   "outcomeWeights": {
@@ -54,6 +54,11 @@
     "categoryExposure": 25,
     "mastered": 15,
     "repeatInGame": 80,
-    "repeatNodeInGame": 30
+    "repeatNodeInGame": 30,
+    "repeatAtTable": 80,
+    "repeatNodeAtTable": 15
+  },
+  "variety": {
+    "tieBreakMargin": 5
   }
 }

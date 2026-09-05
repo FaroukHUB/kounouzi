@@ -125,7 +125,7 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
       if (challenge.stage !== "accepted") return err({ code: "CHALLENGE_STAGE", expected: "accepted", actual: challenge.stage });
       const definition = challengeById(state, challenge.challengeId);
       if (!definition) throw new Error(`défi ${challenge.challengeId} inconnu (invariant)`);
-      let result = step(state, [{ type: "FamilyChallengeCompleted", playerId: player.id, challengeId: definition.id, success: command.success }]);
+      let result = step(state, [{ type: "FamilyChallengeCompleted", playerId: player.id, challengeId: definition.id, success: command.success, ...(challenge.served ? { requestId: challenge.requestId, question: summary(challenge.served) } : {}) }]);
       // Réussi : le gain est crédité EXACTEMENT une fois (jamais de multiplicateur de question) ; raté : rien.
       if (command.success && definition.reward > 0) {
         result = chain(result, (s) => step(s, [{ type: "ChallengeRewardGranted", playerId: player.id, challengeId: definition.id, amount: definition.reward }]));

@@ -2,7 +2,7 @@ import { questionRefKey, type KnowledgeSlot, type QuestionInstance } from "@/cor
 import { isAudienceAllowed } from "@/core/shared";
 import type { LearningConfig } from "./config";
 import { daysBetween, isDue } from "./time";
-import type { LearnerContext, PlayerLearningMemory } from "./types";
+import type { Attempt, LearnerContext, PlayerLearningMemory } from "./types";
 import { categoryProgressOf } from "./update";
 
 /**
@@ -10,8 +10,10 @@ import { categoryProgressOf } from "./update";
  * score pédagogique (révision due, faiblesse, proximité de la difficulté
  * cible, notion peu rencontrée, anti-répétition, nouveauté) puis un départage
  * STABLE : score → prochaine échéance → dernière rencontre → notion →
- * référence. Même mémoire + même catalogue ⇒ même question, quel que soit
- * l'ordre d'entrée des créneaux.
+ * référence. Même mémoire + même catalogue + même clé de départage ⇒ même
+ * question, quel que soit l'ordre d'entrée des créneaux. Le noyau ne tire
+ * rien : la clé de départage (`tieBreak`) lui est FOURNIE par l'appelant et
+ * ne choisit qu'entre créneaux équivalents (ADR 0032).
  */
 export interface SelectionInput {
   readonly memory: PlayerLearningMemory;
@@ -22,6 +24,10 @@ export interface SelectionInput {
   readonly now: string;
   /** Partie en cours : ce qui y a déjà été posé est fortement pénalisé (anti-répétition par partie). */
   readonly gameId?: string | undefined;
+  /** Essais des AUTRES joueurs dans cette même partie : ce qui leur a été posé est pénalisé aussi (anti-répétition par tablée). */
+  readonly tableAttempts?: readonly Attempt[] | undefined;
+  /** Clé de départage dans [0, 1), fournie hors noyau : choisit parmi les meilleurs créneaux équivalents. Absente = premier de l'ordre stable. */
+  readonly tieBreak?: number | undefined;
 }
 
 export interface ScoredSlot {
@@ -59,6 +65,9 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
   const inGame = input.gameId === undefined ? [] : memory.attempts.filter((a) => a.gameId === input.gameId);
   const gameRefs = new Set(inGame.map((a) => questionRefKey(a.ref)));
   const gameNodes = new Set(inGame.map((a) => a.knowledgeNodeId));
+  const atTable = input.gameId === undefined ? [] : (input.tableAttempts ?? []).filter((a) => a.gameId === input.gameId);
+  const tableRefs = new Set(atTable.map((a) => questionRefKey(a.ref)));
+  const tableNodes = new Set(atTable.map((a) => a.knowledgeNodeId));
 
   const scored: ScoredSlot[] = [];
   for (const slot of input.slots) {
@@ -104,6 +113,14 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
       score -= w.repeatNodeInGame;
       reasons.push("notion déjà vue dans la partie");
     }
+    if (tableRefs.has(refKey)) {
+      score -= w.repeatAtTable;
+      reasons.push("déjà posée à la tablée");
+    }
+    if (!due && tableNodes.has(slot.knowledgeNodeId)) {
+      score -= w.repeatNodeAtTable;
+      reasons.push("notion déjà vue à la tablée");
+    }
     if (!due && recentNodes.has(slot.knowledgeNodeId)) {
       score -= w.repeatNode;
       reasons.push("notion récente");
@@ -142,6 +159,13 @@ function compareNullable(a: string | null, b: string | null, nulls: "first" | "l
 }
 
 export function selectQuestion(input: SelectionInput): SelectionResult | null {
-  const best = rankSlots(input)[0];
-  return best ? { question: best.question, slot: best.slot, score: best.score, reasons: best.reasons } : null;
+  const ranked = rankSlots(input);
+  const top = ranked[0];
+  if (!top) return null;
+  // Créneaux équivalents (à la marge près) : la clé de départage fournie choisit ; sans clé, le premier de l'ordre stable.
+  const margin = input.config.variety.tieBreakMargin;
+  const pool = ranked.filter((r) => r.score >= top.score - margin);
+  const key = input.tieBreak === undefined ? 0 : Math.min(Math.max(input.tieBreak, 0), 1 - Number.EPSILON);
+  const best = pool[Math.floor(key * pool.length)] ?? top;
+  return { question: best.question, slot: best.slot, score: best.score, reasons: best.reasons };
 }

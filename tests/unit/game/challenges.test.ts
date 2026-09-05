@@ -165,6 +165,10 @@ describe("Défis famille — filtres d'âge, réglages parents, contenu validé"
     const served = run(landed.state, { type: "ServeQuestion", requestId: c.requestId, question });
     expect(phaseOf(served.state)?.served?.ref).toMatchObject({ questionId: "REL-X" });
     roundTrip(served.state);
+    // La fin du défi porte la question jouée (pour la mémoire pédagogique), avec l'identifiant de demande.
+    const accepted = run(served.state, { type: "AcceptChallenge", playerId: c.playerId });
+    const done = run(accepted.state, { type: "CompleteChallenge", playerId: c.playerId, success: true });
+    expect(eventsOf(done.events, "FamilyChallengeCompleted")[0]).toMatchObject({ success: true, requestId: c.requestId, question: { ref: question.ref, knowledgeNodeId: "religion.x", categoryId: "religion", difficulty: 1 } });
     // Sans le contenu disponible, le même défi n'est pas éligible.
     expect(isChallengeEligible(religionOnly[0]!, { profileType: "adult", masteredSurahs: [] }, challengesFixture({ definitions: religionOnly }))).toBe(false);
   });

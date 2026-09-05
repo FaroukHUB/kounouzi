@@ -76,7 +76,8 @@ export type GameEvent =
   /** Une récitation réussie d'une sourate pas encore maîtrisée : l'état de récitation du joueur progresse. */
   | { readonly type: "RecitationMastered"; readonly playerId: PlayerId; readonly surahId: string }
   | { readonly type: "FamilyChallengeAccepted"; readonly playerId: PlayerId; readonly challengeId: string }
-  | { readonly type: "FamilyChallengeCompleted"; readonly playerId: PlayerId; readonly challengeId: string; readonly success: boolean }
+  /** `question` et `requestId` sont présents quand le défi portait une question validée figée : la mémoire pédagogique l'enregistre comme un essai. */
+  | { readonly type: "FamilyChallengeCompleted"; readonly playerId: PlayerId; readonly challengeId: string; readonly success: boolean; readonly requestId?: string | undefined; readonly question?: AnsweredQuestion | undefined }
   | { readonly type: "FamilyChallengeSkipped"; readonly playerId: PlayerId; readonly challengeId: string; readonly reason: ChallengeSkipReason }
   | { readonly type: "ChallengeRewardGranted"; readonly playerId: PlayerId; readonly challengeId: string; readonly amount: number }
   /** Aucun défi éligible (banque vide, réglages, âge) : la case ne propose rien, le tour continue. */
