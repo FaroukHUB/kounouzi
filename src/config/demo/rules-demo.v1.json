@@ -1,9 +1,29 @@
 {
-  "$comment": "⚠️ VALEURS DE DÉMONSTRATION. Ces montants servent uniquement à faire tourner le prototype ; ils ne constituent PAS l'économie de Kounouzi (Duel, visites, scénarios : à équilibrer après de vraies parties).",
+  "$comment": "⚠️ VALEURS DE DÉMONSTRATION. Ces montants servent uniquement à faire tourner le prototype ; ils ne constituent PAS l'économie de Kounouzi (Duel, visites, scénarios : à équilibrer après de vraies parties). Départ +100 et Trésor +100 : décisions produit (plateau 26). Don : montants au choix du joueur (10/20/50/100, proposition à confirmer). Zakat : taux 2,5 % validé ; nissab et longueur de l'année (en tours de table) = VALEURS DE DÉMONSTRATION à décider.",
   "id": "rules-demo.v1",
   "version": 1,
   "startingMoney": 1000,
   "passStartBonus": 100,
+  "treasure": {
+    "amount": 100
+  },
+  "donation": {
+    "amounts": [
+      10,
+      20,
+      50,
+      100
+    ]
+  },
+  "zakat": {
+    "enabled": true,
+    "rate": 0.025,
+    "nisabKounouz": 1000,
+    "cycleRounds": 3,
+    "eligibleAssetTypes": [
+      "money"
+    ]
+  },
   "rewards": {
     "correct": 50,
     "partial": 25,

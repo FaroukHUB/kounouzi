@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { avatarById } from "@/config/avatars";
 import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
-import { clusterOffset, gridSize, perimeterPosition } from "./layout";
+import { clusterOffset, gridDims, perimeterPosition } from "./layout";
 
 export interface PawnProps {
   readonly playerId: string;
@@ -23,18 +23,19 @@ export interface PawnProps {
  * taille = en cases). Le trajet vient du moteur.
  */
 export function Pawn({ playerId, displayName, avatarId, position, cellCount, clusterIndex, clusterCount, active, stepMs }: PawnProps) {
-  const g = gridSize(cellCount);
+  const { cols, rows } = gridDims(cellCount);
   const { row, col } = perimeterPosition(position, cellCount);
   const { dx, dy } = clusterOffset(clusterIndex, clusterCount);
   const avatar = avatarById(avatarId);
-  const size = `${100 / g}%`;
+  // Cases carrées : largeur en % des colonnes, hauteur en % des lignes (grille rectangulaire).
+  const size = { width: `${100 / cols}%`, height: `${100 / rows}%` };
   const scale = clusterCount > 1 ? 0.82 : 1;
   return (
     <motion.div
       data-pawn={playerId}
       data-active={active}
       className="pointer-events-none absolute start-0 top-0 flex items-center justify-center"
-      style={{ width: size, height: size, willChange: "transform" }}
+      style={{ ...size, willChange: "transform" }}
       initial={false}
       animate={{ x: `${(col + dx) * 100}%`, y: `${(row + dy) * 100}%`, scale: active ? scale * 1.1 : scale }}
       transition={{ type: "tween", duration: Math.max(stepMs * 0.8, 0) / 1000, ease: "easeInOut" }}

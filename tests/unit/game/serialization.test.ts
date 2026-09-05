@@ -20,7 +20,7 @@ describe("sérialisation et reprise", () => {
   });
 
   it("conserve le temps de jeu actif, les visites de cases et le classement final", () => {
-    const sim = simulate(makeSetup({ players: players(2) }), { answer: () => answer("correct"), buy: () => true, choose: (o) => o[0]!.id, secondsPerTurn: 3 });
+    const sim = simulate(makeSetup({ players: players(2) }), { answer: () => answer("correct"), buy: (affordable) => affordable, choose: (o) => o[0]!.id, secondsPerTurn: 3 });
     const restored = deserializeGameState(serializeGameState(sim.state));
     expect(restored.ok).toBe(true);
     if (!restored.ok) return;

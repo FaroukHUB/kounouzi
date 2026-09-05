@@ -2,7 +2,7 @@ import { z } from "zod";
 import { questionInstanceSchema } from "@/core/content/schema";
 import { ANSWER_OUTCOMES, PROFILE_TYPES, err, ok, type Result } from "@/core/shared";
 import { challengesConfigSchema, effectSpecSchema, familyAssistConfigSchema, journeyCycleSchema, outcomeSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
-import { CELL_TYPES, CHALLENGE_STAGES, DUEL_STAGES, GAME_SCHEMA_VERSION, INSUFFICIENT_POLICIES, NO_CHALLENGES, TRANSACTION_REASONS, TRANSFER_REASONS, type GameState } from "./types";
+import { CELL_TYPES, CHALLENGE_STAGES, DUEL_STAGES, FUNDS, FUND_TRANSACTION_REASONS, GAME_SCHEMA_VERSION, INSUFFICIENT_POLICIES, NO_CHALLENGES, TRANSACTION_REASONS, TRANSFER_REASONS, type GameState } from "./types";
 
 const choiceOptionSchema = z.object({ id: z.string(), outcomes: z.array(outcomeSchema) });
 
@@ -32,8 +32,8 @@ const duelSchema = z.object({
 
 const challengeStateSchema = z.object({ challengeId: z.string(), playerId: z.string(), requestId: z.string(), stage: z.enum(CHALLENGE_STAGES), served: questionInstanceSchema.optional(), surahIds: z.array(z.string()).optional() });
 
-/** Forme sérialisée de l'état — version 6 (v5 + récitation : sourates de référence figées, maîtrise par joueur). */
-export const gameStateSchemaV6 = z.object({
+/** Forme sérialisée de l'état — version 7 (v6 + caisses collectives, calendrier annuel de Zakat, case Don, règles trésor/don/zakat). */
+export const gameStateSchemaV7 = z.object({
   schemaVersion: z.literal(GAME_SCHEMA_VERSION),
   gameId: z.string(),
   config: z.object({
@@ -75,11 +75,15 @@ export const gameStateSchemaV6 = z.object({
     z.object({ kind: z.literal("awaiting_duel"), duel: duelSchema, queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_challenge"), challenge: challengeStateSchema, queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_recipient"), amount: z.number().int(), reason: z.enum(TRANSFER_REASONS), insufficient: z.enum(INSUFFICIENT_POLICIES), candidates: z.array(z.string()), queue: z.array(outcomeSchema) }),
+    z.object({ kind: z.literal("awaiting_donation"), amounts: z.array(z.number().int().positive()), candidates: z.array(z.string()), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("finished") }),
   ]),
   ledger: z.array(
     z.object({ id: z.number().int(), turnNumber: z.number().int(), playerId: z.string(), amount: z.number().int(), reason: z.enum(TRANSACTION_REASONS), balanceAfter: z.number().int(), ref: z.string().optional() }),
   ),
+  funds: z.object(Object.fromEntries(FUNDS.map((f) => [f, z.number().int().nonnegative()])) as Record<(typeof FUNDS)[number], z.ZodNumber>),
+  fundLedger: z.array(z.object({ id: z.number().int(), turnNumber: z.number().int(), fund: z.enum(FUNDS), fromPlayerId: z.string(), amount: z.number().int(), reason: z.enum(FUND_TRANSACTION_REASONS), balanceAfter: z.number().int(), ref: z.string() })),
+  calendar: z.object({ year: z.number().int().min(1), roundsInYear: z.number().int().nonnegative() }),
   holdings: z.array(z.object({ siteId: z.string(), ownerId: z.string(), price: z.number().int(), heritageValue: z.number().int(), acquiredTurn: z.number().int() })),
   effects: z.array(z.object({ id: z.string(), playerId: z.string(), spec: effectSpecSchema, queuedAtTurn: z.number().int(), expiresAtTurn: z.number().int().optional() })),
   cellVisits: z.record(z.string(), z.number().int().nonnegative()),
@@ -146,6 +150,28 @@ const MIGRATIONS: Readonly<Record<number, (data: Rec) => Rec>> = {
       recitationServed: data["recitationServed"] ?? {},
     };
   },
+  // v6 → v7 : caisses collectives, calendrier annuel, règles trésor / don / zakat. Une partie v6 garde son plateau (32 cases) et ses scénarios :
+  // trésor à 0 (la case sert ses scénarios), aucun montant de don, Zakat désactivée — aucune économie inventée dans une partie en cours.
+  6: (data) => {
+    const config = asRec(data["config"]);
+    const rules = asRec(config["rules"]);
+    return {
+      ...data,
+      schemaVersion: 7,
+      config: {
+        ...config,
+        rules: {
+          ...rules,
+          treasure: rules["treasure"] ?? { amount: 0 },
+          donation: rules["donation"] ?? { amounts: [] },
+          zakat: rules["zakat"] ?? { enabled: false, rate: 0.025, nisabKounouz: 0, cycleRounds: 1, eligibleAssetTypes: ["money"] },
+        },
+      },
+      funds: data["funds"] ?? { masakin: 0 },
+      fundLedger: data["fundLedger"] ?? [],
+      calendar: data["calendar"] ?? { year: 1, roundsInYear: 0 },
+    };
+  },
 };
 
 export function serializeGameState(state: GameState): string {
@@ -171,7 +197,7 @@ export function deserializeGameState(json: string): Result<GameState, Serializat
   }
   if (version !== GAME_SCHEMA_VERSION) return err({ code: "UNSUPPORTED_VERSION", version });
 
-  const parsed = gameStateSchemaV6.safeParse(record);
+  const parsed = gameStateSchemaV7.safeParse(record);
   if (!parsed.success) return err({ code: "INVALID_STATE", issues: parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`) });
   return ok(parsed.data as unknown as GameState);
 }

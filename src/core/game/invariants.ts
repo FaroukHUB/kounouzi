@@ -1,5 +1,5 @@
-import { ledgerBalance } from "./economy";
-import { MAX_PLAYERS, MIN_PLAYERS, type GameState } from "./types";
+import { fundLedgerBalance, ledgerBalance } from "./economy";
+import { FUNDS, MAX_PLAYERS, MIN_PLAYERS, type GameState } from "./types";
 
 /** Vérifications de cohérence, utilisées par les tests après chaque commande. */
 export function checkInvariants(state: GameState): readonly string[] {
@@ -39,6 +39,20 @@ export function checkInvariants(state: GameState): readonly string[] {
   for (const [playerId, served] of Object.entries(state.challengeServed)) {
     if (!state.players.some((p) => p.id === playerId)) violations.push(`compteurs de défi d'un joueur inconnu ${playerId}`);
     for (const [id, n] of Object.entries(served)) if (n < 0 || !state.config.challenges.definitions.some((d) => d.id === id)) violations.push(`compteur de défi incohérent pour ${id}`);
+  }
+  // Caisses collectives : solde = grand livre de la caisse ; chaque dépôt est adossé à une écriture négative du joueur portant la même référence.
+  for (const fund of FUNDS) {
+    if (state.funds[fund] < 0) violations.push(`caisse ${fund} négative`);
+    if (fundLedgerBalance(state, fund) !== state.funds[fund]) violations.push(`caisse ${fund} : solde ${state.funds[fund]} ≠ grand livre ${fundLedgerBalance(state, fund)}`);
+  }
+  for (const f of state.fundLedger) {
+    const mirror = state.ledger.find((t) => t.ref === f.ref && t.playerId === f.fromPlayerId);
+    if (!mirror || mirror.amount !== -f.amount) violations.push(`dépôt ${f.ref} sans écriture joueur équilibrée`);
+  }
+  if (state.calendar.year < 1 || state.calendar.roundsInYear < 0 || (state.config.rules.zakat.enabled && state.calendar.roundsInYear >= state.config.rules.zakat.cycleRounds)) violations.push("calendrier incohérent");
+  if (state.phase.kind === "awaiting_donation") {
+    const money = state.players[state.activePlayerIndex]?.money ?? 0;
+    if (state.phase.amounts.length === 0 || state.phase.amounts.some((a) => a > money)) violations.push("don : montants proposés non payables");
   }
   const transfers = state.ledger.filter((t) => t.reason === "transfer_sent" || t.reason === "transfer_received");
   const byTransfer = new Map<string, number>();

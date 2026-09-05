@@ -2,7 +2,7 @@ import { err, ok, type AnswerOutcome, type PlayerId, type Result } from "@/core/
 import { cellAt } from "./board";
 import { resolveCell } from "./cells";
 import { isPlayerCommand, type Command, type PlayerCommand, type SessionCommand } from "./commands";
-import { applyTransaction, transferMoney } from "./economy";
+import { applyTransaction, fundDeposit, transferMoney } from "./economy";
 import { duelWinner } from "./duel";
 import { takeEffect } from "./effects";
 import type { GameError } from "./errors";
@@ -107,6 +107,24 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
       if (!phase.value.candidates.includes(command.recipientId)) return err({ code: "INVALID_RECIPIENT", recipientId: command.recipientId });
       const { amount, reason, insufficient, queue } = phase.value;
       const result = reason === "gift" ? transferMoney(state, player.id, command.recipientId, amount, reason, insufficient) : transferWithSolidarity(state, player.id, command.recipientId, amount, reason, insufficient);
+      return ok(chain(result, (s) => processQueue(s, queue)));
+    }
+
+    case "Donate": {
+      const phase = expectPhase(state, "awaiting_donation");
+      if (!phase.ok) return phase;
+      const { amounts, candidates, queue } = phase.value;
+      if (!amounts.includes(command.amount) || player.money < command.amount) return err({ code: "INVALID_DONATION", amount: command.amount });
+      if (command.to.kind === "player" && !candidates.includes(command.to.playerId)) return err({ code: "INVALID_RECIPIENT", recipientId: command.to.playerId });
+      let result: Step;
+      if (command.to.kind === "masakin") {
+        // Vers la Caisse Masākīn : dépôt tracé (deux grands livres), compté comme action de solidarité.
+        result = fundDeposit(state, player.id, command.amount, "donation", "donation_sent");
+        result = chain(result, (s) => step(updatePlayer(s, player.id, { solidarityActions: player.solidarityActions + 1, solidarityGiven: player.solidarityGiven + command.amount })));
+      } else {
+        result = transferWithSolidarity(state, player.id, command.to.playerId, command.amount, "donation", "require_full_amount");
+      }
+      result = chain(result, (s) => step(s, [{ type: "DonationMade", playerId: player.id, amount: command.amount, to: command.to }]));
       return ok(chain(result, (s) => processQueue(s, queue)));
     }
 

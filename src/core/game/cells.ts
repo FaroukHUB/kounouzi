@@ -27,11 +27,22 @@ export function resolveCell(state: GameState, cell: ResolvedCell): CellResolutio
       return { state: visited, events: [], outcomes: [{ kind: "heritage_offer", siteId: cell.siteId }] };
     case "halt":
       return { state: visited, events: [], outcomes: [{ kind: "halt" }] };
+    case "donation":
+      return { state: visited, events: [], outcomes: [{ kind: "donation" }] };
+    case "treasure":
+      // Trésor : gain fixe des règles ; une règle nulle (partie ancienne) laisse la case servir ses scénarios.
+      if (visited.config.rules.treasure.amount > 0) return { state: visited, events: [], outcomes: [{ kind: "treasure" }] };
+      return scenarioOutcomes(visited, cell, visit);
     case "event":
     case "management":
     case "challenge":
     case "solidarity":
-    case "treasure": {
+      return scenarioOutcomes(visited, cell, visit);
+  }
+}
+
+function scenarioOutcomes(visited: GameState, cell: ResolvedCell, visit: number): CellResolution {
+  {
       const candidates = visited.config.scenarios.filter((s) => s.cellType === cell.type);
       if (candidates.length === 0) return { state: visited, events: [], outcomes: [] };
       const scenario = candidates[(visit - 1 + visited.config.scenarioOffset) % candidates.length]!;
@@ -41,6 +52,5 @@ export function resolveCell(state: GameState, cell: ResolvedCell): CellResolutio
         events: [{ type: "ScenarioTriggered", playerId: player.id, scenarioId: scenario.id, cellType: cell.type, visit }],
         outcomes: scenario.outcomes,
       };
-    }
   }
 }

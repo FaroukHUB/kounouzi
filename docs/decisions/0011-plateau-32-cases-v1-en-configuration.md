@@ -1,6 +1,6 @@
 # 0011 — Plateau 32 cases : configuration V1 de travail, jamais dans le moteur
 
-**Statut** : acceptée (Phase 2)
+**Statut** : remplacée par l'ADR 0033 (plateau 26 cases, 2026-09-05) — le principe « plateau en configuration, jamais dans le moteur » reste en vigueur
 
 ## Contexte
 La répartition et l'ordre des 32 cases ne sont pas définitifs ; ils seront

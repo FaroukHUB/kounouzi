@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AVATARS } from "@/config/avatars";
-import { BOARD_32_V1 } from "@/config/board";
+import { DEFAULT_BOARD } from "@/config/board";
 import { DEFAULT_CHALLENGE_SETTINGS, challengesConfigFor } from "@/config/challenges";
 import { contentRegistry } from "@/config/content";
 import { DEMO_HERITAGE_SITES, DEMO_RULES_QUICK, DEMO_SCENARIOS } from "@/config/demo";
@@ -92,7 +92,7 @@ export function NewGameForm() {
       gameId,
       // L'âge (année en cours − année de naissance) ne sert qu'à l'éligibilité des Défis famille.
       players: profiles.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, ...(p.child ? { age: thisYear - p.child.birthYear } : {}), masteredSurahs: p.recitation?.mastered ?? [] })),
-      board: BOARD_32_V1,
+      board: DEFAULT_BOARD,
       heritageSites: DEMO_HERITAGE_SITES,
       scenarios: DEMO_SCENARIOS,
       rules: { ...DEMO_RULES_QUICK, id: `rules-demo-${mode}`, endCondition: endConditionOf(mode) },

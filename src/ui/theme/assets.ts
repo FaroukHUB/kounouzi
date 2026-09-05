@@ -18,6 +18,7 @@ export const ASSETS = {
     treasure: "/kounouzi/cards/treasure.svg",
     halt: "/kounouzi/cards/halt.svg",
     start: "/kounouzi/cards/start.svg",
+    donation: "/kounouzi/cards/solidarity.svg",
   },
 } as const;
 

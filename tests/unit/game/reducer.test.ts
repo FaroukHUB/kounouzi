@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createGame, reduce, type CellType, type GameState, type RulesConfig } from "@/core/game";
 import { TEST_MONUMENTS } from "../../fixtures/game/heritage.fixture";
 import { TWO_STEP_CYCLE } from "../../fixtures/game/journey.fixture";
+import { TEST_RULES_SCENARIO_TREASURE } from "../../fixtures/game/rules.fixture";
 import { scenariosOf } from "../../fixtures/game/scenarios.fixture";
 import { active, advanceUntil, answer, create, eventsOf, journey, makeLineSetup, makeSetup, pid, players, run } from "../../fixtures/game/setup.fixture";
 
@@ -80,7 +81,8 @@ describe("le Chemin : déplacement attribué par le moteur, jamais choisi", () =
     expect(moved).toEqual({ type: "PawnMoved", playerId: pid("p1"), from: 0, to: 3, path: [1, 2, 3] });
     expect(next.players[0]!.position).toBe(3);
     expect(next.players[0]!.journeysTaken).toBe(1);
-    expect(eventsOf(events, "CellArrived")[0]).toMatchObject({ position: 3, cellType: "event" });
+    // Plateau 26 : la case 3 est un Monument (le type vient du plateau, jamais du moteur).
+    expect(eventsOf(events, "CellArrived")[0]).toMatchObject({ position: 3, cellType: "heritage" });
   });
 
   it("le même état produit toujours le même Chemin", () => {
@@ -295,7 +297,7 @@ describe("scénarios génériques (fixtures)", () => {
   });
 
   it("un trésor peut accorder un multiplicateur, consommé uniquement quand une récompense est versée", () => {
-    const base = makeLineSetup({ cells: { 1: "treasure", 2: "question", 3: "question" }, scenarios: scenariosOf("treasure-boost"), players: players(2) });
+    const base = makeLineSetup({ cells: { 1: "treasure", 2: "question", 3: "question" }, scenarios: scenariosOf("treasure-boost"), players: players(2), rules: TEST_RULES_SCENARIO_TREASURE });
     const boosted = journey(create(base).state);
     expect(boosted.state.effects[0]).toMatchObject({ playerId: pid("p1"), spec: { type: "reward_multiplier", multiplier: 2, uses: 1, consumeOn: "reward_granted" } });
 

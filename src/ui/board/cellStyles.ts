@@ -19,4 +19,5 @@ export const CELL_STYLE: Readonly<Record<CellType, CellStyle>> = {
   solidarity: { bg: "#e9f6fd", bg2: "#cbe9f8", fg: "#0a4e73", accent: "#0ea5e9" },
   treasure: { bg: "#fff8dc", bg2: "#fbe7a3", fg: "#7a4a0a", accent: "#eab308" },
   halt: { bg: "#f1edfd", bg2: "#dfd6fb", fg: "#4c1d95", accent: "#8b5cf6" },
+  donation: { bg: "#e9f6fd", bg2: "#cbe9f8", fg: "#0a4e73", accent: "#0ea5e9" },
 };

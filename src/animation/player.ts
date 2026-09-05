@@ -16,7 +16,12 @@ export type Banner =
   | { readonly kind: "shield"; readonly amount: number }
   | { readonly kind: "investment"; readonly payout: number }
   | { readonly kind: "saving"; readonly payout: number }
-  | { readonly kind: "cancelled" };
+  | { readonly kind: "cancelled" }
+  | { readonly kind: "donation_fund"; readonly fromPlayerId: PlayerId; readonly amount: number }
+  | { readonly kind: "donation_unavailable" }
+  | { readonly kind: "treasure"; readonly amount: number }
+  | { readonly kind: "year"; readonly year: number }
+  | { readonly kind: "zakat_paid"; readonly playerId: PlayerId; readonly amount: number };
 
 /** Ce que le rejoueur peut faire à l'interface. Rien ici ne touche au moteur. */
 export interface AnimationActions {
@@ -98,6 +103,26 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       await sleep(t.scenarioMs);
       actions.closeCard();
       return;
+    // ---- Trésor, Don, Zakat (ADR 0033) ----
+    case "TreasureFound":
+      actions.openCard({ kind: "treasure", playerId: event.playerId, amount: event.amount });
+      await sleep(t.scenarioMs);
+      actions.closeCard();
+      return;
+    case "DonationOffered":
+      actions.openCard({ kind: "donation", playerId: event.playerId, amounts: event.amounts, candidates: event.candidates, step: "offer" });
+      return;
+    case "DonationUnavailable":
+      return banner(actions, { kind: "donation_unavailable" }, t.noticeMs, sleep);
+    case "DonationMade":
+      actions.closeCard();
+      // Vers un joueur : le transfert porte déjà son bandeau (MoneyTransferred) ; vers la caisse : bandeau dédié.
+      if (event.to.kind === "masakin") return banner(actions, { kind: "donation_fund", fromPlayerId: event.playerId, amount: event.amount }, t.transferMs, sleep);
+      return;
+    case "ZakatPaid":
+      return banner(actions, { kind: "zakat_paid", playerId: event.playerId, amount: event.amount }, t.transferMs, sleep);
+    case "YearCompleted":
+      return banner(actions, { kind: "year", year: event.year }, t.noticeMs, sleep);
     case "SiteAlreadyOwned":
       return banner(actions, { kind: "owned", ownerId: event.ownerId }, t.passedStartMs, sleep);
     case "HeritageRevisited":
@@ -242,9 +267,14 @@ function settle(event: GameEvent, actions: AnimationActions): void {
     case "InvestmentSettled":
     case "SavingMatured":
     case "OutcomeCancelled":
+    case "DonationUnavailable":
+    case "DonationMade":
+    case "ZakatPaid":
+    case "YearCompleted":
       actions.setBanner(null);
       return;
     case "ScenarioTriggered":
+    case "TreasureFound":
     case "JourneyHalted":
     case "TurnEnded":
     case "ChoiceMade":
@@ -272,7 +302,15 @@ export function estimateDuration(event: GameEvent, t: Timings): number {
     case "CellArrived":
       return t.arrivalMs;
     case "ScenarioTriggered":
+    case "TreasureFound":
       return t.scenarioMs;
+    case "DonationMade":
+      return event.to.kind === "masakin" ? t.transferMs : 0;
+    case "ZakatPaid":
+      return t.transferMs;
+    case "DonationUnavailable":
+    case "YearCompleted":
+      return t.noticeMs;
     case "AnswerRecorded":
       return t.resultMs;
     case "RewardGranted":

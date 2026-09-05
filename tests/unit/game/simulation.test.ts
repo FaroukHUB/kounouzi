@@ -13,7 +13,8 @@ describe("simulation complète d'une partie (sans React, sans navigateur, sans r
 
     const turns = eventsOf(sim.events, "TurnStarted").length;
     expect(turns).toBeGreaterThanOrEqual(6 * n);
-    expect(eventsOf(sim.events, "MovementAssigned").length).toBe(turns - eventsOf(sim.events, "TurnSkipped").length);
+    // Un tour sauté ou une Halte perdue (Défi de reprise raté) ne donne aucun Chemin.
+    expect(eventsOf(sim.events, "MovementAssigned").length).toBe(turns - eventsOf(sim.events, "TurnSkipped").length - eventsOf(sim.events, "HaltTurnLost").length);
     expect(eventsOf(sim.events, "MovementAssigned").every((e) => e.steps >= 1 && e.steps <= 5)).toBe(true);
     expect(eventsOf(sim.events, "QuestionRequested").length).toBeGreaterThan(0);
     expect(eventsOf(sim.events, "AnswerRecorded").length).toBe(eventsOf(sim.events, "QuestionRequested").length);

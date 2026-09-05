@@ -1,7 +1,7 @@
 import type { HeritageSite } from "@/core/game";
 
 /** ⚠️ Monuments fictifs de test — aucun monument réel n'est défini en Phase 2. */
-export const TEST_MONUMENTS: readonly HeritageSite[] = Array.from({ length: 8 }, (_, i) => ({
+export const TEST_MONUMENTS: readonly HeritageSite[] = Array.from({ length: 12 }, (_, i) => ({
   id: `test-monument-${String(i + 1).padStart(2, "0")}`,
   kind: "purchasable_monument",
   price: 300 + i * 50,

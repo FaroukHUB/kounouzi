@@ -3,6 +3,7 @@ import { expireEffects, takeEffect } from "./effects";
 import { computeRanking, shouldEndAfterTurn } from "./scoring";
 import { activePlayer, chain, step, updatePlayer, type Step } from "./step";
 import type { GameState } from "./types";
+import { completeRound } from "./zakat";
 
 /**
  * Ouvre un tour pour le joueur actif. Ordre : expiration des effets, puis un
@@ -55,6 +56,8 @@ export function closeTurn(state: GameState): Step {
   }
 
   const nextIndex = (state.activePlayerIndex + 1) % state.players.length;
+  // Tour de table complet : le calendrier commun avance ; à l'échéance annuelle, la Zakat al-Māl est évaluée pour tous (hors plateau).
+  if (nextIndex === 0) result = chain(result, completeRound);
   if (shouldEndAfterTurn(result.state, nextIndex)) {
     return chain(result, (s) => {
       const ranking = computeRanking(s);

@@ -1,6 +1,6 @@
 import type { PlayerId } from "@/core/shared";
 import type { ServedQuestion } from "@/core/content/types";
-import type { AnswerRecord, ChallengeSettings, ChallengeSkipReason } from "./types";
+import type { AnswerRecord, ChallengeSettings, ChallengeSkipReason, MoneyDestination } from "./types";
 
 /**
  * Tout ce qu'un humain (ou la couche session) peut demander au moteur.
@@ -17,6 +17,8 @@ export type PlayerCommand =
   | { readonly type: "Choose"; readonly playerId: PlayerId; readonly choiceId: string; readonly optionId: string }
   | { readonly type: "ChooseOpponent"; readonly playerId: PlayerId; readonly opponentId: PlayerId }
   | { readonly type: "ChooseRecipient"; readonly playerId: PlayerId; readonly recipientId: PlayerId }
+  /** Case Don : montant (parmi ceux proposés) et destination (Caisse Masākīn ou un autre joueur). Jamais une Zakat. */
+  | { readonly type: "Donate"; readonly playerId: PlayerId; readonly amount: number; readonly to: MoneyDestination }
   /* ---- Défi famille ---- */
   | { readonly type: "AcceptChallenge"; readonly playerId: PlayerId }
   /** Validation collective : réussi ou raté. Réussi crédite le gain une fois ; raté = 0. */

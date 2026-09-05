@@ -41,6 +41,10 @@ export type CardState =
       readonly winnerId?: PlayerId | null | undefined;
     }
   | { readonly kind: "halt"; readonly playerId: PlayerId }
+  /** Case Don : montant puis destination (Caisse Masākīn ou joueur). */
+  | { readonly kind: "donation"; readonly playerId: PlayerId; readonly amounts: readonly number[]; readonly candidates: readonly PlayerId[]; readonly step: "offer" | "submitted" }
+  /** Trésor : révélation brève du gain fixe (le tour se clôt dans le même lot). */
+  | { readonly kind: "treasure"; readonly playerId: PlayerId; readonly amount: number }
   /** Défi famille : « OH NON » éventuel → révélation → accepté → validation → résultat → gain. */
   | {
       readonly kind: "challenge";
@@ -77,6 +81,8 @@ export function cardForPhase(state: GameState): CardState | null {
     }
     case "awaiting_recipient":
       return { kind: "recipient", playerId: activeId, candidates: state.phase.candidates, amount: state.phase.amount, reason: state.phase.reason, step: "offer" };
+    case "awaiting_donation":
+      return { kind: "donation", playerId: activeId, amounts: state.phase.amounts, candidates: state.phase.candidates, step: "offer" };
     case "awaiting_purchase": {
       const player = state.players[state.activePlayerIndex];
       return { kind: "monument", siteId: state.phase.siteId, price: state.phase.price, affordable: (player?.money ?? 0) >= state.phase.price, step: "offer" };

@@ -34,6 +34,16 @@ export function bannerText(banner: Banner, state: GameState): string {
       return t(DEFAULT_LOCALE, "banner.cancelled");
     case "last_round":
       return t(DEFAULT_LOCALE, "game.lastRound");
+    case "donation_fund":
+      return t(DEFAULT_LOCALE, "banner.donation.fund", { from: name(banner.fromPlayerId), amount: banner.amount });
+    case "donation_unavailable":
+      return t(DEFAULT_LOCALE, "banner.donation.unavailable");
+    case "treasure":
+      return t(DEFAULT_LOCALE, "banner.treasure", { amount: banner.amount });
+    case "year":
+      return t(DEFAULT_LOCALE, "banner.year", { year: banner.year });
+    case "zakat_paid":
+      return t(DEFAULT_LOCALE, "banner.zakat.paid", { name: name(banner.playerId), amount: banner.amount });
   }
 }
 
@@ -49,7 +59,7 @@ export function TurnBanner({ banner, state }: { readonly banner: Banner | null; 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.22 }}
-            className={banner?.kind === "transfer" ? "rounded-2xl bg-[var(--k-ruby)] px-6 py-3 text-center text-lg font-black text-white shadow-xl" : "rounded-full bg-[var(--k-ink)] px-5 py-2 text-base font-semibold text-white shadow-lg"}
+            className={banner?.kind === "transfer" || banner?.kind === "donation_fund" || banner?.kind === "zakat_paid" ? "rounded-2xl bg-[var(--k-ruby)] px-6 py-3 text-center text-lg font-black text-white shadow-xl" : "rounded-full bg-[var(--k-ink)] px-5 py-2 text-base font-semibold text-white shadow-lg"}
             data-testid="banner"
             data-banner={banner?.kind}
           >

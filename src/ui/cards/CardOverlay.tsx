@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import type { GameState } from "@/core/game";
+import type { GameState, MoneyDestination } from "@/core/game";
 import type { ChallengeSkipReason } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, PlayerId, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
@@ -9,6 +9,7 @@ import type { NarrationService } from "@/experience/narration";
 import { useUiStore } from "@/state/uiStore";
 import { ChallengeCard } from "./ChallengeCard";
 import { ChoiceCard } from "./ChoiceCard";
+import { DonationCard } from "./DonationCard";
 import { DuelCard } from "./DuelCard";
 import { HaltCard } from "./HaltCard";
 import { MonumentCard } from "./MonumentCard";
@@ -16,6 +17,7 @@ import { OpponentCard } from "./OpponentCard";
 import { QuestionCard } from "./QuestionCard";
 import { RecipientCard } from "./RecipientCard";
 import { ScenarioCard } from "./ScenarioCard";
+import { TreasureCard } from "./TreasureCard";
 import type { CardState } from "./cardState";
 
 export interface CardOverlayProps {
@@ -29,13 +31,14 @@ export interface CardOverlayProps {
   readonly onChoose: (choiceId: string, optionId: string) => void;
   readonly onChooseOpponent: (opponentId: PlayerId) => void;
   readonly onChooseRecipient: (recipientId: PlayerId) => void;
+  readonly onDonate: (amount: number, to: MoneyDestination) => void;
   readonly onAcceptChallenge: () => void;
   readonly onCompleteChallenge: (success: boolean) => void;
   readonly onSkipChallenge: (reason: ChallengeSkipReason) => void;
 }
 
 /** Couche des cartes au-dessus du plateau (le plateau se met légèrement en retrait). */
-export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer, onDecidePurchase, onChoose, onChooseOpponent, onChooseRecipient, onAcceptChallenge, onCompleteChallenge, onSkipChallenge }: CardOverlayProps) {
+export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer, onDecidePurchase, onChoose, onChooseOpponent, onChooseRecipient, onDonate, onAcceptChallenge, onCompleteChallenge, onSkipChallenge }: CardOverlayProps) {
   const card = useUiStore((s) => s.card);
   const updateCard = useUiStore((s) => s.updateCard);
 
@@ -108,6 +111,21 @@ export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer
             }}
           />
         );
+      case "donation":
+        return (
+          <DonationCard
+            state={state}
+            profiles={profiles}
+            card={c}
+            narrator={narrator}
+            onDonate={(amount, to) => {
+              updateCard({ step: "submitted" });
+              onDonate(amount, to);
+            }}
+          />
+        );
+      case "treasure":
+        return <TreasureCard card={c} narrator={narrator} />;
       case "duel":
         return <DuelCard state={state} profiles={profiles} card={c} />;
       case "halt":

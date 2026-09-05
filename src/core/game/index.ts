@@ -15,18 +15,20 @@ export { computePath, computePathTo, type MovePlan } from "./movement";
 export { assignJourneySteps, flattenCycle, journeyCycleIssues } from "./journeyScheduler";
 export { computeReward, type RewardComputation } from "./rewards";
 export { holdingOf, holdingsOf, effectivePrice } from "./holdings";
-export { ledgerBalance, transferMoney, affordableAmount, poorestPlayer, richestPlayer } from "./economy";
+export { ledgerBalance, transferMoney, affordableAmount, poorestPlayer, richestPlayer, fundDeposit, fundLedgerBalance } from "./economy";
+export { zakatBase, zakatDue, completeRound } from "./zakat";
 export { duelWinner } from "./duel";
 export { duelCandidates } from "./outcomes";
 export { selectChallenge, isChallengeEligible, variantFor, playerAge, challengeById, recitationById, recitationCandidates, recitationLevelFor, selectRecitations, ADULT_AGE, UNKNOWN_CHILD_AGE } from "./challenges";
 export { effectsOf } from "./effects";
 export { computeRanking, heritageValueOf, shouldEndAfterTurn, scoreOf } from "./scoring";
 export { checkInvariants } from "./invariants";
-export { serializeGameState, deserializeGameState, gameStateSchemaV6, type SerializationError } from "./serialization";
+export { serializeGameState, deserializeGameState, gameStateSchemaV7, type SerializationError } from "./serialization";
 export {
   boardConfigSchema,
   heritageSiteSchema,
   rulesConfigSchema,
+  zakatConfigSchema,
   scenarioSchema,
   outcomeSchema,
   effectSpecSchema,

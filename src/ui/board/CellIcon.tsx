@@ -10,6 +10,7 @@ const PATHS: Record<CellType, string> = {
   solidarity: "M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10Z",
   treasure: "M4 10h16v10H4zM4 10l2-4h12l2 4M12 10v10M10 14h4",
   halt: "M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z",
+  donation: "M4 14c0-2 1-3 3-3h3l2-1 3 1h3M4 14v4h5l3 2 5-2 3-1v-3M12 3a2.5 2.5 0 0 1 4 2c0 2-4 4-4 4s-4-2-4-4a2.5 2.5 0 0 1 4-2Z",
 };
 
 export function CellIcon({ type, className }: { readonly type: CellType; readonly className?: string | undefined }) {

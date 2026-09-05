@@ -65,6 +65,12 @@ export interface PlaytestReport {
     readonly treasures: number;
     readonly managementChoices: number;
     readonly solidarityActions: number;
+    readonly donations: number;
+    readonly donationsToFund: number;
+    readonly zakatPayments: number;
+    readonly zakatKounouz: number;
+    readonly yearsCompleted: number;
+    readonly masakinFund: number;
     readonly collectiveEvents: number;
   };
   readonly players: readonly PlayerPlaytestStats[];
@@ -168,7 +174,13 @@ export function buildPlaytestReport(state: GameState, log: PlaytestLog): Playtes
       monumentsBought: of("SiteAcquired").length,
       heritageVisits: of("HeritageVisited").length,
       transfers: of("MoneyTransferred").length,
-      treasures: scenarios.filter((s) => s.cellType === "treasure").length,
+      treasures: scenarios.filter((s) => s.cellType === "treasure").length + of("TreasureFound").length,
+      donations: of("DonationMade").length,
+      donationsToFund: of("DonationMade").filter((d) => d.to.kind === "masakin").length,
+      zakatPayments: of("ZakatPaid").length,
+      zakatKounouz: sumOf(of("ZakatPaid").map((z) => z.amount)),
+      yearsCompleted: of("YearCompleted").length,
+      masakinFund: sumOf(of("FundChanged").filter((f) => f.fund === "masakin").map((f) => f.amount)),
       managementChoices: of("ChoiceMade").length,
       solidarityActions: of("SolidarityActionRecorded").length,
       collectiveEvents: of("MoneyTransferred").filter((t) => collectiveKinds.has(t.reason)).length,
@@ -217,6 +229,8 @@ export function measureInteractions(log: PlaytestLog): readonly InteractionTimin
       else if (e.type === "DuelOffered") open.push({ kind: "duel", at: entry.at });
       else if (e.type === "FamilyChallengeAssigned") open.push({ kind: "family_challenge", at: entry.at });
       else if (e.type === "PurchaseOffered") open.push({ kind: "monument", at: entry.at });
+      else if (e.type === "DonationOffered") open.push({ kind: "donation", at: entry.at });
+      else if (e.type === "TreasureFound") open.push({ kind: "treasure", at: entry.at, untilNextBatch: true });
       else if (e.type === "ScenarioTriggered" && (e.cellType === "event" || e.cellType === "management" || e.cellType === "solidarity" || e.cellType === "treasure")) {
         // Scénario automatique (le tour se clôt dans le même lot) : on mesure jusqu'au lot suivant (temps de lecture de la carte).
         const automatic = entry.events.some((x) => x.type === "TurnEnded");
@@ -320,7 +334,25 @@ function describe(e: GameEvent, name: (id: PlayerId) => string): string | null {
     case "EffectQueued":
       return `Effet pour ${name(e.effect.playerId)} : ${e.effect.spec.type}`;
     case "PassedStart":
-      return `${name(e.playerId)} passe par le départ (+${e.bonus})`;
+      return `${name(e.playerId)} passe par Départ (+${e.bonus} Kounouz)`;
+    case "TreasureFound":
+      return `💎 Trésor : ${name(e.playerId)} remporte ${e.amount} Kounouz`;
+    case "DonationOffered":
+      return `${name(e.playerId)} arrive sur Don (montants : ${e.amounts.join(" / ")})`;
+    case "DonationUnavailable":
+      return `${name(e.playerId)} : pas assez de Kounouz pour un don`;
+    case "DonationMade":
+      return e.to.kind === "masakin" ? `${name(e.playerId)} donne ${e.amount} Kounouz à la Caisse Masākīn` : `${name(e.playerId)} donne ${e.amount} Kounouz à ${name(e.to.playerId)}`;
+    case "FundChanged":
+      return `  → Caisse Masākīn : ${e.balanceAfter} (${e.reason} ${e.amount})`;
+    case "ZakatEvaluationRequested":
+      return `— Année ${e.year} : échéance de Zakat al-Māl (nissab ${e.nisab}, taux ${e.rate * 100} %)`;
+    case "ZakatPaid":
+      return `Zakat : ${name(e.playerId)} verse ${e.amount} Kounouz (base ${e.base}) à la Caisse Masākīn`;
+    case "ZakatNotDue":
+      return `Zakat : ${name(e.playerId)} non redevable (${e.base} < ${e.nisab})`;
+    case "YearCompleted":
+      return `— Fin de l'année ${e.year}`;
     case "TimeTargetReached":
       return "Durée atteinte : dernier tour de table";
     case "GameEndRequested":
@@ -345,7 +377,7 @@ export function reportToText(r: PlaytestReport): string {
     l.push(`  Questions : ${p.questions}`, `  Correctes : ${p.correct}`, `  Presque : ${p.partial}`, `  Incorrectes : ${p.incorrect}`, `  Duels : ${p.duels}`, `  Duels gagnés : ${p.duelsWon}`, `  Défis famille : ${p.challenges} (réussis ${p.challengesWon}, ratés ${p.challengesFailed}, passés ${p.challengesSkipped}, +${p.challengeKounouz})`, `  Patrimoine : ${p.heritage}`, `  Solidarité : ${p.solidarityActions}`, `  Kounouz : ${p.money}`, "");
   }
   const c = r.counts;
-  l.push("Interactions :", `  Questions : ${c.questions}`, `  Duels : ${c.duels} (enfant/adulte : ${c.duelsChildAdult}, victoires : ${c.duelsWon}, égalités : ${c.duelsDrawn})`, `  Haltes : ${c.halts}`, `  Monuments achetés : ${c.monumentsBought}`, `  Visites de patrimoine : ${c.heritageVisits}`, `  Transferts : ${c.transfers}`, `  Trésors : ${c.treasures}`, `  Choix Gestion : ${c.managementChoices}`, `  Actions Solidarité : ${c.solidarityActions}`, `  Événements collectifs : ${c.collectiveEvents}`, "");
+  l.push("Interactions :", `  Questions : ${c.questions}`, `  Duels : ${c.duels} (enfant/adulte : ${c.duelsChildAdult}, victoires : ${c.duelsWon}, égalités : ${c.duelsDrawn})`, `  Haltes : ${c.halts}`, `  Monuments achetés : ${c.monumentsBought}`, `  Visites de patrimoine : ${c.heritageVisits}`, `  Transferts : ${c.transfers}`, `  Trésors : ${c.treasures}`, `  Choix Gestion : ${c.managementChoices}`, `  Actions Solidarité : ${c.solidarityActions}`, `  Événements collectifs : ${c.collectiveEvents}`, `  Dons : ${c.donations} (Caisse Masākīn : ${c.donationsToFund})`, `  Zakat al-Māl : ${c.zakatPayments} versements, ${c.zakatKounouz} Kounouz, ${c.yearsCompleted} année(s)`, `  Caisse Masākīn : ${c.masakinFund}`, "");
   const ch = r.challenges;
   l.push("Défis famille :", `  Proposés : ${ch.proposed} (OH NON : ${ch.ohNo}, indisponibles : ${ch.unavailable})`, `  Réussis : ${ch.succeeded}`, `  Ratés : ${ch.failed}`, `  Passés : ${ch.skipped} (dont pas d'accord : ${ch.consentRefused})`, `  Kounouz gagnés : ${ch.kounouz}`);
   for (const c of ch.byCategory) l.push(`  ${c.category} : ${c.proposed} proposés, ${c.succeeded} réussis`);

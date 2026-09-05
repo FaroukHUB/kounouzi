@@ -1,5 +1,5 @@
 import type { AnswerOutcome, ExplanationMastery, GameId, PlayerId, ValidationMode } from "@/core/shared";
-import type { AnsweredQuestion, CellType, ChallengeCategory, ChallengeSettings, ChallengeSkipReason, EffectSpec, OutcomePayout, QueuedEffect, RankingEntry, TransactionReason, TransferReason } from "./types";
+import type { AnsweredQuestion, CellType, ChallengeCategory, ChallengeSettings, ChallengeSkipReason, EffectSpec, FundId, FundTransactionReason, MoneyDestination, OutcomePayout, QueuedEffect, RankingEntry, TransactionReason, TransferReason } from "./types";
 
 export type QuestionPurposeKind = "standard" | "halt" | "heritage_visit" | "duel";
 
@@ -47,6 +47,20 @@ export type GameEvent =
   | { readonly type: "OutcomeCancelled"; readonly playerId: PlayerId; readonly kind: string; readonly required: number; readonly available: number }
   | { readonly type: "RecipientChoiceOffered"; readonly playerId: PlayerId; readonly amount: number; readonly reason: TransferReason; readonly candidates: readonly PlayerId[] }
   | { readonly type: "SolidarityActionRecorded"; readonly playerId: PlayerId; readonly beneficiaryId: PlayerId; readonly amount: number; readonly reason: TransferReason }
+  /* ---- Trésor, Don, Caisse Masākīn, Zakat al-Māl (ADR 0033) ---- */
+  /** Arrivée sur la case Trésor : gain fixe des règles, versé une fois. */
+  | { readonly type: "TreasureFound"; readonly playerId: PlayerId; readonly amount: number }
+  | { readonly type: "DonationOffered"; readonly playerId: PlayerId; readonly amounts: readonly number[]; readonly candidates: readonly PlayerId[] }
+  /** Aucun montant proposé n'est payable : la case ne demande rien, le tour continue. */
+  | { readonly type: "DonationUnavailable"; readonly playerId: PlayerId }
+  | { readonly type: "DonationMade"; readonly playerId: PlayerId; readonly amount: number; readonly to: MoneyDestination }
+  /** Écriture d'une caisse collective (liée à l'écriture du joueur par `ref`). */
+  | { readonly type: "FundChanged"; readonly fund: FundId; readonly fromPlayerId: PlayerId; readonly amount: number; readonly reason: FundTransactionReason; readonly balanceAfter: number; readonly ref: string }
+  /** Une année lunaire simulée s'achève (tour de table complet n° `cycleRounds`) : échéance commune à tous. */
+  | { readonly type: "ZakatEvaluationRequested"; readonly year: number; readonly nisab: number; readonly rate: number }
+  | { readonly type: "ZakatPaid"; readonly playerId: PlayerId; readonly year: number; readonly base: number; readonly amount: number; readonly to: MoneyDestination }
+  | { readonly type: "ZakatNotDue"; readonly playerId: PlayerId; readonly year: number; readonly base: number; readonly nisab: number }
+  | { readonly type: "YearCompleted"; readonly year: number }
   | { readonly type: "EffectQueued"; readonly effect: QueuedEffect }
   | { readonly type: "EffectConsumed"; readonly effectId: string; readonly playerId: PlayerId; readonly effectType: EffectSpec["type"] }
   | { readonly type: "EffectExpired"; readonly effectId: string; readonly playerId: PlayerId; readonly effectType: EffectSpec["type"] }

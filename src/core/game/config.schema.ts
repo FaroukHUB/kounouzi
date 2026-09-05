@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { journeyCycleIssues } from "./journeyScheduler";
-import { CELL_TYPES, CHALLENGE_CATEGORIES, CHALLENGE_TOGGLES, FAMILY_ASSIST_LEVELS, HERITAGE_KINDS, INSUFFICIENT_POLICIES, TRANSFER_REASONS, type ChallengesConfig, type Outcome } from "./types";
+import { CELL_TYPES, CHALLENGE_CATEGORIES, CHALLENGE_TOGGLES, FAMILY_ASSIST_LEVELS, HERITAGE_KINDS, INSUFFICIENT_POLICIES, TRANSFER_REASONS, ZAKAT_ASSET_TYPES, type ChallengesConfig, type Outcome } from "./types";
 
 /* Plateau ---------------------------------------------------------------- */
 
@@ -66,6 +66,8 @@ export const outcomeSchema: z.ZodType<Outcome> = z.lazy(() =>
       z.object({ kind: z.literal("duel") }),
       z.object({ kind: z.literal("halt") }),
       z.object({ kind: z.literal("family_challenge") }),
+      z.object({ kind: z.literal("treasure") }),
+      z.object({ kind: z.literal("donation") }),
       z.object({ kind: z.literal("transfer_choice"), amount: z.number().int().positive(), reason: z.enum(TRANSFER_REASONS), insufficient: insufficientSchema }),
       z.object({ kind: z.literal("give_to_poorest"), amount: z.number().int().positive(), reason: z.enum(TRANSFER_REASONS), insufficient: insufficientSchema }),
       z.object({ kind: z.literal("aid_from_richest"), amount: z.number().int().positive(), insufficient: insufficientSchema }),
@@ -136,11 +138,23 @@ export const endConditionSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("turns_per_player"), turns: z.number().int().positive() }),
 ]);
 
+/** Zakat al-Māl : données validées ; le taux et le nissab ne sont jamais codés en dur. */
+export const zakatConfigSchema = z.object({
+  enabled: z.boolean(),
+  rate: z.number().min(0).max(1),
+  nisabKounouz: z.number().int().nonnegative(),
+  cycleRounds: z.number().int().positive(),
+  eligibleAssetTypes: z.array(z.enum(ZAKAT_ASSET_TYPES)).min(1),
+});
+
 export const rulesConfigSchema = z.object({
   id: z.string().min(1),
   version: z.number().int().positive(),
   startingMoney: z.number().int().nonnegative(),
   passStartBonus: z.number().int().nonnegative(),
+  treasure: z.object({ amount: z.number().int().nonnegative() }),
+  donation: z.object({ amounts: z.array(z.number().int().positive()) }),
+  zakat: zakatConfigSchema,
   rewards: z.object({ correct: z.number().int().nonnegative(), partial: z.number().int().nonnegative(), incorrect: z.number().int().nonnegative(), masteryMultiplier: z.number().positive() }),
   scoring: z.object({ moneyWeight: z.number().nonnegative(), heritageWeight: z.number().nonnegative() }),
   allowNegativeBalance: z.boolean(),

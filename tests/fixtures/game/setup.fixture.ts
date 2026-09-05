@@ -1,5 +1,5 @@
 import { expect } from "vitest";
-import { BOARD_32_V1 } from "@/config/board";
+import { DEFAULT_BOARD } from "@/config/board";
 import { JOURNEY_CYCLE_V1 } from "@/config/journey";
 import {
   checkInvariants,
@@ -13,6 +13,7 @@ import {
   type GameEvent,
   type GameSetup,
   type GameState,
+  type MoneyDestination,
   type PlayerSetup,
 } from "@/core/game";
 import type { GameId, PlayerId } from "@/core/shared";
@@ -40,7 +41,7 @@ export function makeSetup(overrides: Partial<GameSetup> = {}): GameSetup {
   return {
     gameId: "game-test" as GameId,
     players: players(3),
-    board: BOARD_32_V1,
+    board: DEFAULT_BOARD,
     heritageSites: TEST_MONUMENTS,
     scenarios: TEST_SCENARIOS,
     rules: TEST_RULES_QUICK,
@@ -101,6 +102,8 @@ export interface Policy {
   secondsPerTurn?: number;
   /** Décision face à un Défi famille proposé (défaut : accepter puis réussir). */
   challenge?(challengeId: string, index: number): "success" | "failure" | "skip" | "consent_refused";
+  /** Case Don : montant parmi ceux proposés et destination (défaut : le plus petit, à la Caisse Masākīn). */
+  donate?(amounts: readonly number[], candidates: readonly PlayerId[], index: number): { readonly amount: number; readonly to: MoneyDestination };
 }
 
 /** Qui doit répondre dans la phase courante (joueur actif, ou dueliste en cours). */
@@ -132,6 +135,11 @@ export function nextCommand(state: GameState, policy: Policy, counters: { answer
       return { type: "ChooseOpponent", playerId, opponentId: (policy.opponent ?? ((c) => c[0]!))(state.phase.candidates, counters.duels++) };
     case "awaiting_recipient":
       return { type: "ChooseRecipient", playerId, recipientId: (policy.recipient ?? ((c) => c[0]!))(state.phase.candidates, counters.transfers++) };
+    case "awaiting_donation": {
+      // Par défaut : le plus petit montant, à la Caisse Masākīn ; une politique peut choisir un joueur.
+      const donate = (policy.donate ?? ((amounts) => ({ amount: amounts[0]!, to: { kind: "masakin" as const } })))(state.phase.amounts, state.phase.candidates, counters.transfers++);
+      return { type: "Donate", playerId, amount: donate.amount, to: donate.to };
+    }
     case "awaiting_challenge": {
       const c = state.phase.challenge;
       const decision = (policy.challenge ?? (() => "success"))(c.challengeId, (counters.challenges = (counters.challenges ?? 0) + 1) - 1);

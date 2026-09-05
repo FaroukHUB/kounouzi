@@ -1,7 +1,26 @@
 import { describe, expect, it } from "vitest";
-import { cellCenterPercent, clusterOffset, gridSize, perimeterPosition } from "@/ui/board/layout";
+import { cellCenterPercent, clusterOffset, gridDims, gridSize, perimeterPosition } from "@/ui/board/layout";
 
 describe("géométrie du plateau en anneau", () => {
+  it("26 cases → grille 8 × 7, périmètre couvert une seule fois, départ au coin inférieur droit, dernière case juste au-dessus", () => {
+    expect(gridDims(26)).toEqual({ cols: 8, rows: 7 });
+    const seen = new Set<string>();
+    for (let p = 0; p < 26; p += 1) {
+      const { row, col } = perimeterPosition(p, 26);
+      expect(row === 0 || row === 6 || col === 0 || col === 7).toBe(true);
+      seen.add(`${row},${col}`);
+    }
+    expect(seen.size).toBe(26);
+    expect(perimeterPosition(0, 26)).toEqual({ row: 6, col: 7, side: "bottom" });
+    expect(perimeterPosition(7, 26)).toEqual({ row: 6, col: 0, side: "bottom" });
+    expect(perimeterPosition(13, 26)).toEqual({ row: 0, col: 0, side: "start" });
+    expect(perimeterPosition(20, 26)).toEqual({ row: 0, col: 7, side: "top" });
+    expect(perimeterPosition(25, 26)).toEqual({ row: 5, col: 7, side: "end" });
+    expect(cellCenterPercent(0, 26)).toEqual({ x: (7.5 / 8) * 100, y: (6.5 / 7) * 100 });
+    expect(gridDims(8)).toEqual({ cols: 3, rows: 3 });
+    expect(() => gridDims(27)).toThrow(RangeError);
+  });
+
   it("32 cases → grille 9×9, périmètre couvert une seule fois", () => {
     expect(gridSize(32)).toBe(9);
     const seen = new Set<string>();

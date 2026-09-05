@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BOARD_32_V1 } from "@/config/board";
+import { DEFAULT_BOARD } from "@/config/board";
 import { contentRegistry } from "@/config/content";
 import { DEMO_HERITAGE_SITES, DEMO_RULES_QUICK, DEMO_SCENARIOS } from "@/config/demo";
 import { JOURNEY_CYCLE_V1 } from "@/config/journey";
@@ -14,7 +14,7 @@ import { T0 } from "../../fixtures/learning/resolve.fixture";
 
 /**
  * SIMULATION FAMILIALE — Maryam (6 ans), Yacine (11 ans), Maman, Papa —
- * sur le vrai plateau 32 cases, les scénarios de démonstration et le VRAI
+ * sur le vrai plateau 26 cases, les scénarios de démonstration et le VRAI
  * Learning Engine pour chaque question (classique, Duel, Halte, Défi
  * Patrimoine). Sans React, sans navigateur, sans hasard.
  */
@@ -28,7 +28,7 @@ const profiles: readonly PlayerProfileDraft[] = [
 const setup = (turns: number, extra: Partial<GameSetup> = {}): GameSetup => ({
   gameId: "game-family" as GameId,
   players: profiles.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType })),
-  board: BOARD_32_V1,
+  board: DEFAULT_BOARD,
   heritageSites: DEMO_HERITAGE_SITES,
   scenarios: DEMO_SCENARIOS,
   rules: { ...DEMO_RULES_QUICK, endCondition: { kind: "turns_per_player", turns } },
@@ -115,11 +115,14 @@ describe("simulation familiale (Maryam 6 ans, Yacine 11 ans, Maman, Papa)", () =
   it("se termine sans impasse, avec un classement, et rencontre toutes les mécaniques", () => {
     expect(run.state.status).toBe("finished");
     expect(run.state.ranking).toHaveLength(4);
-    for (const t of ["QuestionRequested", "DuelStarted", "DuelResolved", "JourneyHalted", "PurchaseOffered", "SiteAcquired", "HeritageVisited", "MoneyTransferred", "ScenarioTriggered", "ChoiceOffered", "RecipientChoiceOffered", "SolidarityActionRecorded", "EffectQueued"] as const) {
+    // Plateau 26 : Savoir, Monument (achat, visite), Défi (Duel / question / défi famille), Halte, Don, Trésor, Départ, et la Zakat annuelle hors plateau.
+    for (const t of ["QuestionRequested", "DuelStarted", "DuelResolved", "JourneyHalted", "PurchaseOffered", "SiteAcquired", "HeritageVisited", "MoneyTransferred", "ScenarioTriggered", "PassedStart", "TreasureFound", "DonationOffered", "DonationMade", "FundChanged", "ZakatEvaluationRequested", "ZakatPaid", "YearCompleted"] as const) {
       expect(types.has(t), t).toBe(true);
     }
     const cellTypes = new Set(run.events.filter((e): e is Extract<GameEvent, { type: "ScenarioTriggered" }> => e.type === "ScenarioTriggered").map((e) => e.cellType));
-    for (const c of ["event", "management", "solidarity", "treasure", "challenge"] as const) expect(cellTypes.has(c), c).toBe(true);
+    expect([...cellTypes]).toEqual(["challenge"]);
+    expect(run.state.funds.masakin).toBeGreaterThan(0);
+    expect(run.state.calendar.year).toBeGreaterThan(1);
     const purposes = new Set(run.events.filter((e): e is Extract<GameEvent, { type: "QuestionRequested" }> => e.type === "QuestionRequested").map((e) => e.purpose));
     expect([...purposes].sort()).toEqual(["duel", "halt", "heritage_visit", "standard"]);
   });

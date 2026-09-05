@@ -3,6 +3,7 @@ import { FAMILY_CHALLENGES } from "@/config/challenges";
 import { GAME_SCHEMA_VERSION, NO_CHALLENGES, deserializeGameState, isChallengeEligible, playerAge, reduce, selectChallenge, serializeGameState, variantFor, type ChallengeDefinition, type GameState, type PlayerSetup } from "@/core/game";
 import { cardForPhase } from "@/ui/cards/cardState";
 import { challengesFixture, THREE_CHALLENGES } from "../../fixtures/game/challenges.fixture";
+import { TEST_RULES_SCENARIO_TREASURE } from "../../fixtures/game/rules.fixture";
 import { scenariosOf } from "../../fixtures/game/scenarios.fixture";
 import { active, advanceUntil, create, eventsOf, journey, lineBoard, makeLineSetup, pid, run, simulate, type Policy } from "../../fixtures/game/setup.fixture";
 
@@ -198,7 +199,7 @@ describe("Défis famille — récompense, échec, étapes", () => {
   });
 
   it("un multiplicateur de récompense de question en attente ne touche jamais un gain de défi", () => {
-    const boosted = journey(create(makeLineSetup({ cells: { 1: "treasure", 2: "challenge" }, scenarios: scenariosOf("treasure-boost", "challenge-family"), players: FAMILY, challenges: challengesFixture() })).state);
+    const boosted = journey(create(makeLineSetup({ cells: { 1: "treasure", 2: "challenge" }, scenarios: scenariosOf("treasure-boost", "challenge-family"), players: FAMILY, challenges: challengesFixture(), rules: TEST_RULES_SCENARIO_TREASURE })).state);
     const landed = advanceUntil(boosted.state, (s) => s.phase.kind === "awaiting_challenge" && s.players[s.activePlayerIndex]!.id === pid("maryam"));
     const c = phaseOf(landed.state)!;
     const done = run(run(landed.state, { type: "AcceptChallenge", playerId: pid("maryam") }).state, { type: "CompleteChallenge", playerId: pid("maryam"), success: true });

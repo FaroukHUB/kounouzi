@@ -38,6 +38,8 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
   const label = t(DEFAULT_LOCALE, `cell.${type}`);
   const isStart = type === "start";
   const isMonument = type === "heritage";
+  // Halte : « grosse case » — médaillon plus grand, liseré marqué, légère mise en avant (structure de grille inchangée).
+  const isHalt = type === "halt";
   const ring = arrival ? `0 0 0 3px ${style.accent}, 0 10px 18px -10px rgba(0,0,0,0.55)` : highlighted || preview ? `0 0 0 2px ${style.accent}aa, 0 6px 14px -10px rgba(0,0,0,0.5)` : "0 4px 10px -8px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.7)";
   return (
     <motion.div
@@ -50,10 +52,13 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
         gridColumn: grid.col + 1,
         background: `linear-gradient(160deg, ${style.bg} 0%, ${style.bg2} 100%)`,
         color: style.fg,
-        borderColor: isStart ? "rgba(255,255,255,0.35)" : "rgba(120, 80, 30, 0.22)",
-        boxShadow: ring,
+        borderColor: isStart ? "rgba(255,255,255,0.35)" : isHalt ? style.accent : "rgba(120, 80, 30, 0.22)",
+        borderWidth: isHalt ? 3 : undefined,
+        boxShadow: isHalt && !arrival && !highlighted ? `0 0 0 2px ${style.accent}55, 0 10px 18px -10px rgba(0,0,0,0.55)` : ring,
+        zIndex: isHalt ? 1 : undefined,
       }}
-      animate={{ scale: arrival ? 1.08 : highlighted ? 1.04 : 1, opacity: 1 }}
+      animate={{ scale: arrival ? 1.08 : highlighted ? 1.04 : isHalt ? 1.05 : 1, opacity: 1 }}
+      data-big={isHalt ? "true" : undefined}
       transition={{ type: "tween", duration: 0.18 }}
       aria-label={`${label} ${position}${owner ? ` — ${owner.name}` : ""}`}
     >
@@ -62,13 +67,13 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
         // eslint-disable-next-line @next/next/no-img-element
         <img src={monumentImage(siteId ?? "")} alt="" aria-hidden="true" className="absolute inset-x-[8%] top-[6%] h-[46%] w-auto max-w-[84%] rounded-[10%] object-cover opacity-90" loading="lazy" decoding="async" />
       ) : (
-        <span className="absolute top-[9%] flex size-[42%] items-center justify-center rounded-full" style={{ backgroundColor: isStart ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.75)", boxShadow: `inset 0 0 0 1.5px ${style.accent}66` }}>
+        <span className={`absolute top-[9%] flex ${isHalt ? "size-[52%]" : "size-[42%]"} items-center justify-center rounded-full`} style={{ backgroundColor: isStart ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.75)", boxShadow: `inset 0 0 0 1.5px ${style.accent}66` }}>
           <CellIcon type={type} className="size-[62%]" />
         </span>
       )}
       {/* Petit titre sur ruban */}
       {/* Petit titre : masqué sur les très petits écrans (icône seule), jamais tronqué ailleurs */}
-      <span className="relative z-10 mb-[7%] hidden w-full overflow-hidden rounded-full px-0.5 py-[3%] text-[clamp(0.4rem,0.78vw,0.66rem)] font-bold leading-none tracking-[-0.01em] sm:block" style={{ backgroundColor: isStart ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.72)" }}>
+      <span className="relative z-10 mb-[7%] hidden w-full overflow-hidden rounded-full px-0.5 py-[3%] text-[clamp(0.38rem,0.7vw,0.62rem)] font-bold leading-none tracking-[-0.01em] sm:block" style={{ backgroundColor: isStart ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.72)" }}>
         {label}
       </span>
       {/* Ruban de propriétaire (monument possédé) */}

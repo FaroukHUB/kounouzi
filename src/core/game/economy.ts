@@ -1,6 +1,6 @@
 import type { PlayerId } from "@/core/shared";
 import { playerById, step, chain, updatePlayer, type Step } from "./step";
-import type { GameState, InsufficientPolicy, TransactionReason, TransferReason } from "./types";
+import type { FundId, FundTransactionReason, GameState, InsufficientPolicy, TransactionReason, TransferReason } from "./types";
 
 /**
  * Toute variation d'argent passe par le grand livre. Aucune règle n'écrit un
@@ -68,6 +68,31 @@ export function transferMoney(state: GameState, fromPlayerId: PlayerId, toPlayer
   result = chain(result, (s) => applyTransaction(s, fromPlayerId, -amount, "transfer_sent", transferId));
   result = chain(result, (s) => applyTransaction(s, toPlayerId, amount, "transfer_received", transferId));
   return chain(result, (s) => step(s, [{ type: "MoneyTransferred", transferId, fromPlayerId, toPlayerId, requested, amount, reason }]));
+}
+
+/**
+ * Dépôt d'un joueur vers une caisse collective (Caisse Masākīn) : UNE
+ * primitive, deux écritures liées par `ref` (grand livre du joueur, grand
+ * livre de la caisse). Les Kounouz d'une caisse n'appartiennent à personne.
+ * Le montant est plafonné au solde du joueur (jamais négatif).
+ */
+export function fundDeposit(state: GameState, fromPlayerId: PlayerId, requested: number, reason: FundTransactionReason, playerReason: Extract<TransactionReason, "donation_sent" | "zakat_paid">, fund: FundId = "masakin"): Step {
+  const amount = Math.min(Math.max(0, Math.trunc(requested)), Math.max(0, playerById(state, fromPlayerId).money));
+  if (amount === 0) return step(state);
+  const id = state.fundLedger.length + 1;
+  const ref = `f${id}`;
+  let result = applyTransaction(state, fromPlayerId, -amount, playerReason, ref);
+  result = chain(result, (s) => {
+    const balanceAfter = s.funds[fund] + amount;
+    const entry = { id, turnNumber: s.turnNumber, fund, fromPlayerId, amount, reason, balanceAfter, ref };
+    return step({ ...s, funds: { ...s.funds, [fund]: balanceAfter }, fundLedger: [...s.fundLedger, entry] }, [{ type: "FundChanged", fund, fromPlayerId, amount, reason, balanceAfter, ref }]);
+  });
+  return result;
+}
+
+/** Somme du grand livre d'une caisse — doit toujours égaler son solde. */
+export function fundLedgerBalance(state: GameState, fund: FundId): number {
+  return state.fundLedger.filter((t) => t.fund === fund).reduce((sum, t) => sum + t.amount, 0);
 }
 
 /** Somme du grand livre pour un joueur — doit toujours égaler son solde. */

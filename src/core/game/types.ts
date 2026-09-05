@@ -7,11 +7,14 @@ import type { AnswerOutcome, ExplanationMastery, GameId, PlayerId, ProfileType, 
 
 /**
  * Types de case. Correspondance avec la nomenclature de conception :
- * start=DÉPART · question=QUESTION/SAVOIR · heritage=MONUMENT achetable ·
- * event=ÉVÉNEMENT · management=GESTION · challenge=DÉFI ·
- * solidarity=SOLIDARITÉ · treasure=TRÉSOR/RÉCOMPENSE · halt=HALTE DU VOYAGE.
+ * start=DÉPART · question=SAVOIR · heritage=MONUMENT achetable ·
+ * challenge=DÉFI · halt=HALTE · donation=DON (Caisse Masākīn ou joueur) ·
+ * treasure=TRÉSOR (+montant fixe des règles). `event`, `management` et
+ * `solidarity` ne figurent plus sur le plateau 26 (ADR 0033) ; ils restent
+ * acceptés pour les parties sauvegardées et les scénarios de démonstration.
+ * La Zakat al-Māl n'est JAMAIS une case : mécanique annuelle hors plateau.
  */
-export const CELL_TYPES = ["start", "question", "heritage", "event", "management", "challenge", "solidarity", "treasure", "halt"] as const;
+export const CELL_TYPES = ["start", "question", "heritage", "event", "management", "challenge", "solidarity", "treasure", "halt", "donation"] as const;
 export type CellType = (typeof CELL_TYPES)[number];
 
 export interface BoardCellConfig {
@@ -98,8 +101,8 @@ export interface JourneyCycle {
 export const INSUFFICIENT_POLICIES = ["cap_to_balance", "require_full_amount", "cancel_if_insufficient"] as const;
 export type InsufficientPolicy = (typeof INSUFFICIENT_POLICIES)[number];
 
-/** Motif d'un transfert entre joueurs (traçable dans le grand livre et les événements). */
-export const TRANSFER_REASONS = ["heritage_contribution", "gift", "solidarity", "collective_fund", "aid"] as const;
+/** Motif d'un transfert entre joueurs (traçable dans le grand livre et les événements). `donation` = case Don ; `zakat` = Zakat versée à un joueur éligible (règles à définir). */
+export const TRANSFER_REASONS = ["heritage_contribution", "gift", "solidarity", "collective_fund", "aid", "donation", "zakat"] as const;
 export type TransferReason = (typeof TRANSFER_REASONS)[number];
 
 /** Gains d'un résultat de réponse : ce que rapporte correct / presque / incorrect. */
@@ -161,6 +164,10 @@ export type Outcome =
   | { readonly kind: "halt" }
   /** Défi famille : un défi de la banque (données), choisi par rotation déterministe cachée. Le Duel reste distinct. */
   | { readonly kind: "family_challenge" }
+  /** Trésor : gain fixe des règles (`rules.treasure.amount`), versé une seule fois par arrivée, par le grand livre. */
+  | { readonly kind: "treasure" }
+  /** Don volontaire (case Don) : le joueur choisit un montant des règles et une destination (Caisse Masākīn ou un joueur). Jamais une Zakat. */
+  | { readonly kind: "donation" }
   /** Le joueur actif choisit un destinataire et lui transfère `amount`. */
   | { readonly kind: "transfer_choice"; readonly amount: number; readonly reason: TransferReason; readonly insufficient: InsufficientPolicy }
   /** Le joueur actif donne `amount` au joueur qui a le moins d'argent (autre que lui). */
@@ -310,11 +317,35 @@ export type EndCondition =
   | { readonly kind: "free" }
   | { readonly kind: "turns_per_player"; readonly turns: number };
 
+/** Actifs pris en compte pour la Zakat al-Māl : seuls les Kounouz monétaires aujourd'hui (jamais la valeur des monuments sans décision explicite). */
+export const ZAKAT_ASSET_TYPES = ["money"] as const;
+export type ZakatAssetType = (typeof ZAKAT_ASSET_TYPES)[number];
+
+/**
+ * Zakat al-Māl : mécanique ANNUELLE hors plateau (ADR 0033). Le cycle
+ * (`cycleRounds` tours de table complets = une année lunaire simulée) est
+ * commun à tous les joueurs ; à chaque échéance, chaque joueur dont les
+ * actifs éligibles atteignent le nissab verse `rate` à la Caisse Masākīn.
+ */
+export interface ZakatConfig {
+  readonly enabled: boolean;
+  readonly rate: number;
+  readonly nisabKounouz: number;
+  readonly cycleRounds: number;
+  readonly eligibleAssetTypes: readonly ZakatAssetType[];
+}
+
 export interface RulesConfig {
   readonly id: string;
   readonly version: number;
   readonly startingMoney: number;
+  /** Gain de chaque passage complet par la case Départ (versé une fois par franchissement, par le grand livre). */
   readonly passStartBonus: number;
+  /** Trésor : gain fixe à l'arrivée sur la case ; 0 = la case sert ses scénarios (parties anciennes). */
+  readonly treasure: { readonly amount: number };
+  /** Case Don : montants proposés au joueur (choix humain), destinations = Caisse Masākīn ou un autre joueur. */
+  readonly donation: { readonly amounts: readonly number[] };
+  readonly zakat: ZakatConfig;
   readonly rewards: { readonly correct: number; readonly partial: number; readonly incorrect: number; readonly masteryMultiplier: number };
   readonly scoring: { readonly moneyWeight: number; readonly heritageWeight: number };
   readonly allowNegativeBalance: boolean;
@@ -375,6 +406,9 @@ export interface PlayerState {
 export const TRANSACTION_REASONS = [
   "starting_money",
   "start_bonus",
+  "treasure",
+  "donation_sent",
+  "zakat_paid",
   "question_reward",
   "purchase",
   "scenario_gain",
@@ -400,6 +434,33 @@ export interface Transaction {
   readonly reason: TransactionReason;
   readonly balanceAfter: number;
   readonly ref?: string;
+}
+
+/** Caisses collectives : des Kounouz qui n'appartiennent à AUCUN joueur. */
+export const FUNDS = ["masakin"] as const;
+export type FundId = (typeof FUNDS)[number];
+export const FUND_TRANSACTION_REASONS = ["donation", "zakat"] as const;
+export type FundTransactionReason = (typeof FUND_TRANSACTION_REASONS)[number];
+
+/** Écriture du grand livre d'une caisse, liée à l'écriture du joueur par `ref`. */
+export interface FundTransaction {
+  readonly id: number;
+  readonly turnNumber: number;
+  readonly fund: FundId;
+  readonly fromPlayerId: PlayerId;
+  readonly amount: number;
+  readonly reason: FundTransactionReason;
+  readonly balanceAfter: number;
+  readonly ref: string;
+}
+
+/** Destination d'un don ou d'une Zakat : la Caisse Masākīn, ou un joueur (don ; Zakat vers un joueur = règles d'éligibilité à définir). */
+export type MoneyDestination = { readonly kind: "masakin" } | { readonly kind: "player"; readonly playerId: PlayerId };
+
+/** Calendrier lunaire simulé, COMMUN à tous les joueurs : une année = `zakat.cycleRounds` tours de table complets. */
+export interface GameCalendar {
+  readonly year: number;
+  readonly roundsInYear: number;
 }
 
 export interface Holding {
@@ -464,6 +525,8 @@ export type TurnPhase =
   | { readonly kind: "awaiting_challenge"; readonly challenge: ChallengeState; readonly queue: readonly Outcome[] }
   /** Le joueur actif choisit à qui transférer (partage, cadeau, don). */
   | { readonly kind: "awaiting_recipient"; readonly amount: number; readonly reason: TransferReason; readonly insufficient: InsufficientPolicy; readonly candidates: readonly PlayerId[]; readonly queue: readonly Outcome[] }
+  /** Case Don : le joueur actif choisit un montant (parmi ceux qu'il peut payer) et une destination. */
+  | { readonly kind: "awaiting_donation"; readonly amounts: readonly number[]; readonly candidates: readonly PlayerId[]; readonly queue: readonly Outcome[] }
   | { readonly kind: "finished" };
 
 export interface RankingEntry {
@@ -502,7 +565,7 @@ export interface AnsweredQuestion {
   readonly difficulty: number;
 }
 
-export const GAME_SCHEMA_VERSION = 6 as const;
+export const GAME_SCHEMA_VERSION = 7 as const;
 
 export interface GameState {
   readonly schemaVersion: typeof GAME_SCHEMA_VERSION;
@@ -513,6 +576,11 @@ export interface GameState {
   readonly turnNumber: number;
   readonly phase: TurnPhase;
   readonly ledger: readonly Transaction[];
+  /** Caisses collectives (Kounouz hors joueurs) et leur grand livre. */
+  readonly funds: Readonly<Record<FundId, number>>;
+  readonly fundLedger: readonly FundTransaction[];
+  /** Calendrier commun (année lunaire simulée) qui déclenche la Zakat. */
+  readonly calendar: GameCalendar;
   readonly holdings: readonly Holding[];
   readonly effects: readonly QueuedEffect[];
   /** Nombre d'arrivées sur chaque case (sélection déterministe des scénarios). */

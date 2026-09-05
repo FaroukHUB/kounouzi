@@ -1,13 +1,77 @@
 {
-  "$comment": "⚠️ MONUMENTS FICTIFS DE DÉMONSTRATION — Phase 3. Aucun monument réel n'est défini ; les vrais sites arriveront avec le contenu validé.",
+  "$comment": "⚠️ MONUMENTS FICTIFS DE DÉMONSTRATION — 12 monuments pour le plateau 26 (ADR 0033). Aucun monument réel n'est défini ; les vrais sites arriveront avec le contenu validé. Les lieux religieux ne sont jamais achetables.",
   "sites": [
-    { "id": "demo-monument-01", "kind": "purchasable_monument", "price": 300, "heritageValue": 250 },
-    { "id": "demo-monument-02", "kind": "purchasable_monument", "price": 350, "heritageValue": 310 },
-    { "id": "demo-monument-03", "kind": "purchasable_monument", "price": 400, "heritageValue": 370 },
-    { "id": "demo-monument-04", "kind": "purchasable_monument", "price": 450, "heritageValue": 430 },
-    { "id": "demo-monument-05", "kind": "purchasable_monument", "price": 500, "heritageValue": 490 },
-    { "id": "demo-monument-06", "kind": "purchasable_monument", "price": 550, "heritageValue": 550 },
-    { "id": "demo-monument-07", "kind": "purchasable_monument", "price": 600, "heritageValue": 610 },
-    { "id": "demo-monument-08", "kind": "purchasable_monument", "price": 650, "heritageValue": 670 }
+    {
+      "id": "demo-monument-01",
+      "kind": "purchasable_monument",
+      "price": 300,
+      "heritageValue": 250
+    },
+    {
+      "id": "demo-monument-02",
+      "kind": "purchasable_monument",
+      "price": 350,
+      "heritageValue": 310
+    },
+    {
+      "id": "demo-monument-03",
+      "kind": "purchasable_monument",
+      "price": 400,
+      "heritageValue": 370
+    },
+    {
+      "id": "demo-monument-04",
+      "kind": "purchasable_monument",
+      "price": 450,
+      "heritageValue": 430
+    },
+    {
+      "id": "demo-monument-05",
+      "kind": "purchasable_monument",
+      "price": 500,
+      "heritageValue": 490
+    },
+    {
+      "id": "demo-monument-06",
+      "kind": "purchasable_monument",
+      "price": 550,
+      "heritageValue": 550
+    },
+    {
+      "id": "demo-monument-07",
+      "kind": "purchasable_monument",
+      "price": 600,
+      "heritageValue": 610
+    },
+    {
+      "id": "demo-monument-08",
+      "kind": "purchasable_monument",
+      "price": 650,
+      "heritageValue": 670
+    },
+    {
+      "id": "demo-monument-09",
+      "kind": "purchasable_monument",
+      "price": 700,
+      "heritageValue": 730
+    },
+    {
+      "id": "demo-monument-10",
+      "kind": "purchasable_monument",
+      "price": 750,
+      "heritageValue": 790
+    },
+    {
+      "id": "demo-monument-11",
+      "kind": "purchasable_monument",
+      "price": 800,
+      "heritageValue": 850
+    },
+    {
+      "id": "demo-monument-12",
+      "kind": "purchasable_monument",
+      "price": 850,
+      "heritageValue": 910
+    }
   ]
 }

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createGame, deserializeGameState, duelWinner, reduce, serializeGameState, type GameState, type Scenario } from "@/core/game";
 import type { AnswerOutcome } from "@/core/shared";
 import { TEST_MONUMENTS } from "../../fixtures/game/heritage.fixture";
+import { TEST_RULES_SCENARIO_TREASURE } from "../../fixtures/game/rules.fixture";
 import { scenariosOf } from "../../fixtures/game/scenarios.fixture";
 import { active, advanceUntil, answer, create, eventsOf, journey, makeLineSetup, makeSetup, pid, players, responder, run } from "../../fixtures/game/setup.fixture";
 
@@ -313,7 +314,7 @@ describe("gestion : investissement, épargne, protection, choix immédiat ou fut
     const now = run(r.state, { type: "Choose", playerId: pid("p1"), choiceId: "management-now-or-later", optionId: "now" });
     expect(now.state.players[0]!.money).toBe(1100);
 
-    const discount = journey(create(makeLineSetup({ cells: { 1: "treasure", 2: "heritage" }, scenarios: scenariosOf("treasure-discount"), players: players(2) })).state);
+    const discount = journey(create(makeLineSetup({ cells: { 1: "treasure", 2: "heritage" }, scenarios: scenariosOf("treasure-discount"), players: players(2), rules: TEST_RULES_SCENARIO_TREASURE })).state);
     const offered = advanceUntil(discount.state, (s) => active(s) === pid("p1") && s.phase.kind === "awaiting_purchase");
     const bought = run(offered.state, { type: "DecidePurchase", playerId: pid("p1"), siteId: TEST_MONUMENTS[0]!.id, buy: true });
     expect(eventsOf(bought.events, "SiteAcquired")[0]).toMatchObject({ price: 150, heritageValue: 250 });
@@ -321,7 +322,7 @@ describe("gestion : investissement, épargne, protection, choix immédiat ou fut
   });
 
   it("trésor « reprise » : efface un tour à sauter et lève une Halte", () => {
-    const setup = makeLineSetup({ cells: { 1: "event", 2: "halt", 3: "treasure" }, scenarios: scenariosOf("event-skip", "treasure-recovery"), players: players(1).concat(players(2).slice(1)) });
+    const setup = makeLineSetup({ cells: { 1: "event", 2: "halt", 3: "treasure" }, scenarios: scenariosOf("event-skip", "treasure-recovery"), players: players(1).concat(players(2).slice(1)), rules: TEST_RULES_SCENARIO_TREASURE });
     let s = journey(create(setup).state).state; // p1 : tour à sauter en attente
     s = advanceUntil(s, (x) => active(x) === pid("p1") && x.players[0]!.position === 2).state; // arrive à la Halte (le tour sauté a été consommé)
     expect(s.players[0]!.halted).toBe(true);

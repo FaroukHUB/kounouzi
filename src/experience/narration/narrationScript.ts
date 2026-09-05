@@ -26,6 +26,12 @@ export function utteranceFor(event: GameEvent, state: GameState, locale: Locale)
       return { text: t(locale, `narration.arrived.${event.cellType}`), lang: locale };
     case "PassedStart":
       return { text: t(locale, "narration.passedStart"), lang: locale };
+    case "DonationMade":
+      return event.to.kind === "masakin" ? { text: t(locale, "narration.donation.fund", { name: name(event.playerId), amount: event.amount }), lang: locale, important: true } : null;
+    case "ZakatPaid":
+      return { text: t(locale, "narration.zakat.paid", { name: name(event.playerId), amount: event.amount }), lang: locale, important: true };
+    case "YearCompleted":
+      return { text: t(locale, "narration.year"), lang: locale };
     case "TimeTargetReached":
       return { text: t(locale, "narration.lastRound"), lang: locale, important: true };
     case "DuelStarted":

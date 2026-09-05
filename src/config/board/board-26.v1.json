@@ -1,0 +1,112 @@
+{
+  "$comment": "Plateau 26 cases (ADR 0033) : 12 monuments à acheter, 5 Savoir, 4 Défi, 2 Halte, 1 Don, 1 Trésor, 1 Départ. Ordre imposé par la décision produit. La Zakat al-Māl n'est PAS une case (mécanique annuelle hors plateau). Le moteur n'en dépend pas : il accepte tout plateau valide.",
+  "id": "board-26.v1",
+  "version": 1,
+  "cellCount": 26,
+  "cells": [
+    {
+      "position": 0,
+      "type": "start"
+    },
+    {
+      "position": 1,
+      "type": "heritage"
+    },
+    {
+      "position": 2,
+      "type": "question"
+    },
+    {
+      "position": 3,
+      "type": "heritage"
+    },
+    {
+      "position": 4,
+      "type": "challenge"
+    },
+    {
+      "position": 5,
+      "type": "heritage"
+    },
+    {
+      "position": 6,
+      "type": "halt"
+    },
+    {
+      "position": 7,
+      "type": "heritage"
+    },
+    {
+      "position": 8,
+      "type": "question"
+    },
+    {
+      "position": 9,
+      "type": "heritage"
+    },
+    {
+      "position": 10,
+      "type": "challenge"
+    },
+    {
+      "position": 11,
+      "type": "heritage"
+    },
+    {
+      "position": 12,
+      "type": "donation"
+    },
+    {
+      "position": 13,
+      "type": "heritage"
+    },
+    {
+      "position": 14,
+      "type": "question"
+    },
+    {
+      "position": 15,
+      "type": "heritage"
+    },
+    {
+      "position": 16,
+      "type": "challenge"
+    },
+    {
+      "position": 17,
+      "type": "heritage"
+    },
+    {
+      "position": 18,
+      "type": "halt"
+    },
+    {
+      "position": 19,
+      "type": "heritage"
+    },
+    {
+      "position": 20,
+      "type": "question"
+    },
+    {
+      "position": 21,
+      "type": "heritage"
+    },
+    {
+      "position": 22,
+      "type": "treasure"
+    },
+    {
+      "position": 23,
+      "type": "challenge"
+    },
+    {
+      "position": 24,
+      "type": "question"
+    },
+    {
+      "position": 25,
+      "type": "heritage"
+    }
+  ]
+}

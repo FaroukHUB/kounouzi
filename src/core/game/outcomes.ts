@@ -142,6 +142,28 @@ export function processQueue(state: GameState, initialQueue: readonly Outcome[])
         );
       }
 
+      case "treasure":
+        result = chain(result, (s) => {
+          const amount = s.config.rules.treasure.amount;
+          if (amount <= 0) return step(s);
+          let r = step(s, [{ type: "TreasureFound", playerId: player.id, amount }]);
+          r = chain(r, (x) => applyTransaction(x, player.id, amount, "treasure"));
+          return r;
+        });
+        break;
+
+      case "donation": {
+        const s = result.state;
+        const money = activePlayer(s).money;
+        const amounts = s.config.rules.donation.amounts.filter((a) => a <= money);
+        const candidates = s.players.filter((p) => p.id !== player.id).map((p) => p.id);
+        if (amounts.length === 0) {
+          result = chain(result, () => step(s, [{ type: "DonationUnavailable", playerId: player.id }]));
+          break;
+        }
+        return chain(result, () => step({ ...s, phase: { kind: "awaiting_donation", amounts, candidates, queue: [...queue] } }, [{ type: "DonationOffered", playerId: player.id, amounts, candidates }]));
+      }
+
       case "give_to_poorest":
         result = chain(result, (s) => {
           const to = poorestPlayer(s, player.id);
