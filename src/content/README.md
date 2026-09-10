@@ -74,3 +74,11 @@
 Règles : explication FR **et** AR obligatoires pour toute question jouable ;
 `status = validated` obligatoire ; source primaire obligatoire si la catégorie
 l'exige (`requiresSource`). Voir `docs/decisions/0004`, `0020`, `0022`.
+
+- `hassanat/hassanat-cards.v1.json` — cartes **Hassanāt** (ADR 0035) :
+  occasions volontaires de générosité (`offer_meal`, `offer_umrah`,
+  `help_player`), validées par Zod (`hassanatCardDefinitionSchema`). Coûts,
+  destinations du coût et points = valeurs de DÉMONSTRATION non validées ;
+  les points Hassanāt sont le score de générosité du jeu, jamais une
+  affirmation sur une récompense réelle. `requiresEstablishmentFamily` et
+  `ownerCost` préparent le lien avec les établissements (aucun rabais décidé).

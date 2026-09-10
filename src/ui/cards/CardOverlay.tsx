@@ -12,7 +12,8 @@ import { ChoiceCard } from "./ChoiceCard";
 import { DonationCard } from "./DonationCard";
 import { DuelCard } from "./DuelCard";
 import { HaltCard } from "./HaltCard";
-import { MonumentCard } from "./MonumentCard";
+import { EstablishmentCard, ServiceCard } from "./EstablishmentCard";
+import { HassanatCard } from "./HassanatCard";
 import { OpponentCard } from "./OpponentCard";
 import { QuestionCard } from "./QuestionCard";
 import { RecipientCard } from "./RecipientCard";
@@ -28,6 +29,9 @@ export interface CardOverlayProps {
   /** `playerId` = le joueur qui répond (joueur actif, ou dueliste en cours). */
   readonly onSubmitAnswer: (requestId: string, playerId: PlayerId, outcome: AnswerOutcome, mastery: ExplanationMastery, mode: ValidationMode) => void;
   readonly onDecidePurchase: (siteId: string, buy: boolean) => void;
+  readonly onPayService: () => void;
+  readonly onAcceptHassanat: (beneficiaryId: PlayerId) => void;
+  readonly onSkipHassanat: () => void;
   readonly onChoose: (choiceId: string, optionId: string) => void;
   readonly onChooseOpponent: (opponentId: PlayerId) => void;
   readonly onChooseRecipient: (recipientId: PlayerId) => void;
@@ -38,7 +42,7 @@ export interface CardOverlayProps {
 }
 
 /** Couche des cartes au-dessus du plateau (le plateau se met légèrement en retrait). */
-export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer, onDecidePurchase, onChoose, onChooseOpponent, onChooseRecipient, onDonate, onAcceptChallenge, onCompleteChallenge, onSkipChallenge }: CardOverlayProps) {
+export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer, onDecidePurchase, onPayService, onAcceptHassanat, onSkipHassanat, onChoose, onChooseOpponent, onChooseRecipient, onDonate, onAcceptChallenge, onCompleteChallenge, onSkipChallenge }: CardOverlayProps) {
   const card = useUiStore((s) => s.card);
   const updateCard = useUiStore((s) => s.updateCard);
 
@@ -59,15 +63,42 @@ export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer
             }}
           />
         );
-      case "monument":
+      case "establishment":
         return (
-          <MonumentCard
+          <EstablishmentCard
             state={state}
             card={c}
-            narrator={narrator}
             onDecide={(buy) => {
               updateCard({ step: "submitted" });
               onDecidePurchase(c.siteId, buy);
+            }}
+          />
+        );
+      case "service":
+        return (
+          <ServiceCard
+            state={state}
+            profiles={profiles}
+            card={c}
+            onPay={() => {
+              updateCard({ step: "submitted" });
+              onPayService();
+            }}
+          />
+        );
+      case "hassanat":
+        return (
+          <HassanatCard
+            state={state}
+            profiles={profiles}
+            card={c}
+            onAccept={(beneficiaryId) => {
+              updateCard({ step: "submitted" });
+              onAcceptHassanat(beneficiaryId);
+            }}
+            onSkip={() => {
+              updateCard({ step: "submitted" });
+              onSkipHassanat();
             }}
           />
         );

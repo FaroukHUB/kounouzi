@@ -1,6 +1,6 @@
 import { err, ok, type GameId, type PlayerId, type ProfileType, type Result } from "@/core/shared";
 import { resolveBoard, type BoardError } from "./board";
-import { boardConfigSchema, challengesConfigSchema, familyAssistConfigSchema, heritageSiteSchema, journeyCycleSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
+import { boardConfigSchema, challengesConfigSchema, familyAssistConfigSchema, hassanatConfigSchema, heritageSiteSchema, journeyCycleSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
 import { applyTransaction } from "./economy";
 import { chain, step, type Step } from "./step";
 import { startTurn } from "./turn";
@@ -10,10 +10,12 @@ import {
   MAX_PLAYERS,
   MIN_PLAYERS,
   NO_CHALLENGES,
+  NO_HASSANAT,
   type BoardConfig,
   type ChallengesConfig,
   type FamilyAssistConfig,
   type GameState,
+  type HassanatConfig,
   type HeritageSite,
   type JourneyCycle,
   type PlayerState,
@@ -45,6 +47,8 @@ export interface GameSetup {
   readonly challenges?: ChallengesConfig | undefined;
   /** Décalage de la séquence de scénarios (numéro de partie familiale − 1) : rotation inter-parties sans tirage. */
   readonly scenarioOffset?: number | undefined;
+  /** Cartes Hassanāt (banque figée dans la partie) ; absent = aucune carte. */
+  readonly hassanat?: HassanatConfig | undefined;
 }
 
 export type SetupError =
@@ -64,6 +68,7 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
   }
   const familyAssist = setup.familyAssist ?? FAMILY_ASSIST_OFF;
   const challenges = setup.challenges ?? NO_CHALLENGES;
+  const hassanat = setup.hassanat ?? NO_HASSANAT;
 
   const issues = [
     ...(boardConfigSchema.safeParse(setup.board).error?.issues.map((i) => `board: ${i.message}`) ?? []),
@@ -71,6 +76,7 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     ...(journeyCycleSchema.safeParse(setup.journey).error?.issues.map((i) => `journey: ${i.message}`) ?? []),
     ...(familyAssistConfigSchema.safeParse(familyAssist).error?.issues.map((i) => `familyAssist: ${i.message}`) ?? []),
     ...(challengesConfigSchema.safeParse(challenges).error?.issues.map((i) => `challenges: ${i.message}`) ?? []),
+    ...(hassanatConfigSchema.safeParse(hassanat).error?.issues.map((i) => `hassanat: ${i.message}`) ?? []),
     ...setup.heritageSites.flatMap((s) => heritageSiteSchema.safeParse(s).error?.issues.map((i) => `site: ${i.message}`) ?? []),
     ...setup.scenarios.flatMap((s) => scenarioSchema.safeParse(s).error?.issues.map((i) => `scenario ${s.id}: ${i.message}`) ?? []),
     ...familyAssist.assistedPlayers.filter((a) => !seen.has(a.playerId)).map((a) => `familyAssist: joueur inconnu ${a.playerId}`),
@@ -95,12 +101,13 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     solidarityGiven: 0,
     masteredSurahs: [...(p.masteredSurahs ?? [])],
     hawlRounds: 0,
+    hassanatPoints: 0,
   }));
 
   const initial: GameState = {
     schemaVersion: GAME_SCHEMA_VERSION,
     gameId: setup.gameId,
-    config: { board: resolved.value.board, sites: resolved.value.sites, scenarios: setup.scenarios, rules: setup.rules, journey: setup.journey, familyAssist, challenges, scenarioOffset: Math.max(0, Math.trunc(setup.scenarioOffset ?? 0)) },
+    config: { board: resolved.value.board, sites: resolved.value.sites, scenarios: setup.scenarios, rules: setup.rules, journey: setup.journey, familyAssist, challenges, scenarioOffset: Math.max(0, Math.trunc(setup.scenarioOffset ?? 0)), hassanat },
     players,
     activePlayerIndex: 0,
     turnNumber: 0,
@@ -109,6 +116,8 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     funds: { masakin: 0 },
     fundLedger: [],
     calendar: { year: 1, roundsInYear: 0 },
+    hassanatLedger: [],
+    hassanatServed: {},
     holdings: [],
     effects: [],
     cellVisits: {},
@@ -116,7 +125,7 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     recitationServed: {},
     clock: { activePlaySeconds: 0, timeTargetReached: false },
     endRequested: false,
-    counters: { transaction: 0, request: 0, effect: 0, transfer: 0, challenge: 0 },
+    counters: { transaction: 0, request: 0, effect: 0, transfer: 0, challenge: 0, hassanat: 0 },
     status: "in_progress",
   };
 

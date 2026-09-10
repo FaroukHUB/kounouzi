@@ -1,9 +1,9 @@
 import { z } from "zod";
 import { questionInstanceSchema } from "@/core/content/schema";
 import { ANSWER_OUTCOMES, PROFILE_TYPES, err, ok, type Result } from "@/core/shared";
-import { challengesConfigSchema, effectSpecSchema, familyAssistConfigSchema, journeyCycleSchema, outcomeSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
+import { challengesConfigSchema, effectSpecSchema, establishmentInfoSchema, familyAssistConfigSchema, hassanatConfigSchema, journeyCycleSchema, outcomeSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
 import { isMoney } from "./money";
-import { CELL_TYPES, CHALLENGE_STAGES, DUEL_STAGES, FUNDS, FUND_TRANSACTION_REASONS, GAME_SCHEMA_VERSION, INSUFFICIENT_POLICIES, NO_CHALLENGES, TRANSACTION_REASONS, TRANSFER_REASONS, type GameState } from "./types";
+import { CELL_TYPES, CHALLENGE_STAGES, DUEL_STAGES, FUNDS, FUND_TRANSACTION_REASONS, GAME_SCHEMA_VERSION, INSUFFICIENT_POLICIES, NO_CHALLENGES, NO_HASSANAT, TRANSACTION_REASONS, TRANSFER_REASONS, type GameState } from "./types";
 
 /** Montant en Kounouz : fini, au plus deux décimales (représentation exacte en centimes). */
 const moneySchema = z.number().finite().refine((v) => isMoney(v), { message: "montant non exprimable en centimes" });
@@ -36,19 +36,20 @@ const duelSchema = z.object({
 
 const challengeStateSchema = z.object({ challengeId: z.string(), playerId: z.string(), requestId: z.string(), stage: z.enum(CHALLENGE_STAGES), served: questionInstanceSchema.optional(), surahIds: z.array(z.string()).optional() });
 
-/** Forme sérialisée de l'état — version 8 (v7 + ḥawl par joueur, don à montant fixe, montants à deux décimales). */
-export const gameStateSchemaV8 = z.object({
+/** Forme sérialisée de l'état — version 9 (v8 + établissements, service payé au propriétaire, points et Cartes Hassanāt). */
+export const gameStateSchemaV9 = z.object({
   schemaVersion: z.literal(GAME_SCHEMA_VERSION),
   gameId: z.string(),
   config: z.object({
     board: z.object({ id: z.string(), version: z.number().int(), cellCount: z.number().int(), startPosition: z.number().int(), cells: z.array(resolvedCellSchema) }),
-    sites: z.record(z.string(), z.object({ id: z.string(), price: z.number().int(), heritageValue: z.number().int() })),
+    sites: z.record(z.string(), z.object({ id: z.string(), price: z.number().int(), heritageValue: z.number().int(), establishment: establishmentInfoSchema.optional() })),
     scenarios: z.array(scenarioSchema),
     rules: rulesConfigSchema,
     journey: journeyCycleSchema,
     familyAssist: familyAssistConfigSchema,
     challenges: challengesConfigSchema,
     scenarioOffset: z.number().int().nonnegative(),
+    hassanat: hassanatConfigSchema,
   }),
   players: z.array(
     z.object({
@@ -67,6 +68,7 @@ export const gameStateSchemaV8 = z.object({
       lastDuelOpponentId: z.string().optional(),
       masteredSurahs: z.array(z.string()),
       hawlRounds: z.number().int().nonnegative(),
+      hassanatPoints: z.number().int().nonnegative(),
     }),
   ),
   activePlayerIndex: z.number().int(),
@@ -81,6 +83,8 @@ export const gameStateSchemaV8 = z.object({
     z.object({ kind: z.literal("awaiting_challenge"), challenge: challengeStateSchema, queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_recipient"), amount: z.number().int(), reason: z.enum(TRANSFER_REASONS), insufficient: z.enum(INSUFFICIENT_POLICIES), candidates: z.array(z.string()), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_donation"), amount: z.number().int().positive(), candidates: z.array(z.string()), queue: z.array(outcomeSchema) }),
+    z.object({ kind: z.literal("awaiting_service"), siteId: z.string(), ownerId: z.string(), amount: z.number().int().positive(), queue: z.array(outcomeSchema) }),
+    z.object({ kind: z.literal("awaiting_hassanat"), hassanat: z.object({ cardId: z.string(), playerId: z.string(), requestId: z.string(), cost: z.number().int().nonnegative(), candidates: z.array(z.string()) }), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("finished") }),
   ]),
   ledger: z.array(
@@ -89,6 +93,8 @@ export const gameStateSchemaV8 = z.object({
   funds: z.object(Object.fromEntries(FUNDS.map((f) => [f, moneySchema])) as Record<(typeof FUNDS)[number], typeof moneySchema>),
   fundLedger: z.array(z.object({ id: z.number().int(), turnNumber: z.number().int(), fund: z.enum(FUNDS), fromPlayerId: z.string(), amount: moneySchema, reason: z.enum(FUND_TRANSACTION_REASONS), balanceAfter: moneySchema, ref: z.string() })),
   calendar: z.object({ year: z.number().int().min(1), roundsInYear: z.number().int().nonnegative() }),
+  hassanatLedger: z.array(z.object({ id: z.number().int(), turnNumber: z.number().int(), playerId: z.string(), amount: z.number().int().positive(), source: z.literal("hassanat_card"), ref: z.string() })),
+  hassanatServed: z.record(z.string(), z.record(z.string(), z.number().int().nonnegative())),
   holdings: z.array(z.object({ siteId: z.string(), ownerId: z.string(), price: z.number().int(), heritageValue: z.number().int(), acquiredTurn: z.number().int() })),
   effects: z.array(z.object({ id: z.string(), playerId: z.string(), spec: effectSpecSchema, queuedAtTurn: z.number().int(), expiresAtTurn: z.number().int().optional() })),
   cellVisits: z.record(z.string(), z.number().int().nonnegative()),
@@ -96,9 +102,9 @@ export const gameStateSchemaV8 = z.object({
   recitationServed: z.record(z.string(), z.record(z.string(), z.number().int().nonnegative())),
   clock: z.object({ activePlaySeconds: z.number().nonnegative(), timeTargetReached: z.boolean() }),
   endRequested: z.boolean(),
-  counters: z.object({ transaction: z.number().int(), request: z.number().int(), effect: z.number().int(), transfer: z.number().int(), challenge: z.number().int() }),
+  counters: z.object({ transaction: z.number().int(), request: z.number().int(), effect: z.number().int(), transfer: z.number().int(), challenge: z.number().int(), hassanat: z.number().int() }),
   status: z.enum(["in_progress", "finished"]),
-  ranking: z.array(z.object({ rank: z.number().int(), playerId: z.string(), score: z.number(), money: moneySchema, heritageValue: z.number().int() })).optional(),
+  ranking: z.array(z.object({ rank: z.number().int(), playerId: z.string(), score: z.number(), money: moneySchema, heritageValue: z.number().int(), hassanat: z.number().int().nonnegative() })).optional(),
 });
 
 export type SerializationError =
@@ -193,6 +199,24 @@ const MIGRATIONS: Readonly<Record<number, (data: Rec) => Rec>> = {
       phase: phase["kind"] === "awaiting_donation" ? { ...phase, amount: typeof phase["amount"] === "number" ? phase["amount"] : typeof phaseAmounts[0] === "number" ? phaseAmounts[0] : 0, amounts: undefined } : phase,
     };
   },
+  // v8 → v9 : établissements (les sites gardent leur forme : sans données d'établissement, la visite reste un Défi Patrimoine), points et
+  // Cartes Hassanāt (aucune carte figée : rien n'est proposé), politique de service, poids Hassanāt à 0, classement avec points.
+  8: (data) => {
+    const config = asRec(data["config"]);
+    const rules = asRec(config["rules"]);
+    const scoring = asRec(rules["scoring"]);
+    const counters = asRec(data["counters"]);
+    return {
+      ...data,
+      schemaVersion: 9,
+      config: { ...config, hassanat: config["hassanat"] ?? NO_HASSANAT, rules: { ...rules, scoring: { hassanatWeight: 0, ...scoring }, service: rules["service"] ?? { insufficient: "cap_to_balance" } } },
+      players: (Array.isArray(data["players"]) ? data["players"] : []).map((p) => ({ hassanatPoints: 0, ...asRec(p) })),
+      hassanatLedger: data["hassanatLedger"] ?? [],
+      hassanatServed: data["hassanatServed"] ?? {},
+      counters: { hassanat: 0, ...counters },
+      ranking: Array.isArray(data["ranking"]) ? data["ranking"].map((r) => ({ hassanat: 0, ...asRec(r) })) : data["ranking"],
+    };
+  },
 };
 
 export function serializeGameState(state: GameState): string {
@@ -218,7 +242,7 @@ export function deserializeGameState(json: string): Result<GameState, Serializat
   }
   if (version !== GAME_SCHEMA_VERSION) return err({ code: "UNSUPPORTED_VERSION", version });
 
-  const parsed = gameStateSchemaV8.safeParse(record);
+  const parsed = gameStateSchemaV9.safeParse(record);
   if (!parsed.success) return err({ code: "INVALID_STATE", issues: parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`) });
   return ok(parsed.data as unknown as GameState);
 }

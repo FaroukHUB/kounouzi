@@ -1,4 +1,4 @@
-import { playerAge, type ChallengeCategory, type GameEvent, type GameState } from "@/core/game";
+import { playerAge, type ChallengeCategory, type GameEvent, type GameState, type ServiceType } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
 import { INTERACTION_KINDS, type InteractionKind, type PlaytestLog } from "./types";
 
@@ -15,6 +15,8 @@ export interface PlayerPlaytestStats {
   readonly heritage: number;
   readonly solidarityActions: number;
   readonly money: number;
+  /** Points Hassanāt (ressource distincte des Kounouz). */
+  readonly hassanat: number;
   /** Défis famille : proposés, réussis, ratés, passés, Kounouz gagnés. */
   readonly challenges: number;
   readonly challengesWon: number;
@@ -59,7 +61,15 @@ export interface PlaytestReport {
     readonly duelsWon: number;
     readonly duelsDrawn: number;
     readonly halts: number;
-    readonly monumentsBought: number;
+    readonly establishmentsBought: number;
+    /** Services consommés chez un autre joueur et Kounouz payés aux propriétaires. */
+    readonly services: number;
+    readonly serviceKounouz: number;
+    /** Cartes Hassanāt : proposées, acceptées, passées, points crédités. */
+    readonly hassanatOffered: number;
+    readonly hassanatAccepted: number;
+    readonly hassanatSkipped: number;
+    readonly hassanatPoints: number;
     readonly heritageVisits: number;
     readonly transfers: number;
     readonly treasures: number;
@@ -91,6 +101,8 @@ const sumOf = (values: readonly number[]): number => {
   for (const v of values) total += v;
   return total;
 };
+/** Journal : « Youssouf séjourne à l'Hôtel de Maryam. » — verbe par type de service (données de présentation). */
+const SERVICE_VERB: Readonly<Record<ServiceType, string>> = { stay: "séjourne à", meal: "prend un repas à", book: "choisit un livre à", umrah_trip: "réserve une ʿUmra à", ticket: "prend un billet à" };
 const mmss = (seconds: number) => `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
 
 /** Rapport de playtest : uniquement dérivé de l'état final et du journal d'événements. */
@@ -124,6 +136,7 @@ export function buildPlaytestReport(state: GameState, log: PlaytestLog): Playtes
       heritage: state.holdings.filter((h) => h.ownerId === p.id).length,
       solidarityActions: p.solidarityActions,
       money: p.money,
+      hassanat: p.hassanatPoints,
       challenges: assigned.filter((c) => c.playerId === p.id).length,
       challengesWon: completed.filter((c) => c.playerId === p.id && c.success).length,
       challengesFailed: completed.filter((c) => c.playerId === p.id && !c.success).length,
@@ -171,7 +184,13 @@ export function buildPlaytestReport(state: GameState, log: PlaytestLog): Playtes
       duelsWon: duels.filter((d) => d.winnerId !== null).length,
       duelsDrawn: duels.filter((d) => d.winnerId === null).length,
       halts: of("JourneyHalted").length,
-      monumentsBought: of("SiteAcquired").length,
+      establishmentsBought: of("SiteAcquired").length,
+      services: of("ServiceConsumed").length,
+      serviceKounouz: sumOf(of("ServiceConsumed").map((s) => s.amount)),
+      hassanatOffered: of("HassanatOffered").length,
+      hassanatAccepted: of("HassanatAccepted").length,
+      hassanatSkipped: of("HassanatSkipped").length,
+      hassanatPoints: sumOf(of("HassanatGranted").map((h) => h.amount)),
       heritageVisits: of("HeritageVisited").length,
       transfers: of("MoneyTransferred").length,
       treasures: scenarios.filter((s) => s.cellType === "treasure").length + of("TreasureFound").length,
@@ -215,7 +234,9 @@ export function measureInteractions(log: PlaytestLog): readonly InteractionTimin
         entry.events.some((e) => {
           if (o.kind === "duel") return e.type === "DuelResolved";
           if (o.kind === "family_challenge") return e.type === "FamilyChallengeCompleted" || e.type === "FamilyChallengeSkipped";
-          if (o.kind === "monument") return e.type === "SiteAcquired" || e.type === "PurchaseDeclined";
+          if (o.kind === "establishment") return e.type === "SiteAcquired" || e.type === "PurchaseDeclined";
+          if (o.kind === "service") return e.type === "ServiceConsumed";
+          if (o.kind === "hassanat") return e.type === "HassanatAccepted" || e.type === "HassanatSkipped";
           if (o.kind === "question" || o.kind === "halt" || o.kind === "heritage_visit") return e.type === "AnswerRecorded" && e.requestId === o.requestId;
           return e.type === "TurnEnded" || e.type === "QuestionRequested" || e.type === "DuelOffered";
         });
@@ -228,7 +249,9 @@ export function measureInteractions(log: PlaytestLog): readonly InteractionTimin
       if (e.type === "QuestionRequested" && e.purpose !== "duel") open.push({ kind: e.purpose === "standard" ? "question" : e.purpose, at: entry.at, requestId: e.requestId });
       else if (e.type === "DuelOffered") open.push({ kind: "duel", at: entry.at });
       else if (e.type === "FamilyChallengeAssigned") open.push({ kind: "family_challenge", at: entry.at });
-      else if (e.type === "PurchaseOffered") open.push({ kind: "monument", at: entry.at });
+      else if (e.type === "PurchaseOffered") open.push({ kind: "establishment", at: entry.at });
+      else if (e.type === "ServiceOffered") open.push({ kind: "service", at: entry.at });
+      else if (e.type === "HassanatOffered") open.push({ kind: "hassanat", at: entry.at });
       else if (e.type === "DonationOffered") open.push({ kind: "donation", at: entry.at });
       else if (e.type === "TreasureFound") open.push({ kind: "treasure", at: entry.at, untilNextBatch: true });
       else if (e.type === "ScenarioTriggered" && (e.cellType === "event" || e.cellType === "management" || e.cellType === "solidarity" || e.cellType === "treasure")) {
@@ -308,7 +331,21 @@ function describe(e: GameEvent, name: (id: PlayerId) => string): string | null {
     case "HeritageRevisited":
       return `${name(e.playerId)} retrouve son patrimoine`;
     case "PurchaseOffered":
-      return `Monument proposé à ${name(e.playerId)} : ${e.siteId} (${e.price})${e.affordable ? "" : " — trop cher"}`;
+      return `Établissement proposé à ${name(e.playerId)} : ${e.siteId} (${e.price})${e.affordable ? "" : " — trop cher"}`;
+    case "ServiceOffered":
+      return `${name(e.playerId)} ${SERVICE_VERB[e.serviceType]} ${e.siteId} de ${name(e.ownerId)} (${e.amount} Kounouz)`;
+    case "ServiceConsumed":
+      return `${name(e.playerId)} paie ${e.amount} Kounouz à ${name(e.ownerId)}${e.amount < e.requested ? ` (sur ${e.requested})` : ""}`;
+    case "HassanatOffered":
+      return `Carte Hassanāt pour ${name(e.playerId)} : ${e.cardId} (${e.kind}, coût ${e.cost}, +${e.hassanatReward} points)`;
+    case "HassanatUnavailable":
+      return `Aucune carte Hassanāt disponible pour ${name(e.playerId)}`;
+    case "HassanatAccepted":
+      return `${name(e.playerId)} accepte ${e.cardId} pour ${name(e.beneficiaryId)} (${e.cost} Kounouz)`;
+    case "HassanatGranted":
+      return `  +${e.amount} points Hassanāt pour ${name(e.playerId)} (total ${e.total})`;
+    case "HassanatSkipped":
+      return `${name(e.playerId)} passe la carte Hassanāt`;
     case "SiteAcquired":
       return `${name(e.playerId)} achète ${e.siteId} (${e.price})`;
     case "PurchaseDeclined":
@@ -320,7 +357,7 @@ function describe(e: GameEvent, name: (id: PlayerId) => string): string | null {
     case "RecipientChoiceOffered":
       return `${name(e.playerId)} doit choisir à qui donner ${e.amount}`;
     case "MoneyTransferred":
-      return e.reason === "heritage_contribution" ? `Contribution : ${e.amount} de ${name(e.fromPlayerId)} à ${name(e.toPlayerId)}` : `${name(e.fromPlayerId)} donne ${e.amount} à ${name(e.toPlayerId)} (${e.reason})`;
+      return e.reason === "heritage_contribution" ? `Contribution : ${e.amount} de ${name(e.fromPlayerId)} à ${name(e.toPlayerId)}` : e.reason === "service_fee" ? null : `${name(e.fromPlayerId)} donne ${e.amount} à ${name(e.toPlayerId)} (${e.reason})`;
     case "SolidarityActionRecorded":
       return `Solidarité : ${name(e.playerId)} → ${name(e.beneficiaryId)} (${e.amount})`;
     case "PenaltyShielded":
@@ -376,10 +413,10 @@ export function reportToText(r: PlaytestReport): string {
   l.push(`Tours : ${r.turns}`, "");
   for (const p of r.players) {
     l.push(p.displayName + (p.profileType === "child" ? " (enfant)" : " (adulte)"));
-    l.push(`  Questions : ${p.questions}`, `  Correctes : ${p.correct}`, `  Presque : ${p.partial}`, `  Incorrectes : ${p.incorrect}`, `  Duels : ${p.duels}`, `  Duels gagnés : ${p.duelsWon}`, `  Défis famille : ${p.challenges} (réussis ${p.challengesWon}, ratés ${p.challengesFailed}, passés ${p.challengesSkipped}, +${p.challengeKounouz})`, `  Patrimoine : ${p.heritage}`, `  Solidarité : ${p.solidarityActions}`, `  Kounouz : ${p.money}`, "");
+    l.push(`  Questions : ${p.questions}`, `  Correctes : ${p.correct}`, `  Presque : ${p.partial}`, `  Incorrectes : ${p.incorrect}`, `  Duels : ${p.duels}`, `  Duels gagnés : ${p.duelsWon}`, `  Défis famille : ${p.challenges} (réussis ${p.challengesWon}, ratés ${p.challengesFailed}, passés ${p.challengesSkipped}, +${p.challengeKounouz})`, `  Patrimoine : ${p.heritage}`, `  Solidarité : ${p.solidarityActions}`, `  Kounouz : ${p.money}`, `  Points Hassanāt : ${p.hassanat}`, "");
   }
   const c = r.counts;
-  l.push("Interactions :", `  Questions : ${c.questions}`, `  Duels : ${c.duels} (enfant/adulte : ${c.duelsChildAdult}, victoires : ${c.duelsWon}, égalités : ${c.duelsDrawn})`, `  Haltes : ${c.halts}`, `  Monuments achetés : ${c.monumentsBought}`, `  Visites de patrimoine : ${c.heritageVisits}`, `  Transferts : ${c.transfers}`, `  Trésors : ${c.treasures}`, `  Choix Gestion : ${c.managementChoices}`, `  Actions Solidarité : ${c.solidarityActions}`, `  Événements collectifs : ${c.collectiveEvents}`, `  Dons : ${c.donations} (Caisse Masākīn : ${c.donationsToFund})`, `  Zakat al-Māl : ${c.zakatPayments} versements, ${c.zakatKounouz} Kounouz, ${c.yearsCompleted} année(s)`, `  Caisse Masākīn : ${c.masakinFund}`, "");
+  l.push("Interactions :", `  Questions : ${c.questions}`, `  Duels : ${c.duels} (enfant/adulte : ${c.duelsChildAdult}, victoires : ${c.duelsWon}, égalités : ${c.duelsDrawn})`, `  Haltes : ${c.halts}`, `  Établissements achetés : ${c.establishmentsBought}`, `  Services consommés : ${c.services} (${c.serviceKounouz} Kounouz aux propriétaires)`, `  Cartes Hassanāt : ${c.hassanatOffered} proposées, ${c.hassanatAccepted} acceptées, ${c.hassanatSkipped} passées, ${c.hassanatPoints} points`, `  Visites de patrimoine : ${c.heritageVisits}`, `  Transferts : ${c.transfers}`, `  Trésors : ${c.treasures}`, `  Choix Gestion : ${c.managementChoices}`, `  Actions Solidarité : ${c.solidarityActions}`, `  Événements collectifs : ${c.collectiveEvents}`, `  Dons : ${c.donations} (Caisse Masākīn : ${c.donationsToFund})`, `  Zakat al-Māl : ${c.zakatPayments} versements, ${c.zakatKounouz} Kounouz, ${c.yearsCompleted} année(s)`, `  Caisse Masākīn : ${c.masakinFund}`, "");
   const ch = r.challenges;
   l.push("Défis famille :", `  Proposés : ${ch.proposed} (OH NON : ${ch.ohNo}, indisponibles : ${ch.unavailable})`, `  Réussis : ${ch.succeeded}`, `  Ratés : ${ch.failed}`, `  Passés : ${ch.skipped} (dont pas d'accord : ${ch.consentRefused})`, `  Kounouz gagnés : ${ch.kounouz}`);
   for (const c of ch.byCategory) l.push(`  ${c.category} : ${c.proposed} proposés, ${c.succeeded} réussis`);

@@ -87,6 +87,6 @@ describe("banque canonique des Défis famille (données importées du PDF)", () 
       { ageMin: 10, text: "15 s" },
     ]);
     const challengeCell = DEMO_SCENARIOS.filter((s) => s.cellType === "challenge").map((s) => s.outcomes[0]?.kind);
-    expect(challengeCell).toEqual(["duel", "family_challenge", "question"]);
+    expect(challengeCell).toEqual(["duel", "family_challenge", "question", "hassanat_opportunity"]);
   });
 });

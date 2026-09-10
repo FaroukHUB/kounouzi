@@ -78,12 +78,12 @@ describe("rejoueur d'événements (file d'animation)", () => {
     expect(calls).toEqual(["card:question:dealt", 'card~{"step":"result","outcome":"correct"}', 'card~{"step":"reward","rewardAmount":100,"multiplier":2}', "card:close", "card:close"]);
   });
 
-  it("ouvre la carte monument avec l'offre du moteur, puis la carte choix ; un scénario se révèle puis se referme", async () => {
+  it("ouvre la carte établissement avec l'offre du moteur, puis la carte choix ; un scénario se révèle puis se referme", async () => {
     const { calls, actions } = recorder();
     await playEvent({ type: "PurchaseOffered", playerId: p1, siteId: "s1", price: 300, affordable: false }, actions, REDUCED_TIMINGS, instant);
     await playEvent({ type: "ChoiceOffered", playerId: p1, choiceId: "c", optionIds: ["a", "b"] }, actions, REDUCED_TIMINGS, instant);
     await playEvent({ type: "ScenarioTriggered", playerId: p1, scenarioId: "demo-event-gain", cellType: "event", visit: 1 }, actions, REDUCED_TIMINGS, instant);
-    expect(calls).toEqual(["card:monument:offer", "card:choice:offer", "card:scenario", "card:close", "card:close"]);
+    expect(calls).toEqual(["card:establishment:offer", "card:choice:offer", "card:scenario", "card:close", "card:close"]);
   });
 
   it("le mode réduit garde la même séquence avec des durées nulles", () => {
@@ -91,5 +91,18 @@ describe("rejoueur d'événements (file d'animation)", () => {
     expect(resolveTimings(false)).toEqual(DEFAULT_TIMINGS);
     expect(Object.values(REDUCED_TIMINGS).every((v) => v === 0)).toBe(true);
     expect(estimateDuration({ type: "PawnMoved", playerId: p1, from: 0, to: 3, path: [1, 2, 3] }, DEFAULT_TIMINGS)).toBe(3 * DEFAULT_TIMINGS.stepMs);
+  });
+});
+
+describe("Halte levée : le joueur repart tout de suite, la carte du Défi de reprise se referme", () => {
+  it("HaltLifted referme la carte avant son bandeau (aucun TurnEnded ne suit : même joueur, nouveau Chemin) ; HaltTurnLost laisse la clôture au tour", async () => {
+    const { calls, actions } = recorder();
+    await playEvent({ type: "QuestionRequested", requestId: "q1", playerId: p1, position: 6, purpose: "halt" }, actions, REDUCED_TIMINGS, instant);
+    await playEvent({ type: "AnswerRecorded", requestId: "q1", playerId: p1, outcome: "correct", explanationMastery: "none", validationMode: "collective", purpose: "halt" }, actions, REDUCED_TIMINGS, instant);
+    await playEvent({ type: "HaltLifted", playerId: p1, outcome: "correct" }, actions, REDUCED_TIMINGS, instant);
+    expect(calls).toEqual(["card:question:dealt", 'card~{"step":"result","outcome":"correct"}', "card:close", "banner:halt_lifted", "banner:null", "card:close", "banner:null"]);
+    const lost = recorder();
+    await playEvent({ type: "HaltTurnLost", playerId: p1 }, lost.actions, REDUCED_TIMINGS, instant);
+    expect(lost.calls).toEqual(["banner:halt_lost", "banner:null", "banner:null"]);
   });
 });

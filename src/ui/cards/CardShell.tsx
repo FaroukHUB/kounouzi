@@ -3,12 +3,12 @@
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import { CellIcon } from "@/ui/board/CellIcon";
-import { CELL_STYLE } from "@/ui/board/cellStyles";
+import { CARD_STYLE, type CardStyleKey } from "@/ui/board/cellStyles";
 import { ASSETS } from "@/ui/theme/assets";
-import type { CellType } from "@/core/game";
 
 export interface CardShellProps {
-  readonly cellType: CellType;
+  /** Famille visuelle : type de case, ou `hassanat` pour la carte Hassanāt. */
+  readonly cellType: CardStyleKey;
   readonly title: string;
   readonly subtitle?: string | undefined;
   readonly children: ReactNode;
@@ -22,7 +22,7 @@ export interface CardShellProps {
  * (asset remplaçable), médaillon d'icône, coins ornés. Contenu scrollable, tactile.
  */
 export function CardShell({ cellType, title, subtitle, children, testId, tall }: CardShellProps) {
-  const style = CELL_STYLE[cellType];
+  const style = CARD_STYLE[cellType];
   return (
     <motion.section
       data-testid={testId ?? "card"}

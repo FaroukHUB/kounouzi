@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 160" role="img" aria-label="Bandeau de carte Hassanāt (provisoire)">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1"><stop offset="0" stop-color="#14866d" stop-opacity="0.28"/><stop offset="1" stop-color="#d4a017" stop-opacity="0.10"/></linearGradient>
+    <pattern id="p" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M16 4l3 9h9l-7 5 3 9-8-6-8 6 3-9-7-5h9z" fill="none" stroke="#14866d" stroke-opacity="0.16" stroke-width="1"/></pattern>
+  </defs>
+  <rect width="560" height="160" fill="url(#bg)"/>
+  <rect width="560" height="160" fill="url(#p)"/>
+  <g transform="translate(432 32) scale(4)" fill="none" stroke="#14866d" stroke-opacity="0.55" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.6 3.3 3.6.5-2.6 2.5.6 3.6L12 11.2 8.8 12.9l.6-3.6L6.8 6.8l3.6-.5L12 3ZM4 15c2 0 3 1 5 1h5M4 15v5h6l4 1 6-2v-2l-6 1M15 16l4-1"/></g>
+</svg>

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { RELIGION_BANKS } from "@/config/content";
 import { NullNarrator, splitChoices } from "@/experience/narration";
 import { ChoiceCard, optionLabel, scenarioTitle } from "@/ui/cards/ChoiceCard";
-import { MonumentCard, siteDisplayName } from "@/ui/cards/MonumentCard";
+import { EstablishmentCard, siteDisplayName } from "@/ui/cards/EstablishmentCard";
 import { QuestionCard } from "@/ui/cards/QuestionCard";
 import { cardForPhase } from "@/ui/cards/cardState";
 import { create, journey, makeLineSetup, makeSetup, pid, players, run } from "../../fixtures/game/setup.fixture";
@@ -94,17 +94,19 @@ describe("carte question (rendu statique)", () => {
   });
 });
 
-describe("carte monument et carte choix", () => {
-  it("propose l'achat avec prix et valeur patrimoniale, sans histoire inventée ; désactive l'achat si trop cher", () => {
+describe("carte établissement et carte choix", () => {
+  it("propose l'achat avec prix et Kounouz du joueur, sans histoire inventée ; désactive l'achat si trop cher", () => {
     const offered = journey(create(makeLineSetup({ cells: { 1: "heritage" } })).state);
     const card = cardForPhase(offered.state);
-    if (card?.kind !== "monument") throw new Error("carte monument attendue");
-    const html = renderToStaticMarkup(<MonumentCard state={offered.state} card={card} narrator={narrator} onDecide={() => {}} />);
-    expect(html).toContain(siteDisplayName("test-monument-01"));
-    expect(html).toContain("contenu validé");
-    expect(html).toContain('data-testid="monument-buy"');
-    const poor = renderToStaticMarkup(<MonumentCard state={offered.state} card={{ ...card, affordable: false }} narrator={narrator} onDecide={() => {}} />);
-    expect(poor).toMatch(/<button[^>]*disabled=""[^>]*data-testid="monument-buy"|<button[^>]*data-testid="monument-buy"[^>]*disabled=""/);
+    if (card?.kind !== "establishment") throw new Error("carte établissement attendue");
+    const html = renderToStaticMarkup(<EstablishmentCard state={offered.state} card={card} onDecide={() => {}} />);
+    expect(html).toContain(siteDisplayName(offered.state, "test-monument-01"));
+    expect(html).toContain("Établissement à vendre");
+    expect(html).not.toMatch(/Monument/);
+    expect(html).toContain('data-testid="establishment-your-kounouz"');
+    expect(html).toContain('data-testid="establishment-buy"');
+    const poor = renderToStaticMarkup(<EstablishmentCard state={offered.state} card={{ ...card, affordable: false }} onDecide={() => {}} />);
+    expect(poor).toMatch(/<button[^>]*disabled=""[^>]*data-testid="establishment-buy"|<button[^>]*data-testid="establishment-buy"[^>]*disabled=""/);
   });
 
   it("présente les options d'un choix avec des libellés de démonstration", () => {

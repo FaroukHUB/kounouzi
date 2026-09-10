@@ -80,7 +80,10 @@ export function DiagnosticScreen({ gameId }: { readonly gameId: GameId }) {
           ["Duels", `${report.counts.duels} (E/A ${report.counts.duelsChildAdult})`],
           ["Victoires / nuls", `${report.counts.duelsWon} / ${report.counts.duelsDrawn}`],
           ["Haltes", String(report.counts.halts)],
-          ["Monuments achetés", String(report.counts.monumentsBought)],
+          ["Établissements achetés", String(report.counts.establishmentsBought)],
+          ["Services / Kounouz payés", `${report.counts.services} / ${report.counts.serviceKounouz}`],
+          ["Cartes Hassanāt", `${report.counts.hassanatOffered} (acceptées ${report.counts.hassanatAccepted}, passées ${report.counts.hassanatSkipped})`],
+          ["Points Hassanāt", String(report.counts.hassanatPoints)],
           ["Visites", String(report.counts.heritageVisits)],
           ["Transferts", String(report.counts.transfers)],
           ["Trésors", String(report.counts.treasures)],
@@ -105,7 +108,7 @@ export function DiagnosticScreen({ gameId }: { readonly gameId: GameId }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="text-start text-xs uppercase tracking-wider text-[var(--k-ink-soft)]">
-              {["Joueur", "Questions", "Correctes", "Presque", "Incorrectes", "Duels", "Gagnés", "Patrimoine", "Solidarité", "Kounouz"].map((h) => (
+              {["Joueur", "Questions", "Correctes", "Presque", "Incorrectes", "Duels", "Gagnés", "Patrimoine", "Solidarité", "Kounouz", "Hassanāt"].map((h) => (
                 <th key={h} className="pe-3 text-start">
                   {h}
                 </th>
@@ -125,6 +128,7 @@ export function DiagnosticScreen({ gameId }: { readonly gameId: GameId }) {
                 <td className="pe-3">{p.heritage}</td>
                 <td className="pe-3">{p.solidarityActions}</td>
                 <td className="pe-3">{formatKounouz(p.money)}</td>
+                <td className="pe-3">{p.hassanat}</td>
               </tr>
             ))}
           </tbody>

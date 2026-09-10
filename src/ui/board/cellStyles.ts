@@ -1,5 +1,8 @@
 import type { CellType } from "@/core/game";
 
+/** Familles visuelles des cartes : les types de case, plus la carte Hassanāt (qui n'est pas une case). */
+export type CardStyleKey = CellType | "hassanat";
+
 /** Identité visuelle par famille de case : couleurs, accent, symbole décoratif (données d'interface, extensibles). */
 export interface CellStyle {
   readonly bg: string;
@@ -20,4 +23,10 @@ export const CELL_STYLE: Readonly<Record<CellType, CellStyle>> = {
   treasure: { bg: "#fff8dc", bg2: "#fbe7a3", fg: "#7a4a0a", accent: "#eab308" },
   halt: { bg: "#f1edfd", bg2: "#dfd6fb", fg: "#4c1d95", accent: "#8b5cf6" },
   donation: { bg: "#e9f6fd", bg2: "#cbe9f8", fg: "#0a4e73", accent: "#0ea5e9" },
+};
+
+/** Carte Hassanāt (ADR 0035) : famille visuelle propre, émeraude et or, distincte du Défi, du Don et du Trésor. */
+export const CARD_STYLE: Readonly<Record<CardStyleKey, CellStyle>> = {
+  ...CELL_STYLE,
+  hassanat: { bg: "#e6f4ee", bg2: "#c4e6d3", fg: "#0b4a34", accent: "#14866d" },
 };

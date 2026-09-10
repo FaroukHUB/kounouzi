@@ -38,6 +38,28 @@ export const HERITAGE_KINDS = ["purchasable_monument", "religious_place", "educa
 export type HeritageKind = (typeof HERITAGE_KINDS)[number];
 
 /**
+ * Établissements (ADR 0035) : les propriétés achetables sont des
+ * ÉTABLISSEMENTS fictifs de l'univers Kounouzi (maktaba, hôtel, restaurant,
+ * agence de ʿUmra, musée, parc). Le type interne `purchasable_monument` est
+ * conservé pour la compatibilité des sauvegardes. Les lieux de culte restent
+ * non achetables. Familles et types de service : données.
+ */
+export const ESTABLISHMENT_FAMILIES = ["maktaba", "madinah_hotel", "makkah_hotel", "maghreb_restaurant", "umrah_agency", "museum", "park"] as const;
+export type EstablishmentFamily = (typeof ESTABLISHMENT_FAMILIES)[number];
+export const SERVICE_TYPES = ["book", "stay", "meal", "umrah_trip", "ticket"] as const;
+export type ServiceType = (typeof SERVICE_TYPES)[number];
+
+/** Données d'un établissement : famille, service rendu au visiteur, frais de service (versés au propriétaire), nom affiché. */
+export interface EstablishmentInfo {
+  readonly family: EstablishmentFamily;
+  readonly serviceType: ServiceType;
+  /** Frais payés par un visiteur au propriétaire ; 0 = aucun service (ancien comportement : Défi Patrimoine). */
+  readonly serviceFee: number;
+  readonly name: { readonly fr: string; readonly ar?: string | undefined };
+  readonly icon?: string | undefined;
+}
+
+/**
  * Un site tel que décrit par le contenu. Règle structurelle : `price` et
  * `heritageValue` existent si et seulement si `kind === "purchasable_monument"`
  * (vérifié par le schéma, refusé par `resolveBoard`).
@@ -47,13 +69,15 @@ export interface HeritageSite {
   readonly kind: HeritageKind;
   readonly price?: number | undefined;
   readonly heritageValue?: number | undefined;
+  readonly establishment?: EstablishmentInfo | undefined;
 }
 
-/** Vue du moteur : un site achetable, prix et valeur garantis. */
+/** Vue du moteur : un site achetable, prix et valeur garantis ; établissement si les données le décrivent. */
 export interface PurchasableSite {
   readonly id: string;
   readonly price: number;
   readonly heritageValue: number;
+  readonly establishment?: EstablishmentInfo | undefined;
 }
 
 export type ResolvedCell =
@@ -102,7 +126,7 @@ export const INSUFFICIENT_POLICIES = ["cap_to_balance", "require_full_amount", "
 export type InsufficientPolicy = (typeof INSUFFICIENT_POLICIES)[number];
 
 /** Motif d'un transfert entre joueurs (traçable dans le grand livre et les événements). `donation` = case Don ; `zakat` = Zakat versée à un joueur éligible (règles à définir). */
-export const TRANSFER_REASONS = ["heritage_contribution", "gift", "solidarity", "collective_fund", "aid", "donation", "zakat"] as const;
+export const TRANSFER_REASONS = ["heritage_contribution", "gift", "solidarity", "collective_fund", "aid", "donation", "zakat", "service_fee", "hassanat"] as const;
 export type TransferReason = (typeof TRANSFER_REASONS)[number];
 
 /** Gains d'un résultat de réponse : ce que rapporte correct / presque / incorrect. */
@@ -168,6 +192,8 @@ export type Outcome =
   | { readonly kind: "treasure" }
   /** Don volontaire (case Don) : le joueur choisit un montant des règles et une destination (Caisse Masākīn ou un joueur). Jamais une Zakat. */
   | { readonly kind: "donation" }
+  /** Carte Hassanāt : occasion VOLONTAIRE de générosité (banque de données, sélection déterministe) ; distincte du Défi, du Don et de la Zakat. */
+  | { readonly kind: "hassanat_opportunity" }
   /** Le joueur actif choisit un destinataire et lui transfère `amount`. */
   | { readonly kind: "transfer_choice"; readonly amount: number; readonly reason: TransferReason; readonly insufficient: InsufficientPolicy }
   /** Le joueur actif donne `amount` au joueur qui a le moins d'argent (autre que lui). */
@@ -302,6 +328,63 @@ export interface ChallengeState {
 }
 
 /* ---------------------------------------------------------------------------
+ * Cartes Hassanāt — DONNÉES (banque), sélection déterministe (ADR 0035)
+ * ------------------------------------------------------------------------- */
+
+export const HASSANAT_KINDS = ["offer_meal", "offer_umrah", "help_player"] as const;
+export type HassanatKind = (typeof HASSANAT_KINDS)[number];
+/** Où vont les Kounouz du coût : au bénéficiaire, à la Caisse Masākīn, ou dépensés (sortent du jeu). Donnée, jamais codée en dur. */
+export const HASSANAT_COST_DESTINATIONS = ["beneficiary", "masakin", "none"] as const;
+export type HassanatCostDestination = (typeof HASSANAT_COST_DESTINATIONS)[number];
+
+/**
+ * Une Carte Hassanāt : occasion volontaire de faire une action généreuse dans
+ * le jeu. Les points Hassanāt sont UNIQUEMENT une mécanique de score de
+ * Kounouzi ; l'application ne prétend jamais mesurer une récompense réelle.
+ * Coûts et gains : données, non validés tant que la décision produit manque.
+ */
+export interface HassanatCardDefinition {
+  readonly id: string;
+  readonly kind: HassanatKind;
+  readonly title: string;
+  readonly text: string;
+  /** Coût en Kounouz pour le joueur (0 = gratuit). */
+  readonly cost: number;
+  /** Coût pour un joueur qui possède l'établissement requis (absent = même coût). */
+  readonly ownerCost?: number | undefined;
+  readonly costDestination: HassanatCostDestination;
+  /** Points Hassanāt crédités UNE fois à l'acceptation. */
+  readonly hassanatReward: number;
+  /** Carte réservée aux propriétaires de toute cette famille d'établissements (absent = tous). */
+  readonly requiresEstablishmentFamily?: EstablishmentFamily | undefined;
+  readonly animationKey?: string | undefined;
+}
+
+export interface HassanatConfig {
+  readonly definitions: readonly HassanatCardDefinition[];
+}
+export const NO_HASSANAT: HassanatConfig = { definitions: [] };
+
+/** Écriture du grand livre des points Hassanāt (score du jeu), une par attribution. */
+export interface HassanatTransaction {
+  readonly id: number;
+  readonly turnNumber: number;
+  readonly playerId: PlayerId;
+  readonly amount: number;
+  readonly source: "hassanat_card";
+  readonly ref: string;
+}
+
+/** Carte Hassanāt en cours — état persistant explicite. */
+export interface HassanatState {
+  readonly cardId: string;
+  readonly playerId: PlayerId;
+  readonly requestId: string;
+  readonly cost: number;
+  readonly candidates: readonly PlayerId[];
+}
+
+/* ---------------------------------------------------------------------------
  * Règles configurables
  * ------------------------------------------------------------------------- */
 
@@ -348,7 +431,10 @@ export interface RulesConfig {
   readonly donation: { readonly amount: number };
   readonly zakat: ZakatConfig;
   readonly rewards: { readonly correct: number; readonly partial: number; readonly incorrect: number; readonly masteryMultiplier: number };
-  readonly scoring: { readonly moneyWeight: number; readonly heritageWeight: number };
+  /** Poids du score. `hassanatWeight` : formule de victoire NON décidée, 0 tant qu'elle ne l'est pas. */
+  readonly scoring: { readonly moneyWeight: number; readonly heritageWeight: number; readonly hassanatWeight: number };
+  /** Service consommé chez un autre joueur : politique quand l'argent manque. */
+  readonly service: { readonly insufficient: InsufficientPolicy };
   readonly allowNegativeBalance: boolean;
   readonly endCondition: EndCondition;
   /** Duel Kounouzi : bonus de victoire, d'égalité (petit) et de défaite (pas de grosse pénalité). */
@@ -404,6 +490,8 @@ export interface PlayerState {
   readonly masteredSurahs: readonly string[];
   /** Ḥawl de Zakat en cours : tours de table consécutifs au-dessus du nissab (0 = aucun ḥawl ouvert). */
   readonly hawlRounds: number;
+  /** Points Hassanāt : ressource de SCORE distincte des Kounouz (jamais convertie 1 pour 1). */
+  readonly hassanatPoints: number;
 }
 
 export const TRANSACTION_REASONS = [
@@ -412,6 +500,7 @@ export const TRANSACTION_REASONS = [
   "treasure",
   "donation_sent",
   "zakat_paid",
+  "hassanat_cost",
   "question_reward",
   "purchase",
   "scenario_gain",
@@ -442,7 +531,7 @@ export interface Transaction {
 /** Caisses collectives : des Kounouz qui n'appartiennent à AUCUN joueur. */
 export const FUNDS = ["masakin"] as const;
 export type FundId = (typeof FUNDS)[number];
-export const FUND_TRANSACTION_REASONS = ["donation", "zakat"] as const;
+export const FUND_TRANSACTION_REASONS = ["donation", "zakat", "hassanat"] as const;
 export type FundTransactionReason = (typeof FUND_TRANSACTION_REASONS)[number];
 
 /** Écriture du grand livre d'une caisse, liée à l'écriture du joueur par `ref`. */
@@ -530,6 +619,10 @@ export type TurnPhase =
   | { readonly kind: "awaiting_recipient"; readonly amount: number; readonly reason: TransferReason; readonly insufficient: InsufficientPolicy; readonly candidates: readonly PlayerId[]; readonly queue: readonly Outcome[] }
   /** Case Don : le joueur actif choisit la destination du don (montant fixe des règles). */
   | { readonly kind: "awaiting_donation"; readonly amount: number; readonly candidates: readonly PlayerId[]; readonly queue: readonly Outcome[] }
+  /** Établissement d'un autre joueur : le visiteur consomme un service et paie le propriétaire (confirmation). */
+  | { readonly kind: "awaiting_service"; readonly siteId: string; readonly ownerId: PlayerId; readonly amount: number; readonly queue: readonly Outcome[] }
+  /** Carte Hassanāt : le joueur accepte (en choisissant un bénéficiaire) ou passe (0 point, 0 pénalité). */
+  | { readonly kind: "awaiting_hassanat"; readonly hassanat: HassanatState; readonly queue: readonly Outcome[] }
   | { readonly kind: "finished" };
 
 export interface RankingEntry {
@@ -538,6 +631,7 @@ export interface RankingEntry {
   readonly score: number;
   readonly money: number;
   readonly heritageValue: number;
+  readonly hassanat: number;
 }
 
 /** Configuration figée à la création : une partie ne change pas de règles en cours de route. */
@@ -552,6 +646,8 @@ export interface GameConfig {
   readonly challenges: ChallengesConfig;
   /** Décalage de la séquence de scénarios (rotation inter-parties par numéro de partie ; jamais un tirage). */
   readonly scenarioOffset: number;
+  /** Cartes Hassanāt : banque figée dans la partie (données). */
+  readonly hassanat: HassanatConfig;
 }
 
 /** Temps de jeu ACTIF, en secondes, alimenté par la couche session (horloge injectée). */
@@ -568,7 +664,7 @@ export interface AnsweredQuestion {
   readonly difficulty: number;
 }
 
-export const GAME_SCHEMA_VERSION = 8 as const;
+export const GAME_SCHEMA_VERSION = 9 as const;
 
 export interface GameState {
   readonly schemaVersion: typeof GAME_SCHEMA_VERSION;
@@ -584,6 +680,10 @@ export interface GameState {
   readonly fundLedger: readonly FundTransaction[];
   /** Calendrier commun (année lunaire simulée) qui déclenche la Zakat. */
   readonly calendar: GameCalendar;
+  /** Grand livre des points Hassanāt (score du jeu) : chaque attribution, une seule fois. */
+  readonly hassanatLedger: readonly HassanatTransaction[];
+  /** Par joueur, nombre de fois où chaque Carte Hassanāt lui a été proposée (rotation déterministe). */
+  readonly hassanatServed: Readonly<Record<string, Readonly<Record<string, number>>>>;
   readonly holdings: readonly Holding[];
   readonly effects: readonly QueuedEffect[];
   /** Nombre d'arrivées sur chaque case (sélection déterministe des scénarios). */
@@ -595,7 +695,7 @@ export interface GameState {
   readonly clock: PlayClock;
   /** Demande de fin (espace parent) : la partie s'arrête à la fin du tour de table. */
   readonly endRequested: boolean;
-  readonly counters: { readonly transaction: number; readonly request: number; readonly effect: number; readonly transfer: number; readonly challenge: number };
+  readonly counters: { readonly transaction: number; readonly request: number; readonly effect: number; readonly transfer: number; readonly challenge: number; readonly hassanat: number };
   readonly status: "in_progress" | "finished";
   readonly ranking?: readonly RankingEntry[];
 }

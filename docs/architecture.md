@@ -244,6 +244,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | Voix | Choix « A. / B. » lus en phrases séparées (« Réponse A : … ») et affichés sur des lignes séparées (dérivé au rendu), lexique de prononciation en données pour les translittérations et ﷺ, arabe dit seulement avec une voix arabe (ADR 0031) | livrée |
 | Quiz | Anti-répétition par tablée, clé de départage tirée hors noyau entre questions équivalentes (le Chemin reste déterministe), questions des Défis famille comptées dans la mémoire (ADR 0032) | livrée |
 | Plateau 26 | 12 monuments, 5 Savoir, 4 Défi, 2 Halte, 1 Don, 1 Trésor, 1 Départ (données) ; Départ +100, Trésor +100, Don fixe de 20 vers la Caisse Masākīn ou un joueur, Zakat al-Māl par ḥawl de 6 tours de table à 2,5 % exact, Kounouz en centimes, disposition rectangulaire, schéma v8 (ADR 0033, 0034) | livrée |
+| Établissements | Voix automatique OFF par défaut (session v2, jamais bloquante) ; « Monument » → « Établissement » : 12 établissements fictifs en données (familles, service, frais), arrivée chez un autre joueur = service consommé et frais payés au propriétaire ; cartes Hassanāt (ressource `hassanatPoints` distincte, banque Zod, accepter / passer, score configurable, formule de victoire non décidée), schéma v9 (ADR 0035) | livrée |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
 | 7     | Mes trésors, écran parent                                    | à venir  |
 | 8     | Back-office de contenu                                       | à venir  |

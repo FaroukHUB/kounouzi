@@ -1,5 +1,5 @@
 {
-  "$comment": "⚠️ VALEURS DE DÉMONSTRATION pour l'économie générale (Duel, visites, scénarios : à équilibrer après de vraies parties). Décisions produit validées (plateau 26, ADR 0033/0034) : Départ +100, Trésor +100, Don fixe de 20 Kounouz (destination au choix), Zakat al-Māl exactement 2,5 % après un ḥawl de 6 tours de table consécutifs au-dessus du nissab. Nissab V1 = 1000 Kounouz : équivalence de jeu configurable, à équilibrer après playtest.",
+  "$comment": "⚠️ VALEURS DE DÉMONSTRATION pour l'économie générale (Duel, visites, scénarios : à équilibrer après de vraies parties). Décisions produit validées (plateau 26, ADR 0033/0034) : Départ +100, Trésor +100, Don fixe de 20 Kounouz (destination au choix), Zakat al-Māl exactement 2,5 % après un ḥawl de 6 tours de table consécutifs au-dessus du nissab. Nissab V1 = 1000 Kounouz : équivalence de jeu configurable, à équilibrer après playtest. Établissements : frais de service et prix d'achat = VALEURS DE DÉMONSTRATION non validées (ADR 0035). Points Hassanāt : poids de score 0 tant que la formule de victoire n'est pas décidée.",
   "id": "rules-demo.v1",
   "version": 1,
   "startingMoney": 1000,
@@ -27,7 +27,11 @@
   },
   "scoring": {
     "moneyWeight": 1,
-    "heritageWeight": 1
+    "heritageWeight": 1,
+    "hassanatWeight": 0
+  },
+  "service": {
+    "insufficient": "cap_to_balance"
   },
   "allowNegativeBalance": false,
   "endCondition": {

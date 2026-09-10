@@ -11,6 +11,7 @@ import { assignJourneySteps } from "./journeyScheduler";
 import { applyMove, computePath } from "./movement";
 import { assignChallenge, processQueue, transferWithSolidarity } from "./outcomes";
 import { challengeById } from "./challenges";
+import { acceptHassanat, hassanatCardById } from "./hassanat";
 import { computeReward } from "./rewards";
 import { activePlayer, chain, playerById, step, updatePlayer, type Step } from "./step";
 import { closeTurn } from "./turn";
@@ -126,6 +127,40 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
       }
       result = chain(result, (s) => step(s, [{ type: "DonationMade", playerId: player.id, amount, to: command.to }]));
       return ok(chain(result, (s) => processQueue(s, queue)));
+    }
+
+    case "PayService": {
+      const phase = expectPhase(state, "awaiting_service");
+      if (!phase.ok) return phase;
+      const { siteId, ownerId, amount, queue } = phase.value;
+      const establishment = state.config.sites[siteId]?.establishment;
+      if (!establishment) throw new Error(`établissement ${siteId} inconnu (invariant)`);
+      const before = state.counters.transfer;
+      let result = transferMoney(state, player.id, ownerId, amount, "service_fee", state.config.rules.service.insufficient);
+      const moved = result.events.find((e) => e.type === "MoneyTransferred");
+      const paid = result.state.counters.transfer === before ? 0 : moved?.type === "MoneyTransferred" ? moved.amount : 0;
+      result = chain(result, (s) => step(s, [{ type: "ServiceConsumed", playerId: player.id, ownerId, siteId, family: establishment.family, serviceType: establishment.serviceType, requested: amount, amount: paid }]));
+      return ok(chain(result, (s) => processQueue(s, queue)));
+    }
+
+    case "AcceptHassanat": {
+      const phase = expectPhase(state, "awaiting_hassanat");
+      if (!phase.ok) return phase;
+      const h = phase.value.hassanat;
+      const card = hassanatCardById(state, h.cardId);
+      if (!card) throw new Error(`Carte Hassanāt ${h.cardId} inconnue (invariant)`);
+      if (!h.candidates.includes(command.beneficiaryId)) return err({ code: "INVALID_BENEFICIARY", beneficiaryId: command.beneficiaryId });
+      if (player.money < h.cost) return err({ code: "INSUFFICIENT_FUNDS", required: h.cost, available: player.money });
+      const result = acceptHassanat(state, player.id, card, h.cost, command.beneficiaryId, h.requestId);
+      return ok(chain(result, (s) => processQueue(s, phase.value.queue)));
+    }
+
+    case "SkipHassanat": {
+      const phase = expectPhase(state, "awaiting_hassanat");
+      if (!phase.ok) return phase;
+      // Passer : 0 point, 0 pénalité.
+      const result = step(state, [{ type: "HassanatSkipped", playerId: player.id, cardId: phase.value.hassanat.cardId }]);
+      return ok(chain(result, (s) => processQueue(s, phase.value.queue)));
     }
 
     case "AcceptChallenge": {

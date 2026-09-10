@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import type { Holding, ResolvedBoard } from "@/core/game";
+import type { Holding, PurchasableSite, ResolvedBoard } from "@/core/game";
 import { avatarById } from "@/config/avatars";
 import type { PlayerProfileDraft } from "@/data/ports";
 import { Cell, type CellOwner } from "./Cell";
@@ -15,8 +15,10 @@ export interface BoardProps {
   /** Couche des pions (superposée) et contenu central. */
   readonly pawns: ReactNode;
   readonly center: ReactNode;
-  /** Propriétés et profils : uniquement pour afficher le propriétaire d'un monument (visuel). */
+  /** Propriétés et profils : uniquement pour afficher le propriétaire d'un établissement (visuel). */
   readonly holdings?: readonly Holding[] | undefined;
+  /** Sites (établissements) : icône et nom affichés sur la case. */
+  readonly sites?: Readonly<Record<string, PurchasableSite>> | undefined;
   readonly players?: readonly { readonly id: string; readonly displayName: string }[] | undefined;
   readonly profiles?: readonly PlayerProfileDraft[] | undefined;
 }
@@ -25,7 +27,7 @@ export interface BoardProps {
  * Plateau : cadre bois, tapis texturé, grille CSS statique (elle ne se
  * recalcule jamais pendant un déplacement), cœur central décoré.
  */
-export function Board({ board, highlightedCell, arrivalCell, previewPath, pawns, center, holdings = [], players = [], profiles = [] }: BoardProps) {
+export function Board({ board, highlightedCell, arrivalCell, previewPath, pawns, center, holdings = [], sites = {}, players = [], profiles = [] }: BoardProps) {
   const { cols, rows } = gridDims(board.cellCount);
   const preview = new Set(previewPath);
   const ownerOf = (siteId: string): CellOwner | undefined => {
@@ -57,6 +59,7 @@ export function Board({ board, highlightedCell, arrivalCell, previewPath, pawns,
             arrival={arrivalCell === cell.position}
             preview={preview.has(cell.position)}
             siteId={cell.type === "heritage" ? cell.siteId : undefined}
+            establishment={cell.type === "heritage" && sites[cell.siteId]?.establishment ? { icon: sites[cell.siteId]!.establishment!.icon, name: sites[cell.siteId]!.establishment!.name.fr, family: sites[cell.siteId]!.establishment!.family } : undefined}
             owner={cell.type === "heritage" ? ownerOf(cell.siteId) : undefined}
           />
         ))}

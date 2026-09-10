@@ -28,10 +28,11 @@ export function shouldEndAfterTurn(state: GameState, nextIndex: number): boolean
 }
 
 export function scoreOf(state: GameState, playerId: PlayerId): number {
-  const { moneyWeight, heritageWeight } = state.config.rules.scoring;
+  const { moneyWeight, heritageWeight, hassanatWeight } = state.config.rules.scoring;
   const player = state.players.find((p) => p.id === playerId);
   if (!player) throw new Error(`joueur ${playerId} inconnu (invariant)`);
-  return roundMoney(player.money * moneyWeight + heritageValueOf(state, playerId) * heritageWeight);
+  // Formule PROVISOIRE : le poids des points Hassanāt reste 0 tant que la formule de victoire n'est pas décidée (jamais 1 Kounouz = 1 Hassanāt par défaut).
+  return roundMoney(player.money * moneyWeight + heritageValueOf(state, playerId) * heritageWeight + player.hassanatPoints * hassanatWeight);
 }
 
 /**
@@ -40,7 +41,7 @@ export function scoreOf(state: GameState, playerId: PlayerId): number {
  * intégrera plusieurs dimensions (patrimoine, gestion, savoir, solidarité).
  */
 export function computeRanking(state: GameState): readonly RankingEntry[] {
-  const rows = state.players.map((p) => ({ playerId: p.id, seat: p.seat, money: p.money, heritageValue: heritageValueOf(state, p.id), score: scoreOf(state, p.id) }));
+  const rows = state.players.map((p) => ({ playerId: p.id, seat: p.seat, money: p.money, heritageValue: heritageValueOf(state, p.id), hassanat: p.hassanatPoints, score: scoreOf(state, p.id) }));
   rows.sort((a, b) => b.score - a.score || b.money - a.money || a.seat - b.seat);
-  return rows.map((r, i) => ({ rank: i + 1, playerId: r.playerId, score: r.score, money: r.money, heritageValue: r.heritageValue }));
+  return rows.map((r, i) => ({ rank: i + 1, playerId: r.playerId, score: r.score, money: r.money, heritageValue: r.heritageValue, hassanat: r.hassanat }));
 }

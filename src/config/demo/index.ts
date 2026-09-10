@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { heritageSiteSchema, rulesConfigSchema, scenarioSchema } from "@/core/game/config.schema";
 import type { HeritageSite, RulesConfig, Scenario } from "@/core/game/types";
-import heritageDemo from "./heritage-demo.v1.json";
+import establishmentsDemo from "./establishments-demo.v1.json";
 import rulesDemo from "./rules-demo.v1.json";
 import scenariosDemo from "./scenarios-demo.v1.json";
 
@@ -12,7 +12,10 @@ import scenariosDemo from "./scenarios-demo.v1.json";
  */
 export const DEMO_RULES_QUICK: RulesConfig = rulesConfigSchema.parse(rulesDemo);
 export const DEMO_RULES_CLASSIC: RulesConfig = { ...DEMO_RULES_QUICK, id: "rules-demo-classic.v1", endCondition: { kind: "turns_per_player", turns: 10 } };
-export const DEMO_HERITAGE_SITES: readonly HeritageSite[] = z.object({ sites: z.array(heritageSiteSchema) }).parse(heritageDemo).sites;
+/** Les 12 établissements du plateau 26 (ADR 0035) : données fictives de l'univers Kounouzi, noms et montants provisoires. */
+export const DEMO_ESTABLISHMENTS: readonly HeritageSite[] = z.object({ sites: z.array(heritageSiteSchema) }).parse(establishmentsDemo).sites;
+/** Alias historique : les sites achetables SONT les établissements. */
+export const DEMO_HERITAGE_SITES: readonly HeritageSite[] = DEMO_ESTABLISHMENTS;
 export const DEMO_SCENARIOS: readonly Scenario[] = z.object({ scenarios: z.array(scenarioSchema) }).parse(scenariosDemo).scenarios;
 
 export const DEMO_DURATIONS = { quick: DEMO_RULES_QUICK, classic: DEMO_RULES_CLASSIC } as const;

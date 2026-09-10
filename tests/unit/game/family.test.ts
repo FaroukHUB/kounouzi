@@ -2,9 +2,10 @@ import { describe, expect, it } from "vitest";
 import { DEFAULT_BOARD } from "@/config/board";
 import { contentRegistry } from "@/config/content";
 import { DEMO_HERITAGE_SITES, DEMO_RULES_QUICK, DEMO_SCENARIOS } from "@/config/demo";
+import { HASSANAT_CONFIG } from "@/config/hassanat";
 import { JOURNEY_CYCLE_V1 } from "@/config/journey";
 import { LEARNING_CONFIG, ageOf, learnerContextFor } from "@/config/learning";
-import { checkInvariants, createGame, deserializeGameState, reduce, serializeGameState, type Command, type GameEvent, type GameSetup, type GameState } from "@/core/game";
+import { checkInvariants, createGame, deserializeGameState, reduce, serializeGameState, sumMoney, type Command, type GameEvent, type GameSetup, type GameState } from "@/core/game";
 import { addDays, applyAttempt, attemptId, emptyMemory, type PlayerLearningMemory } from "@/core/learning";
 import { isAudienceAllowed, type GameId, type PlayerId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
@@ -33,6 +34,7 @@ const setup = (turns: number, extra: Partial<GameSetup> = {}): GameSetup => ({
   scenarios: DEMO_SCENARIOS,
   rules: { ...DEMO_RULES_QUICK, endCondition: { kind: "turns_per_player", turns } },
   journey: JOURNEY_CYCLE_V1,
+  hassanat: HASSANAT_CONFIG,
   ...extra,
 });
 
@@ -115,8 +117,8 @@ describe("simulation familiale (Maryam 6 ans, Yacine 11 ans, Maman, Papa)", () =
   it("se termine sans impasse, avec un classement, et rencontre toutes les mécaniques", () => {
     expect(run.state.status).toBe("finished");
     expect(run.state.ranking).toHaveLength(4);
-    // Plateau 26 : Savoir, Monument (achat, visite), Défi (Duel / question / défi famille), Halte, Don, Trésor, Départ, et la Zakat annuelle hors plateau.
-    for (const t of ["QuestionRequested", "DuelStarted", "DuelResolved", "JourneyHalted", "PurchaseOffered", "SiteAcquired", "HeritageVisited", "MoneyTransferred", "ScenarioTriggered", "PassedStart", "TreasureFound", "DonationOffered", "DonationMade", "FundChanged", "HawlAdvanced", "YearCompleted"] as const) {
+    // Plateau 26 : Savoir, Établissement (achat, service payé au propriétaire), Défi (Duel / question / défi famille / carte Hassanāt), Halte, Don, Trésor, Départ, et la Zakat par ḥawl hors plateau.
+    for (const t of ["QuestionRequested", "DuelStarted", "DuelResolved", "JourneyHalted", "PurchaseOffered", "SiteAcquired", "ServiceOffered", "ServiceConsumed", "HassanatOffered", "HassanatGranted", "MoneyTransferred", "ScenarioTriggered", "PassedStart", "TreasureFound", "DonationOffered", "DonationMade", "FundChanged", "HawlAdvanced", "YearCompleted"] as const) {
       expect(types.has(t), t).toBe(true);
     }
     const cellTypes = new Set(run.events.filter((e): e is Extract<GameEvent, { type: "ScenarioTriggered" }> => e.type === "ScenarioTriggered").map((e) => e.cellType));
@@ -124,7 +126,9 @@ describe("simulation familiale (Maryam 6 ans, Yacine 11 ans, Maman, Papa)", () =
     expect(run.state.funds.masakin).toBeGreaterThan(0);
     expect(run.state.calendar.year).toBeGreaterThan(1);
     const purposes = new Set(run.events.filter((e): e is Extract<GameEvent, { type: "QuestionRequested" }> => e.type === "QuestionRequested").map((e) => e.purpose));
-    expect([...purposes].sort()).toEqual(["duel", "halt", "heritage_visit", "standard"]);
+    // Les établissements de démonstration ont des frais de service : plus de Défi Patrimoine sur ce plateau.
+    expect([...purposes].sort()).toEqual(["duel", "halt", "standard"]);
+    expect(run.state.players.some((p) => p.hassanatPoints > 0)).toBe(true);
   });
 
   it("un Duel enfant / adulte a eu lieu, résolu uniquement par les réponses", () => {
@@ -152,13 +156,13 @@ describe("simulation familiale (Maryam 6 ans, Yacine 11 ans, Maman, Papa)", () =
   it("l'économie est cohérente : grand livre = soldes, transferts équilibrés, aucun solde négatif", () => {
     for (const p of run.state.players) {
       expect(p.money).toBeGreaterThanOrEqual(0);
-      expect(run.state.ledger.filter((t) => t.playerId === p.id).reduce((s, t) => s + t.amount, 0)).toBe(p.money);
+      expect(sumMoney(run.state.ledger.filter((t) => t.playerId === p.id).map((t) => t.amount))).toBe(p.money);
     }
     const transfers = run.events.filter((e): e is Extract<GameEvent, { type: "MoneyTransferred" }> => e.type === "MoneyTransferred");
     expect(transfers.length).toBeGreaterThan(0);
     for (const t of transfers) {
       const legs = run.state.ledger.filter((l) => l.ref === t.transferId);
-      expect(legs.map((l) => l.amount).reduce((a, b) => a + b, 0)).toBe(0);
+      expect(sumMoney(legs.map((l) => l.amount))).toBe(0);
     }
     expect(run.state.players.some((p) => p.solidarityActions > 0)).toBe(true);
   });

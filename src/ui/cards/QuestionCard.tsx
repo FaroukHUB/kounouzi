@@ -14,7 +14,7 @@ import { CELL_STYLE } from "@/ui/board/cellStyles";
 import { CardShell } from "./CardShell";
 import { LongPressButton } from "./LongPressButton";
 import { CardAnimation } from "./animations/CardAnimation";
-import { siteDisplayName } from "./MonumentCard";
+import { siteDisplayName } from "./EstablishmentCard";
 import { servedFor, type CardState } from "./cardState";
 import { afterValidation } from "./questionFlow";
 
@@ -60,7 +60,7 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
   const intro =
     card.purpose === "heritage_visit" && visit ? (
       <div className="rounded-2xl bg-[var(--k-sand)] px-4 py-3 text-sm" data-testid="visit-intro">
-        <p className="font-semibold">{t(DEFAULT_LOCALE, "visit.intro", { site: siteDisplayName(visit.siteId), owner: ownerName })}</p>
+        <p className="font-semibold">{t(DEFAULT_LOCALE, "visit.intro", { site: siteDisplayName(state, visit.siteId), owner: ownerName })}</p>
         <p className="text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "visit.stake", { correct: contribution.correct, partial: contribution.partial, incorrect: contribution.incorrect })}</p>
       </div>
     ) : card.purpose === "halt" ? (

@@ -104,6 +104,8 @@ export interface Policy {
   challenge?(challengeId: string, index: number): "success" | "failure" | "skip" | "consent_refused";
   /** Case Don : destination du don (défaut : la Caisse Masākīn). */
   donate?(candidates: readonly PlayerId[], index: number): MoneyDestination;
+  /** Carte Hassanāt : bénéficiaire, ou `null` pour passer (défaut : accepter, premier candidat). */
+  hassanat?(cardId: string, candidates: readonly PlayerId[], index: number): PlayerId | null;
 }
 
 /** Qui doit répondre dans la phase courante (joueur actif, ou dueliste en cours). */
@@ -138,6 +140,13 @@ export function nextCommand(state: GameState, policy: Policy, counters: { answer
     case "awaiting_donation":
       // Par défaut : la Caisse Masākīn ; une politique peut choisir un joueur.
       return { type: "Donate", playerId, to: (policy.donate ?? (() => ({ kind: "masakin" as const })))(state.phase.candidates, counters.transfers++) };
+    case "awaiting_service":
+      return { type: "PayService", playerId };
+    case "awaiting_hassanat": {
+      const h = state.phase.hassanat;
+      const beneficiary = (policy.hassanat ?? ((_, c) => c[0] ?? null))(h.cardId, h.candidates, counters.transfers++);
+      return beneficiary ? { type: "AcceptHassanat", playerId, beneficiaryId: beneficiary } : { type: "SkipHassanat", playerId };
+    }
     case "awaiting_challenge": {
       const c = state.phase.challenge;
       const decision = (policy.challenge ?? (() => "success"))(c.challengeId, (counters.challenges = (counters.challenges ?? 0) + 1) - 1);

@@ -16,7 +16,7 @@ export function bannerText(banner: Banner, state: GameState): string {
     case "passed_start":
       return t(DEFAULT_LOCALE, "game.passedStart", { amount: banner.amount });
     case "owned":
-      return t(DEFAULT_LOCALE, "monument.owned", { name: name(banner.ownerId) });
+      return t(DEFAULT_LOCALE, "establishment.owned", { name: name(banner.ownerId) });
     case "revisit":
       return t(DEFAULT_LOCALE, "visit.own");
     case "halt_lifted":
@@ -47,6 +47,12 @@ export function bannerText(banner: Banner, state: GameState): string {
       return t(DEFAULT_LOCALE, "banner.hawl.completed", { name: name(banner.playerId) });
     case "zakat_paid":
       return t(DEFAULT_LOCALE, "banner.zakat.paid", { name: name(banner.playerId), amount: formatKounouz(banner.amount) });
+    case "service":
+      return t(DEFAULT_LOCALE, "banner.service", { name: name(banner.playerId), owner: name(banner.ownerId), amount: formatKounouz(banner.amount) });
+    case "hassanat_granted":
+      return t(DEFAULT_LOCALE, "banner.hassanat.granted", { name: name(banner.playerId), amount: banner.amount });
+    case "hassanat_unavailable":
+      return t(DEFAULT_LOCALE, "banner.hassanat.unavailable");
   }
 }
 
@@ -62,7 +68,7 @@ export function TurnBanner({ banner, state }: { readonly banner: Banner | null; 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.22 }}
-            className={banner?.kind === "transfer" || banner?.kind === "donation_fund" || banner?.kind === "zakat_paid" ? "rounded-2xl bg-[var(--k-ruby)] px-6 py-3 text-center text-lg font-black text-white shadow-xl" : "rounded-full bg-[var(--k-ink)] px-5 py-2 text-base font-semibold text-white shadow-lg"}
+            className={banner?.kind === "transfer" || banner?.kind === "donation_fund" || banner?.kind === "zakat_paid" || banner?.kind === "service" ? "rounded-2xl bg-[var(--k-ruby)] px-6 py-3 text-center text-lg font-black text-white shadow-xl" : banner?.kind === "hassanat_granted" ? "rounded-2xl bg-[var(--k-teal)] px-6 py-3 text-center text-lg font-black text-white shadow-xl" : "rounded-full bg-[var(--k-ink)] px-5 py-2 text-base font-semibold text-white shadow-lg"}
             data-testid="banner"
             data-banner={banner?.kind}
           >

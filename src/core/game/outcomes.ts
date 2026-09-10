@@ -2,6 +2,7 @@ import { resolveCell } from "./cells";
 import { selectChallenge, selectRecitations } from "./challenges";
 import { affordableAmount, applyTransaction, poorestPlayer, richestPlayer, transferMoney } from "./economy";
 import { queueEffect, clearEffects, takeEffect } from "./effects";
+import { assignHassanat } from "./hassanat";
 import { holdingOf, holdingsOf } from "./holdings";
 import { applyMove, computePath, computePathTo } from "./movement";
 import { cellAt } from "./board";
@@ -73,7 +74,16 @@ export function processQueue(state: GameState, initialQueue: readonly Outcome[])
           break;
         }
         if (owned) {
-          // Visite de patrimoine : un Défi Patrimoine décide de la contribution due au propriétaire.
+          const establishment = s.config.sites[outcome.siteId]?.establishment;
+          if (establishment && establishment.serviceFee > 0) {
+            // Établissement d'un autre joueur : le visiteur consomme un service et paie le propriétaire (confirmation par PayService).
+            return chain(result, () =>
+              step({ ...s, phase: { kind: "awaiting_service", siteId: outcome.siteId, ownerId: owned.ownerId, amount: establishment.serviceFee, queue: [...queue] } }, [
+                { type: "ServiceOffered", playerId: player.id, ownerId: owned.ownerId, siteId: outcome.siteId, family: establishment.family, serviceType: establishment.serviceType, amount: establishment.serviceFee },
+              ]),
+            );
+          }
+          // Site sans service (parties anciennes) : un Défi Patrimoine décide de la contribution due au propriétaire.
           const requestId = `q${s.counters.request + 1}`;
           const position = activePlayer(s).position;
           const contribution = s.config.rules.heritageVisit.contribution;
@@ -140,6 +150,16 @@ export function processQueue(state: GameState, initialQueue: readonly Outcome[])
             { type: "RecipientChoiceOffered", playerId: player.id, amount: outcome.amount, reason: outcome.reason, candidates },
           ]),
         );
+      }
+
+      case "hassanat_opportunity": {
+        const s = result.state;
+        const assigned = assignHassanat(s, player.id);
+        if (!assigned) {
+          result = chain(result, () => step(s, [{ type: "HassanatUnavailable", playerId: player.id }]));
+          break;
+        }
+        return chain(result, () => assigned(queue));
       }
 
       case "treasure":

@@ -77,7 +77,7 @@ export function transferMoney(state: GameState, fromPlayerId: PlayerId, toPlayer
  * livre de la caisse). Les Kounouz d'une caisse n'appartiennent à personne.
  * Le montant est plafonné au solde du joueur (jamais négatif).
  */
-export function fundDeposit(state: GameState, fromPlayerId: PlayerId, requested: number, reason: FundTransactionReason, playerReason: Extract<TransactionReason, "donation_sent" | "zakat_paid">, fund: FundId = "masakin"): Step {
+export function fundDeposit(state: GameState, fromPlayerId: PlayerId, requested: number, reason: FundTransactionReason, playerReason: Extract<TransactionReason, "donation_sent" | "zakat_paid" | "hassanat_cost">, fund: FundId = "masakin"): Step {
   const amount = Math.min(Math.max(0, roundMoney(requested)), Math.max(0, playerById(state, fromPlayerId).money));
   if (amount === 0) return step(state);
   const id = state.fundLedger.length + 1;

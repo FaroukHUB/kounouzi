@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import type { CellType } from "@/core/game";
+import type { CellType, EstablishmentFamily } from "@/core/game";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
 import type { AvatarShape } from "@/config/avatars";
@@ -23,19 +23,22 @@ export interface CellProps {
   readonly highlighted: boolean;
   readonly arrival: boolean;
   readonly preview: boolean;
-  /** Case Monument : identifiant du site (illustration) et propriétaire éventuel. */
+  /** Case Établissement : identifiant du site (illustration), établissement (icône, nom) et propriétaire éventuel. */
   readonly siteId?: string | undefined;
+  readonly establishment?: { readonly icon?: string | undefined; readonly name: string; readonly family: EstablishmentFamily } | undefined;
   readonly owner?: CellOwner | undefined;
 }
 
 /**
  * Une tuile du plateau : cadre, médaillon d'icône, petit titre, illustration
- * pour les monuments et ruban de propriétaire. Seuls `transform` et `opacity`
+ * ou icône pour les établissements et ruban de propriétaire. Seuls `transform` et `opacity`
  * sont animés ; la structure reste une grille CSS statique.
  */
-export function Cell({ position, type, grid, highlighted, arrival, preview, siteId, owner }: CellProps) {
+export function Cell({ position, type, grid, highlighted, arrival, preview, siteId, establishment, owner }: CellProps) {
   const style = CELL_STYLE[type];
   const label = t(DEFAULT_LOCALE, `cell.${type}`);
+  // Case Établissement : le ruban porte la famille (court), lisible sur une petite tuile ; le nom complet reste dans l'infobulle et l'étiquette accessible.
+  const ribbon = establishment ? t(DEFAULT_LOCALE, `cell.family.${establishment.family}`) : label;
   const isStart = type === "start";
   const isMonument = type === "heritage";
   // Halte : « grosse case » — médaillon plus grand, liseré marqué, légère mise en avant (structure de grille inchangée).
@@ -60,10 +63,15 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
       animate={{ scale: arrival ? 1.08 : highlighted ? 1.04 : isHalt ? 1.05 : 1, opacity: 1 }}
       data-big={isHalt ? "true" : undefined}
       transition={{ type: "tween", duration: 0.18 }}
-      aria-label={`${label} ${position}${owner ? ` — ${owner.name}` : ""}`}
+      aria-label={`${label} ${position}${establishment ? ` ${establishment.name}` : ""}${owner ? ` — ${owner.name}` : ""}`}
+      title={establishment?.name}
     >
-      {/* Illustration (monument) ou médaillon d'icône */}
-      {isMonument ? (
+      {/* Icône de l'établissement, illustration (ancien site) ou médaillon d'icône */}
+      {isMonument && establishment?.icon ? (
+        <span className="absolute top-[8%] flex size-[46%] items-center justify-center rounded-full text-[clamp(0.9rem,2.6vw,1.6rem)] leading-none" style={{ backgroundColor: "rgba(255,255,255,0.8)", boxShadow: `inset 0 0 0 1.5px ${style.accent}66` }} aria-hidden="true" data-testid={`establishment-${position}`}>
+          {establishment.icon}
+        </span>
+      ) : isMonument ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={monumentImage(siteId ?? "")} alt="" aria-hidden="true" className="absolute inset-x-[8%] top-[6%] h-[46%] w-auto max-w-[84%] rounded-[10%] object-cover opacity-90" loading="lazy" decoding="async" />
       ) : (
@@ -74,7 +82,7 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
       {/* Petit titre sur ruban */}
       {/* Petit titre : masqué sur les très petits écrans (icône seule), jamais tronqué ailleurs */}
       <span className="relative z-10 mb-[7%] hidden w-full overflow-hidden rounded-full px-0.5 py-[3%] text-[clamp(0.38rem,0.7vw,0.62rem)] font-bold leading-none tracking-[-0.01em] sm:block" style={{ backgroundColor: isStart ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.72)" }}>
-        {label}
+        {ribbon}
       </span>
       {/* Ruban de propriétaire (monument possédé) */}
       {owner ? (

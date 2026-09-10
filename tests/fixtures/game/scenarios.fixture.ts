@@ -22,6 +22,7 @@ export const TEST_SCENARIOS: readonly Scenario[] = [
     ],
   },
   { id: "challenge-question", cellType: "challenge", outcomes: [{ kind: "question" }] },
+  { id: "challenge-hassanat", cellType: "challenge", outcomes: [{ kind: "hassanat_opportunity" }] },
   {
     id: "solidarity-donate",
     cellType: "solidarity",

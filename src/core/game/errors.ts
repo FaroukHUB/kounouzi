@@ -19,6 +19,8 @@ export type GameError =
   | { readonly code: "INVALID_RECIPIENT"; readonly recipientId: PlayerId }
   /** Don : le joueur ne peut plus payer le montant fixé. */
   | { readonly code: "INVALID_DONATION"; readonly amount: number }
+  /** Carte Hassanāt : bénéficiaire hors des candidats. */
+  | { readonly code: "INVALID_BENEFICIARY"; readonly beneficiaryId: PlayerId }
   /** Les deux questions d'un Duel doivent appartenir à la même catégorie. */
   | { readonly code: "DUEL_CATEGORY_MISMATCH"; readonly expected: string; readonly received: string }
   /** Un défi doit être accepté avant d'être validé ; accepté, il ne peut plus l'être à nouveau. */

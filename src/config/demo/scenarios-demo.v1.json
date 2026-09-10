@@ -314,6 +314,15 @@
       ]
     },
     {
+      "id": "challenge-hassanat",
+      "cellType": "challenge",
+      "outcomes": [
+        {
+          "kind": "hassanat_opportunity"
+        }
+      ]
+    },
+    {
       "id": "solidarity-donation",
       "cellType": "solidarity",
       "outcomes": [

@@ -22,7 +22,11 @@ export type Banner =
   | { readonly kind: "treasure"; readonly amount: number }
   | { readonly kind: "year"; readonly year: number }
   | { readonly kind: "zakat_paid"; readonly playerId: PlayerId; readonly amount: number }
-  | { readonly kind: "hawl_completed"; readonly playerId: PlayerId };
+  | { readonly kind: "hawl_completed"; readonly playerId: PlayerId }
+  /** Service consommé chez un autre joueur : « X paie N Kounouz à Y ». */
+  | { readonly kind: "service"; readonly playerId: PlayerId; readonly ownerId: PlayerId; readonly amount: number }
+  | { readonly kind: "hassanat_granted"; readonly playerId: PlayerId; readonly amount: number }
+  | { readonly kind: "hassanat_unavailable" };
 
 /** Ce que le rejoueur peut faire à l'interface. Rien ici ne touche au moteur. */
 export interface AnimationActions {
@@ -94,7 +98,34 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       actions.openCard({ kind: "question", requestId: event.requestId, playerId: event.playerId, purpose: event.purpose, step: "dealt", validationMode: "collective" });
       return;
     case "PurchaseOffered":
-      actions.openCard({ kind: "monument", siteId: event.siteId, price: event.price, affordable: event.affordable, step: "offer" });
+      actions.openCard({ kind: "establishment", siteId: event.siteId, price: event.price, affordable: event.affordable, step: "offer" });
+      return;
+    // ---- Établissements et cartes Hassanāt (ADR 0035) ----
+    case "ServiceOffered":
+      actions.openCard({ kind: "service", siteId: event.siteId, ownerId: event.ownerId, amount: event.amount, step: "offer" });
+      return;
+    case "ServiceConsumed":
+      actions.updateCard({ step: "paid", paid: event.amount });
+      await sleep(t.purchaseMs);
+      actions.closeCard();
+      return banner(actions, { kind: "service", playerId: event.playerId, ownerId: event.ownerId, amount: event.amount }, t.transferMs, sleep);
+    case "HassanatOffered":
+      actions.openCard({ kind: "hassanat", cardId: event.cardId, hassanatKind: event.kind, playerId: event.playerId, cost: event.cost, reward: event.hassanatReward, candidates: event.candidates, step: "offer" });
+      return;
+    case "HassanatUnavailable":
+      return banner(actions, { kind: "hassanat_unavailable" }, t.noticeMs, sleep);
+    case "HassanatAccepted":
+      actions.updateCard({ step: "accepted" });
+      return;
+    case "HassanatGranted":
+      actions.updateCard({ step: "granted", granted: event.amount });
+      await sleep(t.rewardMs);
+      actions.closeCard();
+      return banner(actions, { kind: "hassanat_granted", playerId: event.playerId, amount: event.amount }, t.transferMs, sleep);
+    case "HassanatSkipped":
+      actions.updateCard({ step: "skipped" });
+      await sleep(t.purchaseMs / 2);
+      actions.closeCard();
       return;
     case "ChoiceOffered":
       actions.openCard({ kind: "choice", choiceId: event.choiceId, optionIds: event.optionIds, step: "offer" });
@@ -212,6 +243,8 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       actions.closeCard();
       return;
     case "HaltLifted":
+      // Le joueur reprend la route TOUT DE SUITE (même tour, nouveau Chemin) : la carte du Défi de reprise doit se refermer ici, aucun TurnEnded ne suivra.
+      actions.closeCard();
       return banner(actions, { kind: "halt_lifted", playerId: event.playerId }, t.noticeMs, sleep);
     case "HaltTurnLost":
       return banner(actions, { kind: "halt_lost", playerId: event.playerId }, t.noticeMs, sleep);
@@ -221,6 +254,8 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       actions.openCard({ kind: "recipient", playerId: event.playerId, candidates: event.candidates, amount: event.amount, reason: event.reason, step: "offer" });
       return;
     case "MoneyTransferred":
+      // Frais de service et coût d'une carte Hassanāt : la carte ouverte montre déjà le paiement (ServiceConsumed / HassanatGranted).
+      if (event.reason === "service_fee" || event.reason === "hassanat") return;
       actions.closeCard();
       return banner(actions, { kind: "transfer", fromPlayerId: event.fromPlayerId, toPlayerId: event.toPlayerId, amount: event.amount, contribution: event.reason === "heritage_contribution" }, t.transferMs, sleep);
     case "PenaltyShielded":
@@ -257,13 +292,16 @@ function settle(event: GameEvent, actions: AnimationActions): void {
     case "FamilyChallengeAssigned":
       if (event.ohNo) actions.updateCard({ step: "reveal" });
       return;
+    case "HaltLifted":
+      actions.closeCard();
+      actions.setBanner(null);
+      return;
     case "TurnStarted":
     case "TurnSkipped":
     case "PassedStart":
     case "TimeTargetReached":
     case "SiteAlreadyOwned":
     case "HeritageRevisited":
-    case "HaltLifted":
     case "HaltTurnLost":
     case "MoneyTransferred":
     case "PenaltyShielded":
@@ -275,8 +313,15 @@ function settle(event: GameEvent, actions: AnimationActions): void {
     case "HawlCompleted":
     case "ZakatPaid":
     case "YearCompleted":
+    case "HassanatUnavailable":
       actions.setBanner(null);
       return;
+    case "ServiceConsumed":
+    case "HassanatGranted":
+      actions.closeCard();
+      actions.setBanner(null);
+      return;
+    case "HassanatSkipped":
     case "ScenarioTriggered":
     case "TreasureFound":
     case "JourneyHalted":
@@ -341,7 +386,14 @@ export function estimateDuration(event: GameEvent, t: Timings): number {
     case "ChallengeRewardGranted":
       return t.rewardMs;
     case "MoneyTransferred":
-      return t.transferMs;
+      return event.reason === "service_fee" || event.reason === "hassanat" ? 0 : t.transferMs;
+    case "ServiceConsumed":
+      return t.purchaseMs + t.transferMs;
+    case "HassanatGranted":
+      return t.rewardMs + t.transferMs;
+    case "HassanatSkipped":
+      return t.purchaseMs / 2;
+    case "HassanatUnavailable":
     case "HeritageRevisited":
     case "HaltLifted":
     case "HaltTurnLost":

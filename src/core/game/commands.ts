@@ -19,6 +19,13 @@ export type PlayerCommand =
   | { readonly type: "ChooseRecipient"; readonly playerId: PlayerId; readonly recipientId: PlayerId }
   /** Case Don : destination du don (Caisse Masākīn ou un autre joueur) ; le montant est celui des règles. Jamais une Zakat. */
   | { readonly type: "Donate"; readonly playerId: PlayerId; readonly to: MoneyDestination }
+  /** Établissement d'un autre joueur : confirme le service consommé et le paiement au propriétaire (montant des données). */
+  | { readonly type: "PayService"; readonly playerId: PlayerId }
+  /* ---- Carte Hassanāt ---- */
+  /** Accepte l'occasion de générosité en désignant le bénéficiaire ; le coût et les points viennent de la carte (données). */
+  | { readonly type: "AcceptHassanat"; readonly playerId: PlayerId; readonly beneficiaryId: PlayerId }
+  /** Passe : 0 point, 0 pénalité. */
+  | { readonly type: "SkipHassanat"; readonly playerId: PlayerId }
   /* ---- Défi famille ---- */
   | { readonly type: "AcceptChallenge"; readonly playerId: PlayerId }
   /** Validation collective : réussi ou raté. Réussi crédite le gain une fois ; raté = 0. */

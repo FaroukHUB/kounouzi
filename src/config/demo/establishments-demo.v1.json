@@ -1,0 +1,197 @@
+{
+  "$comment": "Les 12 ÉTABLISSEMENTS du plateau 26 (ADR 0035) : établissements FICTIFS de l'univers Kounouzi. Les deux maktaba portent le nom de savants en référence, sans prétendre être leurs véritables bibliothèques ; le musée est un établissement de jeu, aucune information historique n'est fabriquée ; le Parc Kounouzi est familial (attractions, sans musique). Noms des hôtels et des agences PROVISOIRES (données modifiables). ⚠️ Prix d'achat et frais de service = VALEURS DE DÉMONSTRATION NON VALIDÉES. `kind: purchasable_monument` est conservé pour la compatibilité des sauvegardes. Les lieux de culte restent non achetables.",
+  "sites": [
+    {
+      "id": "est-maktaba-albani",
+      "kind": "purchasable_monument",
+      "price": 300,
+      "heritageValue": 250,
+      "establishment": {
+        "family": "maktaba",
+        "serviceType": "book",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Maktaba Cheikh Al-Albānī",
+          "ar": "مكتبة الشيخ الألباني"
+        },
+        "icon": "📚"
+      }
+    },
+    {
+      "id": "est-maktaba-ibn-baz",
+      "kind": "purchasable_monument",
+      "price": 350,
+      "heritageValue": 310,
+      "establishment": {
+        "family": "maktaba",
+        "serviceType": "book",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Maktaba Cheikh Ibn Bāz",
+          "ar": "مكتبة الشيخ ابن باز"
+        },
+        "icon": "📚"
+      }
+    },
+    {
+      "id": "est-hotel-madinah-a",
+      "kind": "purchasable_monument",
+      "price": 400,
+      "heritageValue": 370,
+      "establishment": {
+        "family": "madinah_hotel",
+        "serviceType": "stay",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Hôtel de Médine A",
+          "ar": "فندق المدينة أ"
+        },
+        "icon": "🏨"
+      }
+    },
+    {
+      "id": "est-hotel-madinah-b",
+      "kind": "purchasable_monument",
+      "price": 450,
+      "heritageValue": 430,
+      "establishment": {
+        "family": "madinah_hotel",
+        "serviceType": "stay",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Hôtel de Médine B",
+          "ar": "فندق المدينة ب"
+        },
+        "icon": "🏨"
+      }
+    },
+    {
+      "id": "est-hotel-makkah-a",
+      "kind": "purchasable_monument",
+      "price": 500,
+      "heritageValue": 490,
+      "establishment": {
+        "family": "makkah_hotel",
+        "serviceType": "stay",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Hôtel de La Mecque A",
+          "ar": "فندق مكة أ"
+        },
+        "icon": "🏨"
+      }
+    },
+    {
+      "id": "est-hotel-makkah-b",
+      "kind": "purchasable_monument",
+      "price": 550,
+      "heritageValue": 550,
+      "establishment": {
+        "family": "makkah_hotel",
+        "serviceType": "stay",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Hôtel de La Mecque B",
+          "ar": "فندق مكة ب"
+        },
+        "icon": "🏨"
+      }
+    },
+    {
+      "id": "est-restaurant-algerie",
+      "kind": "purchasable_monument",
+      "price": 600,
+      "heritageValue": 610,
+      "establishment": {
+        "family": "maghreb_restaurant",
+        "serviceType": "meal",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Saveurs d’Algérie",
+          "ar": "نكهات الجزائر"
+        },
+        "icon": "🍽️"
+      }
+    },
+    {
+      "id": "est-restaurant-maroc",
+      "kind": "purchasable_monument",
+      "price": 650,
+      "heritageValue": 670,
+      "establishment": {
+        "family": "maghreb_restaurant",
+        "serviceType": "meal",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Saveurs du Maroc",
+          "ar": "نكهات المغرب"
+        },
+        "icon": "🍽️"
+      }
+    },
+    {
+      "id": "est-umrah-agency-a",
+      "kind": "purchasable_monument",
+      "price": 700,
+      "heritageValue": 730,
+      "establishment": {
+        "family": "umrah_agency",
+        "serviceType": "umrah_trip",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Agence ʿUmra A",
+          "ar": "وكالة عمرة أ"
+        },
+        "icon": "🧳"
+      }
+    },
+    {
+      "id": "est-umrah-agency-b",
+      "kind": "purchasable_monument",
+      "price": 750,
+      "heritageValue": 790,
+      "establishment": {
+        "family": "umrah_agency",
+        "serviceType": "umrah_trip",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Agence ʿUmra B",
+          "ar": "وكالة عمرة ب"
+        },
+        "icon": "🧳"
+      }
+    },
+    {
+      "id": "est-museum-dubai",
+      "kind": "purchasable_monument",
+      "price": 800,
+      "heritageValue": 850,
+      "establishment": {
+        "family": "museum",
+        "serviceType": "ticket",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Musée des Civilisations Islamiques de Dubaï",
+          "ar": "متحف الحضارات الإسلامية بدبي"
+        },
+        "icon": "🏛️"
+      }
+    },
+    {
+      "id": "est-park-kounouzi",
+      "kind": "purchasable_monument",
+      "price": 850,
+      "heritageValue": 910,
+      "establishment": {
+        "family": "park",
+        "serviceType": "ticket",
+        "serviceFee": 30,
+        "name": {
+          "fr": "Parc Kounouzi",
+          "ar": "منتزه كنوزي"
+        },
+        "icon": "🎡"
+      }
+    }
+  ]
+}

@@ -27,7 +27,7 @@ export interface UiState {
   readonly isAnimating: boolean;
   /** État affiché par les panneaux (retard des animations). `null` avant chargement. */
   readonly presentedState: GameState | null;
-  /** Carte affichée (question, monument, choix, scénario) ; `null` sinon. */
+  /** Carte affichée (question, établissement, service, Hassanāt, choix, scénario) ; `null` sinon. */
   readonly card: CardState | null;
 
   syncFromGame(state: GameState): void;

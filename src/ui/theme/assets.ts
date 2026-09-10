@@ -19,10 +19,11 @@ export const ASSETS = {
     halt: "/kounouzi/cards/halt.svg",
     start: "/kounouzi/cards/start.svg",
     donation: "/kounouzi/cards/solidarity.svg",
+    hassanat: "/kounouzi/cards/hassanat.svg",
   },
 } as const;
 
-/** Illustration d'un monument : une par identifiant de site quand elle existe, sinon le placeholder. */
+/** Illustration d'un établissement : une par identifiant de site quand elle existe, sinon le placeholder (aucun personnage). */
 export function monumentImage(siteId: string): string {
   void siteId;
   return ASSETS.monumentPlaceholder;

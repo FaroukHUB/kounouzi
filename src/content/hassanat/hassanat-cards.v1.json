@@ -1,0 +1,36 @@
+{
+  "$comment": "Cartes Hassanāt V1 (ADR 0035) : occasions VOLONTAIRES de générosité dans le jeu. Les points Hassanāt sont UNIQUEMENT une mécanique de score de Kounouzi ; l'application ne prétend jamais mesurer les véritables حسنات ni la récompense réelle d'une personne. ⚠️ Coûts, destinations du coût et points = VALEURS DE DÉMONSTRATION NON VALIDÉES, modifiables sans toucher au moteur. `requiresEstablishmentFamily` / `ownerCost` préparent le lien établissement ↔ Hassanāt (aucun rabais décidé : absents).",
+  "version": 1,
+  "cards": [
+    {
+      "id": "HS-001",
+      "kind": "offer_meal",
+      "title": "Offrir un repas",
+      "text": "Offre un repas à un autre joueur.",
+      "cost": 20,
+      "costDestination": "none",
+      "hassanatReward": 10,
+      "animationKey": "hassanat_meal"
+    },
+    {
+      "id": "HS-002",
+      "kind": "offer_umrah",
+      "title": "Offrir une ʿUmra",
+      "text": "Offre une ʿUmra à un autre joueur.",
+      "cost": 150,
+      "costDestination": "none",
+      "hassanatReward": 50,
+      "animationKey": "hassanat_umrah"
+    },
+    {
+      "id": "HS-003",
+      "kind": "help_player",
+      "title": "Aider un joueur",
+      "text": "Donne des Kounouz à un autre joueur qui en a besoin.",
+      "cost": 50,
+      "costDestination": "beneficiary",
+      "hassanatReward": 20,
+      "animationKey": "hassanat_help"
+    }
+  ]
+}

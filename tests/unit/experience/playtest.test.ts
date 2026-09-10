@@ -71,7 +71,7 @@ describe("diagnostic de playtest (local, dérivé des événements)", () => {
     expect(report.turns).toBe(count("TurnStarted"));
     expect(report.counts.questions).toBe(count("AnswerRecorded"));
     expect(report.counts.duels).toBe(count("DuelResolved"));
-    expect(report.counts.monumentsBought).toBe(count("SiteAcquired"));
+    expect(report.counts.establishmentsBought).toBe(count("SiteAcquired"));
     expect(report.counts.heritageVisits).toBe(count("HeritageVisited"));
     expect(report.counts.transfers).toBe(count("MoneyTransferred"));
     expect(report.counts.managementChoices).toBe(count("ChoiceMade"));
@@ -138,7 +138,7 @@ describe("diagnostic de playtest (local, dérivé des événements)", () => {
     const timings = Object.fromEntries(measureInteractions({ gameId: state.gameId, entries }).map((t) => [t.kind, t]));
     expect(timings["question"]).toMatchObject({ count: 2, totalMs: 14_000, averageMs: 7000 });
     expect(timings["duel"]).toMatchObject({ count: 2, totalMs: 14_000 + 3000 });
-    expect(timings["monument"]).toMatchObject({ count: 1, totalMs: 7000 });
+    expect(timings["establishment"]).toMatchObject({ count: 1, totalMs: 7000 });
     expect(timings["heritage_visit"]).toMatchObject({ count: 1, totalMs: 5000 });
     expect(timings["event"]).toMatchObject({ count: 1, totalMs: 2000 });
     expect(active(state)).toBe(pid("p1"));

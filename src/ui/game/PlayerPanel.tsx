@@ -9,7 +9,7 @@ import { formatKounouz } from "@/ui/primitives/money";
 import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
 
 /**
- * Tuile d'un joueur : avatar, nom, Kounouz en GRAND, patrimoine. La même
+ * Tuile d'un joueur : avatar, nom, Kounouz en GRAND, patrimoine, points Hassanāt (ressource distincte). La même
  * tuile sert la liste (5-6 joueurs) et les coins autour du plateau (≤ 4).
  */
 export function PlayerTile({ state, profiles, playerId, className = "" }: { readonly state: GameState; readonly profiles: readonly PlayerProfileDraft[]; readonly playerId: PlayerId; readonly className?: string }) {
@@ -38,8 +38,13 @@ export function PlayerTile({ state, profiles, playerId, className = "" }: { read
           </span>
           <span className="text-xs font-semibold uppercase tracking-wide text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "game.kounouz")}</span>
         </span>
-        <span className="block text-sm text-[var(--k-ink-soft)]" data-testid="player-heritage">
-          {t(DEFAULT_LOCALE, "game.heritage")} {heritage}
+        <span className="flex flex-wrap gap-x-3 text-sm text-[var(--k-ink-soft)]">
+          <span data-testid="player-heritage">
+            {t(DEFAULT_LOCALE, "game.heritage")} {heritage}
+          </span>
+          <span data-testid="player-hassanat" className="font-semibold text-[var(--k-teal-dark)]">
+            {t(DEFAULT_LOCALE, "game.ranking.hassanat")} {p.hassanatPoints}
+          </span>
         </span>
       </span>
     </div>

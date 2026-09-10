@@ -31,7 +31,7 @@ export function resolveBoard(
       return err({ code: "NON_PURCHASABLE_SITE", siteId: site.id, kind: site.kind });
     }
     if (purchasable[site.id]) return err({ code: "DUPLICATE_SITE", siteId: site.id });
-    purchasable[site.id] = { id: site.id, price: site.price, heritageValue: site.heritageValue };
+    purchasable[site.id] = { id: site.id, price: site.price, heritageValue: site.heritageValue, ...(site.establishment ? { establishment: site.establishment } : {}) };
   }
 
   let siteIndex = 0;

@@ -1,12 +1,12 @@
 import type { QuestionInstance } from "@/core/content";
 import type { AnswerOutcome, PlayerId, ValidationMode } from "@/core/shared";
-import type { CellType, ChallengeSkipReason, GameState, QuestionPurposeKind, TransferReason } from "@/core/game";
+import type { CellType, ChallengeSkipReason, GameState, HassanatKind, QuestionPurposeKind, TransferReason } from "@/core/game";
 
 export type QuestionStep = "dealt" | "opening" | "question" | "revealed" | "explanation" | "mastery" | "submitted" | "result" | "reward";
 
 /**
  * État TRANSITOIRE de la carte affichée. Le moteur ne le connaît pas ; la
- * vérité (phase, demande, prix, duel) reste dans `GameState`. Reconstruit
+ * vérité (phase, demande, prix, duel, service, carte Hassanāt) reste dans `GameState`. Reconstruit
  * depuis la phase à la reprise (`cardForPhase`).
  */
 export type CardState =
@@ -24,7 +24,12 @@ export type CardState =
       /** Instantané de la question servie, conservé le temps du résultat et de la récompense (l'état réel est déjà passé à la suite). */
       readonly question?: QuestionInstance | undefined;
     }
-  | { readonly kind: "monument"; readonly siteId: string; readonly price: number; readonly affordable: boolean; readonly step: "offer" | "submitted" | "acquired" | "declined" }
+  /** Établissement à vendre (ancien « Monument » ; type interne `purchasable_monument` conservé). */
+  | { readonly kind: "establishment"; readonly siteId: string; readonly price: number; readonly affordable: boolean; readonly step: "offer" | "submitted" | "acquired" | "declined" }
+  /** Établissement d'un autre joueur : service consommé, frais payés au propriétaire (`paid` = montant réel). */
+  | { readonly kind: "service"; readonly siteId: string; readonly ownerId: PlayerId; readonly amount: number; readonly step: "offer" | "submitted" | "paid"; readonly paid?: number | undefined }
+  /** Carte Hassanāt : générosité volontaire ; `granted` = points crédités (une fois). */
+  | { readonly kind: "hassanat"; readonly cardId: string; readonly hassanatKind: HassanatKind; readonly playerId: PlayerId; readonly cost: number; readonly reward: number; readonly candidates: readonly PlayerId[]; readonly step: "offer" | "submitted" | "accepted" | "granted" | "skipped"; readonly granted?: number | undefined }
   | { readonly kind: "choice"; readonly choiceId: string; readonly optionIds: readonly string[]; readonly step: "offer" | "submitted" }
   | { readonly kind: "scenario"; readonly scenarioId: string; readonly cellType: CellType }
   | { readonly kind: "opponent"; readonly challengerId: PlayerId; readonly candidates: readonly PlayerId[]; readonly step: "offer" | "submitted" }
@@ -85,7 +90,14 @@ export function cardForPhase(state: GameState): CardState | null {
       return { kind: "donation", playerId: activeId, amount: state.phase.amount, candidates: state.phase.candidates, step: "offer" };
     case "awaiting_purchase": {
       const player = state.players[state.activePlayerIndex];
-      return { kind: "monument", siteId: state.phase.siteId, price: state.phase.price, affordable: (player?.money ?? 0) >= state.phase.price, step: "offer" };
+      return { kind: "establishment", siteId: state.phase.siteId, price: state.phase.price, affordable: (player?.money ?? 0) >= state.phase.price, step: "offer" };
+    }
+    case "awaiting_service":
+      return { kind: "service", siteId: state.phase.siteId, ownerId: state.phase.ownerId, amount: state.phase.amount, step: "offer" };
+    case "awaiting_hassanat": {
+      const h = state.phase.hassanat;
+      const def = state.config.hassanat.definitions.find((d) => d.id === h.cardId);
+      return { kind: "hassanat", cardId: h.cardId, hassanatKind: def?.kind ?? "help_player", playerId: h.playerId, cost: h.cost, reward: def?.hassanatReward ?? 0, candidates: h.candidates, step: "offer" };
     }
     case "awaiting_choice":
       return { kind: "choice", choiceId: state.phase.choiceId, optionIds: state.phase.options.map((o) => o.id), step: "offer" };

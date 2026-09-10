@@ -23,8 +23,13 @@ export function FinalRanking({ state }: { readonly state: GameState }) {
                 <span className="font-semibold">
                   {t(DEFAULT_LOCALE, "game.ranking.rank", { rank: row.rank })} {p?.displayName}
                 </span>
-                <span className="text-sm tabular-nums text-[var(--k-ink-soft)]">
-                  {t(DEFAULT_LOCALE, "game.ranking.score")} {row.score}
+                <span className="flex gap-3 text-sm tabular-nums text-[var(--k-ink-soft)]">
+                  <span>
+                    {t(DEFAULT_LOCALE, "game.ranking.score")} {row.score}
+                  </span>
+                  <span data-testid={`ranking-hassanat-${row.playerId}`}>
+                    {t(DEFAULT_LOCALE, "game.ranking.hassanat")} {row.hassanat}
+                  </span>
                 </span>
               </li>
             );

@@ -96,7 +96,7 @@ describe("Halte, visite de patrimoine, destinataire", () => {
     expect(html).toContain('data-testid="halt-intro"');
   });
 
-  it("la visite d'un monument adverse annonce le propriétaire et l'enjeu de la contribution", () => {
+  it("la visite d'un établissement adverse (site sans frais de service : Défi Patrimoine) annonce le propriétaire et l'enjeu de la contribution", () => {
     const bought = run(journey(create(makeLineSetup({ cells: { 1: "heritage" }, players: players(2) })).state).state, { type: "DecidePurchase", playerId: pid("p1"), siteId: TEST_MONUMENTS[0]!.id, buy: true });
     const visit = named(journey(bought.state).state);
     const card = cardForPhase(visit);
@@ -158,7 +158,7 @@ describe("file d'animation, bandeaux et narration des nouvelles mécaniques", ()
     const state = named(create(makeSetup()).state);
     expect(bannerText({ kind: "transfer", fromPlayerId: p1, toPlayerId: p2, amount: 50, contribution: false }, state)).toBe("Maryam donne 50 Kounouz à Papa");
     // Paiement explicite : qui paie, combien, à qui, et pourquoi (le monument du propriétaire).
-    expect(bannerText({ kind: "transfer", fromPlayerId: p2, toPlayerId: p1, amount: 25, contribution: true }, state)).toBe("Papa paie 25 Kounouz à Maryam — monument de Maryam");
+    expect(bannerText({ kind: "transfer", fromPlayerId: p2, toPlayerId: p1, amount: 25, contribution: true }, state)).toBe("Papa paie 25 Kounouz à Maryam — établissement de Maryam");
     expect(bannerText({ kind: "halt_lifted", playerId: p1 }, state)).toBe("Maryam reprend la route !");
     expect(bannerText({ kind: "shield", amount: 150 }, state)).toContain("annulée");
     expect(utteranceFor({ type: "DuelStarted", challengerId: p1, opponentId: p2 }, state, "fr")?.text).toBe("Maryam défie Papa !");
@@ -166,6 +166,6 @@ describe("file d'animation, bandeaux et narration des nouvelles mécaniques", ()
     expect(utteranceFor({ type: "DuelResolved", challengerId: p1, opponentId: p2, categoryId: "maths", challengerOutcome: "correct", opponentOutcome: "incorrect", winnerId: p1 }, state, "fr")?.text).toBe("Maryam remporte le Duel Kounouzi !");
     expect(utteranceFor({ type: "DuelResolved", challengerId: p1, opponentId: p2, categoryId: "maths", challengerOutcome: "correct", opponentOutcome: "correct", winnerId: null }, state, "fr")?.text).toBe("Match nul !");
     expect(utteranceFor({ type: "JourneyHalted", playerId: p1, position: 2 }, state, "fr")?.text).toBe("Ton voyage s'interrompt.");
-    expect(utteranceFor({ type: "HeritageVisited", visitorId: p2, ownerId: p1, siteId: "s", contribution: { correct: 25, partial: 50, incorrect: 100 } }, state, "fr")?.text).toContain("monument de Maryam");
+    expect(utteranceFor({ type: "HeritageVisited", visitorId: p2, ownerId: p1, siteId: "s", contribution: { correct: 25, partial: 50, incorrect: 100 } }, state, "fr")?.text).toContain("établissement de Maryam");
   });
 });

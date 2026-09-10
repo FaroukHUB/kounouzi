@@ -56,6 +56,24 @@ export function checkInvariants(state: GameState): readonly string[] {
     if (!isMoney(p.money)) violations.push(`${p.id} solde non exprimable en centimes (${p.money})`);
   }
   for (const t of state.ledger) if (!isMoney(t.amount) || !isMoney(t.balanceAfter)) violations.push(`transaction ${t.id} non exprimable en centimes`);
+  // Points Hassanāt : ressource de score distincte, jamais négative, égale à son grand livre ; références uniques (jamais deux fois).
+  for (const p of state.players) {
+    const fromLedger = state.hassanatLedger.filter((h) => h.playerId === p.id).reduce((s, h) => s + h.amount, 0);
+    if (p.hassanatPoints < 0 || fromLedger !== p.hassanatPoints) violations.push(`${p.id} points Hassanāt ${p.hassanatPoints} ≠ grand livre ${fromLedger}`);
+  }
+  if (new Set(state.hassanatLedger.map((h) => h.ref)).size !== state.hassanatLedger.length) violations.push("attribution Hassanāt dupliquée");
+  if (state.phase.kind === "awaiting_hassanat") {
+    const h = state.phase.hassanat;
+    if (!state.config.hassanat.definitions.some((d) => d.id === h.cardId)) violations.push(`Carte Hassanāt inconnue ${h.cardId}`);
+    if (h.playerId !== state.players[state.activePlayerIndex]?.id) violations.push("la Carte Hassanāt n'est pas pour le joueur actif");
+    if (h.candidates.includes(h.playerId)) violations.push("Carte Hassanāt : le joueur est son propre bénéficiaire");
+  }
+  if (state.phase.kind === "awaiting_service") {
+    const service = state.phase;
+    const owner = state.holdings.find((h) => h.siteId === service.siteId)?.ownerId;
+    if (owner !== service.ownerId) violations.push("service : propriétaire incohérent");
+    if (owner === state.players[state.activePlayerIndex]?.id) violations.push("service : un joueur ne paie jamais son propre établissement");
+  }
   if (state.phase.kind === "awaiting_donation") {
     const money = state.players[state.activePlayerIndex]?.money ?? 0;
     if (state.phase.amount <= 0 || state.phase.amount > money) violations.push("don : montant non payable");

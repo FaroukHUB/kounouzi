@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { journeyCycleIssues } from "./journeyScheduler";
-import { CELL_TYPES, CHALLENGE_CATEGORIES, CHALLENGE_TOGGLES, FAMILY_ASSIST_LEVELS, HERITAGE_KINDS, INSUFFICIENT_POLICIES, TRANSFER_REASONS, ZAKAT_ASSET_TYPES, type ChallengesConfig, type Outcome } from "./types";
+import { CELL_TYPES, CHALLENGE_CATEGORIES, CHALLENGE_TOGGLES, ESTABLISHMENT_FAMILIES, FAMILY_ASSIST_LEVELS, HASSANAT_COST_DESTINATIONS, HASSANAT_KINDS, HERITAGE_KINDS, INSUFFICIENT_POLICIES, SERVICE_TYPES, TRANSFER_REASONS, ZAKAT_ASSET_TYPES, type ChallengesConfig, type HassanatConfig, type Outcome } from "./types";
 
 /* Plateau ---------------------------------------------------------------- */
 
@@ -18,13 +18,22 @@ export const boardConfigSchema = z
 
 /* Sites ------------------------------------------------------------------ */
 
-/** Miroir de la contrainte SQL : un prix existe si et seulement si le site est un monument achetable. */
+/** Établissement : famille, service, frais (données), nom affiché. */
+export const establishmentInfoSchema = z.object({
+  family: z.enum(ESTABLISHMENT_FAMILIES),
+  serviceType: z.enum(SERVICE_TYPES),
+  serviceFee: z.number().int().nonnegative(),
+  name: z.object({ fr: z.string().min(1), ar: z.string().min(1).optional() }),
+  icon: z.string().min(1).optional(),
+});
+
+/** Miroir de la contrainte SQL : un prix existe si et seulement si le site est un établissement achetable ; un lieu de culte ne porte ni prix ni établissement. */
 export const heritageSiteSchema = z
-  .object({ id: z.string().min(1), kind: z.enum(HERITAGE_KINDS), price: z.number().int().nonnegative().optional(), heritageValue: z.number().int().nonnegative().optional() })
+  .object({ id: z.string().min(1), kind: z.enum(HERITAGE_KINDS), price: z.number().int().nonnegative().optional(), heritageValue: z.number().int().nonnegative().optional(), establishment: establishmentInfoSchema.optional() })
   .superRefine((site, ctx) => {
     const purchasable = site.kind === "purchasable_monument";
-    if (purchasable && (site.price === undefined || site.heritageValue === undefined)) ctx.addIssue({ code: "custom", message: `${site.id} : un monument achetable exige price et heritageValue` });
-    if (!purchasable && (site.price !== undefined || site.heritageValue !== undefined)) ctx.addIssue({ code: "custom", message: `${site.id} : un site de type ${site.kind} ne peut pas porter de prix` });
+    if (purchasable && (site.price === undefined || site.heritageValue === undefined)) ctx.addIssue({ code: "custom", message: `${site.id} : un établissement achetable exige price et heritageValue` });
+    if (!purchasable && (site.price !== undefined || site.heritageValue !== undefined || site.establishment !== undefined)) ctx.addIssue({ code: "custom", message: `${site.id} : un site de type ${site.kind} ne peut porter ni prix ni établissement` });
   });
 
 /* Chemin ------------------------------------------------------------------ */
@@ -68,6 +77,7 @@ export const outcomeSchema: z.ZodType<Outcome> = z.lazy(() =>
       z.object({ kind: z.literal("family_challenge") }),
       z.object({ kind: z.literal("treasure") }),
       z.object({ kind: z.literal("donation") }),
+      z.object({ kind: z.literal("hassanat_opportunity") }),
       z.object({ kind: z.literal("transfer_choice"), amount: z.number().int().positive(), reason: z.enum(TRANSFER_REASONS), insufficient: insufficientSchema }),
       z.object({ kind: z.literal("give_to_poorest"), amount: z.number().int().positive(), reason: z.enum(TRANSFER_REASONS), insufficient: insufficientSchema }),
       z.object({ kind: z.literal("aid_from_richest"), amount: z.number().int().positive(), insufficient: insufficientSchema }),
@@ -156,12 +166,34 @@ export const rulesConfigSchema = z.object({
   donation: z.object({ amount: z.number().int().nonnegative() }),
   zakat: zakatConfigSchema,
   rewards: z.object({ correct: z.number().int().nonnegative(), partial: z.number().int().nonnegative(), incorrect: z.number().int().nonnegative(), masteryMultiplier: z.number().positive() }),
-  scoring: z.object({ moneyWeight: z.number().nonnegative(), heritageWeight: z.number().nonnegative() }),
+  scoring: z.object({ moneyWeight: z.number().nonnegative(), heritageWeight: z.number().nonnegative(), hassanatWeight: z.number().nonnegative() }),
+  service: z.object({ insufficient: insufficientSchema }),
   allowNegativeBalance: z.boolean(),
   endCondition: endConditionSchema,
   duel: z.object({ winBonus: z.number().int().nonnegative(), drawBonus: z.number().int().nonnegative(), loseBonus: z.number().int().nonnegative() }),
   heritageVisit: z.object({ contribution: payoutSchema, insufficient: insufficientSchema }),
 });
+
+/* Cartes Hassanāt (données) ----------------------------------------------- */
+
+export const hassanatCardDefinitionSchema = z.object({
+  id: z.string().min(1),
+  kind: z.enum(HASSANAT_KINDS),
+  title: z.string().min(1),
+  text: z.string().min(1),
+  cost: z.number().int().nonnegative(),
+  ownerCost: z.number().int().nonnegative().optional(),
+  costDestination: z.enum(HASSANAT_COST_DESTINATIONS),
+  hassanatReward: z.number().int().nonnegative(),
+  requiresEstablishmentFamily: z.enum(ESTABLISHMENT_FAMILIES).optional(),
+  animationKey: z.string().min(1).optional(),
+});
+
+export const hassanatConfigSchema: z.ZodType<HassanatConfig> = z
+  .object({ definitions: z.array(hassanatCardDefinitionSchema) })
+  .superRefine((c, ctx) => {
+    if (new Set(c.definitions.map((d) => d.id)).size !== c.definitions.length) ctx.addIssue({ code: "custom", message: "identifiants de Carte Hassanāt dupliqués" });
+  });
 
 /* Équilibrage familial — modèle seulement ---------------------------------- */
 

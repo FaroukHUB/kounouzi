@@ -9,7 +9,6 @@ import type { GameEvent, GameState } from "@/core/game";
 import type { GameId, PlayerId } from "@/core/shared";
 import { contentRegistry } from "@/config/content";
 import { LEARNING_CONFIG } from "@/config/learning";
-import { utteranceFor } from "@/experience/narration";
 import { pendingRequest, resolveQuestion } from "@/experience/questionResolver";
 import { startPlayClock } from "@/experience/playClock";
 import { DEFAULT_LOCALE, t } from "@/i18n";
@@ -60,9 +59,9 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
     narrator.setRate(session.narrationRate);
   }, [session.narrationEnabled, session.narrationRate]);
 
+  // Aucune narration automatique des événements (tour, Chemin, arrivée) : le rythme du jeu ne dépend jamais de la voix (ADR 0035).
   const onPlay = useCallback((event: GameEvent, current: GameState) => {
-    const u = utteranceFor(event, current, DEFAULT_LOCALE);
-    if (u) narrator.speak(u);
+    void current;
     // Aperçu du chemin : le trajet vient de l'événement PawnMoved qui suit — jamais recalculé.
     if (event.type === "MovementAssigned") {
       const next = useUiStore.getState().queue[0]?.event;
@@ -157,6 +156,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           arrivalCell={ui.arrivalCell}
           previewPath={ui.pathPreview}
           holdings={shown.holdings}
+          sites={state.config.sites}
           players={state.players}
           profiles={profiles}
           pawns={<PawnLayer players={state.players} profiles={profiles} visuals={ui.pawnVisuals} activePlayerId={shownActiveId} cellCount={state.config.board.cellCount} stepMs={timings.stepMs} />}
@@ -172,6 +172,9 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         reduced={reduced}
         onSubmitAnswer={(requestId, playerId, outcome, explanationMastery, validationMode) => dispatch({ type: "SubmitAnswer", playerId, requestId, answer: { outcome, explanationMastery, validationMode } })}
         onDecidePurchase={(siteId, buy) => dispatch({ type: "DecidePurchase", playerId: activeId, siteId, buy })}
+        onPayService={() => dispatch({ type: "PayService", playerId: activeId })}
+        onAcceptHassanat={(beneficiaryId) => dispatch({ type: "AcceptHassanat", playerId: activeId, beneficiaryId })}
+        onSkipHassanat={() => dispatch({ type: "SkipHassanat", playerId: activeId })}
         onChoose={(choiceId, optionId) => dispatch({ type: "Choose", playerId: activeId, choiceId, optionId })}
         onChooseOpponent={(opponentId) => dispatch({ type: "ChooseOpponent", playerId: activeId, opponentId })}
         onChooseRecipient={(recipientId) => dispatch({ type: "ChooseRecipient", playerId: activeId, recipientId })}

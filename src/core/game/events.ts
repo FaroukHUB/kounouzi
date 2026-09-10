@@ -1,5 +1,5 @@
 import type { AnswerOutcome, ExplanationMastery, GameId, PlayerId, ValidationMode } from "@/core/shared";
-import type { AnsweredQuestion, CellType, ChallengeCategory, ChallengeSettings, ChallengeSkipReason, EffectSpec, FundId, FundTransactionReason, MoneyDestination, OutcomePayout, QueuedEffect, RankingEntry, TransactionReason, TransferReason } from "./types";
+import type { AnsweredQuestion, CellType, ChallengeCategory, ChallengeSettings, ChallengeSkipReason, EffectSpec, EstablishmentFamily, FundId, FundTransactionReason, HassanatKind, MoneyDestination, OutcomePayout, QueuedEffect, RankingEntry, ServiceType, TransactionReason, TransferReason } from "./types";
 
 export type QuestionPurposeKind = "standard" | "halt" | "heritage_visit" | "duel";
 
@@ -36,8 +36,21 @@ export type GameEvent =
   | { readonly type: "PurchaseDeclined"; readonly playerId: PlayerId; readonly siteId: string }
   /** Le joueur revient sur son propre monument : rien à payer, rien à acheter. */
   | { readonly type: "HeritageRevisited"; readonly playerId: PlayerId; readonly siteId: string }
-  /** Visite du monument d'un autre joueur : un Défi Patrimoine décide de la contribution. */
+  /** Visite du monument d'un autre joueur : un Défi Patrimoine décide de la contribution (sites sans service). */
   | { readonly type: "HeritageVisited"; readonly visitorId: PlayerId; readonly ownerId: PlayerId; readonly siteId: string; readonly contribution: OutcomePayout }
+  /* ---- Établissements (ADR 0035) ---- */
+  /** Arrivée chez un établissement d'un autre joueur : un service est proposé (payé au propriétaire après confirmation). */
+  | { readonly type: "ServiceOffered"; readonly playerId: PlayerId; readonly ownerId: PlayerId; readonly siteId: string; readonly family: EstablishmentFamily; readonly serviceType: ServiceType; readonly amount: number }
+  /** Service consommé et payé (montant réel après politique d'argent insuffisant). */
+  | { readonly type: "ServiceConsumed"; readonly playerId: PlayerId; readonly ownerId: PlayerId; readonly siteId: string; readonly family: EstablishmentFamily; readonly serviceType: ServiceType; readonly requested: number; readonly amount: number }
+  /* ---- Cartes Hassanāt (ADR 0035) : mécanique de SCORE du jeu ---- */
+  | { readonly type: "HassanatOffered"; readonly playerId: PlayerId; readonly cardId: string; readonly kind: HassanatKind; readonly cost: number; readonly hassanatReward: number; readonly candidates: readonly PlayerId[] }
+  /** Aucune carte éligible (banque vide, coût, bénéficiaire) : rien n'est proposé, le tour continue. */
+  | { readonly type: "HassanatUnavailable"; readonly playerId: PlayerId }
+  | { readonly type: "HassanatAccepted"; readonly playerId: PlayerId; readonly cardId: string; readonly beneficiaryId: PlayerId; readonly cost: number }
+  /** Points Hassanāt crédités UNE fois (écriture `ref` du grand livre Hassanāt). */
+  | { readonly type: "HassanatGranted"; readonly playerId: PlayerId; readonly cardId: string; readonly amount: number; readonly ref: string; readonly total: number }
+  | { readonly type: "HassanatSkipped"; readonly playerId: PlayerId; readonly cardId: string }
   | { readonly type: "ChoiceOffered"; readonly playerId: PlayerId; readonly choiceId: string; readonly optionIds: readonly string[] }
   | { readonly type: "ChoiceMade"; readonly playerId: PlayerId; readonly choiceId: string; readonly optionId: string }
   | { readonly type: "MoneyChanged"; readonly transactionId: number; readonly playerId: PlayerId; readonly amount: number; readonly reason: TransactionReason; readonly balanceAfter: number }

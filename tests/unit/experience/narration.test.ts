@@ -13,7 +13,7 @@ describe("script de narration (Phase 3 : tour, Chemin, arrivée, départ, dernie
   });
 
   it("contextualise l'arrivée par type de case, sans lire aucun contenu", () => {
-    expect(utteranceFor({ type: "CellArrived", playerId: pid("p1"), position: 2, cellType: "heritage" }, state, "fr")?.text).toBe("Tu es arrivé devant un monument.");
+    expect(utteranceFor({ type: "CellArrived", playerId: pid("p1"), position: 2, cellType: "heritage" }, state, "fr")?.text).toBe("Tu es arrivé devant un établissement.");
     expect(utteranceFor({ type: "CellArrived", playerId: pid("p1"), position: 1, cellType: "question" }, state, "fr")?.text).toBe("Tu es arrivé sur une case Savoir.");
   });
 
