@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import type { Banner } from "@/animation/player";
 import type { GameState } from "@/core/game";
 import { DEFAULT_LOCALE, t } from "@/i18n";
+import { formatKounouz } from "@/ui/primitives/money";
 
 export function bannerText(banner: Banner, state: GameState): string {
   const name = (id: string) => state.players.find((p) => p.id === id)?.displayName ?? "";
@@ -42,8 +43,10 @@ export function bannerText(banner: Banner, state: GameState): string {
       return t(DEFAULT_LOCALE, "banner.treasure", { amount: banner.amount });
     case "year":
       return t(DEFAULT_LOCALE, "banner.year", { year: banner.year });
+    case "hawl_completed":
+      return t(DEFAULT_LOCALE, "banner.hawl.completed", { name: name(banner.playerId) });
     case "zakat_paid":
-      return t(DEFAULT_LOCALE, "banner.zakat.paid", { name: name(banner.playerId), amount: banner.amount });
+      return t(DEFAULT_LOCALE, "banner.zakat.paid", { name: name(banner.playerId), amount: formatKounouz(banner.amount) });
   }
 }
 

@@ -102,8 +102,8 @@ export interface Policy {
   secondsPerTurn?: number;
   /** Décision face à un Défi famille proposé (défaut : accepter puis réussir). */
   challenge?(challengeId: string, index: number): "success" | "failure" | "skip" | "consent_refused";
-  /** Case Don : montant parmi ceux proposés et destination (défaut : le plus petit, à la Caisse Masākīn). */
-  donate?(amounts: readonly number[], candidates: readonly PlayerId[], index: number): { readonly amount: number; readonly to: MoneyDestination };
+  /** Case Don : destination du don (défaut : la Caisse Masākīn). */
+  donate?(candidates: readonly PlayerId[], index: number): MoneyDestination;
 }
 
 /** Qui doit répondre dans la phase courante (joueur actif, ou dueliste en cours). */
@@ -135,11 +135,9 @@ export function nextCommand(state: GameState, policy: Policy, counters: { answer
       return { type: "ChooseOpponent", playerId, opponentId: (policy.opponent ?? ((c) => c[0]!))(state.phase.candidates, counters.duels++) };
     case "awaiting_recipient":
       return { type: "ChooseRecipient", playerId, recipientId: (policy.recipient ?? ((c) => c[0]!))(state.phase.candidates, counters.transfers++) };
-    case "awaiting_donation": {
-      // Par défaut : le plus petit montant, à la Caisse Masākīn ; une politique peut choisir un joueur.
-      const donate = (policy.donate ?? ((amounts) => ({ amount: amounts[0]!, to: { kind: "masakin" as const } })))(state.phase.amounts, state.phase.candidates, counters.transfers++);
-      return { type: "Donate", playerId, amount: donate.amount, to: donate.to };
-    }
+    case "awaiting_donation":
+      // Par défaut : la Caisse Masākīn ; une politique peut choisir un joueur.
+      return { type: "Donate", playerId, to: (policy.donate ?? (() => ({ kind: "masakin" as const })))(state.phase.candidates, counters.transfers++) };
     case "awaiting_challenge": {
       const c = state.phase.challenge;
       const decision = (policy.challenge ?? (() => "success"))(c.challengeId, (counters.challenges = (counters.challenges ?? 0) + 1) - 1);

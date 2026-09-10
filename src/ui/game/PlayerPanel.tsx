@@ -5,6 +5,7 @@ import type { GameState } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
 import { DEFAULT_LOCALE, t } from "@/i18n";
+import { formatKounouz } from "@/ui/primitives/money";
 import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
 
 /**
@@ -33,7 +34,7 @@ export function PlayerTile({ state, profiles, playerId, className = "" }: { read
         </span>
         <span className="flex flex-wrap items-baseline gap-x-2">
           <span className="font-display text-[clamp(1.5rem,2.6vw,2rem)] font-black leading-none tabular-nums text-[var(--k-teal-dark)]" data-testid="player-money">
-            {p.money}
+            {formatKounouz(p.money)}
           </span>
           <span className="text-xs font-semibold uppercase tracking-wide text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "game.kounouz")}</span>
         </span>

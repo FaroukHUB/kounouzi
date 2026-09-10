@@ -17,7 +17,7 @@ export type GameError =
   | { readonly code: "QUESTION_ALREADY_SERVED"; readonly requestId: string }
   | { readonly code: "INVALID_OPPONENT"; readonly opponentId: PlayerId }
   | { readonly code: "INVALID_RECIPIENT"; readonly recipientId: PlayerId }
-  /** Don : montant hors de la liste proposée, ou destination inconnue. */
+  /** Don : le joueur ne peut plus payer le montant fixé. */
   | { readonly code: "INVALID_DONATION"; readonly amount: number }
   /** Les deux questions d'un Duel doivent appartenir à la même catégorie. */
   | { readonly code: "DUEL_CATEGORY_MISMATCH"; readonly expected: string; readonly received: string }

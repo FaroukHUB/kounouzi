@@ -338,19 +338,21 @@ function describe(e: GameEvent, name: (id: PlayerId) => string): string | null {
     case "TreasureFound":
       return `💎 Trésor : ${name(e.playerId)} remporte ${e.amount} Kounouz`;
     case "DonationOffered":
-      return `${name(e.playerId)} arrive sur Don (montants : ${e.amounts.join(" / ")})`;
+      return `${name(e.playerId)} arrive sur Don (${e.amount} Kounouz, destination à choisir)`;
     case "DonationUnavailable":
       return `${name(e.playerId)} : pas assez de Kounouz pour un don`;
     case "DonationMade":
       return e.to.kind === "masakin" ? `${name(e.playerId)} donne ${e.amount} Kounouz à la Caisse Masākīn` : `${name(e.playerId)} donne ${e.amount} Kounouz à ${name(e.to.playerId)}`;
     case "FundChanged":
       return `  → Caisse Masākīn : ${e.balanceAfter} (${e.reason} ${e.amount})`;
-    case "ZakatEvaluationRequested":
-      return `— Année ${e.year} : échéance de Zakat al-Māl (nissab ${e.nisab}, taux ${e.rate * 100} %)`;
+    case "HawlAdvanced":
+      return `Ḥawl de ${name(e.playerId)} : ${e.rounds}/${e.of}`;
+    case "HawlInterrupted":
+      return `Ḥawl de ${name(e.playerId)} interrompu (${e.base} < nissab ${e.nisab}) après ${e.rounds}`;
+    case "HawlCompleted":
+      return `Ḥawl accompli pour ${name(e.playerId)} : base ${e.base}, Zakat ${e.amount}`;
     case "ZakatPaid":
-      return `Zakat : ${name(e.playerId)} verse ${e.amount} Kounouz (base ${e.base}) à la Caisse Masākīn`;
-    case "ZakatNotDue":
-      return `Zakat : ${name(e.playerId)} non redevable (${e.base} < ${e.nisab})`;
+      return `Zakat al-Māl : ${name(e.playerId)} verse ${e.amount} Kounouz (2,5 % de ${e.base}) à la Caisse Masākīn`;
     case "YearCompleted":
       return `— Fin de l'année ${e.year}`;
     case "TimeTargetReached":

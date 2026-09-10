@@ -1,4 +1,5 @@
 import { fundLedgerBalance, ledgerBalance } from "./economy";
+import { isMoney } from "./money";
 import { FUNDS, MAX_PLAYERS, MIN_PLAYERS, type GameState } from "./types";
 
 /** Vérifications de cohérence, utilisées par les tests après chaque commande. */
@@ -50,9 +51,14 @@ export function checkInvariants(state: GameState): readonly string[] {
     if (!mirror || mirror.amount !== -f.amount) violations.push(`dépôt ${f.ref} sans écriture joueur équilibrée`);
   }
   if (state.calendar.year < 1 || state.calendar.roundsInYear < 0 || (state.config.rules.zakat.enabled && state.calendar.roundsInYear >= state.config.rules.zakat.cycleRounds)) violations.push("calendrier incohérent");
+  for (const p of state.players) {
+    if (p.hawlRounds < 0 || p.hawlRounds >= state.config.rules.zakat.cycleRounds) violations.push(`${p.id} ḥawl incohérent (${p.hawlRounds})`);
+    if (!isMoney(p.money)) violations.push(`${p.id} solde non exprimable en centimes (${p.money})`);
+  }
+  for (const t of state.ledger) if (!isMoney(t.amount) || !isMoney(t.balanceAfter)) violations.push(`transaction ${t.id} non exprimable en centimes`);
   if (state.phase.kind === "awaiting_donation") {
     const money = state.players[state.activePlayerIndex]?.money ?? 0;
-    if (state.phase.amounts.length === 0 || state.phase.amounts.some((a) => a > money)) violations.push("don : montants proposés non payables");
+    if (state.phase.amount <= 0 || state.phase.amount > money) violations.push("don : montant non payable");
   }
   const transfers = state.ledger.filter((t) => t.reason === "transfer_sent" || t.reason === "transfer_received");
   const byTransfer = new Map<string, number>();

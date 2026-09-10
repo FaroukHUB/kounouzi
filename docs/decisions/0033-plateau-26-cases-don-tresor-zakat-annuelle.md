@@ -1,6 +1,6 @@
 # 0033 — Plateau 26 cases : monuments dominants, Départ +100, Trésor +100, case Don et Caisse Masākīn, Zakat al-Māl annuelle hors plateau
 
-**Statut** : acceptée (décision produit, 2026-09-05) — remplace le plateau de travail 32 cases (ADR 0011)
+**Statut** : acceptée (décision produit, 2026-09-05) — remplace le plateau de travail 32 cases (ADR 0011) ; Zakat, taux et Don précisés par l'ADR 0034 (2026-09-10)
 
 ## Contexte
 Le plateau de travail (32 cases : 9 Savoir, 8 monuments, événements,
@@ -55,18 +55,16 @@ annuel automatique commun à tous les joueurs.
   l'année 1, trésor 0, aucun montant de don, Zakat désactivée : aucune
   économie inventée dans une partie en cours).
 
-## Décisions produit encore ouvertes (non inventées)
-- Montants du Don : 10 / 20 / 50 / 100 posés en DONNÉES de démonstration
-  d'après la proposition du propriétaire, à confirmer ; le don est-il
-  refusable (« ne pas donner ») ? Aujourd'hui non, sauf sans montant payable.
-- Nissab en Kounouz et longueur de l'année en tours de table : valeurs de
-  démonstration (1000, 3) à décider.
-- Condition du ḥawl stricte (avoir détenu le nissab toute l'année) : non
-  modélisée ; l'échéance annuelle évalue les Kounouz détenus à ce moment.
-- Bénéficiaire joueur de la Zakat (pauvre, endetté…) : règles d'éligibilité
-  à définir ; l'architecture (`MoneyDestination`, motif `zakat`) est prête, la
-  Caisse Masākīn reste la seule destination.
-- Emploi des Kounouz de la Caisse Masākīn (redistribution ? score ?) : rien.
+## Décisions produit (mises à jour par l'ADR 0034)
+- Don : montant fixe de 20 Kounouz, destination au choix (décidé).
+- Nissab V1 : 1000 Kounouz, équivalence configurable à équilibrer ; ḥawl de
+  6 tours de table consécutifs, suivi par joueur ; taux exactement 2,5 % au
+  centime (décidé).
+- Bénéficiaire joueur de la Zakat (pauvre, endetté…) : critères à définir
+  séparément ; fonctionnalité incomplète, pas abandonnée. La Caisse Masākīn
+  reste la seule destination.
+- Emploi des Kounouz de la Caisse Masākīn (redistribution ? score ?) : rien
+  de défini.
 
 ## Tests
 `tests/unit/game/board26.test.ts` (composition, Départ +100 une fois par

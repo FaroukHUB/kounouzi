@@ -31,7 +31,7 @@ export interface CardOverlayProps {
   readonly onChoose: (choiceId: string, optionId: string) => void;
   readonly onChooseOpponent: (opponentId: PlayerId) => void;
   readonly onChooseRecipient: (recipientId: PlayerId) => void;
-  readonly onDonate: (amount: number, to: MoneyDestination) => void;
+  readonly onDonate: (to: MoneyDestination) => void;
   readonly onAcceptChallenge: () => void;
   readonly onCompleteChallenge: (success: boolean) => void;
   readonly onSkipChallenge: (reason: ChallengeSkipReason) => void;
@@ -118,9 +118,9 @@ export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer
             profiles={profiles}
             card={c}
             narrator={narrator}
-            onDonate={(amount, to) => {
+            onDonate={(to) => {
               updateCard({ step: "submitted" });
-              onDonate(amount, to);
+              onDonate(to);
             }}
           />
         );

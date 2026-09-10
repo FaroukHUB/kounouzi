@@ -1,5 +1,6 @@
 import type { PlayerId } from "@/core/shared";
 import { holdingsOf } from "./holdings";
+import { roundMoney } from "./money";
 import type { GameState, RankingEntry } from "./types";
 
 export function heritageValueOf(state: GameState, playerId: PlayerId): number {
@@ -30,7 +31,7 @@ export function scoreOf(state: GameState, playerId: PlayerId): number {
   const { moneyWeight, heritageWeight } = state.config.rules.scoring;
   const player = state.players.find((p) => p.id === playerId);
   if (!player) throw new Error(`joueur ${playerId} inconnu (invariant)`);
-  return player.money * moneyWeight + heritageValueOf(state, playerId) * heritageWeight;
+  return roundMoney(player.money * moneyWeight + heritageValueOf(state, playerId) * heritageWeight);
 }
 
 /**

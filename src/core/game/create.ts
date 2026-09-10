@@ -94,6 +94,7 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     solidarityActions: 0,
     solidarityGiven: 0,
     masteredSurahs: [...(p.masteredSurahs ?? [])],
+    hawlRounds: 0,
   }));
 
   const initial: GameState = {

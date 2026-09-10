@@ -1,5 +1,6 @@
 "use client";
 
+import { formatKounouz } from "@/ui/primitives/money";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { GameId } from "@/core/shared";
@@ -123,7 +124,7 @@ export function DiagnosticScreen({ gameId }: { readonly gameId: GameId }) {
                 <td className="pe-3">{p.duelsWon}</td>
                 <td className="pe-3">{p.heritage}</td>
                 <td className="pe-3">{p.solidarityActions}</td>
-                <td className="pe-3">{p.money}</td>
+                <td className="pe-3">{formatKounouz(p.money)}</td>
               </tr>
             ))}
           </tbody>

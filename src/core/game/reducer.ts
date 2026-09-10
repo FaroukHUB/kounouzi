@@ -113,18 +113,18 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
     case "Donate": {
       const phase = expectPhase(state, "awaiting_donation");
       if (!phase.ok) return phase;
-      const { amounts, candidates, queue } = phase.value;
-      if (!amounts.includes(command.amount) || player.money < command.amount) return err({ code: "INVALID_DONATION", amount: command.amount });
+      const { amount, candidates, queue } = phase.value;
+      if (player.money < amount) return err({ code: "INVALID_DONATION", amount });
       if (command.to.kind === "player" && !candidates.includes(command.to.playerId)) return err({ code: "INVALID_RECIPIENT", recipientId: command.to.playerId });
       let result: Step;
       if (command.to.kind === "masakin") {
         // Vers la Caisse Masākīn : dépôt tracé (deux grands livres), compté comme action de solidarité.
-        result = fundDeposit(state, player.id, command.amount, "donation", "donation_sent");
-        result = chain(result, (s) => step(updatePlayer(s, player.id, { solidarityActions: player.solidarityActions + 1, solidarityGiven: player.solidarityGiven + command.amount })));
+        result = fundDeposit(state, player.id, amount, "donation", "donation_sent");
+        result = chain(result, (s) => step(updatePlayer(s, player.id, { solidarityActions: player.solidarityActions + 1, solidarityGiven: player.solidarityGiven + amount })));
       } else {
-        result = transferWithSolidarity(state, player.id, command.to.playerId, command.amount, "donation", "require_full_amount");
+        result = transferWithSolidarity(state, player.id, command.to.playerId, amount, "donation", "require_full_amount");
       }
-      result = chain(result, (s) => step(s, [{ type: "DonationMade", playerId: player.id, amount: command.amount, to: command.to }]));
+      result = chain(result, (s) => step(s, [{ type: "DonationMade", playerId: player.id, amount, to: command.to }]));
       return ok(chain(result, (s) => processQueue(s, queue)));
     }
 

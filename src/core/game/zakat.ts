@@ -1,14 +1,16 @@
 import { fundDeposit } from "./economy";
-import { chain, step, type Step } from "./step";
+import { percentOf } from "./money";
+import { chain, step, updatePlayer, type Step } from "./step";
 import type { GameState, MoneyDestination, PlayerState } from "./types";
 
 /**
- * Zakat al-Māl — mécanique ANNUELLE hors plateau (ADR 0033). Elle ne dépend
- * ni d'une case, ni du pion, ni du Chemin : le calendrier commun avance d'un
- * cran à chaque tour de table complet ; quand `cycleRounds` tours sont
- * écoulés, une année lunaire simulée s'achève pour TOUS les joueurs en même
- * temps et chacun est évalué. Aucun hasard, aucune décision humaine : la
- * règle est une donnée (`rules.zakat`).
+ * Zakat al-Māl — mécanique hors plateau, par ḥawl (ADR 0033, 0034). Elle ne
+ * dépend ni d'une case, ni du pion, ni du Chemin. À la fin de CHAQUE tour de
+ * table complet, chaque joueur est contrôlé : sous le nissab, son ḥawl est
+ * remis à zéro ; au-dessus, il avance d'un tour ; après `cycleRounds` tours
+ * consécutifs, la Zakat (`rate` exact, en centimes) est due sur les Kounouz
+ * éligibles possédés à ce moment, puis un nouveau ḥawl commence. Aucune
+ * Zakat de fin de partie sans ḥawl accompli. Aucun hasard.
  */
 
 /** Actifs éligibles d'un joueur : uniquement les types déclarés (jamais la valeur des monuments sans décision explicite). */
@@ -20,37 +22,46 @@ export function zakatBase(state: GameState, player: PlayerState): number {
   return base;
 }
 
-/** Montant dû : `rate` × actifs éligibles, arrondi à l'entier inférieur, seulement si le nissab est atteint. */
-export function zakatDue(state: GameState, player: PlayerState): { readonly base: number; readonly amount: number; readonly due: boolean } {
+/** Montant qui serait dû aujourd'hui : `rate` × base (exact, au centime) si le nissab est atteint ; le ḥawl décide du moment. */
+export function zakatDue(state: GameState, player: PlayerState): { readonly base: number; readonly amount: number; readonly reached: boolean } {
   const { rate, nisabKounouz } = state.config.rules.zakat;
   const base = zakatBase(state, player);
   const reached = base >= nisabKounouz;
-  const amount = reached ? Math.floor(base * rate) : 0;
-  return { base, amount, due: reached && amount > 0 };
+  return { base, amount: reached ? percentOf(base, rate) : 0, reached };
 }
 
 /**
- * Un tour de table complet vient de s'achever : le calendrier avance ; à
- * l'échéance, l'année se clôt et chaque joueur (ordre des sièges) verse sa
- * Zakat éventuelle à la Caisse Masākīn, destination sûre tant que les règles
- * d'éligibilité d'un joueur bénéficiaire ne sont pas définies.
+ * Un tour de table complet vient de s'achever : le calendrier commun avance
+ * (une année = `cycleRounds` tours, pour l'affichage), puis le ḥawl de chaque
+ * joueur est contrôlé dans l'ordre des sièges. Destination : la Caisse
+ * Masākīn, tant que les critères d'un joueur bénéficiaire ne sont pas définis.
  */
 export function completeRound(state: GameState): Step {
   const zakat = state.config.rules.zakat;
+  if (!zakat.enabled) return step({ ...state, calendar: { ...state.calendar, roundsInYear: state.calendar.roundsInYear + 1 } });
   const roundsInYear = state.calendar.roundsInYear + 1;
-  if (!zakat.enabled || roundsInYear < zakat.cycleRounds) return step({ ...state, calendar: { ...state.calendar, roundsInYear } });
-  const year = state.calendar.year;
-  let result = step({ ...state, calendar: { year: year + 1, roundsInYear: 0 } }, [{ type: "ZakatEvaluationRequested", year, nisab: zakat.nisabKounouz, rate: zakat.rate }]);
+  const yearDone = roundsInYear >= zakat.cycleRounds;
+  let result = step({ ...state, calendar: yearDone ? { year: state.calendar.year + 1, roundsInYear: 0 } : { ...state.calendar, roundsInYear } });
   for (const seat of [...state.players].sort((a, b) => a.seat - b.seat)) {
     result = chain(result, (s) => {
       const player = s.players.find((p) => p.id === seat.id)!;
-      const { base, amount, due } = zakatDue(s, player);
-      if (!due) return step(s, [{ type: "ZakatNotDue", playerId: player.id, year, base, nisab: zakat.nisabKounouz }]);
+      const { base, amount, reached } = zakatDue(s, player);
+      if (!reached) {
+        const interrupted = player.hawlRounds > 0;
+        return step(updatePlayer(s, player.id, { hawlRounds: 0 }), interrupted ? [{ type: "HawlInterrupted", playerId: player.id, rounds: player.hawlRounds, base, nisab: zakat.nisabKounouz }] : []);
+      }
+      const rounds = player.hawlRounds + 1;
+      if (rounds < zakat.cycleRounds) return step(updatePlayer(s, player.id, { hawlRounds: rounds }), [{ type: "HawlAdvanced", playerId: player.id, rounds, of: zakat.cycleRounds }]);
+      // Ḥawl accompli : Zakat due sur les Kounouz éligibles possédés maintenant, puis nouveau ḥawl.
       const to: MoneyDestination = { kind: "masakin" };
-      let paid = fundDeposit(s, player.id, amount, "zakat", "zakat_paid");
-      paid = chain(paid, (x) => step(x, [{ type: "ZakatPaid", playerId: player.id, year, base, amount, to }]));
+      let paid = step(updatePlayer(s, player.id, { hawlRounds: 0 }), [{ type: "HawlCompleted", playerId: player.id, rounds, base, amount }]);
+      if (amount > 0) {
+        paid = chain(paid, (x) => fundDeposit(x, player.id, amount, "zakat", "zakat_paid"));
+        paid = chain(paid, (x) => step(x, [{ type: "ZakatPaid", playerId: player.id, year: x.calendar.year, base, amount, to }]));
+      }
       return paid;
     });
   }
-  return chain(result, (s) => step(s, [{ type: "YearCompleted", year }]));
+  if (yearDone) result = chain(result, (s) => step(s, [{ type: "YearCompleted", year: state.calendar.year }]));
+  return result;
 }

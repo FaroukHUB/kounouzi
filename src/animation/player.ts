@@ -21,7 +21,8 @@ export type Banner =
   | { readonly kind: "donation_unavailable" }
   | { readonly kind: "treasure"; readonly amount: number }
   | { readonly kind: "year"; readonly year: number }
-  | { readonly kind: "zakat_paid"; readonly playerId: PlayerId; readonly amount: number };
+  | { readonly kind: "zakat_paid"; readonly playerId: PlayerId; readonly amount: number }
+  | { readonly kind: "hawl_completed"; readonly playerId: PlayerId };
 
 /** Ce que le rejoueur peut faire à l'interface. Rien ici ne touche au moteur. */
 export interface AnimationActions {
@@ -110,7 +111,7 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       actions.closeCard();
       return;
     case "DonationOffered":
-      actions.openCard({ kind: "donation", playerId: event.playerId, amounts: event.amounts, candidates: event.candidates, step: "offer" });
+      actions.openCard({ kind: "donation", playerId: event.playerId, amount: event.amount, candidates: event.candidates, step: "offer" });
       return;
     case "DonationUnavailable":
       return banner(actions, { kind: "donation_unavailable" }, t.noticeMs, sleep);
@@ -119,6 +120,8 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       // Vers un joueur : le transfert porte déjà son bandeau (MoneyTransferred) ; vers la caisse : bandeau dédié.
       if (event.to.kind === "masakin") return banner(actions, { kind: "donation_fund", fromPlayerId: event.playerId, amount: event.amount }, t.transferMs, sleep);
       return;
+    case "HawlCompleted":
+      return banner(actions, { kind: "hawl_completed", playerId: event.playerId }, t.noticeMs, sleep);
     case "ZakatPaid":
       return banner(actions, { kind: "zakat_paid", playerId: event.playerId, amount: event.amount }, t.transferMs, sleep);
     case "YearCompleted":
@@ -269,6 +272,7 @@ function settle(event: GameEvent, actions: AnimationActions): void {
     case "OutcomeCancelled":
     case "DonationUnavailable":
     case "DonationMade":
+    case "HawlCompleted":
     case "ZakatPaid":
     case "YearCompleted":
       actions.setBanner(null);
@@ -309,6 +313,7 @@ export function estimateDuration(event: GameEvent, t: Timings): number {
     case "ZakatPaid":
       return t.transferMs;
     case "DonationUnavailable":
+    case "HawlCompleted":
     case "YearCompleted":
       return t.noticeMs;
     case "AnswerRecorded":

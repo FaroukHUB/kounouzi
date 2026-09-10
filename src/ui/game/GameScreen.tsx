@@ -23,6 +23,7 @@ import { Button } from "@/ui/primitives/Button";
 import { FinalRanking } from "./FinalRanking";
 import { JourneyPanel } from "./JourneyPanel";
 import { PlayerCorners, PlayerPanel } from "./PlayerPanel";
+import { formatKounouz } from "@/ui/primitives/money";
 import { SettingsSheet } from "./SettingsSheet";
 import { TimeBadge } from "./TimeBadge";
 import { TurnBanner } from "./TurnBanner";
@@ -174,7 +175,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         onChoose={(choiceId, optionId) => dispatch({ type: "Choose", playerId: activeId, choiceId, optionId })}
         onChooseOpponent={(opponentId) => dispatch({ type: "ChooseOpponent", playerId: activeId, opponentId })}
         onChooseRecipient={(recipientId) => dispatch({ type: "ChooseRecipient", playerId: activeId, recipientId })}
-        onDonate={(amount, to) => dispatch({ type: "Donate", playerId: activeId, amount, to })}
+        onDonate={(to) => dispatch({ type: "Donate", playerId: activeId, to })}
         onAcceptChallenge={() => dispatch({ type: "AcceptChallenge", playerId: activeId })}
         onCompleteChallenge={(success) => dispatch({ type: "CompleteChallenge", playerId: activeId, success })}
         onSkipChallenge={(reason) => dispatch({ type: "SkipChallenge", playerId: activeId, reason })}
@@ -186,7 +187,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
             <h1 className="font-display text-xl font-black tracking-[0.08em] text-[var(--k-teal-dark)]">{t(DEFAULT_LOCALE, "app.name")}</h1>
             <TimeBadge state={shown} precise={session.preciseTimer} />
             <p className="text-xs font-semibold text-[var(--k-ink-soft)]" data-testid="masakin-fund">
-              {t(DEFAULT_LOCALE, "fund.masakin.short", { amount: shown.funds.masakin })}
+              {t(DEFAULT_LOCALE, "fund.masakin.short", { amount: formatKounouz(shown.funds.masakin) })}
             </p>
           </div>
           <Button variant="secondary" onClick={() => setSettingsOpen(true)} aria-label={t(DEFAULT_LOCALE, "game.settings")}>

@@ -2,7 +2,11 @@ import { z } from "zod";
 import { questionInstanceSchema } from "@/core/content/schema";
 import { ANSWER_OUTCOMES, PROFILE_TYPES, err, ok, type Result } from "@/core/shared";
 import { challengesConfigSchema, effectSpecSchema, familyAssistConfigSchema, journeyCycleSchema, outcomeSchema, rulesConfigSchema, scenarioSchema } from "./config.schema";
+import { isMoney } from "./money";
 import { CELL_TYPES, CHALLENGE_STAGES, DUEL_STAGES, FUNDS, FUND_TRANSACTION_REASONS, GAME_SCHEMA_VERSION, INSUFFICIENT_POLICIES, NO_CHALLENGES, TRANSACTION_REASONS, TRANSFER_REASONS, type GameState } from "./types";
+
+/** Montant en Kounouz : fini, au plus deux décimales (représentation exacte en centimes). */
+const moneySchema = z.number().finite().refine((v) => isMoney(v), { message: "montant non exprimable en centimes" });
 
 const choiceOptionSchema = z.object({ id: z.string(), outcomes: z.array(outcomeSchema) });
 
@@ -32,8 +36,8 @@ const duelSchema = z.object({
 
 const challengeStateSchema = z.object({ challengeId: z.string(), playerId: z.string(), requestId: z.string(), stage: z.enum(CHALLENGE_STAGES), served: questionInstanceSchema.optional(), surahIds: z.array(z.string()).optional() });
 
-/** Forme sérialisée de l'état — version 7 (v6 + caisses collectives, calendrier annuel de Zakat, case Don, règles trésor/don/zakat). */
-export const gameStateSchemaV7 = z.object({
+/** Forme sérialisée de l'état — version 8 (v7 + ḥawl par joueur, don à montant fixe, montants à deux décimales). */
+export const gameStateSchemaV8 = z.object({
   schemaVersion: z.literal(GAME_SCHEMA_VERSION),
   gameId: z.string(),
   config: z.object({
@@ -54,7 +58,7 @@ export const gameStateSchemaV7 = z.object({
       age: z.number().int().nonnegative().optional(),
       seat: z.number().int(),
       position: z.number().int(),
-      money: z.number().int(),
+      money: moneySchema,
       turnsPlayed: z.number().int(),
       journeysTaken: z.number().int(),
       halted: z.boolean(),
@@ -62,6 +66,7 @@ export const gameStateSchemaV7 = z.object({
       solidarityGiven: z.number().int().nonnegative(),
       lastDuelOpponentId: z.string().optional(),
       masteredSurahs: z.array(z.string()),
+      hawlRounds: z.number().int().nonnegative(),
     }),
   ),
   activePlayerIndex: z.number().int(),
@@ -75,14 +80,14 @@ export const gameStateSchemaV7 = z.object({
     z.object({ kind: z.literal("awaiting_duel"), duel: duelSchema, queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_challenge"), challenge: challengeStateSchema, queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("awaiting_recipient"), amount: z.number().int(), reason: z.enum(TRANSFER_REASONS), insufficient: z.enum(INSUFFICIENT_POLICIES), candidates: z.array(z.string()), queue: z.array(outcomeSchema) }),
-    z.object({ kind: z.literal("awaiting_donation"), amounts: z.array(z.number().int().positive()), candidates: z.array(z.string()), queue: z.array(outcomeSchema) }),
+    z.object({ kind: z.literal("awaiting_donation"), amount: z.number().int().positive(), candidates: z.array(z.string()), queue: z.array(outcomeSchema) }),
     z.object({ kind: z.literal("finished") }),
   ]),
   ledger: z.array(
-    z.object({ id: z.number().int(), turnNumber: z.number().int(), playerId: z.string(), amount: z.number().int(), reason: z.enum(TRANSACTION_REASONS), balanceAfter: z.number().int(), ref: z.string().optional() }),
+    z.object({ id: z.number().int(), turnNumber: z.number().int(), playerId: z.string(), amount: moneySchema, reason: z.enum(TRANSACTION_REASONS), balanceAfter: moneySchema, ref: z.string().optional() }),
   ),
-  funds: z.object(Object.fromEntries(FUNDS.map((f) => [f, z.number().int().nonnegative()])) as Record<(typeof FUNDS)[number], z.ZodNumber>),
-  fundLedger: z.array(z.object({ id: z.number().int(), turnNumber: z.number().int(), fund: z.enum(FUNDS), fromPlayerId: z.string(), amount: z.number().int(), reason: z.enum(FUND_TRANSACTION_REASONS), balanceAfter: z.number().int(), ref: z.string() })),
+  funds: z.object(Object.fromEntries(FUNDS.map((f) => [f, moneySchema])) as Record<(typeof FUNDS)[number], typeof moneySchema>),
+  fundLedger: z.array(z.object({ id: z.number().int(), turnNumber: z.number().int(), fund: z.enum(FUNDS), fromPlayerId: z.string(), amount: moneySchema, reason: z.enum(FUND_TRANSACTION_REASONS), balanceAfter: moneySchema, ref: z.string() })),
   calendar: z.object({ year: z.number().int().min(1), roundsInYear: z.number().int().nonnegative() }),
   holdings: z.array(z.object({ siteId: z.string(), ownerId: z.string(), price: z.number().int(), heritageValue: z.number().int(), acquiredTurn: z.number().int() })),
   effects: z.array(z.object({ id: z.string(), playerId: z.string(), spec: effectSpecSchema, queuedAtTurn: z.number().int(), expiresAtTurn: z.number().int().optional() })),
@@ -93,7 +98,7 @@ export const gameStateSchemaV7 = z.object({
   endRequested: z.boolean(),
   counters: z.object({ transaction: z.number().int(), request: z.number().int(), effect: z.number().int(), transfer: z.number().int(), challenge: z.number().int() }),
   status: z.enum(["in_progress", "finished"]),
-  ranking: z.array(z.object({ rank: z.number().int(), playerId: z.string(), score: z.number(), money: z.number().int(), heritageValue: z.number().int() })).optional(),
+  ranking: z.array(z.object({ rank: z.number().int(), playerId: z.string(), score: z.number(), money: moneySchema, heritageValue: z.number().int() })).optional(),
 });
 
 export type SerializationError =
@@ -172,6 +177,22 @@ const MIGRATIONS: Readonly<Record<number, (data: Rec) => Rec>> = {
       calendar: data["calendar"] ?? { year: 1, roundsInYear: 0 },
     };
   },
+  // v7 → v8 : ḥawl par joueur (aucun ḥawl ouvert), don à montant fixe (une liste de montants v7 devient son premier montant, sinon 0 = case inactive).
+  7: (data) => {
+    const config = asRec(data["config"]);
+    const rules = asRec(config["rules"]);
+    const donation = asRec(rules["donation"]);
+    const amounts = Array.isArray(donation["amounts"]) ? (donation["amounts"] as unknown[]) : [];
+    const phase = asRec(data["phase"]);
+    const phaseAmounts = Array.isArray(phase["amounts"]) ? (phase["amounts"] as unknown[]) : [];
+    return {
+      ...data,
+      schemaVersion: 8,
+      config: { ...config, rules: { ...rules, donation: { amount: typeof donation["amount"] === "number" ? donation["amount"] : typeof amounts[0] === "number" ? amounts[0] : 0 } } },
+      players: (Array.isArray(data["players"]) ? data["players"] : []).map((p) => ({ hawlRounds: 0, ...asRec(p) })),
+      phase: phase["kind"] === "awaiting_donation" ? { ...phase, amount: typeof phase["amount"] === "number" ? phase["amount"] : typeof phaseAmounts[0] === "number" ? phaseAmounts[0] : 0, amounts: undefined } : phase,
+    };
+  },
 };
 
 export function serializeGameState(state: GameState): string {
@@ -197,7 +218,7 @@ export function deserializeGameState(json: string): Result<GameState, Serializat
   }
   if (version !== GAME_SCHEMA_VERSION) return err({ code: "UNSUPPORTED_VERSION", version });
 
-  const parsed = gameStateSchemaV7.safeParse(record);
+  const parsed = gameStateSchemaV8.safeParse(record);
   if (!parsed.success) return err({ code: "INVALID_STATE", issues: parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`) });
   return ok(parsed.data as unknown as GameState);
 }

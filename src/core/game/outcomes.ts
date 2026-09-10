@@ -154,14 +154,13 @@ export function processQueue(state: GameState, initialQueue: readonly Outcome[])
 
       case "donation": {
         const s = result.state;
-        const money = activePlayer(s).money;
-        const amounts = s.config.rules.donation.amounts.filter((a) => a <= money);
+        const amount = s.config.rules.donation.amount;
         const candidates = s.players.filter((p) => p.id !== player.id).map((p) => p.id);
-        if (amounts.length === 0) {
+        if (amount <= 0 || activePlayer(s).money < amount) {
           result = chain(result, () => step(s, [{ type: "DonationUnavailable", playerId: player.id }]));
           break;
         }
-        return chain(result, () => step({ ...s, phase: { kind: "awaiting_donation", amounts, candidates, queue: [...queue] } }, [{ type: "DonationOffered", playerId: player.id, amounts, candidates }]));
+        return chain(result, () => step({ ...s, phase: { kind: "awaiting_donation", amount, candidates, queue: [...queue] } }, [{ type: "DonationOffered", playerId: player.id, amount, candidates }]));
       }
 
       case "give_to_poorest":

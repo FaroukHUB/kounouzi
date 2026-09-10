@@ -1,4 +1,5 @@
 import type { PlayerId } from "@/core/shared";
+import { addMoney, roundMoney, sumMoney } from "./money";
 import { playerById, step, chain, updatePlayer, type Step } from "./step";
 import type { FundId, FundTransactionReason, GameState, InsufficientPolicy, TransactionReason, TransferReason } from "./types";
 
@@ -9,14 +10,14 @@ import type { FundId, FundTransactionReason, GameState, InsufficientPolicy, Tran
  */
 export function applyTransaction(state: GameState, playerId: PlayerId, requestedAmount: number, reason: TransactionReason, ref?: string): Step {
   const player = playerById(state, playerId);
-  let amount = Math.trunc(requestedAmount);
-  if (amount < 0 && !state.config.rules.allowNegativeBalance && player.money + amount < 0) {
+  let amount = roundMoney(requestedAmount);
+  if (amount < 0 && !state.config.rules.allowNegativeBalance && addMoney(player.money, amount) < 0) {
     amount = -player.money;
   }
   if (amount === 0) return step(state);
 
   const id = state.counters.transaction + 1;
-  const balanceAfter = player.money + amount;
+  const balanceAfter = addMoney(player.money, amount);
   const transaction = {
     id,
     turnNumber: state.turnNumber,
@@ -40,7 +41,7 @@ export function applyTransaction(state: GameState, playerId: PlayerId, requested
  */
 export function affordableAmount(state: GameState, playerId: PlayerId, requested: number, policy: InsufficientPolicy): number | null {
   const available = playerById(state, playerId).money;
-  const wanted = Math.max(0, Math.trunc(requested));
+  const wanted = Math.max(0, roundMoney(requested));
   if (wanted === 0) return 0;
   // Si les règles autorisent un solde négatif, l'argent n'est jamais « insuffisant » : le montant complet s'applique.
   if (available >= wanted || state.config.rules.allowNegativeBalance) return wanted;
@@ -77,13 +78,13 @@ export function transferMoney(state: GameState, fromPlayerId: PlayerId, toPlayer
  * Le montant est plafonné au solde du joueur (jamais négatif).
  */
 export function fundDeposit(state: GameState, fromPlayerId: PlayerId, requested: number, reason: FundTransactionReason, playerReason: Extract<TransactionReason, "donation_sent" | "zakat_paid">, fund: FundId = "masakin"): Step {
-  const amount = Math.min(Math.max(0, Math.trunc(requested)), Math.max(0, playerById(state, fromPlayerId).money));
+  const amount = Math.min(Math.max(0, roundMoney(requested)), Math.max(0, playerById(state, fromPlayerId).money));
   if (amount === 0) return step(state);
   const id = state.fundLedger.length + 1;
   const ref = `f${id}`;
   let result = applyTransaction(state, fromPlayerId, -amount, playerReason, ref);
   result = chain(result, (s) => {
-    const balanceAfter = s.funds[fund] + amount;
+    const balanceAfter = addMoney(s.funds[fund], amount);
     const entry = { id, turnNumber: s.turnNumber, fund, fromPlayerId, amount, reason, balanceAfter, ref };
     return step({ ...s, funds: { ...s.funds, [fund]: balanceAfter }, fundLedger: [...s.fundLedger, entry] }, [{ type: "FundChanged", fund, fromPlayerId, amount, reason, balanceAfter, ref }]);
   });
@@ -92,12 +93,12 @@ export function fundDeposit(state: GameState, fromPlayerId: PlayerId, requested:
 
 /** Somme du grand livre d'une caisse — doit toujours égaler son solde. */
 export function fundLedgerBalance(state: GameState, fund: FundId): number {
-  return state.fundLedger.filter((t) => t.fund === fund).reduce((sum, t) => sum + t.amount, 0);
+  return sumMoney(state.fundLedger.filter((t) => t.fund === fund).map((t) => t.amount));
 }
 
 /** Somme du grand livre pour un joueur — doit toujours égaler son solde. */
 export function ledgerBalance(state: GameState, playerId: PlayerId): number {
-  return state.ledger.filter((t) => t.playerId === playerId).reduce((sum, t) => sum + t.amount, 0);
+  return sumMoney(state.ledger.filter((t) => t.playerId === playerId).map((t) => t.amount));
 }
 
 /** Joueur (autre que `except`) ayant le moins d'argent ; départage par siège. */

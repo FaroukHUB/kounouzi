@@ -322,10 +322,11 @@ export const ZAKAT_ASSET_TYPES = ["money"] as const;
 export type ZakatAssetType = (typeof ZAKAT_ASSET_TYPES)[number];
 
 /**
- * Zakat al-Māl : mécanique ANNUELLE hors plateau (ADR 0033). Le cycle
- * (`cycleRounds` tours de table complets = une année lunaire simulée) est
- * commun à tous les joueurs ; à chaque échéance, chaque joueur dont les
- * actifs éligibles atteignent le nissab verse `rate` à la Caisse Masākīn.
+ * Zakat al-Māl : mécanique hors plateau par ḥawl (ADR 0033, 0034). À chaque
+ * tour de table complet, un joueur dont les actifs éligibles atteignent le
+ * nissab fait avancer son ḥawl ; sous le nissab, il repart de zéro. Après
+ * `cycleRounds` tours consécutifs (une année lunaire simulée), il verse
+ * `rate` (exact, au centime) des Kounouz éligibles possédés à ce moment.
  */
 export interface ZakatConfig {
   readonly enabled: boolean;
@@ -343,8 +344,8 @@ export interface RulesConfig {
   readonly passStartBonus: number;
   /** Trésor : gain fixe à l'arrivée sur la case ; 0 = la case sert ses scénarios (parties anciennes). */
   readonly treasure: { readonly amount: number };
-  /** Case Don : montants proposés au joueur (choix humain), destinations = Caisse Masākīn ou un autre joueur. */
-  readonly donation: { readonly amounts: readonly number[] };
+  /** Case Don : montant fixe du don ; le joueur choisit seulement la destination (Caisse Masākīn ou un autre joueur). 0 = case inactive (parties migrées). */
+  readonly donation: { readonly amount: number };
   readonly zakat: ZakatConfig;
   readonly rewards: { readonly correct: number; readonly partial: number; readonly incorrect: number; readonly masteryMultiplier: number };
   readonly scoring: { readonly moneyWeight: number; readonly heritageWeight: number };
@@ -401,6 +402,8 @@ export interface PlayerState {
   readonly lastDuelOpponentId?: PlayerId | undefined;
   /** Sourates maîtrisées (références) : état de récitation du joueur, mis à jour par une récitation réussie. */
   readonly masteredSurahs: readonly string[];
+  /** Ḥawl de Zakat en cours : tours de table consécutifs au-dessus du nissab (0 = aucun ḥawl ouvert). */
+  readonly hawlRounds: number;
 }
 
 export const TRANSACTION_REASONS = [
@@ -457,7 +460,7 @@ export interface FundTransaction {
 /** Destination d'un don ou d'une Zakat : la Caisse Masākīn, ou un joueur (don ; Zakat vers un joueur = règles d'éligibilité à définir). */
 export type MoneyDestination = { readonly kind: "masakin" } | { readonly kind: "player"; readonly playerId: PlayerId };
 
-/** Calendrier lunaire simulé, COMMUN à tous les joueurs : une année = `zakat.cycleRounds` tours de table complets. */
+/** Calendrier lunaire simulé, COMMUN à tous les joueurs (affichage) : une année = `zakat.cycleRounds` tours de table complets. Le ḥawl de Zakat est propre à chaque joueur. */
 export interface GameCalendar {
   readonly year: number;
   readonly roundsInYear: number;
@@ -525,8 +528,8 @@ export type TurnPhase =
   | { readonly kind: "awaiting_challenge"; readonly challenge: ChallengeState; readonly queue: readonly Outcome[] }
   /** Le joueur actif choisit à qui transférer (partage, cadeau, don). */
   | { readonly kind: "awaiting_recipient"; readonly amount: number; readonly reason: TransferReason; readonly insufficient: InsufficientPolicy; readonly candidates: readonly PlayerId[]; readonly queue: readonly Outcome[] }
-  /** Case Don : le joueur actif choisit un montant (parmi ceux qu'il peut payer) et une destination. */
-  | { readonly kind: "awaiting_donation"; readonly amounts: readonly number[]; readonly candidates: readonly PlayerId[]; readonly queue: readonly Outcome[] }
+  /** Case Don : le joueur actif choisit la destination du don (montant fixe des règles). */
+  | { readonly kind: "awaiting_donation"; readonly amount: number; readonly candidates: readonly PlayerId[]; readonly queue: readonly Outcome[] }
   | { readonly kind: "finished" };
 
 export interface RankingEntry {
@@ -565,7 +568,7 @@ export interface AnsweredQuestion {
   readonly difficulty: number;
 }
 
-export const GAME_SCHEMA_VERSION = 7 as const;
+export const GAME_SCHEMA_VERSION = 8 as const;
 
 export interface GameState {
   readonly schemaVersion: typeof GAME_SCHEMA_VERSION;

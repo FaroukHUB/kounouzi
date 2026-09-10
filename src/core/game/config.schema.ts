@@ -153,7 +153,7 @@ export const rulesConfigSchema = z.object({
   startingMoney: z.number().int().nonnegative(),
   passStartBonus: z.number().int().nonnegative(),
   treasure: z.object({ amount: z.number().int().nonnegative() }),
-  donation: z.object({ amounts: z.array(z.number().int().positive()) }),
+  donation: z.object({ amount: z.number().int().nonnegative() }),
   zakat: zakatConfigSchema,
   rewards: z.object({ correct: z.number().int().nonnegative(), partial: z.number().int().nonnegative(), incorrect: z.number().int().nonnegative(), masteryMultiplier: z.number().positive() }),
   scoring: z.object({ moneyWeight: z.number().nonnegative(), heritageWeight: z.number().nonnegative() }),

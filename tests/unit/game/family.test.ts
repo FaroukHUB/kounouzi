@@ -116,7 +116,7 @@ describe("simulation familiale (Maryam 6 ans, Yacine 11 ans, Maman, Papa)", () =
     expect(run.state.status).toBe("finished");
     expect(run.state.ranking).toHaveLength(4);
     // Plateau 26 : Savoir, Monument (achat, visite), Défi (Duel / question / défi famille), Halte, Don, Trésor, Départ, et la Zakat annuelle hors plateau.
-    for (const t of ["QuestionRequested", "DuelStarted", "DuelResolved", "JourneyHalted", "PurchaseOffered", "SiteAcquired", "HeritageVisited", "MoneyTransferred", "ScenarioTriggered", "PassedStart", "TreasureFound", "DonationOffered", "DonationMade", "FundChanged", "ZakatEvaluationRequested", "ZakatPaid", "YearCompleted"] as const) {
+    for (const t of ["QuestionRequested", "DuelStarted", "DuelResolved", "JourneyHalted", "PurchaseOffered", "SiteAcquired", "HeritageVisited", "MoneyTransferred", "ScenarioTriggered", "PassedStart", "TreasureFound", "DonationOffered", "DonationMade", "FundChanged", "HawlAdvanced", "YearCompleted"] as const) {
       expect(types.has(t), t).toBe(true);
     }
     const cellTypes = new Set(run.events.filter((e): e is Extract<GameEvent, { type: "ScenarioTriggered" }> => e.type === "ScenarioTriggered").map((e) => e.cellType));

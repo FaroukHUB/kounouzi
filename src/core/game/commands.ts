@@ -17,8 +17,8 @@ export type PlayerCommand =
   | { readonly type: "Choose"; readonly playerId: PlayerId; readonly choiceId: string; readonly optionId: string }
   | { readonly type: "ChooseOpponent"; readonly playerId: PlayerId; readonly opponentId: PlayerId }
   | { readonly type: "ChooseRecipient"; readonly playerId: PlayerId; readonly recipientId: PlayerId }
-  /** Case Don : montant (parmi ceux proposés) et destination (Caisse Masākīn ou un autre joueur). Jamais une Zakat. */
-  | { readonly type: "Donate"; readonly playerId: PlayerId; readonly amount: number; readonly to: MoneyDestination }
+  /** Case Don : destination du don (Caisse Masākīn ou un autre joueur) ; le montant est celui des règles. Jamais une Zakat. */
+  | { readonly type: "Donate"; readonly playerId: PlayerId; readonly to: MoneyDestination }
   /* ---- Défi famille ---- */
   | { readonly type: "AcceptChallenge"; readonly playerId: PlayerId }
   /** Validation collective : réussi ou raté. Réussi crédite le gain une fois ; raté = 0. */

@@ -23,7 +23,8 @@ export { selectChallenge, isChallengeEligible, variantFor, playerAge, challengeB
 export { effectsOf } from "./effects";
 export { computeRanking, heritageValueOf, shouldEndAfterTurn, scoreOf } from "./scoring";
 export { checkInvariants } from "./invariants";
-export { serializeGameState, deserializeGameState, gameStateSchemaV7, type SerializationError } from "./serialization";
+export { serializeGameState, deserializeGameState, gameStateSchemaV8, type SerializationError } from "./serialization";
+export { toCents, fromCents, roundMoney, addMoney, sumMoney, percentOf, isMoney, CENTS_PER_KOUNOUZ } from "./money";
 export {
   boardConfigSchema,
   heritageSiteSchema,
