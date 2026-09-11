@@ -23,6 +23,15 @@ pnpm build        # next build
 pnpm check        # lint + typecheck + test + build
 ```
 
+## Voix en ligne (facultative)
+
+La voix Kounouzi (ADR 0036) passe par `/api/voix`, qui appelle ElevenLabs avec
+des variables d'environnement côté serveur (voir `.env.example`) :
+`ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`, `ELEVENLABS_MODEL_ID`
+(facultatif). Sur Vercel : Settings → Environment Variables, puis redéployer.
+Sans ces variables, le jeu utilise la voix de l'appareil. Les phrases fixes se
+pré-génèrent une fois avec `pnpm voice:generate` (`--dry-run` pour la liste).
+
 ## Structure
 
 ```

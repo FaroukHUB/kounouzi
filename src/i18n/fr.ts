@@ -96,6 +96,8 @@ export const fr = {
   "settings.reducedMotion.system": "Suivre le réglage de l'appareil",
   "settings.narration": "Narration vocale",
   "settings.narration.unsupported": "La voix n'est pas disponible sur cet appareil — le jeu continue normalement.",
+  "settings.narration.cloud": "Voix Kounouzi en ligne (les prénoms et les montants sont dits ; connexion nécessaire).",
+  "settings.narration.device": "Voix de l'appareil (secours) : la voix en ligne n'est pas disponible pour l'instant.",
   "settings.narrationRate": "Vitesse de la voix",
   "settings.replay": "Réécouter la dernière annonce",
   "settings.preciseTimer": "Afficher le temps précis",

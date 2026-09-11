@@ -23,8 +23,8 @@ export const useSessionStore = create<SessionState>()(
   persist(
     (set) => ({
       reducedMotion: null,
-      // Voix automatique OFF par défaut (ADR 0035) : le jeu n'attend jamais une narration.
-      narrationEnabled: false,
+      // Voix Kounouzi en ligne (ADR 0036) : ON par défaut ; le jeu n'attend jamais une narration.
+      narrationEnabled: true,
       narrationRate: "normal",
       preciseTimer: false,
       setReducedMotion: (reducedMotion) => set({ reducedMotion }),
@@ -34,11 +34,12 @@ export const useSessionStore = create<SessionState>()(
     }),
     {
       name: "kounouzi.session.v1",
-      // v2 : la narration automatique passe OFF pour tout le monde (décision produit) ; les autres préférences sont conservées.
-      version: 2,
+      // v2 : narration OFF pour tout le monde (voix de l'appareil jugée mauvaise, ADR 0035).
+      // v3 : voix en ligne (ADR 0036) → narration ON pour tout le monde ; les autres préférences sont conservées.
+      version: 3,
       migrate: (persisted, version) => {
         const s = (persisted ?? {}) as Partial<SessionState>;
-        return version < 2 ? { ...s, narrationEnabled: false } : s;
+        return version < 3 ? { ...s, narrationEnabled: true } : s;
       },
       storage: createJSONStorage(() => (typeof window === "undefined" ? noopStorage : window.localStorage)),
       partialize: (s) => ({ reducedMotion: s.reducedMotion, narrationEnabled: s.narrationEnabled, narrationRate: s.narrationRate, preciseTimer: s.preciseTimer }),

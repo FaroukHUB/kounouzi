@@ -99,6 +99,8 @@ export const ar: Dictionary = {
   "settings.reducedMotion.system": "اتباع إعداد الجهاز",
   "settings.narration": "السرد الصوتي",
   "settings.narration.unsupported": "الصوت غير متاح على هذا الجهاز — تستمر اللعبة بشكل طبيعي.",
+  "settings.narration.cloud": "صوت كنوزي عبر الإنترنت (تُنطق الأسماء والمبالغ؛ يلزم اتصال).",
+  "settings.narration.device": "صوت الجهاز (احتياطي): الصوت عبر الإنترنت غير متاح حاليًا.",
   "settings.narrationRate": "سرعة الصوت",
   "settings.replay": "إعادة الاستماع إلى آخر إعلان",
   "settings.preciseTimer": "عرض الوقت الدقيق",

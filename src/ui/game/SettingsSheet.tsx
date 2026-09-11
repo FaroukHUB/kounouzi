@@ -1,6 +1,7 @@
 "use client";
 
 import { CHALLENGE_TOGGLES, type ChallengeSettings } from "@/core/game";
+import type { NarrationMode } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { NARRATION_RATES, useSessionStore } from "@/state/sessionStore";
 import { Button } from "@/ui/primitives/Button";
@@ -9,6 +10,8 @@ export interface SettingsSheetProps {
   readonly open: boolean;
   readonly onClose: () => void;
   readonly narrationSupported: boolean;
+  /** Source de la voix : en ligne, appareil (secours) ou aucune. */
+  readonly narrationMode: NarrationMode;
   readonly onReplay: () => void;
   readonly paused: boolean;
   readonly onTogglePause: () => void;
@@ -50,7 +53,13 @@ export function SettingsSheet(props: SettingsSheetProps) {
             <span>{t(DEFAULT_LOCALE, "settings.narration")}</span>
             <input type="checkbox" className="size-6" checked={s.narrationEnabled} onChange={(e) => s.setNarrationEnabled(e.target.checked)} />
           </label>
-          {!props.narrationSupported ? <p className="text-sm text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "settings.narration.unsupported")}</p> : null}
+          {!props.narrationSupported || props.narrationMode === "none" ? (
+            <p className="text-sm text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "settings.narration.unsupported")}</p>
+          ) : (
+            <p className="text-sm text-[var(--k-ink-soft)]" data-testid="narration-mode">
+              {t(DEFAULT_LOCALE, props.narrationMode === "cloud" ? "settings.narration.cloud" : "settings.narration.device")}
+            </p>
+          )}
 
           <label className="flex items-center justify-between gap-3">
             <span>{t(DEFAULT_LOCALE, "settings.narrationRate")}</span>

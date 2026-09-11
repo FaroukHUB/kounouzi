@@ -11,28 +11,29 @@ import { pid } from "../../fixtures/game/setup.fixture";
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const source = (path: string) => readFileSync(`${root}${path}`, "utf8");
 
-describe("voix OFF (ADR 0035) : narration automatique désactivée par défaut, jamais bloquante", () => {
-  it("la préférence de session est OFF par défaut ; une préférence enregistrée avant (v1, voix ON) est migrée vers OFF, les autres réglages conservés", () => {
-    expect(useSessionStore.getState().narrationEnabled).toBe(false);
+describe("réglage de la voix (ADR 0035 → 0036) : ON par défaut avec la voix en ligne, jamais bloquante", () => {
+  it("la préférence de session est ON par défaut (v3) ; les préférences v1 et v2 sont migrées vers ON, les autres réglages conservés", () => {
+    expect(useSessionStore.getState().narrationEnabled).toBe(true);
     const options = useSessionStore.persist.getOptions();
-    expect(options.version).toBe(2);
-    const migrated = options.migrate!({ narrationEnabled: true, narrationRate: "fast", preciseTimer: true, reducedMotion: null }, 1) as { narrationEnabled: boolean; narrationRate: string; preciseTimer: boolean };
-    expect(migrated.narrationEnabled).toBe(false);
-    expect(migrated.narrationRate).toBe("fast");
-    expect(migrated.preciseTimer).toBe(true);
-    const kept = options.migrate!({ narrationEnabled: true, narrationRate: "slow" }, 2) as { narrationEnabled: boolean };
-    expect(kept.narrationEnabled).toBe(true);
+    expect(options.version).toBe(3);
+    const fromV2 = options.migrate!({ narrationEnabled: false, narrationRate: "fast", preciseTimer: true, reducedMotion: null }, 2) as { narrationEnabled: boolean; narrationRate: string; preciseTimer: boolean };
+    expect(fromV2.narrationEnabled).toBe(true);
+    expect(fromV2.narrationRate).toBe("fast");
+    expect(fromV2.preciseTimer).toBe(true);
+    const kept = options.migrate!({ narrationEnabled: false, narrationRate: "slow" }, 3) as { narrationEnabled: boolean };
+    expect(kept.narrationEnabled).toBe(false);
   });
 
-  it("l'écran de jeu ne fait plus parler les événements (tour, Chemin, arrivée) ; le rejoueur d'animation et le store de jeu ignorent la narration", () => {
+  it("l'écran de jeu dit les événements par le NarrationService (jamais directement par le navigateur) ; le rejoueur et les stores ignorent la narration", () => {
     const screen = source("src/ui/game/GameScreen.tsx");
-    expect(screen).not.toContain("utteranceFor(");
-    expect(screen).not.toContain("narrator.speak(");
-    expect(screen).not.toContain("narrator.speakSequence(");
+    expect(screen).toContain("utteranceFor(");
+    expect(screen).not.toContain("speechSynthesis");
     for (const file of ["src/animation/player.ts", "src/animation/useAnimationQueue.ts", "src/state/gameStore.ts", "src/state/uiStore.ts"]) expect(source(file), file).not.toContain("@/experience/narration");
+    // Le moteur ne connaît aucune voix.
+    expect(source("src/core/game/reducer.ts")).not.toContain("narration");
   });
 
-  it("le NarrationService reste en place (bouton 🔊 des explications) mais désactivé, sa file est neutralisée : rien n'est mis en attente", () => {
+  it("le NarrationService désactivé neutralise sa file : rien n'est mis en attente, rien ne lève", () => {
     const narrator = new WebSpeechNarrator({ lexicon: { symbols: {}, words: {} } });
     narrator.setEnabled(false);
     expect(narrator.isSupported()).toBe(false);
@@ -42,6 +43,7 @@ describe("voix OFF (ADR 0035) : narration automatique désactivée par défaut, 
     const muted: NarrationService = new NullNarrator();
     expect(muted.hasVoice("ar")).toBe(false);
     expect(muted.isSupported()).toBe(false);
+    expect(muted.mode?.()).toBe("none");
   });
 
   it("le rejoueur d'animation ne dépend d'aucune voix : chaque événement se rejoue avec des délais nuls sans attendre", async () => {

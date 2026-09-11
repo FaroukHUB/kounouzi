@@ -163,7 +163,7 @@ long) ; la tablée choisit **Correct / Presque / Incorrect**.
 ```
 moteur ──► événements ──► gameStore (persistant, miroir de GameState)
                      └──► uiStore.queue ──► useAnimationQueue
-                                              ├── narration (NarrationService)
+                                              ├── narration (NarrationService : CloudNarrator → /api/voix, WebSpeechNarrator en secours)
                                               └── playEvent → uiStore (pions, bandeaux, Chemin)
 ```
 
@@ -245,6 +245,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | Quiz | Anti-répétition par tablée, clé de départage tirée hors noyau entre questions équivalentes (le Chemin reste déterministe), questions des Défis famille comptées dans la mémoire (ADR 0032) | livrée |
 | Plateau 26 | 12 monuments, 5 Savoir, 4 Défi, 2 Halte, 1 Don, 1 Trésor, 1 Départ (données) ; Départ +100, Trésor +100, Don fixe de 20 vers la Caisse Masākīn ou un joueur, Zakat al-Māl par ḥawl de 6 tours de table à 2,5 % exact, Kounouz en centimes, disposition rectangulaire, schéma v8 (ADR 0033, 0034) | livrée |
 | Établissements | Voix automatique OFF par défaut (session v2, jamais bloquante) ; « Monument » → « Établissement » : 12 établissements fictifs en données (familles, service, frais), arrivée chez un autre joueur = service consommé et frais payés au propriétaire ; cartes Hassanāt (ressource `hassanatPoints` distincte, banque Zod, accepter / passer, score configurable, formule de victoire non décidée), schéma v9 (ADR 0035) | livrée |
+| Voix en ligne | Une seule voix qui dit tout (prénoms, montants, FR et AR) : route serveur `/api/voix` (clé côté serveur, cache immuable), `CloudNarrator` derrière le `NarrationService`, phrases fixes pré-générées (`pnpm voice:generate`), voix de l'appareil en secours, narration ON par défaut (session v3), déblocage audio au premier toucher (ADR 0036) | livrée |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
 | 7     | Mes trésors, écran parent                                    | à venir  |
 | 8     | Back-office de contenu                                       | à venir  |

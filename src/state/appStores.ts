@@ -9,7 +9,8 @@ import {
   createMemoryPlaytestRepository,
 } from "@/data/local";
 import { LEARNING_CONFIG, ageOf, learnerContextFor } from "@/config/learning";
-import { NullNarrator, WebSpeechNarrator, type NarrationService } from "@/experience/narration";
+import { VOICE_CONFIG } from "@/config/narration";
+import { CloudNarrator, NullNarrator, WebSpeechNarrator, type NarrationService } from "@/experience/narration";
 import { createGameStore, useGameStoreOf, type GameStoreState } from "./gameStore";
 import { createLearningStore, useLearningStoreOf, type LearningStoreState } from "./learningStore";
 import { createPlaytestStore } from "./playtestStore";
@@ -23,7 +24,8 @@ const repository = hasIndexedDb ? createIndexedDbGameRepository() : createMemory
 const learningRepository = hasIndexedDb ? createIndexedDbLearningRepository() : createMemoryLearningRepository();
 export const playerProfileRepository = hasIndexedDb ? createIndexedDbPlayerProfileRepository() : createMemoryPlayerProfileRepository();
 
-export const narrator: NarrationService = isBrowser ? new WebSpeechNarrator() : new NullNarrator();
+/** Voix en ligne Kounouzi (ADR 0036), voix de l'appareil en secours ; muet au rendu serveur. */
+export const narrator: NarrationService = isBrowser ? new CloudNarrator({ ...VOICE_CONFIG, fallback: new WebSpeechNarrator() }) : new NullNarrator();
 
 const now = () => new Date().toISOString();
 

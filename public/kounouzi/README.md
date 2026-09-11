@@ -2,7 +2,9 @@
 
 Structure : `board/` (plateau, centre, cases), `monuments/` (une illustration
 par monument), `icons/`, `cards/` (bandeaux d'en-tête des cartes),
-`backgrounds/` (textures), `effects/` (lueurs, éclats).
+`backgrounds/` (textures), `effects/` (lueurs, éclats), `audio/voix/` (phrases
+fixes de la voix Kounouzi pré-générées par `pnpm voice:generate`, avec leur
+`manifest.json` ; ADR 0036).
 
 Les fichiers actuels sont des **placeholders propres** (SVG géométriques
 sobres). Chaque fichier se remplace un pour un : même nom, ou nouveau nom

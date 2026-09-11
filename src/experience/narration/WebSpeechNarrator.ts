@@ -1,6 +1,6 @@
 import { PRONUNCIATION } from "@/config/narration";
 import type { Locale } from "@/core/shared";
-import type { NarrationService, Utterance, VoiceInfo } from "./NarrationService";
+import type { NarrationMode, NarrationService, Utterance, VoiceInfo } from "./NarrationService";
 import { planUtterances, type PronunciationLexicon } from "./speechText";
 
 const RATE_VALUES = { slow: 0.85, normal: 1, fast: 1.2 } as const;
@@ -78,6 +78,10 @@ export class WebSpeechNarrator implements NarrationService {
 
   setRate(rate: keyof typeof RATE_VALUES): void {
     this.rate = rate;
+  }
+
+  mode(): NarrationMode {
+    return this.isSupported() ? "device" : "none";
   }
 
   private refreshVoices(): void {

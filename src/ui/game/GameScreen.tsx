@@ -11,6 +11,7 @@ import { contentRegistry } from "@/config/content";
 import { LEARNING_CONFIG } from "@/config/learning";
 import { pendingRequest, resolveQuestion } from "@/experience/questionResolver";
 import { startPlayClock } from "@/experience/playClock";
+import { CloudNarrator, utteranceFor } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { gameStore, learningStore, narrator, useGameStore, useLearningStore } from "@/state/appStores";
 import { useSessionStore } from "@/state/sessionStore";
@@ -53,15 +54,24 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
     });
   }, [gameId, state]);
 
-  // Narration : réglages puis phrase par événement rejoué (coordonnée avec l'animation, jamais bloquante pour le moteur).
+  // Narration : réglages, sonde de la voix en ligne (une fois), déblocage audio au premier toucher (téléphones).
   useEffect(() => {
     narrator.setEnabled(session.narrationEnabled);
     narrator.setRate(session.narrationRate);
   }, [session.narrationEnabled, session.narrationRate]);
+  useEffect(() => {
+    if (narrator instanceof CloudNarrator) void narrator.probe();
+    const unlock = () => {
+      if (narrator instanceof CloudNarrator) narrator.unlock();
+    };
+    window.addEventListener("pointerdown", unlock, { once: true, passive: true });
+    return () => window.removeEventListener("pointerdown", unlock);
+  }, []);
 
-  // Aucune narration automatique des événements (tour, Chemin, arrivée) : le rythme du jeu ne dépend jamais de la voix (ADR 0035).
+  // Une phrase par événement rejoué (tour, Chemin, arrivée, transferts…), coordonnée avec l'animation : jamais bloquante pour le moteur (ADR 0036).
   const onPlay = useCallback((event: GameEvent, current: GameState) => {
-    void current;
+    const utterance = utteranceFor(event, current, DEFAULT_LOCALE);
+    if (utterance) narrator.speak(utterance);
     // Aperçu du chemin : le trajet vient de l'événement PawnMoved qui suit — jamais recalculé.
     if (event.type === "MovementAssigned") {
       const next = useUiStore.getState().queue[0]?.event;
@@ -206,6 +216,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}
         narrationSupported={narrator.isSupported()}
+        narrationMode={narrator.mode?.() ?? "none"}
         onReplay={() => narrator.replayLast()}
         paused={paused}
         onTogglePause={() => setPaused((p) => !p)}

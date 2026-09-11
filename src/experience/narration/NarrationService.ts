@@ -5,6 +5,9 @@ export interface VoiceInfo {
   readonly lang: string;
 }
 
+/** D'où vient la voix : en ligne (Kounouzi), appareil (synthèse du navigateur), ou aucune. */
+export type NarrationMode = "cloud" | "device" | "none";
+
 export interface Utterance {
   readonly text: string;
   readonly lang: Locale;
@@ -30,6 +33,8 @@ export interface NarrationService {
   getAvailableVoices(): readonly VoiceInfo[];
   setEnabled(enabled: boolean): void;
   setRate(rate: "slow" | "normal" | "fast"): void;
+  /** Source de la voix, pour l'affichage des réglages (facultatif). */
+  mode?(): NarrationMode;
 }
 
 /** Narrateur muet : rendu serveur, tests, appareils sans synthèse vocale. */
@@ -49,4 +54,7 @@ export class NullNarrator implements NarrationService {
   }
   setEnabled(): void {}
   setRate(): void {}
+  mode(): NarrationMode {
+    return "none";
+  }
 }
