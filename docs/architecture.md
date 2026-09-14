@@ -182,7 +182,7 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   moteur), aperçu des cases du trajet (copié de `PawnMoved.path`), puis le
   pion parcourt réellement les cases, retour visuel à l'arrivée.
 - **Plateau** : grille CSS rectangulaire statique dont le périmètre porte
-  exactement `board.cells.length` cases (`gridDims` : 26 → 8 × 7, 32 → 9 × 9),
+  exactement `board.cells.length` cases (`gridDims` : plateau produit 28 → 8 × 8 ; anciens plateaux toujours supportés),
   cases placées par `perimeterPosition`, pions en `transform` uniquement
   (translate en unités de case), grappes étalées sur une même case.
 - **Temps actif** : `startPlayClock` (couche session) compte les secondes
@@ -243,7 +243,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | Religion | Six banques religieuses (375 cartes) importées `draft` depuis les documents de contrôle, corrigées par couche de données, arabe vérifié contre les sources originales, puis **validées humainement** par une liste d'identifiants appliquée à chaque réimport, sous les gardes existantes (ADR 0030) ; catégorie Religion et défis CH-094 à CH-097 jouables | livrée |
 | Voix | Choix « A. / B. » lus en phrases séparées (« Réponse A : … ») et affichés sur des lignes séparées (dérivé au rendu), lexique de prononciation en données pour les translittérations et ﷺ, arabe dit seulement avec une voix arabe (ADR 0031) | livrée |
 | Quiz | Anti-répétition par tablée, clé de départage tirée hors noyau entre questions équivalentes (le Chemin reste déterministe), questions des Défis famille comptées dans la mémoire (ADR 0032) | livrée |
-| Plateau 26 | 12 monuments, 5 Savoir, 4 Défi, 2 Halte, 1 Don, 1 Trésor, 1 Départ (données) ; Départ +100, Trésor +100, Don fixe de 20 vers la Caisse Masākīn ou un joueur, Zakat al-Māl par ḥawl de 6 tours de table à 2,5 % exact, Kounouz en centimes, disposition rectangulaire, schéma v8 (ADR 0033, 0034) | livrée |
+| Plateau 28 | 12 établissements, 6 Savoir, 5 Défi, 2 Halte, 1 Don, 1 Trésor, 1 Départ ; contour exact d’une grille 8×8 avec 28 cases de mêmes dimensions. Départ +100, Trésor +100, Don fixe de 20, Zakat al-Māl hors plateau par ḥawl de 6 tours à 2,5 % exact. L’ancien plateau 26 reste lisible dans les sauvegardes/configurations historiques. | livrée |
 | Établissements | Voix automatique OFF par défaut (session v2, jamais bloquante) ; « Monument » → « Établissement » : 12 établissements fictifs en données (familles, service, frais), arrivée chez un autre joueur = service consommé et frais payés au propriétaire ; cartes Hassanāt (ressource `hassanatPoints` distincte, banque Zod, accepter / passer, score configurable, formule de victoire non décidée), schéma v9 (ADR 0035) | livrée |
 | Voix en ligne | Une seule voix qui dit tout (prénoms, montants, FR et AR) : route serveur `/api/voix` (clé côté serveur, cache immuable), `CloudNarrator` derrière le `NarrationService`, phrases fixes pré-générées (`pnpm voice:generate`), voix de l'appareil en secours, narration ON par défaut (session v3), déblocage audio au premier toucher (ADR 0036) | livrée |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
