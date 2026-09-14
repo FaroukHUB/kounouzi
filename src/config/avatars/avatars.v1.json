@@ -1,13 +1,13 @@
 {
-  "$comment": "Pions V1 : une couleur et un symbole géométrique par avatar. Illustrations définitives ultérieures.",
+  "$comment": "Figurines Kounouzi V2 : couleur, symbole et tenue modeste. Les personnages affichés sont volontairement sans visage.",
   "avatars": [
-    { "id": "amber", "color": "#d97706", "shape": "sun" },
-    { "id": "teal", "color": "#0f766e", "shape": "leaf" },
-    { "id": "ruby", "color": "#be123c", "shape": "gem" },
-    { "id": "indigo", "color": "#4338ca", "shape": "star" },
-    { "id": "olive", "color": "#4d7c0f", "shape": "shell" },
-    { "id": "sky", "color": "#0369a1", "shape": "wave" },
-    { "id": "plum", "color": "#7e22ce", "shape": "key" },
-    { "id": "copper", "color": "#9a3412", "shape": "feather" }
+    { "id": "amber", "color": "#d97706", "shape": "sun", "outfit": "qamis_kufi" },
+    { "id": "teal", "color": "#0f766e", "shape": "leaf", "outfit": "abaya_hijab" },
+    { "id": "ruby", "color": "#be123c", "shape": "gem", "outfit": "qamis_kufi" },
+    { "id": "indigo", "color": "#4338ca", "shape": "star", "outfit": "jilbab" },
+    { "id": "olive", "color": "#4d7c0f", "shape": "shell", "outfit": "thobe_ghutra" },
+    { "id": "sky", "color": "#0369a1", "shape": "wave", "outfit": "abaya_hijab" },
+    { "id": "plum", "color": "#7e22ce", "shape": "key", "outfit": "qamis_kufi" },
+    { "id": "copper", "color": "#9a3412", "shape": "feather", "outfit": "jilbab" }
   ]
 }

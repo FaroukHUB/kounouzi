@@ -97,3 +97,254 @@ body {
   }
   .k-halo, .k-glow, .k-float, .k-rays { animation: none; }
 }
+
+
+/* --- Plateau Kounouzi 3D -------------------------------------------------- */
+.k-board-3d-stage {
+  perspective: 1100px;
+  perspective-origin: 50% 42%;
+  padding-block: 0.75rem 1.6rem;
+}
+
+.k-board-3d-shell {
+  transform: rotateX(6deg) rotateZ(-0.35deg);
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  box-shadow:
+    0 34px 42px -22px rgba(48, 28, 8, 0.58),
+    0 15px 0 -4px var(--k-wood-dark),
+    0 18px 0 -5px #3e260f,
+    inset 0 2px 0 rgba(255,255,255,0.24);
+}
+
+.k-board-3d-shell::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 4.5% 3% -3.4%;
+  z-index: -1;
+  border-radius: 2rem;
+  background: linear-gradient(180deg, #5c3a18 0%, #38210d 100%);
+  transform: translateZ(-18px);
+  filter: drop-shadow(0 16px 18px rgba(40, 24, 8, 0.38));
+}
+
+.k-board-cell-3d {
+  box-shadow:
+    0 5px 0 rgba(94, 61, 25, 0.18),
+    0 8px 14px -12px rgba(35, 24, 13, 0.8),
+    inset 0 1px 0 rgba(255,255,255,0.82);
+}
+
+.k-pawn-layer-3d,
+.k-character-lift {
+  transform-style: preserve-3d;
+}
+
+.k-character-lift {
+  transform: translateZ(26px);
+}
+
+/* Figurines sans visage : volumes CSS légers, aucun asset externe. */
+.k-character {
+  position: relative;
+  display: block;
+  width: 58%;
+  height: 88%;
+  min-width: 18px;
+  min-height: 28px;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 8px 5px rgba(32, 20, 10, 0.34));
+}
+
+.k-character__shadow {
+  position: absolute;
+  left: 50%;
+  bottom: -1%;
+  width: 88%;
+  height: 13%;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: rgba(31, 22, 15, 0.28);
+  filter: blur(2px);
+}
+
+.k-character__base {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 1%;
+  width: 72%;
+  height: 12%;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: linear-gradient(180deg, currentColor 0%, #3d2c1c 115%);
+  border: 1px solid rgba(255,255,255,0.52);
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.28), 0 4px 5px rgba(0,0,0,0.22);
+}
+
+.k-character__body {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: 9%;
+  width: 62%;
+  height: 57%;
+  translate: -50% 0;
+}
+
+.k-character__robe {
+  position: absolute;
+  inset: 0;
+  border-radius: 34% 34% 16% 16% / 20% 20% 12% 12%;
+  background: currentColor;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow:
+    inset 8px 0 10px rgba(255,255,255,0.16),
+    inset -9px -4px 12px rgba(0,0,0,0.18),
+    0 4px 5px rgba(0,0,0,0.2);
+}
+
+.k-character__robe::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  width: 1px;
+  height: 72%;
+  background: rgba(255,255,255,0.3);
+}
+
+.k-character__arm {
+  position: absolute;
+  z-index: -1;
+  top: 8%;
+  width: 25%;
+  height: 66%;
+  border-radius: 999px;
+  background: currentColor;
+  border: 1px solid rgba(255,255,255,0.38);
+  box-shadow: inset -4px -3px 6px rgba(0,0,0,0.15);
+}
+
+.k-character__arm--left { left: -12%; rotate: 10deg; }
+.k-character__arm--right { right: -12%; rotate: -10deg; }
+
+.k-character__head {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  bottom: 61%;
+  width: 46%;
+  height: 34%;
+  translate: -50% 0;
+  transform-style: preserve-3d;
+}
+
+.k-character__face {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: 18%;
+  width: 67%;
+  height: 72%;
+  translate: -50% 0;
+  border-radius: 48% 48% 45% 45%;
+  background: linear-gradient(135deg, #e7ba91 0%, #c98d67 100%);
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: inset -5px -4px 7px rgba(100,55,32,0.12), 0 3px 4px rgba(0,0,0,0.15);
+}
+
+.k-character__headwear {
+  display: none;
+  position: absolute;
+  z-index: 6;
+}
+
+.k-character--qamis_kufi .k-character__headwear--kufi {
+  display: block;
+  left: 15%;
+  top: 2%;
+  width: 70%;
+  height: 25%;
+  border-radius: 50% 50% 22% 22%;
+  background:
+    repeating-linear-gradient(90deg, rgba(180,150,95,.22) 0 2px, transparent 2px 5px),
+    #f8f4e9;
+  border: 1px solid rgba(120,85,35,.28);
+  box-shadow: 0 2px 2px rgba(0,0,0,.12);
+}
+
+.k-character--abaya_hijab .k-character__headwear--hijab,
+.k-character--jilbab .k-character__headwear--jilbab {
+  display: block;
+  z-index: 4;
+  inset: 3% -12% -9%;
+  border-radius: 50% 50% 38% 38%;
+  background: currentColor;
+  border: 1px solid rgba(255,255,255,.38);
+  box-shadow: inset -6px -5px 8px rgba(0,0,0,.16);
+}
+
+.k-character--abaya_hijab .k-character__face,
+.k-character--jilbab .k-character__face {
+  width: 58%;
+  height: 61%;
+  top: 21%;
+}
+
+.k-character--jilbab .k-character__headwear--jilbab {
+  inset: 0 -17% -20%;
+  border-radius: 48% 48% 28% 28%;
+}
+
+.k-character--thobe_ghutra .k-character__headwear--ghutra {
+  display: block;
+  z-index: 4;
+  left: 4%;
+  top: 0;
+  width: 92%;
+  height: 96%;
+  border-radius: 48% 48% 20% 20%;
+  background: linear-gradient(135deg, #fff 0%, #e9e6df 100%);
+  border: 1px solid rgba(80,70,55,.2);
+  box-shadow: inset -5px -4px 8px rgba(0,0,0,.08);
+}
+
+.k-character--thobe_ghutra .k-character__headwear--ghutra::before {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 10%;
+  height: 8%;
+  border-radius: 999px;
+  background: #2b2926;
+}
+
+.k-character--active {
+  animation: k-character-breathe 1.8s ease-in-out infinite;
+}
+
+.k-character--compact {
+  width: 26px;
+  height: 34px;
+  min-width: 26px;
+  min-height: 34px;
+  filter: drop-shadow(0 3px 2px rgba(32,20,10,.25));
+}
+
+@keyframes k-character-breathe {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -3%; }
+}
+
+@media (max-width: 640px) {
+  .k-board-3d-stage { perspective: 900px; padding-block: 0.35rem 0.9rem; }
+  .k-board-3d-shell { transform: rotateX(3.5deg); }
+  .k-character-lift { transform: translateZ(18px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .k-character--active { animation: none; }
+}
