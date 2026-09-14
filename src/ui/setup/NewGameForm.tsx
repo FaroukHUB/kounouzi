@@ -15,7 +15,7 @@ import { ADULT_INITIAL_LEVELS, DEFAULT_ADULT_INITIAL_LEVEL, type AdultInitialLev
 import type { PlayerProfileDraft, SavedPlayerProfile } from "@/data/ports";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { gameStore, playerProfileRepository } from "@/state/appStores";
-import { FacelessCharacter } from "@/ui/primitives/FacelessCharacter";
+import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
 import { Button } from "@/ui/primitives/Button";
 
 interface Row {
@@ -132,11 +132,10 @@ export function NewGameForm() {
           <div className="mt-2 flex flex-wrap gap-2">
             {known.map((p) => {
               const added = rows.some((r) => r.id === p.id);
-              const avatar = AVATARS.find((a) => a.id === p.avatarId) ?? AVATARS[0]!;
               return (
-                <button key={p.id} type="button" onClick={() => addKnown(p)} disabled={added} aria-pressed={added} className={`inline-flex min-h-11 items-center gap-2 rounded-full border px-3 text-sm font-semibold ${added ? "border-[var(--k-teal)] bg-[var(--k-teal)]/10" : "border-[var(--k-line)] bg-white"}`} data-testid="known-player">
-                  <span className="flex h-9 w-8 items-end justify-center">
-                    <FacelessCharacter color={avatar.color} outfit={avatar.outfit} compact />
+                <button key={p.id} type="button" onClick={() => addKnown(p)} disabled={added} aria-pressed={added} className={`inline-flex min-h-10 items-center gap-2 rounded-full border px-3 text-sm font-semibold ${added ? "border-[var(--k-teal)] bg-[var(--k-teal)]/10" : "border-[var(--k-line)] bg-white"}`} data-testid="known-player">
+                  <span className="flex size-6 items-center justify-center rounded-full text-white" style={{ backgroundColor: AVATARS.find((a) => a.id === p.avatarId)?.color ?? "var(--k-teal)" }}>
+                    <AvatarGlyph shape={AVATARS.find((a) => a.id === p.avatarId)?.shape ?? AVATARS[0]!.shape} />
                   </span>
                   <span>{p.displayName}</span>
                   <span className="text-xs font-normal text-[var(--k-ink-soft)]">{added ? t(DEFAULT_LOCALE, "setup.knownPlayers.added") : t(DEFAULT_LOCALE, `setup.${p.profileType}`)}</span>
@@ -174,16 +173,8 @@ export function NewGameForm() {
                 {t(DEFAULT_LOCALE, "setup.avatar")}
                 <div className="mt-1 flex flex-wrap gap-1.5" role="radiogroup">
                   {AVATARS.map((a) => (
-                    <button
-                      key={a.id}
-                      type="button"
-                      role="radio"
-                      aria-checked={r.avatarId === a.id}
-                      aria-label={a.id}
-                      onClick={() => update(i, { avatarId: a.id })}
-                      className={`flex h-14 w-11 items-end justify-center rounded-2xl bg-[var(--k-sand)] pb-1 ${r.avatarId === a.id ? "ring-4 ring-[var(--k-gold)]" : "opacity-70"}`}
-                    >
-                      <FacelessCharacter color={a.color} outfit={a.outfit} compact />
+                    <button key={a.id} type="button" role="radio" aria-checked={r.avatarId === a.id} aria-label={a.id} onClick={() => update(i, { avatarId: a.id })} className={`flex size-10 items-center justify-center rounded-full text-white ${r.avatarId === a.id ? "ring-4 ring-[var(--k-gold)]" : "opacity-70"}`} style={{ backgroundColor: a.color }}>
+                      <AvatarGlyph shape={a.shape} />
                     </button>
                   ))}
                 </div>
