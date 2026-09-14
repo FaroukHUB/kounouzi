@@ -476,7 +476,7 @@ export class BoardWebGLRenderer {
       const lift=arrival ? .10 : selected ? .05 : 0;
       this.drawColor(this.box,mat4TRS([cell.x,.235+lift,cell.z],[1.02*pulse,.28,1.02*pulse],cell.rotationY),cell.bg2,1,projection,view);
       if(arrival || selected){
-        this.drawColor(this.box,mat4TRS([cell.x,.385+lift,cell.z],[1.085*pulse,.025,1.085*pulse],cell.rotationY),cell.accent,arrival?.8:.42,projection,view);
+        this.drawColor(this.box,mat4TRS([cell.x,.385+lift,cell.z],[1.085*pulse,.025,1.085*pulse],cell.rotationY),cell.accent,arrival ? .8 : .42,projection,view);
       }
       const tex=this.textures.get(cell.position);
       if(tex) this.drawTexture(this.plane,mat4TRS([cell.x,.386+lift,cell.z],[.96*pulse,1,.96*pulse],cell.rotationY),tex,projection,view);
