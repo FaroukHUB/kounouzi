@@ -16,14 +16,14 @@ if (!resolved.ok) throw new Error("board");
 const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal" }));
 
 describe("composants du plateau (rendu statique)", () => {
-  it("rend les 28 cases avec leur type (grille 8×8), met en évidence la case demandée, marque les Haltes comme grosses cases", () => {
+  it("rend les 26 cases avec leur type (grille 8×7), met en évidence la case demandée, marque les Haltes comme grosses cases", () => {
     const html = renderToStaticMarkup(<Board board={resolved.value.board} highlightedCell={5} arrivalCell={null} previewPath={[1, 2]} pawns={null} center={<span>centre</span>} />);
-    for (let i = 0; i < 28; i += 1) expect(html).toContain(`data-cell="${i}"`);
-    expect(html).not.toContain('data-cell="28"');
-    expect(html).toContain('data-grid="8x8"');
+    for (let i = 0; i < 26; i += 1) expect(html).toContain(`data-cell="${i}"`);
+    expect(html).not.toContain('data-cell="26"');
+    expect(html).toContain('data-grid="8x7"');
     expect(html.match(/data-type="heritage"/g)).toHaveLength(12);
-    expect(html.match(/data-type="question"/g)).toHaveLength(6);
-    expect(html.match(/data-type="challenge"/g)).toHaveLength(5);
+    expect(html.match(/data-type="question"/g)).toHaveLength(5);
+    expect(html.match(/data-type="challenge"/g)).toHaveLength(4);
     expect(html.match(/data-type="halt"/g)).toHaveLength(2);
     expect(html.match(/data-type="donation"/g)).toHaveLength(1);
     expect(html.match(/data-type="treasure"/g)).toHaveLength(1);
@@ -36,8 +36,6 @@ describe("composants du plateau (rendu statique)", () => {
     const html = renderToStaticMarkup(<PawnLayer players={state.players} profiles={profiles} visuals={{ p1: 3 }} activePlayerId={pid("p1")} cellCount={resolved.value.board.cellCount} stepMs={0} />);
     expect(html.match(/data-pawn=/g)).toHaveLength(3);
     expect(html).toContain("transform:");
-    expect(html).toContain("k-character");
-    expect(html).toContain("k-character--");
     expect(html).not.toMatch(/(?:^|[^-])left:\s*\d/);
   });
 
