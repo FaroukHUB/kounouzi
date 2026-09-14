@@ -11,7 +11,7 @@ export interface GridDims {
 
 /**
  * Dimensions de la grille rectangulaire dont le périmètre porte exactement
- * `cellCount` cases (nombre pair ≥ 8) : 26 → 8 × 7, 32 → 9 × 9, 8 → 3 × 3.
+ * `cellCount` cases (nombre pair ≥ 8) : 28 → 8 × 8, 26 → 8 × 7, 32 → 9 × 9.
  * Le nombre de cases vient du plateau, jamais d'une constante.
  */
 export function gridDims(cellCount: number): GridDims {
