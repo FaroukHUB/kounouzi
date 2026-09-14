@@ -49,7 +49,7 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
       data-cell={position}
       data-type={type}
       data-owner={owner ? owner.name : undefined}
-      className="k-board-cell-3d relative flex flex-col items-center justify-end overflow-hidden rounded-[14%] border text-center leading-none"
+      className="relative flex flex-col items-center justify-end overflow-hidden rounded-[14%] border text-center leading-none"
       style={{
         gridRow: grid.row + 1,
         gridColumn: grid.col + 1,
