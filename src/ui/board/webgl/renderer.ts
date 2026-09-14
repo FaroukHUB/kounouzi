@@ -182,11 +182,12 @@ function createProgramInfo(gl: WebGLRenderingContext, textured: boolean): Progra
 }
 
 function createGeometry(gl: WebGLRenderingContext, data: GeometryData): GLGeometry {
-  const make=(target:number, values:BufferSource)=>{
+  const make=(target:number, values:Float32Array | Uint16Array)=>{
     const b=gl.createBuffer();
     if(!b) throw new Error("WebGL buffer indisponible");
     gl.bindBuffer(target,b);
-    gl.bufferData(target,values,gl.STATIC_DRAW);
+    // TS 5.9 élargit les TypedArray vers ArrayBufferLike ; WebGL attend un BufferSource classique.
+    gl.bufferData(target,values as unknown as BufferSource,gl.STATIC_DRAW);
     return b;
   };
   return {
