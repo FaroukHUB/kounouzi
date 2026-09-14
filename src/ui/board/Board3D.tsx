@@ -66,6 +66,7 @@ function buildScene(
   sites: Readonly<Record<string, PurchasableSite>>,
   players: readonly PlayerState[],
   profiles: readonly PlayerProfileDraft[],
+  holdings: readonly Holding[],
   visuals: Readonly<Record<string, number>>,
   activePlayerId: string,
   highlightedCell: number|null,
@@ -74,6 +75,13 @@ function buildScene(
 ): BoardScene {
   const {cols,rows}=gridDims(board.cellCount);
   const spacing=1.08;
+  const ownerBySite = new Map(holdings.map((h)=>[h.siteId,h.ownerId]));
+  const ownerColor = (siteId:string): string | undefined => {
+    const ownerId=ownerBySite.get(siteId);
+    if(!ownerId) return undefined;
+    const avatarId=profiles.find((p)=>p.id===ownerId)?.avatarId ?? "amber";
+    return avatarById(avatarId).color;
+  };
   const cells: SceneCell[] = board.cells.map((cell)=>{
     const grid=perimeterPosition(cell.position,board.cellCount);
     const style=CELL_STYLE[cell.type];
@@ -90,6 +98,7 @@ function buildScene(
       bg2:style.bg2,
       fg:style.fg,
       accent:style.accent,
+      ...(cell.type==="heritage" && ownerColor(cell.siteId) ? {ownerColor:ownerColor(cell.siteId)!} : {}),
     };
   });
 
@@ -133,8 +142,8 @@ export function Board3D(props: Board3DProps) {
   const [fallback,setFallback]=useState(false);
 
   const scene=useMemo(
-    ()=>buildScene(props.board,props.sites,props.players,props.profiles,props.visuals,props.activePlayerId,props.highlightedCell,props.arrivalCell,props.previewPath),
-    [props.board,props.sites,props.players,props.profiles,props.visuals,props.activePlayerId,props.highlightedCell,props.arrivalCell,props.previewPath],
+    ()=>buildScene(props.board,props.sites,props.players,props.profiles,props.holdings,props.visuals,props.activePlayerId,props.highlightedCell,props.arrivalCell,props.previewPath),
+    [props.board,props.sites,props.players,props.profiles,props.holdings,props.visuals,props.activePlayerId,props.highlightedCell,props.arrivalCell,props.previewPath],
   );
   const sceneRef=useRef(scene);
   sceneRef.current=scene;
