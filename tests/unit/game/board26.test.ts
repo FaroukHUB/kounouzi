@@ -221,13 +221,13 @@ describe("migration 32 → 26 : sauvegardes, reprise, joueurs, économie neutre 
     expect(again.ok && again.value).toEqual(done.state);
   });
 
-  it("de 2 à 6 joueurs sur le vrai plateau 26 avec les données de démonstration : partie complète, aucune violation, positions toujours dans le plateau, enfants et adultes traités pareil", () => {
+  it("de 2 à 6 joueurs sur le vrai plateau 28 avec les données de démonstration : partie complète, aucune violation, positions toujours dans le plateau, enfants et adultes traités pareil", () => {
     for (let n = 2; n <= 6; n += 1) {
       const sim = simulate(makeSetup({ players: players(n), board: DEFAULT_BOARD, heritageSites: DEMO_HERITAGE_SITES, scenarios: DEMO_SCENARIOS, rules: { ...DEMO_RULES_QUICK, endCondition: { kind: "turns_per_player", turns: 8 } } }));
       expect(sim.state.status).toBe("finished");
       expect(checkInvariants(sim.state)).toEqual([]);
       for (const p of sim.state.players) expect(p.position).toBeLessThan(sim.state.config.board.cellCount);
-      expect(sim.state.config.board.cellCount).toBe(26);
+      expect(sim.state.config.board.cellCount).toBe(28);
       // Aucune règle économique ne lit le profil : les écritures sont les mêmes pour un enfant et un adulte à situation égale.
       const reasons = new Set(sim.state.ledger.map((t) => t.reason));
       expect([...reasons].every((r) => !/child|adult/.test(r))).toBe(true);
