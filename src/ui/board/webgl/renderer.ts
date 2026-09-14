@@ -1,5 +1,5 @@
 import { boxGeometry, cylinderGeometry, planeGeometry, sphereGeometry, type GeometryData } from "./geometry";
-import { hexToRgb, lerp, lookAt, mat4Multiply, mat4TRS, perspective, smoothstep01, type Mat4, type Vec3 } from "./math";
+import { hexToRgb, lerp, lookAt, mat4TRS, perspective, smoothstep01, type Mat4, type Vec3 } from "./math";
 
 export type FigureOutfit = "qamis_kufi" | "abaya_hijab" | "thobe_ghutra" | "jilbab";
 
@@ -199,15 +199,21 @@ function createGeometry(gl: WebGLRenderingContext, data: GeometryData): GLGeomet
 }
 
 function bindGeometry(gl: WebGLRenderingContext, p: ProgramInfo, g: GLGeometry): void {
-  gl.bindBuffer(gl.ARRAY_BUFFER,g.position);
-  gl.enableVertexAttribArray(p.aPosition);
-  gl.vertexAttribPointer(p.aPosition,3,gl.FLOAT,false,0,0);
-  gl.bindBuffer(gl.ARRAY_BUFFER,g.normal);
-  gl.enableVertexAttribArray(p.aNormal);
-  gl.vertexAttribPointer(p.aNormal,3,gl.FLOAT,false,0,0);
-  gl.bindBuffer(gl.ARRAY_BUFFER,g.uv);
-  gl.enableVertexAttribArray(p.aUv);
-  gl.vertexAttribPointer(p.aUv,2,gl.FLOAT,false,0,0);
+  if(p.aPosition>=0){
+    gl.bindBuffer(gl.ARRAY_BUFFER,g.position);
+    gl.enableVertexAttribArray(p.aPosition);
+    gl.vertexAttribPointer(p.aPosition,3,gl.FLOAT,false,0,0);
+  }
+  if(p.aNormal>=0){
+    gl.bindBuffer(gl.ARRAY_BUFFER,g.normal);
+    gl.enableVertexAttribArray(p.aNormal);
+    gl.vertexAttribPointer(p.aNormal,3,gl.FLOAT,false,0,0);
+  }
+  if(p.aUv>=0){
+    gl.bindBuffer(gl.ARRAY_BUFFER,g.uv);
+    gl.enableVertexAttribArray(p.aUv);
+    gl.vertexAttribPointer(p.aUv,2,gl.FLOAT,false,0,0);
+  }
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,g.index);
 }
 
