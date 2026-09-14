@@ -15,6 +15,7 @@ export interface SceneCell {
   readonly bg2: string;
   readonly fg: string;
   readonly accent: string;
+  readonly ownerColor?: string | undefined;
 }
 
 export interface ScenePlayer {
@@ -340,6 +341,7 @@ export class BoardWebGLRenderer {
   private pointerX=0;
   private pointerY=0;
   private lastFrame=0;
+  private motionEnabled=true;
 
   constructor(private readonly canvas: HTMLCanvasElement, scene: BoardScene) {
     const gl=canvas.getContext("webgl",{antialias:true,alpha:true,premultipliedAlpha:true});
@@ -393,12 +395,13 @@ export class BoardWebGLRenderer {
 
   setScene(next: BoardScene, stepMs: number): void {
     const now=performance.now();
+    this.motionEnabled=stepMs>0;
     for(const p of next.players){
       const m=this.motions.get(p.id);
       if(!m){ this.motions.set(p.id,{fromX:p.x,fromZ:p.z,toX:p.x,toZ:p.z,startedAt:now,duration:1}); continue; }
       if(Math.abs(m.toX-p.x)>.001 || Math.abs(m.toZ-p.z)>.001){
         const current=this.motionPosition(m,now);
-        this.motions.set(p.id,{fromX:current[0],fromZ:current[1],toX:p.x,toZ:p.z,startedAt:now,duration:Math.max(120,stepMs*.86)});
+        this.motions.set(p.id,{fromX:current[0],fromZ:current[1],toX:p.x,toZ:p.z,startedAt:now,duration:stepMs<=0 ? 0 : Math.max(120,stepMs*.86)});
       }
     }
     const cellsChanged=next.cells.length!==this.scene.cells.length || next.cells.some((c,i)=>{
@@ -410,7 +413,8 @@ export class BoardWebGLRenderer {
   }
 
   private motionPosition(m:MotionState, now:number): readonly [number,number] {
-    const t=smoothstep01((now-m.startedAt)/Math.max(1,m.duration));
+    if(m.duration<=0) return [m.toX,m.toZ];
+    const t=smoothstep01((now-m.startedAt)/m.duration);
     return [lerp(m.fromX,m.toX,t),lerp(m.fromZ,m.toZ,t)];
   }
 
@@ -473,7 +477,7 @@ export class BoardWebGLRenderer {
     for(const cell of this.scene.cells){
       const arrival=this.scene.arrivalCell===cell.position;
       const selected=this.scene.highlightedCell===cell.position || preview.has(cell.position);
-      const pulse=arrival ? 1+Math.sin(now*.009)*.035 : 1;
+      const pulse=arrival && this.motionEnabled ? 1+Math.sin(now*.009)*.035 : 1;
       const lift=arrival ? .10 : selected ? .05 : 0;
       this.drawColor(this.box,mat4TRS([cell.x,.235+lift,cell.z],[1.02*pulse,.28,1.02*pulse],cell.rotationY),cell.bg2,1,projection,view);
       if(arrival || selected){
@@ -481,6 +485,11 @@ export class BoardWebGLRenderer {
       }
       const tex=this.textures.get(cell.position);
       if(tex) this.drawTexture(this.plane,mat4TRS([cell.x,.386+lift,cell.z],[.96*pulse,1,.96*pulse],cell.rotationY),tex,projection,view);
+      if(cell.ownerColor){
+        const [mx,mz]=localOffset(cell.x,cell.z,cell.rotationY,.34,.34);
+        this.drawColor(this.cylinder,mat4TRS([mx,.51+lift,mz],[.16,.13,.16],cell.rotationY),cell.ownerColor,1,projection,view);
+        this.drawColor(this.cylinder,mat4TRS([mx,.585+lift,mz],[.11,.025,.11],cell.rotationY),"#ffffff",.82,projection,view);
+      }
     }
   }
 
@@ -488,7 +497,7 @@ export class BoardWebGLRenderer {
     const motion=this.motions.get(p.id);
     const [x,z]=motion ? this.motionPosition(motion,now) : [p.x,p.z];
     const face=Math.atan2(-x,-z);
-    const bob=p.active ? Math.sin(now*.004)*.045 : Math.sin(now*.002+p.id.length)*.015;
+    const bob=this.motionEnabled ? (p.active ? Math.sin(now*.004)*.045 : Math.sin(now*.002+p.id.length)*.015) : 0;
     const s=p.size;
     const skin="#d8a47f";
     const [sx,sz]=localOffset(x,z,face,0,.11*s);
@@ -526,7 +535,7 @@ export class BoardWebGLRenderer {
 
     // active marker as a floating gold ring/disc
     if(p.active){
-      const glow=.75+Math.sin(now*.006)*.18;
+      const glow=this.motionEnabled ? .75+Math.sin(now*.006)*.18 : .82;
       this.drawColor(this.cylinder,mat4TRS([x,2.08+bob,z],[.18*s,.035*s,.18*s],face),"#d4a017",glow,projection,view);
     }
   }
