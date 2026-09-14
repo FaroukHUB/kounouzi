@@ -16,8 +16,7 @@ import { DEFAULT_LOCALE, t } from "@/i18n";
 import { gameStore, learningStore, narrator, useGameStore, useLearningStore } from "@/state/appStores";
 import { useSessionStore } from "@/state/sessionStore";
 import { useUiStore } from "@/state/uiStore";
-import { Board } from "@/ui/board/Board";
-import { PawnLayer } from "@/ui/board/PawnLayer";
+import { Board3D } from "@/ui/board/Board3D";
 import { CardOverlay } from "@/ui/cards/CardOverlay";
 import { Button } from "@/ui/primitives/Button";
 import { FinalRanking } from "./FinalRanking";
@@ -160,7 +159,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           </div>
         ) : null}
         <div className={corners ? "lg:col-start-2 lg:row-span-2 lg:self-center" : ""}>
-        <Board
+        <Board3D
           board={state.config.board}
           highlightedCell={ui.highlightedCell}
           arrivalCell={ui.arrivalCell}
@@ -169,7 +168,9 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           sites={state.config.sites}
           players={state.players}
           profiles={profiles}
-          pawns={<PawnLayer players={state.players} profiles={profiles} visuals={ui.pawnVisuals} activePlayerId={shownActiveId} cellCount={state.config.board.cellCount} stepMs={timings.stepMs} />}
+          visuals={ui.pawnVisuals}
+          activePlayerId={shownActiveId}
+          stepMs={timings.stepMs}
           center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}
         />
         </div>
