@@ -1,6 +1,8 @@
 {
-  "$comment": "Géographie V1 — 30 cartes contrôlées, écrites par l’auteur du jeu, JAMAIS générées. Règle propre à cette catégorie : toute question géographique exige une source avant validation finale, même quand le fait paraît évident (categories.v1.json : geography.requiresSource = true). Aucune source n’a encore été fournie : les 30 cartes sont donc en statut draft et la garde de jouabilité les refuse toutes. Rien n’est servi en production tant que la vérification humaine n’a pas eu lieu. Aucune source n’est inventée ici, aucune URL fictive : le tableau sources est vide, pas approximatif. L’arabe des énoncés et des réponses vient de l’auteur ; les explications arabes sont la traduction fidèle de l’explication française fournie, et restent arReview = provisional jusqu’à relecture humaine. Quatre cartes (GEO-011, GEO-021, GEO-022, GEO-027) n’ont reçu aucune explication : elles restent vides, signalées par reviewNotes, plutôt qu’inventées.",
+  "$comment": "Géographie V1 — 30 cartes contrôlées, écrites par l’auteur du jeu, JAMAIS générées. Règle propre à cette catégorie : toute question géographique exige une source avant validation finale, même quand le fait paraît évident (categories.v1.json : geography.requiresSource = true). Aucune source n’a encore été fournie : les 30 cartes sont donc en statut draft et la garde de jouabilité les refuse toutes. Rien n’est servi en production tant que la vérification humaine n’a pas eu lieu. Aucune source n’est inventée ici, aucune URL fictive : le tableau sources est vide, pas approximatif. L’arabe des énoncés et des réponses vient de l’auteur ; les explications arabes sont la traduction fidèle de l’explication française fournie, et restent arReview = provisional jusqu’à relecture humaine. Les 30 cartes portent désormais une explication FR et AR fournie par l’auteur : les quatre qui manquaient (GEO-011, GEO-021, GEO-022, GEO-027) ont été complétées par lui, jamais inventées ici.",
+  "$sourcesComment": "CATALOGUE DE SOURCES de la banque. Chaque entrée décrit une source institutionnelle UNE SEULE FOIS et porte une clé ; une carte la cite ensuite par cette clé dans son tableau sourceKeys, et une même source peut donc couvrir plusieurs cartes. Format d'une entrée : { \"key\": \"…\", \"title\": \"…\", \"publisher\": \"…\", \"url\": \"https://…\", \"retrievedAt\": \"AAAA-MM-JJ\" }. Une clé citée par une carte mais absente d'ici fait ÉCHOUER le chargement : aucune référence fantôme. Le catalogue est vide tant que les sources institutionnelles définitives n'ont pas été fournies par l'auteur : aucune source n'est inventée, aucune URL n'est devinée.",
   "version": 1,
+  "sources": [],
   "questions": [
     {
       "id": "GEO-001",
@@ -25,6 +27,7 @@
         "ar": "تقع الجزائر في شمال القارة الإفريقية."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -50,6 +53,7 @@
         "ar": "الجزيرة أرض يحيط بها الماء من كل الجهات."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -75,6 +79,7 @@
         "ar": "البحر أوسع بكثير من النهر."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -100,6 +105,7 @@
         "ar": "تتلقّى الصحراء الكبرى مطرًا قليلًا جدًّا."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -125,6 +131,7 @@
         "ar": "تنخفض درجة الحرارة عادةً كلّما ارتفعنا."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -150,6 +157,7 @@
         "ar": "لشمال الجزائر ساحل طويل على البحر الأبيض المتوسط."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -175,6 +183,7 @@
         "ar": "تتّجه إبرتها وفق المجال المغناطيسي للأرض."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -200,6 +209,7 @@
         "ar": "هذا اصطلاح متعارف عليه، وقد تُوجَّه الخريطة بطريقة أخرى."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -225,6 +235,7 @@
         "ar": "يفصل بين شمال إفريقيا وجنوب أوروبا."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -250,6 +261,7 @@
         "ar": "تبيّن الحدود أين ينتهي إقليم وأين يبدأ الآخر."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -271,11 +283,12 @@
         "ar": "المنطقة التي تلتقي فيها اليابسة بالبحر."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "La côte est la partie de la terre située le long de la mer. La ligne précise où la terre rencontre l’eau s’appelle le littoral ou la ligne de côte.",
+        "ar": "الساحل هو جزء اليابسة الممتدّ بمحاذاة البحر، والخطّ الذي تلتقي عنده اليابسة بالماء هو خطّ الساحل."
       },
       "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; source obligatoire à fournir avant validation ; arabe à relire."
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
       "id": "GEO-012",
@@ -300,6 +313,7 @@
         "ar": "يشرح مفتاح الخريطة معنى الألوان والرموز."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -325,6 +339,7 @@
         "ar": "تمتدّ الصحراء الكبرى على عدّة بلدان في شمال إفريقيا."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -350,6 +365,7 @@
         "ar": "المغرب العربي منطقة في شمال إفريقيا تضمّ عدّة بلدان."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -375,6 +391,7 @@
         "ar": "يجري الماء من المناطق المرتفعة إلى المناطق المنخفضة، غير أنّ بعض الأنهار ينتهي مجراها في غير البحر."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -400,6 +417,7 @@
         "ar": "لا تواجه المناطق المختلفة الشمس في الوقت نفسه."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -425,6 +443,7 @@
         "ar": "4 × 10 = 40، وهذا هو مبدأ مقياس الخريطة."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -450,6 +469,7 @@
         "ar": "فيخفّف البحر جزءًا من فوارق الحرارة قرب السواحل."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -475,6 +495,7 @@
         "ar": "وبهما معًا يمكن تحديد موقع أيّ نقطة على الأرض بدقّة."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -500,6 +521,7 @@
         "ar": "فالارتفاع والبحر والرياح والتيارات البحرية قد تغيّر المناخ تغييرًا كبيرًا."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -521,11 +543,12 @@
         "ar": "لأن الصحراء تُعرَّف أساسًا بقلة التساقطات لا بالحرارة."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Un désert est défini surtout par la faiblesse des précipitations. Il peut donc être chaud ou froid.",
+        "ar": "تُعرَّف الصحراء أساسًا بقلة التساقطات، ولذلك قد تكون حارّة أو باردة."
       },
       "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; source obligatoire à fournir avant validation ; arabe à relire."
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
       "id": "GEO-022",
@@ -546,11 +569,12 @@
         "ar": "لأنه يسمح بتحويل المسافة على الخريطة إلى مسافة حقيقية."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Une carte réduit le monde réel. L’échelle indique combien une distance mesurée sur la carte représente réellement sur le terrain.",
+        "ar": "تُصغِّر الخريطة الواقع، ويبيّن مقياسها مقدار ما تمثّله المسافة على الخريطة في الحقيقة."
       },
       "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; source obligatoire à fournir avant validation ; arabe à relire."
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
       "id": "GEO-023",
@@ -575,6 +599,7 @@
         "ar": "وليس هذا السبب الوحيد، لكنه أدّى دورًا مهمًّا في مدن كثيرة."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -600,6 +625,7 @@
         "ar": "وقد يُستعمَل هذا الماء للتزوّد بالشرب أو للسقي أو أحيانًا لإنتاج الكهرباء."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -625,6 +651,7 @@
         "ar": "فأقصر المسارات تتبع أقواسًا على الكرة الأرضية قد تبدو منحنية على الخريطة."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -650,6 +677,7 @@
         "ar": "فتحويل سطح كرويّ إلى خريطة مسطّحة يفرض تشويهًا في المساحة أو الشكل أو المسافة."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -671,11 +699,12 @@
         "ar": "لأن حرارة الهواء تنخفض عادةً مع الارتفاع في الطبقات السفلى من الغلاف الجوي."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Dans la basse atmosphère, la pression diminue avec l’altitude et l’air qui monte se détend et se refroidit. C’est pourquoi la température baisse généralement lorsqu’on monte.",
+        "ar": "في الطبقات السفلى من الغلاف الجوي ينخفض الضغط مع الارتفاع، ويتمدد الهواء الصاعد فيبرد، لذلك تنخفض الحرارة عادةً كلما ارتفعنا."
       },
       "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; source obligatoire à fournir avant validation ; arabe à relire."
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
       "id": "GEO-028",
@@ -700,6 +729,7 @@
         "ar": "وقد ينشأ عن ذلك نطاق جافّ يُسمّى «ظلّ المطر»."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -725,6 +755,7 @@
         "ar": "فالكثافة السكانية تقارن عدد السكان بمساحة الإقليم."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     },
     {
@@ -750,6 +781,7 @@
         "ar": "فالارتفاع والتضاريس والماء والتربة والرياح والمناخ قد تتغيّر بسرعة من مكان إلى آخر."
       },
       "sources": [],
+      "sourceKeys": [],
       "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
     }
   ]

@@ -64,14 +64,37 @@ sens, mais attend une relecture humaine.
 Auparavant le fournisseur curé supposait tout arabe relu ; il lit désormais
 ce que la donnée déclare.
 
-### 5. Une explication manquante reste manquante
-Quatre cartes (GEO-011, GEO-021, GEO-022, GEO-027) n'ont reçu aucune
-explication : leur réponse est déjà la définition complète. Elles restent
-**vides**, signalées par `reviewNotes`, plutôt que remplies d'un texte
-inventé pour satisfaire un schéma. Le schéma de banque est donc assoupli de
-façon symétrique pour le français et l'arabe : une explication peut être
-vide en brouillon, jamais sur une carte `validated` (deux `refine`, plus la
-garde de jouabilité).
+### 5. L'explication fait partie de l'apprentissage
+`geography.showsExplanation` passe à `true`. Plusieurs cartes portent leur
+nuance dans l'explication — « certaines rivières terminent leur trajet
+ailleurs que dans la mer », « ce n'est pas la seule raison possible » — et la
+perdraient si elle n'était pas lue après la réponse. La géographie rejoint
+donc la religion : les deux affichent et lisent l'explication.
+
+Corollaire : une carte jouable doit avoir une explication **complète en FR et
+en AR**. Les quatre cartes qui n'en avaient pas (GEO-011, GEO-021, GEO-022,
+GEO-027) ont été complétées par l'auteur, jamais inventées ici. Le schéma de
+banque reste assoupli de façon symétrique pour le français et l'arabe — une
+explication peut être vide en brouillon, jamais sur une carte `validated`
+(deux `refine`, plus la garde de jouabilité) — parce qu'une banque importée
+passe toujours par un état incomplet avant sa relecture.
+
+### 5 bis. Un catalogue de sources, pas trente copies
+Une source institutionnelle couvre souvent plusieurs cartes : une définition
+de l'échelle vaut pour GEO-017 et GEO-022, une même fiche sur l'altitude vaut
+pour GEO-005 et GEO-027. Le fichier de banque porte donc un **catalogue**
+(`sources`, entrées nommées par une `key`) et chaque carte cite les clés qui
+la couvrent (`sourceKeys`). Une source est ainsi décrite une seule fois, et
+il n'y a qu'une vérité à corriger si elle change.
+
+Une clé citée mais absente du catalogue fait **échouer le chargement** :
+aucune référence fantôme ne peut exister. La résolution se fait au
+chargement de la configuration ; le noyau, la garde et le fournisseur ne
+voient que le résultat (`CuratedQuestion.sources`) et ne changent pas.
+
+Le catalogue de la banque géographique est en place et **vide** : les sources
+institutionnelles définitives seront fournies par l'auteur. Aucune n'est
+inventée, aucune URL n'est devinée.
 
 ### 6. La progression ne change pas
 L'âge donne la tranche de départ, et rien d'autre. Les cinq tranches de la
@@ -87,10 +110,11 @@ pas**. Aucun moteur de progression propre à la géographie n'est créé.
   30 cartes justes valent mieux qu'un générateur d'affirmations.
 - Tant que la vérification humaine n'a pas eu lieu, la catégorie reste
   invisible en partie. Elle ne dégrade donc rien.
-- `showsExplanation` reste `false` pour la géographie, comme avant : la
-  plupart des cartes portent pourtant une nuance utile dans leur explication.
-  C'est un point à trancher séparément, pas un effet de bord de cette
-  décision.
+- La géographie affiche désormais son explication après la réponse, comme la
+  religion. Aucun effet en partie tant que la catégorie n'est pas servie.
+- Ajouter les sources se réduit à une modification de données : remplir le
+  catalogue, puis citer les clés sur les cartes couvertes. Aucun code à
+  toucher, et la validation humaine reste une décision séparée.
 
 ## Alternatives écartées
 - **Garder le régime factuel et allonger le catalogue de faits** : produit un
@@ -98,5 +122,8 @@ pas**. Aucun moteur de progression propre à la géographie n'est créé.
 - **Publier les 30 cartes sans source, « parce que c'est évident »** :
   contredit la règle posée pour cette catégorie, et c'est exactement sur
   l'évidence que les erreurs passent.
-- **Compléter les quatre explications manquantes** : ce serait inventer du
-  contenu à la place de l'auteur.
+- **Compléter les quatre explications manquantes nous-mêmes** : ce serait
+  inventer du contenu à la place de l'auteur. Elles ont été écrites par lui,
+  puis reprises telles quelles.
+- **Recopier la même source sur chaque carte qu'elle couvre** : trente copies
+  à corriger le jour où une référence change.

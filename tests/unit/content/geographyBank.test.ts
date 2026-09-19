@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, CURATED_BANK, GEOGRAPHY_BANK, categoryById, contentRegistry, difficultyBandFor } from "@/config/content";
+import { CATEGORIES, CURATED_BANK, GEOGRAPHY_BANK, categoryById, contentRegistry, curatedBankSchema, difficultyBandFor } from "@/config/content";
 import { LEARNING_CONFIG, learnerContextFor } from "@/config/learning";
 import { createContentRegistry, createCuratedProvider, isPlayable, playabilityIssues, questionRefKey, type CuratedQuestion, type QuestionInstance } from "@/core/content";
 import { addDays, applyAttempt, attemptId, emptyMemory, selectQuestion, type LearnerContext, type PlayerLearningMemory } from "@/core/learning";
@@ -20,8 +20,6 @@ function answerSelected(memory: PlayerLearningMemory, learner: LearnerContext, q
 }
 
 const ids = GEOGRAPHY_BANK.map((q) => q.id);
-/** Les quatre cartes pour lesquelles AUCUNE explication n'a été fournie : elles restent vides, jamais inventées. */
-const SANS_EXPLICATION = ["GEO-011", "GEO-021", "GEO-022", "GEO-027"];
 /** Tranches d'âge déclarées par l'auteur et âge représentatif de chacune (pour confronter aux bandes de `bands.v1.json`). */
 const TRANCHES: ReadonlyArray<readonly [string, number]> = [
   ["5-6", 6],
@@ -65,17 +63,14 @@ describe("Géographie V1 — banque contrôlée", () => {
     expect(GEOGRAPHY_BANK.every((q) => q.arReview === "provisional")).toBe(true);
   });
 
-  it("les quatre cartes sans explication fournie restent vides — rien n'est inventé — et les 26 autres ont bien FR et AR", () => {
-    expect(GEOGRAPHY_BANK.filter((q) => q.explanation.fr.trim() === "").map((q) => q.id)).toEqual(SANS_EXPLICATION);
+  it("les 30 cartes portent une explication complète en français ET en arabe", () => {
+    // L'explication fait partie de l'apprentissage en géographie (`showsExplanation`) :
+    // une carte jouable ne peut donc pas en être privée.
     for (const q of GEOGRAPHY_BANK) {
-      if (SANS_EXPLICATION.includes(q.id)) {
-        expect(q.explanation.ar.trim(), q.id).toBe("");
-        expect(q.reviewNotes, q.id).toContain("explication FR et AR à fournir");
-      } else {
-        expect(q.explanation.fr.trim(), q.id).not.toBe("");
-        expect(arabic.test(q.explanation.ar), q.id).toBe(true);
-      }
+      expect(q.explanation.fr.trim(), q.id).not.toBe("");
+      expect(arabic.test(q.explanation.ar), q.id).toBe(true);
     }
+    expect(categoryById("geography")?.showsExplanation).toBe(true);
   });
 });
 
@@ -121,7 +116,6 @@ describe("Géographie V1 — la source conditionne la publication", () => {
 const commeSiValidee = (q: CuratedQuestion): CuratedQuestion => ({
   ...q,
   status: "validated",
-  explanation: q.explanation.fr.trim() === "" ? { fr: "Explication de test (fixture).", ar: "شرح اختبار." } : q.explanation,
   sources: [{ title: "Source de test (fixture)", url: "https://example.org/fixture" }],
 });
 
@@ -177,5 +171,45 @@ describe("Géographie V1 — une fois vérifiée et sourcée", () => {
       memory = answerSelected(memory, learner, q, T0, i);
     }
     expect(new Set(vues).size).toBe(vues.length);
+  });
+});
+
+describe("catalogue de sources : une source institutionnelle peut couvrir plusieurs cartes", () => {
+  /** Banque de test minimale : le catalogue et les clés sont exercés ici, jamais avec une vraie source. */
+  const carte = (id: string, sourceKeys: readonly string[]) => ({
+    id,
+    version: 1,
+    categoryId: "geography",
+    knowledgeNodeId: `test.${id}`,
+    difficulty: 2,
+    audienceScope: "all" as const,
+    status: "draft" as const,
+    prompt: { fr: "Énoncé de test", ar: "سؤال اختبار" },
+    answer: { fr: "Réponse de test", ar: "جواب اختبار" },
+    explanation: { fr: "Explication de test.", ar: "شرح اختبار." },
+    sources: [],
+    sourceKeys,
+  });
+  const doc = {
+    version: 1,
+    sources: [
+      { key: "inst-a", title: "Source institutionnelle A (fixture)", publisher: "Éditeur de test", url: "https://example.org/a" },
+      { key: "inst-b", title: "Source institutionnelle B (fixture)", publisher: "Éditeur de test" },
+    ],
+    questions: [carte("T-001", ["inst-a"]), carte("T-002", ["inst-a", "inst-b"]), carte("T-003", [])],
+  };
+
+  it("une même clé rattache la même source à plusieurs cartes, sans la recopier", () => {
+    const banque = curatedBankSchema.parse(doc);
+    expect(banque.sources).toHaveLength(2);
+    expect(banque.questions.filter((q) => (q.sourceKeys ?? []).includes("inst-a"))).toHaveLength(2);
+  });
+
+  it("une carte qui cite une clé absente du catalogue fait ÉCHOUER le chargement : aucune référence fantôme", () => {
+    expect(() => curatedBankSchema.parse({ ...doc, questions: [carte("T-004", ["inconnue"])] })).toThrow(/T-004 cite la source/);
+  });
+
+  it("le catalogue de la banque géographique est prêt mais VIDE : aucune source inventée, aucune URL devinée", () => {
+    expect(GEOGRAPHY_BANK.every((q) => q.sources.length === 0)).toBe(true);
   });
 });

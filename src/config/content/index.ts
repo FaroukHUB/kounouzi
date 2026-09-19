@@ -30,6 +30,13 @@ const bilingual = z.object({ fr: z.string().min(1), ar: z.string().min(1) });
 /** Énoncé et réponse : français obligatoire, arabe facultatif (ajouté par relecture humaine). */
 const frenchFirst = z.object({ fr: z.string().min(1), ar: z.string().min(1).optional() });
 const sourceSchema = z.object({ title: z.string().min(1), url: z.string().url().optional(), author: z.string().optional(), retrievedAt: z.string().optional(), pages: z.string().optional(), file: z.string().optional(), publisher: z.string().optional(), locator: z.string().optional() });
+/**
+ * Entrée du CATALOGUE de sources d'une banque : une source institutionnelle
+ * décrite une seule fois, nommée par une clé, et rattachée ensuite à toutes
+ * les cartes qu'elle couvre (`sourceKeys`). Évite de recopier la même
+ * référence trente fois et garde une seule vérité à corriger.
+ */
+const catalogueSourceSchema = sourceSchema.extend({ key: z.string().min(1) });
 
 export const categoriesSchema = z.object({
   categories: z.array(z.object({ id: z.string().min(1), label: bilingual, visualKey: z.string().min(1), requiresSource: z.boolean(), showsExplanation: z.boolean(), generationMode: z.enum(GENERATION_MODES), active: z.boolean() })).min(1),
@@ -56,6 +63,8 @@ export const geoCatalogueSchema = z.object({
 });
 export const curatedBankSchema = z.object({
   version: z.number().int().positive(),
+  /** Catalogue de sources partagées : une même source peut couvrir plusieurs cartes. */
+  sources: z.array(catalogueSourceSchema).optional(),
   questions: z.array(
     z.object({
       id: z.string().min(1),
@@ -77,11 +86,42 @@ export const curatedBankSchema = z.object({
       ageBand: z.string().min(1).optional(),
       reviewNotes: z.string().min(1).optional(),
       arReview: z.enum(["provisional", "reviewed"]).optional(),
+      /** Sources du catalogue qui couvrent CETTE carte. Une clé inconnue fait échouer le chargement. */
+      sourceKeys: z.array(z.string().min(1)).optional(),
     }),
   )
     .refine((qs) => qs.every((q) => q.status !== "validated" || q.explanation.fr.trim() !== ""), { message: "une question validée exige une explication française" })
     .refine((qs) => qs.every((q) => q.status !== "validated" || q.explanation.ar.trim() !== ""), { message: "une question validée exige une explication arabe" }),
+}).superRefine((doc, ctx) => {
+  // Une carte ne peut pas se rattacher à une source qui n'existe pas : jamais de référence fantôme.
+  const connues = new Set((doc.sources ?? []).map((s) => s.key));
+  for (const q of doc.questions) {
+    for (const key of q.sourceKeys ?? []) {
+      if (!connues.has(key)) ctx.addIssue({ code: "custom", message: `${q.id} cite la source « ${key} », absente du catalogue de la banque` });
+    }
+  }
 });
+
+/**
+ * Cartes d'une banque avec leurs sources RÉSOLUES : celles propres à la carte,
+ * puis celles du catalogue qu'elle nomme. Le noyau ne connaît que le résultat
+ * (`CuratedQuestion.sources`) : la garde de jouabilité reste l'unique porte.
+ */
+function bankQuestions(doc: z.infer<typeof curatedBankSchema>): readonly CuratedQuestion[] {
+  const catalogue = new Map((doc.sources ?? []).map(({ key, ...ref }) => [key, ref]));
+  return doc.questions.map(({ sourceKeys, ...question }) => {
+    if (sourceKeys === undefined || sourceKeys.length === 0) return question;
+    const sources = [...question.sources];
+    const vues = new Set(sources.map((s) => s.title));
+    for (const key of sourceKeys) {
+      const ref = catalogue.get(key);
+      if (ref === undefined || vues.has(ref.title)) continue;
+      vues.add(ref.title);
+      sources.push(ref);
+    }
+    return { ...question, sources };
+  });
+}
 const band = z.tuple([z.number().int().min(1).max(5), z.number().int().min(1).max(5)]);
 export const bandsSchema = z.object({ child: z.array(z.object({ maxAge: z.number().int().min(0).optional(), band })).min(1), adult: z.record(z.string(), band) });
 
@@ -91,17 +131,17 @@ export const GEO_FACTS: readonly GeoFact[] = geo.facts.map((f) => ({ ...f, sourc
 /** Faits réellement validés (banque réelle) : aucun pour l'instant. */
 export const VALIDATED_GEO_FACTS: readonly GeoFact[] = GEO_FACTS.filter((f) => f.status === "validated");
 /** Banque religieuse « Oussoul ath-Thalatha » : 100 cartes issues du PDF de contrôle humain, validées humainement (validation.v1.json). */
-export const OUSSOUL_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(oussoulJson).questions;
+export const OUSSOUL_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(oussoulJson));
 /** Banque religieuse « Wa Ja'a Shahr Ramadan » : 25 cartes issues du PDF de contrôle humain, validées humainement (validation.v1.json). */
-export const RAMADAN_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(ramadanJson).questions;
+export const RAMADAN_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(ramadanJson));
 /** Banque religieuse « Ad-Durous al-Muhimmah » : 100 cartes issues du document de contrôle humain, validées humainement (validation.v1.json). */
-export const DUROUS_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(durousJson).questions;
+export const DUROUS_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(durousJson));
 /** Banque religieuse « Sirah — al-Urjuzah al-Mi'iyyah » : 100 cartes issues du PDF de contrôle humain, validées humainement (validation.v1.json). */
-export const SIRAH_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(sirahJson).questions;
+export const SIRAH_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(sirahJson));
 /** Banque religieuse « Al-Qawaid al-Arba » : 25 cartes issues du PDF de contrôle humain, validées humainement (validation.v1.json). */
-export const QAWAID_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(qawaidJson).questions;
+export const QAWAID_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(qawaidJson));
 /** Banque religieuse « Kalimah at-Tawhid » : 25 cartes issues du PDF de contrôle humain, validées humainement (validation.v1.json). */
-export const KALIMAH_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(kalimahJson).questions;
+export const KALIMAH_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(kalimahJson));
 /** Banques religieuses importées (une par ouvrage) : `draft` à l'import, `validated` par la décision humaine appliquée en données. */
 export const RELIGION_BANKS: ReadonlyArray<{ readonly id: string; readonly work: string; readonly questions: readonly CuratedQuestion[]; readonly perLevel: number }> = [
   { id: "oussoul-ath-thalatha", work: "Sharh Thalathat al-Usul", questions: OUSSOUL_BANK, perLevel: 20 },
@@ -118,9 +158,9 @@ export const RELIGION_BANKS: ReadonlyArray<{ readonly id: string; readonly work:
  * `draft` et la garde les refuse toutes. Rien n'est servi tant que la
  * vérification humaine n'a pas eu lieu.
  */
-export const GEOGRAPHY_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(geographieJson).questions;
+export const GEOGRAPHY_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(geographieJson));
 /** Banque curée complète : seules les questions `validated` (et sourcées si la catégorie l'exige) sont jouables. */
-export const CURATED_BANK: readonly CuratedQuestion[] = [...curatedBankSchema.parse(curatedJson).questions, ...RELIGION_BANKS.flatMap((b) => b.questions), ...GEOGRAPHY_BANK];
+export const CURATED_BANK: readonly CuratedQuestion[] = [...bankQuestions(curatedBankSchema.parse(curatedJson)), ...RELIGION_BANKS.flatMap((b) => b.questions), ...GEOGRAPHY_BANK];
 const BANDS = bandsSchema.parse(bandsJson);
 
 export const categoryById = (id: string): CategoryDefinition | undefined => CATEGORIES.find((c) => c.id === id);
