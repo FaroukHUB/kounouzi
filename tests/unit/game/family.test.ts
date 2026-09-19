@@ -15,7 +15,7 @@ import { T0 } from "../../fixtures/learning/resolve.fixture";
 
 /**
  * SIMULATION FAMILIALE — Maryam (6 ans), Yacine (11 ans), Maman, Papa —
- * sur le vrai plateau 26 cases, les scénarios de démonstration et le VRAI
+ * sur le vrai plateau 28 cases, les scénarios de démonstration et le VRAI
  * Learning Engine pour chaque question (classique, Duel, Halte, Défi
  * Patrimoine). Sans React, sans navigateur, sans hasard.
  */
@@ -117,8 +117,8 @@ describe("simulation familiale (Maryam 6 ans, Yacine 11 ans, Maman, Papa)", () =
   it("se termine sans impasse, avec un classement, et rencontre toutes les mécaniques", () => {
     expect(run.state.status).toBe("finished");
     expect(run.state.ranking).toHaveLength(4);
-    // Plateau 26 : Savoir, Établissement (achat, service payé au propriétaire), Défi (Duel / question / défi famille / carte Hassanāt), Halte, Don, Trésor, Départ, et la Zakat par ḥawl hors plateau.
-    for (const t of ["QuestionRequested", "DuelStarted", "DuelResolved", "JourneyHalted", "PurchaseOffered", "SiteAcquired", "ServiceOffered", "ServiceConsumed", "HassanatOffered", "HassanatGranted", "MoneyTransferred", "ScenarioTriggered", "PassedStart", "TreasureFound", "DonationOffered", "DonationMade", "FundChanged", "HawlAdvanced", "YearCompleted"] as const) {
+    // Plateau 28 : Savoir, Établissement (achat, service payé au propriétaire), Défi (Duel / défi famille / question), Halte, Don, Trésor, Départ, et la Zakat par ḥawl hors plateau. La carte Hassanāt, 4e de la rotation d'une case Défi, a sa propre simulation ci-dessous.
+    for (const t of ["QuestionRequested", "DuelStarted", "DuelResolved", "JourneyHalted", "PurchaseOffered", "SiteAcquired", "ServiceOffered", "ServiceConsumed", "MoneyTransferred", "ScenarioTriggered", "PassedStart", "TreasureFound", "DonationOffered", "DonationMade", "FundChanged", "HawlAdvanced", "YearCompleted"] as const) {
       expect(types.has(t), t).toBe(true);
     }
     const cellTypes = new Set(run.events.filter((e): e is Extract<GameEvent, { type: "ScenarioTriggered" }> => e.type === "ScenarioTriggered").map((e) => e.cellType));
@@ -128,7 +128,40 @@ describe("simulation familiale (Maryam 6 ans, Yacine 11 ans, Maman, Papa)", () =
     const purposes = new Set(run.events.filter((e): e is Extract<GameEvent, { type: "QuestionRequested" }> => e.type === "QuestionRequested").map((e) => e.purpose));
     // Les établissements de démonstration ont des frais de service : plus de Défi Patrimoine sur ce plateau.
     expect([...purposes].sort()).toEqual(["duel", "halt", "standard"]);
-    expect(run.state.players.some((p) => p.hassanatPoints > 0)).toBe(true);
+  });
+
+  /**
+   * CARTE HASSANĀT — la case Défi sert ses scénarios DANS L'ORDRE selon le
+   * nombre de visites de CETTE case (`resolveCell`) : Duel, Défi famille,
+   * question, puis carte Hassanāt en quatrième. Sur le plateau 28, les
+   * visites se répartissent sur cinq cases Défi : aucune n'atteint sa
+   * quatrième visite en 14 tours (le plateau 26 n'en avait que quatre, et
+   * l'une d'elles y arrivait). La mécanique n'a pas changé : le décalage de
+   * rotation de la partie (`scenarioOffset`, prévu pour varier d'une partie à
+   * l'autre) fait servir la carte Hassanāt dès la première visite. Même
+   * plateau, même durée, même politique : une vraie opportunité rencontrée en
+   * jeu, jamais une assertion contournée.
+   */
+  const hassanat = playFamily(14, FAMILY_POLICY, { scenarioOffset: 3 });
+
+  it("une carte Hassanāt est rencontrée, acceptée et créditée une seule fois (rotation décalée, 14 tours, plateau 28)", () => {
+    const offered = hassanat.events.filter((e): e is Extract<GameEvent, { type: "HassanatOffered" }> => e.type === "HassanatOffered");
+    const accepted = hassanat.events.filter((e): e is Extract<GameEvent, { type: "HassanatAccepted" }> => e.type === "HassanatAccepted");
+    const granted = hassanat.events.filter((e): e is Extract<GameEvent, { type: "HassanatGranted" }> => e.type === "HassanatGranted");
+    expect(offered.length).toBeGreaterThan(0);
+    expect(accepted.length).toBeGreaterThan(0);
+    expect(granted.length).toBe(accepted.length);
+    // La carte vient bien d'une case Défi, par le scénario existant, sans hasard.
+    expect(hassanat.events.some((e) => e.type === "ScenarioTriggered" && e.scenarioId === "challenge-hassanat" && e.cellType === "challenge")).toBe(true);
+    // Points crédités une fois par référence, égaux au grand livre Hassanāt.
+    expect(new Set(granted.map((g) => g.ref)).size).toBe(granted.length);
+    for (const p of hassanat.state.players) {
+      expect(sumMoney(hassanat.state.hassanatLedger.filter((h) => h.playerId === p.id).map((h) => h.amount))).toBe(p.hassanatPoints);
+    }
+    expect(hassanat.state.players.some((p) => p.hassanatPoints > 0)).toBe(true);
+    // Les Kounouz et les Hassanāt restent deux ressources distinctes.
+    expect(hassanat.state.players.every((p) => p.money >= 0)).toBe(true);
+    expect(hassanat.state.status).toBe("finished");
   });
 
   it("un Duel enfant / adulte a eu lieu, résolu uniquement par les réponses", () => {

@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { BOARD_26_V1, DEFAULT_BOARD, loadBoardConfig } from "@/config/board";
+import { BOARD_26_V1, BOARD_28_V1, DEFAULT_BOARD, loadBoardConfig } from "@/config/board";
 import { DEMO_HERITAGE_SITES } from "@/config/demo";
 import { boardConfigSchema, countCellsByType, heritageSiteSchema, resolveBoard, type CellType } from "@/core/game";
 import { INVALID_RELIGIOUS_PLACE_WITH_PRICE, TEST_MONUMENTS, TEST_RELIGIOUS_PLACE } from "../../fixtures/game/heritage.fixture";
 
 const EXPECTED_ORDER: readonly CellType[] = ["start", "heritage", "question", "heritage", "challenge", "heritage", "halt", "heritage", "question", "heritage", "challenge", "heritage", "donation", "heritage", "question", "heritage", "challenge", "heritage", "halt", "heritage", "question", "heritage", "treasure", "challenge", "question", "heritage"];
 
-describe("plateau 26 cases — configuration produit (ADR 0033)", () => {
+describe("plateau 26 cases — configuration historique (ADR 0033) ; le plateau produit est désormais le 28", () => {
   it("compte exactement 26 cases : 12 monuments, 5 Savoir, 4 Défi, 2 Halte, 1 Don, 1 Trésor, 1 Départ ; aucune case Zakat ni ancienne case", () => {
-    expect(DEFAULT_BOARD).toBe(BOARD_26_V1);
+    expect(DEFAULT_BOARD).toBe(BOARD_28_V1);
     expect(BOARD_26_V1.cells.length).toBe(26);
     expect(BOARD_26_V1.cellCount).toBe(BOARD_26_V1.cells.length);
     expect(countCellsByType(BOARD_26_V1)).toEqual({ start: 1, heritage: 12, question: 5, challenge: 4, halt: 2, donation: 1, treasure: 1, event: 0, management: 0, solidarity: 0 });
