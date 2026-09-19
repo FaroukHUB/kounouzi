@@ -1,31 +1,51 @@
-# Propositions Savoir V1 — 7 catégories hors Religion (brouillon de relecture)
+# Propositions Savoir V2 — 7 catégories hors Religion (base éditoriale retenue)
 
 **Statut : PROPOSITIONS, rien n'est branché.** Aucun code ne lit ce fichier :
 ni registre de contenu, ni Learning Engine, ni jeu. Aucune modification du
-moteur. Rien n'entrera en partie avant votre validation explicite.
+moteur. Rien n'entre en partie avant validation explicite, puis passage en
+données sous les gardes existantes.
 
-**Ce qui change depuis la V0** (V0 conservée dans l'historique git, commit
-`784a396`) : formulations factuelles adoucies quand elles étaient trop
-absolues, mathématiques détachées de tout prix d'établissement non validé,
-arabe uniformisé avec les formes masculine et féminine distinguées, une
-énigme de logique remplacée, gestion reformulée pour donner des réponses
-vérifiables, sciences corrigées sur six points. Ajout de **trois questions de
-difficulté 5 par catégorie**, pour adolescents et adultes.
+## Règles éditoriales définitives
 
-**Règles suivies.** Questions courtes, concrètes, utiles en famille. Aucun
-quiz scolaire pur. Mathématiques contextualisées. Géographie utile, aucun
-catalogue de capitales. Gestion centrée sur le choix, le budget et
-l'anticipation. Arabe pratique. Culture générale tournée vers les sciences,
-la nature et la vie réelle. **Aucun contenu religieux dans ces sept
-catégories.**
+Toute question, présente ou à venir, doit satisfaire ces huit règles. Une
+question qui en manque une est reformulée ou écartée.
 
-**Conventions.** `d1` à `d5` est la difficulté proposée, indicative. La
-mention *(source)* signale une affirmation factuelle à référencer avant
-publication. Les montants en Kounouz sont **toujours donnés dans l'énoncé**
-et ne supposent aucun prix du plateau, sauf le bonus de Départ de 100, qui
-est une règle décidée. L'arabe demande une relecture par un locuteur.
+1. **Utile ou intéressante.** Elle apprend quelque chose qui sert, ou elle
+   donne envie de savoir. Sinon elle n'a pas sa place.
+2. **Concrète.** Elle part d'une situation réelle, d'un objet, d'un geste ou
+   d'un choix, jamais d'une définition abstraite.
+3. **Pas de trivia obscur.** Aucune date, aucun record, aucun nom rare
+   mémorisé pour lui-même.
+4. **Pas de formulation absolue sans nécessité.** On écrit « souvent »,
+   « en général », « dans ce cas », sauf quand l'affirmation est réellement
+   sans exception.
+5. **Français et arabe obligatoires.** Question, réponse et explication dans
+   les deux langues, sans exception.
+6. **Source obligatoire dès qu'un fait peut être discuté ou évoluer.** Un
+   chiffre, une cause, une donnée de santé ou de science demandent une
+   référence avant publication.
+7. **Difficulté adaptée au joueur.** Chaque question vise une tranche, pas
+   une moyenne. Un enfant de six ans et un adulte ne reçoivent pas la même.
+8. **Compréhensible à l'oral, rapidement.** Lue à voix haute une seule fois
+   autour de la table, elle doit être comprise sans être relue.
 
-**Total : 91 propositions**, 13 par catégorie.
+## Conventions du document
+
+`d1` à `d5` est la difficulté proposée, indicative : le Learning Engine
+ajuste ensuite. La mention *(source)* signale une affirmation factuelle à
+référencer avant publication. Les montants en Kounouz sont **toujours donnés
+dans l'énoncé** et ne supposent aucun prix du plateau, sauf le bonus de
+Départ de 100, qui est une règle décidée. **Aucun contenu religieux dans ces
+sept catégories.** L'arabe demande une relecture par un locuteur.
+
+**Total : 91 propositions**, 13 par catégorie. Aucune question n'a été
+ajoutée ni retirée depuis la V1.
+
+## Ce qui change depuis la V1
+
+V1 conservée dans l'historique git, commit `1d8fb3d`. Dix corrections
+ciblées, sans création de contenu : GE10, GE11, GE13, H3, H13, L10, L13, C6,
+C13 et A4. Le détail figure en fin de document.
 
 ---
 
@@ -208,10 +228,10 @@ est une règle décidée. L'arabe demande une relecture par un locuteur.
 - الشرح : كانوا ينامون فيه آمنين ويُطعمون دوابّهم ويتبادلون الأخبار كما يتبادلون البضائع.
 
 **H3** · d2 · Qu'est-ce qu'un souk ?
-- Réponse : Un marché traditionnel, souvent organisé par métiers.
-- Explication : Regrouper un même métier facilitait la comparaison des prix et le contrôle de la qualité.
-- AR : ما هو السوق التقليدي؟ — الجواب: سوق قديم يُنظَّم غالبًا بحسب الحِرَف.
-- الشرح : جمعُ أهل الحرفة الواحدة ييسّر مقارنة الأثمان ومراقبة الجودة.
+- Réponse : Un marché traditionnel.
+- Explication : Dans certains grands souks, les marchands d'un même métier étaient regroupés dans la même rue, ce qui facilitait la comparaison des prix et le contrôle de la qualité. Beaucoup de souks plus petits n'ont jamais eu cette organisation.
+- AR : ما هو السوق التقليدي؟ — الجواب: سوق قديم.
+- الشرح : في بعض الأسواق الكبيرة كان أهل الحرفة الواحدة في زقاق واحد، فتسهل مقارنة الأثمان ومراقبة الجودة، أما الأسواق الصغيرة فكثير منها لم يعرف هذا الترتيب.
 
 **H4** · d2 · Pourquoi beaucoup de maisons anciennes ont-elles des murs très épais ? *(source)*
 - Réponse : Pour amortir les écarts de température entre le jour et la nuit.
@@ -268,10 +288,10 @@ est une règle décidée. L'arabe demande une relecture par un locuteur.
 - الشرح : ينقل التاجر ما يبيعه وما يعرفه وما يحمله من حيث لا يدري، وبهذا انتشرت زراعات وأدوات من قارة إلى أخرى.
 
 **H13** · d5 · Pourquoi des villes entières ont-elles parfois été abandonnées ? *(source)*
-- Réponse : Le plus souvent parce que l'eau, la route ou le commerce a disparu.
-- Explication : Une source qui se tarit, un port qui s'ensable, une route qui se déplace, et la ville perd sa raison d'être. Guerres et épidémies ont aussi joué, mais rarement seules.
-- AR : لماذا هُجرت مدن بأكملها أحيانًا؟ — الجواب: غالبًا لأن الماء أو الطريق أو التجارة زالت.
-- الشرح : نضوب عين، أو امتلاء ميناء بالرمل، أو انتقال طريق، فتفقد المدينة سبب قيامها، وقد أسهمت الحروب والأوبئة لكن نادرًا وحدها.
+- Réponse : Parce que ce qui la faisait vivre a disparu : l'eau, la route, le commerce, ou la sécurité.
+- Explication : Une source qui se tarit, un port qui s'ensable, une route qui se déplace, une guerre ou une épidémie : les causes varient d'une ville à l'autre et se combinent souvent. Chaque cas demande d'être étudié pour lui-même.
+- AR : لماذا هُجرت مدن بأكملها أحيانًا؟ — الجواب: لأن ما كان يُقيمها زال: الماء أو الطريق أو التجارة أو الأمن.
+- الشرح : نضوب عين، أو امتلاء ميناء بالرمل، أو انتقال طريق، أو حرب أو وباء، والأسباب تختلف من مدينة إلى أخرى وتجتمع غالبًا، فكل حالة تُدرس على حدة.
 
 ---
 
@@ -295,11 +315,11 @@ est une règle décidée. L'arabe demande une relecture par un locuteur.
 - AR : كيف نقول «pain»؟ — الجواب: خُبْز.
 - الشرح : كلمة شائعة في كل المطابخ الناطقة بالعربية، مثل «ماء» للماء.
 
-**A4** · d1 · Compte jusqu'à trois en arabe.
-- Réponse : واحِد، اثْنانِ، ثَلاثة (wâhid, ithnâni, thalâtha).
-- Explication : Ces trois mots suffisent déjà pour compter des objets à table ou des joueurs autour du plateau.
-- AR : عُدّ إلى ثلاثة بالعربية. — الجواب: واحِد، اثْنانِ، ثَلاثة.
-- الشرح : تكفي هذه الكلمات لعدّ الأشياء على المائدة أو اللاعبين حول اللوحة.
+**A4** · d1 · Compte jusqu'à trois en arabe. *(relecture arabe : vocalisation à confirmer)*
+- Réponse : واحِد، اثْنان، ثَلاثة (wâhid, ithnân, thalâtha).
+- Explication : Ces trois mots suffisent pour compter des objets à table ou des joueurs autour du plateau. **Point à trancher en relecture : la finale de اثنان en énumération.** Prononcé en pause, comme quand on compte à voix haute, il se dit sans voyelle finale ; dans une phrase construite, il se fléchit (اثْنانِ). Il faut choisir la forme que le jeu prononcera, puis s'y tenir partout.
+- AR : عُدّ إلى ثلاثة بالعربية. — الجواب: واحِد، اثْنان، ثَلاثة.
+- الشرح : تكفي هذه الكلمات لعدّ الأشياء على المائدة أو اللاعبين حول اللوحة. ويُراجَع ضبط آخر «اثنان» في العدّ: يُوقف عليه ساكنًا عند السرد، ويُعرَب داخل الجملة، فيُختار وجه واحد ويُلتزم.
 
 **A5** · d2 · Comment dit-on « s'il te plaît » à un garçon, puis à une fille ?
 - Réponse : مِن فَضْلِكَ (min fadlika) puis مِن فَضْلِكِ (min fadliki).
@@ -413,11 +433,11 @@ est une règle décidée. L'arabe demande une relecture par un locuteur.
 - AR : خمس آلات تصنع خمس قطع في خمس دقائق. كم تحتاج مئة آلة لصنع مئة قطعة؟ — الجواب: خمس دقائق.
 - الشرح : كل آلة تصنع قطعة في خمس دقائق، وزيادة الآلات تزيد الكمّ لا المدّة.
 
-**L10** · d4 · Trois interrupteurs dans le couloir, une seule ampoule dans une pièce fermée. Tu ne peux entrer qu'une fois. Comment savoir quel interrupteur commande l'ampoule ?
-- Réponse : Allumer le premier, attendre, l'éteindre, allumer le second, puis entrer.
-- Explication : Si l'ampoule est allumée, c'est le second. Si elle est éteinte mais tiède, c'est le premier. Si elle est éteinte et froide, c'est le troisième. La chaleur donne une seconde information en plus de la lumière.
-- AR : ثلاثة مفاتيح في الممرّ ومصباح واحد في غرفة مغلقة، ولا تدخل إلا مرة واحدة. كيف تعرف المفتاح الذي يشغّله؟ — الجواب: أشعل الأول ثم انتظر وأطفئه، ثم أشعل الثاني، ثم ادخل.
-- الشرح : إن كان المصباح مضيئًا فهو الثاني، وإن كان مطفأً دافئًا فهو الأول، وإن كان مطفأً باردًا فهو الثالث، فالحرارة خبر ثانٍ يُضاف إلى الضوء.
+**L10** · d4 · Trois interrupteurs dans le couloir, une seule ampoule à filament dans une pièce fermée. Elle chauffe quand elle reste allumée. Tu ne peux entrer qu'une fois. Comment savoir quel interrupteur la commande ?
+- Réponse : Allumer le premier, attendre plusieurs minutes, l'éteindre, allumer le second, puis entrer.
+- Explication : Si l'ampoule est allumée, c'est le second. Si elle est éteinte mais encore tiède, c'est le premier. Si elle est éteinte et froide, c'est le troisième. La chaleur sert de seconde information en plus de la lumière. L'énoncé précise « à filament » parce qu'une ampoule à diodes chauffe trop peu et rendrait l'énigme impossible.
+- AR : ثلاثة مفاتيح في الممرّ ومصباح واحد بخيط متوهّج في غرفة مغلقة، يسخن إذا طال إشعاله، ولا تدخل إلا مرة واحدة. كيف تعرف المفتاح الذي يشغّله؟ — الجواب: أشعل الأول وانتظر دقائق ثم أطفئه، ثم أشعل الثاني، ثم ادخل.
+- الشرح : إن كان المصباح مضيئًا فهو الثاني، وإن كان مطفأً وما زال دافئًا فهو الأول، وإن كان مطفأً باردًا فهو الثالث، فالحرارة خبر ثانٍ يُضاف إلى الضوء. وقُيِّد بـ«الخيط المتوهّج» لأن مصباح الديودات لا يكاد يسخن فتتعذّر الحيلة.
 
 **L11** · d5 · Neuf billes identiques, l'une un peu plus lourde. Avec une balance à deux plateaux, comment la trouver en deux pesées ?
 - Réponse : Peser trois contre trois, puis une contre une dans le groupe repéré.
@@ -433,9 +453,9 @@ est une règle décidée. L'arabe demande une relecture par un locuteur.
 
 **L13** · d5 · Deux cordes brûlent chacune en une heure, mais irrégulièrement. Comment mesurer 45 minutes ?
 - Réponse : Allumer la première aux deux bouts et la seconde à un seul bout. Quand la première a fini, allumer l'autre bout de la seconde.
-- Explication : La première s'éteint au bout de 30 minutes. Il reste alors 30 minutes de corde à la seconde, qui brûlée des deux côtés dure moitié moins, soit 15. Total 45.
+- Explication : Allumée aux deux bouts, la première se consume en 30 minutes, quelle que soit sa forme. À cet instant, il reste à la seconde 30 minutes de temps de combustion, et non une longueur connue. En l'allumant par l'autre bout, ce temps restant est parcouru deux fois plus vite, soit 15 minutes. Total 45.
 - AR : حبلان يحترق كل واحد في ساعة لكن بلا انتظام. كيف تقيس 45 دقيقة؟ — الجواب: أشعل الأول من طرفيه والثاني من طرف واحد، فإذا فني الأول فأشعل الطرف الآخر من الثاني.
-- الشرح : يفنى الأول بعد 30 دقيقة، وقد بقي من الثاني ما يحترق في 30، فإذا أُشعل من طرفيه فني في نصفها أي 15، والمجموع 45.
+- الشرح : الأول مشتعلًا من طرفيه يفنى في 30 دقيقة مهما كان شكله، وعندها يبقى للثاني زمن احتراق قدره 30 دقيقة لا طول معلوم، فإذا أُشعل من طرفه الآخر قُطع هذا الزمن الباقي في نصفه أي 15، والمجموع 45.
 
 ---
 
@@ -497,15 +517,15 @@ est une règle décidée. L'arabe demande une relecture par un locuteur.
 
 **GE10** · d4 · Pour accepter un pari, faut-il d'abord regarder ce qu'il peut rapporter ou ce qu'il peut coûter ?
 - Réponse : Ce qu'il peut coûter.
-- Explication : Un gain manqué se rattrape au tour suivant. Une perte que l'on ne pouvait pas se permettre met hors jeu. On regarde donc d'abord si l'on peut supporter le pire.
+- Explication : Un gain manqué se rattrape plus tard. Une perte que l'on ne pouvait pas se permettre peut te mettre en difficulté pour la suite. On regarde donc d'abord si l'on peut supporter le pire.
 - AR : لقبول مخاطرة، أننظر أولًا إلى ما قد تربحه أم إلى ما قد تخسره؟ — الجواب: إلى ما قد تخسره.
-- الشرح : الربح الفائت يُدرَك في دورة قادمة، أما خسارة لا تحتملها فتُخرجك من اللعب، فيُنظر أولًا في احتمال الأسوأ.
+- الشرح : الربح الفائت يُدرَك لاحقًا، أما خسارة لا تحتملها فقد تُوقعك في ضيق فيما بعد، فيُنظر أولًا في احتمال الأسوأ.
 
-**GE11** · d5 · Pourquoi un commerçant baisse-t-il ses prix en fin de journée ?
-- Réponse : Parce que de la marchandise invendue peut ne plus rien valoir demain.
-- Explication : Pour des produits frais, mieux vaut vendre peu que jeter. Le bon prix dépend donc aussi du temps qui reste, pas seulement du coût.
-- AR : لماذا يخفّض التاجر أثمانه في آخر النهار؟ — الجواب: لأن البضاعة التي لا تُباع قد لا تساوي شيئًا غدًا.
-- الشرح : في الطازج، البيع بقليل خير من الإتلاف، فالثمن المناسب يتعلّق بالوقت الباقي لا بالكلفة وحدها.
+**GE11** · d5 · Pourquoi un commerçant baisse-t-il parfois ses prix en fin de journée ?
+- Réponse : Parce que certaines marchandises invendues auront perdu de leur valeur demain.
+- Explication : Cela concerne les produits périssables, comme le pain, les fruits ou le poisson. Pour eux, vendre à bas prix rapporte plus que jeter. Une marchandise qui se conserve n'a aucune raison d'être bradée le soir.
+- AR : لماذا يخفّض التاجر أثمانه أحيانًا في آخر النهار؟ — الجواب: لأن بعض البضائع التي لا تُباع تفقد قيمتها غدًا.
+- الشرح : وهذا في السِّلَع سريعة التلف كالخبز والفواكه والسمك، فالبيع بثمن زهيد أنفع من الإتلاف، أما ما يُحفظ طويلًا فلا داعي لتخفيضه مساءً.
 
 **GE12** · d5 · On te propose de payer 100 Kounouz aujourd'hui ou 110 dans six mois. Que faut-il savoir pour choisir ?
 - Réponse : Ce que ces 100 Kounouz peuvent te rapporter ou t'éviter pendant six mois.
@@ -514,10 +534,10 @@ est une règle décidée. L'arabe demande une relecture par un locuteur.
 - الشرح : لبقاء المال عندك قيمة، فهو احتياط أو يُستعمل في غيره، ومن غير هذه المعرفة نقارن رقمين لا حالين.
 
 **GE13** · d5 · Pourquoi noter ses dépenses pendant un mois avant d'établir un budget ?
-- Réponse : Parce que l'on dépense rarement là où l'on croit.
-- Explication : De mémoire, on retient les grosses dépenses et on oublie les petites, répétées, qui pèsent souvent davantage. Un budget bâti sur des chiffres réels tient, un budget bâti sur des souvenirs se rate.
-- AR : لماذا نسجّل النفقات شهرًا قبل وضع ميزانية؟ — الجواب: لأننا قلّما ننفق حيث نظنّ.
-- الشرح : تحفظ الذاكرة النفقات الكبيرة وتغفل الصغيرة المتكرّرة وهي أثقل غالبًا، والميزانية المبنية على أرقام حقيقية تثبت، والمبنية على الذكريات تخيب.
+- Réponse : Parce que l'on ne dépense pas toujours là où l'on croit.
+- Explication : De mémoire, les grosses dépenses restent et certaines petites dépenses répétées peuvent échapper au compte. Des chiffres relevés donnent une base plus sûre que des souvenirs.
+- AR : لماذا نسجّل النفقات شهرًا قبل وضع ميزانية؟ — الجواب: لأننا لا ننفق دائمًا حيث نظنّ.
+- الشرح : تبقى النفقات الكبيرة في الذاكرة، وقد تفوتنا نفقات صغيرة متكرّرة، والأرقام المدوَّنة أوثق من الذكريات.
 
 ---
 
@@ -554,10 +574,10 @@ est une règle décidée. L'arabe demande une relecture par un locuteur.
 - الشرح : يتمدّد الماء قليلًا عند التجمّد بالكتلة نفسها، ولذلك قد تنشقّ قارورة ممتلئة في المجمّد.
 
 **C6** · d2 · Pourquoi faut-il dormir suffisamment ? *(source)*
-- Réponse : Parce que le corps et le cerveau se réparent pendant le sommeil.
-- Explication : Le manque de sommeil répété dégrade l'attention et l'humeur. Plusieurs travaux indiquent aussi qu'une nuit de sommeil aide à retenir ce que l'on a appris la veille.
-- AR : لماذا ينبغي أن ننام كفايتنا؟ — الجواب: لأن الجسم والدماغ يُصلحان نفسيهما في أثناء النوم.
-- الشرح : نقص النوم المتكرّر يُضعف الانتباه والمزاج، وتشير دراسات كذلك إلى أن نوم الليلة يعين على تثبيت ما تعلّمناه بالأمس.
+- Réponse : Parce que le sommeil permet de récupérer, et qu'il soutient l'attention et la mémoire.
+- Explication : Après une nuit trop courte, on se concentre moins bien et l'humeur en pâtit. Plusieurs travaux indiquent aussi que dormir aide à fixer ce que l'on a appris la veille.
+- AR : لماذا ينبغي أن ننام كفايتنا؟ — الجواب: لأن النوم يعيد النشاط ويدعم الانتباه والذاكرة.
+- الشرح : بعد ليلة قصيرة يقلّ التركيز ويسوء المزاج، وتشير دراسات كذلك إلى أن النوم يعين على تثبيت ما تعلّمناه بالأمس.
 
 **C7** · d3 · À quelle température l'eau bout-elle au niveau de la mer ? *(source)*
 - Réponse : À 100 degrés.
@@ -595,13 +615,26 @@ est une règle décidée. L'arabe demande une relecture par un locuteur.
 - AR : لماذا نرى دائمًا الوجه نفسه من القمر؟ — الجواب: لأن مدّة دورانه حول نفسه تساوي مدّة دورانه حول الأرض.
 - الشرح : هو يدور حول نفسه فعلًا خلافًا لما يُظنّ، ولتزامن الحركتين يبقى الوجه نفسه مقابلًا لنا.
 
-**C13** · d5 · Pourquoi une piqûre de vaccin protège-t-elle d'une maladie ? *(source)*
+**C13** · d5 · Pourquoi une piqûre de vaccin protège-t-elle d'une maladie ? *(source institutionnelle santé obligatoire avant validation)*
 - Réponse : Parce qu'elle entraîne les défenses du corps à reconnaître le microbe à l'avance.
-- Explication : Le corps garde une mémoire de ce qu'il a appris à combattre et réagit plus vite en cas de rencontre réelle. La protection n'est jamais totale et varie selon les vaccins.
+- Explication : Le corps garde une mémoire de ce qu'il a appris à combattre et réagit plus vite en cas de rencontre réelle. La protection n'est jamais totale et varie selon les vaccins. **Cette question ne peut pas être publiée sans une source d'une autorité de santé reconnue.**
 - AR : لماذا تقي حقنة اللقاح من مرض؟ — الجواب: لأنها تدرّب دفاعات الجسم على معرفة الجرثوم سلفًا.
 - الشرح : يحتفظ الجسم بذاكرة ما تعلّم مقاومته فيستجيب أسرع عند اللقاء الحقيقي، والوقاية ليست تامّة وتتفاوت بحسب اللقاحات.
 
 ---
+
+## Corrections appliquées en V2
+
+- **GE10** — « met hors jeu » devient « peut te mettre en difficulté pour la suite », en français et en arabe (règle 4).
+- **GE11** — la baisse du soir est restreinte aux produits périssables, avec exemples, et l'énoncé dit « parfois » (règles 2 et 4).
+- **GE13** — « on dépense rarement là où l'on croit » devient « pas toujours », et les petites dépenses « peuvent échapper au compte » au lieu de « pèsent davantage » (règle 4).
+- **H3** — le regroupement par métiers est rattaché à « certains grands souks », les petits souks ne l'ayant pas connu (règle 4).
+- **H13** — plus aucune cause dominante : les causes varient d'une ville à l'autre et se combinent (règle 4).
+- **L10** — l'énoncé précise une ampoule à filament qui chauffe, et l'explication dit pourquoi une ampoule à diodes rendrait l'énigme impossible (règles 2 et 4).
+- **L13** — l'explication parle du temps de combustion restant, et non d'une longueur de corde, ce qui était faux pour une corde irrégulière (règle 1).
+- **C6** — « le corps et le cerveau se réparent » devient récupération, attention et mémoire, avec un effet observable après une nuit trop courte (règle 4).
+- **C13** — conservée, marquée « source institutionnelle santé obligatoire avant validation », avec un rappel en gras dans l'explication (règle 6).
+- **A4** — la réponse passe à la forme de pause, et le point de vocalisation de اثنان en énumération est signalé explicitement à la relecture arabe (règle 5).
 
 ## À décider après votre relecture
 
