@@ -81,9 +81,9 @@ describe("catalogue géographique et gabarits", () => {
     expect(a).not.toEqual(provider.resolve({ categoryId: "geography", difficulty: 2, profileType: "adult", variation: 6 }));
   });
 
-  it("le registre de l'application ne propose que religion (banques validées humainement) et mathématiques : la géographie de démonstration n'est PAS servie, les autres catégories curées n'ont rien de validé", () => {
-    expect(contentRegistry().availableCategories("child")).toEqual(["religion", "maths"]);
-    expect(contentRegistry().availableCategories("adult")).toEqual(["religion", "maths"]);
+  it("le registre de l'application propose religion, mathématiques et gestion : la géographie de démonstration n'est PAS servie, les autres catégories curées n'ont rien de validé", () => {
+    expect(contentRegistry().availableCategories("child")).toEqual(["religion", "maths", "management"]);
+    expect(contentRegistry().availableCategories("adult")).toEqual(["religion", "maths", "management"]);
     // Le catalogue reste dans les fichiers pour référence, simplement jamais servi.
     expect(DEMO_CONTENT_ENABLED).toBe(false);
     expect(GEO_FACTS.length).toBeGreaterThan(0);

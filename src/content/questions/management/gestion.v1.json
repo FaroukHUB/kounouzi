@@ -1,0 +1,727 @@
+{
+  "$comment": "Gestion V1 — 30 cartes STATIQUES écrites et contrôlées par l’auteur du jeu, jamais générées, jamais tirées au hasard : le contenu de Gestion porte un raisonnement, pas un calcul à faire varier. Six cartes par tranche d’âge (5-6, 7-8, 9-10, 11-12, 13+), chaque difficulté tenant dans la bande d’amorçage de sa tranche (bands.v1.json). L’âge donne le niveau de DÉPART ; le Learning Engine existant reste ensuite seul à faire monter ou descendre le joueur. La catégorie management n’exige pas de source (requiresSource = false, comportement conservé) : ces cartes énoncent un raisonnement de gestion, pas un fait vérifiable contre une référence externe. Le tableau sources est donc vide, et aucune source n’est inventée pour autant. L’arabe vient de l’auteur et reste arReview = provisional jusqu’à relecture humaine ; c’est la qualité linguistique, distincte de la justesse du contenu, qui est validée par l’auteur (status validated).",
+  "version": 1,
+  "sources": [],
+  "questions": [
+    {
+      "id": "GEST-001",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.reserve",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu as 10 Kounouz. Tu peux acheter un jouet à 10 ou garder ton argent. Si tu achètes le jouet, combien te reste-t-il ?",
+        "ar": "معك 10 كنوز. يمكنك شراء لعبة بـ10 أو الاحتفاظ بمالك. إذا اشتريتها، كم يبقى معك؟"
+      },
+      "answer": {
+        "fr": "0 Kounouz.",
+        "ar": "لا شيء."
+      },
+      "explanation": {
+        "fr": "Tu avais 10 et tu dépenses 10. Il ne te reste donc plus de réserve.",
+        "ar": "كان معك 10 وأنفقتها كلها، فلم يبق لك احتياط."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-002",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.besoin-envie",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Qu’est-ce qui est généralement plus important : acheter à manger ou acheter un deuxième jouet ?",
+        "ar": "ما الأهم عادةً: شراء الطعام أم شراء لعبة ثانية؟"
+      },
+      "answer": {
+        "fr": "Acheter à manger.",
+        "ar": "شراء الطعام."
+      },
+      "explanation": {
+        "fr": "Dans cette situation, manger répond à un besoin alors qu’un deuxième jouet est une envie.",
+        "ar": "في هذه الحالة، الطعام حاجة، أما اللعبة الثانية فهي رغبة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-003",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.epargne",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu veux un objet mais tu n’as pas encore assez de Kounouz. Que peux-tu faire ?",
+        "ar": "تريد شيئًا لكن ليس معك ما يكفي من الكنوز. ماذا يمكنك أن تفعل؟"
+      },
+      "answer": {
+        "fr": "Attendre et économiser.",
+        "ar": "تنتظر وتدّخر."
+      },
+      "explanation": {
+        "fr": "On n’est pas obligé d’acheter immédiatement. On peut mettre de l’argent de côté jusqu’à atteindre la somme nécessaire.",
+        "ar": "ليس من الضروري أن تشتري فورًا، بل يمكنك الادخار حتى تجمع المبلغ المطلوب."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-004",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.reserve",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi garder quelques Kounouz au lieu de tout dépenser ?",
+        "ar": "لماذا نحتفظ ببعض الكنوز بدل إنفاقها كلها؟"
+      },
+      "answer": {
+        "fr": "Pour en avoir encore si on en a besoin plus tard.",
+        "ar": "حتى يبقى معنا مال إذا احتجناه لاحقًا."
+      },
+      "explanation": {
+        "fr": "Garder une petite réserve permet de faire face à un besoin futur.",
+        "ar": "الاحتفاظ باحتياط صغير يساعد على مواجهة حاجة قادمة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-005",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.priorite",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu as déjà un ballon et tu as besoin d’un cahier. Tu ne peux acheter qu’un seul des deux. Lequel est prioritaire ?",
+        "ar": "عندك كرة بالفعل وتحتاج إلى دفتر، ولا تستطيع شراء إلا واحد. أيهما أولى؟"
+      },
+      "answer": {
+        "fr": "Le cahier.",
+        "ar": "الدفتر."
+      },
+      "explanation": {
+        "fr": "Dans cette situation, le cahier répond à un besoin alors qu’un ballon supplémentaire peut attendre.",
+        "ar": "في هذه الحالة، الدفتر حاجة، أما الكرة الإضافية فيمكن أن تنتظر."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-006",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.epargne",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Si tu mets un peu d’argent de côté chaque semaine, comment appelle-t-on cela ?",
+        "ar": "إذا وضعت قليلًا من المال جانبًا كل أسبوع، ماذا نسمّي ذلك؟"
+      },
+      "answer": {
+        "fr": "Épargner.",
+        "ar": "الادّخار."
+      },
+      "explanation": {
+        "fr": "Épargner signifie conserver une partie de son argent pour plus tard.",
+        "ar": "الادّخار هو الاحتفاظ بجزء من المال لاستعماله لاحقًا."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-007",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.reserve",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu as 20 Kounouz et tu veux quelque chose qui coûte 18. Pourquoi peut-il être utile de ne pas l’acheter tout de suite ?",
+        "ar": "معك 20 كنزًا وتريد شيئًا ثمنه 18. لماذا قد يكون من الأفضل ألا تشتريه فورًا؟"
+      },
+      "answer": {
+        "fr": "Parce qu’il ne resterait presque rien pour autre chose.",
+        "ar": "لأنه لن يبقى معك إلا القليل لغيره."
+      },
+      "explanation": {
+        "fr": "Avoir assez pour payer ne signifie pas forcément qu’il est prudent de dépenser presque toute sa réserve.",
+        "ar": "القدرة على الدفع لا تعني دائمًا أن من الحكمة إنفاق معظم الاحتياط."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-008",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.budget",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Qu’est-ce qu’un budget ?",
+        "ar": "ما هي الميزانية؟"
+      },
+      "answer": {
+        "fr": "Prévoir ce qu’on reçoit et ce qu’on dépense.",
+        "ar": "أن نخطط لما يدخل من المال وما يخرج."
+      },
+      "explanation": {
+        "fr": "Un budget aide à organiser son argent avant de le dépenser.",
+        "ar": "تساعد الميزانية على تنظيم المال قبل إنفاقه."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-009",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.priorite",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Deux objets te plaisent, mais tu n’as assez d’argent que pour un seul. Que dois-tu faire avant de choisir ?",
+        "ar": "أعجبك شيئان لكن مالك لا يكفي إلا لواحد. ماذا تفعل قبل الاختيار؟"
+      },
+      "answer": {
+        "fr": "Comparer leur utilité et leur prix.",
+        "ar": "تقارن فائدتهما وثمنهما."
+      },
+      "explanation": {
+        "fr": "Un bon choix dépend à la fois de ce que l’objet apporte et de ce qu’il coûte.",
+        "ar": "الاختيار الجيد يعتمد على الفائدة وعلى الثمن معًا."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-010",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.epargne",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu reçois 5 Kounouz et tu décides d’en garder 2. Que fais-tu avec ces 2 Kounouz ?",
+        "ar": "أخذت 5 كنوز وقررت الاحتفاظ باثنين منها. ماذا تفعل بهما؟"
+      },
+      "answer": {
+        "fr": "Tu les épargnes.",
+        "ar": "تدّخرهما."
+      },
+      "explanation": {
+        "fr": "Tu ne les dépenses pas maintenant afin de les conserver pour plus tard.",
+        "ar": "لا تنفقهما الآن بل تحتفظ بهما لوقت لاحق."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-011",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.planification",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi préparer une liste avant d’aller acheter plusieurs choses ?",
+        "ar": "لماذا نكتب قائمة قبل شراء عدة أشياء؟"
+      },
+      "answer": {
+        "fr": "Pour se rappeler ce dont on a besoin et éviter certains achats inutiles.",
+        "ar": "لنتذكر ما نحتاجه ونتجنب بعض المشتريات غير الضرورية."
+      },
+      "explanation": {
+        "fr": "Une liste aide à distinguer ce qu’on avait prévu d’acheter de ce qui nous tente sur le moment.",
+        "ar": "تساعد القائمة على التفريق بين ما خططنا لشرائه وما نرغب فيه لحظة التسوق."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-012",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-opportunite",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu économises pour quelque chose d’important. Tu vois soudain un petit jouet qui te plaît. Quelle question peux-tu te poser avant de l’acheter ?",
+        "ar": "تدّخر لشيء مهم ثم رأيت لعبة صغيرة أعجبتك. ماذا تسأل نفسك قبل شرائها؟"
+      },
+      "answer": {
+        "fr": "Est-ce que je préfère ce jouet ou atteindre mon objectif plus vite ?",
+        "ar": "هل أفضّل هذه اللعبة أم الوصول إلى هدفي أسرع؟"
+      },
+      "explanation": {
+        "fr": "Dépenser maintenant peut retarder un objectif futur.",
+        "ar": "الإنفاق الآن قد يؤخر الوصول إلى هدفك."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-013",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.budget",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi est-il utile de savoir combien d’argent il te reste après un achat ?",
+        "ar": "لماذا من المفيد أن تعرف كم بقي معك بعد الشراء؟"
+      },
+      "answer": {
+        "fr": "Pour savoir ce que tu peux encore payer ensuite.",
+        "ar": "لتعرف ما الذي ما زلت تستطيع دفعه بعد ذلك."
+      },
+      "explanation": {
+        "fr": "Une décision d’achat doit tenir compte de l’argent qui restera disponible.",
+        "ar": "قرار الشراء يجب أن يأخذ في الحسبان ما سيبقى من المال."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-014",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-total",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un objet est moins cher dans un magasin, mais il faut payer la livraison. Que faut-il comparer ?",
+        "ar": "شيء أرخص في متجر لكن توجد تكلفة توصيل. ماذا يجب أن نقارن؟"
+      },
+      "answer": {
+        "fr": "Le coût total, pas seulement le prix affiché.",
+        "ar": "التكلفة الكاملة، لا الثمن المعروض فقط."
+      },
+      "explanation": {
+        "fr": "Prix de l’objet et frais supplémentaires doivent être additionnés avant de comparer.",
+        "ar": "يجب جمع ثمن السلعة والمصاريف الإضافية قبل المقارنة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-015",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.budget",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi noter ses dépenses pendant quelques jours peut-il être utile ?",
+        "ar": "لماذا من المفيد تسجيل النفقات عدة أيام؟"
+      },
+      "answer": {
+        "fr": "Pour voir où part réellement son argent.",
+        "ar": "لنعرف أين يذهب المال فعلًا."
+      },
+      "explanation": {
+        "fr": "Écrire ses dépenses permet de repérer ce qui revient souvent et ce qui coûte réellement le plus.",
+        "ar": "تسجيل النفقات يساعد على معرفة ما يتكرر وما يكلّف أكثر فعلًا."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-016",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.reserve",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu as assez pour acheter un objet, mais cet achat viderait presque toute ta réserve. Quel est le risque ?",
+        "ar": "لديك ما يكفي للشراء، لكن الشراء سيستهلك تقريبًا كل احتياطك. ما الخطر؟"
+      },
+      "answer": {
+        "fr": "Ne plus pouvoir payer une dépense imprévue.",
+        "ar": "ألا تستطيع دفع نفقة مفاجئة."
+      },
+      "explanation": {
+        "fr": "Une réserve protège lorsqu’une nouvelle dépense arrive sans avoir été prévue.",
+        "ar": "الاحتياط يساعد عندما تظهر نفقة لم تكن متوقعة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-017",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.valeur-unitaire",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Deux paquets du même produit ont des tailles différentes. Le paquet le moins cher est-il forcément le meilleur choix ?",
+        "ar": "عبوتان من المنتج نفسه بأحجام مختلفة. هل الأرخص دائمًا هو الأفضل؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Il faut comparer la quantité reçue pour le prix payé, pas seulement le prix total.",
+        "ar": "يجب مقارنة الكمية التي نحصل عليها مقابل الثمن، لا الثمن الإجمالي وحده."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-018",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.planification",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi prévoir ses dépenses avant de recevoir son argent peut-il aider ?",
+        "ar": "لماذا يساعد التخطيط للنفقات قبل استلام المال؟"
+      },
+      "answer": {
+        "fr": "Parce qu’on décide avant d’être tenté de tout dépenser.",
+        "ar": "لأننا نقرر قبل أن نميل إلى إنفاقه كله."
+      },
+      "explanation": {
+        "fr": "Décider à l’avance permet de réserver une partie de l’argent aux priorités et à l’épargne.",
+        "ar": "التخطيط المسبق يساعد على تخصيص جزء للأولويات والادخار."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-019",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.entrees-sorties",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu gagnes régulièrement de l’argent, mais tu dépenses chaque fois un peu plus que tu ne reçois. Quel est le problème ?",
+        "ar": "تحصل على مال بانتظام لكنك تنفق في كل مرة أكثر مما تحصل عليه. ما المشكلة؟"
+      },
+      "answer": {
+        "fr": "Ta réserve diminue progressivement.",
+        "ar": "احتياطك ينقص تدريجيًا."
+      },
+      "explanation": {
+        "fr": "Lorsque les dépenses dépassent régulièrement les entrées, la différence est prise dans la réserve.",
+        "ar": "إذا تجاوزت المصاريف المداخيل بانتظام، يؤخذ الفرق من الاحتياط."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-020",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-total",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quelle différence y a-t-il entre le prix d’achat et le coût total ?",
+        "ar": "ما الفرق بين ثمن الشراء والتكلفة الكاملة؟"
+      },
+      "answer": {
+        "fr": "Le coût total inclut aussi les dépenses liées à l’achat.",
+        "ar": "التكلفة الكاملة تشمل المصاريف المرتبطة بالشراء أيضًا."
+      },
+      "explanation": {
+        "fr": "Livraison, entretien ou accessoires nécessaires peuvent s’ajouter au prix affiché.",
+        "ar": "قد تضاف مصاريف التوصيل أو الصيانة أو اللوازم الضرورية إلى ثمن الشراء."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-021",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-duree",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un objet très bon marché casse rapidement et doit être remplacé souvent. Pourquoi peut-il finalement coûter plus cher ?",
+        "ar": "شيء رخيص جدًا يتلف بسرعة ويجب استبداله كثيرًا. لماذا قد يصبح أغلى في النهاية؟"
+      },
+      "answer": {
+        "fr": "Parce qu’on doit le racheter plusieurs fois.",
+        "ar": "لأننا نضطر إلى شرائه من جديد عدة مرات."
+      },
+      "explanation": {
+        "fr": "Le prix le plus bas aujourd’hui n’est pas toujours le coût le plus faible sur la durée.",
+        "ar": "أقل ثمن اليوم لا يعني دائمًا أقل تكلفة مع مرور الوقت."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-022",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.budget",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi séparer son argent entre dépenses prévues, épargne et réserve peut-il être utile ?",
+        "ar": "لماذا قد يكون من المفيد تقسيم المال بين النفقات والادخار والاحتياط؟"
+      },
+      "answer": {
+        "fr": "Parce que chaque partie a un rôle différent.",
+        "ar": "لأن لكل جزء وظيفة مختلفة."
+      },
+      "explanation": {
+        "fr": "Les dépenses servent au présent, l’épargne prépare un objectif et la réserve protège contre l’imprévu.",
+        "ar": "النفقات للحاضر، والادخار لهدف قادم، والاحتياط لما قد يفاجئنا."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-023",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.planification",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu veux acheter quelque chose aujourd’hui, mais tu sais qu’une dépense importante arrive demain. Quelle information doit influencer ton choix ?",
+        "ar": "تريد شراء شيء اليوم لكنك تعرف أن نفقة مهمة ستأتي غدًا. ما الذي يجب أن يؤثر في قرارك؟"
+      },
+      "answer": {
+        "fr": "L’argent nécessaire pour demain.",
+        "ar": "المال الذي ستحتاجه غدًا."
+      },
+      "explanation": {
+        "fr": "Une décision doit tenir compte de ce qui vient après, pas seulement de ce qu’on peut payer aujourd’hui.",
+        "ar": "يجب أن يأخذ القرار في الحسبان ما سيأتي بعده، لا ما نستطيع دفعه اليوم فقط."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-024",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.besoin-envie",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi une promotion n’est-elle pas forcément une économie ?",
+        "ar": "لماذا لا يعني التخفيض دائمًا أنك وفّرت المال؟"
+      },
+      "answer": {
+        "fr": "Parce que si tu n’avais pas besoin du produit, tu dépenses quand même de l’argent.",
+        "ar": "لأنك إن لم تكن تحتاج الشيء فأنت تنفق المال رغم التخفيض."
+      },
+      "explanation": {
+        "fr": "Une réduction baisse le prix d’un achat ; elle ne rend pas nécessaire un achat dont on n’avait pas besoin.",
+        "ar": "التخفيض يقلل الثمن، لكنه لا يجعل الشراء غير الضروري حاجة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-025",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.risque",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Deux investissements rapportent la même somme. L’un demande beaucoup plus d’argent au départ. Que faut-il comparer en plus du gain ?",
+        "ar": "استثماران يعطيان الربح نفسه لكن أحدهما يحتاج مالًا أكبر بكثير في البداية. ماذا نقارن أيضًا؟"
+      },
+      "answer": {
+        "fr": "Le temps nécessaire pour récupérer l’argent engagé et les risques associés.",
+        "ar": "المدة اللازمة لاسترجاع المال والمخاطر المرتبطة به."
+      },
+      "explanation": {
+        "fr": "Deux gains identiques ne représentent pas forcément deux décisions équivalentes si le capital immobilisé et le risque sont différents.",
+        "ar": "الربح المتساوي لا يعني أن القرارين متساويان إذا اختلف المال المربوط والمخاطر."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-026",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.reserve",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi avoir beaucoup d’argent disponible ne signifie-t-il pas automatiquement qu’on peut tout dépenser ?",
+        "ar": "لماذا لا يعني امتلاك مبلغ كبير أنك تستطيع إنفاقه كله؟"
+      },
+      "answer": {
+        "fr": "Parce qu’une partie peut être nécessaire pour des dépenses futures.",
+        "ar": "لأن جزءًا منه قد يكون مخصصًا لنفقات قادمة."
+      },
+      "explanation": {
+        "fr": "L’argent disponible aujourd’hui n’est pas forcément entièrement libre d’engagement.",
+        "ar": "المال الموجود اليوم ليس بالضرورة كله متاحًا للإنفاق."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-027",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.risque",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu hésites entre un petit gain presque certain et un gain beaucoup plus élevé mais très incertain. Quelle question faut-il poser avant de décider ?",
+        "ar": "تحتار بين ربح صغير شبه مضمون وربح أكبر بكثير لكنه غير مؤكد. ما السؤال المهم قبل القرار؟"
+      },
+      "answer": {
+        "fr": "Quelle perte puis-je réellement supporter si cela échoue ?",
+        "ar": "ما مقدار الخسارة التي أستطيع تحمّلها فعلًا؟"
+      },
+      "explanation": {
+        "fr": "Le gain potentiel compte, mais aussi la capacité à supporter une perte sans se mettre en difficulté.",
+        "ar": "الربح المحتمل مهم، لكن المهم أيضًا القدرة على تحمل الخسارة دون الوقوع في صعوبة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-028",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.entrees-sorties",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une activité rapporte de l’argent chaque mois mais demande aussi des dépenses régulières. Quel chiffre faut-il regarder pour savoir ce qu’elle rapporte réellement ?",
+        "ar": "نشاط يدرّ مالًا كل شهر لكنه يحتاج أيضًا إلى مصاريف منتظمة. ماذا ننظر لنعرف ما يربحه فعلًا؟"
+      },
+      "answer": {
+        "fr": "Ce qui reste après avoir retiré les dépenses.",
+        "ar": "ما يبقى بعد طرح المصاريف."
+      },
+      "explanation": {
+        "fr": "Une recette élevée ne signifie pas forcément un gain élevé si les coûts sont eux aussi importants.",
+        "ar": "الإيرادات المرتفعة لا تعني ربحًا مرتفعًا إذا كانت المصاريف كبيرة أيضًا."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-029",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.risque",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi immobiliser presque tout son argent dans un seul achat peut-il être risqué même si cet achat est intéressant ?",
+        "ar": "لماذا قد يكون وضع معظم المال في شراء واحد خطرًا حتى لو كان الشراء جيدًا؟"
+      },
+      "answer": {
+        "fr": "Parce qu’on perd une grande partie de sa réserve et de sa capacité à réagir.",
+        "ar": "لأنه يقلل الاحتياط والقدرة على مواجهة ما يأتي بعده."
+      },
+      "explanation": {
+        "fr": "Une bonne opportunité peut devenir un mauvais choix si elle laisse trop peu de marge pour les autres besoins ou imprévus.",
+        "ar": "قد تتحول الفرصة الجيدة إلى قرار سيئ إذا تركت هامشًا صغيرًا جدًا لبقية الحاجات والمفاجآت."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-030",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-opportunite",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Deux décisions sont intéressantes, mais choisir l’une empêche de choisir l’autre. Comment appelle-t-on la valeur de ce qu’on abandonne en choisissant ?",
+        "ar": "قراران مفيدان، لكن اختيار أحدهما يمنع الآخر. ماذا نسمّي قيمة ما تخلّينا عنه بسبب الاختيار؟"
+      },
+      "answer": {
+        "fr": "Le coût d’opportunité.",
+        "ar": "تكلفة الفرصة البديلة."
+      },
+      "explanation": {
+        "fr": "Choisir une option utilise des ressources qui auraient pu servir à la meilleure autre option disponible.",
+        "ar": "اختيار أحد البدائل يستخدم موارد كان يمكن استعمالها في أفضل بديل آخر متاح."
+      },
+      "sources": []
+    }
+  ]
+}

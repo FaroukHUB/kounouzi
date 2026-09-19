@@ -25,6 +25,7 @@ import sirahJson from "@/content/questions/religion/sirah-al-urjuzah.v1.json";
 import qawaidJson from "@/content/questions/religion/al-qawaid-al-arba.v1.json";
 import kalimahJson from "@/content/questions/religion/kalimah-at-tawhid.v1.json";
 import geographieJson from "@/content/questions/geography/geographie.v1.json";
+import gestionJson from "@/content/questions/management/gestion.v1.json";
 
 const bilingual = z.object({ fr: z.string().min(1), ar: z.string().min(1) });
 /** Énoncé et réponse : français obligatoire, arabe facultatif (ajouté par relecture humaine). */
@@ -159,8 +160,16 @@ export const RELIGION_BANKS: ReadonlyArray<{ readonly id: string; readonly work:
  * vérification humaine n'a pas eu lieu.
  */
 export const GEOGRAPHY_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(geographieJson));
+/**
+ * Banque « Gestion V1 » : 30 cartes statiques écrites et contrôlées par
+ * l'auteur du jeu, jamais générées (ADR 0039). La catégorie n'exige pas de
+ * source — une carte y énonce un raisonnement de gestion, pas un fait
+ * vérifiable contre une référence externe — et son comportement est conservé.
+ * L'arabe reste `provisional` en attendant la relecture humaine.
+ */
+export const MANAGEMENT_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(gestionJson));
 /** Banque curée complète : seules les questions `validated` (et sourcées si la catégorie l'exige) sont jouables. */
-export const CURATED_BANK: readonly CuratedQuestion[] = [...bankQuestions(curatedBankSchema.parse(curatedJson)), ...RELIGION_BANKS.flatMap((b) => b.questions), ...GEOGRAPHY_BANK];
+export const CURATED_BANK: readonly CuratedQuestion[] = [...bankQuestions(curatedBankSchema.parse(curatedJson)), ...RELIGION_BANKS.flatMap((b) => b.questions), ...GEOGRAPHY_BANK, ...MANAGEMENT_BANK];
 const BANDS = bandsSchema.parse(bandsJson);
 
 export const categoryById = (id: string): CategoryDefinition | undefined => CATEGORIES.find((c) => c.id === id);

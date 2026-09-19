@@ -23,7 +23,7 @@ describe("résolution d'une question pour une demande du moteur (Learning Engine
     expect(q1).not.toBeNull();
     expect(q1).toEqual(q2);
     expect(q1!.explanation.ar.length).toBeGreaterThan(0);
-    expect(["maths", "geography"]).toContain(q1!.categoryId);
+    expect(["maths", "geography", "management"]).toContain(q1!.categoryId);
     expect(q1!.difficulty).toBe(2); // enfant CE1 : bande [1,3] → amorçage 2
   });
 

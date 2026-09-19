@@ -174,14 +174,16 @@ describe("non-régression : les autres catégories ne bougent pas", () => {
     expect(contentRegistry().slots("child").filter((s) => s.categoryId === "religion")).toHaveLength(375);
   });
 
-  it("le catalogue de catégories est inchangé, et seules Religion et Mathématiques sont servies", () => {
+  it("le catalogue de catégories est inchangé ; Religion, Mathématiques et Gestion sont servies, rien d'autre", () => {
     expect(CATEGORIES.map((c) => c.id)).toEqual(["religion", "maths", "geography", "history", "arabic", "logic", "management", "culture"]);
-    expect(contentRegistry().availableCategories("child")).toEqual(["religion", MATHS_CATEGORY_ID]);
-    expect(contentRegistry().availableCategories("adult")).toEqual(["religion", MATHS_CATEGORY_ID]);
-    // La géographie de démonstration reste coupée, les catégories curées vides ne servent rien.
-    for (const id of ["geography", "history", "arabic", "logic", "management", "culture"]) {
+    expect(contentRegistry().availableCategories("child")).toEqual(["religion", MATHS_CATEGORY_ID, "management"]);
+    expect(contentRegistry().availableCategories("adult")).toEqual(["religion", MATHS_CATEGORY_ID, "management"]);
+    // La géographie reste en attente de ses sources, les autres catégories curées n'ont rien de validé.
+    for (const id of ["geography", "history", "arabic", "logic", "culture"]) {
       expect(contentRegistry().slots("child").filter((s) => s.categoryId === id), id).toHaveLength(0);
     }
+    // Les mathématiques ne perdent ni ne gagnent de créneau en accueillant une nouvelle catégorie.
+    expect(contentRegistry().slots("child").filter((s) => s.categoryId === MATHS_CATEGORY_ID)).toHaveLength(30);
   });
 
   it("le contenu des mathématiques ne porte jamais de source : c'est du calcul, pas un fait à référencer", () => {
