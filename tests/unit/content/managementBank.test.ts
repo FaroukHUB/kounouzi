@@ -213,7 +213,7 @@ describe("Gestion V1 — non-régression des autres catégories", () => {
     expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(0);
     expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "draft")).toHaveLength(30);
     // Les catégories sans contenu validé ne servent toujours rien.
-    for (const id of ["history", "arabic", "logic", "culture"]) {
+    for (const id of ["history", "arabic", "culture"]) {
       expect(registry.slots("child").filter((s) => s.categoryId === id), id).toHaveLength(0);
     }
   });

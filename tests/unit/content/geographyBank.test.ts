@@ -95,8 +95,8 @@ describe("Géographie V1 — la source conditionne la publication", () => {
 
   it("la géographie n'est donc servie NULLE PART en production, et la banque religieuse reste intacte", () => {
     const registry = contentRegistry();
-    expect(registry.availableCategories("child")).toEqual(["religion", "maths", "management"]);
-    expect(registry.availableCategories("adult")).toEqual(["religion", "maths", "management"]);
+    expect(registry.availableCategories("child")).toEqual(["religion", "maths", "logic", "management"]);
+    expect(registry.availableCategories("adult")).toEqual(["religion", "maths", "logic", "management"]);
     expect(registry.resolve({ categoryId: "geography", difficulty: 2, profileType: "child", variation: 0 })).toBeNull();
     expect(registry.slots("child").some((s) => s.categoryId === "geography")).toBe(false);
     expect(registry.slots("adult").some((s) => s.categoryId === "geography")).toBe(false);

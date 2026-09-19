@@ -26,6 +26,7 @@ import qawaidJson from "@/content/questions/religion/al-qawaid-al-arba.v1.json";
 import kalimahJson from "@/content/questions/religion/kalimah-at-tawhid.v1.json";
 import geographieJson from "@/content/questions/geography/geographie.v1.json";
 import gestionJson from "@/content/questions/management/gestion.v1.json";
+import logiqueJson from "@/content/questions/logic/logique.v1.json";
 
 const bilingual = z.object({ fr: z.string().min(1), ar: z.string().min(1) });
 /** Énoncé et réponse : français obligatoire, arabe facultatif (ajouté par relecture humaine). */
@@ -168,8 +169,16 @@ export const GEOGRAPHY_BANK: readonly CuratedQuestion[] = bankQuestions(curatedB
  * L'arabe reste `provisional` en attendant la relecture humaine.
  */
 export const MANAGEMENT_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(gestionJson));
+/**
+ * Banque « Logique V1 » : 30 cartes statiques écrites et contrôlées par
+ * l'auteur du jeu, jamais générées (ADR 0040). La catégorie n'exige pas de
+ * source — une carte de logique énonce un raisonnement, pas un fait — et son
+ * comportement est conservé. Treize cartes n'ont reçu aucune explication :
+ * elles restent `draft` et ne sont donc pas servies, plutôt qu'inventées.
+ */
+export const LOGIC_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(logiqueJson));
 /** Banque curée complète : seules les questions `validated` (et sourcées si la catégorie l'exige) sont jouables. */
-export const CURATED_BANK: readonly CuratedQuestion[] = [...bankQuestions(curatedBankSchema.parse(curatedJson)), ...RELIGION_BANKS.flatMap((b) => b.questions), ...GEOGRAPHY_BANK, ...MANAGEMENT_BANK];
+export const CURATED_BANK: readonly CuratedQuestion[] = [...bankQuestions(curatedBankSchema.parse(curatedJson)), ...RELIGION_BANKS.flatMap((b) => b.questions), ...GEOGRAPHY_BANK, ...MANAGEMENT_BANK, ...LOGIC_BANK];
 const BANDS = bandsSchema.parse(bandsJson);
 
 export const categoryById = (id: string): CategoryDefinition | undefined => CATEGORIES.find((c) => c.id === id);

@@ -1,0 +1,740 @@
+{
+  "$comment": "Logique V1 — 30 cartes STATIQUES écrites et contrôlées par l’auteur du jeu, jamais générées, jamais tirées au hasard. Une carte doit se comprendre à l’oral en 10 à 30 secondes : les énigmes classiques qui demandent une longue mise en place ont été volontairement écartées par l’auteur. Progression voulue : 5-6 reconnaître, ordonner, comparer ; 7-8 comprendre une règle simple ; 9-10 petit piège ou petite déduction ; 11-12 croiser deux informations ; 13+ cohérence logique, conditions et déduction. Six cartes par tranche, chaque difficulté tenant dans la bande d’amorçage de sa tranche (bands.v1.json). L’âge donne le niveau de DÉPART ; le Learning Engine existant reste seul à faire monter ou descendre le joueur. La catégorie logic n’exige pas de source (requiresSource = false, comportement conservé) : une carte de logique énonce un raisonnement, pas un fait vérifiable contre une référence externe. L’ÉNONCÉ ET LA RÉPONSE français viennent de l’auteur. Tout l’arabe est une traduction fidèle, sans ajout, et reste arReview = provisional jusqu’à relecture humaine. Treize cartes n’ont reçu AUCUNE explication de l’auteur : elles restent en draft, explication vide et reviewNotes posée, plutôt qu’inventées — donc non servies tant qu’elles ne sont pas complétées.",
+  "version": 1,
+  "sources": [],
+  "questions": [
+    {
+      "id": "LOG-001",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Lequel n’est pas un animal : chat, lion, voiture, mouton ?",
+        "ar": "أيّها ليس حيوانًا: القطّ، الأسد، السيارة، الخروف؟"
+      },
+      "answer": {
+        "fr": "La voiture.",
+        "ar": "السيارة."
+      },
+      "explanation": {
+        "fr": "Les trois autres sont des animaux.",
+        "ar": "الثلاثة الأخرى حيوانات."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-002",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Rouge, bleu, rouge, bleu… quelle couleur vient après ?",
+        "ar": "أحمر، أزرق، أحمر، أزرق… ما اللون التالي؟"
+      },
+      "answer": {
+        "fr": "Rouge.",
+        "ar": "أحمر."
+      },
+      "explanation": {
+        "fr": "Les couleurs alternent toujours de la même façon.",
+        "ar": "تتناوب الألوان دائمًا بالترتيب نفسه."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-003",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Lina est plus grande qu’Adam. Qui est le plus petit ?",
+        "ar": "لينا أطول من آدم. من الأقصر؟"
+      },
+      "answer": {
+        "fr": "Adam.",
+        "ar": "آدم."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-004",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "J’ai caché une balle sous une boîte. Si je soulève la boîte, où est la balle ?",
+        "ar": "خبّأتُ كرة تحت صندوق. إذا رفعتُ الصندوق، أين تكون الكرة؟"
+      },
+      "answer": {
+        "fr": "Sous la boîte, à l’endroit où elle était posée.",
+        "ar": "في المكان الذي وُضعت فيه تحت الصندوق."
+      },
+      "explanation": {
+        "fr": "Soulever la boîte ne déplace pas la balle.",
+        "ar": "رفع الصندوق لا يحرّك الكرة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-005",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Il y a trois chaises et trois enfants. Peut-on donner une chaise à chaque enfant ?",
+        "ar": "هناك ثلاثة كراسٍ وثلاثة أطفال. هل يمكن إعطاء كرسيّ لكل طفل؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-006",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Sara est devant Youssef. Youssef est devant Adam. Qui est au milieu ?",
+        "ar": "سارة أمام يوسف، ويوسف أمام آدم. من في الوسط؟"
+      },
+      "answer": {
+        "fr": "Youssef.",
+        "ar": "يوسف."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-007",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quel nombre manque : 2, 4, 6, ?, 10 ?",
+        "ar": "ما العدد الناقص: 2، 4، 6، ؟، 10؟"
+      },
+      "answer": {
+        "fr": "8.",
+        "ar": "8."
+      },
+      "explanation": {
+        "fr": "On ajoute 2 à chaque fois.",
+        "ar": "نضيف 2 في كل مرة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-008",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tous les crayons de cette boîte sont verts. Je prends un crayon sans regarder. Peut-il être rouge ?",
+        "ar": "كلّ الأقلام في هذه العلبة خضراء. أخذتُ قلمًا دون أن أنظر. هل يمكن أن يكون أحمر؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "La boîte ne contient que des crayons verts.",
+        "ar": "لا تحتوي العلبة إلا أقلامًا خضراء."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-009",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Lina est arrivée avant Adam, et Adam avant Sami. Qui est arrivé en dernier ?",
+        "ar": "وصلت لينا قبل آدم، ووصل آدم قبل سامي. من وصل أخيرًا؟"
+      },
+      "answer": {
+        "fr": "Sami.",
+        "ar": "سامي."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-010",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu as deux chaussettes rouges et deux bleues dans un tiroir noir. Tu en prends trois. Es-tu sûr d’en avoir deux de la même couleur ?",
+        "ar": "في درج مظلم جوربان أحمران وجوربان أزرقان. أخذتَ ثلاثة منها. هل أنت متأكّد أنّ اثنين منها بلون واحد؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Il n’y a que deux couleurs. Avec trois chaussettes, deux auront forcément la même couleur.",
+        "ar": "لا يوجد إلا لونان، فإذا أخذتَ ثلاثة فلا بدّ أن يتّفق اثنان في اللون."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-011",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un chat est dans une pièce. Il sort. Combien de chats restent dans la pièce ?",
+        "ar": "في الغرفة قطّ واحد، ثم خرج. كم قطًّا بقي في الغرفة؟"
+      },
+      "answer": {
+        "fr": "Aucun.",
+        "ar": "لا شيء."
+      },
+      "explanation": {
+        "fr": "Le seul chat est sorti.",
+        "ar": "القطّ الوحيد قد خرج."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-012",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une boîte contient seulement des pommes. Une autre contient seulement des oranges. Tu prends un fruit dans la boîte des pommes. Que peux-tu avoir ?",
+        "ar": "علبة فيها تفّاح فقط، وأخرى فيها برتقال فقط. أخذتَ ثمرة من علبة التفّاح. ماذا يمكن أن يكون معك؟"
+      },
+      "answer": {
+        "fr": "Une pomme.",
+        "ar": "تفّاحة."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-013",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un père a trois filles. Les trois filles ont le même frère. Combien a-t-il d’enfants ?",
+        "ar": "لأبٍ ثلاث بنات، وللبنات الثلاث الأخ نفسه. كم عدد أولاده؟"
+      },
+      "answer": {
+        "fr": "4.",
+        "ar": "أربعة."
+      },
+      "explanation": {
+        "fr": "Trois filles et un seul frère commun.",
+        "ar": "ثلاث بنات وأخ واحد مشترك."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-014",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Plus on m’enlève de matière, plus je deviens grand. Qui suis-je ?",
+        "ar": "كلّما أخذتَ منّي كبرتُ. من أنا؟"
+      },
+      "answer": {
+        "fr": "Un trou.",
+        "ar": "حفرة."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-015",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Si hier était lundi, quel jour sera demain ?",
+        "ar": "إذا كان أمس هو الاثنين، فما يوم الغد؟"
+      },
+      "answer": {
+        "fr": "Mercredi.",
+        "ar": "الأربعاء."
+      },
+      "explanation": {
+        "fr": "Hier lundi, aujourd’hui mardi, demain mercredi.",
+        "ar": "أمس الاثنين، فاليوم الثلاثاء، والغد الأربعاء."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-016",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Adam est plus âgé que Sami. Sami est plus âgé que Lina. Qui est la plus jeune ?",
+        "ar": "آدم أكبر من سامي، وسامي أكبر من لينا. من الأصغر؟"
+      },
+      "answer": {
+        "fr": "Lina.",
+        "ar": "لينا."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-017",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois enfants doivent se ranger. Adam ne veut pas être premier. Lina veut être devant Sami. Qui peut être premier ?",
+        "ar": "ثلاثة أطفال يصطفّون. آدم لا يريد أن يكون الأول، ولينا تريد أن تكون أمام سامي. من يمكن أن يكون الأول؟"
+      },
+      "answer": {
+        "fr": "Lina.",
+        "ar": "لينا."
+      },
+      "explanation": {
+        "fr": "Adam ne peut pas être premier, et Lina doit être devant Sami.",
+        "ar": "آدم لا يمكن أن يكون الأول، ولينا يجب أن تكون أمام سامي."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-018",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une famille possède un chat et un chien. L’animal qui miaule n’est pas le chien. Quel animal miaule ?",
+        "ar": "في بيتٍ قطّ وكلب. الحيوان الذي يموء ليس الكلب. أيّ حيوان يموء؟"
+      },
+      "answer": {
+        "fr": "Le chat.",
+        "ar": "القطّ."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-019",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Cinq machines fabriquent cinq objets en cinq minutes. Si chaque machine travaille seule à la même vitesse, combien de temps faut-il à 10 machines pour fabriquer 10 objets ?",
+        "ar": "خمس آلات تصنع خمسة أشياء في خمس دقائق. إذا عملت كلّ آلة وحدها بالسرعة نفسها، فكم تحتاج عشر آلات لصنع عشرة أشياء؟"
+      },
+      "answer": {
+        "fr": "5 minutes.",
+        "ar": "خمس دقائق."
+      },
+      "explanation": {
+        "fr": "Chaque machine fabrique un objet en cinq minutes. Elles travaillent en même temps.",
+        "ar": "كلّ آلة تصنع شيئًا واحدًا في خمس دقائق، وهي تعمل في الوقت نفسه."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-020",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une boîte rouge est plus lourde qu’une boîte bleue. La boîte bleue est plus lourde que la verte. Laquelle est la plus légère ?",
+        "ar": "الصندوق الأحمر أثقل من الأزرق، والأزرق أثقل من الأخضر. أيّها الأخفّ؟"
+      },
+      "answer": {
+        "fr": "La verte.",
+        "ar": "الأخضر."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-021",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois enfants — Lina, Adam et Sami — ont chacun un fruit différent : pomme, banane, orange. Lina n’a pas la pomme. Adam a la banane. Sami n’a pas l’orange. Quel fruit a Lina ?",
+        "ar": "ثلاثة أطفال — لينا وآدم وسامي — مع كلّ واحد فاكهة مختلفة: تفّاحة وموزة وبرتقالة. لينا ليست معها التفّاحة، وآدم معه الموزة، وسامي ليست معه البرتقالة. أيّ فاكهة مع لينا؟"
+      },
+      "answer": {
+        "fr": "L’orange.",
+        "ar": "البرتقالة."
+      },
+      "explanation": {
+        "fr": "Adam a la banane. Sami ne peut avoir ni la banane ni l’orange, donc Sami a la pomme. Lina a l’orange.",
+        "ar": "آدم معه الموزة، وسامي لا يمكن أن تكون معه الموزة ولا البرتقالة، فتكون معه التفّاحة، وتبقى البرتقالة للينا."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-022",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu as trois boîtes : une rouge, une bleue et une verte. La clé n’est ni dans la rouge ni dans la verte. Où est-elle ?",
+        "ar": "عندك ثلاثة صناديق: أحمر وأزرق وأخضر. المفتاح ليس في الأحمر ولا في الأخضر. أين هو؟"
+      },
+      "answer": {
+        "fr": "Dans la bleue.",
+        "ar": "في الأزرق."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-023",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans une course, tu dépasses la personne qui est deuxième. Quelle place occupes-tu maintenant ?",
+        "ar": "في سباق، تجاوزتَ صاحب المركز الثاني. ما مركزك الآن؟"
+      },
+      "answer": {
+        "fr": "Deuxième.",
+        "ar": "الثاني."
+      },
+      "explanation": {
+        "fr": "Tu prends sa place, tu ne deviens pas premier.",
+        "ar": "أخذتَ مكانه، ولم تصبح الأول."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-024",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un code comporte trois chiffres. On sait que le premier est 2, le dernier est 6 et celui du milieu est la moitié du dernier. Quel est le code ?",
+        "ar": "رمز من ثلاثة أرقام. الأول 2، والأخير 6، والأوسط نصف الأخير. ما الرمز؟"
+      },
+      "answer": {
+        "fr": "236.",
+        "ar": "236."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-025",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tous les membres d’un groupe parlent français. Karim appartient à ce groupe. Que peux-tu conclure ?",
+        "ar": "كلّ أفراد مجموعةٍ يتكلّمون الفرنسية، وكريم من هذه المجموعة. ماذا تستنتج؟"
+      },
+      "answer": {
+        "fr": "Karim parle français.",
+        "ar": "كريم يتكلّم الفرنسية."
+      },
+      "explanation": {
+        "fr": "Si la règle concerne tous les membres, elle concerne Karim.",
+        "ar": "إذا كانت القاعدة تشمل كلّ الأفراد فهي تشمل كريمًا."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-026",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "On sait que « la clé est dans la boîte rouge » est faux. On sait aussi qu’elle est soit dans la rouge, soit dans la bleue. Où est-elle ?",
+        "ar": "نعلم أنّ قول «المفتاح في الصندوق الأحمر» خطأ، ونعلم أيضًا أنّه إمّا في الأحمر وإمّا في الأزرق. أين هو؟"
+      },
+      "answer": {
+        "fr": "Dans la boîte bleue.",
+        "ar": "في الصندوق الأزرق."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-027",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois personnes sont assises : Lina, Adam et Sami. Lina n’est pas à côté de Sami. Qui doit être au milieu ?",
+        "ar": "ثلاثة أشخاص جالسون: لينا وآدم وسامي. لينا ليست بجانب سامي. من يجب أن يكون في الوسط؟"
+      },
+      "answer": {
+        "fr": "Adam.",
+        "ar": "آدم."
+      },
+      "explanation": {
+        "fr": "Avec trois places, si Lina et Sami ne sont pas voisins, Adam doit les séparer.",
+        "ar": "بثلاثة مقاعد، إذا لم تكن لينا وسامي متجاورين فلا بدّ أن يفصل بينهما آدم."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-028",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A dit : « B ment. » B dit : « Nous mentons tous les deux. » Est-il possible que B dise vrai ?",
+        "ar": "قال (أ): «(ب) يكذب»، وقال (ب): «كلانا يكذب». هل يمكن أن يكون (ب) صادقًا؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "S’il disait vrai, il affirmerait lui-même qu’il ment. Sa phrase ne peut donc pas être vraie.",
+        "ar": "لو كان صادقًا لأثبت بنفسه أنّه يكذب، فلا يمكن أن يكون قوله صحيحًا."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-029",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu as trois enveloppes A, B et C. Une seule contient un billet. On sait qu’il n’est pas dans A et qu’il n’est pas dans C. Où est-il ?",
+        "ar": "عندك ثلاثة أظرف: «أ» و«ب» و«ج»، وفي واحد منها ورقة نقدية. نعلم أنّها ليست في «أ» ولا في «ج». أين هي؟"
+      },
+      "answer": {
+        "fr": "Dans B.",
+        "ar": "في «ب»."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+    },
+    {
+      "id": "LOG-030",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "validated",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un magasin est ouvert uniquement les jours où son responsable est présent. Aujourd’hui, le magasin est ouvert. Que peux-tu conclure avec certitude ?",
+        "ar": "متجر لا يفتح إلا في الأيام التي يكون فيها المسؤول حاضرًا. اليوم المتجر مفتوح. ماذا تستنتج بيقين؟"
+      },
+      "answer": {
+        "fr": "Le responsable est présent.",
+        "ar": "المسؤول حاضر."
+      },
+      "explanation": {
+        "fr": "L’ouverture n’est possible que lorsqu’il est présent.",
+        "ar": "الفتح لا يكون إلا عند حضوره."
+      },
+      "sources": []
+    }
+  ]
+}
