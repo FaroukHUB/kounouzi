@@ -23,8 +23,11 @@ export type DemoDuration = keyof typeof DEMO_DURATIONS;
 
 /**
  * ⚠️ Drapeau de DÉMONSTRATION développeur : autorise le contenu factuel
- * « unverified » (catalogue de démo). Doit être `false` pour toute banque
- * réelle : seuls les faits validés, sourcés, datés et versionnés sont alors
- * jouables. Ne concerne jamais le contenu religieux (toujours validé + sourcé).
+ * « unverified » (catalogue de démo). **Faux en production** : aucune vraie
+ * partie ne sert de contenu non validé. Seuls les faits validés, sourcés,
+ * datés et versionnés sont jouables ; le catalogue de démonstration reste
+ * dans les fichiers pour référence, simplement jamais servi. Le passer à
+ * `true` en local n'a de sens que pour inspecter les gabarits.
+ * Ne concerne jamais le contenu religieux (toujours validé + sourcé).
  */
-export const DEMO_CONTENT_ENABLED = true;
+export const DEMO_CONTENT_ENABLED = false;

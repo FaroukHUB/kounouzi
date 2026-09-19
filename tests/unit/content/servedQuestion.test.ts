@@ -95,7 +95,9 @@ describe("contenu factuel : démonstration ≠ validé", () => {
   it("l'arabe généré est marqué provisoire, distinctement de la justesse du contenu", () => {
     const q = contentRegistry().resolve({ categoryId: "maths", difficulty: 2, profileType: "adult", variation: 1 })!;
     expect(q.review).toEqual({ ar: "provisional" });
-    const g = contentRegistry().resolve({ categoryId: "geography", difficulty: 2, profileType: "adult", variation: 1 })!;
+    // La géographie de démonstration n'est plus servie par le registre : on interroge un fournisseur validé de test.
+    const validated: GeoFact = { ...GEO_FACTS[0]!, status: "validated", verifiedAt: "2026-09-03", sources: [{ title: "Référence vérifiée (fixture)" }] };
+    const g = createFactualProvider([validated]).resolve({ categoryId: "geography", difficulty: 1, profileType: "adult", variation: 0 })!;
     expect(g.review).toEqual({ ar: "provisional" });
   });
 });

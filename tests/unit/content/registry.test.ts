@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { CATEGORIES, CURATED_BANK, GEO_FACTS, categoryById, contentRegistry, difficultyBandFor } from "@/config/content";
+import { DEMO_CONTENT_ENABLED } from "@/config/demo";
 import { createContentRegistry, createCuratedProvider, createFactualProvider, playabilityIssues, type CuratedQuestion } from "@/core/content";
 
 const validReligious: CuratedQuestion = {
@@ -80,9 +81,15 @@ describe("catalogue géographique et gabarits", () => {
     expect(a).not.toEqual(provider.resolve({ categoryId: "geography", difficulty: 2, profileType: "adult", variation: 6 }));
   });
 
-  it("le registre de l'application propose religion (banques validées humainement), mathématiques et géographie ; les autres catégories curées n'ont encore rien de validé", () => {
-    expect(contentRegistry().availableCategories("child")).toEqual(["religion", "maths", "geography"]);
-    expect(contentRegistry().availableCategories("adult")).toEqual(["religion", "maths", "geography"]);
+  it("le registre de l'application ne propose que religion (banques validées humainement) et mathématiques : la géographie de démonstration n'est PAS servie, les autres catégories curées n'ont rien de validé", () => {
+    expect(contentRegistry().availableCategories("child")).toEqual(["religion", "maths"]);
+    expect(contentRegistry().availableCategories("adult")).toEqual(["religion", "maths"]);
+    // Le catalogue reste dans les fichiers pour référence, simplement jamais servi.
+    expect(DEMO_CONTENT_ENABLED).toBe(false);
+    expect(GEO_FACTS.length).toBeGreaterThan(0);
+    expect(GEO_FACTS.every((f) => f.status === "unverified")).toBe(true);
+    expect(contentRegistry().resolve({ categoryId: "geography", difficulty: 2, profileType: "adult", variation: 0 })).toBeNull();
+    expect(contentRegistry().slots("child").some((sl) => sl.categoryId === "geography")).toBe(false);
   });
 });
 
