@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { CATEGORIES, GEO_FACTS, contentRegistry } from "@/config/content";
-import { createContentRegistry, createFactualProvider, factPlayabilityIssues, questionRefKey, rebuildMaths, type GeoFact } from "@/core/content";
+import { createContentRegistry, createFactualProvider, factPlayabilityIssues, MATHS_GENERATOR_VERSION, questionRefKey, rebuildMaths, type GeoFact } from "@/core/content";
 import { deserializeGameState, reduce, serializeGameState } from "@/core/game";
 import { GAME_SCHEMA_VERSION } from "@/core/game";
 import { active, answer, create, eventsOf, journey, makeLineSetup, makeSetup, pid, run } from "../../fixtures/game/setup.fixture";
@@ -50,11 +50,13 @@ describe("question figée dans l'état (ServeQuestion)", () => {
     const q = registry.resolve({ categoryId: "maths", difficulty: 3, profileType: "child", variation: 4 })!;
     expect(q.ref.origin).toBe("algorithmic");
     if (q.ref.origin !== "algorithmic") return;
-    expect(Object.keys(q.ref.params).sort()).toEqual(["a", "b"]);
-    expect(q.ref.generatorVersion).toBe(1);
+    // La référence porte le modèle pédagogique servi et ses opérandes réels, pas une opération nue.
+    expect(q.ref.generatorId).toBe("maths.MATH-016");
+    expect(q.ref.generatorVersion).toBe(MATHS_GENERATOR_VERSION);
+    expect(q.ref.params).toEqual({ heure: 9, minute: 35, duree: 55, finHeure: 10, finMinute: 30 });
     expect(rebuildMaths(q.ref)).toEqual(q);
     expect(rebuildMaths({ ...q.ref, generatorVersion: 99 })).toBeNull();
-    expect(questionRefKey(q.ref)).toContain(`a=${q.ref.params["a"]}`);
+    expect(questionRefKey(q.ref)).toContain(`duree=${q.ref.params["duree"]}`);
   });
 
   it("sérialisation : l'état avec question servie fait l'aller-retour ; une v2 migre (sans question figée) jusqu'à la version courante", () => {

@@ -107,7 +107,9 @@ describe("révision, anti-répétition et convergence", () => {
 
   it("une formulation algorithmique change d'un essai à l'autre sur la même notion", () => {
     const registry = createContentRegistry(CATEGORIES, [createAlgorithmicProvider()]);
-    const slots = registry.slots("child").filter((s) => s.knowledgeNodeId === "maths.addition.d2");
+    // Une même compétence est travaillée par plusieurs modèles paramétriques (MATH-002, MATH-007, MATH-013).
+    const slots = registry.slots("child").filter((s) => s.knowledgeNodeId === "maths.soustraction.reste");
+    expect(slots.length).toBeGreaterThan(0);
     let memory = emptyMemory(child.playerId);
     const keys = new Set<string>();
     for (let i = 0; i < 6; i += 1) {

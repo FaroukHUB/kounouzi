@@ -193,7 +193,8 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   de profil + résumé. Reprise depuis l'accueil.
 - **Cartes** (ADR 0021) : ouvertes et refermées par la file d'animation,
   état transitoire reconstruit depuis la phase à la reprise.
-- **Contenu** (ADR 0020, 0022) : `src/core/content` (maths algorithmiques,
+- **Contenu** (ADR 0020, 0022, 0037) : `src/core/content` (maths : 30 modèles
+  pédagogiques validés à variantes numériques construites pour tomber juste,
   géographie factuelle, banque curée gardée) ; chaque fournisseur énumère ses
   **créneaux de connaissance** (`KnowledgeSlot` : notion, difficulté,
   audience, instanciation par compteur). La question distribuée est **figée
@@ -246,6 +247,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | Plateau 28 | 12 établissements, 6 Savoir, 5 Défi, 2 Halte, 1 Don, 1 Trésor, 1 Départ ; contour exact d’une grille 8×8 avec 28 cases de mêmes dimensions. Départ +100, Trésor +100, Don fixe de 20, Zakat al-Māl hors plateau par ḥawl de 6 tours à 2,5 % exact. L’ancien plateau 26 reste lisible dans les sauvegardes/configurations historiques. | livrée |
 | Établissements | Voix automatique OFF par défaut (session v2, jamais bloquante) ; « Monument » → « Établissement » : 12 établissements fictifs en données (familles, service, frais), arrivée chez un autre joueur = service consommé et frais payés au propriétaire ; cartes Hassanāt (ressource `hassanatPoints` distincte, banque Zod, accepter / passer, score configurable, formule de victoire non décidée), schéma v9 (ADR 0035) | livrée |
 | Voix en ligne | Une seule voix qui dit tout (prénoms, montants, FR et AR) : route serveur `/api/voix` (clé côté serveur, cache immuable), `CloudNarrator` derrière le `NarrationService`, phrases fixes pré-générées (`pnpm voice:generate`), voix de l'appareil en secours, narration ON par défaut (session v3), déblocage audio au premier toucher (ADR 0036) | livrée |
+| Mathématiques | 30 modèles pédagogiques validés (`MATH-001` … `MATH-030`, 21 compétences) remplacent les opérations nues : 3 modèles statiques dont les nombres sont la démonstration, 27 paramétriques dont les valeurs sont construites pour tomber juste (division exacte, soustraction jamais négative, pourcentage entier). Bornes numériques pédagogiques par difficulté, sans rapport avec l'économie du plateau. Un modèle = un créneau ; l'âge amorce le niveau, le Learning Engine seul le fait évoluer ; générateur en version 2 (ADR 0037) | livrée |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
 | 7     | Mes trésors, écran parent                                    | à venir  |
 | 8     | Back-office de contenu                                       | à venir  |
