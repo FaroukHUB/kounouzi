@@ -4,13 +4,14 @@ import { LEARNING_CONFIG } from "@/config/learning";
 import { createAlgorithmicProvider, createContentRegistry, createCuratedProvider, createFactualProvider, type QuestionInstance } from "@/core/content";
 import { addDays, applyAttempt, attemptId, commonEligibleCategories, emptyMemory, selectDuelCategory, selectQuestion, type DuelParticipant, type LearnerContext, type PlayerLearningMemory } from "@/core/learning";
 import type { AnswerOutcome, GameId } from "@/core/shared";
-import { TEST_ADULT_ONLY, TEST_ARABIC, TEST_CHILD_ONLY } from "../../fixtures/content/curated.fixture";
+import { FACTUAL_GEO_CATEGORIES, TEST_ADULT_ONLY, TEST_ARABIC, TEST_CHILD_ONLY } from "../../fixtures/content/curated.fixture";
 import { pid } from "../../fixtures/game/setup.fixture";
 import { T0 } from "../../fixtures/learning/resolve.fixture";
 
 const cfg = LEARNING_CONFIG;
 const game = "game-duel-cat" as GameId;
-const registry = createContentRegistry(CATEGORIES, [createAlgorithmicProvider(), createFactualProvider(GEO_FACTS, { allowUnverified: true }), createCuratedProvider([...TEST_ARABIC, ...TEST_CHILD_ONLY, ...TEST_ADULT_ONLY], CATEGORIES)]);
+// Trois catégories servies : maths, géographie (régime factuel déclaré par la fixture) et arabe.
+const registry = createContentRegistry(FACTUAL_GEO_CATEGORIES, [createAlgorithmicProvider(), createFactualProvider(GEO_FACTS, { allowUnverified: true }), createCuratedProvider([...TEST_ARABIC, ...TEST_CHILD_ONLY, ...TEST_ADULT_ONLY], FACTUAL_GEO_CATEGORIES)]);
 
 let n = 0;
 /** Fait vivre à un joueur une série de réponses dans une catégorie (questions choisies par son propre moteur). */

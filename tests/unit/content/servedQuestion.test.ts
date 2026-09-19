@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, GEO_FACTS, contentRegistry } from "@/config/content";
+import { GEO_FACTS, contentRegistry } from "@/config/content";
 import { createContentRegistry, createFactualProvider, factPlayabilityIssues, MATHS_GENERATOR_VERSION, questionRefKey, rebuildMaths, type GeoFact } from "@/core/content";
 import { deserializeGameState, reduce, serializeGameState } from "@/core/game";
 import { GAME_SCHEMA_VERSION } from "@/core/game";
 import { active, answer, create, eventsOf, journey, makeLineSetup, makeSetup, pid, run } from "../../fixtures/game/setup.fixture";
+import { FACTUAL_GEO_CATEGORIES } from "../../fixtures/content/curated.fixture";
 import { resolveFor } from "../../fixtures/learning/resolve.fixture";
 
 const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", child: { birthYear: 2018 } }));
@@ -25,7 +26,7 @@ describe("question figée dans l'état (ServeQuestion)", () => {
   it("reprise exacte : une modification du contenu ne change jamais une question déjà commencée", () => {
     // 1. distribuer une question (géographie, catalogue A)
     const asked = journey(create(makeLineSetup({ players: makeSetup().players.slice(0, 2) })).state);
-    const registryA = createContentRegistry(CATEGORIES, [createFactualProvider(GEO_FACTS, { allowUnverified: true })]);
+    const registryA = createContentRegistry(FACTUAL_GEO_CATEGORIES, [createFactualProvider(GEO_FACTS, { allowUnverified: true })]);
     const original = resolveFor(asked.state, profiles, registryA)!;
     expect(original.ref.origin).toBe("factual");
     // 2. sauvegarder en awaiting_answer avec la question figée
@@ -33,7 +34,7 @@ describe("question figée dans l'état (ServeQuestion)", () => {
     const saved = serializeGameState(served.state);
     // 3. simuler une modification du catalogue : ordre inversé, fait supprimé, capitale « corrigée », nouvelle version
     const modified: GeoFact[] = [...GEO_FACTS].reverse().filter((f) => f.id !== (original.ref.origin === "factual" ? original.ref.factId : "")).map((f) => ({ ...f, version: 2, capital: { fr: `${f.capital.fr} (v2)`, ar: f.capital.ar } }));
-    const registryB = createContentRegistry(CATEGORIES, [createFactualProvider(modified, { allowUnverified: true })]);
+    const registryB = createContentRegistry(FACTUAL_GEO_CATEGORIES, [createFactualProvider(modified, { allowUnverified: true })]);
     // 4. restaurer
     const restored = deserializeGameState(saved);
     expect(restored.ok).toBe(true);

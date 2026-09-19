@@ -1,17 +1,18 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, GEO_FACTS } from "@/config/content";
+import { GEO_FACTS } from "@/config/content";
 import { LEARNING_CONFIG } from "@/config/learning";
 import { createAlgorithmicProvider, createContentRegistry, createCuratedProvider, createFactualProvider, type ContentRegistry, type QuestionInstance } from "@/core/content";
 import { addDays, applyAttempt, attemptId, emptyMemory, selectQuestion, type Attempt, type LearnerContext, type LearningConfig, type PlayerLearningMemory } from "@/core/learning";
 import type { AnswerOutcome, GameId } from "@/core/shared";
-import { TEST_ARABIC } from "../../fixtures/content/curated.fixture";
+import { FACTUAL_GEO_CATEGORIES, TEST_ARABIC } from "../../fixtures/content/curated.fixture";
 import { pid } from "../../fixtures/game/setup.fixture";
 import { T0 } from "../../fixtures/learning/resolve.fixture";
 
 const game = "game-variety" as GameId;
 const child: LearnerContext = { playerId: pid("maryam"), profileType: "child", seedLevel: 2 };
 const adult: LearnerContext = { playerId: pid("papa"), profileType: "adult", seedLevel: 4 };
-const registry = (): ContentRegistry => createContentRegistry(CATEGORIES, [createAlgorithmicProvider(), createFactualProvider(GEO_FACTS, { allowUnverified: true }), createCuratedProvider(TEST_ARABIC, CATEGORIES)]);
+// Trois catégories servies : maths (algorithmique), géographie (régime factuel déclaré par la fixture) et arabe (curé de test).
+const registry = (): ContentRegistry => createContentRegistry(FACTUAL_GEO_CATEGORIES, [createAlgorithmicProvider(), createFactualProvider(GEO_FACTS, { allowUnverified: true }), createCuratedProvider(TEST_ARABIC, FACTUAL_GEO_CATEGORIES)]);
 
 function record(memory: PlayerLearningMemory, learner: LearnerContext, q: QuestionInstance, outcome: AnswerOutcome, at: string, n: number, cfg: LearningConfig): PlayerLearningMemory {
   const a: Attempt = { id: attemptId(game, `q${n}`), playerId: learner.playerId, gameId: game, knowledgeNodeId: q.knowledgeNodeId, ref: q.ref, categoryId: q.categoryId, difficulty: q.difficulty, outcome, validationMode: "collective", explanationKnown: "none", rewardGranted: outcome !== "incorrect", answeredAt: at };

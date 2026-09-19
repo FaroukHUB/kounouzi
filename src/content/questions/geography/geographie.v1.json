@@ -1,0 +1,756 @@
+{
+  "$comment": "Géographie V1 — 30 cartes contrôlées, écrites par l’auteur du jeu, JAMAIS générées. Règle propre à cette catégorie : toute question géographique exige une source avant validation finale, même quand le fait paraît évident (categories.v1.json : geography.requiresSource = true). Aucune source n’a encore été fournie : les 30 cartes sont donc en statut draft et la garde de jouabilité les refuse toutes. Rien n’est servi en production tant que la vérification humaine n’a pas eu lieu. Aucune source n’est inventée ici, aucune URL fictive : le tableau sources est vide, pas approximatif. L’arabe des énoncés et des réponses vient de l’auteur ; les explications arabes sont la traduction fidèle de l’explication française fournie, et restent arReview = provisional jusqu’à relecture humaine. Quatre cartes (GEO-011, GEO-021, GEO-022, GEO-027) n’ont reçu aucune explication : elles restent vides, signalées par reviewNotes, plutôt qu’inventées.",
+  "version": 1,
+  "questions": [
+    {
+      "id": "GEO-001",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.continents.situation",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans quel continent se trouve l’Algérie ?",
+        "ar": "في أيّ قارة تقع الجزائر؟"
+      },
+      "answer": {
+        "fr": "En Afrique.",
+        "ar": "في إفريقيا."
+      },
+      "explanation": {
+        "fr": "L’Algérie se trouve au nord du continent africain.",
+        "ar": "تقع الجزائر في شمال القارة الإفريقية."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-002",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.formes.ile",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Qu’est-ce qu’une île ?",
+        "ar": "ما هي الجزيرة؟"
+      },
+      "answer": {
+        "fr": "Une terre entourée d’eau.",
+        "ar": "أرض يحيط بها الماء من كل الجهات."
+      },
+      "explanation": {
+        "fr": "Une île est entourée d’eau de tous les côtés.",
+        "ar": "الجزيرة أرض يحيط بها الماء من كل الجهات."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-003",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.eau.mer-riviere",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Où trouve-t-on généralement le plus d’eau : dans une mer ou dans une rivière ?",
+        "ar": "أين نجد ماءً أكثر عادةً: في البحر أم في النهر؟"
+      },
+      "answer": {
+        "fr": "Dans une mer.",
+        "ar": "في البحر."
+      },
+      "explanation": {
+        "fr": "Une mer est beaucoup plus vaste qu’une rivière.",
+        "ar": "البحر أوسع بكثير من النهر."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-004",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.climat.desert",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Sahara est-il une forêt ou un désert ?",
+        "ar": "هل الصحراء الكبرى غابة أم صحراء؟"
+      },
+      "answer": {
+        "fr": "Un désert.",
+        "ar": "صحراء."
+      },
+      "explanation": {
+        "fr": "Le Sahara reçoit très peu de pluie.",
+        "ar": "تتلقّى الصحراء الكبرى مطرًا قليلًا جدًّا."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-005",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.climat.altitude",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Si tu montes très haut dans une montagne, fait-il généralement plus chaud ou plus froid ?",
+        "ar": "إذا صعدتَ عاليًا في الجبل، هل يكون الجوّ عادةً أحرّ أم أبرد؟"
+      },
+      "answer": {
+        "fr": "Plus froid.",
+        "ar": "أبرد."
+      },
+      "explanation": {
+        "fr": "La température baisse généralement quand l’altitude augmente.",
+        "ar": "تنخفض درجة الحرارة عادةً كلّما ارتفعنا."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-006",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.mediterranee",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "L’Algérie se trouve-t-elle au bord de la mer Méditerranée ?",
+        "ar": "هل تقع الجزائر على البحر الأبيض المتوسط؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Le nord de l’Algérie possède une longue côte sur la Méditerranée.",
+        "ar": "لشمال الجزائر ساحل طويل على البحر الأبيض المتوسط."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-007",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.orientation.boussole",
+      "difficulty": 1,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "À quoi sert une boussole ?",
+        "ar": "ما فائدة البوصلة؟"
+      },
+      "answer": {
+        "fr": "À trouver les directions, notamment le nord.",
+        "ar": "معرفة الاتجاهات، ومنها الشمال."
+      },
+      "explanation": {
+        "fr": "Son aiguille s’aligne avec le champ magnétique terrestre.",
+        "ar": "تتّجه إبرتها وفق المجال المغناطيسي للأرض."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-008",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.carte.orientation",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Sur la plupart des cartes, où place-t-on le nord ?",
+        "ar": "في أغلب الخرائط، أين يوضع الشمال؟"
+      },
+      "answer": {
+        "fr": "En haut.",
+        "ar": "في الأعلى."
+      },
+      "explanation": {
+        "fr": "C’est une convention. Une carte peut être orientée autrement.",
+        "ar": "هذا اصطلاح متعارف عليه، وقد تُوجَّه الخريطة بطريقة أخرى."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-009",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.mediterranee",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Si tu voyages d’Algérie vers la France par bateau, quelle mer traverses-tu ?",
+        "ar": "إذا سافرتَ من الجزائر إلى فرنسا بالسفينة، أيّ بحر تعبر؟"
+      },
+      "answer": {
+        "fr": "La mer Méditerranée.",
+        "ar": "البحر الأبيض المتوسط."
+      },
+      "explanation": {
+        "fr": "Elle sépare notamment l’Afrique du Nord et le sud de l’Europe.",
+        "ar": "يفصل بين شمال إفريقيا وجنوب أوروبا."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-010",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.frontiere",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Qu’est-ce qu’une frontière ?",
+        "ar": "ما هي الحدود؟"
+      },
+      "answer": {
+        "fr": "La limite entre deux territoires ou deux pays.",
+        "ar": "الخطّ أو الحدّ الفاصل بين بلدين أو منطقتين."
+      },
+      "explanation": {
+        "fr": "Une frontière indique où se termine un territoire et où commence l’autre.",
+        "ar": "تبيّن الحدود أين ينتهي إقليم وأين يبدأ الآخر."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-011",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.cote",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Qu’est-ce qu’une côte ?",
+        "ar": "ما هو الساحل؟"
+      },
+      "answer": {
+        "fr": "La zone où la terre rencontre la mer.",
+        "ar": "المنطقة التي تلتقي فيها اليابسة بالبحر."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-012",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.carte.legende",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi une carte utilise-t-elle des couleurs et des symboles ?",
+        "ar": "لماذا تستعمل الخريطة الألوان والرموز؟"
+      },
+      "answer": {
+        "fr": "Pour représenter différentes informations.",
+        "ar": "لتمثيل معلومات مختلفة."
+      },
+      "explanation": {
+        "fr": "Une légende explique ce que signifient les couleurs et les symboles.",
+        "ar": "يشرح مفتاح الخريطة معنى الألوان والرموز."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-013",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.sahara.etendue",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Sahara se trouve-t-il uniquement en Algérie ?",
+        "ar": "هل توجد الصحراء الكبرى في الجزائر فقط؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Le Sahara s’étend sur plusieurs pays d’Afrique du Nord.",
+        "ar": "تمتدّ الصحراء الكبرى على عدّة بلدان في شمال إفريقيا."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-014",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.maghreb",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "L’Algérie, le Maroc et la Tunisie appartiennent à quelle grande région ?",
+        "ar": "إلى أيّ منطقة كبرى تنتمي الجزائر والمغرب وتونس؟"
+      },
+      "answer": {
+        "fr": "Au Maghreb.",
+        "ar": "إلى المغرب العربي."
+      },
+      "explanation": {
+        "fr": "Le Maghreb est une région d’Afrique du Nord qui comprend plusieurs pays.",
+        "ar": "المغرب العربي منطقة في شمال إفريقيا تضمّ عدّة بلدان."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-015",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.eau.ecoulement",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi beaucoup de rivières vont-elles vers la mer ?",
+        "ar": "لماذا تتجه أنهار كثيرة نحو البحر؟"
+      },
+      "answer": {
+        "fr": "Parce que l’eau suit la pente du terrain.",
+        "ar": "لأن الماء يتبع انحدار الأرض."
+      },
+      "explanation": {
+        "fr": "Elle s’écoule des zones élevées vers les zones plus basses. Certaines rivières terminent toutefois leur trajet ailleurs que dans la mer.",
+        "ar": "يجري الماء من المناطق المرتفعة إلى المناطق المنخفضة، غير أنّ بعض الأنهار ينتهي مجراها في غير البحر."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-016",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.terre.rotation",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi n’est-il pas la même heure partout sur Terre ?",
+        "ar": "لماذا لا تكون الساعة نفسها في كل مكان على الأرض؟"
+      },
+      "answer": {
+        "fr": "Parce que la Terre tourne sur elle-même.",
+        "ar": "لأن الأرض تدور حول نفسها."
+      },
+      "explanation": {
+        "fr": "Les différentes régions ne font pas face au Soleil au même moment.",
+        "ar": "لا تواجه المناطق المختلفة الشمس في الوقت نفسه."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-017",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.carte.echelle",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Sur une carte, 1 cm représente 10 km. Deux villes sont séparées de 4 cm. Quelle est leur distance réelle ?",
+        "ar": "في خريطة، يمثّل 1 سم مسافة 10 كلم. إذا كان بين مدينتين 4 سم، فما المسافة الحقيقية؟"
+      },
+      "answer": {
+        "fr": "40 km.",
+        "ar": "40 كلم."
+      },
+      "explanation": {
+        "fr": "4 × 10 = 40. C’est le principe de l’échelle d’une carte.",
+        "ar": "4 × 10 = 40، وهذا هو مبدأ مقياس الخريطة."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-018",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.climat.influence-mer",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi une ville située au bord de la mer peut-elle avoir des températures moins extrêmes qu’une ville loin de la mer ?",
+        "ar": "لماذا قد تكون درجات الحرارة قرب البحر أقلّ تطرّفًا من داخل اليابسة؟"
+      },
+      "answer": {
+        "fr": "Parce que la mer se réchauffe et se refroidit plus lentement que la terre.",
+        "ar": "لأن البحر يسخن ويبرد أبطأ من اليابسة."
+      },
+      "explanation": {
+        "fr": "Elle peut atténuer une partie des écarts de température près des côtes.",
+        "ar": "فيخفّف البحر جزءًا من فوارق الحرارة قرب السواحل."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-019",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.coordonnees",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quelle est la différence entre latitude et longitude ?",
+        "ar": "ما الفرق بين خطّ العرض وخطّ الطول؟"
+      },
+      "answer": {
+        "fr": "La latitude mesure la position nord-sud, la longitude la position est-ouest.",
+        "ar": "خطّ العرض يحدّد الموقع شمالًا وجنوبًا، وخطّ الطول شرقًا وغربًا."
+      },
+      "explanation": {
+        "fr": "Ensemble, elles permettent de situer précisément un point sur Terre.",
+        "ar": "وبهما معًا يمكن تحديد موقع أيّ نقطة على الأرض بدقّة."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-020",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.climat.facteurs",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Deux villes situées à la même latitude ont-elles forcément le même climat ?",
+        "ar": "هل للمدينتين الواقعتين على خطّ العرض نفسه المناخ نفسه بالضرورة؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "L’altitude, la mer, les vents ou les courants marins peuvent modifier fortement le climat.",
+        "ar": "فالارتفاع والبحر والرياح والتيارات البحرية قد تغيّر المناخ تغييرًا كبيرًا."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-021",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.climat.desert",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi existe-t-il des déserts froids ?",
+        "ar": "لماذا توجد صحارى باردة؟"
+      },
+      "answer": {
+        "fr": "Parce qu’un désert est défini surtout par le manque de précipitations, pas par la chaleur.",
+        "ar": "لأن الصحراء تُعرَّف أساسًا بقلة التساقطات لا بالحرارة."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-022",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.carte.echelle",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi l’échelle d’une carte est-elle importante ?",
+        "ar": "لماذا مقياس الخريطة مهم؟"
+      },
+      "answer": {
+        "fr": "Parce qu’elle permet de transformer une distance sur la carte en distance réelle.",
+        "ar": "لأنه يسمح بتحويل المسافة على الخريطة إلى مسافة حقيقية."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-023",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.ville.implantation",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi beaucoup de grandes villes se sont-elles développées près d’un fleuve, d’une côte ou d’un port ?",
+        "ar": "لماذا نشأت مدن كبرى كثيرة قرب نهر أو ساحل أو ميناء؟"
+      },
+      "answer": {
+        "fr": "Parce que l’eau facilite l’approvisionnement, le transport et le commerce.",
+        "ar": "لأن الماء يسهّل التموين والنقل والتجارة."
+      },
+      "explanation": {
+        "fr": "Ce n’est pas la seule raison possible, mais elle a joué un rôle important dans de nombreuses villes.",
+        "ar": "وليس هذا السبب الوحيد، لكنه أدّى دورًا مهمًّا في مدن كثيرة."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-024",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.eau.barrage",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi un barrage peut-il être utile dans une région où l’eau varie beaucoup selon les saisons ?",
+        "ar": "لماذا يكون السدّ مفيدًا في منطقة يتغيّر فيها توفر الماء حسب الفصول؟"
+      },
+      "answer": {
+        "fr": "Parce qu’il permet de stocker une partie de l’eau pour l’utiliser plus tard.",
+        "ar": "لأنه يسمح بتخزين جزء من الماء لاستعماله لاحقًا."
+      },
+      "explanation": {
+        "fr": "Elle peut servir notamment à l’alimentation en eau, à l’irrigation ou parfois à produire de l’électricité.",
+        "ar": "وقد يُستعمَل هذا الماء للتزوّد بالشرب أو للسقي أو أحيانًا لإنتاج الكهرباء."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-025",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.projection",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi une route aérienne qui semble courbée sur un planisphère peut-elle être la plus courte ?",
+        "ar": "لماذا قد يكون المسار الجوي المنحني على الخريطة المسطّحة هو الأقصر؟"
+      },
+      "answer": {
+        "fr": "Parce que la Terre est approximativement sphérique et que la carte plane déforme les distances.",
+        "ar": "لأن الأرض شبه كروية والخريطة المسطّحة تشوّه المسافات."
+      },
+      "explanation": {
+        "fr": "Les trajets les plus courts suivent des arcs sur le globe qui peuvent sembler courbés sur une carte.",
+        "ar": "فأقصر المسارات تتبع أقواسًا على الكرة الأرضية قد تبدو منحنية على الخريطة."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-026",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.projection",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi certaines cartes donnent-elles l’impression que les pays proches des pôles sont énormes ?",
+        "ar": "لماذا تبدو بعض البلدان القريبة من القطبين ضخمة في بعض الخرائط؟"
+      },
+      "answer": {
+        "fr": "À cause de la projection utilisée.",
+        "ar": "بسبب طريقة إسقاط سطح الأرض على الخريطة."
+      },
+      "explanation": {
+        "fr": "Transformer une surface courbe en carte plate impose des déformations de taille, de forme ou de distance.",
+        "ar": "فتحويل سطح كرويّ إلى خريطة مسطّحة يفرض تشويهًا في المساحة أو الشكل أو المسافة."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-027",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.climat.altitude",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Deux endroits reçoivent autant de Soleil, mais l’un est à 2 000 mètres d’altitude. Pourquoi peut-il être beaucoup plus froid ?",
+        "ar": "مكانان يتلقيان قدرًا متقاربًا من الشمس، لكن أحدهما على ارتفاع 2000 متر. لماذا قد يكون أبرد بكثير؟"
+      },
+      "answer": {
+        "fr": "Parce que la température de l’air diminue généralement avec l’altitude dans la basse atmosphère.",
+        "ar": "لأن حرارة الهواء تنخفض عادةً مع الارتفاع في الطبقات السفلى من الغلاف الجوي."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-028",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.relief.ombre-pluviometrique",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi une chaîne de montagnes peut-elle rendre un côté plus humide et l’autre plus sec ?",
+        "ar": "لماذا قد تجعل سلسلة جبال جهةً رطبة وأخرى جافة؟"
+      },
+      "answer": {
+        "fr": "Parce que l’air humide monte, se refroidit et perd de l’eau avant de redescendre de l’autre côté.",
+        "ar": "لأن الهواء الرطب يرتفع ويبرد ويفقد جزءًا من مائه قبل أن ينزل في الجهة الأخرى."
+      },
+      "explanation": {
+        "fr": "Cela peut créer une zone sèche appelée « ombre pluviométrique ».",
+        "ar": "وقد ينشأ عن ذلك نطاق جافّ يُسمّى «ظلّ المطر»."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-029",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.population.densite",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une région possède beaucoup de terres mais très peu d’habitants. Peut-on dire qu’elle est densément peuplée ?",
+        "ar": "منطقة واسعة جدًّا لكن سكانها قليلون. هل نقول إن كثافتها السكانية مرتفعة؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "La densité de population compare le nombre d’habitants à la superficie du territoire.",
+        "ar": "فالكثافة السكانية تقارن عدد السكان بمساحة الإقليم."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    },
+    {
+      "id": "GEO-030",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "geo.milieu.diversite",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi deux endroits séparés de seulement 100 km peuvent-ils avoir des paysages très différents ?",
+        "ar": "لماذا قد يختلف منظر منطقتين تفصل بينهما 100 كلم فقط اختلافًا كبيرًا؟"
+      },
+      "answer": {
+        "fr": "Parce que la distance seule ne détermine pas le milieu.",
+        "ar": "لأن المسافة وحدها لا تحدّد البيئة."
+      },
+      "explanation": {
+        "fr": "L’altitude, le relief, l’eau, le sol, les vents et le climat peuvent changer rapidement d’un endroit à l’autre.",
+        "ar": "فالارتفاع والتضاريس والماء والتربة والرياح والمناخ قد تتغيّر بسرعة من مكان إلى آخر."
+      },
+      "sources": [],
+      "reviewNotes": "source obligatoire à fournir avant validation ; arabe à relire."
+    }
+  ]
+}

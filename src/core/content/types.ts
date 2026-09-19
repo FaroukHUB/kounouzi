@@ -167,4 +167,6 @@ export interface CuratedQuestion {
   readonly ageBand?: string | undefined;
   /** Note de relecture humaine (ex. arabe à saisir) : une carte annotée reste en brouillon. */
   readonly reviewNotes?: string | undefined;
+  /** Qualité linguistique de l'arabe de CETTE carte. Absent = `reviewed` (banques relues contre leur source). */
+  readonly arReview?: "provisional" | "reviewed" | undefined;
 }

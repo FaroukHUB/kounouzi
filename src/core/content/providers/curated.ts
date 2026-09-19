@@ -22,7 +22,7 @@ export function createCuratedProvider(bank: readonly CuratedQuestion[], categori
     answer: q.answer,
     explanation: q.explanation,
     sources: q.sources,
-    review: { ar: "reviewed" },
+    review: { ar: q.arReview ?? "reviewed" },
     ...(q.title === undefined ? {} : { title: q.title }),
     ...(q.animationKey === undefined ? {} : { animationKey: q.animationKey }),
   });

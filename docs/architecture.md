@@ -193,9 +193,10 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   de profil + résumé. Reprise depuis l'accueil.
 - **Cartes** (ADR 0021) : ouvertes et refermées par la file d'animation,
   état transitoire reconstruit depuis la phase à la reprise.
-- **Contenu** (ADR 0020, 0022, 0037) : `src/core/content` (maths : 30 modèles
-  pédagogiques validés à variantes numériques construites pour tomber juste,
-  géographie factuelle, banque curée gardée) ; chaque fournisseur énumère ses
+- **Contenu** (ADR 0020, 0022, 0037, 0038) : `src/core/content` (maths : 30
+  modèles pédagogiques validés à variantes numériques construites pour tomber
+  juste, banque curée gardée — la géographie en fait désormais partie) ;
+  chaque fournisseur énumère ses
   **créneaux de connaissance** (`KnowledgeSlot` : notion, difficulté,
   audience, instanciation par compteur). La question distribuée est **figée
   dans l'état** (`ServeQuestion` → `phase.served`, référence versionnée
@@ -248,6 +249,7 @@ l'état : une partie reprend exactement à l'écran où elle s'est arrêtée.
 | Établissements | Voix automatique OFF par défaut (session v2, jamais bloquante) ; « Monument » → « Établissement » : 12 établissements fictifs en données (familles, service, frais), arrivée chez un autre joueur = service consommé et frais payés au propriétaire ; cartes Hassanāt (ressource `hassanatPoints` distincte, banque Zod, accepter / passer, score configurable, formule de victoire non décidée), schéma v9 (ADR 0035) | livrée |
 | Voix en ligne | Une seule voix qui dit tout (prénoms, montants, FR et AR) : route serveur `/api/voix` (clé côté serveur, cache immuable), `CloudNarrator` derrière le `NarrationService`, phrases fixes pré-générées (`pnpm voice:generate`), voix de l'appareil en secours, narration ON par défaut (session v3), déblocage audio au premier toucher (ADR 0036) | livrée |
 | Mathématiques | 30 modèles pédagogiques validés (`MATH-001` … `MATH-030`, 21 compétences) remplacent les opérations nues : 3 modèles statiques dont les nombres sont la démonstration, 27 paramétriques dont les valeurs sont construites pour tomber juste (division exacte, soustraction jamais négative, pourcentage entier). Bornes numériques pédagogiques par difficulté, sans rapport avec l'économie du plateau. Un modèle = un créneau ; l'âge amorce le niveau, le Learning Engine seul le fait évoluer ; générateur en version 2 (ADR 0037) | livrée |
+| Géographie | Régime factuel abandonné : 30 cartes contrôlées écrites une par une (`GEO-001` … `GEO-030`, 25 compétences, 6 par tranche d'âge de 5-6 à 13+), jamais assemblées par gabarit. Source OBLIGATOIRE même quand le fait paraît évident (`requiresSource`) : aucune n'ayant encore été fournie, les 30 cartes restent `draft`, le tableau `sources` est vide plutôt qu'approximatif, et rien n'est servi en production. Arabe déclaré `provisional` par la donnée (`arReview`) ; quatre explications non fournies restent vides plutôt qu'inventées (ADR 0038) | en attente de vérification |
 | 6     | Supabase, auth anonyme, RLS, synchronisation                 | à venir  |
 | 7     | Mes trésors, écran parent                                    | à venir  |
 | 8     | Back-office de contenu                                       | à venir  |

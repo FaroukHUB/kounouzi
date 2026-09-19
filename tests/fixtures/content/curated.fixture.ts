@@ -1,4 +1,5 @@
-import type { CuratedQuestion } from "@/core/content";
+import { CATEGORIES } from "@/config/content";
+import type { CategoryDefinition, CuratedQuestion } from "@/core/content";
 
 /**
  * ⚠️ FIXTURES DE TEST — banque curée fictive pour exercer le Learning Engine
@@ -42,3 +43,16 @@ export const TEST_ADULT_ONLY: readonly CuratedQuestion[] = [
 ];
 
 export const TEST_CURATED: readonly CuratedQuestion[] = [...TEST_ARABIC, ...TEST_CHILD_ONLY, ...TEST_ADULT_ONLY];
+
+/**
+ * ⚠️ FIXTURE DE TEST — catégories de l'application avec la géographie remise
+ * en régime FACTUEL. Depuis l'ADR 0038 la géographie de production est une
+ * banque contrôlée (`curated`) ; le régime factuel existe toujours et reste
+ * sous test, mais plus aucune catégorie réelle ne le déclare. Les tests qui
+ * exercent ce régime — ou qui ont besoin d'une troisième catégorie servie par
+ * les faits de démonstration — le déclarent donc ici explicitement, au lieu de
+ * supposer que la géographie est encore factuelle.
+ */
+export const FACTUAL_GEO_CATEGORIES: readonly CategoryDefinition[] = CATEGORIES.map((c) =>
+  c.id === "geography" ? { ...c, generationMode: "factual" as const, requiresSource: false } : c,
+);

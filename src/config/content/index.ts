@@ -24,6 +24,7 @@ import durousJson from "@/content/questions/religion/ad-durous-al-mouhimmah.v1.j
 import sirahJson from "@/content/questions/religion/sirah-al-urjuzah.v1.json";
 import qawaidJson from "@/content/questions/religion/al-qawaid-al-arba.v1.json";
 import kalimahJson from "@/content/questions/religion/kalimah-at-tawhid.v1.json";
+import geographieJson from "@/content/questions/geography/geographie.v1.json";
 
 const bilingual = z.object({ fr: z.string().min(1), ar: z.string().min(1) });
 /** Énoncé et réponse : français obligatoire, arabe facultatif (ajouté par relecture humaine). */
@@ -66,16 +67,20 @@ export const curatedBankSchema = z.object({
       status: z.enum(CURATED_STATUSES),
       prompt: frenchFirst,
       answer: frenchFirst,
-      // Une explication arabe vide n'est tolérée qu'en brouillon : la garde de jouabilité la refuse toujours.
-      explanation: z.object({ fr: z.string().min(1), ar: z.string() }),
+      // Une explication vide n'est tolérée qu'en brouillon : la garde de jouabilité la refuse toujours.
+      // Une explication absente reste absente : on ne la remplit jamais d'un texte inventé pour satisfaire le schéma.
+      explanation: z.object({ fr: z.string(), ar: z.string() }),
       sources: z.array(sourceSchema),
       title: z.string().min(1).optional(),
       animationKey: z.string().min(1).optional(),
       animationHint: z.string().min(1).optional(),
       ageBand: z.string().min(1).optional(),
       reviewNotes: z.string().min(1).optional(),
+      arReview: z.enum(["provisional", "reviewed"]).optional(),
     }),
-  ).refine((qs) => qs.every((q) => q.status !== "validated" || q.explanation.ar.trim() !== ""), { message: "une question validée exige une explication arabe" }),
+  )
+    .refine((qs) => qs.every((q) => q.status !== "validated" || q.explanation.fr.trim() !== ""), { message: "une question validée exige une explication française" })
+    .refine((qs) => qs.every((q) => q.status !== "validated" || q.explanation.ar.trim() !== ""), { message: "une question validée exige une explication arabe" }),
 });
 const band = z.tuple([z.number().int().min(1).max(5), z.number().int().min(1).max(5)]);
 export const bandsSchema = z.object({ child: z.array(z.object({ maxAge: z.number().int().min(0).optional(), band })).min(1), adult: z.record(z.string(), band) });
@@ -106,8 +111,16 @@ export const RELIGION_BANKS: ReadonlyArray<{ readonly id: string; readonly work:
   { id: "al-qawaid-al-arba", work: "Sharḥ al-Qawāʿid al-Arbaʿ", questions: QAWAID_BANK, perLevel: 5 },
   { id: "kalimah-at-tawhid", work: "Kalimah at-Tawhid: Lā ilāha illā Allāh", questions: KALIMAH_BANK, perLevel: 5 },
 ];
+/**
+ * Banque « Géographie V1 » : 30 cartes écrites par l'auteur du jeu, jamais
+ * générées (ADR 0038). La géographie exige une source même quand le fait
+ * paraît évident ; aucune n'a encore été fournie, donc les 30 cartes restent
+ * `draft` et la garde les refuse toutes. Rien n'est servi tant que la
+ * vérification humaine n'a pas eu lieu.
+ */
+export const GEOGRAPHY_BANK: readonly CuratedQuestion[] = curatedBankSchema.parse(geographieJson).questions;
 /** Banque curée complète : seules les questions `validated` (et sourcées si la catégorie l'exige) sont jouables. */
-export const CURATED_BANK: readonly CuratedQuestion[] = [...curatedBankSchema.parse(curatedJson).questions, ...RELIGION_BANKS.flatMap((b) => b.questions)];
+export const CURATED_BANK: readonly CuratedQuestion[] = [...curatedBankSchema.parse(curatedJson).questions, ...RELIGION_BANKS.flatMap((b) => b.questions), ...GEOGRAPHY_BANK];
 const BANDS = bandsSchema.parse(bandsJson);
 
 export const categoryById = (id: string): CategoryDefinition | undefined => CATEGORIES.find((c) => c.id === id);
@@ -133,7 +146,8 @@ let registry: ContentRegistry | null = null;
 export function contentRegistry(): ContentRegistry {
   registry ??= createContentRegistry(CATEGORIES, [
     createAlgorithmicProvider(),
-    // Faits de démonstration « unverified » acceptés UNIQUEMENT derrière le drapeau explicite ; jamais promus « validated ».
+    // Régime factuel conservé (contrat et tests) mais plus branché sur aucune catégorie : depuis l'ADR 0038
+    // la géographie est une banque contrôlée. Les faits de démonstration restent « unverified », jamais promus.
     createFactualProvider(GEO_FACTS, { allowUnverified: DEMO_CONTENT_ENABLED }),
     createCuratedProvider(CURATED_BANK, CATEGORIES),
   ]);
