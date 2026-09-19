@@ -31,11 +31,24 @@ renommer réinitialiserait silencieusement la progression enregistrée. Seuls
 les `knowledgeNodeId` sont écrits en français, comme le reste du vocabulaire
 de notions du dépôt (`gestion.reserve`, `gestion.cout-opportunite`).
 
-### 3. Douze notions pour trente cartes
-Les cartes sont regroupées autour de 12 notions stables plutôt que
-d'inventer 30 notions distinctes : `besoin-envie`, `epargne`, `reserve`,
-`budget`, `priorite`, `planification`, `cout-total`, `valeur-unitaire`,
-`cout-duree`, `entrees-sorties`, `risque`, `cout-opportunite`.
+### 3. Dix notions pour trente cartes, aucune portée par une seule carte
+Les cartes sont regroupées autour de 10 notions stables plutôt que
+d'inventer 30 notions distinctes : `besoin-envie` (2), `epargne` (3),
+`reserve` (5), `budget` (4), `priorite` (2), `planification` (3),
+`cout-total` (4), `entrees-sorties` (2), `risque` (3),
+`cout-opportunite` (2).
+
+**Aucune notion ne repose sur une carte unique**, et c'est une contrainte,
+pas un hasard : une notion à carte unique reviendrait forcément à
+l'identique le jour où le Learning Engine la met en révision, ce qui vide la
+révision de son sens. Les deux notions qui n'avaient qu'une carte
+(`valeur-unitaire` pour GEST-017, `cout-duree` pour GEST-021) ont donc été
+rattachées à `cout-total`, qui pose exactement la même question : **quel est
+le vrai chiffre à comparer ?** Les frais de livraison à ajouter (GEST-014),
+la quantité à rapporter au prix (GEST-017), les dépenses liées à additionner
+(GEST-020) et les rachats successifs à compter (GEST-021) sont quatre façons
+d'établir la même base de comparaison. Un test interdit qu'une notion
+retombe à une seule carte.
 
 Une même notion est travaillée à plusieurs difficultés : le coût
 d'opportunité apparaît en d3 sous la forme « ce jouet ou mon objectif plus

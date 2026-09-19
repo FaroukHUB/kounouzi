@@ -1,5 +1,5 @@
 {
-  "$comment": "Gestion V1 — 30 cartes STATIQUES écrites et contrôlées par l’auteur du jeu, jamais générées, jamais tirées au hasard : le contenu de Gestion porte un raisonnement, pas un calcul à faire varier. Six cartes par tranche d’âge (5-6, 7-8, 9-10, 11-12, 13+), chaque difficulté tenant dans la bande d’amorçage de sa tranche (bands.v1.json). L’âge donne le niveau de DÉPART ; le Learning Engine existant reste ensuite seul à faire monter ou descendre le joueur. La catégorie management n’exige pas de source (requiresSource = false, comportement conservé) : ces cartes énoncent un raisonnement de gestion, pas un fait vérifiable contre une référence externe. Le tableau sources est donc vide, et aucune source n’est inventée pour autant. L’arabe vient de l’auteur et reste arReview = provisional jusqu’à relecture humaine ; c’est la qualité linguistique, distincte de la justesse du contenu, qui est validée par l’auteur (status validated).",
+  "$comment": "Gestion V1 — 30 cartes STATIQUES écrites et contrôlées par l’auteur du jeu, jamais générées, jamais tirées au hasard : le contenu de Gestion porte un raisonnement, pas un calcul à faire varier. Les cartes sont regroupées autour de notions stables portées par plusieurs cartes chacune : aucune notion de Gestion ne repose sur une carte unique, sans quoi sa révision reposerait forcément la même carte. Six cartes par tranche d’âge (5-6, 7-8, 9-10, 11-12, 13+), chaque difficulté tenant dans la bande d’amorçage de sa tranche (bands.v1.json). L’âge donne le niveau de DÉPART ; le Learning Engine existant reste ensuite seul à faire monter ou descendre le joueur. La catégorie management n’exige pas de source (requiresSource = false, comportement conservé) : ces cartes énoncent un raisonnement de gestion, pas un fait vérifiable contre une référence externe. Le tableau sources est donc vide, et aucune source n’est inventée pour autant. L’arabe vient de l’auteur et reste arReview = provisional jusqu’à relecture humaine ; c’est la qualité linguistique, distincte de la justesse du contenu, qui est validée par l’auteur (status validated).",
   "version": 1,
   "sources": [],
   "questions": [
@@ -391,7 +391,7 @@
       "id": "GEST-017",
       "version": 1,
       "categoryId": "management",
-      "knowledgeNodeId": "gestion.valeur-unitaire",
+      "knowledgeNodeId": "gestion.cout-total",
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
@@ -487,7 +487,7 @@
       "id": "GEST-021",
       "version": 1,
       "categoryId": "management",
-      "knowledgeNodeId": "gestion.cout-duree",
+      "knowledgeNodeId": "gestion.cout-total",
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",

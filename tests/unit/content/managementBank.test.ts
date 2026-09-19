@@ -69,12 +69,19 @@ describe("Gestion V1 — banque curée de 30 cartes statiques", () => {
     expect(MANAGEMENT_BANK.every((q) => q.arReview === "provisional")).toBe(true);
   });
 
-  it("les notions sont regroupées : 12 notions stables pour 30 cartes, aucune créée artificiellement", () => {
+  it("les notions sont regroupées : 10 notions stables pour 30 cartes, aucune créée artificiellement", () => {
     const nodes = new Set(MANAGEMENT_BANK.map((q) => q.knowledgeNodeId));
-    expect(nodes.size).toBe(12);
+    expect(nodes.size).toBe(10);
     expect(nodes.size).toBeLessThan(MANAGEMENT_BANK.length);
     // Convention du dépôt : identifiants en français, minuscules, segments séparés par un point.
     for (const n of nodes) expect(n, n).toMatch(/^gestion\.[a-z-]+$/);
+  });
+
+  it("aucune notion ne repose sur une carte unique : une révision ne peut pas reposer la même carte", () => {
+    const cartesParNotion = new Map<string, string[]>();
+    for (const q of MANAGEMENT_BANK) cartesParNotion.set(q.knowledgeNodeId, [...(cartesParNotion.get(q.knowledgeNodeId) ?? []), q.id]);
+    const seules = [...cartesParNotion].filter(([, cartes]) => cartes.length < 2).map(([n]) => n);
+    expect(seules).toEqual([]);
     // Une même notion est travaillée à plusieurs difficultés (comme `gestion.cout-opportunite` en d3 puis d5).
     const parNotion = new Map<string, Set<number>>();
     for (const q of MANAGEMENT_BANK) parNotion.set(q.knowledgeNodeId, (parNotion.get(q.knowledgeNodeId) ?? new Set()).add(q.difficulty));
