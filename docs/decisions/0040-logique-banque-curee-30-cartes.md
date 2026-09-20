@@ -42,18 +42,28 @@ de logique ne transporte aucun fait, la traduction n'introduit donc aucune
 affirmation nouvelle. Les 30 cartes portent `arReview: "provisional"`
 jusqu'à relecture humaine.
 
-### 4. Treize cartes restent en brouillon
-Treize cartes (LOG-003, 005, 006, 009, 012, 014, 016, 018, 020, 022, 024,
-026, 029) n'ont reçu **aucune explication** de l'auteur. Elles restent
-`draft`, explication vide et `reviewNotes` posée, plutôt que complétées par
-un texte inventé — c'est la règle déjà appliquée à la géographie (ADR 0038),
-et la décision prise par l'auteur pour les quatre cartes géographiques
-manquantes : une carte jouable doit avoir FR **et** AR complets.
+### 4. L'explication fait partie de l'apprentissage
+`logic.showsExplanation` passe à `true`, comme la religion (ADR 0030), la
+géographie (ADR 0038) et la gestion (ADR 0039). La réponse d'une carte de
+logique est souvent un seul mot (« Adam. », « Dans la bleue. ») : sans
+l'explication affichée, la carte devient un quiz.
 
-La garde de jouabilité les refuse donc, et elles ne sont servies nulle part.
-Les 17 cartes complètes sont `validated` et jouables.
+Corollaire : une carte jouable doit avoir une explication complète en FR et
+en AR. Les treize cartes qui n'en avaient pas ont été complétées par
+l'auteur, jamais inventées ici.
 
-### 5. Aucune logique de progression nouvelle
+### 5. Une carte retenue, parce que son explication ne décrit pas sa carte
+LOG-003 demande qui est le plus petit entre Lina et Adam ; l'explication
+fournie pour elle décrit une petite boîte qui entre dans une grande. Le
+texte de l'auteur est enregistré **tel quel**, sans être retouché ni
+remplacé — ce n'est pas à nous de réécrire son contenu — mais la carte reste
+`draft` et n'est pas publiée tant qu'il n'a pas tranché. Publier une
+explication qui contredit sa question apprendrait quelque chose de faux à un
+enfant, et `showsExplanation` la lui met précisément sous les yeux.
+
+Les 29 autres cartes sont `validated` et jouables.
+
+### 6. Aucune logique de progression nouvelle
 L'âge donne la tranche de départ, et rien d'autre. Les cinq tranches tiennent
 exactement dans les bandes d'amorçage de `bands.v1.json`, vérifié carte par
 carte. Ensuite le Learning Engine existant est seul à faire monter ou
@@ -63,22 +73,20 @@ fichier n'y mentionne Logique.
 ## Conséquences
 - Logique devient la **quatrième catégorie servie** :
   `availableCategories` vaut `["religion", "maths", "logic", "management"]`.
-- Le vivier jouable est de 17 cartes et couvre les cinq difficultés, mais
-  **deux notions n'ont aucune carte jouable** (`comparaison` et
-  `elimination`, dont les cartes sont toutes parmi les treize sans
-  explication), et deux autres n'en ont qu'une (`contraintes`,
-  `representation`). Le groupement est correct sur la banque complète ; ce
-  sont les explications manquantes qui le creusent. Un test constate cet état
-  plutôt que de le masquer, et il devra être mis à jour quand les treize
-  cartes seront complétées.
-- `showsExplanation` reste `false` pour Logique, comme avant. La question se
-  pose — la religion, la géographie et la gestion l'ont à `true` — mais elle
-  n'a pas été tranchée et n'est pas un effet de bord de cette décision.
+- Le vivier jouable est de 29 cartes, couvre les cinq difficultés et les dix
+  notions : **aucune notion n'est sans carte jouable**, et la seule carte
+  retenue ne vide pas la sienne (`comparaison` garde LOG-016 et LOG-020).
+- Logique affiche désormais son explication après la réponse, comme la
+  religion, la géographie et la gestion.
 
 ## Alternatives écartées
-- **Écrire nous-mêmes les treize explications manquantes** : ce serait
-  inventer du contenu à la place de l'auteur.
-- **Servir les treize cartes sans explication** : une carte de logique sans
+- **Écrire nous-mêmes les explications manquantes** : ce serait inventer du
+  contenu à la place de l'auteur. Elles ont été écrites par lui, puis
+  reprises telles quelles.
+- **Servir une carte sans explication** : une carte de logique sans
   explication n'apprend rien ; elle devient un quiz.
+- **Corriger nous-mêmes l'explication de LOG-003, ou la publier telle
+  quelle** : la réécrire serait inventer, la publier serait enseigner à un
+  enfant une explication qui contredit sa question. La carte attend.
 - **Garder les énigmes longues** : bonnes sur Internet, mauvaises autour d'un
   plateau — cinq minutes d'explication pour une case.

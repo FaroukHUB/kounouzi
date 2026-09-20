@@ -1,5 +1,5 @@
 {
-  "$comment": "Logique V1 — 30 cartes STATIQUES écrites et contrôlées par l’auteur du jeu, jamais générées, jamais tirées au hasard. Une carte doit se comprendre à l’oral en 10 à 30 secondes : les énigmes classiques qui demandent une longue mise en place ont été volontairement écartées par l’auteur. Progression voulue : 5-6 reconnaître, ordonner, comparer ; 7-8 comprendre une règle simple ; 9-10 petit piège ou petite déduction ; 11-12 croiser deux informations ; 13+ cohérence logique, conditions et déduction. Six cartes par tranche, chaque difficulté tenant dans la bande d’amorçage de sa tranche (bands.v1.json). L’âge donne le niveau de DÉPART ; le Learning Engine existant reste seul à faire monter ou descendre le joueur. La catégorie logic n’exige pas de source (requiresSource = false, comportement conservé) : une carte de logique énonce un raisonnement, pas un fait vérifiable contre une référence externe. L’ÉNONCÉ ET LA RÉPONSE français viennent de l’auteur. Tout l’arabe est une traduction fidèle, sans ajout, et reste arReview = provisional jusqu’à relecture humaine. Treize cartes n’ont reçu AUCUNE explication de l’auteur : elles restent en draft, explication vide et reviewNotes posée, plutôt qu’inventées — donc non servies tant qu’elles ne sont pas complétées.",
+  "$comment": "Logique V1 — 30 cartes STATIQUES écrites et contrôlées par l’auteur du jeu, jamais générées, jamais tirées au hasard. Une carte doit se comprendre à l’oral en 10 à 30 secondes : les énigmes classiques qui demandent une longue mise en place ont été volontairement écartées par l’auteur. Progression voulue : 5-6 reconnaître, ordonner, comparer ; 7-8 comprendre une règle simple ; 9-10 petit piège ou petite déduction ; 11-12 croiser deux informations ; 13+ cohérence logique, conditions et déduction. Six cartes par tranche, chaque difficulté tenant dans la bande d’amorçage de sa tranche (bands.v1.json). L’âge donne le niveau de DÉPART ; le Learning Engine existant reste seul à faire monter ou descendre le joueur. La catégorie logic n’exige pas de source (requiresSource = false, comportement conservé) : une carte de logique énonce un raisonnement, pas un fait vérifiable contre une référence externe. L’ÉNONCÉ ET LA RÉPONSE français viennent de l’auteur. Tout l’arabe est une traduction fidèle, sans ajout, et reste arReview = provisional jusqu’à relecture humaine. Les 30 cartes portent une explication FR et AR fournie par l’auteur. Une seule reste en draft, LOG-003 : l’explication fournie pour elle décrit une petite boîte qui entre dans une grande, alors que l’énoncé compare la taille de Lina et d’Adam. Le texte est enregistré tel quel, sans être retouché ni remplacé, et la carte n’est pas publiée tant que l’auteur n’a pas tranché.",
   "version": 1,
   "sources": [],
   "questions": [
@@ -70,11 +70,11 @@
         "ar": "آدم."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "La petite boîte peut entrer dans la grande parce qu’elle est plus petite. L’inverse n’est pas possible.",
+        "ar": "يمكن للعلبة الصغيرة أن تدخل في الكبيرة لأنها أصغر منها، أمّا العكس فلا يمكن."
       },
       "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "reviewNotes": "l’explication fournie ne décrit pas cette carte : elle parle d’une petite boîte qui entre dans une grande, alors que l’énoncé compare la taille de Lina et d’Adam. Texte appliqué tel quel, jamais retouché ; la carte reste en brouillon jusqu’à décision de l’auteur."
     },
     {
       "id": "LOG-004",
@@ -108,7 +108,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Il y a trois chaises et trois enfants. Peut-on donner une chaise à chaque enfant ?",
@@ -119,11 +119,10 @@
         "ar": "نعم."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Il y a autant de chaises que d’enfants : chacun peut donc avoir une chaise.",
+        "ar": "عدد الكراسي يساوي عدد الأطفال، لذلك يمكن أن يحصل كل طفل على كرسي."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-006",
@@ -133,7 +132,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Sara est devant Youssef. Youssef est devant Adam. Qui est au milieu ?",
@@ -144,11 +143,10 @@
         "ar": "يوسف."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "L’ordre est Sara, Youssef, Adam. Youssef est donc entre les deux.",
+        "ar": "الترتيب هو سارة ثم يوسف ثم آدم، لذلك يوسف هو الذي في الوسط."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-007",
@@ -206,7 +204,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Lina est arrivée avant Adam, et Adam avant Sami. Qui est arrivé en dernier ?",
@@ -217,11 +215,10 @@
         "ar": "سامي."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Lina est arrivée avant Adam, et Adam avant Sami. Sami est donc arrivé après les deux autres.",
+        "ar": "وصلت لينا قبل آدم، ووصل آدم قبل سامي، لذلك سامي هو الأخير."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-010",
@@ -279,7 +276,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une boîte contient seulement des pommes. Une autre contient seulement des oranges. Tu prends un fruit dans la boîte des pommes. Que peux-tu avoir ?",
@@ -290,11 +287,10 @@
         "ar": "تفّاحة."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Cette boîte ne contient que des pommes. Tout fruit pris dans cette boîte est donc une pomme.",
+        "ar": "هذه العلبة لا تحتوي إلا على التفاح، لذلك أي ثمرة نأخذها منها ستكون تفاحة."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-013",
@@ -328,7 +324,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Plus on m’enlève de matière, plus je deviens grand. Qui suis-je ?",
@@ -339,11 +335,10 @@
         "ar": "حفرة."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Quand on retire de la terre autour d’un trou, le trou devient plus grand.",
+        "ar": "عندما نزيل التراب من الحفرة تصبح الحفرة أكبر."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-015",
@@ -377,7 +372,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Adam est plus âgé que Sami. Sami est plus âgé que Lina. Qui est la plus jeune ?",
@@ -388,11 +383,10 @@
         "ar": "لينا."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Adam est plus âgé que Sami, et Sami est plus âgé que Lina. Lina est donc la plus jeune.",
+        "ar": "آدم أكبر من سامي، وسامي أكبر من لينا، لذلك لينا هي الأصغر."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-017",
@@ -426,7 +420,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une famille possède un chat et un chien. L’animal qui miaule n’est pas le chien. Quel animal miaule ?",
@@ -437,11 +431,10 @@
         "ar": "القطّ."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Parmi ces deux animaux, c’est le chat qui miaule. Le chien n’est donc pas la bonne réponse.",
+        "ar": "من بين هذين الحيوانين، القط هو الذي يموء، لذلك الكلب ليس الجواب الصحيح."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-019",
@@ -475,7 +468,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une boîte rouge est plus lourde qu’une boîte bleue. La boîte bleue est plus lourde que la verte. Laquelle est la plus légère ?",
@@ -486,11 +479,10 @@
         "ar": "الأخضر."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "La rouge est plus lourde que la bleue, et la bleue plus lourde que la verte. La verte est donc la plus légère.",
+        "ar": "العلبة الحمراء أثقل من الزرقاء، والزرقاء أثقل من الخضراء، لذلك الخضراء هي الأخف."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-021",
@@ -524,7 +516,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as trois boîtes : une rouge, une bleue et une verte. La clé n’est ni dans la rouge ni dans la verte. Où est-elle ?",
@@ -535,11 +527,10 @@
         "ar": "في الأزرق."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "La clé n’est ni dans la rouge ni dans la verte. Comme il ne reste que la bleue, elle est forcément dedans.",
+        "ar": "المفتاح ليس في الحمراء ولا في الخضراء، وبما أنه لا يبقى إلا الزرقاء فهو فيها بالضرورة."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-023",
@@ -573,7 +564,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un code comporte trois chiffres. On sait que le premier est 2, le dernier est 6 et celui du milieu est la moitié du dernier. Quel est le code ?",
@@ -584,11 +575,10 @@
         "ar": "236."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Le premier chiffre est 2. La moitié de 6 est 3. Le dernier chiffre est 6. Le code est donc 236.",
+        "ar": "الرقم الأول هو 2، ونصف 6 هو 3، والرقم الأخير هو 6، لذلك الرمز هو 236."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-025",
@@ -622,7 +612,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "On sait que « la clé est dans la boîte rouge » est faux. On sait aussi qu’elle est soit dans la rouge, soit dans la bleue. Où est-elle ?",
@@ -633,11 +623,10 @@
         "ar": "في الصندوق الأزرق."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "La clé est soit dans la rouge soit dans la bleue. Puisque l’affirmation « elle est dans la rouge » est fausse, elle est dans la bleue.",
+        "ar": "المفتاح إما في العلبة الحمراء أو الزرقاء. وبما أن عبارة «المفتاح في الحمراء» خاطئة، فهو في الزرقاء."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-027",
@@ -695,7 +684,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as trois enveloppes A, B et C. Une seule contient un billet. On sait qu’il n’est pas dans A et qu’il n’est pas dans C. Où est-il ?",
@@ -706,11 +695,10 @@
         "ar": "في «ب»."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Le billet n’est ni dans A ni dans C. Comme une seule enveloppe contient le billet, il est forcément dans B.",
+        "ar": "الورقة ليست في A ولا في C، وبما أن ظرفًا واحدًا فقط يحتوي عليها فهي في B بالضرورة."
       },
-      "sources": [],
-      "reviewNotes": "explication FR et AR à fournir (aucune n’a été rédigée par l’auteur, rien n’est inventé) ; la carte reste en brouillon tant qu’elle manque."
+      "sources": []
     },
     {
       "id": "LOG-030",

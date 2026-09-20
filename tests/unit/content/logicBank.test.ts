@@ -10,8 +10,12 @@ import { T0 } from "../../fixtures/learning/resolve.fixture";
 const arabic = /[؀-ۿ]/;
 const ids = LOGIC_BANK.map((q) => q.id);
 const partie = "game-log";
-/** Les treize cartes pour lesquelles AUCUNE explication n'a été fournie : elles restent en brouillon. */
-const SANS_EXPLICATION = ["LOG-003", "LOG-005", "LOG-006", "LOG-009", "LOG-012", "LOG-014", "LOG-016", "LOG-018", "LOG-020", "LOG-022", "LOG-024", "LOG-026", "LOG-029"];
+/**
+ * LOG-003 est la seule carte retenue : l'explication fournie par l'auteur décrit une petite boîte
+ * qui entre dans une grande, alors que l'énoncé compare la taille de Lina et d'Adam. Le texte est
+ * enregistré tel quel, jamais retouché, et la carte n'est pas publiée tant qu'il n'a pas tranché.
+ */
+const RETENUES = ["LOG-003"];
 const TRANCHES: ReadonlyArray<readonly [string, number]> = [
   ["5-6", 6],
   ["7-8", 8],
@@ -99,41 +103,49 @@ describe("Logique V1 — ce qui est servi et ce qui attend", () => {
     expect(LOGIC_BANK.every((q) => q.sources.length === 0)).toBe(true);
   });
 
-  it("les treize cartes sans explication fournie restent en BROUILLON, vides et annotées — rien n'est inventé", () => {
-    expect(LOGIC_BANK.filter((q) => q.explanation.fr.trim() === "").map((q) => q.id)).toEqual(SANS_EXPLICATION);
-    for (const q of LOGIC_BANK.filter((x) => SANS_EXPLICATION.includes(x.id))) {
-      expect(q.status, q.id).toBe("draft");
-      expect(q.explanation.ar.trim(), q.id).toBe("");
-      expect(q.reviewNotes, q.id).toContain("explication FR et AR à fournir");
-      expect(playabilityIssues(q, categoryById("logic")), q.id).toContain("explication FR manquante");
-      expect(isPlayable(q, categoryById("logic")), q.id).toBe(false);
+  it("les 30 cartes portent une explication complète en français ET en arabe", () => {
+    // L'explication fait partie de l'apprentissage en logique (`showsExplanation`) :
+    // une carte ne peut pas en être privée.
+    expect(categoryById("logic")?.showsExplanation).toBe(true);
+    for (const q of LOGIC_BANK) {
+      expect(q.explanation.fr.trim(), q.id).not.toBe("");
+      expect(arabic.test(q.explanation.ar), q.id).toBe(true);
     }
   });
 
-  it("les dix-sept cartes complètes sont validées, bilingues et réellement jouables", () => {
-    const completes = LOGIC_BANK.filter((q) => !SANS_EXPLICATION.includes(q.id));
-    expect(completes).toHaveLength(17);
-    for (const q of completes) {
+  it("LOG-003 reste RETENUE : son explication ne décrit pas sa carte, et le texte fourni n'est pas retouché", () => {
+    const q = LOGIC_BANK.find((x) => x.id === "LOG-003")!;
+    expect(q.status).toBe("draft");
+    expect(q.prompt.fr).toContain("Lina est plus grande qu’Adam");
+    expect(q.explanation.fr).toContain("boîte");
+    expect(q.reviewNotes).toContain("ne décrit pas cette carte");
+    expect(playabilityIssues(q, categoryById("logic"))).toContain("statut draft ≠ validated");
+    expect(isPlayable(q, categoryById("logic"))).toBe(false);
+  });
+
+  it("les vingt-neuf autres cartes sont validées, bilingues et réellement jouables", () => {
+    const publiees = LOGIC_BANK.filter((q) => !RETENUES.includes(q.id));
+    expect(publiees).toHaveLength(29);
+    for (const q of publiees) {
       expect(q.status, q.id).toBe("validated");
-      expect(q.explanation.fr.trim(), q.id).not.toBe("");
-      expect(arabic.test(q.explanation.ar), q.id).toBe(true);
       expect(q.reviewNotes, q.id).toBeUndefined();
       expect(playabilityIssues(q, categoryById("logic")), q.id).toEqual([]);
     }
-    expect(slotsLogique("child")).toHaveLength(17);
-    expect(slotsLogique("adult")).toHaveLength(17);
+    expect(slotsLogique("child")).toHaveLength(29);
+    expect(slotsLogique("adult")).toHaveLength(29);
     expect(contentRegistry().availableCategories("child")).toContain("logic");
     const q = contentRegistry().resolve({ categoryId: "logic", difficulty: 2, profileType: "child", variation: 0 })!;
     expect(q.ref.origin).toBe("curated");
     expect(q.review).toEqual({ ar: "provisional" });
   });
 
-  it("le vivier jouable reste couvert sur toute l'échelle de difficulté, malgré les treize cartes en attente", () => {
-    const servies = slotsLogique().map((s) => s.difficulty);
-    expect(new Set(servies)).toEqual(new Set([1, 2, 3, 4, 5]));
-    // Deux notions n'ont aucune carte jouable tant que leurs explications manquent : le fait est constaté, pas masqué.
-    const notionsServies = new Set(slotsLogique().map((s) => s.knowledgeNodeId));
-    expect([...notionsServies].sort()).toEqual(["logique.appartenance", "logique.coherence", "logique.contraintes", "logique.denombrement", "logique.ordre", "logique.piege", "logique.representation", "logique.suite"]);
+  it("le vivier jouable couvre les cinq difficultés et les dix notions : aucune notion sans carte jouable", () => {
+    expect(new Set(slotsLogique().map((s) => s.difficulty))).toEqual(new Set([1, 2, 3, 4, 5]));
+    const toutes = new Set(LOGIC_BANK.map((q) => q.knowledgeNodeId));
+    const servies = new Set(slotsLogique().map((s) => s.knowledgeNodeId));
+    expect([...servies].sort()).toEqual([...toutes].sort());
+    // La seule carte retenue ne vide pas sa notion : `comparaison` garde LOG-016 et LOG-020.
+    expect(slotsLogique().filter((s) => s.knowledgeNodeId === "logique.comparaison")).toHaveLength(2);
   });
 });
 
