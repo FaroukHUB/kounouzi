@@ -156,11 +156,13 @@ describe("Défis famille — filtres d'âge, réglages parents, contenu validé"
     expect(eventsOf(sim.events, "FamilyChallengeAssigned").some((e) => e.category === "religion")).toBe(false);
     for (const d of FAMILY_CHALLENGES.filter((x) => x.category === "religion")) expect(d.contentRef, d.id).toBeDefined();
 
-    const religionOnly = FAMILY_CHALLENGES.filter((d) => d.id === "CH-094");
-    const withContent = challengesFixture({ definitions: religionOnly, contentAvailable: ["CH-094"] });
+    // ⚠️ DÉFINITION DE TEST : depuis l'ADR 0041 la banque ne porte plus de défi à question
+    // religieuse (CH-094 à CH-097 retirés). Le mécanisme du moteur, lui, est inchangé.
+    const religionOnly = [{ ...FAMILY_CHALLENGES.find((d) => d.id === "CH-091")!, id: "T-REL", contentRef: { kind: "validated_question" as const, categoryId: "religion", difficultyDelta: 0 } }];
+    const withContent = challengesFixture({ definitions: religionOnly, contentAvailable: ["T-REL"] });
     const landed = landOnChallenge(withContent, [{ id: pid("papa"), displayName: "Papa", profileType: "adult" }, { id: pid("maryam"), displayName: "Maryam", profileType: "child", age: 6 }]);
     const c = phaseOf(landed.state)!;
-    expect(c.challengeId).toBe("CH-094");
+    expect(c.challengeId).toBe("T-REL");
     const question = { ref: { origin: "curated" as const, questionId: "REL-X", contentVersion: 1 }, categoryId: "religion", knowledgeNodeId: "religion.x", difficulty: 1, audienceScope: "all" as const, prompt: { fr: "?" }, answer: { fr: "!" }, explanation: { fr: "e", ar: "ع" }, sources: [{ title: "s" }], review: { ar: "reviewed" as const } };
     expect(reduce(landed.state, { type: "ServeQuestion", requestId: c.requestId, question: { ...question, categoryId: "maths" } })).toMatchObject({ ok: false, error: { code: "DUEL_CATEGORY_MISMATCH" } });
     const served = run(landed.state, { type: "ServeQuestion", requestId: c.requestId, question });

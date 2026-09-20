@@ -46,14 +46,17 @@ const CATEGORY = {
  * défis religieux, résultats économiques réels des défis solidaires.
  */
 const CONSENT_IDS = new Set(["CH-041", "CH-045", "CH-046"]);
+/**
+ * Défis du PDF RETIRÉS par décision de l'auteur (ADR 0041). Un réimport ne
+ * doit jamais les ressusciter, exactement comme un réimport des banques
+ * religieuses ne doit jamais perdre une validation humaine. Ils ne sont pas
+ * remplacés et les identifiants restants ne sont pas renumérotés.
+ */
+const REMOVED_IDS = new Set(["CH-003", "CH-011", "CH-013", "CH-015", "CH-047", "CH-077", "CH-078", "CH-082", "CH-083", "CH-094", "CH-095", "CH-096", "CH-097"]);
 const CONTENT_REFS = {
   "CH-091": { kind: "validated_recitation", count: 1 },
   "CH-092": { kind: "validated_recitation", count: 2 },
   "CH-093": { kind: "validated_recitation", count: 1, surahId: "surah_001" },
-  "CH-094": { kind: "validated_question", categoryId: "religion", difficultyDelta: 0 },
-  "CH-095": { kind: "validated_question", categoryId: "religion", difficultyDelta: 0 },
-  "CH-096": { kind: "validated_question", categoryId: "religion", difficultyDelta: 0 },
-  "CH-097": { kind: "validated_question", categoryId: "religion", difficultyDelta: 1 },
   "CH-099": { kind: "validated_question", categoryId: "any", difficultyDelta: 0 },
   "CH-100": { kind: "validated_question", categoryId: "any", difficultyDelta: 0 },
 };
@@ -122,6 +125,7 @@ while (i < lines.length) {
   const text = body.text.join(" ").replace(/\s+/g, " ").trim();
   const adaptation = body.adaptation.join(" ").replace(/\s+/g, " ").trim();
   const variants = parseVariants(adaptation);
+  if (REMOVED_IDS.has(id)) continue;
   challenges.push({
     id,
     title,
@@ -164,7 +168,7 @@ function parseVariants(adaptation) {
 const byCategory = challenges.reduce((acc, c) => ({ ...acc, [c.category]: (acc[c.category] ?? 0) + 1 }), {});
 const bank = {
   $comment:
-    "Banque canonique V1 des Défis famille, importée depuis le PDF de conception (données, jamais de logique). Sélection par rotation déterministe cachée (jamais de hasard). Les défis religieux ne portent AUCUN texte religieux : ils référencent uniquement du contenu déjà validé (`contentRef`) et ne sont servis que s'il existe. Contact = consentement obligatoire, catégorie désactivable. Refus = 0 Kounouz, aucune autre pénalité.",
+    "Banque canonique V1 des Défis famille, importée depuis le PDF de conception (données, jamais de logique). 87 défis : 13 défis du PDF ont été RETIRÉS par décision de l'auteur (ADR 0041), sans remplacement ni renumérotation des identifiants restants. Sélection par rotation déterministe cachée (jamais de hasard). Les défis religieux ne portent AUCUN texte religieux : ils référencent uniquement du contenu déjà validé (`contentRef`) et ne sont servis que s'il existe. Contact = consentement obligatoire, catégorie désactivable. Refus = 0 Kounouz, aucune autre pénalité.",
   version: 1,
   toggles: {
     movement: ["movement"],

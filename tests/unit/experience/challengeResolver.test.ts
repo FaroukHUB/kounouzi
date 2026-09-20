@@ -16,6 +16,13 @@ const players = [
 const profiles = players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", ...(p.profileType === "child" ? { child: { birthYear: 2017 } } : { adult: { initialLevel: "standard" as const } }) }));
 
 const mathsChallenge = (id: string, difficultyDelta: number) => ({ id, title: "Calcul", category: "maths" as const, minAge: 5, reward: 20, text: "Résous le calcul.", variants: [], ohNo: false, boss: false, consentRequired: false, animationKey: "mental_math", contentRef: { kind: "validated_question" as const, categoryId: "maths", difficultyDelta } });
+/**
+ * ⚠️ DÉFINITION DE TEST. Depuis l'ADR 0041 la banque ne contient plus aucun
+ * défi qui demande une question de la catégorie Religion (CH-094 à CH-097 ont
+ * été retirés). Le MÉCANISME, lui, existe toujours : ce défi de test le pousse
+ * contre le registre réel et ses banques religieuses validées.
+ */
+const religionChallenge = (id: string, difficultyDelta: number) => ({ id, title: "Question religieuse", category: "religion" as const, minAge: 8, reward: 30, text: "Réponds à une question religieuse validée.", variants: [], ohNo: false, boss: false, consentRequired: false, animationKey: "book_open", contentRef: { kind: "validated_question" as const, categoryId: "religion", difficultyDelta } });
 
 describe("Défi famille à contenu validé : la question est choisie par le Learning Engine puis figée", () => {
   it("la demande en attente porte la contrainte du défi ; la question servie est de la catégorie demandée, figée dans l'état, plus rien n'est demandé ensuite", () => {
@@ -47,10 +54,13 @@ describe("Défi famille à contenu validé : la question est choisie par le Lear
     expect(contentRegistry().slots("child").some((s) => s.categoryId === "religion")).toBe(true);
   });
 
-  it("CH-094 avec les banques religieuses validées : la question servie est une carte Religion validée, sourcée, bilingue, figée dans l'état", () => {
+  it("un défi à contrainte Religion sert une carte Religion validée, sourcée, bilingue, figée dans l'état", () => {
     const real = challengesConfigFor(DEFAULT_CHALLENGE_SETTINGS, contentRegistry());
-    expect(real.contentAvailable).toEqual(expect.arrayContaining(["CH-094", "CH-095", "CH-096", "CH-097"]));
-    const config = challengesFixture({ definitions: FAMILY_CHALLENGES.filter((d) => d.id === "CH-094"), contentAvailable: real.contentAvailable });
+    // La banque ne porte plus aucun défi à question religieuse (ADR 0041) : les trois défis
+    // religieux restants sont des récitations, décidées par joueur dans le moteur, donc jamais ici.
+    expect(FAMILY_CHALLENGES.filter((d) => d.category === "religion").map((d) => d.id)).toEqual(["CH-091", "CH-092", "CH-093"]);
+    expect(real.contentAvailable.filter((id) => FAMILY_CHALLENGES.find((d) => d.id === id)?.category === "religion")).toEqual([]);
+    const config = challengesFixture({ definitions: [religionChallenge("T-REL", 0)], contentAvailable: ["T-REL"] });
     const landed = journey(create(makeLineSetup({ cells: { 1: "challenge" }, scenarios: scenariosOf("challenge-family"), players, challenges: config })).state);
     expect(pendingRequest(landed.state)).toEqual({ requestId: "q1", playerId: pid("papa"), constraint: { categoryId: "religion", difficultyDelta: 0 } });
     const question = resolveFor(landed.state, profiles);

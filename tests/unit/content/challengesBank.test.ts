@@ -5,26 +5,33 @@ import { DEMO_SCENARIOS } from "@/config/demo";
 import { CHALLENGE_CATEGORIES, CHALLENGE_TOGGLES, challengesConfigSchema } from "@/core/game";
 import { KNOWN_ANIMATION_KEYS } from "@/ui/cards/animations/families";
 
+/** Les 13 défis du PDF retirés par décision de l'auteur (ADR 0041) : jamais remplacés, jamais renumérotés. */
+const RETIRES = ["CH-003", "CH-011", "CH-013", "CH-015", "CH-047", "CH-077", "CH-078", "CH-082", "CH-083", "CH-094", "CH-095", "CH-096", "CH-097"];
+
 describe("banque canonique des Défis famille (données importées du PDF)", () => {
-  it("compte 100 défis, identifiants CH-001…CH-100 uniques, répartition par catégorie conforme au PDF", () => {
-    expect(FAMILY_CHALLENGES).toHaveLength(100);
-    expect(FAMILY_CHALLENGES.map((c) => c.id)).toEqual(Array.from({ length: 100 }, (_, i) => `CH-${String(i + 1).padStart(3, "0")}`));
+  it("compte 87 défis : les 100 du PDF moins les 13 retirés, identifiants uniques et JAMAIS renumérotés", () => {
+    expect(FAMILY_CHALLENGES).toHaveLength(87);
+    expect(new Set(FAMILY_CHALLENGES.map((c) => c.id)).size).toBe(87);
+    // Un identifiant désigne toujours le même défi : aucun trou n'est comblé, aucun numéro n'est réattribué.
+    const attendus = Array.from({ length: 100 }, (_, i) => `CH-${String(i + 1).padStart(3, "0")}`).filter((id) => !RETIRES.includes(id));
+    expect(FAMILY_CHALLENGES.map((c) => c.id)).toEqual(attendus);
+    for (const id of RETIRES) expect(FAMILY_CHALLENGES.find((c) => c.id === id), id).toBeUndefined();
     const count = (category: string) => FAMILY_CHALLENGES.filter((c) => c.category === category).length;
     expect({ movement: count("movement"), animals: count("animals"), family: count("family"), solidarity: count("solidarity"), oh_no: count("oh_no"), memory: count("memory"), reflection: count("reflection"), geography: count("geography"), observation: count("observation"), language: count("language"), maths: count("maths"), logic: count("logic"), arabic: count("arabic"), religion: count("religion"), boss: count("boss") }).toEqual({
-      movement: 20,
+      movement: 16,
       animals: 20,
-      family: 12,
+      family: 11,
       solidarity: 3,
       oh_no: 15,
       memory: 6,
       reflection: 1,
-      geography: 2,
+      geography: 0,
       observation: 1,
       language: 2,
-      maths: 2,
+      maths: 0,
       logic: 1,
       arabic: 5,
-      religion: 7,
+      religion: 3,
       boss: 3,
     });
   });
@@ -44,7 +51,8 @@ describe("banque canonique des Défis famille (données importées du PDF)", () 
       if (c.minAge < 10) expect(wording, c.id).not.toMatch(/jumping|squat|pompe/);
       expect(wording, c.id).not.toMatch(/imite (ta |ton |papa|maman|le voisin|un joueur)/);
     }
-    expect(FAMILY_CHALLENGES.find((c) => c.id === "CH-011")?.minAge).toBe(10);
+    // CH-011 (« le défi pompes ») a été retiré : plus aucun défi ne mentionne de pompes, à tout âge.
+    expect(FAMILY_CHALLENGES.some((c) => /pompe/i.test(`${c.text} ${c.adaptation ?? ""}`))).toBe(false);
   });
 
   it("« OH NON » : les 15 de la catégorie plus les cartes marquées ; contact = 3 défis à consentement ; boss marqués", () => {
@@ -56,19 +64,18 @@ describe("banque canonique des Défis famille (données importées du PDF)", () 
 
   it("défis religieux : aucun texte religieux, tous référencent du contenu validé ; proposables uniquement quand le registre sert du contenu validé", () => {
     const religion = FAMILY_CHALLENGES.filter((c) => c.category === "religion");
-    expect(religion).toHaveLength(7);
+    // Les quatre défis à question religieuse (CH-094 à CH-097) ont été retirés : restent les trois récitations.
+    expect(religion.map((c) => c.id)).toEqual(["CH-091", "CH-092", "CH-093"]);
     for (const c of religion) expect(c.contentRef, c.id).toBeDefined();
+    expect(religion.every((c) => c.contentRef?.kind === "validated_recitation")).toBe(true);
     // Le schéma refuse un défi religieux sans référence.
     const bad = { definitions: [{ ...religion[0]!, contentRef: undefined }], toggles: CHALLENGE_TOGGLE_CATEGORIES, settings: DEFAULT_CHALLENGE_SETTINGS, contentAvailable: [] };
     expect(challengesConfigSchema.safeParse(bad).success).toBe(false);
-    // Registre réel : les banques religieuses validées rendent CH-094 à CH-097 disponibles ; les récitations restent décidées par joueur dans le moteur.
+    // Registre réel : une récitation reste décidée par joueur dans le moteur, donc jamais annoncée ici.
     const config = challengesConfigFor(DEFAULT_CHALLENGE_SETTINGS, contentRegistry());
-    expect(config.contentAvailable.filter((id) => religion.some((c) => c.id === id))).toEqual(["CH-094", "CH-095", "CH-096", "CH-097"]);
-    expect(config.contentAvailable).not.toContain("CH-091");
-    expect(config.contentAvailable).not.toContain("CH-092");
-    expect(config.contentAvailable).not.toContain("CH-093");
+    expect(config.contentAvailable.filter((id) => religion.some((c) => c.id === id))).toEqual([]);
     // Les boss « savoir » (catégorie libre) peuvent s'appuyer sur les maths algorithmiques déjà jouables.
-    expect(config.contentAvailable).toEqual(expect.arrayContaining(["CH-099", "CH-100"]));
+    expect(config.contentAvailable).toEqual(["CH-099", "CH-100"]);
   });
 
   it("réglages parents : chaque catégorie est couverte par un interrupteur ; les défis solidaires portent leurs résultats économiques réels", () => {
