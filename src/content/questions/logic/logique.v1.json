@@ -1,5 +1,5 @@
 {
-  "$comment": "Logique V1 — 30 cartes STATIQUES écrites et contrôlées par l’auteur du jeu, jamais générées, jamais tirées au hasard. Une carte doit se comprendre à l’oral en 10 à 30 secondes : les énigmes classiques qui demandent une longue mise en place ont été volontairement écartées par l’auteur. Progression voulue : 5-6 reconnaître, ordonner, comparer ; 7-8 comprendre une règle simple ; 9-10 petit piège ou petite déduction ; 11-12 croiser deux informations ; 13+ cohérence logique, conditions et déduction. Six cartes par tranche, chaque difficulté tenant dans la bande d’amorçage de sa tranche (bands.v1.json). L’âge donne le niveau de DÉPART ; le Learning Engine existant reste seul à faire monter ou descendre le joueur. La catégorie logic n’exige pas de source (requiresSource = false, comportement conservé) : une carte de logique énonce un raisonnement, pas un fait vérifiable contre une référence externe. L’ÉNONCÉ ET LA RÉPONSE français viennent de l’auteur. Tout l’arabe est une traduction fidèle, sans ajout, et reste arReview = provisional jusqu’à relecture humaine. Les 30 cartes portent une explication FR et AR fournie par l’auteur. Une seule reste en draft, LOG-003 : l’explication fournie pour elle décrit une petite boîte qui entre dans une grande, alors que l’énoncé compare la taille de Lina et d’Adam. Le texte est enregistré tel quel, sans être retouché ni remplacé, et la carte n’est pas publiée tant que l’auteur n’a pas tranché.",
+  "$comment": "Logique V1 — 30 cartes STATIQUES écrites et contrôlées par l’auteur du jeu, jamais générées, jamais tirées au hasard. Une carte doit se comprendre à l’oral en 10 à 30 secondes : les énigmes classiques qui demandent une longue mise en place ont été volontairement écartées par l’auteur. Progression voulue : 5-6 reconnaître, ordonner, comparer ; 7-8 comprendre une règle simple ; 9-10 petit piège ou petite déduction ; 11-12 croiser deux informations ; 13+ cohérence logique, conditions et déduction. Six cartes par tranche, chaque difficulté tenant dans la bande d’amorçage de sa tranche (bands.v1.json). L’âge donne le niveau de DÉPART ; le Learning Engine existant reste seul à faire monter ou descendre le joueur. La catégorie logic n’exige pas de source (requiresSource = false, comportement conservé) : une carte de logique énonce un raisonnement, pas un fait vérifiable contre une référence externe. L’ÉNONCÉ ET LA RÉPONSE français viennent de l’auteur. Tout l’arabe est une traduction fidèle, sans ajout, et reste arReview = provisional jusqu’à relecture humaine. Les 30 cartes portent une explication FR et AR fournie par l’auteur. Les 30 sont validées et jouables. LOG-003 avait d’abord reçu une explication qui ne décrivait pas sa carte ; elle est restée en brouillon jusqu’à ce que l’auteur fournisse la bonne, jamais réécrite ici.",
   "version": 1,
   "sources": [],
   "questions": [
@@ -59,7 +59,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Lina est plus grande qu’Adam. Qui est le plus petit ?",
@@ -70,11 +70,10 @@
         "ar": "آدم."
       },
       "explanation": {
-        "fr": "La petite boîte peut entrer dans la grande parce qu’elle est plus petite. L’inverse n’est pas possible.",
-        "ar": "يمكن للعلبة الصغيرة أن تدخل في الكبيرة لأنها أصغر منها، أمّا العكس فلا يمكن."
+        "fr": "Lina est plus grande qu’Adam. Donc Adam est le plus petit des deux.",
+        "ar": "لينا أطول من آدم، لذلك آدم هو الأصغر بينهما."
       },
-      "sources": [],
-      "reviewNotes": "l’explication fournie ne décrit pas cette carte : elle parle d’une petite boîte qui entre dans une grande, alors que l’énoncé compare la taille de Lina et d’Adam. Texte appliqué tel quel, jamais retouché ; la carte reste en brouillon jusqu’à décision de l’auteur."
+      "sources": []
     },
     {
       "id": "LOG-004",

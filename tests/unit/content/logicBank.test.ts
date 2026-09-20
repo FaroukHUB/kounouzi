@@ -10,12 +10,6 @@ import { T0 } from "../../fixtures/learning/resolve.fixture";
 const arabic = /[؀-ۿ]/;
 const ids = LOGIC_BANK.map((q) => q.id);
 const partie = "game-log";
-/**
- * LOG-003 est la seule carte retenue : l'explication fournie par l'auteur décrit une petite boîte
- * qui entre dans une grande, alors que l'énoncé compare la taille de Lina et d'Adam. Le texte est
- * enregistré tel quel, jamais retouché, et la carte n'est pas publiée tant qu'il n'a pas tranché.
- */
-const RETENUES = ["LOG-003"];
 const TRANCHES: ReadonlyArray<readonly [string, number]> = [
   ["5-6", 6],
   ["7-8", 8],
@@ -113,26 +107,25 @@ describe("Logique V1 — ce qui est servi et ce qui attend", () => {
     }
   });
 
-  it("LOG-003 reste RETENUE : son explication ne décrit pas sa carte, et le texte fourni n'est pas retouché", () => {
+  it("chaque explication décrit bien SA carte : LOG-003 parle de taille, jamais de boîtes", () => {
     const q = LOGIC_BANK.find((x) => x.id === "LOG-003")!;
-    expect(q.status).toBe("draft");
     expect(q.prompt.fr).toContain("Lina est plus grande qu’Adam");
-    expect(q.explanation.fr).toContain("boîte");
-    expect(q.reviewNotes).toContain("ne décrit pas cette carte");
-    expect(playabilityIssues(q, categoryById("logic"))).toContain("statut draft ≠ validated");
-    expect(isPlayable(q, categoryById("logic"))).toBe(false);
+    expect(q.explanation.fr).toBe("Lina est plus grande qu’Adam. Donc Adam est le plus petit des deux.");
+    expect(q.explanation.fr).not.toContain("boîte");
+    expect(q.status).toBe("validated");
+    expect(q.reviewNotes).toBeUndefined();
   });
 
-  it("les vingt-neuf autres cartes sont validées, bilingues et réellement jouables", () => {
-    const publiees = LOGIC_BANK.filter((q) => !RETENUES.includes(q.id));
-    expect(publiees).toHaveLength(29);
-    for (const q of publiees) {
+  it("les trente cartes sont validées, bilingues et réellement jouables", () => {
+    expect(LOGIC_BANK).toHaveLength(30);
+    for (const q of LOGIC_BANK) {
       expect(q.status, q.id).toBe("validated");
       expect(q.reviewNotes, q.id).toBeUndefined();
       expect(playabilityIssues(q, categoryById("logic")), q.id).toEqual([]);
+      expect(isPlayable(q, categoryById("logic")), q.id).toBe(true);
     }
-    expect(slotsLogique("child")).toHaveLength(29);
-    expect(slotsLogique("adult")).toHaveLength(29);
+    expect(slotsLogique("child")).toHaveLength(30);
+    expect(slotsLogique("adult")).toHaveLength(30);
     expect(contentRegistry().availableCategories("child")).toContain("logic");
     const q = contentRegistry().resolve({ categoryId: "logic", difficulty: 2, profileType: "child", variation: 0 })!;
     expect(q.ref.origin).toBe("curated");
@@ -144,8 +137,8 @@ describe("Logique V1 — ce qui est servi et ce qui attend", () => {
     const toutes = new Set(LOGIC_BANK.map((q) => q.knowledgeNodeId));
     const servies = new Set(slotsLogique().map((s) => s.knowledgeNodeId));
     expect([...servies].sort()).toEqual([...toutes].sort());
-    // La seule carte retenue ne vide pas sa notion : `comparaison` garde LOG-016 et LOG-020.
-    expect(slotsLogique().filter((s) => s.knowledgeNodeId === "logique.comparaison")).toHaveLength(2);
+    // Chaque notion garde toutes ses cartes : `comparaison` sert LOG-003, LOG-016 et LOG-020.
+    expect(slotsLogique().filter((s) => s.knowledgeNodeId === "logique.comparaison")).toHaveLength(3);
   });
 });
 

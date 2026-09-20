@@ -52,16 +52,18 @@ Corollaire : une carte jouable doit avoir une explication complète en FR et
 en AR. Les treize cartes qui n'en avaient pas ont été complétées par
 l'auteur, jamais inventées ici.
 
-### 5. Une carte retenue, parce que son explication ne décrit pas sa carte
-LOG-003 demande qui est le plus petit entre Lina et Adam ; l'explication
-fournie pour elle décrit une petite boîte qui entre dans une grande. Le
-texte de l'auteur est enregistré **tel quel**, sans être retouché ni
-remplacé — ce n'est pas à nous de réécrire son contenu — mais la carte reste
-`draft` et n'est pas publiée tant qu'il n'a pas tranché. Publier une
-explication qui contredit sa question apprendrait quelque chose de faux à un
-enfant, et `showsExplanation` la lui met précisément sous les yeux.
+### 5. Une explication doit décrire SA carte
+LOG-003 demande qui est le plus petit entre Lina et Adam ; la première
+explication fournie pour elle décrivait une petite boîte qui entre dans une
+grande. Le texte a été enregistré **tel quel**, sans être retouché ni
+remplacé — ce n'est pas à nous de réécrire le contenu de l'auteur — et la
+carte est restée `draft` jusqu'à ce qu'il fournisse la bonne. Publier une
+explication qui contredit sa question aurait appris quelque chose de faux à
+un enfant, et `showsExplanation` la lui met précisément sous les yeux.
 
-Les 29 autres cartes sont `validated` et jouables.
+L'auteur a depuis fourni l'explication correcte. Les **30 cartes** sont
+`validated` et jouables, et un test vérifie que celle de LOG-003 parle bien
+de taille et jamais de boîtes.
 
 ### 6. Aucune logique de progression nouvelle
 L'âge donne la tranche de départ, et rien d'autre. Les cinq tranches tiennent
@@ -73,9 +75,8 @@ fichier n'y mentionne Logique.
 ## Conséquences
 - Logique devient la **quatrième catégorie servie** :
   `availableCategories` vaut `["religion", "maths", "logic", "management"]`.
-- Le vivier jouable est de 29 cartes, couvre les cinq difficultés et les dix
-  notions : **aucune notion n'est sans carte jouable**, et la seule carte
-  retenue ne vide pas la sienne (`comparaison` garde LOG-016 et LOG-020).
+- Les 30 cartes sont jouables : le vivier couvre les cinq difficultés et les
+  dix notions, aucune notion n'étant portée par moins de deux cartes.
 - Logique affiche désormais son explication après la réponse, comme la
   religion, la géographie et la gestion.
 
@@ -85,8 +86,9 @@ fichier n'y mentionne Logique.
   reprises telles quelles.
 - **Servir une carte sans explication** : une carte de logique sans
   explication n'apprend rien ; elle devient un quiz.
-- **Corriger nous-mêmes l'explication de LOG-003, ou la publier telle
-  quelle** : la réécrire serait inventer, la publier serait enseigner à un
-  enfant une explication qui contredit sa question. La carte attend.
+- **Corriger nous-mêmes l'explication erronée de LOG-003, ou la publier
+  telle quelle** : la réécrire aurait été inventer, la publier aurait
+  enseigné à un enfant une explication contredisant sa question. La carte a
+  attendu que l'auteur tranche.
 - **Garder les énigmes longues** : bonnes sur Internet, mauvaises autour d'un
   plateau — cinq minutes d'explication pour une case.
