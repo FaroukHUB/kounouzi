@@ -9,6 +9,7 @@ import type { GameEvent, GameState } from "@/core/game";
 import type { GameId, PlayerId } from "@/core/shared";
 import { contentRegistry } from "@/config/content";
 import { LEARNING_CONFIG } from "@/config/learning";
+import { PAWNS_3D_ENABLED } from "@/config/pawns";
 import { pendingRequest, resolveQuestion } from "@/experience/questionResolver";
 import { startPlayClock } from "@/experience/playClock";
 import { CloudNarrator, utteranceFor } from "@/experience/narration";
@@ -18,6 +19,7 @@ import { useSessionStore } from "@/state/sessionStore";
 import { useUiStore } from "@/state/uiStore";
 import { Board } from "@/ui/board/Board";
 import { PawnLayer } from "@/ui/board/PawnLayer";
+import { PawnLayer3D } from "@/ui/board/PawnLayer3D";
 import { CardOverlay } from "@/ui/cards/CardOverlay";
 import { Button } from "@/ui/primitives/Button";
 import { FinalRanking } from "./FinalRanking";
@@ -169,7 +171,10 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           sites={state.config.sites}
           players={state.players}
           profiles={profiles}
-          pawns={<PawnLayer players={state.players} profiles={profiles} visuals={ui.pawnVisuals} activePlayerId={shownActiveId} cellCount={state.config.board.cellCount} stepMs={timings.stepMs} />}
+          pawns={(() => {
+            const pawnProps = { players: state.players, profiles, visuals: ui.pawnVisuals, activePlayerId: shownActiveId, cellCount: state.config.board.cellCount, stepMs: timings.stepMs };
+            return PAWNS_3D_ENABLED ? <PawnLayer3D {...pawnProps} /> : <PawnLayer {...pawnProps} />;
+          })()}
           center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}
         />
         </div>

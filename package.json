@@ -20,6 +20,7 @@
     "next": "16.3.4",
     "react": "19.2.8",
     "react-dom": "19.2.8",
+    "three": "0.169.0",
     "zod": "4.5.4",
     "zustand": "5.0.15"
   },
@@ -28,6 +29,7 @@
     "@types/node": "22.20.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.7",
+    "@types/three": "0.169.0",
     "eslint": "9.39.5",
     "eslint-config-next": "16.3.4",
     "tailwindcss": "4.3.3",
