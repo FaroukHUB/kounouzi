@@ -4,7 +4,7 @@ import { DEFAULT_BOARD } from "@/config/board";
 import { resolveBoard } from "@/core/game";
 import { Board } from "@/ui/board/Board";
 import { PawnLayer } from "@/ui/board/PawnLayer";
-import { JourneyPanel } from "@/ui/game/JourneyPanel";
+import { JourneyAction, JourneyPanel } from "@/ui/game/JourneyPanel";
 import { PlayerPanel } from "@/ui/game/PlayerPanel";
 import { TimeBadge } from "@/ui/game/TimeBadge";
 import { TEST_MONUMENTS } from "../../fixtures/game/heritage.fixture";
@@ -39,15 +39,26 @@ describe("composants du plateau (rendu statique)", () => {
     expect(html).not.toMatch(/(?:^|[^-])left:\s*\d/);
   });
 
-  it("le panneau du Chemin propose « Découvrir mon chemin » au joueur actif, puis affiche la valeur attribuée", () => {
+  it("l'appel à l'action vit SOUS le plateau, à une place fixe ; le cœur du plateau ne l'affiche jamais", () => {
     const { state } = create();
-    const cta = renderToStaticMarkup(<JourneyPanel state={state} shown={state} reveal={null} isAnimating={false} onStartJourney={() => {}} />);
-    expect(cta).toContain("Au tour de Joueur 1");
-    expect(cta).toContain("Découvrir mon chemin");
-    const reveal = renderToStaticMarkup(<JourneyPanel state={state} shown={state} reveal={{ playerId: pid("p1"), steps: 4 }} isAnimating={true} onStartJourney={() => {}} />);
-    expect(reveal).toContain("Ton chemin se dévoile");
-    expect(reveal).toContain("4 étapes");
-    expect(reveal).not.toContain("Découvrir mon chemin");
+    const props = { state, shown: state, reveal: null, isAnimating: false, onStartJourney: () => {} };
+    const action = renderToStaticMarkup(<JourneyAction {...props} />);
+    expect(action).toContain("Au tour de Joueur 1");
+    expect(action).toContain("Découvrir mon chemin");
+    // Le cœur reste libre : la carte illustrée n'est masquée par rien tant qu'il n'y a rien à dire.
+    const coeur = renderToStaticMarkup(<JourneyPanel {...props} />);
+    expect(coeur).not.toContain("Découvrir mon chemin");
+    expect(coeur).not.toContain("Au tour de Joueur 1");
+  });
+
+  it("le dévoilement du Chemin s'affiche au CŒUR du plateau, et retire le bouton pendant ce temps", () => {
+    const { state } = create();
+    const props = { state, shown: state, reveal: { playerId: pid("p1"), steps: 4 }, isAnimating: true, onStartJourney: () => {} };
+    const coeur = renderToStaticMarkup(<JourneyPanel {...props} />);
+    expect(coeur).toContain("Ton chemin se dévoile");
+    expect(coeur).toContain("4 étapes");
+    // Pendant le dévoilement, plus aucun bouton : on ne peut pas relancer par erreur.
+    expect(renderToStaticMarkup(<JourneyAction {...props} />)).not.toContain("Découvrir mon chemin");
   });
 
   it("le panneau des joueurs marque le joueur actif", () => {

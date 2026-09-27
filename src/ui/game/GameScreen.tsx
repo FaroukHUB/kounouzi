@@ -23,7 +23,7 @@ import { PawnLayer3D } from "@/ui/board/PawnLayer3D";
 import { CardOverlay } from "@/ui/cards/CardOverlay";
 import { Button } from "@/ui/primitives/Button";
 import { FinalRanking } from "./FinalRanking";
-import { JourneyPanel } from "./JourneyPanel";
+import { JourneyAction, JourneyPanel } from "./JourneyPanel";
 import { PlayerCorners, PlayerPanel } from "./PlayerPanel";
 import { formatKounouz } from "@/ui/primitives/money";
 import { SettingsSheet } from "./SettingsSheet";
@@ -141,7 +141,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const corners = state.players.length <= 4;
 
   return (
-    <div className={`bg-table relative flex min-h-dvh flex-col lg:flex-row lg:justify-center lg:p-6 ${corners ? "lg:items-stretch lg:gap-0" : "lg:items-center lg:gap-6"}`} data-testid="game-screen" data-phase={state.phase.kind}>
+    <div className={`bg-table relative flex min-h-dvh flex-col lg:flex-row lg:justify-center lg:p-6 ${corners ? "lg:h-dvh lg:items-stretch lg:gap-0" : "lg:items-center lg:gap-6"}`} data-testid="game-screen" data-phase={state.phase.kind}>
       <TurnBanner banner={ui.banner} state={shown} />
 
       {corners ? (
@@ -150,7 +150,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         </div>
       ) : null}
       <motion.main
-        className={`flex flex-1 items-center justify-center p-3 ${corners ? "lg:grid lg:min-h-0 lg:w-full lg:grid-cols-[11rem_minmax(0,1fr)_11rem] lg:grid-rows-2 lg:gap-x-4 lg:gap-y-2 lg:pb-16" : "lg:flex-none"}`}
+        className={`flex flex-1 items-center justify-center p-3 ${corners ? "lg:grid lg:min-h-0 lg:w-full lg:grid-cols-[11rem_minmax(0,1fr)_11rem] lg:grid-rows-2 lg:gap-x-4 lg:gap-y-2 lg:pb-28" : "lg:flex-none"}`}
         animate={{ scale: cardOpen ? 0.96 : 1, opacity: cardOpen ? 0.6 : 1 }}
         transition={{ type: "tween", duration: reduced ? 0 : 0.3 }}
         style={{ willChange: cardOpen ? "transform, opacity" : "auto" }}
@@ -161,7 +161,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
             <PlayerCorners state={shown} profiles={profiles} />
           </div>
         ) : null}
-        <div className={`w-full ${corners ? "lg:col-start-2 lg:row-span-2 lg:flex lg:min-h-0 lg:w-auto lg:items-center lg:justify-center" : ""}`}>
+        <div className={`w-full ${corners ? "lg:col-start-2 lg:row-span-2 lg:flex lg:min-h-0 lg:w-auto lg:items-center lg:justify-center lg:self-stretch" : ""}`}>
         <Board
           board={state.config.board}
           highlightedCell={ui.highlightedCell}
@@ -199,7 +199,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         onSkipChallenge={(reason) => dispatch({ type: "SkipChallenge", playerId: activeId, reason })}
       />
 
-      <aside className={`flex w-full flex-col gap-3 p-3 lg:rounded-[1.8rem] lg:border lg:border-[rgba(120,80,30,0.18)] lg:bg-[rgba(255,250,240,0.55)] lg:shadow-[0_24px_50px_-30px_rgba(60,35,10,0.6)] ${corners ? "lg:absolute lg:inset-x-0 lg:bottom-3 lg:mx-auto lg:w-fit lg:max-w-md lg:flex-row lg:items-center lg:gap-4 lg:px-4 lg:py-2" : "lg:w-80 lg:p-4"}`}>
+      <aside className={`flex w-full flex-col gap-3 p-3 lg:rounded-[1.8rem] lg:border lg:border-[rgba(120,80,30,0.18)] lg:bg-[rgba(255,250,240,0.55)] lg:shadow-[0_24px_50px_-30px_rgba(60,35,10,0.6)] ${corners ? "lg:absolute lg:inset-x-0 lg:bottom-3 lg:mx-auto lg:w-fit lg:max-w-3xl lg:flex-row lg:items-center lg:gap-5 lg:px-5 lg:py-2" : "lg:w-80 lg:p-4"}`}>
         <header className="flex items-center justify-between">
           <div>
             <h1 className="font-display text-xl font-black tracking-[0.08em] text-[var(--k-teal-dark)]">{t(DEFAULT_LOCALE, "app.name")}</h1>
@@ -212,6 +212,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
             ⚙
           </Button>
         </header>
+        <JourneyAction state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />
         {corners ? null : <PlayerPanel state={shown} profiles={profiles} />}
         {paused ? <p className="rounded-xl bg-white px-3 py-2 text-center text-sm font-semibold">{t(DEFAULT_LOCALE, "game.paused")}</p> : null}
       </aside>

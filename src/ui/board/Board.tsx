@@ -38,7 +38,7 @@ export function Board({ board, highlightedCell, arrivalCell, previewPath, pawns,
     return { name: players.find((p) => p.id === h.ownerId)?.displayName ?? String(h.ownerId), color: avatar.color, shape: avatar.shape };
   };
   return (
-    <div className="bg-wood relative w-full max-w-[min(94vw,80dvh)] select-none rounded-[2.2rem] p-[2.2%] lg:h-[min(84dvh,calc(100vw-26rem))] lg:w-auto lg:max-w-none shadow-[0_30px_70px_-30px_rgba(60,35,10,0.75),inset_0_2px_0_rgba(255,255,255,0.25)]" style={{ aspectRatio: `${cols} / ${rows}` }} data-testid="board" data-grid={`${cols}x${rows}`}>
+    <div className="bg-wood relative w-full max-w-[min(92vw,78dvh)] select-none max-sm:max-w-[min(88vw,74dvh)] rounded-[2.2rem] p-[2.2%] lg:h-full lg:w-auto lg:max-w-none shadow-[0_30px_70px_-30px_rgba(60,35,10,0.75),inset_0_2px_0_rgba(255,255,255,0.25)]" style={{ aspectRatio: `${cols} / ${rows}` }} data-testid="board" data-grid={`${cols}x${rows}`}>
       <div className="pointer-events-none absolute inset-[1.1%] rounded-[1.9rem] border border-[rgba(255,220,160,0.35)]" aria-hidden="true" />
       <div
         className="relative grid size-full gap-[1.1%] rounded-[1.4rem] p-[1.4%]"
