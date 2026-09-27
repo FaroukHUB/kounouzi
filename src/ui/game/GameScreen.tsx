@@ -141,7 +141,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const corners = state.players.length <= 4;
 
   return (
-    <div className={`bg-table relative flex min-h-dvh flex-col lg:flex-row lg:items-center lg:justify-center lg:p-6 ${corners ? "lg:gap-0" : "lg:gap-6"}`} data-testid="game-screen" data-phase={state.phase.kind}>
+    <div className={`bg-table relative flex min-h-dvh flex-col lg:flex-row lg:justify-center lg:p-6 ${corners ? "lg:items-stretch lg:gap-0" : "lg:items-center lg:gap-6"}`} data-testid="game-screen" data-phase={state.phase.kind}>
       <TurnBanner banner={ui.banner} state={shown} />
 
       {corners ? (
@@ -150,7 +150,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         </div>
       ) : null}
       <motion.main
-        className={`flex flex-1 items-center justify-center p-3 lg:flex-none ${corners ? "lg:grid lg:grid-cols-[11rem_auto_11rem] lg:grid-rows-2 lg:gap-x-3 lg:gap-y-2" : ""}`}
+        className={`flex flex-1 items-center justify-center p-3 ${corners ? "lg:grid lg:min-h-0 lg:w-full lg:grid-cols-[11rem_auto_11rem] lg:grid-rows-2 lg:gap-x-4 lg:gap-y-2 lg:pb-16" : "lg:flex-none"}`}
         animate={{ scale: cardOpen ? 0.96 : 1, opacity: cardOpen ? 0.6 : 1 }}
         transition={{ type: "tween", duration: reduced ? 0 : 0.3 }}
         style={{ willChange: cardOpen ? "transform, opacity" : "auto" }}
@@ -161,7 +161,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
             <PlayerCorners state={shown} profiles={profiles} />
           </div>
         ) : null}
-        <div className={corners ? "lg:col-start-2 lg:row-span-2 lg:self-center" : ""}>
+        <div className={corners ? "lg:col-start-2 lg:row-span-2 lg:flex lg:h-full lg:min-h-0 lg:items-center lg:justify-center" : ""}>
         <Board
           board={state.config.board}
           highlightedCell={ui.highlightedCell}
