@@ -44,9 +44,14 @@
 
 /* Texture de table : motif géométrique discret (SVG léger) sur dégradé chaud. */
 @utility bg-table {
-  background-color: var(--k-sand);
-  background-image: url("/kounouzi/backgrounds/pattern-tile.svg"), radial-gradient(ellipse at 50% 0%, #fbf3e3 0%, var(--k-sand) 55%, #e9dcc3 100%);
-  background-attachment: fixed;
+  /* La carte du plateau sert aussi de fond de page, sous un voile sombre : même
+     univers que le plateau, mais assez éteinte pour que le plateau net se
+     détache. L'image est déjà chargée pour le plateau, le fond ne coûte rien. */
+  background-color: #0c2430;
+  background-image: linear-gradient(rgba(12, 22, 30, 0.72), rgba(12, 22, 30, 0.78)), url("/kounouzi/board/center-carte.v3.webp");
+  background-size: cover, cover;
+  background-position: center, center;
+  background-attachment: fixed, fixed;
 }
 
 /* Parchemin des cartes. */

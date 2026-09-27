@@ -16,14 +16,18 @@ export function HomeScreen() {
   }, []);
 
   return (
-    <main className="bg-table flex min-h-dvh w-full flex-col items-center justify-center gap-8 p-6 text-center">
+    <main className="bg-table flex min-h-dvh w-full flex-col items-center justify-center p-6 text-center">
+      {/* Le fond porte déjà le titre du jeu (c'est la carte du plateau) : le
+          contenu vit sur un panneau sombre qui le recouvre, sinon le titre
+          apparaît deux fois. */}
+      <div className="flex w-full max-w-lg flex-col items-center gap-8 rounded-[2.2rem] bg-[rgba(8,20,28,0.72)] px-6 py-10 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.8)] backdrop-blur-sm sm:px-10">
       <header className="flex flex-col items-center gap-2">
         <span className="flex size-24 items-center justify-center rounded-full border-4 border-[var(--k-gold-light)] bg-[var(--k-teal)] text-white shadow-[0_18px_34px_-14px_rgba(15,118,110,0.8)]">
           <svg viewBox="0 0 24 24" aria-hidden="true" className="size-12" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round"><path d="M12 3 14 9l6 .5-4.5 4 1.5 6L12 16l-5 3.5 1.5-6-4.5-4L10 9l2-6Z" /></svg>
         </span>
-        <h1 className="font-display text-6xl font-black tracking-[0.1em] text-[var(--k-teal-dark)]">{t(DEFAULT_LOCALE, "app.name")}</h1>
-        <p className="text-xl font-semibold">{t(DEFAULT_LOCALE, "app.tagline")}</p>
-        <Bidi as="p" lang="ar" className="text-lg text-[var(--k-ink-soft)]">
+        <h1 className="font-display text-6xl font-black tracking-[0.1em] text-[var(--k-cream)] drop-shadow-[0_2px_10px_rgba(0,0,0,0.55)]">{t(DEFAULT_LOCALE, "app.name")}</h1>
+        <p className="text-xl font-semibold text-[var(--k-cream)]">{t(DEFAULT_LOCALE, "app.tagline")}</p>
+        <Bidi as="p" lang="ar" className="text-lg text-[rgba(255,250,240,0.75)]">
           {t("ar", "app.tagline")}
         </Bidi>
       </header>
@@ -33,13 +37,13 @@ export function HomeScreen() {
       </Link>
 
       <section className="w-full max-w-sm text-start" aria-labelledby="saved-title">
-        <h2 id="saved-title" className="mb-2 text-sm font-semibold uppercase tracking-wide text-[var(--k-ink-soft)]">
+        <h2 id="saved-title" className="mb-2 text-sm font-semibold uppercase tracking-wide text-[rgba(255,250,240,0.75)]">
           {t(DEFAULT_LOCALE, "home.savedGames")}
         </h2>
         {games === null ? (
-          <p className="text-sm">{t(DEFAULT_LOCALE, "common.loading")}</p>
+          <p className="text-sm text-[var(--k-cream)]">{t(DEFAULT_LOCALE, "common.loading")}</p>
         ) : games.length === 0 ? (
-          <p className="text-sm text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "home.noSavedGame")}</p>
+          <p className="text-sm text-[rgba(255,250,240,0.75)]">{t(DEFAULT_LOCALE, "home.noSavedGame")}</p>
         ) : (
           <ul className="flex flex-col gap-2">
             {games.map((g) => (
@@ -61,6 +65,7 @@ export function HomeScreen() {
           </ul>
         )}
       </section>
+      </div>
     </main>
   );
 }

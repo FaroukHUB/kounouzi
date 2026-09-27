@@ -119,8 +119,8 @@ export function NewGameForm() {
     >
       <div className="flex w-full max-w-3xl flex-col gap-6">
       <header>
-        <h1 className="font-display text-3xl font-black tracking-tight text-[var(--k-teal-dark)]">{t(DEFAULT_LOCALE, "setup.title")}</h1>
-        <p className="text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "setup.subtitle")}</p>
+        <h1 className="font-display text-3xl font-black tracking-tight text-[var(--k-cream)] drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">{t(DEFAULT_LOCALE, "setup.title")}</h1>
+        <p className="text-[rgba(255,250,240,0.8)]">{t(DEFAULT_LOCALE, "setup.subtitle")}</p>
       </header>
 
       {known.length > 0 ? (
@@ -207,7 +207,7 @@ export function NewGameForm() {
       ) : null}
 
       <fieldset className="rounded-3xl bg-white p-4 shadow-sm">
-        <legend className="px-1 text-sm font-semibold">{t(DEFAULT_LOCALE, "setup.mode")}</legend>
+        <legend className="px-1 text-sm font-semibold text-[var(--k-cream)]">{t(DEFAULT_LOCALE, "setup.mode")}</legend>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           {GAME_MODE_IDS.map((m) => (
             <button key={m} type="button" onClick={() => setMode(m)} aria-pressed={mode === m} className={`flex min-h-16 flex-col items-center justify-center rounded-2xl border px-2 ${mode === m ? "border-[var(--k-teal)] bg-[var(--k-teal)]/10" : "border-[var(--k-line)]"}`}>
