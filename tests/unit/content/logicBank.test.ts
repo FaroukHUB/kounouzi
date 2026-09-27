@@ -198,8 +198,9 @@ describe("Logique V1 — non-régression des autres catégories", () => {
     expect(registry.slots("child").filter((s) => s.categoryId === "religion")).toHaveLength(375);
     expect(registry.slots("child").filter((s) => s.categoryId === "maths")).toHaveLength(30);
     expect(registry.slots("child").filter((s) => s.categoryId === "management")).toHaveLength(30);
-    expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(0);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "draft")).toHaveLength(30);
+    // Histoire & Géographie : 19 cartes sourcées et expliquées sont servies depuis l'ADR 0045 ; les treize sans explication restent en brouillon.
+    expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(19);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "draft")).toHaveLength(13);
     expect(CURATED_BANK.filter((q) => q.categoryId === "management" && q.status === "validated")).toHaveLength(30);
     for (const id of ["history", "arabic", "culture"]) {
       expect(registry.slots("child").filter((s) => s.categoryId === id), id).toHaveLength(0);

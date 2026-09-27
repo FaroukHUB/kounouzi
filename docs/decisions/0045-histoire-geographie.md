@@ -26,22 +26,37 @@ Maroc (Marrakech), Algérie (Alger), Tunisie (Kairouan et Carthage), Égypte
 3. **Progression par tranche**, six cartes chacune : 5-8 ans « où est-ce ? »,
    9-12 ans « que s'est-il passé ? », 13 ans et plus « pourquoi ce lieu
    a-t-il compté ? ». Des dates apprises par cœur ne sont demandées nulle part.
-4. **Rien n'est publié.** Les 30 cartes sont `draft` et la garde les refuse
-   toutes, pour deux raisons distinctes, toutes deux assumées plutôt que
-   comblées par une invention :
-   - la catégorie exige une source pour tout fait, même évident (ADR 0038), et
-     aucune n'a été fournie : le catalogue reste vide, aucune URL n'est devinée ;
-   - l'auteur a écrit ces cartes en français seulement : l'arabe est absent, et
-     l'explication arabe obligatoire (ADR 0004) manque donc partout.
+4. **32 cartes, aucune notion à carte unique.** Le Caire et Jérusalem, d'abord
+   portés par une seule carte, en reçoivent une seconde (HISTGEO-031 et 032,
+   fournies par l'auteur avec leur arabe et leur source) : réviser une notion
+   ne revient jamais à reposer la même carte. La carte du Dôme du Rocher
+   rejoint la notion `histgeo.jerusalem` pour que les deux cartes de Jérusalem
+   partagent bien la même notion.
+5. **L'arabe est une traduction fidèle du français**, sans ajout ni retrait, et
+   reste `arReview: "provisional"` sur les 32 cartes : aucune traduction n'est
+   tenue pour relue humainement à ce stade.
+6. **Le catalogue de sources ne contient que des sources officielles** vérifiées
+   par l'auteur : la classification des pays de l'ONU (UNSD M49) pour situer un
+   lieu, les fiches du patrimoine mondial de l'UNESCO pour les neuf lieux
+   historiques. Une même source couvre plusieurs cartes. Les URL ne figurent
+   que là où l'auteur les a données explicitement (UNSD M49, Le Caire
+   historique, Vieille ville de Jérusalem) : l'environnement de développement
+   n'atteint pas `whc.unesco.org`, donc les numéros de fiche des sept autres
+   sites n'ont pas pu être vérifiés et ces entrées portent leur titre et leur
+   éditeur SANS URL. Le schéma l'autorise — une URL peut être absente, jamais
+   fictive.
+7. **Une carte n'est publiée que si la garde ne remonte plus rien.** Dix-neuf
+   cartes sont désormais `validated` et servies. Treize restent `draft` : leur
+   auteur ne leur a donné AUCUNE explication, et une explication ne s'invente
+   pas ici.
 
 ## Conséquences
 
-- La banque Géographie précédente (30 cartes `GEO-…`, elles aussi jamais
-  servies faute de sources) disparaît du dépôt ; son contenu reste dans
-  l'histoire Git.
-- Deux notions ne portent qu'UNE carte — Égypte/Le Caire et Jérusalem. Réviser
-  une notion à carte unique revient à reposer la même carte : il faudra soit
-  deux cartes de plus, soit regrouper ces lieux avec d'autres. Le manque est
-  signalé, pas comblé par des cartes inventées.
-- Le nombre de catégories reste à cinq : religion, maths, logique, gestion,
-  histoire & géographie.
+- La banque Géographie précédente (30 cartes `GEO-…`, jamais servies faute de
+  sources) disparaît du dépôt ; son contenu reste dans l'histoire Git.
+- **La catégorie entre en production** : cinq catégories sont désormais servies
+  — religion, mathématiques, Histoire & Géographie, logique, gestion — et le
+  Learning Engine n'a pas changé d'une ligne pour autant.
+- Les treize explications manquantes sont le seul travail restant sur cette
+  banque ; un test simule leur arrivée et vérifie que les 32 cartes deviennent
+  alors jouables.

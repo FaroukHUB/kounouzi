@@ -81,15 +81,15 @@ describe("catalogue géographique et gabarits", () => {
     expect(a).not.toEqual(provider.resolve({ categoryId: "geography", difficulty: 2, profileType: "adult", variation: 6 }));
   });
 
-  it("le registre de l'application propose religion, mathématiques, logique et gestion : la géographie de démonstration n'est PAS servie, les autres catégories curées n'ont rien de validé", () => {
-    expect(contentRegistry().availableCategories("child")).toEqual(["religion", "maths", "logic", "management"]);
-    expect(contentRegistry().availableCategories("adult")).toEqual(["religion", "maths", "logic", "management"]);
-    // Le catalogue reste dans les fichiers pour référence, simplement jamais servi.
+  it("le registre de l'application propose religion, mathématiques, Histoire & Géographie, logique et gestion ; la géographie de DÉMONSTRATION reste, elle, non servie", () => {
+    expect(contentRegistry().availableCategories("child")).toEqual(["religion", "maths", "geography", "logic", "management"]);
+    expect(contentRegistry().availableCategories("adult")).toEqual(["religion", "maths", "geography", "logic", "management"]);
+    // Le catalogue de démonstration reste dans les fichiers pour référence, simplement jamais servi :
+    // ce qui est servi en Histoire & Géographie vient de la banque curée, pas de ces faits non vérifiés.
     expect(DEMO_CONTENT_ENABLED).toBe(false);
     expect(GEO_FACTS.length).toBeGreaterThan(0);
     expect(GEO_FACTS.every((f) => f.status === "unverified")).toBe(true);
-    expect(contentRegistry().resolve({ categoryId: "geography", difficulty: 2, profileType: "adult", variation: 0 })).toBeNull();
-    expect(contentRegistry().slots("child").some((sl) => sl.categoryId === "geography")).toBe(false);
+    expect(contentRegistry().slots("child").every((sl) => sl.categoryId !== "geography" || sl.knowledgeNodeId.startsWith("histgeo."))).toBe(true);
   });
 });
 
