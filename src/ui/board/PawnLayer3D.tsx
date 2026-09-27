@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { avatarById } from "@/config/avatars";
+import { avatarById, DEFAULT_AVATAR_ID } from "@/config/avatars";
 import type { PawnLayerProps } from "./PawnLayer";
 import { cellCenterPercent, clusterOffset, gridDims } from "./layout";
 
@@ -118,7 +118,7 @@ export function PawnLayer3D(props: PawnLayerProps) {
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
       for (const player of latest?.players ?? []) {
-        const avatar = avatarById(latest?.profiles.find((d) => d.id === player.id)?.avatarId ?? "amber");
+        const avatar = avatarById(latest?.profiles.find((d) => d.id === player.id)?.avatarId ?? DEFAULT_AVATAR_ID);
         const inst = model.clone(true);
         inst.traverse((o) => {
           const mesh = o as THREE.Mesh;

@@ -2,6 +2,7 @@
 
 import type { PlayerState } from "@/core/game";
 import type { PlayerProfileDraft } from "@/data/ports";
+import { DEFAULT_AVATAR_ID } from "@/config/avatars";
 import { Pawn } from "./Pawn";
 
 export interface PawnLayerProps {
@@ -29,7 +30,7 @@ export function PawnLayer({ players, profiles, visuals, activePlayerId, cellCoun
             key={p.id}
             playerId={p.id}
             displayName={p.displayName}
-            avatarId={profiles.find((d) => d.id === p.id)?.avatarId ?? "amber"}
+            avatarId={profiles.find((d) => d.id === p.id)?.avatarId ?? DEFAULT_AVATAR_ID}
             position={pos}
             cellCount={cellCount}
             clusterIndex={cluster.indexOf(p.id)}

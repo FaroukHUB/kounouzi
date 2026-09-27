@@ -20,9 +20,9 @@ import { T0 } from "../../fixtures/learning/resolve.fixture";
  * Patrimoine). Sans React, sans navigateur, sans hasard.
  */
 const profiles: readonly PlayerProfileDraft[] = [
-  { id: "maryam" as PlayerId, displayName: "Maryam", profileType: "child", avatarId: "amber", child: { birthYear: 2020 } },
-  { id: "yacine" as PlayerId, displayName: "Yacine", profileType: "child", avatarId: "teal", child: { birthYear: 2015 } },
-  { id: "maman" as PlayerId, displayName: "Maman", profileType: "adult", avatarId: "ruby", adult: { initialLevel: "standard" } },
+  { id: "maryam" as PlayerId, displayName: "Maryam", profileType: "child", avatarId: "garcon-7-9", child: { birthYear: 2020 } },
+  { id: "yacine" as PlayerId, displayName: "Yacine", profileType: "child", avatarId: "fille-7-9", child: { birthYear: 2015 } },
+  { id: "maman" as PlayerId, displayName: "Maman", profileType: "adult", avatarId: "garcon-10-12", adult: { initialLevel: "standard" } },
   { id: "papa" as PlayerId, displayName: "Papa", profileType: "adult", avatarId: "violet", adult: { initialLevel: "advanced" } },
 ];
 

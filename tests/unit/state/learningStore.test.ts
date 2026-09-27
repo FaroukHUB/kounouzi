@@ -8,7 +8,7 @@ import { createLearningStore } from "@/state/learningStore";
 import { active, answer, create, journey, makeLineSetup, makeSetup, pid, run } from "../../fixtures/game/setup.fixture";
 import { T0, resolveFor } from "../../fixtures/learning/resolve.fixture";
 
-const profiles: readonly PlayerProfileDraft[] = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", ...(i % 2 === 0 ? { child: { birthYear: 2018 } } : { adult: { initialLevel: "standard" as const } }) }));
+const profiles: readonly PlayerProfileDraft[] = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "fille-7-9", ...(i % 2 === 0 ? { child: { birthYear: 2018 } } : { adult: { initialLevel: "standard" as const } }) }));
 const learners = profiles.map((p) => learnerContextFor({ id: p.id, profileType: p.profileType, age: ageOf(p, T0), initialLevel: p.adult?.initialLevel }));
 
 function harness(repository = createMemoryLearningRepository()) {

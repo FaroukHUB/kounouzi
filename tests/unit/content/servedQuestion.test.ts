@@ -7,7 +7,7 @@ import { active, answer, create, eventsOf, journey, makeLineSetup, makeSetup, pi
 import { FACTUAL_GEO_CATEGORIES } from "../../fixtures/content/curated.fixture";
 import { resolveFor } from "../../fixtures/learning/resolve.fixture";
 
-const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", child: { birthYear: 2018 } }));
+const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "fille-7-9", child: { birthYear: 2018 } }));
 
 describe("question figée dans l'état (ServeQuestion)", () => {
   it("fige la question distribuée avec sa référence versionnée ; refuse un double service ou un service hors demande", () => {

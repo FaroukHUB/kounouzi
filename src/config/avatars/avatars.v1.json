@@ -1,13 +1,13 @@
 {
-  "$comment": "Pions V1 : une couleur et un symbole géométrique par avatar. Illustrations définitives ultérieures.",
+  "$comment": "Huit personnages illustrés (fournis et validés par l'équipe éditoriale). Le portrait sert aux pastilles (barre d'action, tuiles, cartes), la figure entière à l'écran de création. La couleur reste la marque du joueur sur le plateau : elle distingue les pions, les halos et les liserés de propriété, là où deux personnages peuvent porter le même vêtement. Le symbole géométrique n'est plus qu'un repli si une image manque. Le sexe et la tranche d'âge décrivent le personnage choisi ; ils ne pilotent RIEN dans le jeu — la difficulté vient de l'âge réel saisi à la création.",
   "avatars": [
-    { "id": "amber", "color": "#d97706", "shape": "sun" },
-    { "id": "teal", "color": "#0f766e", "shape": "leaf" },
-    { "id": "ruby", "color": "#be123c", "shape": "gem" },
-    { "id": "indigo", "color": "#4338ca", "shape": "star" },
-    { "id": "olive", "color": "#4d7c0f", "shape": "shell" },
-    { "id": "sky", "color": "#0369a1", "shape": "wave" },
-    { "id": "plum", "color": "#7e22ce", "shape": "key" },
-    { "id": "copper", "color": "#9a3412", "shape": "feather" }
+    { "id": "garcon-7-9", "color": "#d97706", "shape": "sun", "sex": "garcon", "ageBand": "7-9", "portrait": "/kounouzi/avatars/garcon-7-9-portrait.webp", "figure": "/kounouzi/avatars/garcon-7-9.webp" },
+    { "id": "fille-7-9", "color": "#7e22ce", "shape": "key", "sex": "fille", "ageBand": "7-9", "portrait": "/kounouzi/avatars/fille-7-9-portrait.webp", "figure": "/kounouzi/avatars/fille-7-9.webp" },
+    { "id": "garcon-10-12", "color": "#0f766e", "shape": "leaf", "sex": "garcon", "ageBand": "10-12", "portrait": "/kounouzi/avatars/garcon-10-12-portrait.webp", "figure": "/kounouzi/avatars/garcon-10-12.webp" },
+    { "id": "fille-10-12", "color": "#4338ca", "shape": "star", "sex": "fille", "ageBand": "10-12", "portrait": "/kounouzi/avatars/fille-10-12-portrait.webp", "figure": "/kounouzi/avatars/fille-10-12.webp" },
+    { "id": "garcon-13-16", "color": "#0369a1", "shape": "wave", "sex": "garcon", "ageBand": "13-16", "portrait": "/kounouzi/avatars/garcon-13-16-portrait.webp", "figure": "/kounouzi/avatars/garcon-13-16.webp" },
+    { "id": "fille-13-16", "color": "#be123c", "shape": "gem", "sex": "fille", "ageBand": "13-16", "portrait": "/kounouzi/avatars/fille-13-16-portrait.webp", "figure": "/kounouzi/avatars/fille-13-16.webp" },
+    { "id": "garcon-17-plus", "color": "#4d7c0f", "shape": "shell", "sex": "garcon", "ageBand": "17+", "portrait": "/kounouzi/avatars/garcon-17-plus-portrait.webp", "figure": "/kounouzi/avatars/garcon-17-plus.webp" },
+    { "id": "fille-17-plus", "color": "#9a3412", "shape": "feather", "sex": "fille", "ageBand": "17+", "portrait": "/kounouzi/avatars/fille-17-plus-portrait.webp", "figure": "/kounouzi/avatars/fille-17-plus.webp" }
   ]
 }

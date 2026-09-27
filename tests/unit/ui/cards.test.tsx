@@ -11,7 +11,7 @@ import { scenariosOf } from "../../fixtures/game/scenarios.fixture";
 import { resolveFor } from "../../fixtures/learning/resolve.fixture";
 
 const narrator = new NullNarrator();
-const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", child: { birthYear: 2018 } }));
+const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "fille-7-9", child: { birthYear: 2018 } }));
 
 describe("carte question (rendu statique)", () => {
   const pending = journey(create(makeLineSetup()).state);

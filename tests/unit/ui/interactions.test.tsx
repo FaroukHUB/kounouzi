@@ -17,7 +17,7 @@ import { advanceUntil, answer, create, journey, makeLineSetup, makeSetup, pid, p
 import { resolveFor } from "../../fixtures/learning/resolve.fixture";
 
 const narrator = new NullNarrator();
-const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: ["Maryam", "Papa", "Yacine"][i]!, profileType: p.profileType, avatarId: ["amber", "teal", "ruby"][i]!, ...(p.profileType === "child" ? { child: { birthYear: 2019 } } : { adult: { initialLevel: "standard" as const } }) }));
+const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: ["Maryam", "Papa", "Yacine"][i]!, profileType: p.profileType, avatarId: ["garcon-7-9", "fille-7-9", "garcon-10-12"][i]!, ...(p.profileType === "child" ? { child: { birthYear: 2019 } } : { adult: { initialLevel: "standard" as const } }) }));
 const named = (s: ReturnType<typeof create>["state"]) => ({ ...s, players: s.players.map((p, i) => ({ ...p, displayName: ["Maryam", "Papa", "Yacine"][i]! })) });
 /** `renderToStaticMarkup` échappe les apostrophes. */
 const escaped = (text: string) => text.replace(/'/g, "&#x27;");

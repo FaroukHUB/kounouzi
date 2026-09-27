@@ -34,7 +34,7 @@ export const ar: Dictionary = {
   "setup.type": "نوع اللاعب",
   "setup.child": "طفل",
   "setup.adult": "بالغ",
-  "setup.avatar": "القطعة",
+  "setup.avatar": "الشخصية",
   "setup.birthYear": "سنة الميلاد",
   "setup.initialLevel": "المستوى الأولي",
   "setup.mode": "مدة اللعبة",

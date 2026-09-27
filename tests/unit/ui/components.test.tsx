@@ -13,7 +13,7 @@ import { create, makeSetup, pid } from "../../fixtures/game/setup.fixture";
 
 const resolved = resolveBoard(DEFAULT_BOARD, TEST_MONUMENTS);
 if (!resolved.ok) throw new Error("board");
-const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal" }));
+const profiles = makeSetup().players.map((p) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "fille-7-9" }));
 
 describe("composants du plateau (rendu statique)", () => {
   it("rend les 28 cases avec leur type (grille 8×8), met en évidence la case demandée, marque les Haltes comme grosses cases", () => {
@@ -47,9 +47,11 @@ describe("composants du plateau (rendu statique)", () => {
     const action = renderToStaticMarkup(<JourneyAction {...props} />);
     expect(action).toContain("Au tour de Joueur 1");
     expect(action).toContain("Découvrir mon chemin");
-    // L'avatar du joueur actif se lit ICI, sous le plateau, jamais sur le pion.
+    // L'avatar du joueur actif se lit ICI, sous le plateau, jamais sur le pion :
+    // c'est le PORTRAIT du personnage choisi, pas un symbole.
     expect(action).toContain('data-testid="journey-avatar"');
-    expect(action).toContain('data-avatar="teal"');
+    expect(action).toContain('data-avatar="fille-7-9"');
+    expect(action).toContain("/kounouzi/avatars/fille-7-9-portrait.webp");
     // Le cœur reste libre : la carte illustrée n'est masquée par rien tant qu'il n'y a rien à dire.
     const coeur = renderToStaticMarkup(<JourneyPanel {...props} />);
     expect(coeur).not.toContain("Découvrir mon chemin");

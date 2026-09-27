@@ -15,7 +15,7 @@ import { create, journey, makeLineSetup, makeSetup, pid, players, run } from "..
 
 const NO_ZAKAT: RulesConfig = { ...TEST_RULES_QUICK, zakat: { ...TEST_RULES_QUICK.zakat, enabled: false } };
 const NAMES = ["Youssouf", "Maryam", "Yacine"];
-const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: NAMES[i]!, profileType: p.profileType, avatarId: ["amber", "teal", "ruby"][i]!, ...(p.profileType === "child" ? { child: { birthYear: 2019 } } : { adult: { initialLevel: "standard" as const } }) }));
+const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: NAMES[i]!, profileType: p.profileType, avatarId: ["garcon-7-9", "fille-7-9", "garcon-10-12"][i]!, ...(p.profileType === "child" ? { child: { birthYear: 2019 } } : { adult: { initialLevel: "standard" as const } }) }));
 const named = (s: GameState): GameState => ({ ...s, players: s.players.map((p, i) => ({ ...p, displayName: NAMES[i]! })) });
 const HOTEL = DEMO_ESTABLISHMENTS.find((s) => s.id === "est-hotel-madinah-a")!;
 

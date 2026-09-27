@@ -9,7 +9,7 @@ function harness() {
   const emitted: GameEvent[][] = [];
   let tick = 0;
   const store = createGameStore({ repository, now: () => `2026-01-01T00:00:${String(tick++).padStart(2, "0")}Z`, onEvents: (events) => emitted.push([...events]) });
-  const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: i % 2 === 0 ? "amber" : "teal" }));
+  const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: i % 2 === 0 ? "garcon-7-9" : "fille-7-9" }));
   return { repository, emitted, store, profiles };
 }
 
@@ -22,7 +22,7 @@ describe("gameStore (état persistant issu du moteur)", () => {
     expect(h.repository.size()).toBe(1);
     const list = await h.store.getState().listSaved();
     expect(list[0]).toMatchObject({ gameId: "game-test", status: "in_progress", turnNumber: 1 });
-    expect(list[0]?.players.map((p) => p.avatarId)).toEqual(["amber", "teal", "amber"]);
+    expect(list[0]?.players.map((p) => p.avatarId)).toEqual(["garcon-7-9", "fille-7-9", "garcon-7-9"]);
   });
 
   it("dispatch applique le moteur, persiste, et refuse une commande invalide sans changer l'état", () => {

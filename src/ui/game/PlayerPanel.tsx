@@ -1,12 +1,12 @@
 "use client";
 
-import { avatarById } from "@/config/avatars";
+import { avatarById, DEFAULT_AVATAR_ID } from "@/config/avatars";
 import type { GameState } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { formatKounouz } from "@/ui/primitives/money";
-import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
+import { AvatarBadge } from "@/ui/primitives/AvatarBadge";
 
 /**
  * Tuile d'un joueur : avatar, nom, Kounouz en GRAND, patrimoine, points Hassanāt (ressource distincte). La même
@@ -15,7 +15,7 @@ import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
 export function PlayerTile({ state, profiles, playerId, className = "" }: { readonly state: GameState; readonly profiles: readonly PlayerProfileDraft[]; readonly playerId: PlayerId; readonly className?: string }) {
   const p = state.players.find((x) => x.id === playerId);
   if (!p) return null;
-  const avatar = avatarById(profiles.find((d) => d.id === p.id)?.avatarId ?? "amber");
+  const avatar = avatarById(profiles.find((d) => d.id === p.id)?.avatarId ?? DEFAULT_AVATAR_ID);
   const heritage = state.holdings.filter((h) => h.ownerId === p.id).length;
   const active = state.players[state.activePlayerIndex]?.id === p.id;
   return (
@@ -24,9 +24,7 @@ export function PlayerTile({ state, profiles, playerId, className = "" }: { read
       data-active={active}
       className={`flex items-center gap-2 rounded-2xl border px-3 py-2 transition ${active ? "border-[var(--k-gold)] bg-[var(--k-cream)] shadow-[0_10px_24px_-14px_rgba(60,35,10,0.8)]" : "border-[rgba(120,80,30,0.12)] bg-[rgba(255,250,240,0.85)]"} ${className}`}
     >
-      <span className={`flex size-11 shrink-0 items-center justify-center rounded-full border-2 border-white text-white shadow ${active ? "ring-2 ring-[var(--k-gold)]" : ""}`} style={{ background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5) 0%, ${avatar.color} 45%)` }}>
-        <AvatarGlyph shape={avatar.shape} className="size-5" />
-      </span>
+      <AvatarBadge avatar={avatar} className={`size-11 ${active ? "ring-2 ring-[var(--k-gold)]" : ""}`} />
       <span className="min-w-0 flex-1">
         <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <span className="truncate font-semibold">{p.displayName}</span>

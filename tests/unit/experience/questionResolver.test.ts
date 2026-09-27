@@ -9,7 +9,7 @@ import { TEST_ARABIC } from "../../fixtures/content/curated.fixture";
 import { resolveQuestion } from "@/experience/questionResolver";
 import { T0, resolveFor } from "../../fixtures/learning/resolve.fixture";
 
-const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "teal", ...(i % 2 === 0 ? { child: { birthYear: 2018 } } : { adult: { initialLevel: "standard" as const } }) }));
+const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: p.displayName, profileType: p.profileType, avatarId: "fille-7-9", ...(i % 2 === 0 ? { child: { birthYear: 2018 } } : { adult: { initialLevel: "standard" as const } }) }));
 
 describe("résolution d'une question pour une demande du moteur (Learning Engine)", () => {
   it("ne résout rien hors phase de question", () => {

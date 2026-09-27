@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import type { Holding, PurchasableSite, ResolvedBoard } from "@/core/game";
-import { avatarById } from "@/config/avatars";
+import { avatarById, DEFAULT_AVATAR_ID } from "@/config/avatars";
 import { ASSETS } from "@/ui/theme/assets";
 import type { PlayerProfileDraft } from "@/data/ports";
 import { Cell, type CellOwner } from "./Cell";
@@ -34,7 +34,7 @@ export function Board({ board, highlightedCell, arrivalCell, previewPath, pawns,
   const ownerOf = (siteId: string): CellOwner | undefined => {
     const h = holdings.find((x) => x.siteId === siteId);
     if (!h) return undefined;
-    const avatar = avatarById(profiles.find((p) => p.id === h.ownerId)?.avatarId ?? "amber");
+    const avatar = avatarById(profiles.find((p) => p.id === h.ownerId)?.avatarId ?? DEFAULT_AVATAR_ID);
     return { name: players.find((p) => p.id === h.ownerId)?.displayName ?? String(h.ownerId), color: avatar.color, shape: avatar.shape };
   };
   return (

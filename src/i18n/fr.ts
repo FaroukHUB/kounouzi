@@ -31,7 +31,7 @@ export const fr = {
   "setup.type": "Type de joueur",
   "setup.child": "Enfant",
   "setup.adult": "Adulte",
-  "setup.avatar": "Pion",
+  "setup.avatar": "Personnage",
   "setup.birthYear": "Année de naissance",
   "setup.initialLevel": "Niveau de départ",
   "setup.mode": "Durée de la partie",

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { AVATARS } from "@/config/avatars";
+import { avatarById, AVATARS } from "@/config/avatars";
 import { DEFAULT_BOARD } from "@/config/board";
 import { HASSANAT_CONFIG } from "@/config/hassanat";
 import { DEFAULT_CHALLENGE_SETTINGS, challengesConfigFor } from "@/config/challenges";
@@ -15,7 +15,7 @@ import { ADULT_INITIAL_LEVELS, DEFAULT_ADULT_INITIAL_LEVEL, type AdultInitialLev
 import type { PlayerProfileDraft, SavedPlayerProfile } from "@/data/ports";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { gameStore, playerProfileRepository } from "@/state/appStores";
-import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
+import { AvatarBadge } from "@/ui/primitives/AvatarBadge";
 import { Button } from "@/ui/primitives/Button";
 
 interface Row {
@@ -134,9 +134,7 @@ export function NewGameForm() {
               const added = rows.some((r) => r.id === p.id);
               return (
                 <button key={p.id} type="button" onClick={() => addKnown(p)} disabled={added} aria-pressed={added} className={`inline-flex min-h-10 items-center gap-2 rounded-full border px-3 text-sm font-semibold ${added ? "border-[var(--k-teal)] bg-[var(--k-teal)]/10" : "border-[var(--k-line)] bg-white"}`} data-testid="known-player">
-                  <span className="flex size-6 items-center justify-center rounded-full text-white" style={{ backgroundColor: AVATARS.find((a) => a.id === p.avatarId)?.color ?? "var(--k-teal)" }}>
-                    <AvatarGlyph shape={AVATARS.find((a) => a.id === p.avatarId)?.shape ?? AVATARS[0]!.shape} />
-                  </span>
+                  <AvatarBadge avatar={avatarById(p.avatarId)} className="size-6 border" />
                   <span>{p.displayName}</span>
                   <span className="text-xs font-normal text-[var(--k-ink-soft)]">{added ? t(DEFAULT_LOCALE, "setup.knownPlayers.added") : t(DEFAULT_LOCALE, `setup.${p.profileType}`)}</span>
                 </button>
@@ -173,8 +171,9 @@ export function NewGameForm() {
                 {t(DEFAULT_LOCALE, "setup.avatar")}
                 <div className="mt-1 flex flex-wrap gap-1.5" role="radiogroup">
                   {AVATARS.map((a) => (
-                    <button key={a.id} type="button" role="radio" aria-checked={r.avatarId === a.id} aria-label={a.id} onClick={() => update(i, { avatarId: a.id })} className={`flex size-10 items-center justify-center rounded-full text-white ${r.avatarId === a.id ? "ring-4 ring-[var(--k-gold)]" : "opacity-70"}`} style={{ backgroundColor: a.color }}>
-                      <AvatarGlyph shape={a.shape} />
+                    <button key={a.id} type="button" role="radio" aria-checked={r.avatarId === a.id} aria-label={a.id} onClick={() => update(i, { avatarId: a.id })} className={`flex size-16 items-end justify-center rounded-2xl border p-1 ${r.avatarId === a.id ? "border-[var(--k-gold)] ring-4 ring-[var(--k-gold)]" : "border-[var(--k-line)] opacity-80"}`} style={{ background: `linear-gradient(180deg, rgba(255,255,255,0.9) 0%, ${a.color}22 100%)` }} data-avatar={a.id}>
+                      {/* eslint-disable-next-line @next/next/no-img-element -- vignette de taille fixe, image déjà dimensionnée */}
+                      <img src={a.figure} alt="" aria-hidden="true" className="size-full object-contain" decoding="async" />
                     </button>
                   ))}
                 </div>
