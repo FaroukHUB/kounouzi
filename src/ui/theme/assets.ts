@@ -4,8 +4,13 @@
  * `public/kounouzi/README.md` pour la liste des images attendues.
  */
 export const ASSETS = {
-  /** Carte illustrée au cœur du plateau : CARRÉE (1254 × 1254), elle remplit exactement la zone centrale. Le cadre s'adapte à toute autre proportion sans recadrer. */
-  boardCenter: "/kounouzi/board/center-carte.v2.webp",
+  /**
+   * Carte illustrée servant de TAPIS à tout le plateau. Carrée (1254 × 1254)
+   * et composée POUR lui : tout ce qui porte une information tient dans le
+   * carré central, la périphérie n'est que mer et ciel puisqu'elle passe sous
+   * les cases. Remplaçable : déposer un fichier, changer ce chemin.
+   */
+  boardCenter: "/kounouzi/board/center-carte.v3.webp",
   patternTile: "/kounouzi/backgrounds/pattern-tile.svg",
   monumentPlaceholder: "/kounouzi/monuments/placeholder.svg",
   treasureGlow: "/kounouzi/effects/treasure-glow.svg",
