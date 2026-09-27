@@ -23,6 +23,7 @@ import { PawnLayer3D } from "@/ui/board/PawnLayer3D";
 import { CardOverlay } from "@/ui/cards/CardOverlay";
 import { Button } from "@/ui/primitives/Button";
 import { FinalRanking } from "./FinalRanking";
+import { HelpSheet } from "./HelpSheet";
 import { JourneyAction, JourneyPanel } from "./JourneyPanel";
 import { PlayerCorners, PlayerPanel } from "./PlayerPanel";
 import { formatKounouz } from "@/ui/primitives/money";
@@ -41,6 +42,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const reduced = useReducedMotion();
   const session = useSessionStore();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
   const [paused, setPaused] = useState(false);
 
   // Chargement / reprise : l'état est affiché tel quel, sans rejouer les animations.
@@ -220,9 +222,14 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
       </aside>
 
       {shown.status === "finished" ? <FinalRanking state={shown} /> : null}
+      <HelpSheet open={helpOpen} onClose={() => setHelpOpen(false)} board={state.config.board} />
       <SettingsSheet
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}
+        onOpenHelp={() => {
+          setSettingsOpen(false);
+          setHelpOpen(true);
+        }}
         narrationSupported={narrator.isSupported()}
         narrationMode={narrator.mode?.() ?? "none"}
         onReplay={() => narrator.replayLast()}

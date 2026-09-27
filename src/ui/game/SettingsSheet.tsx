@@ -17,6 +17,8 @@ export interface SettingsSheetProps {
   readonly onTogglePause: () => void;
   readonly endRequested: boolean;
   readonly onRequestEnd: () => void;
+  /** Ouvre « Comment on joue » (les piliers et la légende des cases). */
+  readonly onOpenHelp: () => void;
   /** Réglages parents des Défis famille de la partie (`null` : aucune banque dans cette partie). */
   readonly challengeSettings: ChallengeSettings | null;
   readonly onChallengeSettings: (settings: ChallengeSettings) => void;
@@ -40,6 +42,9 @@ export function SettingsSheet(props: SettingsSheetProps) {
         </div>
 
         <div className="mt-4 flex flex-col gap-4">
+          <Button variant="secondary" onClick={props.onOpenHelp} data-testid="open-help">
+            {t(DEFAULT_LOCALE, "help.open")}
+          </Button>
           <label className="flex items-center justify-between gap-3">
             <span>{t(DEFAULT_LOCALE, "settings.reducedMotion")}</span>
             <select className="min-h-11 rounded-xl border px-3" value={reducedValue} onChange={(e) => s.setReducedMotion(e.target.value === "system" ? null : e.target.value === "on")}>

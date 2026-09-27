@@ -6,6 +6,8 @@ import { Board } from "@/ui/board/Board";
 import { PawnLayer } from "@/ui/board/PawnLayer";
 import { JourneyAction, JourneyPanel } from "@/ui/game/JourneyPanel";
 import { PlayerPanel } from "@/ui/game/PlayerPanel";
+import { HelpSheet } from "@/ui/game/HelpSheet";
+import { Pillars } from "@/ui/common/Pillars";
 import { TimeBadge } from "@/ui/game/TimeBadge";
 import { TEST_MONUMENTS } from "../../fixtures/game/heritage.fixture";
 import { TEST_RULES_FREE, TEST_RULES_TIMED } from "../../fixtures/game/rules.fixture";
@@ -85,5 +87,18 @@ describe("composants du plateau (rendu statique)", () => {
     expect(renderToStaticMarkup(<TimeBadge state={timed} precise={true} />)).toContain("1:00");
     const free = create(makeSetup({ rules: TEST_RULES_FREE })).state;
     expect(renderToStaticMarkup(<TimeBadge state={free} precise={false} />)).toContain("Partie libre");
+  });
+
+  it("les trois piliers portent les couleurs des cases qu'ils incarnent, et l'aide dresse la légende du plateau SERVI", () => {
+    const piliers = renderToStaticMarkup(<Pillars />);
+    for (const cle of ["play", "learn", "manage"]) expect(piliers).toContain(`data-pillar="${cle}"`);
+    expect(piliers).toContain("Joue");
+    expect(piliers).toContain("Apprends");
+    expect(piliers).toContain("Gère");
+
+    const aide = renderToStaticMarkup(<HelpSheet open board={resolved.value.board} onClose={() => {}} />);
+    // La légende vient du plateau : les sept types du plateau 28, et rien d'autre.
+    for (const type of ["start", "question", "heritage", "challenge", "halt", "treasure", "donation"]) expect(aide).toContain(`data-legend="${type}"`);
+    for (const absent of ["event", "management", "solidarity"]) expect(aide).not.toContain(`data-legend="${absent}"`);
   });
 });

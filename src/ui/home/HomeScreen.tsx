@@ -7,6 +7,7 @@ import { DEFAULT_LOCALE, t } from "@/i18n";
 import { gameStore } from "@/state/appStores";
 import { Bidi } from "@/ui/primitives/Bidi";
 import { Button } from "@/ui/primitives/Button";
+import { Pillars } from "@/ui/common/Pillars";
 
 export function HomeScreen() {
   const [games, setGames] = useState<readonly GameSummary[] | null>(null);
@@ -16,7 +17,7 @@ export function HomeScreen() {
   }, []);
 
   return (
-    <main className="bg-table flex min-h-dvh w-full flex-col items-center justify-center p-6 text-center">
+    <main className="bg-table flex min-h-dvh w-full flex-col items-center justify-center gap-8 p-6 text-center">
       {/* Le fond porte déjà le titre du jeu (c'est la carte du plateau) : le
           contenu vit sur un panneau sombre qui le recouvre, sinon le titre
           apparaît deux fois. */}
@@ -66,6 +67,8 @@ export function HomeScreen() {
         )}
       </section>
       </div>
+
+      <Pillars className="max-w-3xl" titleClassName="text-[rgba(255,250,240,0.8)]" />
     </main>
   );
 }
