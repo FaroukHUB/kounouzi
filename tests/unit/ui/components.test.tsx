@@ -39,6 +39,10 @@ describe("composants du plateau (rendu statique)", () => {
     expect(html).not.toMatch(/(?:^|[^-])left:\s*\d/);
     // Le plateau ne porte QUE des pions : aucun symbole d'avatar dessiné dessus.
     expect(html).not.toContain("<svg");
+    // Un pion différent par siège : deux joueurs n'ont jamais la même couleur.
+    expect(html).toContain("/kounouzi/pawns/ambre.webp");
+    expect(html).toContain("/kounouzi/pawns/bleu.webp");
+    expect(html).toContain("/kounouzi/pawns/vert.webp");
   });
 
   it("l'appel à l'action vit SOUS le plateau, à une place fixe ; le cœur du plateau ne l'affiche jamais", () => {

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { avatarById, DEFAULT_AVATAR_ID } from "@/config/avatars";
+import { pieceForSeat } from "@/config/pawns/pieces";
 import type { PawnLayerProps } from "./PawnLayer";
 import { cellCenterPercent, clusterOffset, gridDims } from "./layout";
 
@@ -117,14 +117,14 @@ export function PawnLayer3D(props: PawnLayerProps) {
       const box = new THREE.Box3().setFromObject(model);
       const size = box.getSize(new THREE.Vector3());
       const center = box.getCenter(new THREE.Vector3());
-      for (const player of latest?.players ?? []) {
-        const avatar = avatarById(latest?.profiles.find((d) => d.id === player.id)?.avatarId ?? DEFAULT_AVATAR_ID);
+      for (const [seat, player] of (latest?.players ?? []).entries()) {
+        const piece = pieceForSeat(seat);
         const inst = model.clone(true);
         inst.traverse((o) => {
           const mesh = o as THREE.Mesh;
           if (!mesh.isMesh) return;
           const mat = (mesh.material as THREE.MeshStandardMaterial).clone();
-          mat.color = new THREE.Color(avatar.color);
+          mat.color = new THREE.Color(piece.color);
           mesh.material = mat;
         });
         // Origine ramenée AUX PIEDS, hauteur normalisée à 1 : le modèle brut est centré sur son milieu.

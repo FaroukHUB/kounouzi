@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import type { Holding, PurchasableSite, ResolvedBoard } from "@/core/game";
 import { avatarById, DEFAULT_AVATAR_ID } from "@/config/avatars";
+import { pieceForPlayer } from "@/config/pawns/pieces";
 import { ASSETS } from "@/ui/theme/assets";
 import type { PlayerProfileDraft } from "@/data/ports";
 import { Cell, type CellOwner } from "./Cell";
@@ -35,7 +36,7 @@ export function Board({ board, highlightedCell, arrivalCell, previewPath, pawns,
     const h = holdings.find((x) => x.siteId === siteId);
     if (!h) return undefined;
     const avatar = avatarById(profiles.find((p) => p.id === h.ownerId)?.avatarId ?? DEFAULT_AVATAR_ID);
-    return { name: players.find((p) => p.id === h.ownerId)?.displayName ?? String(h.ownerId), color: avatar.color, shape: avatar.shape };
+    return { name: players.find((p) => p.id === h.ownerId)?.displayName ?? String(h.ownerId), color: pieceForPlayer(players, h.ownerId).color, shape: avatar.shape };
   };
   return (
     <div className="bg-wood relative w-full max-w-[min(92vw,78dvh)] select-none max-sm:max-w-[min(88vw,74dvh)] rounded-[2.2rem] p-[2.2%] lg:h-full lg:w-auto lg:max-w-none shadow-[0_30px_70px_-30px_rgba(60,35,10,0.75),inset_0_2px_0_rgba(255,255,255,0.25)]" style={{ aspectRatio: `${cols} / ${rows}` }} data-testid="board" data-grid={`${cols}x${rows}`}>

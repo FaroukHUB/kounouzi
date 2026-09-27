@@ -5,6 +5,7 @@ import { avatarById, DEFAULT_AVATAR_ID } from "@/config/avatars";
 import type { GameState } from "@/core/game";
 import type { PlayerProfileDraft } from "@/data/ports";
 import { DEFAULT_LOCALE, t } from "@/i18n";
+import { pieceForPlayer } from "@/config/pawns/pieces";
 import { AvatarBadge } from "@/ui/primitives/AvatarBadge";
 import { Button } from "@/ui/primitives/Button";
 
@@ -80,7 +81,7 @@ export function JourneyAction(props: JourneyActionProps) {
     <div className="flex items-center justify-center gap-3 text-center lg:min-h-[3.25rem]" data-testid="journey-action">
       {/* L'avatar du joueur actif : c'est ici qu'on reconnaît qui joue — le plateau ne porte que des pions. */}
       <span key={active?.id ?? "none"} data-testid="journey-avatar" className="flex">
-        <AvatarBadge avatar={avatar} className="size-12 shadow-[0_8px_18px_-8px_rgba(40,25,10,0.7)] ring-2 ring-[var(--k-gold)]" />
+        <AvatarBadge avatar={avatar} color={active ? pieceForPlayer(shown.players, active.id).color : undefined} className="size-12 shadow-[0_8px_18px_-8px_rgba(40,25,10,0.7)] ring-2 ring-[var(--k-gold)]" />
       </span>
       <AnimatePresence mode="wait" initial={false}>
         {canStart && active ? (

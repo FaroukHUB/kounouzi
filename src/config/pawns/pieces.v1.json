@@ -1,0 +1,11 @@
+{
+  "$comment": "Les six pions du jeu, dans l'ordre d'attribution : le premier joueur prend le premier pion, et ainsi de suite. Six pions pour six joueurs au maximum : deux joueurs n'ont donc JAMAIS la même couleur. Cette couleur est la marque du joueur partout où il faut le reconnaître d'un coup d'oeil — halo du pion, liseré de sa tuile, propriétaire d'un établissement.",
+  "pieces": [
+    { "id": "ambre", "color": "#e0a21a", "image": "/kounouzi/pawns/ambre.webp" },
+    { "id": "bleu", "color": "#2f6ea8", "image": "/kounouzi/pawns/bleu.webp" },
+    { "id": "vert", "color": "#6f9436", "image": "/kounouzi/pawns/vert.webp" },
+    { "id": "rouge", "color": "#c8453a", "image": "/kounouzi/pawns/rouge.webp" },
+    { "id": "violet", "color": "#7b3f96", "image": "/kounouzi/pawns/violet.webp" },
+    { "id": "blanc", "color": "#e8e4dc", "image": "/kounouzi/pawns/blanc.webp" }
+  ]
+}
