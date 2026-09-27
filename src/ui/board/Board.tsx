@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import type { Holding, PurchasableSite, ResolvedBoard } from "@/core/game";
 import { avatarById } from "@/config/avatars";
+import { ASSETS } from "@/ui/theme/assets";
 import type { PlayerProfileDraft } from "@/data/ports";
 import { Cell, type CellOwner } from "./Cell";
 import { gridDims, perimeterPosition } from "./layout";
@@ -45,7 +46,10 @@ export function Board({ board, highlightedCell, arrivalCell, previewPath, pawns,
           gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
           backgroundColor: "var(--k-board)",
-          backgroundImage: "url(/kounouzi/backgrounds/pattern-tile.svg), radial-gradient(circle at 50% 50%, #f7ecd6 0%, #ecdfc4 60%, #e3d2b3 100%)",
+          // ESSAI : la carte illustrée sert de tapis à TOUT le plateau ; les cases se posent dessus.
+          backgroundImage: `url(${ASSETS.boardCenter})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           boxShadow: "inset 0 0 40px rgba(90, 60, 20, 0.25)",
         }}
       >
