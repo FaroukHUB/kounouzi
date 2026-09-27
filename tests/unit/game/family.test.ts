@@ -5,7 +5,7 @@ import { DEMO_HERITAGE_SITES, DEMO_RULES_QUICK, DEMO_SCENARIOS } from "@/config/
 import { HASSANAT_CONFIG } from "@/config/hassanat";
 import { JOURNEY_CYCLE_V1 } from "@/config/journey";
 import { LEARNING_CONFIG, ageOf, learnerContextFor } from "@/config/learning";
-import { checkInvariants, createGame, deserializeGameState, reduce, serializeGameState, sumMoney, type Command, type GameEvent, type GameSetup, type GameState } from "@/core/game";
+import { checkInvariants, computeRanking, createGame, deserializeGameState, heritageValueOf, reduce, serializeGameState, sumMoney, type Command, type GameEvent, type GameSetup, type GameState } from "@/core/game";
 import { addDays, applyAttempt, attemptId, emptyMemory, type PlayerLearningMemory } from "@/core/learning";
 import { isAudienceAllowed, type GameId, type PlayerId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
@@ -162,6 +162,56 @@ describe("simulation familiale (Maryam 6 ans, Yacine 11 ans, Maman, Papa)", () =
     // Les Kounouz et les Hassanāt restent deux ressources distinctes.
     expect(hassanat.state.players.every((p) => p.money >= 0)).toBe(true);
     expect(hassanat.state.status).toBe("finished");
+  });
+
+  /**
+   * FORMULE DE VICTOIRE (ADR 0042). La générosité est une vraie dimension du
+   * classement : un joueur peut gagner sans être le plus riche. Vérifié sur la
+   * partie familiale réelle, pas sur un état fabriqué.
+   */
+  it("la générosité change le classement : le plus riche ne gagne pas forcément", () => {
+    const poids = hassanat.state.config.rules.scoring;
+    expect(poids.hassanatWeight).toBeGreaterThan(0);
+
+    const fortune = (p: (typeof hassanat.state.players)[number]) => p.money + heritageValueOf(hassanat.state, p.id);
+    const classement = hassanat.state.ranking!;
+    const vainqueur = hassanat.state.players.find((p) => p.id === classement[0]!.playerId)!;
+    const plusRiche = [...hassanat.state.players].sort((a, b) => fortune(b) - fortune(a))[0]!;
+
+    // Dans cette partie, le vainqueur n'est PAS celui qui a le plus d'argent et de patrimoine.
+    expect(vainqueur.id).not.toBe(plusRiche.id);
+    expect(fortune(vainqueur)).toBeLessThan(fortune(plusRiche));
+    expect(vainqueur.hassanatPoints).toBeGreaterThan(plusRiche.hassanatPoints);
+    // Et c'est bien le poids Hassanāt qui l'explique, pas autre chose.
+    expect(classement[0]!.score).toBe(fortune(vainqueur) * poids.moneyWeight + vainqueur.hassanatPoints * poids.hassanatWeight);
+  });
+
+  it("le poids est une DONNÉE : le remettre à zéro rend le classement à la fortune seule", () => {
+    const sansPoids: GameState = { ...hassanat.state, config: { ...hassanat.state.config, rules: { ...hassanat.state.config.rules, scoring: { ...hassanat.state.config.rules.scoring, hassanatWeight: 0 } } } };
+    const fortune = (id: PlayerId) => sansPoids.players.find((p) => p.id === id)!.money + heritageValueOf(sansPoids, id);
+    const avant = computeRanking(hassanat.state).map((r) => r.playerId);
+    const apres = computeRanking(sansPoids).map((r) => r.playerId);
+    expect(apres).not.toEqual(avant);
+    // Sans le poids, le classement suit exactement la fortune (décroissante).
+    const fortunes = apres.map(fortune);
+    expect(fortunes).toEqual([...fortunes].sort((a, b) => b - a));
+  });
+
+  it("le classement est déterministe et complet : un rang par joueur, jamais de départage au hasard", () => {
+    const a = computeRanking(hassanat.state);
+    const b = computeRanking(hassanat.state);
+    expect(a).toEqual(b);
+    expect(a.map((r) => r.rank)).toEqual([1, 2, 3, 4]);
+    expect(new Set(a.map((r) => r.playerId)).size).toBe(4);
+    // Le classement figé dans l'état est celui que la formule recalcule.
+    expect(hassanat.state.ranking).toEqual(a);
+    // Chaque ligne porte ses trois dimensions, pour que la famille voie d'où vient le score.
+    for (const r of a) {
+      const p = hassanat.state.players.find((x) => x.id === r.playerId)!;
+      expect(r.money).toBe(p.money);
+      expect(r.hassanat).toBe(p.hassanatPoints);
+      expect(r.heritageValue).toBe(heritageValueOf(hassanat.state, p.id));
+    }
   });
 
   it("un Duel enfant / adulte a eu lieu, résolu uniquement par les réponses", () => {

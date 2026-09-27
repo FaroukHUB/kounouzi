@@ -28,7 +28,7 @@
   "scoring": {
     "moneyWeight": 1,
     "heritageWeight": 1,
-    "hassanatWeight": 0
+    "hassanatWeight": 5
   },
   "service": {
     "insufficient": "cap_to_balance"

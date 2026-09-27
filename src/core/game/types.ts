@@ -431,7 +431,7 @@ export interface RulesConfig {
   readonly donation: { readonly amount: number };
   readonly zakat: ZakatConfig;
   readonly rewards: { readonly correct: number; readonly partial: number; readonly incorrect: number; readonly masteryMultiplier: number };
-  /** Poids du score. `hassanatWeight` : formule de victoire NON décidée, 0 tant qu'elle ne l'est pas. */
+  /** Poids du score (ADR 0042) : argent, patrimoine et points Hassanāt. `hassanatWeight` > 0 fait de la générosité une dimension de victoire. */
   readonly scoring: { readonly moneyWeight: number; readonly heritageWeight: number; readonly hassanatWeight: number };
   /** Service consommé chez un autre joueur : politique quand l'argent manque. */
   readonly service: { readonly insufficient: InsufficientPolicy };
