@@ -17,7 +17,11 @@ export interface JourneyPanelProps {
 }
 
 /**
- * Le cœur du plateau : médaillon Kounouzi (illustration remplaçable),
+ * Le cœur du plateau : la carte illustrée Kounouzi (asset remplaçable,
+ * `ASSETS.boardCenter`) affichée ENTIÈRE dans un cadre carré arrondi —
+ * `object-contain`, jamais de recadrage, aucun monument perdu. L'illustration
+ * porte elle-même le titre du jeu ; le panneau ne dessine donc plus que ce qui
+ * sert à jouer, sur une pastille lisible posée en bas :
  * « Au tour de X » → « Découvrir mon chemin » → « Ton chemin se dévoile… N ».
  * Le nombre vient du moteur.
  */
@@ -27,14 +31,16 @@ export function JourneyPanel({ state, shown, reveal, isAnimating, onStartJourney
   const canStart = state.phase.kind === "awaiting_journey" && !isAnimating && !reveal;
 
   return (
-    <div className="relative flex size-[94%] flex-col items-center justify-center rounded-full text-center" data-testid="board-center">
-      {/* Médaillon décoratif (asset remplaçable) */}
-      {/* eslint-disable-next-line @next/next/no-img-element -- médaillon SVG léger, remplaçable */}
-      <img src={ASSETS.boardCenter} alt="" aria-hidden="true" className="pointer-events-none absolute inset-0 size-full rounded-full object-cover opacity-95" decoding="async" />
-      <span className="k-rays pointer-events-none absolute inset-[6%] rounded-full border border-dashed border-[rgba(138,90,43,0.35)]" aria-hidden="true" />
-      <div className="relative flex w-[78%] flex-col items-center gap-[2%] rounded-[2rem] px-[4%] py-[4%]" style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(255,250,240,0.92) 0%, rgba(255,250,240,0.75) 60%, rgba(255,250,240,0) 100%)" }}>
-        <p className="font-display text-[clamp(1.1rem,3.2vw,2.3rem)] font-black tracking-[0.12em] text-[var(--k-teal-dark)]">KOUNOUZI</p>
-        <p className="mb-[3%] text-[clamp(0.6rem,1.3vw,0.95rem)] font-semibold uppercase tracking-[0.2em] text-[var(--k-wood)]">{t(DEFAULT_LOCALE, "app.tagline")}</p>
+    <div className="relative flex size-[94%] items-center justify-center text-center" data-testid="board-center">
+      {/*
+       * L'illustration est DANS LE FLUX : elle donne sa hauteur au cadre, si
+       * bien que le cartouche se pose à l'intérieur de l'image et jamais
+       * au-delà, quelle que soit la proportion du fichier déposé.
+       */}
+      <div className="relative w-full overflow-hidden rounded-[2.2rem] shadow-[0_18px_40px_-24px_rgba(60,35,10,0.7)]">
+        {/* eslint-disable-next-line @next/next/no-img-element -- illustration statique servie depuis `public`, remplaçable */}
+        <img src={ASSETS.boardCenter} alt="" aria-hidden="true" className="pointer-events-none block w-full" decoding="async" />
+        <div className="absolute inset-x-[8%] bottom-[5%] flex flex-col items-center gap-[2%] rounded-[1.6rem] bg-[rgba(255,250,240,0.94)] px-[4%] py-[3%] shadow-[0_10px_30px_-12px_rgba(40,25,10,0.55)]">
         <AnimatePresence mode="wait" initial={false}>
           {reveal ? (
             <motion.div key="reveal" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.05 }} transition={{ duration: 0.25 }} className="flex flex-col items-center gap-1">
@@ -58,6 +64,7 @@ export function JourneyPanel({ state, shown, reveal, isAnimating, onStartJourney
             </motion.p>
           )}
         </AnimatePresence>
+        </div>
       </div>
     </div>
   );
