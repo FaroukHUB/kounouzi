@@ -37,14 +37,19 @@ describe("composants du plateau (rendu statique)", () => {
     expect(html.match(/data-pawn=/g)).toHaveLength(3);
     expect(html).toContain("transform:");
     expect(html).not.toMatch(/(?:^|[^-])left:\s*\d/);
+    // Le plateau ne porte QUE des pions : aucun symbole d'avatar dessiné dessus.
+    expect(html).not.toContain("<svg");
   });
 
   it("l'appel à l'action vit SOUS le plateau, à une place fixe ; le cœur du plateau ne l'affiche jamais", () => {
     const { state } = create();
-    const props = { state, shown: state, reveal: null, isAnimating: false, onStartJourney: () => {} };
+    const props = { state, shown: state, profiles, reveal: null, isAnimating: false, onStartJourney: () => {} };
     const action = renderToStaticMarkup(<JourneyAction {...props} />);
     expect(action).toContain("Au tour de Joueur 1");
     expect(action).toContain("Découvrir mon chemin");
+    // L'avatar du joueur actif se lit ICI, sous le plateau, jamais sur le pion.
+    expect(action).toContain('data-testid="journey-avatar"');
+    expect(action).toContain('data-avatar="teal"');
     // Le cœur reste libre : la carte illustrée n'est masquée par rien tant qu'il n'y a rien à dire.
     const coeur = renderToStaticMarkup(<JourneyPanel {...props} />);
     expect(coeur).not.toContain("Découvrir mon chemin");
@@ -53,7 +58,7 @@ describe("composants du plateau (rendu statique)", () => {
 
   it("le dévoilement du Chemin s'affiche au CŒUR du plateau, et retire le bouton pendant ce temps", () => {
     const { state } = create();
-    const props = { state, shown: state, reveal: { playerId: pid("p1"), steps: 4 }, isAnimating: true, onStartJourney: () => {} };
+    const props = { state, shown: state, profiles, reveal: { playerId: pid("p1"), steps: 4 }, isAnimating: true, onStartJourney: () => {} };
     const coeur = renderToStaticMarkup(<JourneyPanel {...props} />);
     expect(coeur).toContain("Ton chemin se dévoile");
     expect(coeur).toContain("4 étapes");

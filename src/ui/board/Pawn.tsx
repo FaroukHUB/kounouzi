@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import { avatarById } from "@/config/avatars";
-import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
 import { clusterOffset, gridDims, perimeterPosition } from "./layout";
 
 export interface PawnProps {
@@ -18,9 +17,10 @@ export interface PawnProps {
 }
 
 /**
- * Pion de jeu : socle, corps coloré avec avatar, halo animé pour le joueur
- * actif. Déplacé uniquement par `transform` (translate en % de sa propre
- * taille = en cases). Le trajet vient du moteur.
+ * Pion de jeu : socle, corps coloré uni, halo animé pour le joueur actif. Le
+ * plateau ne porte QUE des pions — l'avatar du joueur actif est montré sous le
+ * plateau, dans la barre d'action. Déplacé uniquement par `transform`
+ * (translate en % de sa propre taille = en cases). Le trajet vient du moteur.
  */
 export function Pawn({ playerId, displayName, avatarId, position, cellCount, clusterIndex, clusterCount, active, stepMs }: PawnProps) {
   const { cols, rows } = gridDims(cellCount);
@@ -49,11 +49,10 @@ export function Pawn({ playerId, displayName, avatarId, position, cellCount, clu
         <span className="absolute bottom-[2%] h-[22%] w-[78%] rounded-[50%]" style={{ background: `linear-gradient(180deg, ${avatar.color} 0%, rgba(0,0,0,0.35) 100%)` }} aria-hidden="true" />
         {/* Corps */}
         <span
-          className="relative flex size-[82%] items-center justify-center rounded-full border-[2.5px] border-white text-white"
+          className="relative size-[82%] rounded-full border-[2.5px] border-white"
           style={{ background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.55) 0%, ${avatar.color} 45%, ${avatar.color} 100%)`, boxShadow: "0 5px 10px -4px rgba(0,0,0,0.55), inset 0 -3px 6px rgba(0,0,0,0.25)" }}
-        >
-          <AvatarGlyph shape={avatar.shape} className="size-[60%] drop-shadow" />
-        </span>
+          aria-hidden="true"
+        />
       </span>
     </motion.div>
   );

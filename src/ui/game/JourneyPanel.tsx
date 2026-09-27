@@ -1,8 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import { avatarById } from "@/config/avatars";
 import type { GameState } from "@/core/game";
+import type { PlayerProfileDraft } from "@/data/ports";
 import { DEFAULT_LOCALE, t } from "@/i18n";
+import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
 import { Button } from "@/ui/primitives/Button";
 
 export interface JourneyPanelProps {
@@ -13,6 +16,11 @@ export interface JourneyPanelProps {
   readonly reveal: { readonly playerId: string; readonly steps: number } | null;
   readonly isAnimating: boolean;
   readonly onStartJourney: () => void;
+}
+
+export interface JourneyActionProps extends JourneyPanelProps {
+  /** Profils (avatars) : l'avatar du joueur actif est montré ICI, pas sur le plateau. */
+  readonly profiles: readonly PlayerProfileDraft[];
 }
 
 /** Le Chemin peut-il être lancé maintenant ? Même condition pour le bouton et pour le cœur. */
@@ -58,16 +66,28 @@ export function JourneyPanel(props: JourneyPanelProps) {
 
 /**
  * L'appel à l'action, à une place FIXE sous le plateau (ou dans le panneau
- * latéral à cinq joueurs et plus) : « Au tour de X » puis « Découvrir mon
- * chemin ». Il ne masque jamais la carte, et le joueur le retrouve toujours
- * au même endroit d'un tour à l'autre.
+ * latéral à cinq joueurs et plus) : l'AVATAR du joueur actif, « Au tour de X »
+ * puis « Découvrir mon chemin ». Il ne masque jamais la carte, et le joueur le
+ * retrouve toujours au même endroit d'un tour à l'autre. L'avatar vit ici :
+ * sur le plateau, les joueurs ne sont que des pions.
  */
-export function JourneyAction(props: JourneyPanelProps) {
-  const { shown, isAnimating } = props;
+export function JourneyAction(props: JourneyActionProps) {
+  const { shown, isAnimating, profiles } = props;
   const active = shown.players[shown.activePlayerIndex];
+  const avatar = avatarById(profiles.find((d) => d.id === active?.id)?.avatarId ?? "amber");
   const canStart = canStartJourney(props);
   return (
-    <div className="flex flex-col items-center justify-center gap-2 text-center lg:min-h-[3.25rem] lg:flex-row lg:gap-3" data-testid="journey-action">
+    <div className="flex items-center justify-center gap-3 text-center lg:min-h-[3.25rem]" data-testid="journey-action">
+      {/* L'avatar du joueur actif : c'est ici qu'on reconnaît qui joue — le plateau ne porte que des pions. */}
+      <span
+        key={active?.id ?? "none"}
+        data-testid="journey-avatar"
+        data-avatar={avatar.id}
+        className="flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-white text-white shadow-[0_8px_18px_-8px_rgba(40,25,10,0.7)] ring-2 ring-[var(--k-gold)]"
+        style={{ background: `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.55) 0%, ${avatar.color} 45%)` }}
+      >
+        <AvatarGlyph shape={avatar.shape} className="size-6" />
+      </span>
       <AnimatePresence mode="wait" initial={false}>
         {canStart && active ? (
           <motion.div key="cta" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }} className="flex flex-col items-center gap-2 lg:flex-row lg:gap-3">

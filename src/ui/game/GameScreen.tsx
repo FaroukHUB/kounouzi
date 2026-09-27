@@ -199,20 +199,22 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         onSkipChallenge={(reason) => dispatch({ type: "SkipChallenge", playerId: activeId, reason })}
       />
 
-      <aside className={`flex w-full flex-col gap-3 p-3 lg:rounded-[1.8rem] lg:border lg:border-[rgba(120,80,30,0.18)] lg:bg-[rgba(255,250,240,0.55)] lg:shadow-[0_24px_50px_-30px_rgba(60,35,10,0.6)] ${corners ? "lg:absolute lg:inset-x-0 lg:bottom-3 lg:mx-auto lg:w-fit lg:max-w-3xl lg:flex-row lg:items-center lg:gap-5 lg:px-5 lg:py-2" : "lg:w-80 lg:p-4"}`}>
-        <header className="flex items-center justify-between">
-          <div>
+      <aside className={`flex w-full flex-col gap-3 p-3 lg:rounded-[1.8rem] lg:border lg:border-[rgba(120,80,30,0.18)] lg:bg-[rgba(255,250,240,0.55)] lg:shadow-[0_24px_50px_-30px_rgba(60,35,10,0.6)] ${corners ? "lg:absolute lg:inset-x-0 lg:bottom-3 lg:mx-auto lg:w-fit lg:max-w-5xl lg:flex-row lg:items-center lg:gap-5 lg:px-5 lg:py-2" : "lg:w-80 lg:p-4"}`}>
+        <header className={`flex items-center justify-between ${corners ? "lg:gap-3" : ""}`}>
+          <div className={corners ? "lg:whitespace-nowrap" : ""}>
             <h1 className="font-display text-xl font-black tracking-[0.08em] text-[var(--k-teal-dark)]">{t(DEFAULT_LOCALE, "app.name")}</h1>
-            <TimeBadge state={shown} precise={session.preciseTimer} />
-            <p className="text-xs font-semibold text-[var(--k-ink-soft)]" data-testid="masakin-fund">
-              {t(DEFAULT_LOCALE, "fund.masakin.short", { amount: formatKounouz(shown.funds.masakin) })}
-            </p>
+            <div className={corners ? "lg:flex lg:items-baseline lg:gap-3" : ""}>
+              <TimeBadge state={shown} precise={session.preciseTimer} />
+              <p className="text-xs font-semibold text-[var(--k-ink-soft)]" data-testid="masakin-fund">
+                {t(DEFAULT_LOCALE, "fund.masakin.short", { amount: formatKounouz(shown.funds.masakin) })}
+              </p>
+            </div>
           </div>
           <Button variant="secondary" onClick={() => setSettingsOpen(true)} aria-label={t(DEFAULT_LOCALE, "game.settings")}>
             ⚙
           </Button>
         </header>
-        <JourneyAction state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />
+        <JourneyAction state={state} shown={shown} profiles={profiles} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />
         {corners ? null : <PlayerPanel state={shown} profiles={profiles} />}
         {paused ? <p className="rounded-xl bg-white px-3 py-2 text-center text-sm font-semibold">{t(DEFAULT_LOCALE, "game.paused")}</p> : null}
       </aside>
