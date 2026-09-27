@@ -208,10 +208,10 @@ describe("Gestion V1 — non-régression des autres catégories", () => {
     // Mathématiques : 30 créneaux algorithmiques, sans source.
     expect(registry.slots("child").filter((s) => s.categoryId === "maths")).toHaveLength(30);
     expect(categoryById("maths")).toMatchObject({ requiresSource: false, generationMode: "algorithmic" });
-    // Histoire & Géographie : sourcée depuis l'ADR 0045, 19 cartes servies ; les treize sans explication restent en brouillon.
+    // Histoire & Géographie : sourcée depuis l'ADR 0045, 19 cartes servies ; les 32 cartes sont servies.
     expect(categoryById("geography")).toMatchObject({ requiresSource: true, generationMode: "curated" });
-    expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(19);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "draft")).toHaveLength(13);
+    expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(32);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "validated")).toHaveLength(32);
     // Les catégories sans contenu validé ne servent toujours rien.
     for (const id of ["history", "arabic", "culture"]) {
       expect(registry.slots("child").filter((s) => s.categoryId === id), id).toHaveLength(0);

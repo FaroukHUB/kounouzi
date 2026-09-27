@@ -35,20 +35,18 @@ Maroc (Marrakech), Algérie (Alger), Tunisie (Kairouan et Carthage), Égypte
 5. **L'arabe est une traduction fidèle du français**, sans ajout ni retrait, et
    reste `arReview: "provisional"` sur les 32 cartes : aucune traduction n'est
    tenue pour relue humainement à ce stade.
-6. **Le catalogue de sources ne contient que des sources officielles** vérifiées
-   par l'auteur : la classification des pays de l'ONU (UNSD M49) pour situer un
-   lieu, les fiches du patrimoine mondial de l'UNESCO pour les neuf lieux
-   historiques. Une même source couvre plusieurs cartes. Les URL ne figurent
-   que là où l'auteur les a données explicitement (UNSD M49, Le Caire
-   historique, Vieille ville de Jérusalem) : l'environnement de développement
-   n'atteint pas `whc.unesco.org`, donc les numéros de fiche des sept autres
-   sites n'ont pas pu être vérifiés et ces entrées portent leur titre et leur
-   éditeur SANS URL. Le schéma l'autorise — une URL peut être absente, jamais
-   fictive.
-7. **Une carte n'est publiée que si la garde ne remonte plus rien.** Dix-neuf
-   cartes sont désormais `validated` et servies. Treize restent `draft` : leur
-   auteur ne leur a donné AUCUNE explication, et une explication ne s'invente
-   pas ici.
+6. **Le catalogue de sources ne contient que des sources officielles** fournies
+   et vérifiées par l'auteur : la classification des pays de l'ONU (UNSD M49)
+   pour situer un lieu, les fiches du patrimoine mondial de l'UNESCO pour les
+   neuf lieux historiques (Cordoue 313, Marrakech 331, Carthage 37,
+   Kairouan 499, Casbah d'Alger 565, Le Caire historique 89, Vieille ville de
+   Jérusalem 148, Istanbul 356, Samarcande 603). Une même source couvre
+   plusieurs cartes. Aucune URL n'a été devinée : l'environnement de
+   développement n'atteint pas `whc.unesco.org`, les numéros de fiche viennent
+   donc tous de l'auteur.
+7. **Une carte n'est publiée que si la garde ne remonte plus rien.** Les 32
+   cartes portent leur explication FR et AR, écrite par l'auteur, et au moins
+   une source : les 32 sont `validated` et servies.
 
 ## Conséquences
 
@@ -57,6 +55,5 @@ Maroc (Marrakech), Algérie (Alger), Tunisie (Kairouan et Carthage), Égypte
 - **La catégorie entre en production** : cinq catégories sont désormais servies
   — religion, mathématiques, Histoire & Géographie, logique, gestion — et le
   Learning Engine n'a pas changé d'une ligne pour autant.
-- Les treize explications manquantes sont le seul travail restant sur cette
-  banque ; un test simule leur arrivée et vérifie que les 32 cartes deviennent
-  alors jouables.
+- Il ne reste rien à faire sur cette banque avant la relecture humaine de
+  l'arabe, qui reste marqué `provisional`.

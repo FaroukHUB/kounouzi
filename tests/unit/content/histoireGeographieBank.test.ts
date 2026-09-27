@@ -102,27 +102,23 @@ describe("Histoire & Géographie V1 — source et arabe conditionnent la publica
     expect(categoryById("geography")?.showsExplanation).toBe(true);
   });
 
-  it("une carte n'est validée QUE si la garde ne remonte plus rien ; les treize cartes sans explication restent en brouillon", () => {
+  it("les 32 cartes franchissent la garde : explication FR et AR écrites par l'auteur, et au moins une source", () => {
     const categorie = categoryById("geography");
-    const validees = HISTORY_GEOGRAPHY_BANK.filter((q) => q.status === "validated");
-    const brouillons = HISTORY_GEOGRAPHY_BANK.filter((q) => q.status === "draft");
-    expect(validees).toHaveLength(19);
-    expect(brouillons).toHaveLength(13);
-    for (const q of validees) expect(playabilityIssues(q, categorie), q.id).toEqual([]);
-    for (const q of brouillons) {
-      // Le seul manque est l'explication, que l'auteur n'a pas écrite : elle n'est pas inventée ici.
-      expect(isPlayable(q, categorie), q.id).toBe(false);
-      expect(q.explanation.fr.trim(), q.id).toBe("");
-      expect(playabilityIssues(q, categorie), q.id).toContain("explication FR manquante");
-      expect(playabilityIssues(q, categorie), q.id).not.toContain("source obligatoire absente");
+    expect(HISTORY_GEOGRAPHY_BANK.filter((q) => q.status === "validated")).toHaveLength(32);
+    expect(HISTORY_GEOGRAPHY_BANK.filter((q) => q.status === "draft")).toHaveLength(0);
+    for (const q of HISTORY_GEOGRAPHY_BANK) {
+      expect(playabilityIssues(q, categorie), q.id).toEqual([]);
+      expect(isPlayable(q, categorie), q.id).toBe(true);
+      expect(q.explanation.fr.trim(), q.id).not.toBe("");
+      expect(arabic.test(q.explanation.ar), q.id).toBe(true);
     }
   });
 
-  it("la catégorie entre en production : 19 cartes servies, les autres banques inchangées", () => {
+  it("la catégorie entre en production : 32 cartes servies, les autres banques inchangées", () => {
     const registry = contentRegistry();
     expect(registry.availableCategories("child")).toEqual(["religion", "maths", "geography", "logic", "management"]);
     expect(registry.availableCategories("adult")).toEqual(["religion", "maths", "geography", "logic", "management"]);
-    expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(19);
+    expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(32);
     expect(registry.resolve({ categoryId: "geography", difficulty: 2, profileType: "child", variation: 0 })).not.toBeNull();
     expect(CURATED_BANK.filter((q) => q.categoryId === "geography")).toHaveLength(32);
     expect(CURATED_BANK.filter((q) => q.categoryId === "religion" && q.status === "validated")).toHaveLength(375);
@@ -130,20 +126,12 @@ describe("Histoire & Géographie V1 — source et arabe conditionnent la publica
   });
 });
 
-/**
- * Ce que la banque DONNERA quand l'auteur aura écrit les treize explications
- * manquantes. L'explication est simulée ICI, dans le test, jamais dans les
- * données : aucun texte inventé n'entre dans le dépôt.
- */
-const commeSiExpliquee = (q: CuratedQuestion): CuratedQuestion =>
-  q.explanation.fr.trim() === "" ? { ...q, status: "validated", explanation: { fr: "Explication de test (fixture).", ar: "شرح اختبار." } } : q;
-
-describe("Histoire & Géographie V1 — une fois les explications manquantes écrites", () => {
-  const banque = HISTORY_GEOGRAPHY_BANK.map(commeSiExpliquee);
+describe("Histoire & Géographie V1 — servie par le Learning Engine, inchangé", () => {
+  const banque = HISTORY_GEOGRAPHY_BANK;
   const categories = CATEGORIES;
   const registry = createContentRegistry(categories, [createCuratedProvider(banque, categories)]);
 
-  it("les 32 cartes deviennent jouables et gardent leur arabe marqué provisoire", () => {
+  it("les 32 cartes sont jouables et gardent leur arabe marqué provisoire", () => {
     expect(banque.every((q) => isPlayable(q, categoryById("geography")))).toBe(true);
     expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(32);
     const q = registry.resolve({ categoryId: "geography", difficulty: 2, profileType: "child", variation: 0 })!;
@@ -227,10 +215,23 @@ describe("catalogue de sources : une source institutionnelle peut couvrir plusie
     expect(() => curatedBankSchema.parse({ ...doc, questions: [carte("T-004", ["inconnue"])] })).toThrow(/T-004 cite la source/);
   });
 
-  it("le catalogue ne porte que des sources officielles, et aucune URL devinée", () => {
-    const urls = HISTORY_GEOGRAPHY_BANK.flatMap((q) => q.sources.map((s) => s.url)).filter((u): u is string => u !== undefined);
-    expect(urls.length).toBeGreaterThan(0);
-    // Seules les URL fournies explicitement par l'auteur figurent ici ; les autres fiches UNESCO n'en portent pas, faute d'avoir pu être vérifiées.
-    expect(new Set(urls)).toEqual(new Set(["https://unstats.un.org/unsd/methodology/m49/overview", "https://whc.unesco.org/en/list/89", "https://whc.unesco.org/en/list/148"]));
+  it("le catalogue ne porte que des sources officielles ONU et UNESCO, toutes fournies par l'auteur", () => {
+    const urls = new Set(HISTORY_GEOGRAPHY_BANK.flatMap((q) => q.sources.map((s) => s.url)));
+    expect(urls).toEqual(
+      new Set([
+        "https://unstats.un.org/unsd/methodology/m49/overview",
+        "https://whc.unesco.org/en/list/313",
+        "https://whc.unesco.org/en/list/331",
+        "https://whc.unesco.org/en/list/37",
+        "https://whc.unesco.org/en/list/499",
+        "https://whc.unesco.org/en/list/565",
+        "https://whc.unesco.org/en/list/89",
+        "https://whc.unesco.org/en/list/148",
+        "https://whc.unesco.org/en/list/356",
+        "https://whc.unesco.org/en/list/603",
+      ]),
+    );
+    // Chaque carte est couverte par au moins une source portant une URL vérifiable.
+    for (const q of HISTORY_GEOGRAPHY_BANK) expect(q.sources.some((s) => s.url !== undefined), q.id).toBe(true);
   });
 });

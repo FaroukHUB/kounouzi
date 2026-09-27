@@ -1,6 +1,6 @@
 {
-  "$comment": "Histoire & Géographie V1 — 32 cartes écrites par l’auteur du jeu, JAMAIS générées, qui remplacent la banque Géographie seule (ADR 0045). Les cartes portent sur les lieux de la carte du plateau — Cordoue, Marrakech, Alger, Kairouan, Carthage, Le Caire, Jérusalem, Istanbul, Samarcande — pour que l’illustration devienne du contenu et pas un décor. Progression voulue par l’auteur : 5-8 ans « où est-ce ? », 9-12 ans « que s’est-il passé ? », 13 ans et plus « pourquoi ce lieu a-t-il compté ? ». Aucune date à apprendre par cœur. Chaque lieu est une notion (knowledgeNodeId) portée par au moins deux cartes : réviser une notion ne revient jamais à reposer la même carte. L’arabe est une traduction fidèle du français, sans ajout ni retrait, et reste arReview = provisional sur les 32 cartes : aucune traduction n’est tenue pour relue humainement à ce stade. STATUT : une carte n’est validée que si la garde de jouabilité ne remonte plus rien. Treize cartes n’ont reçu AUCUNE explication de l’auteur ; elles restent en brouillon et ne sont pas servies, plutôt que de recevoir une explication inventée ici.",
-  "$sourcesComment": "CATALOGUE DE SOURCES officielles vérifiées par l’auteur : classification des pays de l’ONU (UNSD M49) pour la situation géographique, pages du patrimoine mondial de l’UNESCO pour les lieux historiques. Une même source couvre plusieurs cartes, qui la citent par sa clé. Une clé citée mais absente d’ici fait ÉCHOUER le chargement : aucune référence fantôme. Les URL ne figurent que là où l’auteur les a fournies explicitement (UNSD M49, Le Caire historique, Vieille ville de Jérusalem). Les autres entrées portent leur titre et leur éditeur SANS URL : l’environnement de développement n’a pas accès à whc.unesco.org pour vérifier le numéro de fiche, et une URL non vérifiée n’entre pas dans le dépôt. Le schéma l’autorise : l’URL peut être absente, jamais fictive.",
+  "$comment": "Histoire & Géographie V1 — 32 cartes écrites par l’auteur du jeu, JAMAIS générées, qui remplacent la banque Géographie seule (ADR 0045). Les cartes portent sur les lieux de la carte du plateau — Cordoue, Marrakech, Alger, Kairouan, Carthage, Le Caire, Jérusalem, Istanbul, Samarcande — pour que l’illustration devienne du contenu et pas un décor. Progression voulue par l’auteur : 5-8 ans « où est-ce ? », 9-12 ans « que s’est-il passé ? », 13 ans et plus « pourquoi ce lieu a-t-il compté ? ». Aucune date à apprendre par cœur. Chaque lieu est une notion (knowledgeNodeId) portée par au moins deux cartes : réviser une notion ne revient jamais à reposer la même carte. L’arabe est une traduction fidèle du français, sans ajout ni retrait, et reste arReview = provisional sur les 32 cartes : aucune traduction n’est tenue pour relue humainement à ce stade. STATUT : les 32 cartes sont validées et servies — chacune porte son explication FR et AR, écrite par l’auteur, et au moins une source officielle ; la garde de jouabilité ne remonte plus rien sur aucune d’elles.",
+  "$sourcesComment": "CATALOGUE DE SOURCES officielles fournies et vérifiées par l’auteur : classification des pays de l’ONU (UNSD M49) pour situer un lieu, fiches du patrimoine mondial de l’UNESCO pour les neuf lieux historiques (Cordoue 313, Marrakech 331, Carthage 37, Kairouan 499, Casbah d’Alger 565, Le Caire historique 89, Vieille ville de Jérusalem 148, Istanbul 356, Samarcande 603). Une même source couvre plusieurs cartes, qui la citent par sa clé ; une clé citée mais absente d’ici fait ÉCHOUER le chargement : aucune référence fantôme. Aucune URL n’a été devinée : toutes viennent de l’auteur.",
   "version": 1,
   "sources": [
     {
@@ -12,27 +12,32 @@
     {
       "key": "unesco-cordoue",
       "title": "Centre historique de Cordoue — Liste du patrimoine mondial",
-      "publisher": "UNESCO, Centre du patrimoine mondial"
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/313"
     },
     {
       "key": "unesco-marrakech",
       "title": "Médina de Marrakech — Liste du patrimoine mondial",
-      "publisher": "UNESCO, Centre du patrimoine mondial"
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/331"
     },
     {
       "key": "unesco-casbah-alger",
       "title": "Casbah d'Alger — Liste du patrimoine mondial",
-      "publisher": "UNESCO, Centre du patrimoine mondial"
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/565"
     },
     {
       "key": "unesco-kairouan",
       "title": "Kairouan — Liste du patrimoine mondial",
-      "publisher": "UNESCO, Centre du patrimoine mondial"
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/499"
     },
     {
       "key": "unesco-carthage",
       "title": "Site archéologique de Carthage — Liste du patrimoine mondial",
-      "publisher": "UNESCO, Centre du patrimoine mondial"
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/37"
     },
     {
       "key": "unesco-caire",
@@ -49,12 +54,14 @@
     {
       "key": "unesco-istanbul",
       "title": "Zones historiques d'Istanbul — Liste du patrimoine mondial",
-      "publisher": "UNESCO, Centre du patrimoine mondial"
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/356"
     },
     {
       "key": "unesco-samarcande",
       "title": "Samarcande — Carrefour de cultures — Liste du patrimoine mondial",
-      "publisher": "UNESCO, Centre du patrimoine mondial"
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/603"
     }
   ],
   "questions": [
@@ -66,7 +73,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Sur quel continent se trouve l’Algérie ?",
@@ -77,14 +84,13 @@
         "ar": "في إفريقيا."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "L’Algérie se trouve au nord du continent africain, au bord de la mer Méditerranée.",
+        "ar": "تقع الجزائر في شمال القارة الإفريقية وعلى ساحل البحر الأبيض المتوسط."
       },
       "sources": [],
       "sourceKeys": [
         "unsd-m49"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-002",
@@ -94,7 +100,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Marrakech se trouve dans quel pays ?",
@@ -105,15 +111,14 @@
         "ar": "في المغرب."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Marrakech est une grande ville historique du Maroc, située dans le nord-ouest de l’Afrique.",
+        "ar": "مراكش مدينة تاريخية كبيرة في المغرب، الواقع في شمال غرب إفريقيا."
       },
       "sources": [],
       "sourceKeys": [
         "unsd-m49",
         "unesco-marrakech"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-003",
@@ -123,7 +128,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Le Caire se trouve dans quel pays ?",
@@ -134,15 +139,14 @@
         "ar": "في مصر."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Le Caire est la capitale de l’Égypte, un pays situé au nord-est de l’Afrique.",
+        "ar": "القاهرة هي عاصمة مصر، وهي دولة تقع في شمال شرق إفريقيا."
       },
       "sources": [],
       "sourceKeys": [
         "unsd-m49",
         "unesco-caire"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-004",
@@ -180,7 +184,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Istanbul se trouve aujourd’hui dans quel pays ?",
@@ -191,15 +195,14 @@
         "ar": "في تركيا."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Istanbul se trouve aujourd’hui en Türkiye, de part et d’autre du détroit du Bosphore.",
+        "ar": "تقع إسطنبول اليوم في تركيا، على جانبي مضيق البوسفور."
       },
       "sources": [],
       "sourceKeys": [
         "unsd-m49",
         "unesco-istanbul"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-006",
@@ -209,7 +212,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Samarcande se trouve dans quel pays ?",
@@ -220,15 +223,14 @@
         "ar": "في أوزبكستان."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Samarcande est une ville historique d’Ouzbékistan, en Asie centrale.",
+        "ar": "سمرقند مدينة تاريخية في أوزبكستان، في آسيا الوسطى."
       },
       "sources": [],
       "sourceKeys": [
         "unsd-m49",
         "unesco-samarcande"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-007",
@@ -375,7 +377,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Samarcande était-elle surtout isolée ou située au croisement de plusieurs cultures ?",
@@ -386,14 +388,13 @@
         "ar": "عند ملتقى عدة ثقافات."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Samarcande a accueilli pendant des siècles des voyageurs, des marchands et des influences venus de différentes régions, ce qui en a fait un important carrefour culturel.",
+        "ar": "استقبلت سمرقند عبر القرون مسافرين وتجارًا وتأثيرات من مناطق مختلفة، فأصبحت ملتقى مهمًا للثقافات."
       },
       "sources": [],
       "sourceKeys": [
         "unesco-samarcande"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-013",
@@ -430,7 +431,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Quelle dynastie a fondé Marrakech au XIe siècle ?",
@@ -441,14 +442,13 @@
         "ar": "المرابطون."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Marrakech a été fondée au XIe siècle par les Almoravides et est ensuite devenue une ville majeure du monde musulman occidental.",
+        "ar": "أسس المرابطون مراكش في القرن الحادي عشر، ثم أصبحت مدينة كبرى في العالم الإسلامي الغربي."
       },
       "sources": [],
       "sourceKeys": [
         "unesco-marrakech"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-015",
@@ -485,7 +485,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Quel type de bâtiments historiques trouve-t-on notamment dans la Casbah d’Alger ?",
@@ -496,14 +496,13 @@
         "ar": "مساجد قديمة وقصور عثمانية."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "La Casbah d’Alger conserve notamment d’anciennes mosquées, des palais de l’époque ottomane et des maisons traditionnelles de la médina.",
+        "ar": "تضم قصبة الجزائر خصوصًا مساجد قديمة وقصورًا من العهد العثماني وبيوتًا تقليدية للمدينة العتيقة."
       },
       "sources": [],
       "sourceKeys": [
         "unesco-casbah-alger"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-017",
@@ -540,7 +539,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "À quelle époque Samarcande connut-elle un développement particulièrement important sous les Timourides ?",
@@ -551,14 +550,13 @@
         "ar": "في القرنين الرابع عشر والخامس عشر الميلاديين."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Samarcande connut un développement majeur aux XIVe et XVe siècles, lorsqu’elle devint un centre important de l’empire timouride.",
+        "ar": "شهدت سمرقند تطورًا كبيرًا في القرنين الرابع عشر والخامس عشر عندما أصبحت مركزًا مهمًا للدولة التيمورية."
       },
       "sources": [],
       "sourceKeys": [
         "unesco-samarcande"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-019",
@@ -595,7 +593,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi la Casbah d’Alger est-elle construite avec des rues et des maisons adaptées à une forte pente ?",
@@ -606,14 +604,13 @@
         "ar": "لأنها نشأت على أرض شديدة التضاريس."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "La Casbah s’est développée sur un terrain très pentu. Ses rues, escaliers et maisons se sont donc adaptés au relief.",
+        "ar": "نشأت قصبة الجزائر على أرض شديدة الانحدار، لذلك تكيفت شوارعها وسلالمها وبيوتها مع طبيعة التضاريس."
       },
       "sources": [],
       "sourceKeys": [
         "unesco-casbah-alger"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-021",
@@ -650,7 +647,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi Samarcande est-elle souvent appelée un « carrefour des cultures » ?",
@@ -661,14 +658,13 @@
         "ar": "لأنها كانت عند ملتقى طرق وحضارات مهمّة في آسيا الوسطى."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "La position de Samarcande sur de grandes routes d’échanges a favorisé la rencontre de peuples, de marchandises, d’idées et de traditions différentes.",
+        "ar": "ساعد موقع سمرقند على طرق تجارية كبرى على التقاء شعوب وسلع وأفكار وتقاليد مختلفة."
       },
       "sources": [],
       "sourceKeys": [
         "unesco-samarcande"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-023",
@@ -678,7 +674,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Que s’est-il passé à Carthage après sa destruction par Rome en 146 av. J.-C. ?",
@@ -689,14 +685,13 @@
         "ar": "بُنيت بعد ذلك قرطاج رومانية جديدة على أنقاضها."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Après la destruction de la Carthage punique par Rome en 146 av. J.-C., une nouvelle ville romaine fut ensuite développée sur le même site.",
+        "ar": "بعد أن دمرت روما قرطاج البونية سنة 146 قبل الميلاد، أُنشئت لاحقًا مدينة رومانية جديدة في الموقع نفسه."
       },
       "sources": [],
       "sourceKeys": [
         "unesco-carthage"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-024",
@@ -868,7 +863,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi Samarcande est-elle un bon exemple d’une ville façonnée par les échanges ?",
@@ -879,14 +874,13 @@
         "ar": "لأن ثقافات وعصورًا وتأثيرات مختلفة التقت فيها أكثر من ألفَي سنة."
       },
       "explanation": {
-        "fr": "",
-        "ar": ""
+        "fr": "Pendant plus de deux millénaires, Samarcande a été marquée par les échanges entre différentes cultures, ce qui se retrouve encore dans son architecture et son histoire.",
+        "ar": "تأثرت سمرقند لأكثر من ألفي عام بتبادل الثقافات المختلفة، ولا يزال ذلك ظاهرًا في عمارتها وتاريخها."
       },
       "sources": [],
       "sourceKeys": [
         "unesco-samarcande"
-      ],
-      "reviewNotes": "explication FR et AR à fournir par l'auteur : la carte reste en brouillon, aucune explication n'est inventée ici"
+      ]
     },
     {
       "id": "HISTGEO-031",
