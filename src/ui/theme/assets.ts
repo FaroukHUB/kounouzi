@@ -4,8 +4,8 @@
  * `public/kounouzi/README.md` pour la liste des images attendues.
  */
 export const ASSETS = {
-  /** Carte illustrée au cœur du plateau. Format paysage affiché ENTIER (`object-contain`) dans un cadre carré arrondi : rien n'est recadré. */
-  boardCenter: "/kounouzi/board/center-carte.v1.webp",
+  /** Carte illustrée au cœur du plateau : CARRÉE (1254 × 1254), elle remplit exactement la zone centrale. Le cadre s'adapte à toute autre proportion sans recadrer. */
+  boardCenter: "/kounouzi/board/center-carte.v2.webp",
   patternTile: "/kounouzi/backgrounds/pattern-tile.svg",
   monumentPlaceholder: "/kounouzi/monuments/placeholder.svg",
   treasureGlow: "/kounouzi/effects/treasure-glow.svg",
