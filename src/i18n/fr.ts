@@ -390,7 +390,7 @@ export const fr = {
   "challenge.category.oh_no": "Oh non",
   "challenge.category.memory": "Mémoire",
   "challenge.category.reflection": "Réflexion",
-  "challenge.category.geography": "Géographie",
+  "challenge.category.geography": "Histoire & Géographie",
   "challenge.category.observation": "Observation",
   "challenge.category.language": "Langage",
   "challenge.category.maths": "Maths",

@@ -1,0 +1,728 @@
+{
+  "$comment": "Histoire & Géographie V1 — 30 cartes écrites par l’auteur du jeu, JAMAIS générées, qui REMPLACENT la banque Géographie seule (ADR 0045). Les cartes sont centrées sur les lieux déjà présents sur la carte du plateau — Al-Andalus/Cordoue, Maroc/Marrakech, Algérie/Alger, Tunisie/Kairouan et Carthage, Égypte/Le Caire, Jérusalem, Istanbul, Samarcande — pour que l’illustration devienne du contenu et pas un décor. Progression voulue par l’auteur : 5-8 ans « où est-ce ? », 9-12 ans « que s’est-il passé ? », 13 ans et plus « pourquoi ce lieu a-t-il compté ? ». ÉTAT : les 30 cartes sont en brouillon et ne sont servies NULLE PART. Deux manques, tous deux assumés plutôt que comblés par une invention : (1) la catégorie exige une source pour tout fait, même évident (categories.v1.json, requiresSource = true) et aucune source n’a été fournie — le catalogue est donc vide, aucune URL n’est devinée ; (2) l’auteur a écrit ces cartes en français uniquement : l’arabe est ABSENT, jamais traduit ici, et les explications arabes obligatoires manquent donc. Certaines cartes n’ont pas d’explication du tout : elle reste vide plutôt qu’inventée.",
+  "$sourcesComment": "CATALOGUE DE SOURCES de la banque, vide tant que les sources institutionnelles n’ont pas été fournies par l’auteur. Une clé citée par une carte mais absente d’ici fait ÉCHOUER le chargement : aucune référence fantôme.",
+  "version": 1,
+  "sources": [],
+  "questions": [
+    {
+      "id": "HISTGEO-001",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.algerie-alger",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Sur quel continent se trouve l’Algérie ?"
+      },
+      "answer": {
+        "fr": "En Afrique."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-002",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.maroc-marrakech",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Marrakech se trouve dans quel pays ?"
+      },
+      "answer": {
+        "fr": "Au Maroc."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-003",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.egypte-caire",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Caire se trouve dans quel pays ?"
+      },
+      "answer": {
+        "fr": "En Égypte."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-004",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-kairouan",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Kairouan se trouve dans quel pays ?"
+      },
+      "answer": {
+        "fr": "En Tunisie."
+      },
+      "explanation": {
+        "fr": "Kairouan est une ancienne ville majeure de l’histoire arabo-musulmane du Maghreb.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-005",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.turquie-istanbul",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Istanbul se trouve aujourd’hui dans quel pays ?"
+      },
+      "answer": {
+        "fr": "En Türkiye."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-006",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.ouzbekistan-samarcande",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Samarcande se trouve dans quel pays ?"
+      },
+      "answer": {
+        "fr": "En Ouzbékistan."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-007",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.algerie-alger",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Casbah est la vieille ville historique de quelle grande ville algérienne ?"
+      },
+      "answer": {
+        "fr": "Alger."
+      },
+      "explanation": {
+        "fr": "La Casbah d’Alger est une médina historique située sur la côte méditerranéenne.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-008",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.andalousie-cordoue",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Cordoue, célèbre ville d’Al-Andalus, se trouve aujourd’hui dans quel pays ?"
+      },
+      "answer": {
+        "fr": "En Espagne."
+      },
+      "explanation": {
+        "fr": "Cordoue a connu une période de grande importance à partir du VIIIe siècle.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-009",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-carthage",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Carthage se trouve dans quel pays actuel ?"
+      },
+      "answer": {
+        "fr": "En Tunisie."
+      },
+      "explanation": {
+        "fr": "L’ancienne Carthage se trouve sur le golfe de Tunis.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-010",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.maroc-marrakech",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Marrakech est-elle une ville récente ou une ville vieille de plusieurs siècles ?"
+      },
+      "answer": {
+        "fr": "Une ville vieille de plusieurs siècles."
+      },
+      "explanation": {
+        "fr": "Elle a été fondée au XIe siècle par les Almoravides.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-011",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.palestine-jerusalem",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quel monument au dôme doré se trouve dans la vieille ville de Jérusalem ?"
+      },
+      "answer": {
+        "fr": "Le Dôme du Rocher."
+      },
+      "explanation": {
+        "fr": "Il date du VIIe siècle.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-012",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.ouzbekistan-samarcande",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Samarcande était-elle surtout isolée ou située au croisement de plusieurs cultures ?"
+      },
+      "answer": {
+        "fr": "Au croisement de plusieurs cultures."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-013",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-carthage",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Carthage était-elle célèbre dans l’Antiquité ?"
+      },
+      "answer": {
+        "fr": "Pour son commerce et sa puissance en Méditerranée."
+      },
+      "explanation": {
+        "fr": "Carthage devint un grand empire marchand autour de la Méditerranée.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-014",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.maroc-marrakech",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quelle dynastie a fondé Marrakech au XIe siècle ?"
+      },
+      "answer": {
+        "fr": "Les Almoravides."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-015",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-kairouan",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Kairouan est-elle plus ancienne ou plus récente que Tunis comme grande ville arabo-musulmane du Maghreb ?"
+      },
+      "answer": {
+        "fr": "Plus ancienne."
+      },
+      "explanation": {
+        "fr": "Kairouan fut fondée en 670 et devint un centre majeur de l’Ifriqiya.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-016",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.algerie-alger",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quel type de bâtiments historiques trouve-t-on notamment dans la Casbah d’Alger ?"
+      },
+      "answer": {
+        "fr": "Des mosquées anciennes et des palais ottomans."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-017",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.turquie-istanbul",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quelle grande ville fut successivement liée aux empires romain d’Orient puis ottoman ?"
+      },
+      "answer": {
+        "fr": "Istanbul."
+      },
+      "explanation": {
+        "fr": "Elle a été capitale de l’Empire romain d’Orient puis de l’Empire ottoman.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-018",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.ouzbekistan-samarcande",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "À quelle époque Samarcande connut-elle un développement particulièrement important sous les Timourides ?"
+      },
+      "answer": {
+        "fr": "Aux XIVe et XVe siècles."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-019",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.turquie-istanbul",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Istanbul occupait-elle une position stratégique ?"
+      },
+      "answer": {
+        "fr": "Parce qu’elle se situe entre plusieurs grandes régions et voies maritimes."
+      },
+      "explanation": {
+        "fr": "Le Bosphore place Istanbul entre les Balkans et l’Anatolie, et entre la mer Noire et la Méditerranée.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-020",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.algerie-alger",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi la Casbah d’Alger est-elle construite avec des rues et des maisons adaptées à une forte pente ?"
+      },
+      "answer": {
+        "fr": "Parce qu’elle s’est développée sur un terrain très accidenté."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-021",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.maroc-marrakech",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Marrakech a-t-elle influencé uniquement le Maroc ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "Son influence historique s’est étendue à une partie de l’Afrique du Nord et de l’Andalousie.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-022",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.ouzbekistan-samarcande",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Samarcande est-elle souvent appelée un « carrefour des cultures » ?"
+      },
+      "answer": {
+        "fr": "Parce qu’elle se trouvait au croisement d’importantes routes et civilisations d’Asie centrale."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-023",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-carthage",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Que s’est-il passé à Carthage après sa destruction par Rome en 146 av. J.-C. ?"
+      },
+      "answer": {
+        "fr": "Une nouvelle Carthage romaine fut ensuite construite sur ses ruines."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    },
+    {
+      "id": "HISTGEO-024",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.andalousie-cordoue",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Cordoue est-elle importante pour comprendre l’histoire d’Al-Andalus ?"
+      },
+      "answer": {
+        "fr": "Parce qu’elle fut l’un des principaux centres politiques et urbains de cette période."
+      },
+      "explanation": {
+        "fr": "Elle devint notamment le siège du califat indépendant au Xe siècle.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-025",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.andalousie-cordoue",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Cordoue a-t-elle commencé son histoire avec Al-Andalus ?"
+      },
+      "answer": {
+        "fr": "Non."
+      },
+      "explanation": {
+        "fr": "La ville existait déjà à l’époque romaine avant de devenir un centre majeur d’Al-Andalus.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-026",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-carthage",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Carthage est-elle intéressante pour étudier plusieurs civilisations ?"
+      },
+      "answer": {
+        "fr": "Parce que différents peuples et périodes historiques s’y sont succédé."
+      },
+      "explanation": {
+        "fr": "Le site conserve notamment des traces puniques, romaines et d’autres périodes postérieures.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-027",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.turquie-istanbul",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Que montre l’histoire d’Istanbul sur sa position géographique ?"
+      },
+      "answer": {
+        "fr": "Que son emplacement entre Europe et Asie lui a donné une importance durable."
+      },
+      "explanation": {
+        "fr": "Sa position sur le Bosphore a contribué à son rôle politique, commercial et culturel pendant plus de deux millénaires.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-028",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-kairouan",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Kairouan est-elle importante dans l’histoire du Maghreb musulman ?"
+      },
+      "answer": {
+        "fr": "Parce qu’elle fut l’un des premiers grands centres arabo-musulmans du Maghreb."
+      },
+      "explanation": {
+        "fr": "Fondée en 670, elle fut pendant plusieurs siècles un centre important de l’Ifriqiya.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-029",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.algerie-alger",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi la Casbah d’Alger permet-elle d’étudier plusieurs périodes de l’histoire d’Alger ?"
+      },
+      "answer": {
+        "fr": "Parce que son architecture conserve plusieurs couches historiques."
+      },
+      "explanation": {
+        "fr": "On y trouve notamment des vestiges anciens, une structure de médina et des palais ottomans.",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire"
+    },
+    {
+      "id": "HISTGEO-030",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.ouzbekistan-samarcande",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Samarcande est-elle un bon exemple d’une ville façonnée par les échanges ?"
+      },
+      "answer": {
+        "fr": "Parce que différentes cultures, époques et influences s’y sont rencontrées pendant plus de deux millénaires."
+      },
+      "explanation": {
+        "fr": "",
+        "ar": ""
+      },
+      "sources": [],
+      "sourceKeys": [],
+      "reviewNotes": "source obligatoire à fournir ; traduction arabe (énoncé, réponse, explication) à écrire ; explication à fournir"
+    }
+  ]
+}

@@ -24,7 +24,7 @@ import durousJson from "@/content/questions/religion/ad-durous-al-mouhimmah.v1.j
 import sirahJson from "@/content/questions/religion/sirah-al-urjuzah.v1.json";
 import qawaidJson from "@/content/questions/religion/al-qawaid-al-arba.v1.json";
 import kalimahJson from "@/content/questions/religion/kalimah-at-tawhid.v1.json";
-import geographieJson from "@/content/questions/geography/geographie.v1.json";
+import histoireGeographieJson from "@/content/questions/history-geography/histoire-geographie.v1.json";
 import gestionJson from "@/content/questions/management/gestion.v1.json";
 import logiqueJson from "@/content/questions/logic/logique.v1.json";
 
@@ -154,13 +154,15 @@ export const RELIGION_BANKS: ReadonlyArray<{ readonly id: string; readonly work:
   { id: "kalimah-at-tawhid", work: "Kalimah at-Tawhid: Lā ilāha illā Allāh", questions: KALIMAH_BANK, perLevel: 5 },
 ];
 /**
- * Banque « Géographie V1 » : 30 cartes écrites par l'auteur du jeu, jamais
- * générées (ADR 0038). La géographie exige une source même quand le fait
- * paraît évident ; aucune n'a encore été fournie, donc les 30 cartes restent
- * `draft` et la garde les refuse toutes. Rien n'est servi tant que la
- * vérification humaine n'a pas eu lieu.
+ * Banque « Histoire & Géographie V1 » : 30 cartes écrites par l'auteur du jeu,
+ * jamais générées, centrées sur les lieux de la carte du plateau (ADR 0045).
+ * Elles remplacent la banque Géographie seule. Deux manques assumés, jamais
+ * comblés par une invention : la catégorie exige une source pour tout fait et
+ * aucune n'a été fournie ; l'auteur les a écrites en français seulement, donc
+ * l'arabe est absent. Les 30 cartes restent `draft` : rien n'est servi tant
+ * que la vérification humaine n'a pas eu lieu.
  */
-export const GEOGRAPHY_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(geographieJson));
+export const HISTORY_GEOGRAPHY_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(histoireGeographieJson));
 /**
  * Banque « Gestion V1 » : 30 cartes statiques écrites et contrôlées par
  * l'auteur du jeu, jamais générées (ADR 0039). La catégorie n'exige pas de
@@ -178,7 +180,7 @@ export const MANAGEMENT_BANK: readonly CuratedQuestion[] = bankQuestions(curated
  */
 export const LOGIC_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(logiqueJson));
 /** Banque curée complète : seules les questions `validated` (et sourcées si la catégorie l'exige) sont jouables. */
-export const CURATED_BANK: readonly CuratedQuestion[] = [...bankQuestions(curatedBankSchema.parse(curatedJson)), ...RELIGION_BANKS.flatMap((b) => b.questions), ...GEOGRAPHY_BANK, ...MANAGEMENT_BANK, ...LOGIC_BANK];
+export const CURATED_BANK: readonly CuratedQuestion[] = [...bankQuestions(curatedBankSchema.parse(curatedJson)), ...RELIGION_BANKS.flatMap((b) => b.questions), ...HISTORY_GEOGRAPHY_BANK, ...MANAGEMENT_BANK, ...LOGIC_BANK];
 const BANDS = bandsSchema.parse(bandsJson);
 
 export const categoryById = (id: string): CategoryDefinition | undefined => CATEGORIES.find((c) => c.id === id);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, CURATED_BANK, GEOGRAPHY_BANK, categoryById, contentRegistry, curatedBankSchema, difficultyBandFor } from "@/config/content";
+import { CATEGORIES, CURATED_BANK, HISTORY_GEOGRAPHY_BANK, categoryById, contentRegistry, curatedBankSchema, difficultyBandFor } from "@/config/content";
 import { LEARNING_CONFIG, learnerContextFor } from "@/config/learning";
 import { createContentRegistry, createCuratedProvider, isPlayable, playabilityIssues, questionRefKey, type CuratedQuestion, type QuestionInstance } from "@/core/content";
 import { addDays, applyAttempt, attemptId, emptyMemory, selectQuestion, type LearnerContext, type PlayerLearningMemory } from "@/core/learning";
@@ -7,7 +7,7 @@ import { pid } from "../../fixtures/game/setup.fixture";
 import { T0 } from "../../fixtures/learning/resolve.fixture";
 
 const arabic = /[؀-ۿ]/;
-const partie = "game-geo";
+const partie = "game-histgeo";
 
 /** Enregistre une bonne réponse à la question choisie (même mécanique que les autres tests du Learning Engine). */
 function answerSelected(memory: PlayerLearningMemory, learner: LearnerContext, q: QuestionInstance, at: string, n: number): PlayerLearningMemory {
@@ -19,7 +19,7 @@ function answerSelected(memory: PlayerLearningMemory, learner: LearnerContext, q
   );
 }
 
-const ids = GEOGRAPHY_BANK.map((q) => q.id);
+const ids = HISTORY_GEOGRAPHY_BANK.map((q) => q.id);
 /** Tranches d'âge déclarées par l'auteur et âge représentatif de chacune (pour confronter aux bandes de `bands.v1.json`). */
 const TRANCHES: ReadonlyArray<readonly [string, number]> = [
   ["5-6", 6],
@@ -29,17 +29,22 @@ const TRANCHES: ReadonlyArray<readonly [string, number]> = [
   ["13+", 14],
 ];
 
-describe("Géographie V1 — banque contrôlée", () => {
-  it("30 cartes, identifiants uniques GEO-001…GEO-030, toutes en géographie et en version 1", () => {
-    expect(GEOGRAPHY_BANK).toHaveLength(30);
+describe("Histoire & Géographie V1 — banque contrôlée", () => {
+  it("30 cartes, identifiants uniques HISTGEO-001…HISTGEO-030, dans la catégorie geography et en version 1", () => {
+    expect(HISTORY_GEOGRAPHY_BANK).toHaveLength(30);
     expect(new Set(ids).size).toBe(30);
-    expect(ids).toEqual(Array.from({ length: 30 }, (_, i) => `GEO-${String(i + 1).padStart(3, "0")}`));
-    expect(GEOGRAPHY_BANK.every((q) => q.categoryId === "geography" && q.version === 1 && q.audienceScope === "all")).toBe(true);
+    expect(ids).toEqual(Array.from({ length: 30 }, (_, i) => `HISTGEO-${String(i + 1).padStart(3, "0")}`));
+    expect(HISTORY_GEOGRAPHY_BANK.every((q) => q.categoryId === "geography" && q.version === 1 && q.audienceScope === "all")).toBe(true);
+  });
+
+  it("la catégorie devient « Histoire & Géographie » sans changer d'identifiant : les parties enregistrées restent lisibles", () => {
+    expect(categoryById("geography")?.label.fr).toBe("Histoire & Géographie");
+    expect(categoryById("geography")?.generationMode).toBe("curated");
   });
 
   it("six cartes par tranche d'âge, et la difficulté de chaque carte tient dans la bande d'amorçage de sa tranche", () => {
     for (const [tranche, age] of TRANCHES) {
-      const cartes = GEOGRAPHY_BANK.filter((q) => q.ageBand === tranche);
+      const cartes = HISTORY_GEOGRAPHY_BANK.filter((q) => q.ageBand === tranche);
       expect(cartes, tranche).toHaveLength(6);
       const bande = difficultyBandFor({ profileType: "child", age });
       for (const q of cartes) {
@@ -47,80 +52,77 @@ describe("Géographie V1 — banque contrôlée", () => {
         expect(q.difficulty, `${q.id} (${tranche})`).toBeLessThanOrEqual(bande.max);
       }
     }
-    expect(GEOGRAPHY_BANK.filter((q) => TRANCHES.some(([t]) => t === q.ageBand))).toHaveLength(30);
+    expect(HISTORY_GEOGRAPHY_BANK.filter((q) => TRANCHES.some(([t]) => t === q.ageBand))).toHaveLength(30);
   });
 
-  it("énoncé et réponse présents en français ET en arabe sur les 30 cartes", () => {
-    for (const q of GEOGRAPHY_BANK) {
+  it("les cartes portent sur les lieux de la carte du plateau, et chaque lieu est une notion révisable", () => {
+    const lieux = new Set(HISTORY_GEOGRAPHY_BANK.map((q) => q.knowledgeNodeId));
+    expect([...lieux].every((n) => n.startsWith("histgeo."))).toBe(true);
+    for (const lieu of ["andalousie-cordoue", "maroc-marrakech", "algerie-alger", "tunisie-kairouan", "tunisie-carthage", "egypte-caire", "palestine-jerusalem", "turquie-istanbul", "ouzbekistan-samarcande"]) {
+      expect(lieux, lieu).toContain(`histgeo.${lieu}`);
+    }
+  });
+
+  it("énoncé et réponse en français sur les 30 cartes ; l'arabe est ABSENT et n'est pas inventé ici", () => {
+    for (const q of HISTORY_GEOGRAPHY_BANK) {
       expect(q.prompt.fr.trim(), q.id).not.toBe("");
       expect(q.answer.fr.trim(), q.id).not.toBe("");
-      expect(arabic.test(q.prompt.ar ?? ""), q.id).toBe(true);
-      expect(arabic.test(q.answer.ar ?? ""), q.id).toBe(true);
+      expect(arabic.test(q.prompt.ar ?? ""), q.id).toBe(false);
+      expect(arabic.test(q.answer.ar ?? ""), q.id).toBe(false);
+      expect(q.explanation.ar.trim(), q.id).toBe("");
     }
-  });
-
-  it("l'arabe est déclaré PROVISOIRE sur toutes les cartes, en attente de relecture humaine", () => {
-    expect(GEOGRAPHY_BANK.every((q) => q.arReview === "provisional")).toBe(true);
-  });
-
-  it("les 30 cartes portent une explication complète en français ET en arabe", () => {
-    // L'explication fait partie de l'apprentissage en géographie (`showsExplanation`) :
-    // une carte jouable ne peut donc pas en être privée.
-    for (const q of GEOGRAPHY_BANK) {
-      expect(q.explanation.fr.trim(), q.id).not.toBe("");
-      expect(arabic.test(q.explanation.ar), q.id).toBe(true);
-    }
-    expect(categoryById("geography")?.showsExplanation).toBe(true);
+    expect(HISTORY_GEOGRAPHY_BANK.every((q) => q.arReview === "provisional")).toBe(true);
   });
 });
 
-describe("Géographie V1 — la source conditionne la publication", () => {
-  it("la catégorie exige une source, même quand le fait paraît évident", () => {
+describe("Histoire & Géographie V1 — source et arabe conditionnent la publication", () => {
+  it("la catégorie exige une source, même quand le fait paraît évident, et montre son explication", () => {
     expect(categoryById("geography")?.requiresSource).toBe(true);
-    expect(categoryById("geography")?.generationMode).toBe("curated");
+    expect(categoryById("geography")?.showsExplanation).toBe(true);
   });
 
   it("aucune source n'est inventée : les 30 cartes ont un tableau de sources VIDE, jamais approximatif", () => {
-    expect(GEOGRAPHY_BANK.every((q) => q.sources.length === 0)).toBe(true);
+    expect(HISTORY_GEOGRAPHY_BANK.every((q) => q.sources.length === 0)).toBe(true);
   });
 
-  it("les 30 cartes sont en brouillon et AUCUNE ne franchit la garde de jouabilité", () => {
-    expect(GEOGRAPHY_BANK.every((q) => q.status === "draft")).toBe(true);
-    const geographie = categoryById("geography");
-    for (const q of GEOGRAPHY_BANK) {
-      expect(isPlayable(q, geographie), q.id).toBe(false);
-      expect(playabilityIssues(q, geographie), q.id).toContain("source obligatoire absente");
+  it("les 30 cartes sont en brouillon et AUCUNE ne franchit la garde : source absente ET explication arabe absente", () => {
+    expect(HISTORY_GEOGRAPHY_BANK.every((q) => q.status === "draft")).toBe(true);
+    const categorie = categoryById("geography");
+    for (const q of HISTORY_GEOGRAPHY_BANK) {
+      expect(isPlayable(q, categorie), q.id).toBe(false);
+      const manques = playabilityIssues(q, categorie);
+      expect(manques, q.id).toContain("source obligatoire absente");
+      expect(manques, q.id).toContain("explication AR manquante");
     }
   });
 
-  it("la géographie n'est donc servie NULLE PART en production, et la banque religieuse reste intacte", () => {
+  it("la catégorie n'est donc servie NULLE PART en production, et les autres banques restent intactes", () => {
     const registry = contentRegistry();
     expect(registry.availableCategories("child")).toEqual(["religion", "maths", "logic", "management"]);
     expect(registry.availableCategories("adult")).toEqual(["religion", "maths", "logic", "management"]);
     expect(registry.resolve({ categoryId: "geography", difficulty: 2, profileType: "child", variation: 0 })).toBeNull();
     expect(registry.slots("child").some((s) => s.categoryId === "geography")).toBe(false);
-    expect(registry.slots("adult").some((s) => s.categoryId === "geography")).toBe(false);
-    // Non-régression : la banque curée accueille les 30 cartes sans rien changer à la religion.
     expect(CURATED_BANK.filter((q) => q.categoryId === "geography")).toHaveLength(30);
     expect(CURATED_BANK.filter((q) => q.categoryId === "religion" && q.status === "validated")).toHaveLength(375);
-    expect(registry.slots("child").filter((s) => s.categoryId === "religion")).toHaveLength(375);
     expect(registry.slots("child").filter((s) => s.categoryId === "maths")).toHaveLength(30);
   });
 });
 
 /**
- * Ce que la banque DONNERA une fois la vérification humaine faite. La source
- * et la validation sont simulées ICI, dans le test, jamais dans les données :
- * aucune source fictive n'entre dans le dépôt.
+ * Ce que la banque DONNERA une fois la vérification humaine faite : source
+ * fournie et arabe écrit. Les deux sont simulés ICI, dans le test, jamais dans
+ * les données — aucune source fictive, aucune traduction inventée n'entre dans
+ * le dépôt.
  */
 const commeSiValidee = (q: CuratedQuestion): CuratedQuestion => ({
   ...q,
   status: "validated",
+  explanation: { fr: q.explanation.fr.trim() === "" ? "Explication de test (fixture)." : q.explanation.fr, ar: "شرح اختبار." },
   sources: [{ title: "Source de test (fixture)", url: "https://example.org/fixture" }],
 });
 
-describe("Géographie V1 — une fois vérifiée et sourcée", () => {
-  const banque = GEOGRAPHY_BANK.map(commeSiValidee);
+describe("Histoire & Géographie V1 — une fois vérifiée, sourcée et traduite", () => {
+  const banque = HISTORY_GEOGRAPHY_BANK.map(commeSiValidee);
   const categories = CATEGORIES;
   const registry = createContentRegistry(categories, [createCuratedProvider(banque, categories)]);
 
@@ -154,7 +156,6 @@ describe("Géographie V1 — une fois vérifiée et sourcée", () => {
       atteinte = Math.max(atteinte, q.difficulty);
       memory = answerSelected(memory, learner, q, now, i);
     }
-    // La bande d'amorçage d'un enfant de 6 ans s'arrête à 2 : le Learning Engine, lui, l'emmène plus loin.
     expect(difficultyBandFor({ profileType: "child", age: 6 }).max).toBe(2);
     expect(atteinte).toBeGreaterThan(2);
     expect(memory.categories["geography"]!.estimatedLevel).toBeGreaterThan(memory.categories["geography"]!.seedLevel);
@@ -209,7 +210,7 @@ describe("catalogue de sources : une source institutionnelle peut couvrir plusie
     expect(() => curatedBankSchema.parse({ ...doc, questions: [carte("T-004", ["inconnue"])] })).toThrow(/T-004 cite la source/);
   });
 
-  it("le catalogue de la banque géographique est prêt mais VIDE : aucune source inventée, aucune URL devinée", () => {
-    expect(GEOGRAPHY_BANK.every((q) => q.sources.length === 0)).toBe(true);
+  it("le catalogue de la banque Histoire & Géographie est prêt mais VIDE : aucune source inventée, aucune URL devinée", () => {
+    expect(HISTORY_GEOGRAPHY_BANK.every((q) => q.sources.length === 0)).toBe(true);
   });
 });

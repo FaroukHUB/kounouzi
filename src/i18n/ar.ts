@@ -391,7 +391,7 @@ export const ar: Dictionary = {
   "challenge.category.oh_no": "أوه لا",
   "challenge.category.memory": "ذاكرة",
   "challenge.category.reflection": "تفكير",
-  "challenge.category.geography": "جغرافيا",
+  "challenge.category.geography": "التاريخ والجغرافيا",
   "challenge.category.observation": "ملاحظة",
   "challenge.category.language": "لغة",
   "challenge.category.maths": "رياضيات",
