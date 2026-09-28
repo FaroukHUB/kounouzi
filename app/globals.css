@@ -48,7 +48,7 @@
      univers que le plateau, mais assez éteinte pour que le plateau net se
      détache. L'image est déjà chargée pour le plateau, le fond ne coûte rien. */
   background-color: #0c2430;
-  background-image: linear-gradient(rgba(12, 22, 30, 0.72), rgba(12, 22, 30, 0.78)), url("/kounouzi/board/center-carte.v4.webp");
+  background-image: linear-gradient(rgba(12, 22, 30, 0.72), rgba(12, 22, 30, 0.78)), url("/kounouzi/board/center-carte.v5.webp");
   background-size: cover, cover;
   background-position: center, center;
   background-attachment: fixed, fixed;
