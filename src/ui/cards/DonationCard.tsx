@@ -5,6 +5,7 @@ import type { GameState, MoneyDestination } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
 import type { NarrationService } from "@/experience/narration";
+import { deckFor } from "@/config/cards";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { CellIcon } from "@/ui/board/CellIcon";
 import { CardShell } from "./CardShell";
@@ -27,7 +28,7 @@ export function DonationCard({ state, profiles, card, narrator, onDonate }: { re
   }, [card.step, prompt, narrator]);
   const disabled = card.step !== "offer";
   return (
-    <CardShell cellType="donation" title={t(DEFAULT_LOCALE, "donation.title")} subtitle={t(DEFAULT_LOCALE, "donation.subtitle")} testId="donation-card">
+    <CardShell cellType="donation" deck={deckFor({ cellType: "donation" })} title={t(DEFAULT_LOCALE, "donation.title")} subtitle={t(DEFAULT_LOCALE, "donation.subtitle")} testId="donation-card">
       <p className="text-center text-xl font-bold" data-testid="donation-amount">
         {prompt}
       </p>

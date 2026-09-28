@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useEffect } from "react";
 import { challengeById, playerAge, recitationById, variantFor, type ChallengeSkipReason, type GameState } from "@/core/game";
 import { questionUtterances, splitChoices, type NarrationService } from "@/experience/narration";
+import { deckFor } from "@/config/cards";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Button } from "@/ui/primitives/Button";
 import { CELL_STYLE } from "@/ui/board/cellStyles";
@@ -57,7 +58,7 @@ export function ChallengeCard({ state, card, narrator, reduced, onUpdate, onAcce
 
   if (step === "ohno") {
     return (
-      <CardShell cellType="challenge" title={t(DEFAULT_LOCALE, "challenge.title")} subtitle={subtitle} testId="challenge-card" tall>
+      <CardShell cellType="challenge" deck={deckFor({ cellType: "challenge" })} title={t(DEFAULT_LOCALE, "challenge.title")} subtitle={subtitle} testId="challenge-card" tall>
         <motion.p
           data-testid="challenge-ohno"
           initial={{ scale: 0.5, rotate: -6, opacity: 0 }}
@@ -72,7 +73,7 @@ export function ChallengeCard({ state, card, narrator, reduced, onUpdate, onAcce
   }
 
   return (
-    <CardShell cellType="challenge" title={definition.title} subtitle={subtitle} testId="challenge-card">
+    <CardShell cellType="challenge" deck={deckFor({ cellType: "challenge" })} title={definition.title} subtitle={subtitle} testId="challenge-card">
       <div data-testid="challenge-step" data-step={step} hidden />
       {step === "reveal" || step === "accepted" ? <CardAnimation animationKey={definition.animationKey} reduced={reduced} accent={CELL_STYLE.challenge.accent} /> : null}
       <p className="text-center text-sm font-semibold text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "challenge.for", { name: player.displayName })}</p>

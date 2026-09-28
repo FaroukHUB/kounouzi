@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import { categoryById } from "@/config/content";
+import { deckFor } from "@/config/cards";
 import type { CellType, GameState } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
@@ -52,6 +53,8 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
   const responder = state.players.find((p) => p.id === card.playerId)?.displayName ?? "";
   const title = card.purpose === "duel" ? t(DEFAULT_LOCALE, "duel.yourTurn", { name: responder }) : card.purpose === "halt" ? t(DEFAULT_LOCALE, "halt.challenge") : card.purpose === "heritage_visit" ? t(DEFAULT_LOCALE, "visit.title") : (category?.label.fr ?? t(DEFAULT_LOCALE, "cell.question"));
   const cellType = PURPOSE_CELL[card.purpose];
+  // Carte illustrée de la catégorie servie ; à défaut, celle de la famille de case (Défi pour un Duel).
+  const deck = deckFor({ categoryId: question?.categoryId, cellType });
   const visit = state.phase.kind === "awaiting_answer" && state.phase.purpose.kind === "heritage_visit" ? state.phase.purpose : null;
   const ownerName = visit ? (state.players.find((p) => p.id === visit.ownerId)?.displayName ?? "") : "";
   const contribution = state.config.rules.heritageVisit.contribution;
@@ -108,8 +111,8 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
         type="button"
         data-testid="card-back"
         aria-label={t(DEFAULT_LOCALE, "card.touchToOpen")}
-        className="flex h-[min(60vh,420px)] w-[min(70vw,300px)] flex-col items-center justify-center gap-3 rounded-[2rem] text-white shadow-2xl"
-        style={{ backgroundColor: "var(--k-teal)", perspective: 1000 }}
+        className={`flex h-[min(60vh,420px)] w-[min(70vw,300px)] flex-col items-center justify-center gap-3 rounded-[2rem] text-white shadow-2xl ${deck ? "overflow-hidden bg-cover bg-center" : ""}`}
+        style={deck ? { backgroundImage: `url(${deck.back})`, backgroundSize: "cover", backgroundPosition: "center", perspective: 1000 } : { backgroundColor: "var(--k-teal)", perspective: 1000 }}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={step === "opening" ? { rotate: reduced ? 0 : 360, scale: reduced ? 1 : [1, 1.15, 1], rotateY: 90, opacity: 1 } : { opacity: 1, scale: 1, rotate: 0 }}
         transition={{ duration: reduced ? 0 : 0.7, ease: "easeInOut" }}
@@ -120,16 +123,16 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
           if (step === "dealt") onUpdate({ step: "opening" });
         }}
       >
-        <span className="text-5xl font-black">?</span>
-        <span className="text-sm font-semibold uppercase tracking-widest opacity-80">{title}</span>
-        {card.purpose !== "standard" ? <span className="text-xs opacity-80">{category?.label.fr ?? ""}</span> : null}
-        <span className="text-xs opacity-70">{t(DEFAULT_LOCALE, "card.touchToOpen")}</span>
+        {deck ? null : <span className="text-5xl font-black">?</span>}
+        {deck ? null : <span className="text-sm font-semibold uppercase tracking-widest opacity-80">{title}</span>}
+        {!deck && card.purpose !== "standard" ? <span className="text-xs opacity-80">{category?.label.fr ?? ""}</span> : null}
+        <span className={deck ? "mt-auto w-full bg-[rgba(12,22,30,0.72)] py-2 text-xs font-semibold" : "text-xs opacity-70"}>{t(DEFAULT_LOCALE, "card.touchToOpen")}</span>
       </motion.button>
     );
   }
 
   return (
-    <CardShell cellType={cellType} title={title} subtitle={`${category?.label.fr ?? ""} · ${t(DEFAULT_LOCALE, "card.difficulty", { level: question.difficulty })}${question.title ? ` · ${question.title}` : ""}`} testId="question-card">
+    <CardShell cellType={cellType} deck={deck} title={title} subtitle={`${category?.label.fr ?? ""} · ${t(DEFAULT_LOCALE, "card.difficulty", { level: question.difficulty })}${question.title ? ` · ${question.title}` : ""}`} testId="question-card">
       {intro}
       {step === "question" && question.animationKey ? <CardAnimation animationKey={question.animationKey} reduced={reduced} accent={CELL_STYLE[cellType].accent} /> : null}
       <p className="text-[clamp(1.25rem,3vw,1.75rem)] font-bold leading-snug" data-testid="question-prompt">

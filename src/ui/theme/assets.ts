@@ -10,7 +10,7 @@ export const ASSETS = {
    * carré central, la périphérie n'est que mer et ciel puisqu'elle passe sous
    * les cases. Remplaçable : déposer un fichier, changer ce chemin.
    */
-  boardCenter: "/kounouzi/board/center-carte.v3.webp",
+  boardCenter: "/kounouzi/board/center-carte.v4.webp",
   patternTile: "/kounouzi/backgrounds/pattern-tile.svg",
   monumentPlaceholder: "/kounouzi/monuments/placeholder.svg",
   treasureGlow: "/kounouzi/effects/treasure-glow.svg",

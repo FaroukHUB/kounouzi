@@ -1,0 +1,10 @@
+{
+  "$comment": "Jeux de cartes illustrés : pour chaque famille, le DOS (ce qu'on retourne) et la FACE (le parchemin où s'écrivent la question et la réponse). La zone d'écriture est une donnée, exprimée en fraction de la carte : elle borne le texte au parchemin, sans jamais mordre sur le cadre ni sur l'illustration du bas. Une famille sans jeu de cartes garde l'habillage historique : rien ne casse tant que toutes les illustrations ne sont pas fournies.",
+  "defaultPanel": { "start": 0.12, "top": 0.24, "end": 0.88, "bottom": 0.63 },
+  "decks": [
+    { "id": "maths", "categories": ["maths"], "cells": [], "back": "/kounouzi/cards/decks/maths-dos.webp", "face": "/kounouzi/cards/decks/maths-face.webp", "width": 645, "height": 1048 },
+    { "id": "histoire-geo", "categories": ["geography"], "cells": [], "back": "/kounouzi/cards/decks/histoire-geo-dos.webp", "face": "/kounouzi/cards/decks/histoire-geo-face.webp", "width": 648, "height": 1047, "panel": { "start": 0.1, "top": 0.25, "end": 0.9, "bottom": 0.65 } },
+    { "id": "defi", "categories": [], "cells": ["challenge"], "back": "/kounouzi/cards/decks/defi-dos.webp", "face": "/kounouzi/cards/decks/defi-face.webp", "width": 628, "height": 1036 },
+    { "id": "don", "categories": [], "cells": ["donation", "solidarity"], "back": "/kounouzi/cards/decks/don-dos.webp", "face": "/kounouzi/cards/decks/don-face.webp", "width": 624, "height": 1041 }
+  ]
+}

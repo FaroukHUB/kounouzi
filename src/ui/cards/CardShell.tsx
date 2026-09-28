@@ -2,6 +2,7 @@
 
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
+import type { CardDeck } from "@/config/cards";
 import { CellIcon } from "@/ui/board/CellIcon";
 import { CARD_STYLE, type CardStyleKey } from "@/ui/board/cellStyles";
 import { ASSETS } from "@/ui/theme/assets";
@@ -15,14 +16,17 @@ export interface CardShellProps {
   readonly testId?: string | undefined;
   /** Bandeau illustré plus haut (Duel, Trésor, Halte). */
   readonly tall?: boolean | undefined;
+  /** Carte illustrée fournie : la FACE devient la carte, le texte vit dans son parchemin. */
+  readonly deck?: CardDeck | undefined;
 }
 
 /**
  * Coque commune des cartes : parchemin, bandeau illustré par famille de case
  * (asset remplaçable), médaillon d'icône, coins ornés. Contenu scrollable, tactile.
  */
-export function CardShell({ cellType, title, subtitle, children, testId, tall }: CardShellProps) {
+export function CardShell({ cellType, title, subtitle, children, testId, tall, deck }: CardShellProps) {
   const style = CARD_STYLE[cellType];
+  if (deck) return <IllustratedCard deck={deck} title={title} subtitle={subtitle} testId={testId} cellType={cellType}>{children}</IllustratedCard>;
   return (
     <motion.section
       data-testid={testId ?? "card"}
@@ -48,6 +52,46 @@ export function CardShell({ cellType, title, subtitle, children, testId, tall }:
         </span>
       </header>
       <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-6 py-5">{children}</div>
+    </motion.section>
+  );
+}
+
+/**
+ * Carte illustrée : l'image FACE est la carte elle-même (son format vient de
+ * l'image, jamais deviné), et tout le texte vit dans le parchemin, borné par la
+ * zone d'écriture déclarée en données. Le titre de la famille est déjà peint
+ * sur l'illustration : on ne le redessine pas.
+ */
+function IllustratedCard({ deck, title, subtitle, children, testId, cellType }: { readonly deck: CardDeck; readonly title: string; readonly subtitle?: string | undefined; readonly children: ReactNode; readonly testId?: string | undefined; readonly cellType: CardStyleKey }) {
+  const p = deck.panel;
+  return (
+    <motion.section
+      data-testid={testId ?? "card"}
+      data-card-type={cellType}
+      data-deck={deck.id}
+      initial={{ opacity: 0, scale: 0.9, y: 24 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95, y: 12 }}
+      transition={{ type: "tween", duration: 0.25 }}
+      className="relative h-[min(88dvh,820px)] max-w-[94vw] select-none"
+      style={{ aspectRatio: `${deck.width} / ${deck.height}` }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element -- carte entière, image déjà dimensionnée */}
+      <img src={deck.face} alt="" aria-hidden="true" className="absolute inset-0 size-full rounded-[4%] object-fill drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]" decoding="async" />
+      {/* La typographie est resserrée DANS la carte illustrée : le parchemin est
+          plus petit qu'une feuille de carte classique, et tout doit y tenir sans
+          que le joueur ait à faire défiler pour trouver le bouton. */}
+      <div
+        className="absolute flex flex-col items-center gap-2 overflow-y-auto text-center text-[#3b2a14] [scrollbar-width:none] [&_[data-testid=card-animation]]:h-12 [&_button]:min-h-10 [&_button]:px-3 [&_button]:py-2 [&_button]:text-sm [&_p]:text-[0.95rem] [&_p]:leading-snug [&_span]:text-[0.9rem] [&_[data-testid=question-prompt]]:text-[1.05rem] [&_[data-testid=question-prompt]]:font-bold"
+        style={{ insetInlineStart: `${p.start * 100}%`, insetInlineEnd: `${(1 - p.end) * 100}%`, top: `${p.top * 100}%`, bottom: `${(1 - p.bottom) * 100}%` }}
+        data-testid="card-panel"
+      >
+        {subtitle ? <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#8a6a2a]">{subtitle}</p> : null}
+        {children}
+      </div>
     </motion.section>
   );
 }
