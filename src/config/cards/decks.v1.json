@@ -70,6 +70,17 @@
       "face": "/kounouzi/cards/decks/gestion-face.webp",
       "width": 655,
       "height": 1063
+    },
+    {
+      "id": "religion",
+      "categories": [
+        "religion"
+      ],
+      "cells": [],
+      "back": "/kounouzi/cards/decks/religion-dos.webp",
+      "face": "/kounouzi/cards/decks/religion-face.webp",
+      "width": 673,
+      "height": 1002
     }
   ]
 }
