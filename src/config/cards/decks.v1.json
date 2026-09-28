@@ -81,6 +81,17 @@
       "face": "/kounouzi/cards/decks/religion-face.webp",
       "width": 673,
       "height": 1002
+    },
+    {
+      "id": "logique",
+      "categories": [
+        "logic"
+      ],
+      "cells": [],
+      "back": "/kounouzi/cards/decks/logique-dos.webp",
+      "face": "/kounouzi/cards/decks/logique-face.webp",
+      "width": 650,
+      "height": 1048
     }
   ]
 }
