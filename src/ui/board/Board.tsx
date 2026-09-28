@@ -26,8 +26,10 @@ export interface BoardProps {
 }
 
 /**
- * Plateau : cadre bois, tapis texturé, grille CSS statique (elle ne se
- * recalcule jamais pendant un déplacement), cœur central décoré.
+ * Plateau : la carte illustrée EST le plateau — elle porte déjà son propre
+ * cadre ornemental, donc aucun cadre de bois n'est redessiné par-dessus. La
+ * grille reste une grille CSS statique : elle ne se recalcule jamais pendant
+ * un déplacement.
  */
 export function Board({ board, highlightedCell, arrivalCell, previewPath, pawns, center, holdings = [], sites = {}, players = [], profiles = [] }: BoardProps) {
   const { cols, rows } = gridDims(board.cellCount);
@@ -39,10 +41,9 @@ export function Board({ board, highlightedCell, arrivalCell, previewPath, pawns,
     return { name: players.find((p) => p.id === h.ownerId)?.displayName ?? String(h.ownerId), color: pieceForPlayer(players, h.ownerId).color, shape: avatar.shape };
   };
   return (
-    <div className="bg-wood relative w-full max-w-[min(92vw,78dvh)] select-none max-sm:max-w-[min(88vw,74dvh)] rounded-[2.2rem] p-[2.2%] lg:h-full lg:w-auto lg:max-w-none shadow-[0_30px_70px_-30px_rgba(60,35,10,0.75),inset_0_2px_0_rgba(255,255,255,0.25)]" style={{ aspectRatio: `${cols} / ${rows}` }} data-testid="board" data-grid={`${cols}x${rows}`}>
-      <div className="pointer-events-none absolute inset-[1.1%] rounded-[1.9rem] border border-[rgba(255,220,160,0.35)]" aria-hidden="true" />
+    <div className="relative w-full max-w-[min(92vw,78dvh)] select-none max-sm:max-w-[min(88vw,74dvh)] rounded-[1.6rem] lg:h-full lg:w-auto lg:max-w-none shadow-[0_30px_70px_-30px_rgba(0,0,0,0.8)]" style={{ aspectRatio: `${cols} / ${rows}` }} data-testid="board" data-grid={`${cols}x${rows}`}>
       <div
-        className="relative grid size-full gap-[1.1%] rounded-[1.4rem] p-[1.4%]"
+        className="relative grid size-full gap-[1.1%] overflow-hidden rounded-[1.6rem] p-[1.4%]"
         style={{
           gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
           gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
