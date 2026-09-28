@@ -81,17 +81,57 @@ function IllustratedCard({ deck, title, subtitle, children, testId, cellType }: 
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- carte entière, image déjà dimensionnée */}
       <img src={deck.face} alt="" aria-hidden="true" className="absolute inset-0 size-full rounded-[4%] object-fill drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]" decoding="async" />
-      {/* La typographie est resserrée DANS la carte illustrée : le parchemin est
-          plus petit qu'une feuille de carte classique, et tout doit y tenir sans
-          que le joueur ait à faire défiler pour trouver le bouton. */}
       <div
-        className="absolute flex flex-col items-center gap-2 overflow-y-auto text-center text-[#3b2a14] [scrollbar-width:none] [&_[data-testid=card-animation]]:h-12 [&_button]:min-h-10 [&_button]:px-3 [&_button]:py-2 [&_button]:text-sm [&_p]:text-[0.95rem] [&_p]:leading-snug [&_span]:text-[0.9rem] [&_[data-testid=question-prompt]]:text-[1.05rem] [&_[data-testid=question-prompt]]:font-bold"
+        ref={ajusterAuParchemin}
+        className="absolute overflow-y-auto text-[#3b2a14] [scrollbar-width:none]"
         style={{ insetInlineStart: `${p.start * 100}%`, insetInlineEnd: `${(1 - p.end) * 100}%`, top: `${p.top * 100}%`, bottom: `${(1 - p.bottom) * 100}%` }}
         data-testid="card-panel"
       >
-        {subtitle ? <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#8a6a2a]">{subtitle}</p> : null}
-        {children}
+        <div
+          className="flex flex-col items-center gap-2 text-center [&_[data-testid=card-animation]]:h-12 [&_button]:min-h-10 [&_button]:px-3 [&_button]:py-2 [&_button]:text-sm [&_p]:text-[0.95rem] [&_p]:leading-snug [&_span]:text-[0.9rem] [&_[data-testid=question-prompt]]:text-[1.05rem] [&_[data-testid=question-prompt]]:font-bold"
+        >
+          {subtitle ? <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#8a6a2a]">{subtitle}</p> : null}
+          {children}
+        </div>
       </div>
     </motion.section>
   );
+}
+
+/**
+ * Le parchemin d'une carte illustrée est plus petit qu'une feuille de carte
+ * classique. Plutôt que de laisser un bouton sortir du cadre — le joueur le
+ * chercherait sans le trouver —, le contenu est RÉDUIT jusqu'à tenir dans la
+ * zone d'écriture. Plancher à 0,55 : en dessous on ne lirait plus rien, et le
+ * parchemin défile alors comme avant. Mesuré et appliqué sur le nœud, pour ne
+ * pas relancer un rendu à chaque pixel.
+ */
+function ajusterAuParchemin(panel: HTMLDivElement | null) {
+  const contenu = panel?.firstElementChild as HTMLElement | null | undefined;
+  if (!panel || !contenu) return;
+  let enCours = false;
+  const appliquer = () => {
+    if (enCours) return;
+    enCours = true;
+    // `zoom` plutôt qu'un `scale` : il agit sur la MISE EN PAGE, donc le
+    // parchemin ne garde pas une zone de défilement fantôme sous un contenu
+    // rétréci — et les zones tactiles suivent le texte.
+    contenu.style.zoom = "1";
+    const dispo = panel.clientHeight;
+    const reel = contenu.scrollHeight;
+    const facteur = reel <= dispo || reel === 0 ? 1 : Math.max(0.55, dispo / reel);
+    contenu.style.zoom = String(facteur);
+    panel.dataset["fit"] = facteur.toFixed(2);
+    enCours = false;
+  };
+  appliquer();
+  // La taille du parchemin change avec l'écran ; son contenu change à chaque étape de la carte.
+  const taille = new ResizeObserver(appliquer);
+  taille.observe(panel);
+  const contenuChange = new MutationObserver(appliquer);
+  contenuChange.observe(contenu, { childList: true, subtree: true, characterData: true });
+  return () => {
+    taille.disconnect();
+    contenuChange.disconnect();
+  };
 }
