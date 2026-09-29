@@ -41,7 +41,7 @@ export function Board({ board, highlightedCell, arrivalCell, previewPath, pawns,
     return { name: players.find((p) => p.id === h.ownerId)?.displayName ?? String(h.ownerId), color: pieceForPlayer(players, h.ownerId).color, shape: avatar.shape };
   };
   return (
-    <div className="relative w-full max-w-[min(92vw,78dvh)] select-none max-sm:max-w-[min(88vw,74dvh)] rounded-[1.6rem] lg:h-full lg:w-auto lg:max-w-none shadow-[0_30px_70px_-30px_rgba(0,0,0,0.8)]" style={{ aspectRatio: `${cols} / ${rows}` }} data-testid="board" data-grid={`${cols}x${rows}`}>
+    <div className="relative w-full max-w-[min(94vw,80dvh)] select-none max-sm:max-w-[min(96vw,78dvh)] rounded-[1.6rem] lg:h-full lg:w-auto lg:max-w-none shadow-[0_30px_70px_-30px_rgba(0,0,0,0.8)]" style={{ aspectRatio: `${cols} / ${rows}` }} data-testid="board" data-grid={`${cols}x${rows}`}>
       <div
         className="relative grid size-full gap-[1.1%] overflow-hidden rounded-[1.6rem] p-[1.4%]"
         style={{

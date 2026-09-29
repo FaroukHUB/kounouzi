@@ -7,6 +7,7 @@ import type { PlayerProfileDraft } from "@/data/ports";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { pieceForPlayer } from "@/config/pawns/pieces";
 import { AvatarBadge } from "@/ui/primitives/AvatarBadge";
+import { formatKounouz } from "@/ui/primitives/money";
 import { Button } from "@/ui/primitives/Button";
 
 export interface JourneyPanelProps {
@@ -86,7 +87,14 @@ export function JourneyAction(props: JourneyActionProps) {
       <AnimatePresence mode="wait" initial={false}>
         {canStart && active ? (
           <motion.div key="cta" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.2 }} className="flex flex-col items-center gap-2 lg:flex-row lg:gap-3">
-            <p className="whitespace-nowrap text-[clamp(0.95rem,2vw,1.15rem)] font-semibold">{t(DEFAULT_LOCALE, "game.turnOf", { name: active.displayName })}</p>
+            <p className="whitespace-nowrap text-[clamp(0.95rem,2vw,1.15rem)] font-semibold">
+              {t(DEFAULT_LOCALE, "game.turnOf", { name: active.displayName })}
+              {/* Les tuiles des joueurs vivent dans un tiroir sur téléphone : la
+                  bourse de celui qui joue reste visible sans rien ouvrir. */}
+              <span className="ms-2 font-black tabular-nums text-[var(--k-teal-dark)]" data-testid="active-money">
+                {formatKounouz(active.money)}
+              </span>
+            </p>
             <Button size="xl" onClick={props.onStartJourney} data-testid="start-journey" className="whitespace-nowrap shadow-[0_14px_30px_-10px_rgba(15,118,110,0.7)]">
               {t(DEFAULT_LOCALE, "game.journey.cta")}
             </Button>

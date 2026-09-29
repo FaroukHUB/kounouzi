@@ -26,6 +26,7 @@ import { FinalRanking } from "./FinalRanking";
 import { HelpSheet } from "./HelpSheet";
 import { JourneyAction, JourneyPanel } from "./JourneyPanel";
 import { PlayerCorners, PlayerPanel } from "./PlayerPanel";
+import { PlayersDrawer } from "./PlayersDrawer";
 import { formatKounouz } from "@/ui/primitives/money";
 import { SettingsSheet } from "./SettingsSheet";
 import { TimeBadge } from "./TimeBadge";
@@ -146,11 +147,9 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
     <div className={`bg-table relative flex min-h-dvh flex-col lg:flex-row lg:justify-center lg:p-6 ${corners ? "lg:h-dvh lg:items-stretch lg:gap-0" : "lg:items-center lg:gap-6"}`} data-testid="game-screen" data-phase={state.phase.kind}>
       <TurnBanner banner={ui.banner} state={shown} />
 
-      {corners ? (
-        <div className="grid grid-cols-2 gap-2 px-3 pt-3 lg:hidden" data-testid="player-corners-mobile">
-          <PlayerCorners state={shown} profiles={profiles} />
-        </div>
-      ) : null}
+      {/* Téléphone : les comptes des joueurs vivent dans un tiroir, pour laisser
+          l'écran au plateau. En large, ils entourent le plateau comme avant. */}
+      <PlayersDrawer state={shown} profiles={profiles} />
       <motion.main
         className={`flex flex-1 items-center justify-center p-3 ${corners ? "lg:grid lg:min-h-0 lg:w-full lg:grid-cols-[11rem_minmax(0,1fr)_11rem] lg:grid-rows-2 lg:gap-x-4 lg:gap-y-2 lg:pb-28" : "lg:flex-none"}`}
         animate={{ scale: cardOpen ? 0.96 : 1, opacity: cardOpen ? 0.6 : 1 }}
@@ -201,7 +200,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         onSkipChallenge={(reason) => dispatch({ type: "SkipChallenge", playerId: activeId, reason })}
       />
 
-      <aside className={`flex w-full flex-col gap-3 p-3 lg:rounded-[1.8rem] lg:border lg:border-[rgba(120,80,30,0.18)] lg:bg-[rgba(255,250,240,0.94)] lg:shadow-[0_24px_50px_-30px_rgba(60,35,10,0.6)] ${corners ? "lg:absolute lg:inset-x-0 lg:bottom-3 lg:mx-auto lg:w-fit lg:max-w-5xl lg:flex-row lg:items-center lg:gap-5 lg:px-5 lg:py-2" : "lg:w-80 lg:p-4"}`}>
+      <aside className={`flex w-full flex-col gap-3 rounded-t-[1.6rem] bg-[rgba(255,250,240,0.94)] p-3 shadow-[0_-16px_40px_-24px_rgba(0,0,0,0.8)] lg:rounded-[1.8rem] lg:border lg:border-[rgba(120,80,30,0.18)] lg:bg-[rgba(255,250,240,0.94)] lg:shadow-[0_24px_50px_-30px_rgba(60,35,10,0.6)] ${corners ? "lg:absolute lg:inset-x-0 lg:bottom-3 lg:mx-auto lg:w-fit lg:max-w-5xl lg:flex-row lg:items-center lg:gap-5 lg:px-5 lg:py-2" : "lg:w-80 lg:p-4"}`}>
         <header className={`flex items-center justify-between ${corners ? "lg:gap-3" : ""}`}>
           <div className={corners ? "lg:whitespace-nowrap" : ""}>
             <h1 className="font-display text-xl font-black tracking-[0.08em] text-[var(--k-teal-dark)]">{t(DEFAULT_LOCALE, "app.name")}</h1>
