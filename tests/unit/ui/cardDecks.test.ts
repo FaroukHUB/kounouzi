@@ -25,8 +25,12 @@ describe("cartes illustrées — jeux de cartes fournis", () => {
     // donc l'appelant ne passe que sa famille et la carte Défi s'ouvre.
     expect(deckFor({ cellType: "challenge" })?.id).toBe("defi");
     expect(deckFor({ cellType: "donation" })?.id).toBe("don");
-    // Tant que l'illustration n'est pas fournie, la carte garde l'habillage historique.
-    expect(deckFor({ cellType: "treasure" })).toBeUndefined();
+    expect(deckFor({ cellType: "treasure" })?.id).toBe("tresor");
+    expect(deckFor({ cellType: "halt" })?.id).toBe("halte");
+    expect(deckFor({ cellType: "hassanat" })?.id).toBe("hassanat");
+    // Tant que l'illustration n'est pas fournie, la carte garde l'habillage historique :
+    // les établissements attendent d'être nommés un par un (Maktaba, hôtel…).
+    expect(deckFor({ cellType: "heritage" })).toBeUndefined();
     expect(deckFor({})).toBeUndefined();
   });
 

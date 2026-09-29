@@ -92,6 +92,39 @@
       "face": "/kounouzi/cards/decks/logique-face.webp",
       "width": 650,
       "height": 1048
+    },
+    {
+      "id": "hassanat",
+      "categories": [],
+      "cells": [
+        "hassanat"
+      ],
+      "back": "/kounouzi/cards/decks/hassanat-dos.webp",
+      "face": "/kounouzi/cards/decks/hassanat-face.webp",
+      "width": 655,
+      "height": 1050
+    },
+    {
+      "id": "halte",
+      "categories": [],
+      "cells": [
+        "halt"
+      ],
+      "back": "/kounouzi/cards/decks/halte-dos.webp",
+      "face": "/kounouzi/cards/decks/halte-face.webp",
+      "width": 659,
+      "height": 1050
+    },
+    {
+      "id": "tresor",
+      "categories": [],
+      "cells": [
+        "treasure"
+      ],
+      "back": "/kounouzi/cards/decks/tresor-dos.webp",
+      "face": "/kounouzi/cards/decks/tresor-face.webp",
+      "width": 646,
+      "height": 1058
     }
   ]
 }

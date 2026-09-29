@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { GameState } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
+import { deckFor } from "@/config/cards";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { CellIcon } from "@/ui/board/CellIcon";
 import { Button } from "@/ui/primitives/Button";
@@ -31,7 +32,7 @@ export function HassanatCard({ state, profiles, card, onAccept, onSkip }: { read
     else setChoosing(true);
   };
   return (
-    <CardShell cellType="hassanat" title={def?.title ?? t(DEFAULT_LOCALE, "hassanat.title")} subtitle={t(DEFAULT_LOCALE, "hassanat.subtitle")} testId="hassanat-card" tall>
+    <CardShell cellType="hassanat" deck={deckFor({ cellType: "hassanat" })} title={def?.title ?? t(DEFAULT_LOCALE, "hassanat.title")} subtitle={t(DEFAULT_LOCALE, "hassanat.subtitle")} testId="hassanat-card" tall>
       <div className="flex items-center gap-3">
         <span className="k-float flex size-16 shrink-0 items-center justify-center rounded-full border-4 border-[var(--k-gold-light)] bg-[var(--k-teal)] text-white shadow-md" aria-hidden="true">
           <CellIcon type="hassanat" className="size-9" />

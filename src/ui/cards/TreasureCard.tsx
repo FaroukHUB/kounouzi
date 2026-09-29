@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import type { NarrationService } from "@/experience/narration";
+import { deckFor } from "@/config/cards";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { CellIcon } from "@/ui/board/CellIcon";
 import { ASSETS } from "@/ui/theme/assets";
@@ -17,7 +18,7 @@ export function TreasureCard({ card, narrator }: { readonly card: TreasureCardSt
     narrator.speak({ text: t(DEFAULT_LOCALE, "narration.treasure", { amount: card.amount }), lang: "fr", important: true });
   }, [card.amount, narrator]);
   return (
-    <CardShell cellType="treasure" title={t(DEFAULT_LOCALE, "treasure.title")} subtitle={t(DEFAULT_LOCALE, "cell.treasure")} testId="treasure-card" tall>
+    <CardShell cellType="treasure" deck={deckFor({ cellType: "treasure" })} title={t(DEFAULT_LOCALE, "treasure.title")} subtitle={t(DEFAULT_LOCALE, "cell.treasure")} testId="treasure-card" tall>
       <div className="relative flex h-40 items-center justify-center" data-testid="treasure-glow">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={ASSETS.treasureGlow} alt="" aria-hidden="true" className="k-glow absolute size-44" decoding="async" />

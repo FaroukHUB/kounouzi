@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import type { NarrationService } from "@/experience/narration";
+import { deckFor } from "@/config/cards";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { CellIcon } from "@/ui/board/CellIcon";
 import { ASSETS } from "@/ui/theme/assets";
@@ -20,7 +21,7 @@ export function ScenarioCard({ card, narrator }: { readonly card: ScenarioCardSt
     narrator.speak({ text: title, lang: "fr", important: true });
   }, [title, narrator]);
   return (
-    <CardShell cellType={card.cellType} title={t(DEFAULT_LOCALE, `cell.${card.cellType}`)} testId="scenario-card" tall={treasure}>
+    <CardShell cellType={card.cellType} deck={deckFor({ cellType: card.cellType })} title={t(DEFAULT_LOCALE, `cell.${card.cellType}`)} testId="scenario-card" tall={treasure}>
       {treasure ? (
         <div className="relative flex h-40 items-center justify-center" data-testid="treasure-glow">
           {/* eslint-disable-next-line @next/next/no-img-element */}
