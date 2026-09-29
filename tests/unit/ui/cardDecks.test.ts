@@ -18,11 +18,11 @@ describe("cartes illustrées — jeux de cartes fournis", () => {
     }
   });
 
-  it("une catégorie de Savoir prime sur la famille de case, et une famille sans illustration n'en reçoit aucune", () => {
+  it("une case Savoir ouvre la carte de sa matière, une autre case ouvre la carte de sa famille", () => {
     expect(deckFor({ categoryId: "maths" })?.id).toBe("maths");
     expect(deckFor({ categoryId: "geography" })?.id).toBe("histoire-geo");
-    // Un Duel pose une question de Savoir sur une case Défi : la catégorie décide.
-    expect(deckFor({ categoryId: "maths", cellType: "challenge" })?.id).toBe("maths");
+    // Un Duel pose une question de Savoir sur une case Défi : c'est la CASE qui ouvre,
+    // donc l'appelant ne passe que sa famille et la carte Défi s'ouvre.
     expect(deckFor({ cellType: "challenge" })?.id).toBe("defi");
     expect(deckFor({ cellType: "donation" })?.id).toBe("don");
     // Tant que l'illustration n'est pas fournie, la carte garde l'habillage historique.

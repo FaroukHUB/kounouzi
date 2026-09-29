@@ -53,8 +53,10 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
   const responder = state.players.find((p) => p.id === card.playerId)?.displayName ?? "";
   const title = card.purpose === "duel" ? t(DEFAULT_LOCALE, "duel.yourTurn", { name: responder }) : card.purpose === "halt" ? t(DEFAULT_LOCALE, "halt.challenge") : card.purpose === "heritage_visit" ? t(DEFAULT_LOCALE, "visit.title") : (category?.label.fr ?? t(DEFAULT_LOCALE, "cell.question"));
   const cellType = PURPOSE_CELL[card.purpose];
-  // Carte illustrée de la catégorie servie ; à défaut, celle de la famille de case (Défi pour un Duel).
-  const deck = deckFor({ categoryId: question?.categoryId, cellType });
+  // La carte qui s'ouvre est celle de la CASE sur laquelle on est tombé : un
+  // Duel ouvre une carte Défi, même si la question posée est une question de
+  // religion. Seule une case Savoir ouvre la carte de sa matière.
+  const deck = card.purpose === "standard" ? deckFor({ categoryId: question?.categoryId }) : deckFor({ cellType });
   const visit = state.phase.kind === "awaiting_answer" && state.phase.purpose.kind === "heritage_visit" ? state.phase.purpose : null;
   const ownerName = visit ? (state.players.find((p) => p.id === visit.ownerId)?.displayName ?? "") : "";
   const contribution = state.config.rules.heritageVisit.contribution;

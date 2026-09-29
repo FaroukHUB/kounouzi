@@ -25,9 +25,11 @@ const fichier = z.object({ defaultPanel: panelSchema, decks: z.array(deckSchema)
 export const CARD_DECKS: readonly CardDeck[] = fichier.decks.map((d) => ({ ...d, panel: d.panel ?? fichier.defaultPanel }));
 
 /**
- * Le jeu de cartes d'une carte affichée : la CATÉGORIE prime (une question de
- * maths porte la carte Mathématiques), la famille de case sert de repli (Défi,
- * Don). `undefined` : aucune illustration fournie, habillage historique.
+ * Le jeu de cartes d'une carte affichée. L'appelant dit ce qui décide :
+ * une case Savoir passe sa CATÉGORIE (une question de maths porte la carte
+ * Mathématiques), les autres cases passent leur FAMILLE (un Duel ouvre une
+ * carte Défi, quelle que soit la matière de la question posée).
+ * `undefined` : aucune illustration fournie, habillage historique.
  */
 export function deckFor({ categoryId, cellType }: { readonly categoryId?: string | undefined; readonly cellType?: string | undefined }): CardDeck | undefined {
   if (categoryId !== undefined) {
