@@ -9,5 +9,5 @@ import { handleVoiceRequest } from "@/experience/narration/voiceRoute";
 export const dynamic = "force-dynamic";
 
 export function GET(request: Request): Promise<Response> {
-  return handleVoiceRequest(request, { env: process.env, fetch, maxTextLength: VOICE_CONFIG.maxTextLength, languages: VOICE_CONFIG.languages });
+  return handleVoiceRequest(request, { env: process.env, fetch, maxTextLength: VOICE_CONFIG.maxTextLength, languages: VOICE_CONFIG.languages, voiceSettings: VOICE_CONFIG.voiceSettings });
 }

@@ -30,6 +30,12 @@ export const voiceConfigSchema = z.object({
   maxTextLength: z.number().int().min(1).max(5000),
   fallbackToDevice: z.boolean(),
   rates: z.object({ slow: z.number().positive(), normal: z.number().positive(), fast: z.number().positive() }),
+  /**
+   * Ton de la voix chez le fournisseur. Une voix très « stable » lit à plat —
+   * c'est ce qui fait dire « on dirait un robot » ; un peu moins de stabilité
+   * et un peu de style donnent une voix qui encourage. Données, jamais code.
+   */
+  voiceSettings: z.object({ stability: z.number().min(0).max(1), similarity_boost: z.number().min(0).max(1), style: z.number().min(0).max(1), use_speaker_boost: z.boolean() }),
   /** Clés du dictionnaire FR sans gabarit, pré-générées une fois (script `voice:generate`). */
   phrases: z.array(z.string().min(1)),
 });

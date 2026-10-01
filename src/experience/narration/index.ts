@@ -4,6 +4,6 @@ export { WebSpeechNarrator } from "./WebSpeechNarrator";
 export { CloudNarrator, type AudioLike, type CloudAvailability, type CloudNarratorOptions, type CloudReason } from "./CloudNarrator";
 export { voiceKey, hash53, normalizeVoiceText } from "./voiceKey";
 export { handleVoiceRequest, voiceConfigured, voiceQuerySchema, type VoiceRouteDeps } from "./voiceRoute";
-export { utteranceFor } from "./narrationScript";
+export { utteranceFor, cleVariante, varianteDe, rangDeTour } from "./narrationScript";
 export { voiceHold, type VoiceHoldOptions } from "./voiceHold";
 export { splitChoices, questionUtterances, pronounceable, segmentsByScript, planUtterances, EMPTY_LEXICON, type Choice, type SplitPrompt, type PronunciationLexicon } from "./speechText";

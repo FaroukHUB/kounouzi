@@ -69,7 +69,7 @@ describe("carte Défi famille (rendu statique)", () => {
     await playEvent({ type: "FamilyChallengeCompleted", playerId: pid("maryam"), challengeId: "CH-005", success: true }, actions, REDUCED_TIMINGS, sleep);
     await playEvent({ type: "ChallengeRewardGranted", playerId: pid("maryam"), challengeId: "CH-005", amount: 10 }, actions, REDUCED_TIMINGS, sleep);
     expect(calls).toEqual(["open:challenge:ohno", "update:reveal", "update:reveal", "update:accepted", "update:result", "update:reward"]);
-    expect(utteranceFor({ type: "FamilyChallengeAssigned", playerId: pid("maryam"), challengeId: "CH-005", requestId: "q1", category: "movement", reward: 10, ohNo: true, consentRequired: false }, landed.state, "fr")?.text).toBe("Oh non ! Défi famille pour Maryam !");
+    expect(utteranceFor({ type: "FamilyChallengeAssigned", playerId: pid("maryam"), challengeId: "CH-005", requestId: "q1", category: "movement", reward: 10, ohNo: true, consentRequired: false }, landed.state, "fr")?.text).toBe("Oh non ! Un défi famille pour Maryam !");
     expect(utteranceFor({ type: "FamilyChallengeSkipped", playerId: pid("maryam"), challengeId: "CH-005", reason: "declined" }, landed.state, "fr")?.text).toBe("Défi passé, sans souci.");
   });
 });

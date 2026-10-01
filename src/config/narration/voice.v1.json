@@ -1,20 +1,20 @@
 {
-  "$comment": "Voix en ligne Kounouzi (ADR 0036). La clé ElevenLabs et l'identifiant de voix ne sont JAMAIS ici : variables d'environnement du serveur (ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID, ELEVENLABS_MODEL_ID). Les phrases fixes listées dans `phrases` sont pré-générées par `pnpm voice:generate` et servies depuis `public/kounouzi/audio/voix/`.",
+  "$comment": "Voix en ligne Kounouzi (ADR 0036). La clé ElevenLabs et l'identifiant de voix ne sont JAMAIS ici : variables d'environnement du serveur (ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID, ELEVENLABS_MODEL_ID). Les phrases fixes listées dans `phrases` sont pré-générées par `pnpm voice:generate` et servies depuis `public/kounouzi/audio/voix/`. `voiceSettings` règle le TON de la voix chez le fournisseur : une voix trop « stable » lit comme un robot, une voix plus expressive encourage. Ce sont des données : les changer ne demande aucun code.",
   "version": 1,
   "endpoint": "/api/voix",
   "manifestUrl": "/kounouzi/audio/voix/manifest.json",
-  "languages": ["fr", "ar"],
+  "languages": [
+    "fr",
+    "ar"
+  ],
   "maxTextLength": 1200,
   "fallbackToDevice": true,
-  "rates": { "slow": 0.9, "normal": 1, "fast": 1.15 },
+  "rates": {
+    "slow": 0.9,
+    "normal": 1,
+    "fast": 1.15
+  },
   "phrases": [
-    "narration.arrived.start",
-    "narration.arrived.question",
-    "narration.arrived.heritage",
-    "narration.arrived.challenge",
-    "narration.arrived.treasure",
-    "narration.arrived.donation",
-    "narration.arrived.halt",
     "narration.passedStart",
     "narration.lastRound",
     "narration.halt",
@@ -33,5 +33,11 @@
     "narration.challenge.skipped",
     "narration.recitation.mastered",
     "narration.year"
-  ]
+  ],
+  "voiceSettings": {
+    "stability": 0.35,
+    "similarity_boost": 0.8,
+    "style": 0.45,
+    "use_speaker_boost": true
+  }
 }

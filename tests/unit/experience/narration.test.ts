@@ -1,20 +1,63 @@
 import { describe, expect, it } from "vitest";
-import { NullNarrator, WebSpeechNarrator, utteranceFor, type NarrationService } from "@/experience/narration";
+import { NullNarrator, WebSpeechNarrator, cleVariante, rangDeTour, utteranceFor, varianteDe, type NarrationService } from "@/experience/narration";
+import { fr } from "@/i18n/fr";
 import { pid } from "../../fixtures/game/setup.fixture";
 import { create, makeSetup } from "../../fixtures/game/setup.fixture";
 
-describe("script de narration (Phase 3 : tour, Chemin, arrivée, départ, dernier tour, fin)", () => {
+describe("le guide bienveillant : à qui il parle, ce qu'il souligne, ce qu'il tait", () => {
   const { state } = create(makeSetup());
 
-  it("annonce le changement de joueur et le Chemin en français", () => {
-    expect(utteranceFor({ type: "TurnStarted", turnNumber: 1, playerId: pid("p1") }, state, "fr")).toEqual({ text: "C'est au tour de Joueur 1.", lang: "fr", important: true });
-    expect(utteranceFor({ type: "MovementAssigned", playerId: pid("p2"), steps: 4, journeyIndex: 0 }, state, "fr")?.text).toBe("Joueur 2, ton chemin avance de 4 étapes.");
-    expect(utteranceFor({ type: "MovementAssigned", playerId: pid("p2"), steps: 1, journeyIndex: 0 }, state, "fr")?.text).toBe("Joueur 2, ton chemin avance d'une étape.");
+  it("s'adresse au joueur par son prénom, au tour comme au Chemin", () => {
+    const tour = utteranceFor({ type: "TurnStarted", turnNumber: 1, playerId: pid("p1") }, state, "fr");
+    expect(tour?.text).toContain("Joueur 1");
+    expect(tour?.important).toBe(true);
+    expect(utteranceFor({ type: "MovementAssigned", playerId: pid("p2"), steps: 4, journeyIndex: 0 }, state, "fr")?.text).toContain("Joueur 2");
+    expect(utteranceFor({ type: "MovementAssigned", playerId: pid("p2"), steps: 4, journeyIndex: 0 }, state, "fr")?.text).toContain("4");
+    // Une seule case a sa propre phrase : « 1 cases » ne se dit pas.
+    expect(utteranceFor({ type: "MovementAssigned", playerId: pid("p2"), steps: 1, journeyIndex: 0 }, state, "fr")?.text).not.toContain("1 case");
   });
 
-  it("contextualise l'arrivée par type de case, sans lire aucun contenu", () => {
-    expect(utteranceFor({ type: "CellArrived", playerId: pid("p1"), position: 2, cellType: "heritage" }, state, "fr")?.text).toBe("Tu es arrivé devant un établissement.");
-    expect(utteranceFor({ type: "CellArrived", playerId: pid("p1"), position: 1, cellType: "question" }, state, "fr")?.text).toBe("Tu es arrivé sur une case Savoir.");
+  it("change de formulation sans aucun hasard : le compteur de l'état décide, donc une partie rejouée dit les mêmes mots", () => {
+    const au = (turnNumber: number) => utteranceFor({ type: "TurnStarted", turnNumber, playerId: pid("p1") }, { ...state, turnNumber }, "fr")?.text;
+    const dits = [au(1), au(2), au(3)];
+    expect(new Set(dits).size).toBeGreaterThan(1);
+    // Même tour ⇒ exactement la même phrase.
+    expect(au(2)).toBe(au(2));
+    expect(varianteDe(0, 3)).toBe(1);
+    expect(varianteDe(3, 3)).toBe(1);
+    expect(cleVariante("narration.turn", 1)).toBe("narration.turn.2");
+
+    // Piège évité : avec trois joueurs et trois formulations, prendre le numéro de tour
+    // SEUL donnerait à chaque joueur toujours la même phrase (son reste modulo est constant).
+    const pourUnSiege = (joueurs: number, siege: number) => [0, 1, 2, 3].map((tour) => varianteDe(rangDeTour(tour * joueurs + siege, joueurs), 3));
+    for (const joueurs of [2, 3, 4, 5, 6]) {
+      for (let siege = 0; siege < joueurs; siege += 1) expect(new Set(pourUnSiege(joueurs, siege)).size, `${joueurs} joueurs, siège ${siege}`).toBeGreaterThan(1);
+    }
+  });
+
+  it("se tait sur l'arrivée : la carte qui s'ouvre juste après le dit déjà, en grand et en image", () => {
+    expect(utteranceFor({ type: "CellArrived", playerId: pid("p1"), position: 2, cellType: "heritage" }, state, "fr")).toBeNull();
+    expect(utteranceFor({ type: "CellArrived", playerId: pid("p1"), position: 1, cellType: "question" }, state, "fr")).toBeNull();
+  });
+
+  it("souligne les moments forts qui étaient muets : un établissement acquis, une bonne action offerte", () => {
+    const acquis = utteranceFor({ type: "SiteAcquired", playerId: pid("p1"), siteId: "test-monument-01", price: 100, heritageValue: 120 }, state, "fr");
+    expect(acquis?.text).toContain("Joueur 1");
+    expect(acquis?.important).toBe(true);
+    const hassanat = utteranceFor({ type: "HassanatGranted", playerId: pid("p1"), cardId: "c1", amount: 5, ref: "r", total: 5 }, state, "fr");
+    expect(hassanat?.text).toContain("Joueur 1");
+    expect(hassanat?.text).toContain("5");
+  });
+
+  it("quand on se trompe, il rassure : aucune phrase de résultat ne gronde", () => {
+    for (const n of [0, 1, 2]) {
+      const phrase = fr[cleVariante("narration.result.incorrect", n) as keyof typeof fr];
+      expect(phrase).toBeTruthy();
+      expect(phrase.toLowerCase()).not.toContain("faux");
+      expect(phrase.toLowerCase()).not.toContain("perdu");
+      expect(phrase).toContain("{name}");
+    }
+    for (const n of [0, 1, 2]) expect(fr[cleVariante("narration.result.correct", n) as keyof typeof fr]).toContain("{name}");
   });
 
   it("ne dit rien pour les événements hors périmètre Phase 3 (question, réponse, argent…)", () => {

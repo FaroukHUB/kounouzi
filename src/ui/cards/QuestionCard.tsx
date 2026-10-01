@@ -8,7 +8,7 @@ import { QUESTION_TIMER, timerSecondsFor } from "@/config/timer";
 import type { CellType, GameState } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
-import { questionUtterances, splitChoices, type NarrationService } from "@/experience/narration";
+import { cleVariante, questionUtterances, splitChoices, type NarrationService } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Bidi } from "@/ui/primitives/Bidi";
 import { Button } from "@/ui/primitives/Button";
@@ -95,10 +95,12 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
       // Dès que la tablée passe à la suite (ou que la carte disparaît), la voix se tait : jamais de chevauchement avec le tour suivant.
       return () => narrator.stop();
     }
-    if (step === "result" && card.outcome) narrator.speak({ text: t(DEFAULT_LOCALE, `narration.result.${card.outcome}`), lang: "fr" });
-    if (step === "reward" && card.rewardAmount) narrator.speak({ text: t(DEFAULT_LOCALE, "narration.reward", { amount: card.rewardAmount }), lang: "fr" });
+    // Le guide félicite PAR SON PRÉNOM celui qui vient de répondre, et ne dit jamais
+    // deux fois de suite la même phrase : la variante vient d'un compteur de l'état.
+    if (step === "result" && card.outcome) narrator.speak({ text: t(DEFAULT_LOCALE, cleVariante(`narration.result.${card.outcome}`, state.counters.request), { name: responder }), lang: "fr", important: true });
+    if (step === "reward" && card.rewardAmount) narrator.speak({ text: t(DEFAULT_LOCALE, "narration.reward", { amount: card.rewardAmount, name: responder }), lang: "fr" });
     return undefined;
-  }, [step, question, narrator, card.outcome, card.rewardAmount]);
+  }, [step, question, narrator, card.outcome, card.rewardAmount, responder, state.counters.request]);
 
   if (!question) {
     if (pendingServe) return <CardShell cellType={cellType} title={title} testId="question-card"><p className="text-[var(--k-ink-soft)]">…</p></CardShell>;
