@@ -79,6 +79,14 @@ export const learningConfigSchema = z.object({
      * ex æquo stricts sont concernés ; sans clé, le premier de l'ordre stable.
      */
     tieBreakMargin: z.number().min(0),
+    /**
+     * Part maximale de RÉVISIONS dans une partie. Une révision due garde sa
+     * priorité tant qu'elle n'occupe pas plus que cette part des questions
+     * déjà posées au joueur dans la partie ; au-delà, elle repasse sous les
+     * garde-fous de variété comme n'importe quelle autre question. Une famille
+     * qui joue souvent revoyait sinon surtout ce qu'elle avait déjà vu.
+     */
+    revisionShare: z.number().min(0).max(1),
   }),
 });
 

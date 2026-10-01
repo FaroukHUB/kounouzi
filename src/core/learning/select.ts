@@ -6,7 +6,17 @@ import type { Attempt, LearnerContext, PlayerLearningMemory } from "./types";
 import { categoryProgressOf } from "./update";
 
 /**
- * Sélection de la prochaine question : ZÉRO HASARD. Chaque créneau reçoit un
+ * Sélection de la prochaine question : ZÉRO HASARD.
+ *
+ * Une révision DUE est une priorité pédagogique, pas un passe-droit. Elle reçoit
+ * son bonus et reste exemptée des fenêtres en nombre d'essais (sans quoi un
+ * joueur qui joue peu ne reverrait jamais ce qu'il a raté), mais elle subit
+ * désormais les garde-fous de VARIÉTÉ comme les autres : déjà posée dans la
+ * partie ou à la tablée, notion déjà vue dans la partie ou à la tablée,
+ * catégorie récente. Sans cela, une question répondue
+ * l'avant-veille revenait avant des centaines de questions jamais vues et sa
+ * catégorie occupait un tiers de la partie — c'est ce qu'ont montré de vraies
+ * parties en famille. Chaque créneau reçoit un
  * score pédagogique (révision due, faiblesse, proximité de la difficulté
  * cible, notion peu rencontrée, anti-répétition, nouveauté) puis un départage
  * STABLE : score → prochaine échéance → dernière rencontre → notion →
@@ -69,6 +79,13 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
   const tableRefs = new Set(atTable.map((a) => questionRefKey(a.ref)));
   const tableNodes = new Set(atTable.map((a) => a.knowledgeNodeId));
 
+  // Part de révision déjà consommée dans CETTE partie : une notion rencontrée
+  // avant la partie et reposée ici est une révision. Au-delà du plafond, une
+  // révision due perd ses dispenses et repasse sous les garde-fous de variété.
+  const revisionsJouees = inGame.filter((a) => (memory.knowledge[a.knowledgeNodeId]?.attempts ?? 0) > 1).length;
+  const quotaRevisions = Math.max(1, Math.ceil(Math.max(inGame.length, 1) * config.variety.revisionShare));
+  const revisionPrioritaire = revisionsJouees < quotaRevisions;
+
   const scored: ScoredSlot[] = [];
   for (const slot of input.slots) {
     // Frontière d'audience ABSOLUE, revérifiée ici : aucun moteur ne peut la contourner.
@@ -82,6 +99,8 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
     let score = 0;
 
     const due = ks ? isDue(ks.nextDueAt, now) : false;
+    /** Révision PRIORITAIRE : due, et le plafond de révisions de la partie n'est pas atteint. */
+    const dueActive = due && revisionPrioritaire;
     if (due && ks) {
       score += w.due + Math.min(w.overdueDayCap, Math.max(0, daysBetween(ks.nextDueAt!, now))) * w.overdueDayBonus;
       reasons.push("révision due");
@@ -101,7 +120,11 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
       score += w.rarelySeen + w.novelty;
       reasons.push("nouveauté");
     }
-    if (recentRefs.has(refKey)) {
+    // Fenêtres en NOMBRE D'ESSAIS : elles empêchent de reposer ce qui vient d'être
+    // posé. Une révision due en est exemptée, sinon un joueur qui joue peu ne
+    // reverrait jamais ce qu'il a raté : sa seule question en mémoire serait aussi
+    // sa « formulation récente ».
+    if (!dueActive && recentRefs.has(refKey)) {
       score -= w.repeatQuestion;
       reasons.push("formulation récente");
     }
@@ -109,7 +132,7 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
       score -= w.repeatInGame;
       reasons.push("déjà posée dans la partie");
     }
-    if (!due && gameNodes.has(slot.knowledgeNodeId)) {
+    if (!dueActive && gameNodes.has(slot.knowledgeNodeId)) {
       score -= w.repeatNodeInGame;
       reasons.push("notion déjà vue dans la partie");
     }
@@ -117,20 +140,20 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
       score -= w.repeatAtTable;
       reasons.push("déjà posée à la tablée");
     }
-    if (!due && tableNodes.has(slot.knowledgeNodeId)) {
+    if (!dueActive && tableNodes.has(slot.knowledgeNodeId)) {
       score -= w.repeatNodeAtTable;
       reasons.push("notion déjà vue à la tablée");
     }
-    if (!due && recentNodes.has(slot.knowledgeNodeId)) {
+    if (!dueActive && recentNodes.has(slot.knowledgeNodeId)) {
       score -= w.repeatNode;
       reasons.push("notion récente");
     }
-    if (!due && recentCategories.has(slot.categoryId)) {
+    if (!dueActive && recentCategories.has(slot.categoryId)) {
       score -= w.sameCategory;
       reasons.push("catégorie récente");
     }
     const seenInWindow = exposure.get(slot.categoryId) ?? 0;
-    if (!due && seenInWindow > 0 && w.categoryExposure > 0) {
+    if (!dueActive && seenInWindow > 0 && w.categoryExposure > 0) {
       score -= w.categoryExposure * seenInWindow;
       reasons.push("catégorie sur-exposée");
     }

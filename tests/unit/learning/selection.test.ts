@@ -99,10 +99,19 @@ describe("révision, anti-répétition et convergence", () => {
     const second = selectQuestion({ memory, learner: child, slots, config: cfg, now: addDays(T0, 0.001) })!.question;
     expect(questionRefKey(second.ref)).not.toBe(questionRefKey(first.ref));
     expect(second.knowledgeNodeId).not.toBe(first.knowledgeNodeId);
-    // Quelques jours plus tard, la notion répondue est due : elle passe devant tout le reste.
-    const later = selectQuestion({ memory, learner: child, slots, config: cfg, now: addDays(T0, 5) })!;
-    expect(later.question.knowledgeNodeId).toBe(first.knowledgeNodeId);
-    expect(later.reasons).toContain("révision due");
+    // Quelques jours plus tard, la notion répondue est DUE : son score REMONTE, et elle
+    // repasse devant les autres notions déjà rencontrées. Elle ne repasse pas pour autant
+    // devant des questions jamais vues : une réponse juste ne se représente pas avant que
+    // le catalogue neuf soit entamé (playtest familial — « il y en a assez, pourquoi elles
+    // reviennent ? »).
+    const noteDe = (quand: string) => rankSlots({ memory, learner: child, slots, config: cfg, now: quand }).find((s) => s.slot.knowledgeNodeId === first.knowledgeNodeId)!;
+    const avant = noteDe(addDays(T0, 0.001));
+    const apres = noteDe(addDays(T0, 5));
+    expect(apres.reasons).toContain("révision due");
+    expect(avant.reasons).not.toContain("révision due");
+    expect(apres.score).toBeGreaterThan(avant.score);
+    const autresVues = rankSlots({ memory, learner: child, slots, config: cfg, now: addDays(T0, 5) }).filter((s) => memory.knowledge[s.slot.knowledgeNodeId] !== undefined);
+    expect(autresVues[0]!.slot.knowledgeNodeId).toBe(first.knowledgeNodeId);
   });
 
   it("une formulation algorithmique change d'un essai à l'autre sur la même notion", () => {

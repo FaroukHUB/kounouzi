@@ -76,15 +76,22 @@ describe("clé de départage (quiz) : le noyau ne tire rien, la clé fournie cho
     expect(selectQuestion({ ...base, tieBreak: -3 })!.question.ref).toEqual(selectQuestion({ ...base, tieBreak: 0 })!.question.ref);
   });
 
-  it("une révision due l'emporte toujours sur la clé : la priorité pédagogique n'est pas tirée au sort", () => {
+  it("une révision due ratée remonte en tête du classement, et la clé de départage ne décide pas de cette priorité", () => {
     const first = selectQuestion(base)!.question;
     // Rencontrée il y a longtemps et ratée : due depuis des jours.
     const old = "2026-01-01T10:00:00.000Z";
     const memory = applyAttempt(emptyMemory(papa.playerId), { id: attemptId("game-ancienne" as GameId, "q1"), playerId: papa.playerId, gameId: "game-ancienne" as GameId, knowledgeNodeId: first.knowledgeNodeId, ref: first.ref, categoryId: first.categoryId, difficulty: first.difficulty, outcome: "incorrect", validationMode: "collective", explanationKnown: "none", rewardGranted: false, answeredAt: old }, papa, LEARNING_CONFIG);
+    // Une révision due est une priorité, PAS un passe-droit : elle subit comme les autres
+    // les garde-fous de variété, donc elle n'écrase plus tout le catalogue. Elle doit en
+    // revanche se retrouver tout en haut du classement, et n'y être jamais placée par la clé.
+    const classement = rankSlots({ ...base, memory });
+    const rang = classement.findIndex((s) => s.slot.knowledgeNodeId === first.knowledgeNodeId);
+    expect(rang).toBeGreaterThanOrEqual(0);
+    expect(rang).toBeLessThan(3);
+    expect(classement[rang]!.reasons).toContain("révision due");
     for (const key of [0, 0.5, 0.999]) {
-      const r = selectQuestion({ ...base, memory, tieBreak: key })!;
-      expect(r.question.knowledgeNodeId).toBe(first.knowledgeNodeId);
-      expect(r.reasons).toContain("révision due");
+      const r = rankSlots({ ...base, memory, tieBreak: key });
+      expect(r[rang]!.slot.knowledgeNodeId).toBe(classement[rang]!.slot.knowledgeNodeId);
     }
   });
 });

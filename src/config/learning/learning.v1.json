@@ -1,5 +1,5 @@
 {
-  "$comment": "Réglages du Learning Engine (Phase 5, ajustés Phase 5.4 après le premier playtest : progression plus lente, anti-répétition renforcée et par partie). PROVISOIRES : à ajuster après de vraies parties. Tout coefficient pédagogique vit ici, jamais dans le code. Anti-répétition par TABLÉE (repeatAtTable / repeatNodeAtTable) et marge de départage (variety.tieBreakMargin) : parmi les meilleurs créneaux équivalents, la clé de départage fournie hors noyau choisit (ADR 0032).",
+  "$comment": "Réglages du Learning Engine. PROVISOIRES : à ajuster après de vraies parties. Tout coefficient pédagogique vit ici, jamais dans le code. Anti-répétition par TABLÉE (repeatAtTable / repeatNodeAtTable) et marge de départage (variety.tieBreakMargin) : parmi les meilleurs créneaux équivalents, la clé de départage fournie hors noyau choisit (ADR 0032). Ajusté après un vrai parties réelles en famille : la révision due écrasait tout. Avec due = 100 contre novelty = 15, une question répondue l'avant-veille revenait avant des centaines de questions jamais vues, et sa catégorie occupait un tiers de la partie. Mesuré sur quatre parties de huit questions par joueur, deux jours d'écart : due 100 → 24 questions distinctes sur 32, une même carte jusqu'à 3 fois, catégorie dominante 31 % ; due 40 / novelty 35 → 27 à 29 sur 32, jamais plus de 2 fois, catégorie dominante 25 à 28 %. Monter en plus categoryExposure à 45 gagnait peu et repoussait des révisions dues parce qu'elles tombaient dans la catégorie qui venait de servir : écarté. La révision espacée continue d'exister, elle ne passe simplement plus avant tout le reste. PART DE RÉVISION (variety.revisionShare) : une révision due garde sa priorité tant qu'elle n'occupe pas plus d'un tiers des questions d'une partie ; au-delà, elle repasse sous les garde-fous de variété. Sans ce plafond, une famille qui joue tous les deux jours revoyait surtout ce qu'elle avait déjà vu : la moitié des questions étaient des révisions et une catégorie occupait un tiers de la partie.",
   "id": "learning.v1",
   "version": 1,
   "outcomeWeights": {
@@ -41,13 +41,13 @@
     "recentCategoryWindow": 6
   },
   "selectionWeights": {
-    "due": 100,
+    "due": 40,
     "overdueDayBonus": 1,
     "overdueDayCap": 10,
     "weakness": 40,
     "distance": 20,
     "rarelySeen": 10,
-    "novelty": 15,
+    "novelty": 35,
     "repeatQuestion": 60,
     "repeatNode": 25,
     "sameCategory": 8,
@@ -59,6 +59,7 @@
     "repeatNodeAtTable": 15
   },
   "variety": {
-    "tieBreakMargin": 5
+    "tieBreakMargin": 5,
+    "revisionShare": 0.34
   }
 }
