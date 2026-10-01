@@ -40,7 +40,8 @@ describe("cartes du Duel Kounouzi (rendu statique)", () => {
     expect(html).toContain('data-testid="opponent-p2"');
     expect(html).toContain('data-testid="opponent-p3"');
     expect(html).not.toContain('data-testid="opponent-p1"');
-    expect(html).toContain("ni vitesse, ni chrono");
+    // Un chronomètre est maintenant affiché : le texte ne peut plus dire « ni chrono ». Ce qui reste vrai, et qui est écrit, c'est que la vitesse ne change pas le résultat.
+    expect(html).toContain("la vitesse ne change rien au résultat");
     // Un joueur momentanément indisponible reste visible mais désactivé, sans explication.
     const limited = renderToStaticMarkup(<OpponentCard state={state} profiles={profiles} card={{ ...card, candidates: [pid("p3")] }} narrator={narrator} onChoose={() => {}} />);
     expect(limited).toContain('data-testid="opponent-p3"');

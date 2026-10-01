@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useEffect } from "react";
 import { categoryById } from "@/config/content";
 import { deckFor } from "@/config/cards";
+import { QUESTION_TIMER, timerSecondsFor } from "@/config/timer";
 import type { CellType, GameState } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
@@ -14,6 +15,7 @@ import { Button } from "@/ui/primitives/Button";
 import { CELL_STYLE } from "@/ui/board/cellStyles";
 import { CardShell } from "./CardShell";
 import { LongPressButton } from "./LongPressButton";
+import { QuestionTimer } from "./QuestionTimer";
 import { CardAnimation } from "./animations/CardAnimation";
 import { siteDisplayName } from "./EstablishmentCard";
 import { servedFor, type CardState } from "./cardState";
@@ -50,7 +52,10 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
   const question = live.served ?? card.question ?? null;
   const pendingServe = live.pending && !card.question;
   const category = question ? categoryById(question.categoryId) : undefined;
-  const responder = state.players.find((p) => p.id === card.playerId)?.displayName ?? "";
+  const repondant = state.players.find((p) => p.id === card.playerId);
+  const responder = repondant?.displayName ?? "";
+  // Chronomètre de CETTE question : durée selon le profil du répondant (donnée). Il mesure, il ne juge pas.
+  const timerSeconds = repondant ? timerSecondsFor(repondant.profileType) : null;
   const title = card.purpose === "duel" ? t(DEFAULT_LOCALE, "duel.yourTurn", { name: responder }) : card.purpose === "halt" ? t(DEFAULT_LOCALE, "halt.challenge") : card.purpose === "heritage_visit" ? t(DEFAULT_LOCALE, "visit.title") : (category?.label.fr ?? t(DEFAULT_LOCALE, "cell.question"));
   const cellType = PURPOSE_CELL[card.purpose];
   // La carte qui s'ouvre est celle de la CASE sur laquelle on est tombé : un
@@ -141,6 +146,8 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
         {prompt?.question ?? question.prompt.fr}
       </p>
       {prompt && prompt.choices.length > 0 ? <ChoiceList choices={prompt.choices} testId="question-choices" /> : null}
+
+      {step === "question" && timerSeconds !== null ? <QuestionTimer key={card.requestId} seconds={timerSeconds} warnAtSeconds={QUESTION_TIMER.warnAtSeconds} running={true} /> : null}
 
       {step === "question" ? (
         <>

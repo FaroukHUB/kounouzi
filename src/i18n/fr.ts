@@ -121,7 +121,7 @@ export const fr = {
   "duel.outcome.correct": "Correct",
   "duel.outcome.partial": "Presque",
   "duel.outcome.incorrect": "Incorrect",
-  "duel.hint": "Chacun reçoit une question à son niveau. Seule la réponse compte : ni vitesse, ni chrono.",
+  "duel.hint": "Chacun reçoit une question à son niveau. Le chronomètre donne le rythme, seule la réponse compte : la vitesse ne change rien au résultat.",
   "halt.title": "Halte du voyage",
   "halt.stopped": "Ton voyage s'interrompt.",
   "halt.challenge": "Relève le Défi de reprise",
@@ -243,6 +243,9 @@ export const fr = {
   "narration.finished": "La partie est terminée. Bravo {name} !",
 
   "card.touchToOpen": "Touche la carte",
+  "timer.remaining": "{seconds} s",
+  "timer.expired": "Temps écoulé — réponds quand même",
+  "timer.label": "Chronomètre : {seconds} secondes restantes",
   "card.answerAloud": "Réponds à voix haute",
   "card.revealHold": "Voir la réponse",
   "card.revealHint": "Maintiens le bouton pour révéler",

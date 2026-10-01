@@ -1,0 +1,8 @@
+{
+  "$comment": "Chronomètre par question (données versionnées, validées au chargement). Les durées sont des DONNÉES : un enfant lit et formule plus lentement qu'un adulte, donc la durée dépend du type de profil de CELUI QUI RÉPOND. « atZero » vaut « signal » : à zéro, le chronomètre s'arrête et le dit, la réponse reste possible et la validation reste collective. Toute autre règle (compter faux, perdre la récompense, passer le tour) n'a pas été décidée par l'auteur : elle n'est donc pas inventée ici. Rien de ceci ne touche au moteur : le chronomètre ne produit aucune commande et n'entre pas dans l'état de la partie.",
+  "version": 1,
+  "enabled": true,
+  "seconds": { "child": 60, "adult": 45 },
+  "warnAtSeconds": 10,
+  "atZero": "signal"
+}

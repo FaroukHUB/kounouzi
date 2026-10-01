@@ -124,7 +124,7 @@ export const ar: Dictionary = {
   "duel.outcome.correct": "صحيح",
   "duel.outcome.partial": "تقريبًا",
   "duel.outcome.incorrect": "خطأ",
-  "duel.hint": "كلٌّ يتلقى سؤالًا في مستواه. الجواب وحده يُحتسب: لا سرعة ولا مؤقّت.",
+  "duel.hint": "كلٌّ يتلقى سؤالًا في مستواه. المؤقّت يضبط الإيقاع فقط، والجواب وحده يُحتسب: السرعة لا تغيّر النتيجة.",
   "halt.title": "استراحة الرحلة",
   "halt.stopped": "توقفت رحلتك.",
   "halt.challenge": "اقبل تحدي الانطلاق",
@@ -246,6 +246,9 @@ export const ar: Dictionary = {
   "narration.finished": "انتهت اللعبة. أحسنت {name}!",
 
   "card.touchToOpen": "المس البطاقة",
+  "timer.remaining": "{seconds} ثانية",
+  "timer.expired": "انتهى الوقت — أجب على كل حال",
+  "timer.label": "المؤقّت: {seconds} ثانية متبقّية",
   "card.answerAloud": "أجب بصوت عالٍ",
   "card.revealHold": "عرض الجواب",
   "card.revealHint": "اضغط مطولًا لعرض الجواب",
