@@ -80,6 +80,10 @@ describe("chronomètre d'une question", () => {
     expect(plein).toContain('data-expired="false"');
     expect(plein).toContain("60 s");
 
+    // La barre prend toute la largeur : sans `w-full`, le parchemin centre son contenu
+    // et la barre se réduit à rien (mesuré dans le navigateur, elle faisait 0 px).
+    expect(plein).toContain("flex w-full items-center");
+
     const alerte = renderToStaticMarkup(<QuestionTimer seconds={8} warnAtSeconds={10} running={false} />);
     expect(alerte).toContain("var(--k-amber)");
 

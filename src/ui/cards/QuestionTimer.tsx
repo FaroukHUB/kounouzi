@@ -37,7 +37,7 @@ export function QuestionTimer({ seconds, warnAtSeconds, running }: QuestionTimer
   const couleur = ecoule ? "var(--k-ruby)" : alerte ? "var(--k-amber)" : "var(--k-teal)";
 
   return (
-    <div className="flex items-center gap-3" data-testid="question-timer" data-remaining={restant} data-expired={ecoule ? "true" : "false"}>
+    <div className="flex w-full items-center gap-3" data-testid="question-timer" data-remaining={restant} data-expired={ecoule ? "true" : "false"}>
       <span className="text-sm font-black tabular-nums" style={{ color: couleur }} role="timer" aria-label={t(DEFAULT_LOCALE, "timer.label", { seconds: restant })}>
         {ecoule ? t(DEFAULT_LOCALE, "timer.expired") : t(DEFAULT_LOCALE, "timer.remaining", { seconds: restant })}
       </span>
