@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { deckFor } from "@/config/cards";
 import type { EstablishmentFamily, GameState, ServiceType } from "@/core/game";
 import { ownsWholeFamily } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
@@ -64,15 +65,21 @@ function Stat({ label, value, testId }: { readonly label: string; readonly value
  * joueur, ACHETER / PASSER. Tout vient de l'état et des données ; aucune
  * histoire inventée. (Ancien « Monument » : le type interne reste
  * `purchasable_monument` pour les sauvegardes.)
+ *
+ * Quand l'auteur a dessiné la carte DE CET ÉTABLISSEMENT, elle devient la
+ * carte : son nom et le mot « Établissement » sont déjà peints dessus, donc on
+ * ne les redessine pas, et l'ancienne vignette d'illustration n'a plus lieu
+ * d'être — l'illustration, c'est la carte entière.
  */
 export function EstablishmentCard({ state, card, onDecide }: { readonly state: GameState; readonly card: EstablishmentCardState; readonly onDecide: (buy: boolean) => void }) {
   const site = state.config.sites[card.siteId];
   const est = site?.establishment;
   const name = siteDisplayName(state, card.siteId);
   const money = state.players[state.activePlayerIndex]?.money ?? 0;
+  const deck = deckFor({ siteId: card.siteId });
   return (
-    <CardShell cellType="heritage" title={name} subtitle={t(DEFAULT_LOCALE, "establishment.title")} testId="establishment-card">
-      <Illustration state={state} siteId={card.siteId} />
+    <CardShell cellType="heritage" deck={deck} title={name} subtitle={deck ? undefined : t(DEFAULT_LOCALE, "establishment.title")} testId="establishment-card">
+      {deck ? null : <Illustration state={state} siteId={card.siteId} />}
       {est ? (
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 text-sm text-[var(--k-ink-soft)]" data-testid="establishment-family">
           <span>{t(DEFAULT_LOCALE, "establishment.family", { family: familyLabel(est.family) })}</span>
@@ -122,9 +129,11 @@ export function ServiceCard({ state, profiles, card, onPay }: { readonly state: 
   const visitor = state.players[state.activePlayerIndex];
   const money = visitor?.money ?? 0;
   const wholeFamily = est ? ownsWholeFamily(state, card.ownerId as PlayerId, est.family) : false;
+  // Même établissement, même carte : on arrive chez le propriétaire de la carte qu'on a vue à l'achat.
+  const deck = deckFor({ siteId: card.siteId });
   return (
-    <CardShell cellType="heritage" title={name} subtitle={t(DEFAULT_LOCALE, "service.title", { owner })} testId="service-card">
-      <Illustration state={state} siteId={card.siteId} />
+    <CardShell cellType="heritage" deck={deck} title={name} subtitle={t(DEFAULT_LOCALE, "service.title", { owner })} testId="service-card">
+      {deck ? null : <Illustration state={state} siteId={card.siteId} />}
       <div className="flex items-center gap-3 rounded-2xl bg-[var(--k-sand)] px-4 py-3" data-testid="service-owner">
         <PlayerFace state={state} profiles={profiles} playerId={card.ownerId} />
         <span className="min-w-0">

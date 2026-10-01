@@ -1,5 +1,5 @@
 {
-  "$comment": "Les 12 ÉTABLISSEMENTS du plateau 28 (évolution du plateau produit ; ADR 0035 pour les établissements) : établissements FICTIFS de l'univers Kounouzi. Les deux maktaba portent le nom de savants en référence, sans prétendre être leurs véritables bibliothèques ; le musée est un établissement de jeu, aucune information historique n'est fabriquée ; le Parc Kounouzi est familial (attractions, sans musique). Noms des hôtels et des agences PROVISOIRES (données modifiables). ⚠️ Prix d'achat et frais de service = VALEURS DE DÉMONSTRATION NON VALIDÉES. `kind: purchasable_monument` est conservé pour la compatibilité des sauvegardes. Les lieux de culte restent non achetables.",
+  "$comment": "Les 12 ÉTABLISSEMENTS du plateau 28 (évolution du plateau produit ; ADR 0035 pour les établissements) : établissements FICTIFS de l'univers Kounouzi. Les deux maktaba portent le nom de savants en référence, sans prétendre être leurs véritables bibliothèques ; le musée est un établissement de jeu, aucune information historique n'est fabriquée ; le Parc Kounouzi est familial (attractions, sans musique). Noms des hôtels et des agences PROVISOIRES (données modifiables). ⚠️ Prix d'achat et frais de service = VALEURS DE DÉMONSTRATION NON VALIDÉES. `kind: purchasable_monument` est conservé pour la compatibilité des sauvegardes. Les lieux de culte restent non achetables. Les deux restaurants portent désormais le nom PEINT sur la carte illustrée fournie par l'auteur (« Casbah d’Alger », « Restaurant Marocain ») : la carte et le plateau doivent dire la même chose.",
   "sites": [
     {
       "id": "est-maktaba-albani",
@@ -107,8 +107,8 @@
         "serviceType": "meal",
         "serviceFee": 30,
         "name": {
-          "fr": "Saveurs d’Algérie",
-          "ar": "نكهات الجزائر"
+          "fr": "Casbah d’Alger",
+          "ar": "قصبة الجزائر"
         },
         "icon": "🍽️"
       }
@@ -123,8 +123,8 @@
         "serviceType": "meal",
         "serviceFee": 30,
         "name": {
-          "fr": "Saveurs du Maroc",
-          "ar": "نكهات المغرب"
+          "fr": "Restaurant Marocain",
+          "ar": "مطعم مغربي"
         },
         "icon": "🍽️"
       }
