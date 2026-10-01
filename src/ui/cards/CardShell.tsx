@@ -51,7 +51,8 @@ export function CardShell({ cellType, title, subtitle, children, testId, tall, d
           <span className="font-display block truncate text-xl font-black">{title}</span>
         </span>
       </header>
-      <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-6 py-5">{children}</div>
+      {/* Les actions collent au bas de la carte : sur un petit écran, le texte défile derrière elles, elles ne quittent jamais l'écran. */}
+      <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-6 py-5 [&_[data-card-actions]]:sticky [&_[data-card-actions]]:bottom-0 [&_[data-card-actions]]:z-10 [&_[data-card-actions]]:-mx-2 [&_[data-card-actions]]:bg-[rgba(250,245,232,0.96)] [&_[data-card-actions]]:backdrop-blur-[3px] [&_[data-card-actions]]:rounded-t-xl [&_[data-card-actions]]:shadow-[0_-12px_16px_-10px_rgba(70,50,20,0.3)] [&_[data-card-actions]]:px-2 [&_[data-card-actions]]:pb-1 [&_[data-card-actions]]:pt-2">{children}</div>
     </motion.section>
   );
 }
@@ -88,7 +89,7 @@ function IllustratedCard({ deck, title, subtitle, children, testId, cellType }: 
         data-testid="card-panel"
       >
         <div
-          className="flex flex-col items-center gap-2 text-center [&_[data-testid=card-animation]]:h-12 [&_button]:min-h-10 [&_button]:px-3 [&_button]:py-2 [&_button]:text-sm [&_p]:text-[0.95rem] [&_p]:leading-snug [&_span]:text-[0.9rem] [&_[data-testid=question-prompt]]:text-[1.05rem] [&_[data-testid=question-prompt]]:font-bold"
+          className="flex flex-col items-center gap-2 text-center [&_[data-testid=card-animation]]:h-12 [&_button]:min-h-10 [&_button]:px-3 [&_button]:py-2 [&_button]:text-sm [&_p]:text-[0.95rem] [&_p]:leading-snug [&_span]:text-[0.9rem] [&_[data-testid=question-prompt]]:text-[1.05rem] [&_[data-testid=question-prompt]]:font-bold [&_[data-card-actions]]:sticky [&_[data-card-actions]]:bottom-0 [&_[data-card-actions]]:z-10 [&_[data-card-actions]]:w-full [&_[data-card-actions]]:bg-[rgba(249,245,235,0.94)] [&_[data-card-actions]]:backdrop-blur-[3px] [&_[data-card-actions]]:rounded-t-xl [&_[data-card-actions]]:shadow-[0_-12px_16px_-10px_rgba(70,50,20,0.35)] [&_[data-card-actions]]:pb-1 [&_[data-card-actions]]:pt-2 [&_[data-card-actions]_button]:min-h-14"
         >
           {subtitle ? <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#8a6a2a]">{subtitle}</p> : null}
           {children}
@@ -100,11 +101,18 @@ function IllustratedCard({ deck, title, subtitle, children, testId, cellType }: 
 
 /**
  * Le parchemin d'une carte illustrée est plus petit qu'une feuille de carte
- * classique. Plutôt que de laisser un bouton sortir du cadre — le joueur le
- * chercherait sans le trouver —, le contenu est RÉDUIT jusqu'à tenir dans la
- * zone d'écriture. Plancher à 0,55 : en dessous on ne lirait plus rien, et le
- * parchemin défile alors comme avant. Mesuré et appliqué sur le nœud, pour ne
- * pas relancer un rendu à chaque pixel.
+ * classique. Le contenu est donc RÉDUIT jusqu'à tenir dans la zone d'écriture.
+ *
+ * Plancher à 0,75. Il était à 0,55, et sur téléphone cela ne suffisait toujours
+ * pas : une carte longue (énoncé, choix, réponse, explication FR et AR, source,
+ * puis quatre boutons) débordait de 90 px d'un parchemin de 290 px, et le
+ * débordement est MASQUÉ par l'illustration. Les boutons disparaissaient donc
+ * purement et simplement — constaté en partie sur téléphone. Ce qui garantit
+ * désormais qu'une action reste visible, ce n'est plus la réduction mais le
+ * fait que les actions COLLENT au bas du parchemin (`data-card-actions`) : le
+ * texte défile derrière elles. La réduction ne sert plus qu'au confort de
+ * lecture, d'où un plancher nettement plus lisible. Mesuré et appliqué sur le
+ * nœud, pour ne pas relancer un rendu à chaque pixel.
  */
 function ajusterAuParchemin(panel: HTMLDivElement | null) {
   const contenu = panel?.firstElementChild as HTMLElement | null | undefined;
@@ -119,7 +127,7 @@ function ajusterAuParchemin(panel: HTMLDivElement | null) {
     contenu.style.zoom = "1";
     const dispo = panel.clientHeight;
     const reel = contenu.scrollHeight;
-    const facteur = reel <= dispo || reel === 0 ? 1 : Math.max(0.55, dispo / reel);
+    const facteur = reel <= dispo || reel === 0 ? 1 : Math.max(0.75, dispo / reel);
     contenu.style.zoom = String(facteur);
     panel.dataset["fit"] = facteur.toFixed(2);
     enCours = false;

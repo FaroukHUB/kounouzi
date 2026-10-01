@@ -112,7 +112,7 @@ export function ChallengeCard({ state, card, narrator, reduced, onUpdate, onAcce
       ) : null}
 
       {step === "reveal" ? (
-        <div className="flex flex-col gap-2">
+        <div className="flex w-full flex-col gap-2" data-card-actions>
           <div className="grid grid-cols-2 gap-2">
             <Button size="lg" onClick={onAccept} data-testid="challenge-accept">
               {t(DEFAULT_LOCALE, "challenge.accept")}
@@ -147,6 +147,7 @@ export function ChallengeCard({ state, card, narrator, reduced, onUpdate, onAcce
               )}
             </section>
           ) : null}
+          <div className="flex w-full flex-col gap-2" data-card-actions>
           <p className="font-semibold">{t(DEFAULT_LOCALE, "challenge.validate")}</p>
           <div className="grid grid-cols-2 gap-2">
             <Button size="lg" onClick={() => onComplete(true)} data-testid="challenge-success" disabled={definition.contentRef?.kind === "validated_question" && !question}>
@@ -155,6 +156,7 @@ export function ChallengeCard({ state, card, narrator, reduced, onUpdate, onAcce
             <Button size="lg" variant="secondary" onClick={() => onComplete(false)} data-testid="challenge-failure">
               {t(DEFAULT_LOCALE, "challenge.failure")}
             </Button>
+          </div>
           </div>
         </div>
       ) : null}

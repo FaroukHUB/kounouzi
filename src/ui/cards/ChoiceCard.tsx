@@ -26,7 +26,7 @@ export function ChoiceCard({ state, card, narrator, onChoose }: { readonly state
   return (
     <CardShell cellType={cellType} title={title} subtitle={t(DEFAULT_LOCALE, `cell.${cellType}`)} testId="choice-card">
       <p className="font-semibold">{t(DEFAULT_LOCALE, "scenario.choose")}</p>
-      <div className="flex flex-col gap-2">
+      <div className="flex w-full flex-col gap-2" data-card-actions>
         {card.optionIds.map((id) => (
           <Button key={id} size="lg" variant="secondary" onClick={() => onChoose(id)} disabled={card.step !== "offer"} data-testid={`choose-${id}`}>
             {optionLabel(id)}

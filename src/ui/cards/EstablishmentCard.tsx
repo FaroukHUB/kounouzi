@@ -95,7 +95,7 @@ export function EstablishmentCard({ state, card, onDecide }: { readonly state: G
         <Stat label={t(DEFAULT_LOCALE, "establishment.yourKounouz")} value={formatKounouz(money)} testId="establishment-your-kounouz" />
       </dl>
       {card.step === "offer" ? (
-        <div className="flex flex-col gap-2">
+        <div className="flex w-full flex-col gap-2" data-card-actions>
           {!card.affordable ? <p className="text-sm text-[var(--k-ruby)]">{t(DEFAULT_LOCALE, "establishment.tooExpensive")}</p> : null}
           <div className="grid grid-cols-2 gap-2">
             <Button size="lg" onClick={() => onDecide(true)} disabled={!card.affordable} data-testid="establishment-buy">
@@ -152,7 +152,7 @@ export function ServiceCard({ state, profiles, card, onPay }: { readonly state: 
         <Stat label={t(DEFAULT_LOCALE, "establishment.yourKounouz")} value={formatKounouz(money)} testId="service-your-kounouz" />
       </dl>
       {card.step === "offer" ? (
-        <div className="flex flex-col gap-2">
+        <div className="flex w-full flex-col gap-2" data-card-actions>
           {money < card.amount ? <p className="text-sm text-[var(--k-ruby)]">{t(DEFAULT_LOCALE, "service.partial")}</p> : null}
           <Button size="lg" onClick={onPay} data-testid="service-pay">
             {t(DEFAULT_LOCALE, "service.pay")} {formatKounouz(Math.min(money, card.amount))}

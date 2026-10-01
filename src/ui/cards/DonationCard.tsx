@@ -32,7 +32,7 @@ export function DonationCard({ state, profiles, card, narrator, onDonate }: { re
       <p className="text-center text-xl font-bold" data-testid="donation-amount">
         {prompt}
       </p>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3" data-testid="donation-destinations">
+      <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3" data-testid="donation-destinations" data-card-actions>
         <button type="button" disabled={disabled} onClick={() => onDonate({ kind: "masakin" })} className="flex min-h-24 flex-col items-center justify-center gap-1 rounded-2xl border-2 border-[var(--k-teal)] bg-white p-2 active:scale-95" data-testid="donation-to-fund">
           <span className="flex size-10 items-center justify-center rounded-full bg-[var(--k-teal)] text-white">
             <CellIcon type="donation" className="size-6" />

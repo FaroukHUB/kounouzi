@@ -31,8 +31,11 @@ export function SettingsSheet(props: SettingsSheetProps) {
   const reducedValue = s.reducedMotion === null ? "system" : s.reducedMotion ? "on" : "off";
   return (
     <div className="absolute inset-0 z-40 flex items-end justify-center bg-[var(--k-ink)]/50 p-3 sm:items-center" role="dialog" aria-modal="true" aria-labelledby="settings-title">
-      <div className="w-full max-w-md rounded-3xl bg-white p-5 shadow-2xl">
-        <div className="flex items-center justify-between">
+      {/* Sur téléphone, les réglages sont PLUS HAUTS que l'écran : sans hauteur bornée ni
+          défilement, le panneau débordait par le haut et « Fermer » comme « Comment on joue »
+          sortaient de l'écran — on ne pouvait plus refermer les réglages. */}
+      <div className="flex max-h-[92dvh] w-full max-w-md flex-col overflow-y-auto overscroll-contain rounded-3xl bg-white p-5 shadow-2xl" data-testid="settings-sheet">
+        <div className="sticky top-0 z-10 -mx-5 -mt-5 flex items-center justify-between bg-white px-5 pb-2 pt-5">
           <h2 id="settings-title" className="text-xl font-bold">
             {t(DEFAULT_LOCALE, "settings.title")}
           </h2>
@@ -46,8 +49,9 @@ export function SettingsSheet(props: SettingsSheetProps) {
             {t(DEFAULT_LOCALE, "help.open")}
           </Button>
           <label className="flex items-center justify-between gap-3">
-            <span>{t(DEFAULT_LOCALE, "settings.reducedMotion")}</span>
-            <select className="min-h-11 rounded-xl border px-3" value={reducedValue} onChange={(e) => s.setReducedMotion(e.target.value === "system" ? null : e.target.value === "on")}>
+            <span className="min-w-0 shrink">{t(DEFAULT_LOCALE, "settings.reducedMotion")}</span>
+            {/* Sur téléphone, la liste déroulante sortait du panneau : elle se borne à la moitié de la ligne. */}
+            <select className="min-h-11 max-w-[55%] shrink-0 truncate rounded-xl border px-3" value={reducedValue} onChange={(e) => s.setReducedMotion(e.target.value === "system" ? null : e.target.value === "on")}>
               <option value="system">{t(DEFAULT_LOCALE, "settings.reducedMotion.system")}</option>
               <option value="on">✓</option>
               <option value="off">✗</option>
@@ -67,8 +71,8 @@ export function SettingsSheet(props: SettingsSheetProps) {
           )}
 
           <label className="flex items-center justify-between gap-3">
-            <span>{t(DEFAULT_LOCALE, "settings.narrationRate")}</span>
-            <select className="min-h-11 rounded-xl border px-3" value={s.narrationRate} onChange={(e) => s.setNarrationRate(e.target.value as (typeof NARRATION_RATES)[number])}>
+            <span className="min-w-0 shrink">{t(DEFAULT_LOCALE, "settings.narrationRate")}</span>
+            <select className="min-h-11 max-w-[55%] shrink-0 truncate rounded-xl border px-3" value={s.narrationRate} onChange={(e) => s.setNarrationRate(e.target.value as (typeof NARRATION_RATES)[number])}>
               {NARRATION_RATES.map((r) => (
                 <option key={r} value={r}>
                   {t(DEFAULT_LOCALE, `rate.${r}`)}

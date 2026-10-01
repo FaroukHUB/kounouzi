@@ -65,7 +65,7 @@ export function HassanatCard({ state, profiles, card, onAccept, onSkip }: { read
       {card.step === "offer" && !choosing ? (
         <div className="flex flex-col gap-2">
           {money < card.cost ? <p className="text-sm text-[var(--k-ruby)]">{t(DEFAULT_LOCALE, "establishment.tooExpensive")}</p> : null}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid w-full grid-cols-2 gap-2" data-card-actions>
             <Button size="lg" onClick={accept} disabled={money < card.cost || card.candidates.length === 0} data-testid="hassanat-accept">
               {t(DEFAULT_LOCALE, "hassanat.accept")}
             </Button>
@@ -79,7 +79,7 @@ export function HassanatCard({ state, profiles, card, onAccept, onSkip }: { read
       {card.step === "offer" && choosing ? (
         <div className="flex flex-col gap-2">
           <p className="text-center font-bold">{t(DEFAULT_LOCALE, "hassanat.forWhom")}</p>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3" data-testid="hassanat-candidates">
+          <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3" data-testid="hassanat-candidates" data-card-actions>
             {card.candidates.map((id) => (
               <button key={id} type="button" onClick={() => onAccept(id)} className="flex min-h-24 items-center justify-center rounded-2xl border border-[var(--k-line)] bg-white p-2 active:scale-95" data-testid={`hassanat-to-${id}`}>
                 <PlayerFace state={state} profiles={profiles} playerId={id} />

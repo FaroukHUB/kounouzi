@@ -150,12 +150,12 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
       {step === "question" && timerSeconds !== null ? <QuestionTimer key={card.requestId} seconds={timerSeconds} warnAtSeconds={QUESTION_TIMER.warnAtSeconds} running={true} /> : null}
 
       {step === "question" ? (
-        <>
+        <div className="flex w-full flex-col items-center gap-2" data-card-actions>
           <p className="text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "card.answerAloud")}</p>
           <LongPressButton onComplete={() => onUpdate({ step: "revealed" })} hint={t(DEFAULT_LOCALE, "card.revealHint")}>
             {t(DEFAULT_LOCALE, "card.revealHold")}
           </LongPressButton>
-        </>
+        </div>
       ) : null}
 
       {step !== "question" ? (
@@ -170,7 +170,7 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
       {step === "revealed" ? (
         <>
           <p className="font-semibold">{t(DEFAULT_LOCALE, "card.validation.title")}</p>
-          <div className="grid grid-cols-3 gap-2" data-testid="validation">
+          <div className="grid w-full grid-cols-3 gap-2" data-testid="validation" data-card-actions>
             {(["correct", "partial", "incorrect"] as const).map((o) => (
               <Button
                 key={o}
@@ -244,13 +244,15 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
       ) : null}
 
       {step === "explanation" ? (
-        <Button size="lg" onClick={() => (card.outcome === "correct" ? onUpdate({ step: "mastery" }) : onSubmit(card.outcome ?? "incorrect", "none", card.validationMode))} data-testid="explanation-next">
-          {t(DEFAULT_LOCALE, "card.next")}
-        </Button>
+        <div className="flex w-full justify-center" data-card-actions>
+          <Button size="lg" onClick={() => (card.outcome === "correct" ? onUpdate({ step: "mastery" }) : onSubmit(card.outcome ?? "incorrect", "none", card.validationMode))} data-testid="explanation-next">
+            {t(DEFAULT_LOCALE, "card.next")}
+          </Button>
+        </div>
       ) : null}
 
       {step === "mastery" ? (
-        <section className="flex flex-col gap-2" data-testid="mastery">
+        <section className="flex w-full flex-col gap-2" data-testid="mastery" data-card-actions>
           <p className="font-semibold">{t(DEFAULT_LOCALE, "card.mastery.question")}</p>
           <div className="grid grid-cols-2 gap-2">
             {(["none", "fr", "ar", "both"] as const).map((m) => (
