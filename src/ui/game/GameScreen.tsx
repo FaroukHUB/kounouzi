@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { useAnimationQueue } from "@/animation/useAnimationQueue";
 import { useReducedMotion, useTimings } from "@/animation/useReducedMotion";
@@ -12,7 +12,7 @@ import { LEARNING_CONFIG } from "@/config/learning";
 import { PAWNS_3D_ENABLED } from "@/config/pawns";
 import { pendingRequest, resolveQuestion } from "@/experience/questionResolver";
 import { startPlayClock } from "@/experience/playClock";
-import { CloudNarrator, utteranceFor } from "@/experience/narration";
+import { CloudNarrator, utteranceFor, voiceHold } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { gameStore, learningStore, narrator, useGameStore, useLearningStore } from "@/state/appStores";
 import { useSessionStore } from "@/state/sessionStore";
@@ -84,7 +84,9 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
     }
     if (event.type === "PawnMoved") useUiStore.getState().setPathPreview([]);
   }, []);
-  useAnimationQueue(timings, onPlay, state);
+  // Le bandeau ne s'efface pas avant la fin de sa phrase : la voix et le plateau disent la même chose.
+  const holdForVoice = useMemo(() => voiceHold(narrator, timings.voiceHoldMaxMs), [timings.voiceHoldMaxMs]);
+  useAnimationQueue(timings, onPlay, state, holdForVoice);
 
   // Mémoire pédagogique : la mémoire de chaque joueur de la partie est chargée avant toute distribution.
   useEffect(() => {

@@ -29,6 +29,14 @@ export interface CloudNarratorOptions {
   readonly safetyMs?: number | undefined;
   /** Après un échec réseau, délai avant de retenter la voix en ligne (ms). */
   readonly retryAfterMs?: number | undefined;
+  /**
+   * Phrases DÉJÀ en attente conservées au maximum quand une nouvelle arrive.
+   * Au-delà, les plus anciennes sont abandonnées : une voix qui prend du retard
+   * finirait par commenter un bandeau déjà remplacé. Rien n'est perdu — tout ce
+   * qui est dit est aussi écrit (ADR 0036). La séquence demandée n'est jamais
+   * tronquée.
+   */
+  readonly maxQueued?: number | undefined;
   readonly now?: (() => number) | undefined;
 }
 
@@ -106,8 +114,17 @@ export class CloudNarrator implements NarrationService {
       this.fallback?.speakSequence(usable);
       return;
     }
+    // La voix suit le plateau : si elle a du retard, ce sont les phrases EN ATTENTE
+    // les plus anciennes qui tombent. La séquence demandée maintenant n'est jamais
+    // tronquée — une question lue en plusieurs phrases reste entière.
+    const max = Math.max(0, this.o.maxQueued ?? DEFAULT_MAX_QUEUED);
+    if (this.queue.length > max) this.queue = max === 0 ? [] : this.queue.slice(-max);
     this.queue.push(...usable);
     void this.drain();
+  }
+
+  isSpeaking(): boolean {
+    return this.playing || this.queue.length > 0 || (this.fallback?.isSpeaking() ?? false);
   }
 
   stop(): void {
@@ -289,6 +306,9 @@ export class CloudNarrator implements NarrationService {
     return true;
   }
 }
+
+/** Phrases déjà en attente tolérées par défaut : une seule, pour que la voix ne décroche pas du plateau. */
+const DEFAULT_MAX_QUEUED = 1;
 
 /** Un WAV d'un échantillon silencieux : suffit à débloquer l'audio sur mobile. */
 const SILENCE_WAV = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=";

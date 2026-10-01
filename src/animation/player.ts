@@ -44,31 +44,41 @@ export interface AnimationActions {
 
 export type Sleep = (ms: number) => Promise<void>;
 
+/**
+ * Attente de la voix : le bandeau reste tant que la phrase n'est pas finie,
+ * sans quoi le plateau écrit déjà autre chose que ce qui est dit. Fournie par
+ * la couche expérience (`voiceHold`) ; absente, rien n'attend.
+ */
+export type VoiceHold = () => Promise<void>;
+
 export const realSleep: Sleep = (ms) => (ms <= 0 ? Promise.resolve() : new Promise((resolve) => setTimeout(resolve, ms)));
 
 /**
  * Rejoue UN événement du moteur sous forme visuelle, puis rend la main.
  * L'état du jeu est déjà acquis : ceci n'est qu'un rattrapage visuel. Toute
- * séquence est bornée par un délai de sécurité pour ne jamais bloquer la file.
+ * séquence est bornée par un délai de sécurité pour ne jamais bloquer la file —
+ * l'attente de la voix comprise.
  */
-export async function playEvent(event: GameEvent, actions: AnimationActions, timings: Timings, sleep: Sleep = realSleep): Promise<void> {
-  const budget = safetyTimeout(estimateDuration(event, timings));
-  await Promise.race([play(event, actions, timings, sleep), sleep(budget)]);
+export async function playEvent(event: GameEvent, actions: AnimationActions, timings: Timings, sleep: Sleep = realSleep, hold?: VoiceHold): Promise<void> {
+  const budget = safetyTimeout(estimateDuration(event, timings)) + (hold ? timings.voiceHoldMaxMs : 0);
+  await Promise.race([play(event, actions, timings, sleep, hold), sleep(budget)]);
   settle(event, actions);
 }
 
-async function banner(actions: AnimationActions, b: Banner, ms: number, sleep: Sleep): Promise<void> {
+async function banner(actions: AnimationActions, b: Banner, ms: number, sleep: Sleep, hold?: VoiceHold): Promise<void> {
   actions.setBanner(b);
   await sleep(ms);
+  // Le bandeau et la voix disent la même chose : il ne s'efface pas avant elle.
+  if (hold) await hold();
   actions.setBanner(null);
 }
 
-async function play(event: GameEvent, actions: AnimationActions, t: Timings, sleep: Sleep): Promise<void> {
+async function play(event: GameEvent, actions: AnimationActions, t: Timings, sleep: Sleep, hold?: VoiceHold): Promise<void> {
   switch (event.type) {
     case "TurnStarted":
-      return banner(actions, { kind: "turn", playerId: event.playerId }, t.turnBannerMs, sleep);
+      return banner(actions, { kind: "turn", playerId: event.playerId }, t.turnBannerMs, sleep, hold);
     case "TurnSkipped":
-      return banner(actions, { kind: "skipped", playerId: event.playerId }, t.skippedMs, sleep);
+      return banner(actions, { kind: "skipped", playerId: event.playerId }, t.skippedMs, sleep, hold);
     case "MovementAssigned":
       actions.revealJourney(event.playerId, event.steps);
       await sleep(t.journeyRevealMs);
@@ -84,14 +94,14 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       actions.setHighlight(null);
       return;
     case "PassedStart":
-      return banner(actions, { kind: "passed_start", playerId: event.playerId, amount: event.bonus }, t.passedStartMs, sleep);
+      return banner(actions, { kind: "passed_start", playerId: event.playerId, amount: event.bonus }, t.passedStartMs, sleep, hold);
     case "CellArrived":
       actions.setArrival(event.position);
       await sleep(t.arrivalMs);
       actions.setArrival(null);
       return;
     case "TimeTargetReached":
-      return banner(actions, { kind: "last_round" }, t.turnBannerMs, sleep);
+      return banner(actions, { kind: "last_round" }, t.turnBannerMs, sleep, hold);
 
     // ---- cartes : ouverture sur demande du moteur, progression sur ses réponses ----
     case "QuestionRequested":
@@ -108,12 +118,12 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       actions.updateCard({ step: "paid", paid: event.amount });
       await sleep(t.purchaseMs);
       actions.closeCard();
-      return banner(actions, { kind: "service", playerId: event.playerId, ownerId: event.ownerId, amount: event.amount }, t.transferMs, sleep);
+      return banner(actions, { kind: "service", playerId: event.playerId, ownerId: event.ownerId, amount: event.amount }, t.transferMs, sleep, hold);
     case "HassanatOffered":
       actions.openCard({ kind: "hassanat", cardId: event.cardId, hassanatKind: event.kind, playerId: event.playerId, cost: event.cost, reward: event.hassanatReward, candidates: event.candidates, step: "offer" });
       return;
     case "HassanatUnavailable":
-      return banner(actions, { kind: "hassanat_unavailable" }, t.noticeMs, sleep);
+      return banner(actions, { kind: "hassanat_unavailable" }, t.noticeMs, sleep, hold);
     case "HassanatAccepted":
       actions.updateCard({ step: "accepted" });
       return;
@@ -121,7 +131,7 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       actions.updateCard({ step: "granted", granted: event.amount });
       await sleep(t.rewardMs);
       actions.closeCard();
-      return banner(actions, { kind: "hassanat_granted", playerId: event.playerId, amount: event.amount }, t.transferMs, sleep);
+      return banner(actions, { kind: "hassanat_granted", playerId: event.playerId, amount: event.amount }, t.transferMs, sleep, hold);
     case "HassanatSkipped":
       actions.updateCard({ step: "skipped" });
       await sleep(t.purchaseMs / 2);
@@ -145,22 +155,22 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       actions.openCard({ kind: "donation", playerId: event.playerId, amount: event.amount, candidates: event.candidates, step: "offer" });
       return;
     case "DonationUnavailable":
-      return banner(actions, { kind: "donation_unavailable" }, t.noticeMs, sleep);
+      return banner(actions, { kind: "donation_unavailable" }, t.noticeMs, sleep, hold);
     case "DonationMade":
       actions.closeCard();
       // Vers un joueur : le transfert porte déjà son bandeau (MoneyTransferred) ; vers la caisse : bandeau dédié.
-      if (event.to.kind === "masakin") return banner(actions, { kind: "donation_fund", fromPlayerId: event.playerId, amount: event.amount }, t.transferMs, sleep);
+      if (event.to.kind === "masakin") return banner(actions, { kind: "donation_fund", fromPlayerId: event.playerId, amount: event.amount }, t.transferMs, sleep, hold);
       return;
     case "HawlCompleted":
-      return banner(actions, { kind: "hawl_completed", playerId: event.playerId }, t.noticeMs, sleep);
+      return banner(actions, { kind: "hawl_completed", playerId: event.playerId }, t.noticeMs, sleep, hold);
     case "ZakatPaid":
-      return banner(actions, { kind: "zakat_paid", playerId: event.playerId, amount: event.amount }, t.transferMs, sleep);
+      return banner(actions, { kind: "zakat_paid", playerId: event.playerId, amount: event.amount }, t.transferMs, sleep, hold);
     case "YearCompleted":
-      return banner(actions, { kind: "year", year: event.year }, t.noticeMs, sleep);
+      return banner(actions, { kind: "year", year: event.year }, t.noticeMs, sleep, hold);
     case "SiteAlreadyOwned":
-      return banner(actions, { kind: "owned", ownerId: event.ownerId }, t.passedStartMs, sleep);
+      return banner(actions, { kind: "owned", ownerId: event.ownerId }, t.passedStartMs, sleep, hold);
     case "HeritageRevisited":
-      return banner(actions, { kind: "revisit" }, t.noticeMs, sleep);
+      return banner(actions, { kind: "revisit" }, t.noticeMs, sleep, hold);
     case "AnswerRecorded":
       actions.updateCard({ step: "result", outcome: event.outcome });
       await sleep(t.resultMs);
@@ -245,9 +255,9 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
     case "HaltLifted":
       // Le joueur reprend la route TOUT DE SUITE (même tour, nouveau Chemin) : la carte du Défi de reprise doit se refermer ici, aucun TurnEnded ne suivra.
       actions.closeCard();
-      return banner(actions, { kind: "halt_lifted", playerId: event.playerId }, t.noticeMs, sleep);
+      return banner(actions, { kind: "halt_lifted", playerId: event.playerId }, t.noticeMs, sleep, hold);
     case "HaltTurnLost":
-      return banner(actions, { kind: "halt_lost", playerId: event.playerId }, t.noticeMs, sleep);
+      return banner(actions, { kind: "halt_lost", playerId: event.playerId }, t.noticeMs, sleep, hold);
 
     // ---- transferts, protections, décisions de gestion ----
     case "RecipientChoiceOffered":
@@ -257,16 +267,16 @@ async function play(event: GameEvent, actions: AnimationActions, t: Timings, sle
       // Frais de service et coût d'une carte Hassanāt : la carte ouverte montre déjà le paiement (ServiceConsumed / HassanatGranted).
       if (event.reason === "service_fee" || event.reason === "hassanat") return;
       actions.closeCard();
-      return banner(actions, { kind: "transfer", fromPlayerId: event.fromPlayerId, toPlayerId: event.toPlayerId, amount: event.amount, contribution: event.reason === "heritage_contribution" }, t.transferMs, sleep);
+      return banner(actions, { kind: "transfer", fromPlayerId: event.fromPlayerId, toPlayerId: event.toPlayerId, amount: event.amount, contribution: event.reason === "heritage_contribution" }, t.transferMs, sleep, hold);
     case "PenaltyShielded":
-      return banner(actions, { kind: "shield", amount: event.amount }, t.noticeMs, sleep);
+      return banner(actions, { kind: "shield", amount: event.amount }, t.noticeMs, sleep, hold);
     case "InvestmentSettled":
-      return banner(actions, { kind: "investment", payout: event.payout }, t.noticeMs, sleep);
+      return banner(actions, { kind: "investment", payout: event.payout }, t.noticeMs, sleep, hold);
     case "SavingMatured":
-      return banner(actions, { kind: "saving", payout: event.payout }, t.noticeMs, sleep);
+      return banner(actions, { kind: "saving", payout: event.payout }, t.noticeMs, sleep, hold);
     case "OutcomeCancelled":
       actions.closeCard();
-      return banner(actions, { kind: "cancelled" }, t.noticeMs, sleep);
+      return banner(actions, { kind: "cancelled" }, t.noticeMs, sleep, hold);
 
     case "TurnEnded":
       actions.closeCard();

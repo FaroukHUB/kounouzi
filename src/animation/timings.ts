@@ -28,6 +28,11 @@ export interface Timings {
   readonly challengeResultMs: number;
   /** Paiement / don entre joueurs : bandeau explicite, plus long qu'un simple avis. */
   readonly transferMs: number;
+  /**
+   * Attente MAXIMALE d'un bandeau sur la voix : le plateau ne doit pas écrire
+   * autre chose que ce qui est dit. Zéro = aucune attente (animations réduites).
+   */
+  readonly voiceHoldMaxMs: number;
 }
 
 export const DEFAULT_TIMINGS: Timings = {
@@ -49,6 +54,7 @@ export const DEFAULT_TIMINGS: Timings = {
   ohNoMs: 1400,
   challengeResultMs: 1300,
   transferMs: 2600,
+  voiceHoldMaxMs: 4000,
 };
 
 /** Mode « animations réduites » : même séquence, durées nulles. */

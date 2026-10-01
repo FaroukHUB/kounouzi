@@ -26,6 +26,12 @@ export interface NarrationService {
   speak(utterance: Utterance): void;
   /** Met plusieurs phrases en file, dans l'ordre : la pause entre deux phrases est naturelle. « Réécouter » rejoue toute la séquence. */
   speakSequence(utterances: readonly Utterance[]): void;
+  /**
+   * Une phrase est en train d'être dite OU attend son tour. Sert à ce que le
+   * plateau n'écrive jamais autre chose que ce que la voix est en train de
+   * dire : la file d'animation garde son bandeau tant que c'est vrai (borné).
+   */
+  isSpeaking(): boolean;
   /** Une voix existe pour cette langue sur l'appareil (l'arabe n'est jamais lu par une autre voix). */
   hasVoice(lang: Locale): boolean;
   stop(): void;
@@ -44,6 +50,9 @@ export class NullNarrator implements NarrationService {
   }
   speak(): void {}
   speakSequence(): void {}
+  isSpeaking(): boolean {
+    return false;
+  }
   hasVoice(): boolean {
     return false;
   }

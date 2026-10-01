@@ -61,7 +61,7 @@ describe("carte question (rendu statique)", () => {
     // Sans voix disponible (narrateur muet), pas de bouton « Écouter en arabe » ; avec une voix, il est proposé et l'arabe n'est jamais lu automatiquement.
     expect(e).not.toContain('data-testid="explanation-listen-ar"');
     const spoken: string[] = [];
-    const voiced = { ...narrator, isSupported: () => true, hasVoice: () => true, speak: (u: { text: string; lang: string }) => spoken.push(u.lang), speakSequence: (us: readonly { text: string; lang: string }[]) => us.forEach((u) => spoken.push(u.lang)), stop: () => {}, replayLast: () => {}, getAvailableVoices: () => [], setEnabled: () => {}, setRate: () => {} };
+    const voiced = { ...narrator, isSupported: () => true, isSpeaking: () => false, hasVoice: () => true, speak: (u: { text: string; lang: string }) => spoken.push(u.lang), speakSequence: (us: readonly { text: string; lang: string }[]) => us.forEach((u) => spoken.push(u.lang)), stop: () => {}, replayLast: () => {}, getAvailableVoices: () => [], setEnabled: () => {}, setRate: () => {} };
     const withVoice = renderToStaticMarkup(<QuestionCard state={asked.state} profiles={profiles} card={{ ...base, step: "explanation", outcome: "correct" }} narrator={voiced} reduced={true} onUpdate={() => {}} onSubmit={() => {}} />);
     expect(withVoice).toContain('data-testid="explanation-listen-ar"');
     expect(withVoice).not.toContain('data-testid="explanation-no-ar-voice"');

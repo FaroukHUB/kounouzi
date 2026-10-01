@@ -50,6 +50,10 @@ export class WebSpeechNarrator implements NarrationService {
     this.drain();
   }
 
+  isSpeaking(): boolean {
+    return this.speaking || this.queue.length > 0;
+  }
+
   hasVoice(lang: Locale): boolean {
     return this.isSupported() && this.pickVoice(lang) !== null;
   }

@@ -30,6 +30,7 @@ function spyFallback(log: string[]): NarrationService {
   return {
     ...base,
     isSupported: () => true,
+    isSpeaking: () => false,
     hasVoice: (lang) => lang === "fr",
     speak: (u) => log.push(`device:${u.text}`),
     speakSequence: (us) => us.forEach((u) => log.push(`device:${u.text}`)),
