@@ -45,8 +45,10 @@ export interface GameSetup {
   readonly familyAssist?: FamilyAssistConfig | undefined;
   /** Défis famille (banque figée dans la partie, réglages parents) ; absent = aucun défi famille. */
   readonly challenges?: ChallengesConfig | undefined;
-  /** Décalage de la séquence de scénarios (numéro de partie familiale − 1) : rotation inter-parties sans tirage. */
+  /** Décalage de la séquence de scénarios : rotation inter-parties. */
   readonly scenarioOffset?: number | undefined;
+  /** Décalage du cycle du Chemin EN BLOCS, fourni hors du noyau à la création (numéro de partie familiale − 1) : deux parties ne commencent pas pareil. */
+  readonly journeyOffset?: number | undefined;
   /** Cartes Hassanāt (banque figée dans la partie) ; absent = aucune carte. */
   readonly hassanat?: HassanatConfig | undefined;
 }
@@ -107,7 +109,7 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
   const initial: GameState = {
     schemaVersion: GAME_SCHEMA_VERSION,
     gameId: setup.gameId,
-    config: { board: resolved.value.board, sites: resolved.value.sites, scenarios: setup.scenarios, rules: setup.rules, journey: setup.journey, familyAssist, challenges, scenarioOffset: Math.max(0, Math.trunc(setup.scenarioOffset ?? 0)), hassanat },
+    config: { board: resolved.value.board, sites: resolved.value.sites, scenarios: setup.scenarios, rules: setup.rules, journey: setup.journey, journeyOffset: Math.max(0, Math.trunc(setup.journeyOffset ?? 0)), familyAssist, challenges, scenarioOffset: Math.max(0, Math.trunc(setup.scenarioOffset ?? 0)), hassanat },
     players,
     activePlayerIndex: 0,
     turnNumber: 0,
@@ -121,6 +123,7 @@ export function createGame(setup: GameSetup): Result<Step, SetupError> {
     holdings: [],
     effects: [],
     cellVisits: {},
+    scenarioServed: {},
     challengeServed: {},
     recitationServed: {},
     clock: { activePlaySeconds: 0, timeTargetReached: false },

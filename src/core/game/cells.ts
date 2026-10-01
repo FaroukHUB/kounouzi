@@ -41,16 +41,23 @@ export function resolveCell(state: GameState, cell: ResolvedCell): CellResolutio
   }
 }
 
+/**
+ * Scénario d'une case : rotation sur le nombre de scénarios DÉJÀ SERVIS pour
+ * cette famille de case dans la partie, jamais sur les visites de la case
+ * elle-même. Le plateau compte cinq cases Défi : en comptant par case, la
+ * première visite de chacune donnait le même scénario, et le Défi famille
+ * n'arrivait qu'en retombant une deuxième fois sur la MÊME case.
+ */
 function scenarioOutcomes(visited: GameState, cell: ResolvedCell, visit: number): CellResolution {
-  {
-      const candidates = visited.config.scenarios.filter((s) => s.cellType === cell.type);
-      if (candidates.length === 0) return { state: visited, events: [], outcomes: [] };
-      const scenario = candidates[(visit - 1 + visited.config.scenarioOffset) % candidates.length]!;
-      const player = activePlayer(visited);
-      return {
-        state: visited,
-        events: [{ type: "ScenarioTriggered", playerId: player.id, scenarioId: scenario.id, cellType: cell.type, visit }],
-        outcomes: scenario.outcomes,
-      };
-  }
+  const candidates = visited.config.scenarios.filter((s) => s.cellType === cell.type);
+  if (candidates.length === 0) return { state: visited, events: [], outcomes: [] };
+  const servis = visited.scenarioServed[cell.type] ?? 0;
+  const scenario = candidates[(servis + visited.config.scenarioOffset) % candidates.length]!;
+  const player = activePlayer(visited);
+  const state: GameState = { ...visited, scenarioServed: { ...visited.scenarioServed, [cell.type]: servis + 1 } };
+  return {
+    state,
+    events: [{ type: "ScenarioTriggered", playerId: player.id, scenarioId: scenario.id, cellType: cell.type, visit }],
+    outcomes: scenario.outcomes,
+  };
 }

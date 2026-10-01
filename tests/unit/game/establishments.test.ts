@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DEMO_ESTABLISHMENTS, DEMO_HERITAGE_SITES } from "@/config/demo";
 import { HASSANAT_CONFIG } from "@/config/hassanat";
-import { checkInvariants, deserializeGameState, heritageSiteSchema, ownsWholeFamily, reduce, serializeGameState, ESTABLISHMENT_FAMILIES, type BoardConfig, type EstablishmentFamily, type GameState, type HeritageSite, type RulesConfig } from "@/core/game";
+import { checkInvariants, deserializeGameState, heritageSiteSchema, ownsWholeFamily, reduce, serializeGameState, ESTABLISHMENT_FAMILIES, GAME_SCHEMA_VERSION, type BoardConfig, type EstablishmentFamily, type GameState, type HeritageSite, type RulesConfig } from "@/core/game";
 import { fr } from "@/i18n/fr";
 import { TEST_RULES_QUICK } from "../../fixtures/game/rules.fixture";
 import { create, eventsOf, journey, makeLineSetup, pid, players, run, simulate } from "../../fixtures/game/setup.fixture";
@@ -204,7 +204,7 @@ describe("sauvegardes : propriétaire et établissement conservés ; anciennes p
     const playersV8 = (v9["players"] as Record<string, unknown>[]).map(({ hassanatPoints: _p, ...p }) => (void _p, p));
     const v8 = { ...stateV8, schemaVersion: 8, config: { ...configV8, rules: { ...rulesV8, scoring: scoringV8 } }, players: playersV8, counters: countersV8 };
     const migrated = load(JSON.stringify(v8));
-    expect(migrated.schemaVersion).toBe(9);
+    expect(migrated.schemaVersion).toBe(GAME_SCHEMA_VERSION);
     expect(migrated.holdings[0]).toMatchObject({ siteId: "test-monument-01", ownerId: "p1" });
     expect(migrated.config.sites["test-monument-01"]!.establishment).toBeUndefined();
     expect(migrated.config.hassanat.definitions).toEqual([]);

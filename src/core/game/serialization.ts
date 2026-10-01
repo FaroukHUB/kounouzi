@@ -36,8 +36,8 @@ const duelSchema = z.object({
 
 const challengeStateSchema = z.object({ challengeId: z.string(), playerId: z.string(), requestId: z.string(), stage: z.enum(CHALLENGE_STAGES), served: questionInstanceSchema.optional(), surahIds: z.array(z.string()).optional() });
 
-/** Forme sérialisée de l'état — version 9 (v8 + établissements, service payé au propriétaire, points et Cartes Hassanāt). */
-export const gameStateSchemaV9 = z.object({
+/** Forme sérialisée de l'état — version 10 (v9 + rotation des scénarios par famille de case, décalage de Chemin propre à la partie). */
+export const gameStateSchemaV10 = z.object({
   schemaVersion: z.literal(GAME_SCHEMA_VERSION),
   gameId: z.string(),
   config: z.object({
@@ -46,6 +46,7 @@ export const gameStateSchemaV9 = z.object({
     scenarios: z.array(scenarioSchema),
     rules: rulesConfigSchema,
     journey: journeyCycleSchema,
+    journeyOffset: z.number().int().nonnegative(),
     familyAssist: familyAssistConfigSchema,
     challenges: challengesConfigSchema,
     scenarioOffset: z.number().int().nonnegative(),
@@ -98,6 +99,7 @@ export const gameStateSchemaV9 = z.object({
   holdings: z.array(z.object({ siteId: z.string(), ownerId: z.string(), price: z.number().int(), heritageValue: z.number().int(), acquiredTurn: z.number().int() })),
   effects: z.array(z.object({ id: z.string(), playerId: z.string(), spec: effectSpecSchema, queuedAtTurn: z.number().int(), expiresAtTurn: z.number().int().optional() })),
   cellVisits: z.record(z.string(), z.number().int().nonnegative()),
+  scenarioServed: z.record(z.string(), z.number().int().nonnegative()),
   challengeServed: z.record(z.string(), z.record(z.string(), z.number().int().nonnegative())),
   recitationServed: z.record(z.string(), z.record(z.string(), z.number().int().nonnegative())),
   clock: z.object({ activePlaySeconds: z.number().nonnegative(), timeTargetReached: z.boolean() }),
@@ -217,6 +219,12 @@ const MIGRATIONS: Readonly<Record<number, (data: Rec) => Rec>> = {
       ranking: Array.isArray(data["ranking"]) ? data["ranking"].map((r) => ({ hassanat: 0, ...asRec(r) })) : data["ranking"],
     };
   },
+  // v9 → v10 : rotation des scénarios par FAMILLE DE CASE (le compteur part de zéro) et
+  // décalage du Chemin propre à la partie (les parties enregistrées gardent l'ancien, zéro).
+  9: (data) => {
+    const config = asRec(data["config"]);
+    return { ...data, schemaVersion: 10, config: { ...config, journeyOffset: config["journeyOffset"] ?? 0 }, scenarioServed: data["scenarioServed"] ?? {} };
+  },
 };
 
 export function serializeGameState(state: GameState): string {
@@ -242,7 +250,7 @@ export function deserializeGameState(json: string): Result<GameState, Serializat
   }
   if (version !== GAME_SCHEMA_VERSION) return err({ code: "UNSUPPORTED_VERSION", version });
 
-  const parsed = gameStateSchemaV9.safeParse(record);
+  const parsed = gameStateSchemaV10.safeParse(record);
   if (!parsed.success) return err({ code: "INVALID_STATE", issues: parsed.error.issues.map((i) => `${i.path.join(".")}: ${i.message}`) });
   return ok(parsed.data as unknown as GameState);
 }

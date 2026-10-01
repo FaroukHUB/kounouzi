@@ -23,7 +23,7 @@ export { selectChallenge, isChallengeEligible, variantFor, playerAge, challengeB
 export { effectsOf } from "./effects";
 export { computeRanking, heritageValueOf, shouldEndAfterTurn, scoreOf } from "./scoring";
 export { checkInvariants } from "./invariants";
-export { serializeGameState, deserializeGameState, gameStateSchemaV9, type SerializationError } from "./serialization";
+export { serializeGameState, deserializeGameState, gameStateSchemaV10, type SerializationError } from "./serialization";
 export { ownsWholeFamily, hassanatCostFor, isHassanatEligible, selectHassanatCard, hassanatCardById, grantHassanat } from "./hassanat";
 export { toCents, fromCents, roundMoney, addMoney, sumMoney, percentOf, isMoney, CENTS_PER_KOUNOUZ } from "./money";
 export {

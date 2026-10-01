@@ -641,6 +641,15 @@ export interface GameConfig {
   readonly scenarios: readonly Scenario[];
   readonly rules: RulesConfig;
   readonly journey: JourneyCycle;
+  /**
+   * Décalage du cycle du Chemin, en BLOCS, fourni UNE FOIS hors du noyau à la
+   * création de la partie (compteur persistant de parties, jamais un tirage) :
+   * deux parties ne commencent plus par la même suite de pas. Comptés en
+   * blocs, tous les sièges restent alignés sur une frontière de bloc, donc le
+   * cycle garde ses propriétés — mêmes multiplicités pour tous les sièges,
+   * même distance totale, jamais deux fois le même nombre de suite.
+   */
+  readonly journeyOffset: number;
   readonly familyAssist: FamilyAssistConfig;
   /** Défis famille : banque (données), interrupteurs parents, contenu validé disponible. */
   readonly challenges: ChallengesConfig;
@@ -664,7 +673,7 @@ export interface AnsweredQuestion {
   readonly difficulty: number;
 }
 
-export const GAME_SCHEMA_VERSION = 9 as const;
+export const GAME_SCHEMA_VERSION = 10 as const;
 
 export interface GameState {
   readonly schemaVersion: typeof GAME_SCHEMA_VERSION;
@@ -688,6 +697,13 @@ export interface GameState {
   readonly effects: readonly QueuedEffect[];
   /** Nombre d'arrivées sur chaque case (sélection déterministe des scénarios). */
   readonly cellVisits: Readonly<Record<string, number>>;
+  /**
+   * Scénarios déjà servis par FAMILLE DE CASE dans la partie. La rotation des
+   * scénarios se fait sur ce compteur, pas sur les visites d'une case : sinon,
+   * tomber pour la première fois sur l'une des cinq cases Défi donnait toujours
+   * le même scénario, et le Défi famille n'apparaissait jamais.
+   */
+  readonly scenarioServed: Readonly<Record<string, number>>;
   /** Par joueur, nombre de fois où chaque défi lui a été proposé dans cette partie (anti-répétition tant que son vivier n'est pas épuisé). */
   readonly challengeServed: Readonly<Record<string, Readonly<Record<string, number>>>>;
   /** Par joueur, nombre de fois où chaque sourate lui a été proposée en récitation (anti-répétition). */

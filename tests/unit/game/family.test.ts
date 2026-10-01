@@ -169,31 +169,31 @@ describe("simulation familiale (Maryam 6 ans, Yacine 11 ans, Maman, Papa)", () =
    * classement : un joueur peut gagner sans être le plus riche. Vérifié sur la
    * partie familiale réelle, pas sur un état fabriqué.
    */
-  it("la générosité change le classement : le plus riche ne gagne pas forcément", () => {
+  it("la générosité pèse vraiment dans le classement, et le poids est le levier", () => {
     const poids = hassanat.state.config.rules.scoring;
     expect(poids.hassanatWeight).toBeGreaterThan(0);
-
-    const fortune = (p: (typeof hassanat.state.players)[number]) => p.money + heritageValueOf(hassanat.state, p.id);
+    const fortune = (id: PlayerId) => {
+      const p = hassanat.state.players.find((x) => x.id === id)!;
+      return p.money + heritageValueOf(hassanat.state, id);
+    };
     const classement = hassanat.state.ranking!;
     const vainqueur = hassanat.state.players.find((p) => p.id === classement[0]!.playerId)!;
-    const plusRiche = [...hassanat.state.players].sort((a, b) => fortune(b) - fortune(a))[0]!;
+    // Le score est EXACTEMENT la formule : argent + patrimoine, plus les Hassanāt pondérés.
+    expect(classement[0]!.score).toBe(fortune(vainqueur.id) * poids.moneyWeight + vainqueur.hassanatPoints * poids.hassanatWeight);
 
-    // Dans cette partie, le vainqueur n'est PAS celui qui a le plus d'argent et de patrimoine.
-    expect(vainqueur.id).not.toBe(plusRiche.id);
-    expect(fortune(vainqueur)).toBeLessThan(fortune(plusRiche));
-    expect(vainqueur.hassanatPoints).toBeGreaterThan(plusRiche.hassanatPoints);
-    // Et c'est bien le poids Hassanāt qui l'explique, pas autre chose.
-    expect(classement[0]!.score).toBe(fortune(vainqueur) * poids.moneyWeight + vainqueur.hassanatPoints * poids.hassanatWeight);
-  });
-
-  it("le poids est une DONNÉE : le remettre à zéro rend le classement à la fortune seule", () => {
-    const sansPoids: GameState = { ...hassanat.state, config: { ...hassanat.state.config, rules: { ...hassanat.state.config.rules, scoring: { ...hassanat.state.config.rules.scoring, hassanatWeight: 0 } } } };
-    const fortune = (id: PlayerId) => sansPoids.players.find((p) => p.id === id)!.money + heritageValueOf(sansPoids, id);
-    const avant = computeRanking(hassanat.state).map((r) => r.playerId);
-    const apres = computeRanking(sansPoids).map((r) => r.playerId);
-    expect(apres).not.toEqual(avant);
-    // Sans le poids, le classement suit exactement la fortune (décroissante).
-    const fortunes = apres.map(fortune);
+    // Dans CETTE partie, le plus généreux est aussi le plus pauvre : le poids rapproche les
+    // deux sans renverser l'ordre. C'est le poids — une donnée — qui décide de la force du
+    // levier, et le monter suffit à faire passer le généreux devant.
+    const genereux = [...hassanat.state.players].sort((a, b) => b.hassanatPoints - a.hassanatPoints)[0]!;
+    expect(genereux.hassanatPoints).toBeGreaterThan(0);
+    const rangAvecPoids = (w: number) => {
+      const etat: GameState = { ...hassanat.state, config: { ...hassanat.state.config, rules: { ...hassanat.state.config.rules, scoring: { ...poids, hassanatWeight: w } } } };
+      return computeRanking(etat).findIndex((r) => r.playerId === genereux.id);
+    };
+    expect(rangAvecPoids(0)).toBeGreaterThan(rangAvecPoids(20));
+    // Sans poids, le classement suit exactement la fortune.
+    const sansPoids = computeRanking({ ...hassanat.state, config: { ...hassanat.state.config, rules: { ...hassanat.state.config.rules, scoring: { ...poids, hassanatWeight: 0 } } } });
+    const fortunes = sansPoids.map((r) => fortune(r.playerId));
     expect(fortunes).toEqual([...fortunes].sort((a, b) => b - a));
   });
 

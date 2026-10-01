@@ -103,6 +103,10 @@ export function NewGameForm() {
       challenges: challengesConfigFor(DEFAULT_CHALLENGE_SETTINGS, contentRegistry()),
       // Séquences de scénarios : rotation inter-parties par le même numéro persistant (jamais un tirage).
       scenarioOffset: Math.max(0, familyGameOrdinal - 1),
+      // Chemin : la variante tourne toutes les six parties ; le décalage fait en plus tourner les
+      // blocs du cycle, sinon cinq variantes sur six commençaient par un pas de 1 (même compteur,
+      // jamais un tirage ; en blocs, l'équité entre sièges est conservée à l'identique).
+      journeyOffset: Math.max(0, familyGameOrdinal - 1),
     };
     if (!gameStore.getState().create(setup, profiles, familyGameOrdinal)) return setError(JSON.stringify(gameStore.getState().lastError));
     router.push(`/partie/${gameId}`);

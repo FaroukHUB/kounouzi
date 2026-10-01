@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { CATEGORIES, CURATED_BANK, HISTORY_GEOGRAPHY_BANK, categoryById, contentRegistry, curatedBankSchema, difficultyBandFor } from "@/config/content";
 import { LEARNING_CONFIG, learnerContextFor } from "@/config/learning";
-import { createContentRegistry, createCuratedProvider, isPlayable, playabilityIssues, questionRefKey, type CuratedQuestion, type QuestionInstance } from "@/core/content";
+import { createContentRegistry, createCuratedProvider, isPlayable, playabilityIssues, questionRefKey, type QuestionInstance } from "@/core/content";
 import { addDays, applyAttempt, attemptId, emptyMemory, selectQuestion, type LearnerContext, type PlayerLearningMemory } from "@/core/learning";
 import { pid } from "../../fixtures/game/setup.fixture";
 import { T0 } from "../../fixtures/learning/resolve.fixture";

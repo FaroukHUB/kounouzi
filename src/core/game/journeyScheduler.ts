@@ -20,12 +20,23 @@ import type { JourneyCycle } from "./types";
  * voyages, tous les sièges ont parcouru la même distance totale ; deux
  * voyages consécutifs d'un même joueur ne sont jamais identiques (cycle
  * validé) ; la suite n'est pas la répétition naïve 1,2,3,4,5.
+ *
+ * `gameOffset` est le décalage de la PARTIE, fourni une seule fois hors du
+ * noyau à la création (compteur persistant de parties, jamais un tirage) :
+ * sans lui, cinq des six variantes commençaient par un pas de 1, donc toutes
+ * les parties démarraient pareil. Il se compte en BLOCS, pas en valeurs : le
+ * siège `s` lit le bloc `s + gameOffset`. Chaque joueur reste donc aligné sur
+ * une frontière de bloc, et TOUTES les propriétés ci-dessus sont conservées à
+ * l'identique (un décalage en valeurs les aurait cassées : les sièges
+ * n'auraient plus parcouru la même distance). Il ne dépend ni du joueur, ni de
+ * l'état, et ne peut favoriser personne.
  */
-export function assignJourneySteps(cycle: JourneyCycle, seat: number, journeyIndex: number): number {
+export function assignJourneySteps(cycle: JourneyCycle, seat: number, journeyIndex: number, gameOffset = 0): number {
   if (!Number.isInteger(seat) || seat < 0) throw new RangeError(`siège invalide : ${seat}`);
   if (!Number.isInteger(journeyIndex) || journeyIndex < 0) throw new RangeError(`index de voyage invalide : ${journeyIndex}`);
+  if (!Number.isInteger(gameOffset) || gameOffset < 0) throw new RangeError(`décalage de partie invalide : ${gameOffset}`);
   const sequence = flattenCycle(cycle);
-  const offset = (seat % cycle.blocks.length) * cycle.stepMax;
+  const offset = ((seat + gameOffset) % cycle.blocks.length) * cycle.stepMax;
   const steps = sequence[(offset + journeyIndex) % sequence.length];
   if (steps === undefined) throw new Error("cycle de voyage vide (invariant)");
   return steps;

@@ -36,7 +36,7 @@ export function reduce(state: GameState, command: Command): Result<Step, GameErr
       const phase = expectPhase(state, "awaiting_journey");
       if (!phase.ok) return phase;
       // Le Chemin : attribué par le cycle versionné, à partir du siège et du compteur de voyages uniquement.
-      const steps = assignJourneySteps(state.config.journey, player.seat, player.journeysTaken);
+      const steps = assignJourneySteps(state.config.journey, player.seat, player.journeysTaken, state.config.journeyOffset);
       let result = step(updatePlayer(state, player.id, { journeysTaken: player.journeysTaken + 1 }), [
         { type: "MovementAssigned", playerId: player.id, steps, journeyIndex: player.journeysTaken },
       ]);
