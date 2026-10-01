@@ -206,3 +206,45 @@ describe("voix en ligne : une phrase = un fichier, joué dans l'ordre, jamais bl
     expect(await down.narrator.probe()).toBe("unknown");
   });
 });
+
+/**
+ * « J'ai mis une voix dans Vercel, mais c'est toujours la voix du robot. »
+ * Sans raison affichée, impossible de savoir ce qui manque. Le narrateur
+ * retient donc POURQUOI il ne parle pas, et les réglages l'affichent.
+ */
+describe("pourquoi la voix en ligne ne parle pas", () => {
+  it("503 du serveur = configuration manquante ; 204 = tout va bien ; refus et panne réseau se distinguent", async () => {
+    const indisponible = make(() => new Response(JSON.stringify({ reason: "unconfigured" }), { status: 503 }));
+    await indisponible.narrator.probe();
+    expect(indisponible.narrator.availabilityState()).toBe("unavailable");
+    expect(indisponible.narrator.availabilityReason()).toBe("unconfigured");
+
+    const ok = make(() => new Response(null, { status: 204 }));
+    await ok.narrator.probe();
+    expect(ok.narrator.availabilityState()).toBe("available");
+    expect(ok.narrator.availabilityReason()).toBe("none");
+
+    // Service joignable mais qui refuse (clé invalide, quota, voix inconnue) : ce n'est PAS la même cause.
+    const refus = make(() => new Response("non", { status: 401 }));
+    await refus.narrator.probe();
+    expect(refus.narrator.availabilityReason()).toBe("refused");
+
+    // Rien au bout du fil.
+    const coupe = make(() => {
+      throw new Error("réseau");
+    });
+    await coupe.narrator.probe();
+    expect(coupe.narrator.availabilityReason()).toBe("offline");
+  });
+
+  it("une configuration corrigée se reprend sans relancer la partie : une nouvelle sonde suffit", async () => {
+    let configure = false;
+    const { narrator } = make(() => (configure ? new Response(null, { status: 204 }) : new Response(JSON.stringify({ reason: "unconfigured" }), { status: 503 })));
+    await narrator.probe();
+    expect(narrator.mode()).toBe("device");
+    configure = true;
+    await narrator.probe();
+    expect(narrator.mode()).toBe("cloud");
+    expect(narrator.availabilityReason()).toBe("none");
+  });
+});

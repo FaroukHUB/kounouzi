@@ -43,6 +43,8 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const reduced = useReducedMotion();
   const session = useSessionStore();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  /** Change à chaque test de la voix : le panneau relit alors l'état du narrateur. */
+  const [voiceCheck, setVoiceCheck] = useState(0);
   const [helpOpen, setHelpOpen] = useState(false);
   const [paused, setPaused] = useState(false);
 
@@ -225,6 +227,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
       {shown.status === "finished" ? <FinalRanking state={shown} /> : null}
       <HelpSheet open={helpOpen} onClose={() => setHelpOpen(false)} board={state.config.board} />
       <SettingsSheet
+        key={voiceCheck}
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}
         onOpenHelp={() => {
@@ -233,6 +236,12 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         }}
         narrationSupported={narrator.isSupported()}
         narrationMode={narrator.mode?.() ?? "none"}
+        narrationReason={narrator instanceof CloudNarrator ? narrator.availabilityReason() : undefined}
+        // Après avoir corrigé la configuration du serveur, on peut revérifier sans relancer une partie.
+        onTestVoice={() => {
+          if (narrator instanceof CloudNarrator) void narrator.probe().then(() => setVoiceCheck((n) => n + 1));
+          narrator.speak({ text: t(DEFAULT_LOCALE, "settings.narration.test.sentence"), lang: DEFAULT_LOCALE, important: true });
+        }}
         onReplay={() => narrator.replayLast()}
         paused={paused}
         onTogglePause={() => setPaused((p) => !p)}

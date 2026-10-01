@@ -1,7 +1,7 @@
 export type { NarrationMode, NarrationService, Utterance, VoiceInfo } from "./NarrationService";
 export { NullNarrator } from "./NarrationService";
 export { WebSpeechNarrator } from "./WebSpeechNarrator";
-export { CloudNarrator, type AudioLike, type CloudAvailability, type CloudNarratorOptions } from "./CloudNarrator";
+export { CloudNarrator, type AudioLike, type CloudAvailability, type CloudNarratorOptions, type CloudReason } from "./CloudNarrator";
 export { voiceKey, hash53, normalizeVoiceText } from "./voiceKey";
 export { handleVoiceRequest, voiceConfigured, voiceQuerySchema, type VoiceRouteDeps } from "./voiceRoute";
 export { utteranceFor } from "./narrationScript";

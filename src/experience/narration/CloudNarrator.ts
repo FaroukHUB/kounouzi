@@ -47,6 +47,14 @@ interface Manifest {
 export type CloudAvailability = "unknown" | "available" | "unavailable";
 
 /**
+ * Pourquoi la voix en ligne ne parle pas. Sans ça, la seule chose visible
+ * était « la voix en ligne n'est pas disponible » : impossible de savoir s'il
+ * manque une clé sur le serveur, si le service a refusé, ou s'il n'y a pas de
+ * réseau — et donc impossible de corriger.
+ */
+export type CloudReason = "none" | "unconfigured" | "refused" | "offline" | "unsupported";
+
+/**
  * Voix en ligne Kounouzi (ADR 0036) : une seule voix, qui dit tout, prénoms et
  * montants compris. Chaque phrase est un fichier audio : pré-généré et servi
  * en statique quand il figure au manifeste, sinon demandé au serveur
@@ -65,6 +73,7 @@ export class CloudNarrator implements NarrationService {
   private generation = 0;
   private last: readonly Utterance[] | null = null;
   private availability: CloudAvailability = "unknown";
+  private reason: CloudReason = "none";
   private retryAt = 0;
   private manifest: Manifest | null = null;
   private manifestLoading: Promise<void> | null = null;
@@ -94,6 +103,12 @@ export class CloudNarrator implements NarrationService {
 
   availabilityState(): CloudAvailability {
     return this.availability;
+  }
+
+  /** Ce qui empêche la voix en ligne de parler, pour l'afficher dans les réglages. */
+  availabilityReason(): CloudReason {
+    if (!this.canPlay) return "unsupported";
+    return this.reason;
   }
 
   hasVoice(lang: Locale): boolean {
@@ -189,9 +204,18 @@ export class CloudNarrator implements NarrationService {
   async probe(): Promise<CloudAvailability> {
     try {
       const res = await this.fetchFn()(`${this.o.endpoint}?probe=1`, { method: "GET", cache: "no-store" });
-      if (res.status === 204) this.availability = "available";
-      else if (res.status === 503) this.availability = "unavailable";
+      if (res.status === 204) {
+        this.availability = "available";
+        this.reason = "none";
+      } else if (res.status === 503) {
+        // Le serveur le dit lui-même : la clé ou l'identifiant de voix manque.
+        this.availability = "unavailable";
+        this.reason = "unconfigured";
+      } else {
+        this.reason = "refused";
+      }
     } catch {
+      this.reason = "offline";
       this.retryAt = this.now() + this.retryAfterMs();
     }
     return this.availability;
@@ -271,17 +295,24 @@ export class CloudNarrator implements NarrationService {
       const res = await this.fetchFn()(url, { method: "GET" });
       if (gen !== this.generation) return true;
       if (!res.ok) {
-        if (res.status === 503) this.availability = "unavailable";
-        else this.retryAt = this.now() + this.retryAfterMs();
+        if (res.status === 503) {
+          this.availability = "unavailable";
+          this.reason = "unconfigured";
+        } else {
+          this.reason = "refused";
+          this.retryAt = this.now() + this.retryAfterMs();
+        }
         return false;
       }
       this.availability = "available";
+      this.reason = "none";
       const blob = await res.blob();
       if (gen !== this.generation) return true;
       const toUrl = this.o.createObjectUrl ?? ((b: Blob) => URL.createObjectURL(b));
       objectUrl = toUrl(blob);
       url = objectUrl;
     } catch {
+      this.reason = "offline";
       this.retryAt = this.now() + this.retryAfterMs();
       return false;
     }

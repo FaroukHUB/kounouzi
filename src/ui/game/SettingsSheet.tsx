@@ -1,7 +1,7 @@
 "use client";
 
 import { CHALLENGE_TOGGLES, type ChallengeSettings } from "@/core/game";
-import type { NarrationMode } from "@/experience/narration";
+import type { CloudReason, NarrationMode } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { NARRATION_RATES, useSessionStore } from "@/state/sessionStore";
 import { Button } from "@/ui/primitives/Button";
@@ -12,6 +12,10 @@ export interface SettingsSheetProps {
   readonly narrationSupported: boolean;
   /** Source de la voix : en ligne, appareil (secours) ou aucune. */
   readonly narrationMode: NarrationMode;
+  /** Pourquoi la voix en ligne ne parle pas (affiché tel quel : on ne devine pas à la place du serveur). */
+  readonly narrationReason?: CloudReason | undefined;
+  /** Redemande au serveur si la voix en ligne existe, puis dit une phrase si elle répond. */
+  readonly onTestVoice?: (() => void) | undefined;
   readonly onReplay: () => void;
   readonly paused: boolean;
   readonly onTogglePause: () => void;
@@ -69,6 +73,20 @@ export function SettingsSheet(props: SettingsSheetProps) {
               {t(DEFAULT_LOCALE, props.narrationMode === "cloud" ? "settings.narration.cloud" : "settings.narration.device")}
             </p>
           )}
+          {/* Quand la voix en ligne ne parle pas, DIRE POURQUOI : sinon on ne peut que
+              deviner ce qui manque, et on croit que le réglage n'a servi à rien. La raison
+              s'affiche dès qu'il y en a une, même si la source annoncée reste « en ligne » :
+              un refus du service laisse la voix de l'appareil parler sans rien expliquer. */}
+          {props.narrationReason && props.narrationReason !== "none" ? (
+            <p className="rounded-2xl bg-[var(--k-sand)] px-3 py-2 text-sm text-[var(--k-ink-soft)]" data-testid="narration-why" data-reason={props.narrationReason}>
+              {t(DEFAULT_LOCALE, `settings.narration.why.${props.narrationReason}`)}
+            </p>
+          ) : null}
+          {props.onTestVoice && props.narrationMode !== "none" ? (
+            <Button variant="secondary" onClick={props.onTestVoice} data-testid="test-voice">
+              {t(DEFAULT_LOCALE, "settings.narration.test")}
+            </Button>
+          ) : null}
 
           <label className="flex items-center justify-between gap-3">
             <span className="min-w-0 shrink">{t(DEFAULT_LOCALE, "settings.narrationRate")}</span>
