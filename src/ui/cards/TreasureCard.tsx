@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { useEffect } from "react";
-import type { NarrationService } from "@/experience/narration";
+import { annonce, type NarrationService } from "@/experience/narration";
 import { deckFor } from "@/config/cards";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { CellIcon } from "@/ui/board/CellIcon";
@@ -15,7 +15,7 @@ type TreasureCardState = Extract<CardState, { kind: "treasure" }>;
 /** 💎 TRÉSOR ! Gain fixe des règles, versé une fois par le grand livre. Aucun hasard. */
 export function TreasureCard({ card, narrator }: { readonly card: TreasureCardState; readonly narrator: NarrationService }) {
   useEffect(() => {
-    narrator.speak({ text: t(DEFAULT_LOCALE, "narration.treasure", { amount: card.amount }), lang: "fr", important: true });
+    annonce(narrator, [{ text: t(DEFAULT_LOCALE, "narration.treasure", { amount: card.amount }), lang: "fr", important: true }]);
   }, [card.amount, narrator]);
   return (
     <CardShell cellType="treasure" deck={deckFor({ cellType: "treasure" })} title={t(DEFAULT_LOCALE, "treasure.title")} subtitle={t(DEFAULT_LOCALE, "cell.treasure")} testId="treasure-card" tall>

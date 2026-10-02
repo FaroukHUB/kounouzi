@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import type { GameState } from "@/core/game";
-import type { NarrationService } from "@/experience/narration";
+import { annonce, type NarrationService } from "@/experience/narration";
 import { DEFAULT_LOCALE, t, type DictionaryKey } from "@/i18n";
 import { dictionaries } from "@/i18n";
 import { Button } from "@/ui/primitives/Button";
@@ -21,7 +21,7 @@ export function ChoiceCard({ state, card, narrator, onChoose }: { readonly state
   const cellType = state.phase.kind === "awaiting_choice" ? (state.config.board.cells[state.players[state.activePlayerIndex]?.position ?? 0]?.type ?? "management") : "management";
   const title = scenarioTitle(card.choiceId);
   useEffect(() => {
-    if (card.step === "offer") narrator.speak({ text: title, lang: "fr", important: true });
+    if (card.step === "offer") annonce(narrator, [{ text: title, lang: "fr", important: true }]);
   }, [card.step, title, narrator]);
   return (
     <CardShell cellType={cellType} title={title} subtitle={t(DEFAULT_LOCALE, `cell.${cellType}`)} testId="choice-card">

@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { useEffect } from "react";
 import { challengeById, playerAge, recitationById, variantFor, type ChallengeSkipReason, type GameState } from "@/core/game";
-import { questionUtterances, splitChoices, type NarrationService } from "@/experience/narration";
+import { annonce, questionUtterances, splitChoices, type NarrationService } from "@/experience/narration";
 import { deckFor } from "@/config/cards";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Button } from "@/ui/primitives/Button";
@@ -46,8 +46,8 @@ export function ChallengeCard({ state, card, narrator, reduced, onUpdate, onAcce
   // Narration courte, jamais bloquante : le texte du défi à la révélation, la question quand elle est figée.
   useEffect(() => {
     if (!definition) return;
-    if (step === "reveal") narrator.speak({ text: definition.text, lang: "fr", important: true });
-    if (step === "accepted" && question) narrator.speakSequence(questionUtterances(question.prompt.fr, DEFAULT_LOCALE));
+    if (step === "reveal") annonce(narrator, [{ text: definition.text, lang: "fr", important: true }]);
+    if (step === "accepted" && question) annonce(narrator, questionUtterances(question.prompt.fr, DEFAULT_LOCALE));
   }, [step, definition, question, narrator]);
 
   if (!definition || !player) return null;

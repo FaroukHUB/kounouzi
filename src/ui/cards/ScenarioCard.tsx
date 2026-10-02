@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { useEffect } from "react";
-import type { NarrationService } from "@/experience/narration";
+import { annonce, type NarrationService } from "@/experience/narration";
 import { deckFor } from "@/config/cards";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { CellIcon } from "@/ui/board/CellIcon";
@@ -18,7 +18,7 @@ export function ScenarioCard({ card, narrator }: { readonly card: ScenarioCardSt
   const title = scenarioTitle(card.scenarioId);
   const treasure = card.cellType === "treasure";
   useEffect(() => {
-    narrator.speak({ text: title, lang: "fr", important: true });
+    annonce(narrator, [{ text: title, lang: "fr", important: true }]);
   }, [title, narrator]);
   return (
     <CardShell cellType={card.cellType} deck={deckFor({ cellType: card.cellType })} title={t(DEFAULT_LOCALE, `cell.${card.cellType}`)} testId="scenario-card" tall={treasure}>

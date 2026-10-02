@@ -4,7 +4,7 @@ import { playEvent, type AnimationActions } from "@/animation/player";
 import { DEFAULT_TIMINGS, REDUCED_TIMINGS, safetyTimeout } from "@/animation/timings";
 import type { GameEvent } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
-import { CloudNarrator, NullNarrator, voiceHold, type AudioLike, type NarrationService } from "@/experience/narration";
+import { CloudNarrator, NullNarrator, annonce, voiceHold, type AudioLike, type NarrationService, type Utterance } from "@/experience/narration";
 
 /**
  * « Lors d'un don, la voix dit bien "Assia donne 20 Kounouz à Adam" mais le
@@ -60,14 +60,18 @@ function sondeur() {
 describe("la voix et le plateau disent la même chose", () => {
   it("le bandeau reste affiché tant que la phrase n'est pas finie", async () => {
     const { calls, actions } = recorder();
-    let liberer: (() => void) | null = null;
-    const hold = () => new Promise<void>((resolve) => (liberer = resolve));
+    const voix = voixPilotee();
+    // Attente fidèle au réel : elle se termine quand la phrase se termine, pas avant.
+    const hold = () =>
+      new Promise<void>((resolve) => {
+        const regarder = () => (voix.isSpeaking() ? setTimeout(regarder, 0) : resolve());
+        regarder();
+      });
     const lecture = playEvent(transfert, actions, DEFAULT_TIMINGS, sansAttendre, hold);
     // La durée fixe du bandeau est écoulée, la phrase continue : le bandeau est TOUJOURS là.
     for (let i = 0; i < 5; i += 1) await Promise.resolve();
     expect(calls).toEqual(["banner:transfer"]);
-    expect(liberer).not.toBeNull();
-    liberer!();
+    voix.finir();
     await lecture;
     expect(calls).toEqual(["banner:transfer", "banner:null", "banner:null"]);
   });
@@ -96,13 +100,41 @@ describe("la voix et le plateau disent la même chose", () => {
     expect(reduit.sondages).toBe(0);
   });
 
-  it("une voix qui ne finit jamais ne bloque pas la file : l'attente est plafonnée", async () => {
+  it("une voix qui ne finit jamais ne bloque pas la file : chaque attente est plafonnée", async () => {
     const { calls, actions } = recorder();
     const s = sondeur();
     const hold = voiceHold(voixPilotee(), DEFAULT_TIMINGS.voiceHoldMaxMs, { pollMs: 100, sleep: s.sleep });
     await playEvent(transfert, actions, DEFAULT_TIMINGS, sansAttendre, hold);
     expect(calls).toEqual(["banner:transfer", "banner:null", "banner:null"]);
-    expect(s.sondages).toBe(DEFAULT_TIMINGS.voiceHoldMaxMs / 100);
+    // Un événement attend sa phrase à DEUX moments : le bandeau reste affiché pendant
+    // qu'elle se dit, puis la file ne passe pas au suivant tant qu'elle n'est pas finie.
+    // Dans la vraie vie la seconde attente est instantanée (la phrase est déjà dite) ;
+    // avec une voix qui ne finit jamais, les deux plafonds s'appliquent, et c'est tout.
+    const plafond = DEFAULT_TIMINGS.voiceHoldMaxMs / 100;
+    expect(s.sondages).toBeLessThanOrEqual(plafond * 2);
+    expect(s.sondages).toBeGreaterThanOrEqual(plafond);
+  });
+
+  it("une étape de carte REMPLACE ce qui se disait : la tablée a avancé, la voix avance avec elle", () => {
+    const appels: string[] = [];
+    const base = new NullNarrator();
+    const narrateur: NarrationService = { ...base, isSupported: () => true, isSpeaking: () => false, hasVoice: () => true, stop: () => appels.push("coupe"), speak: () => appels.push("phrase"), speakSequence: (us: readonly Utterance[]) => appels.push(`phrases:${us.length}`), replayLast: () => {}, getAvailableVoices: () => [], setEnabled: () => {}, setRate: () => {} };
+    annonce(narrateur, [{ text: "La réponse est : Alger.", lang: "fr", important: true }]);
+    // La coupure vient AVANT : on n'empile pas la nouvelle phrase derrière l'ancienne.
+    expect(appels).toEqual(["coupe", "phrases:1"]);
+    annonce(narrateur, [{ text: "Question ?", lang: "fr" }, { text: "Réponse A.", lang: "fr" }]);
+    expect(appels).toEqual(["coupe", "phrases:1", "coupe", "phrases:2"]);
+  });
+
+  it("la file attend la voix même quand l'événement n'a pas de bandeau : les étapes de carte ne défilent plus devant la phrase", async () => {
+    const { calls, actions } = recorder();
+    // Résultat d'une réponse : pas de bandeau, seulement la carte qui change d'étape.
+    const resultat: GameEvent = { type: "AnswerRecorded", requestId: "q1", playerId: p1, outcome: "correct", validationMode: "collective", explanationMastery: "none", purpose: "standard" };
+    let attentes = 0;
+    const hold = async () => void (attentes += 1);
+    await playEvent(resultat, actions, DEFAULT_TIMINGS, (ms) => (ms === 0 ? Promise.resolve() : new Promise<void>((r) => setTimeout(r, 1))), hold);
+    expect(attentes).toBe(1);
+    expect(calls.some((c) => c.startsWith("banner"))).toBe(false);
   });
 
   it("la voix ne prend pas de retard : la phrase en attente la plus ancienne tombe, une séquence reste entière", async () => {

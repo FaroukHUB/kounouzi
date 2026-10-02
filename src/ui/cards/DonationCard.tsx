@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import type { GameState, MoneyDestination } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
-import type { NarrationService } from "@/experience/narration";
+import { annonce, type NarrationService } from "@/experience/narration";
 import { deckFor } from "@/config/cards";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { CellIcon } from "@/ui/board/CellIcon";
@@ -24,7 +24,7 @@ export function DonationCard({ state, profiles, card, narrator, onDonate }: { re
   const name = state.players.find((p) => p.id === card.playerId)?.displayName ?? "";
   const prompt = t(DEFAULT_LOCALE, "donation.prompt", { name, amount: card.amount });
   useEffect(() => {
-    if (card.step === "offer") narrator.speak({ text: prompt, lang: "fr", important: true });
+    if (card.step === "offer") annonce(narrator, [{ text: prompt, lang: "fr", important: true }]);
   }, [card.step, prompt, narrator]);
   const disabled = card.step !== "offer";
   return (

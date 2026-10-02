@@ -8,7 +8,7 @@ import { QUESTION_TIMER, timerSecondsFor } from "@/config/timer";
 import type { CellType, GameState } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
-import { cleVariante, questionUtterances, splitChoices, type NarrationService } from "@/experience/narration";
+import { annonce, cleVariante, questionUtterances, splitChoices, type NarrationService } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Bidi } from "@/ui/primitives/Bidi";
 import { Button } from "@/ui/primitives/Button";
@@ -87,18 +87,20 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
   useEffect(() => {
     if (!question) return;
     // Énoncé puis chaque choix en phrase séparée (« Réponse A : … », « Réponse B : … ») : la voix marque une vraie pause.
-    if (step === "question") narrator.speakSequence(questionUtterances(question.prompt.fr, DEFAULT_LOCALE));
-    if (step === "revealed") narrator.speak({ text: t(DEFAULT_LOCALE, "narration.answer", { answer: question.answer.fr }), lang: "fr", important: true });
+    // `annonce` : l'étape affichée REMPLACE ce qui était en train d'être dit. Sans cela,
+    // on appuyait sur « Voir la réponse » et la voix lisait encore les choix de la question.
+    if (step === "question") annonce(narrator, questionUtterances(question.prompt.fr, DEFAULT_LOCALE));
+    if (step === "revealed") annonce(narrator, [{ text: t(DEFAULT_LOCALE, "narration.answer", { answer: question.answer.fr }), lang: "fr", important: true }]);
     if (step === "explanation") {
       // Lecture en français seulement ; l'arabe reste visible et s'écoute à la demande (« Écouter en arabe »).
-      narrator.speak({ text: question.explanation.fr, lang: "fr", important: true });
+      annonce(narrator, [{ text: question.explanation.fr, lang: "fr", important: true }]);
       // Dès que la tablée passe à la suite (ou que la carte disparaît), la voix se tait : jamais de chevauchement avec le tour suivant.
       return () => narrator.stop();
     }
     // Le guide félicite PAR SON PRÉNOM celui qui vient de répondre, et ne dit jamais
     // deux fois de suite la même phrase : la variante vient d'un compteur de l'état.
-    if (step === "result" && card.outcome) narrator.speak({ text: t(DEFAULT_LOCALE, cleVariante(`narration.result.${card.outcome}`, state.counters.request), { name: responder }), lang: "fr", important: true });
-    if (step === "reward" && card.rewardAmount) narrator.speak({ text: t(DEFAULT_LOCALE, "narration.reward", { amount: card.rewardAmount, name: responder }), lang: "fr" });
+    if (step === "result" && card.outcome) annonce(narrator, [{ text: t(DEFAULT_LOCALE, cleVariante(`narration.result.${card.outcome}`, state.counters.request), { name: responder }), lang: "fr", important: true }]);
+    if (step === "reward" && card.rewardAmount) annonce(narrator, [{ text: t(DEFAULT_LOCALE, "narration.reward", { amount: card.rewardAmount, name: responder }), lang: "fr" }]);
     return undefined;
   }, [step, question, narrator, card.outcome, card.rewardAmount, responder, state.counters.request]);
 

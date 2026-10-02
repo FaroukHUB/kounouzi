@@ -62,6 +62,12 @@ export const realSleep: Sleep = (ms) => (ms <= 0 ? Promise.resolve() : new Promi
 export async function playEvent(event: GameEvent, actions: AnimationActions, timings: Timings, sleep: Sleep = realSleep, hold?: VoiceHold): Promise<void> {
   const budget = safetyTimeout(estimateDuration(event, timings)) + (hold ? timings.voiceHoldMaxMs : 0);
   await Promise.race([play(event, actions, timings, sleep, hold), sleep(budget)]);
+  // LA FILE N'AVANCE PAS PLUS VITE QUE LA VOIX. Le bandeau attendait déjà sa phrase,
+  // mais les étapes de CARTE — résultat, récompense, fermeture — défilaient sur des
+  // durées fixes : la carte passait à la suite pendant que la phrase précédente courait
+  // encore, et la voix se retrouvait en retard d'une étape pour tout le reste du tour.
+  // L'attente est la même, bornée, et ne coûte rien quand la voix se tait.
+  if (hold) await hold();
   settle(event, actions);
 }
 

@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import type { GameState } from "@/core/game";
 import type { PlayerId } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
-import type { NarrationService } from "@/experience/narration";
+import { annonce, type NarrationService } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { CardShell } from "./CardShell";
 import { PlayerFace } from "./PlayerFace";
@@ -17,7 +17,7 @@ export function OpponentCard({ state, profiles, card, narrator, onChoose }: { re
   const name = state.players.find((p) => p.id === card.challengerId)?.displayName ?? "";
   const prompt = t(DEFAULT_LOCALE, "duel.choose", { name });
   useEffect(() => {
-    if (card.step === "offer") narrator.speak({ text: prompt, lang: "fr", important: true });
+    if (card.step === "offer") annonce(narrator, [{ text: prompt, lang: "fr", important: true }]);
   }, [card.step, prompt, narrator]);
   return (
     <CardShell cellType="challenge" title={`⚔ ${t(DEFAULT_LOCALE, "duel.title")}`} subtitle={t(DEFAULT_LOCALE, "cell.challenge")} testId="opponent-card">
