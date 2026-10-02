@@ -35,6 +35,13 @@ de case. Il manquait la clé la plus précise.
    gardent l'habillage historique. Rien ne casse tant que la série n'est pas
    complète.
 
+6. **La case du plateau montre la carte, elle aussi.** Une vignette carrée
+   (`thumb`), découpée dans le BAS de l'illustration, remplace la pastille
+   d'emoji sur la tuile de l'établissement. Deux raisons de ne pas y mettre la
+   carte entière : son titre peint est illisible à cette taille (essayé,
+   mesuré), et une tuile de 80 px n'a pas à charger 180 ko. Un établissement
+   sans vignette garde son emoji.
+
 ## Conséquences
 
 - La zone d'écriture de ces deux cartes a été MESURÉE sur l'illustration (cadre

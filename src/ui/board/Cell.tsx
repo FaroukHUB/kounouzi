@@ -5,6 +5,7 @@ import type { CellType, EstablishmentFamily } from "@/core/game";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { AvatarGlyph } from "@/ui/primitives/AvatarGlyph";
 import type { AvatarShape } from "@/config/avatars";
+import { deckFor } from "@/config/cards";
 import { monumentImage } from "@/ui/theme/assets";
 import { CellIcon } from "./CellIcon";
 import { CELL_STYLE } from "./cellStyles";
@@ -41,6 +42,10 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
   const ribbon = establishment ? t(DEFAULT_LOCALE, `cell.family.${establishment.family}`) : label;
   const isStart = type === "start";
   const isMonument = type === "heritage";
+  // L'établissement a sa propre carte dessinée : la case montre la vignette de cette
+  // carte — son illustration, pas son titre, illisible à cette taille — plutôt qu'une
+  // pastille d'emoji. On reconnaît le lieu avant même d'y arriver.
+  const carte = isMonument && siteId ? deckFor({ siteId }) : undefined;
   // Halte : « grosse case » — médaillon plus grand, liseré marqué, légère mise en avant (structure de grille inchangée).
   const isHalt = type === "halt";
   const ring = arrival ? `0 0 0 3px ${style.accent}, 0 10px 18px -10px rgba(0,0,0,0.55)` : highlighted || preview ? `0 0 0 2px ${style.accent}aa, 0 6px 14px -10px rgba(0,0,0,0.5)` : "0 4px 10px -8px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.7)";
@@ -66,8 +71,11 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
       aria-label={`${label} ${position}${establishment ? ` ${establishment.name}` : ""}${owner ? ` — ${owner.name}` : ""}`}
       title={establishment?.name}
     >
-      {/* Icône de l'établissement, illustration (ancien site) ou médaillon d'icône */}
-      {isMonument && establishment?.icon ? (
+      {/* Carte dessinée par l'auteur quand elle existe, sinon icône de l'établissement, illustration (ancien site) ou médaillon d'icône */}
+      {isMonument && carte?.thumb ? (
+        // eslint-disable-next-line @next/next/no-img-element -- vignette de la carte de cet établissement
+        <img src={carte.thumb} alt="" aria-hidden="true" className="absolute top-[8%] size-[46%] rounded-full object-cover shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.85)]" loading="lazy" decoding="async" data-testid={`establishment-art-${position}`} />
+      ) : isMonument && establishment?.icon ? (
         <span className="absolute top-[8%] flex size-[46%] items-center justify-center rounded-full text-[clamp(0.9rem,2.6vw,1.6rem)] leading-none" style={{ backgroundColor: "rgba(255,255,255,0.8)", boxShadow: `inset 0 0 0 1.5px ${style.accent}66` }} aria-hidden="true" data-testid={`establishment-${position}`}>
           {establishment.icon}
         </span>

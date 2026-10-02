@@ -1,5 +1,5 @@
 {
-  "$comment": "Jeux de cartes illustrés : pour chaque famille, le DOS (ce qu'on retourne) et la FACE (le parchemin où s'écrivent la question et la réponse). Un jeu de cartes se choisit par CATÉGORIE de Savoir, par FAMILLE de case, ou — le plus précis — par ÉTABLISSEMENT, quand l'auteur a dessiné la carte d'un établissement en particulier : son nom est alors peint sur l'illustration, et le nom en données doit dire la même chose. La zone d'écriture est une donnée, exprimée en fraction de la carte : elle borne le texte au parchemin, sans jamais mordre sur le cadre ni sur l'illustration du bas. Une famille sans jeu de cartes garde l'habillage historique : rien ne casse tant que toutes les illustrations ne sont pas fournies.",
+  "$comment": "Jeux de cartes illustrés : pour chaque famille, le DOS (ce qu'on retourne) et la FACE (le parchemin où s'écrivent la question et la réponse). Un jeu de cartes se choisit par CATÉGORIE de Savoir, par FAMILLE de case, ou — le plus précis — par ÉTABLISSEMENT, quand l'auteur a dessiné la carte d'un établissement en particulier : son nom est alors peint sur l'illustration, et le nom en données doit dire la même chose. La zone d'écriture est une donnée, exprimée en fraction de la carte : elle borne le texte au parchemin, sans jamais mordre sur le cadre ni sur l'illustration du bas. Une famille sans jeu de cartes garde l'habillage historique : rien ne casse tant que toutes les illustrations ne sont pas fournies. `thumb` : vignette carrée découpée dans le BAS de la carte (l'illustration, jamais le bandeau de titre, illisible à la taille d'une case). Elle sert à la CASE du plateau : on reconnaît le lieu avant d'y arriver, et on ne charge pas la carte entière pour une tuile de 80 px.",
   "defaultPanel": {
     "start": 0.12,
     "top": 0.24,
@@ -142,7 +142,8 @@
         "top": 0.355,
         "end": 0.84,
         "bottom": 0.7
-      }
+      },
+      "thumb": "/kounouzi/cards/decks/casbah-alger-vignette.webp"
     },
     {
       "id": "restaurant-marocain",
@@ -160,7 +161,8 @@
         "top": 0.355,
         "end": 0.84,
         "bottom": 0.7
-      }
+      },
+      "thumb": "/kounouzi/cards/decks/restaurant-marocain-vignette.webp"
     }
   ]
 }
