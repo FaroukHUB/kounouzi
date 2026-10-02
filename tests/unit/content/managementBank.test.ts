@@ -90,11 +90,12 @@ describe("Gestion V1 — banque curée de 30 cartes statiques", () => {
 });
 
 describe("Gestion V1 — régime documentaire et jouabilité", () => {
-  it("la catégorie garde son comportement : banque curée, sans source exigée, explication affichée", () => {
+  it("la catégorie garde son comportement : banque curée, sans source exigée ; l'explication n'est plus lue en partie", () => {
     const gestion = categoryById("management")!;
     expect(gestion.generationMode).toBe("curated");
     expect(gestion.requiresSource).toBe(false);
-    expect(gestion.showsExplanation).toBe(true);
+    // Lecture réservée à la religion (ADR 0053) ; l'explication reste écrite et exigée par la garde.
+    expect(gestion.showsExplanation).toBe(false);
     expect(gestion.active).toBe(true);
   });
 

@@ -97,9 +97,11 @@ describe("Histoire & Géographie V1 — banque contrôlée", () => {
 });
 
 describe("Histoire & Géographie V1 — source et arabe conditionnent la publication", () => {
-  it("la catégorie exige une source, même quand le fait paraît évident, et montre son explication", () => {
+  it("la catégorie exige toujours une source, même quand le fait paraît évident ; son explication n'est plus lue en partie", () => {
     expect(categoryById("geography")?.requiresSource).toBe(true);
-    expect(categoryById("geography")?.showsExplanation).toBe(true);
+    // Lecture réservée à la religion (ADR 0053). La source reste exigée à la publication :
+    // c'est une règle de CONTENU, pas d'affichage.
+    expect(categoryById("geography")?.showsExplanation).toBe(false);
   });
 
   it("les 32 cartes franchissent la garde : explication FR et AR écrites par l'auteur, et au moins une source", () => {

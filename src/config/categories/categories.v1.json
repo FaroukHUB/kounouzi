@@ -1,13 +1,101 @@
 {
-  "$comment": "Catégories V1 (données). geography : catégorie « Histoire & Géographie » depuis l'ADR 0045 — l'histoire n'a pas sa propre catégorie, elle est portée par les lieux de la carte du plateau ; l'identifiant reste geography pour ne pas casser les parties enregistrées et la mémoire pédagogique. Banque contrôlée depuis l'ADR 0038 (generationMode curated), requiresSource=true — un fait géographique exige une source même quand il paraît évident — et showsExplanation=true : plusieurs cartes portent leur nuance dans l'explication, qui fait partie de l'apprentissage. logic : banque curée depuis l'ADR 0040, showsExplanation=true (une carte de logique sans explication affichée devient un quiz), requiresSource reste false. management : banque curée depuis l'ADR 0039, showsExplanation=true pour la même raison, requiresSource reste false (un raisonnement de gestion ne se vérifie pas contre une référence externe). requiresSource=true : aucune question publiable sans source primaire. showsExplanation=true : l'explication FR/AR est affichée et lue après la réponse (religion) ; false : on passe directement au résultat. Une catégorie active sans contenu jouable ne fournit simplement rien.",
+  "$comment": "Catégories V1 (données). showsExplanation : l'explication FR/AR est affichée et lue après la réponse. DEPUIS L'ADR 0053, UNE SEULE CATÉGORIE LA MONTRE : religion. Partout ailleurs la réponse validée part directement au moteur. Décision de l'auteur après des parties réelles : une explication après chaque question casse le rythme du jeu, et c'est en religion qu'elle porte vraiment. Cela ne change RIEN à l'exigence de contenu : la garde de jouabilité continue d'exiger une explication FR ET AR pour toute question validée, quelle que soit la catégorie — elle est écrite, relue, conservée ; elle n'est simplement plus lue à voix haute en partie. geography : catégorie « Histoire & Géographie » depuis l'ADR 0045 — l'histoire n'a pas sa propre catégorie, elle est portée par les lieux de la carte du plateau ; l'identifiant reste geography pour ne pas casser les parties enregistrées et la mémoire pédagogique. Banque contrôlée depuis l'ADR 0038 (generationMode curated), requiresSource=true — un fait géographique exige une source même quand il paraît évident. logic : banque curée depuis l'ADR 0040, requiresSource reste false. management : banque curée depuis l'ADR 0039, requiresSource reste false (un raisonnement de gestion ne se vérifie pas contre une référence externe). requiresSource=true : aucune question publiable sans source primaire. Une catégorie active sans contenu jouable ne fournit simplement rien.",
   "categories": [
-    { "id": "religion", "label": { "fr": "Religion", "ar": "الدين" }, "visualKey": "book", "requiresSource": true, "showsExplanation": true, "generationMode": "curated", "active": true },
-    { "id": "maths", "label": { "fr": "Mathématiques", "ar": "الرياضيات" }, "visualKey": "slate", "requiresSource": false, "showsExplanation": false, "generationMode": "algorithmic", "active": true },
-    { "id": "geography", "label": { "fr": "Histoire & Géographie", "ar": "التاريخ والجغرافيا" }, "visualKey": "globe", "requiresSource": true, "showsExplanation": true, "generationMode": "curated", "active": true },
-    { "id": "history", "label": { "fr": "Histoire et patrimoine", "ar": "التاريخ والتراث" }, "visualKey": "monument", "requiresSource": false, "showsExplanation": false, "generationMode": "curated", "active": true },
-    { "id": "arabic", "label": { "fr": "Langue arabe", "ar": "اللغة العربية" }, "visualKey": "letters", "requiresSource": false, "showsExplanation": false, "generationMode": "curated", "active": true },
-    { "id": "logic", "label": { "fr": "Logique", "ar": "المنطق" }, "visualKey": "puzzle", "requiresSource": false, "showsExplanation": true, "generationMode": "curated", "active": true },
-    { "id": "management", "label": { "fr": "Gestion", "ar": "التدبير" }, "visualKey": "coins", "requiresSource": false, "showsExplanation": true, "generationMode": "curated", "active": true },
-    { "id": "culture", "label": { "fr": "Culture générale", "ar": "الثقافة العامة" }, "visualKey": "spark", "requiresSource": false, "showsExplanation": false, "generationMode": "curated", "active": true }
+    {
+      "id": "religion",
+      "label": {
+        "fr": "Religion",
+        "ar": "الدين"
+      },
+      "visualKey": "book",
+      "requiresSource": true,
+      "showsExplanation": true,
+      "generationMode": "curated",
+      "active": true
+    },
+    {
+      "id": "maths",
+      "label": {
+        "fr": "Mathématiques",
+        "ar": "الرياضيات"
+      },
+      "visualKey": "slate",
+      "requiresSource": false,
+      "showsExplanation": false,
+      "generationMode": "algorithmic",
+      "active": true
+    },
+    {
+      "id": "geography",
+      "label": {
+        "fr": "Histoire & Géographie",
+        "ar": "التاريخ والجغرافيا"
+      },
+      "visualKey": "globe",
+      "requiresSource": true,
+      "showsExplanation": false,
+      "generationMode": "curated",
+      "active": true
+    },
+    {
+      "id": "history",
+      "label": {
+        "fr": "Histoire et patrimoine",
+        "ar": "التاريخ والتراث"
+      },
+      "visualKey": "monument",
+      "requiresSource": false,
+      "showsExplanation": false,
+      "generationMode": "curated",
+      "active": true
+    },
+    {
+      "id": "arabic",
+      "label": {
+        "fr": "Langue arabe",
+        "ar": "اللغة العربية"
+      },
+      "visualKey": "letters",
+      "requiresSource": false,
+      "showsExplanation": false,
+      "generationMode": "curated",
+      "active": true
+    },
+    {
+      "id": "logic",
+      "label": {
+        "fr": "Logique",
+        "ar": "المنطق"
+      },
+      "visualKey": "puzzle",
+      "requiresSource": false,
+      "showsExplanation": false,
+      "generationMode": "curated",
+      "active": true
+    },
+    {
+      "id": "management",
+      "label": {
+        "fr": "Gestion",
+        "ar": "التدبير"
+      },
+      "visualKey": "coins",
+      "requiresSource": false,
+      "showsExplanation": false,
+      "generationMode": "curated",
+      "active": true
+    },
+    {
+      "id": "culture",
+      "label": {
+        "fr": "Culture générale",
+        "ar": "الثقافة العامة"
+      },
+      "visualKey": "spark",
+      "requiresSource": false,
+      "showsExplanation": false,
+      "generationMode": "curated",
+      "active": true
+    }
   ]
 }

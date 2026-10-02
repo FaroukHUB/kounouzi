@@ -98,9 +98,9 @@ describe("Logique V1 — ce qui est servi et ce qui attend", () => {
   });
 
   it("les 30 cartes portent une explication complète en français ET en arabe", () => {
-    // L'explication fait partie de l'apprentissage en logique (`showsExplanation`) :
-    // une carte ne peut pas en être privée.
-    expect(categoryById("logic")?.showsExplanation).toBe(true);
+    // L'explication n'est plus LUE en partie (réservée à la religion, ADR 0053), mais elle
+    // reste ÉCRITE et exigée : la garde de jouabilité la réclame en français et en arabe.
+    expect(categoryById("logic")?.showsExplanation).toBe(false);
     for (const q of LOGIC_BANK) {
       expect(q.explanation.fr.trim(), q.id).not.toBe("");
       expect(arabic.test(q.explanation.ar), q.id).toBe(true);
