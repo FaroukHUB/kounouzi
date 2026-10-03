@@ -42,12 +42,9 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
   const ribbon = establishment ? t(DEFAULT_LOCALE, `cell.family.${establishment.family}`) : label;
   const isStart = type === "start";
   const isMonument = type === "heritage";
-  // L'établissement a sa propre carte dessinée : la case montre la vignette de cette
-  // carte — son illustration, pas son titre, illisible à cette taille — plutôt qu'une
-  // pastille d'emoji. On reconnaît le lieu avant même d'y arriver.
+  // L'établissement a sa propre carte dessinée : la case montre CETTE CARTE, entière et
+  // aussi grande que la case le permet. Elle porte déjà son nom : pas de ruban en plus.
   const carte = isMonument && siteId ? deckFor({ siteId }) : undefined;
-  /** L'illustration occupe toute la case : le ruban et le numéro doivent alors tenir PAR-DESSUS. */
-  const pleineIllustration = Boolean(carte?.thumb);
   // Halte : « grosse case » — médaillon plus grand, liseré marqué, légère mise en avant (structure de grille inchangée).
   const isHalt = type === "halt";
   const ring = arrival ? `0 0 0 3px ${style.accent}, 0 10px 18px -10px rgba(0,0,0,0.55)` : highlighted || preview ? `0 0 0 2px ${style.accent}aa, 0 6px 14px -10px rgba(0,0,0,0.5)` : "0 4px 10px -8px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.7)";
@@ -74,9 +71,9 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
       title={establishment?.name}
     >
       {/* Carte dessinée par l'auteur quand elle existe, sinon icône de l'établissement, illustration (ancien site) ou médaillon d'icône */}
-      {isMonument && carte?.thumb ? (
-        // eslint-disable-next-line @next/next/no-img-element -- l'illustration EST la case
-        <img src={carte.thumb} alt="" aria-hidden="true" className="absolute inset-0 size-full object-cover" loading="lazy" decoding="async" data-testid={`establishment-art-${position}`} />
+      {isMonument && carte ? (
+        // eslint-disable-next-line @next/next/no-img-element -- la carte ENTIÈRE, aussi grande que la case le permet
+        <img src={carte.back} alt="" aria-hidden="true" className="absolute inset-0 size-full object-contain" loading="lazy" decoding="async" data-testid={`establishment-art-${position}`} />
       ) : isMonument && establishment?.icon ? (
         <span className="absolute top-[8%] flex size-[46%] items-center justify-center rounded-full text-[clamp(0.9rem,2.6vw,1.6rem)] leading-none" style={{ backgroundColor: "rgba(255,255,255,0.8)", boxShadow: `inset 0 0 0 1.5px ${style.accent}66` }} aria-hidden="true" data-testid={`establishment-${position}`}>
           {establishment.icon}
@@ -89,18 +86,20 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
           <CellIcon type={type} className="size-[62%]" />
         </span>
       )}
-      {/* Petit titre sur ruban */}
-      {/* Petit titre : masqué sur les très petits écrans (icône seule), jamais tronqué ailleurs */}
-      <span className="relative z-10 mb-[7%] hidden w-full overflow-hidden rounded-full px-0.5 py-[3%] text-[clamp(0.38rem,0.7vw,0.62rem)] font-bold leading-none tracking-[-0.01em] sm:block" style={{ backgroundColor: isStart ? "rgba(255,255,255,0.18)" : pleineIllustration ? "rgba(255,255,255,0.92)" : "rgba(255,255,255,0.72)" }}>
-        {ribbon}
-      </span>
+      {/* Petit titre : masqué sur les très petits écrans (icône seule), jamais tronqué ailleurs. */}
+      {/* Petit titre sur ruban — sauf si la carte de l'établissement est affichée : elle porte déjà son nom. */}
+      {carte ? null : (
+        <span className="relative z-10 mb-[7%] hidden w-full overflow-hidden rounded-full px-0.5 py-[3%] text-[clamp(0.38rem,0.7vw,0.62rem)] font-bold leading-none tracking-[-0.01em] sm:block" style={{ backgroundColor: isStart ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.72)" }}>
+          {ribbon}
+        </span>
+      )}
       {/* Ruban de propriétaire (monument possédé) */}
       {owner ? (
         <span className="absolute end-[6%] top-[6%] z-10 flex size-[26%] items-center justify-center rounded-full border-2 border-white text-white shadow-md" style={{ backgroundColor: owner.color }} title={owner.name} data-testid={`owner-${position}`}>
           <AvatarGlyph shape={owner.shape} className="size-[62%]" />
         </span>
       ) : null}
-      <span className={`absolute start-[7%] top-[5%] text-[0.5rem] font-semibold ${pleineIllustration ? "z-10 text-white opacity-90 [text-shadow:0_1px_2px_rgba(0,0,0,0.75)]" : "opacity-45"}`}>{position}</span>
+      <span className="absolute start-[7%] top-[5%] z-10 text-[0.5rem] font-semibold opacity-45">{position}</span>
       {/* Coins décoratifs */}
       <span className="pointer-events-none absolute inset-[4%] rounded-[12%] border" style={{ borderColor: isStart ? "rgba(255,255,255,0.25)" : `${style.accent}33` }} aria-hidden="true" />
     </motion.div>

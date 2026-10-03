@@ -15,8 +15,6 @@ const deckSchema = z.object({
   sites: z.array(z.string().min(1)).default([]),
   back: z.string().min(1),
   face: z.string().min(1),
-  /** Vignette carrée (l'illustration seule) pour la CASE du plateau ; absente = la case garde son icône. */
-  thumb: z.string().min(1).optional(),
   width: z.number().int().positive(),
   height: z.number().int().positive(),
   panel: panelSchema.optional(),

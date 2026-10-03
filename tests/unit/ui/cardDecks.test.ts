@@ -40,19 +40,6 @@ describe("cartes illustrées — jeux de cartes fournis", () => {
     expect(deckFor({})).toBeUndefined();
   });
 
-  it("une carte d'établissement porte aussi sa vignette : la CASE du plateau la montre, pas une pastille d'emoji", () => {
-    // Le titre peint sur la carte est illisible à la taille d'une tuile : la vignette est
-    // découpée dans le BAS de la carte, l'illustration seule. Et on ne charge pas la carte
-    // entière (180 ko) pour une case de 80 px.
-    for (const id of ["casbah-alger", "restaurant-marocain"]) {
-      const d = CARD_DECKS.find((x) => x.id === id)!;
-      expect(d.thumb, id).toMatch(/^\/kounouzi\/cards\/decks\/.+\.webp$/);
-      expect(existsSync(`public${d.thumb}`), `${id} : vignette manquante`).toBe(true);
-    }
-    // Les jeux de cartes par catégorie ou par case n'en ont pas : rien ne change pour eux.
-    expect(CARD_DECKS.find((d) => d.id === "maths")?.thumb).toBeUndefined();
-  });
-
   it("un établissement dont l'auteur a dessiné la carte ouvre LA SIENNE, avant toute famille", () => {
     expect(deckFor({ siteId: "est-restaurant-algerie" })?.id).toBe("casbah-alger");
     expect(deckFor({ siteId: "est-restaurant-maroc" })?.id).toBe("restaurant-marocain");

@@ -35,14 +35,13 @@ de case. Il manquait la clé la plus précise.
    gardent l'habillage historique. Rien ne casse tant que la série n'est pas
    complète.
 
-6. **La case du plateau EST l'illustration.** Une vignette carrée (`thumb`),
-   découpée dans le BAS de la carte, occupe toute la tuile de l'établissement —
-   bord à bord, pas une pastille au milieu. Deux raisons de ne pas y mettre la
-   carte entière : son titre peint est illisible à cette taille (essayé,
-   mesuré), et une tuile de 80 px n'a pas à charger 180 ko. Le ruban du nom
-   passe par-dessus sur un fond plus opaque, et le numéro de case en blanc
-   ombré, pour rester lisibles sur l'image. Un établissement sans vignette
-   garde son emoji sur fond uni.
+6. **La case du plateau montre LA CARTE ENTIÈRE.** Pas une pastille, pas un
+   recadrage : la carte au complet, aussi grande que la case le permet, jamais
+   coupée. La case étant carrée et la carte deux tiers plus haute que large, il
+   reste du fond de part et d'autre : c'est le prix à payer pour ne rien
+   couper, et c'est le bon prix. Le ruban du nom disparaît sur ces cases — la
+   carte porte déjà son nom, en ajouter un était une redite. Un établissement
+   sans carte dessinée garde son emoji et son ruban.
 
 ## Conséquences
 
