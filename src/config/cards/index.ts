@@ -15,6 +15,8 @@ const deckSchema = z.object({
   sites: z.array(z.string().min(1)).default([]),
   back: z.string().min(1),
   face: z.string().min(1),
+  /** Où cadrer le DOS quand il remplit la case du plateau : fraction de la hauteur (0 = par le haut, 1 = par le bas). */
+  cellFocus: z.number().min(0).max(1).default(0.3),
   width: z.number().int().positive(),
   height: z.number().int().positive(),
   panel: panelSchema.optional(),

@@ -45,6 +45,17 @@ de case. Il manquait la clé la plus précise.
    ces cases — la carte porte déjà le sien, en ajouter un était une redite. Un
    établissement sans carte dessinée garde son emoji et son ruban.
 
+7. **Une carte peut servir PLUSIEURS établissements.** Les deux hôtels d'une
+   même ville partagent la carte de leur ville (`sites` en contient deux) : il
+   n'y a qu'un dessin par ville, et les deux cases le portent. Le nom en
+   données garde son suffixe A/B pour qu'on sache lequel on achète.
+
+8. **Où couper est une DONNÉE de la carte** (`cellFocus`, fraction de la
+   hauteur, 0,3 par défaut). La case est carrée, la carte deux tiers plus
+   haute : il faut couper quelque part, et le bon endroit dépend du dessin.
+   Mesuré sur chaque illustration — les six cartes de la série gardent leur
+   cartouche entier à 0,30, là où la première carte le perdait.
+
 ## Conséquences
 
 - La zone d'écriture de ces deux cartes a été MESURÉE sur l'illustration (cadre

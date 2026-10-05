@@ -18,18 +18,24 @@ const NAMES = ["Youssouf", "Maryam", "Yacine"];
 const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: NAMES[i]!, profileType: p.profileType, avatarId: ["garcon-7-9", "fille-7-9", "garcon-10-12"][i]!, ...(p.profileType === "child" ? { child: { birthYear: 2019 } } : { adult: { initialLevel: "standard" as const } }) }));
 const named = (s: GameState): GameState => ({ ...s, players: s.players.map((p, i) => ({ ...p, displayName: NAMES[i]! })) });
 const HOTEL = DEMO_ESTABLISHMENTS.find((s) => s.id === "est-hotel-madinah-a")!;
+/** Établissement dont l'auteur n'a pas encore dessiné la carte : il garde l'habillage historique (icône, vignette). */
+const SANS_CARTE = DEMO_ESTABLISHMENTS.find((s) => s.id === "est-park-kounouzi")!;
 
 describe("carte Établissement (achat) et carte Service (chez un autre joueur)", () => {
   const offered = named(journey(create(makeLineSetup({ cells: { 1: "heritage", 2: "question" }, heritageSites: [HOTEL], players: players(2), rules: NO_ZAKAT })).state).state);
 
-  it("l'achat montre icône, nom FR et AR, famille, prix, Kounouz du joueur, ACHETER / PASSER ; jamais « Monument »", () => {
+  it("l'achat montre nom FR et AR, famille, prix, Kounouz du joueur, ACHETER / PASSER ; jamais « Monument »", () => {
     const card = cardForPhase(offered);
     if (card?.kind !== "establishment") throw new Error("carte établissement attendue");
     const html = renderToStaticMarkup(<EstablishmentCard state={offered} card={card} onDecide={() => {}} />);
     expect(siteDisplayName(offered, HOTEL.id)).toBe("Hôtel de Médine A");
     expect(html).toContain("Hôtel de Médine A");
     expect(html).toContain(HOTEL.establishment!.name.ar!);
-    expect(html).toContain('data-testid="establishment-icon"');
+    // L'auteur a dessiné la carte de cet hôtel : elle DEVIENT la carte, le nom y est peint,
+    // et la vignette d'illustration comme la pastille d'icône n'ont plus lieu d'être.
+    expect(html).toContain('data-deck="hotel-medine"');
+    expect(html).not.toContain('data-testid="establishment-icon"');
+    expect(html).not.toContain('data-testid="establishment-illustration"');
     expect(html).toContain("Hôtels de Médine");
     expect(html).toContain('data-testid="establishment-price"');
     expect(html).toContain('data-testid="establishment-your-kounouz"');
@@ -61,14 +67,26 @@ describe("carte Établissement (achat) et carte Service (chez un autre joueur)",
     expect(bannerText({ kind: "owned", ownerId: pid("p2") }, state)).toBe("Cet établissement appartient déjà à Maryam");
   });
 
-  it("le plateau montre l'icône de l'établissement sur sa case et le propriétaire une fois acheté", () => {
+  it("le plateau montre la carte de l'établissement sur sa case, et le propriétaire une fois acheté", () => {
     const bought = run(offered, { type: "DecidePurchase", playerId: pid("p1"), siteId: HOTEL.id, buy: true }).state;
     const html = renderToStaticMarkup(<Board board={bought.config.board} highlightedCell={null} arrivalCell={null} previewPath={[]} pawns={null} center={null} holdings={bought.holdings} sites={bought.config.sites} players={bought.players} profiles={profiles} />);
-    expect(html).toContain('data-testid="establishment-1"');
-    expect(html).toContain(HOTEL.establishment!.icon!);
+    expect(html).toContain('data-testid="establishment-art-1"');
+    expect(html).toContain("hotel-medine-dos.webp");
     expect(html).toContain('data-testid="owner-1"');
     expect(html).toContain("Hôtel de Médine A");
     expect(html).toContain("Établissement 1");
+  });
+
+  it("un établissement sans carte dessinée garde son icône sur la case et sa vignette sur la carte", () => {
+    const sansCarte = named(journey(create(makeLineSetup({ cells: { 1: "heritage", 2: "question" }, heritageSites: [SANS_CARTE], players: players(2), rules: NO_ZAKAT })).state).state);
+    const card = cardForPhase(sansCarte);
+    if (card?.kind !== "establishment") throw new Error("carte établissement attendue");
+    const carte = renderToStaticMarkup(<EstablishmentCard state={sansCarte} card={card} onDecide={() => {}} />);
+    expect(carte).toContain('data-testid="establishment-icon"');
+    expect(carte).toContain('data-testid="establishment-illustration"');
+    const plateau = renderToStaticMarkup(<Board board={sansCarte.config.board} highlightedCell={null} arrivalCell={null} previewPath={[]} pawns={null} center={null} holdings={[]} sites={sansCarte.config.sites} players={sansCarte.players} profiles={profiles} />);
+    expect(plateau).toContain('data-testid="establishment-1"');
+    expect(plateau).toContain(SANS_CARTE.establishment!.icon!);
   });
 });
 

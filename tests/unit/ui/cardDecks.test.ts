@@ -36,13 +36,20 @@ describe("cartes illustrées — jeux de cartes fournis", () => {
     // Tant que l'illustration n'est pas fournie, la carte garde l'habillage historique :
     // les établissements sans carte dessinée attendent la leur (Maktaba, hôtel…).
     expect(deckFor({ cellType: "heritage" })).toBeUndefined();
-    expect(deckFor({ siteId: "est-maktaba-albani", cellType: "heritage" })).toBeUndefined();
+    expect(deckFor({ siteId: "est-park-kounouzi", cellType: "heritage" })).toBeUndefined();
     expect(deckFor({})).toBeUndefined();
   });
 
   it("un établissement dont l'auteur a dessiné la carte ouvre LA SIENNE, avant toute famille", () => {
     expect(deckFor({ siteId: "est-restaurant-algerie" })?.id).toBe("casbah-alger");
     expect(deckFor({ siteId: "est-restaurant-maroc" })?.id).toBe("restaurant-marocain");
+    expect(deckFor({ siteId: "est-maktaba-albani" })?.id).toBe("maktaba-al-albani");
+    expect(deckFor({ siteId: "est-maktaba-ibn-baz" })?.id).toBe("maktaba-as-sunnah");
+    // Une carte peut servir DEUX établissements : les deux hôtels d'une même ville partagent la leur.
+    expect(deckFor({ siteId: "est-hotel-makkah-a" })?.id).toBe("hotel-la-mecque");
+    expect(deckFor({ siteId: "est-hotel-makkah-b" })?.id).toBe("hotel-la-mecque");
+    expect(deckFor({ siteId: "est-hotel-madinah-a" })?.id).toBe("hotel-medine");
+    expect(deckFor({ siteId: "est-hotel-madinah-b" })?.id).toBe("hotel-medine");
     // L'établissement est plus précis que la case : même sur une case Patrimoine, c'est sa carte.
     expect(deckFor({ siteId: "est-restaurant-maroc", cellType: "heritage" })?.id).toBe("restaurant-marocain");
   });
@@ -53,6 +60,8 @@ describe("cartes illustrées — jeux de cartes fournis", () => {
     const nom = (id: string) => DEMO_ESTABLISHMENTS.find((s) => s.id === id)?.establishment?.name;
     expect(nom("est-restaurant-algerie")?.fr).toBe("Casbah d’Alger");
     expect(nom("est-restaurant-maroc")?.fr).toBe("Restaurant Marocain");
+    expect(nom("est-maktaba-albani")?.fr).toBe("Maktaba Al-Albānī");
+    expect(nom("est-maktaba-ibn-baz")?.fr).toBe("Maktaba As-Sunnah");
     // Et chaque carte d'établissement vise un établissement qui existe vraiment.
     const connus = new Set(DEMO_ESTABLISHMENTS.map((s) => s.id));
     for (const d of CARD_DECKS) for (const s of d.sites) expect(connus, `${d.id} → ${s}`).toContain(s);
