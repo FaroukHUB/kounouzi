@@ -35,13 +35,15 @@ de case. Il manquait la clé la plus précise.
    gardent l'habillage historique. Rien ne casse tant que la série n'est pas
    complète.
 
-6. **La case du plateau montre LA CARTE ENTIÈRE.** Pas une pastille, pas un
-   recadrage : la carte au complet, aussi grande que la case le permet, jamais
-   coupée. La case étant carrée et la carte deux tiers plus haute que large, il
-   reste du fond de part et d'autre : c'est le prix à payer pour ne rien
-   couper, et c'est le bon prix. Le ruban du nom disparaît sur ces cases — la
-   carte porte déjà son nom, en ajouter un était une redite. Un établissement
-   sans carte dessinée garde son emoji et son ruban.
+6. **La case du plateau EST la carte, bord à bord.** La case est carrée et la
+   carte deux tiers plus haute que large : les deux ne peuvent pas être vraies
+   en même temps. L'auteur a tranché — la carte REMPLIT la case, donc elle est
+   recadrée. Le cadrage n'est pas deviné : essayé sur les deux cartes, il est
+   fixé à 55 % de la hauteur, ce qui garde le cartouche du nom en entier et
+   toute l'illustration ; seule l'arche décorative du haut sort du cadre.
+   Cadrer par le bas, le réflexe, coupait le nom. Le ruban du nom disparaît sur
+   ces cases — la carte porte déjà le sien, en ajouter un était une redite. Un
+   établissement sans carte dessinée garde son emoji et son ruban.
 
 ## Conséquences
 
