@@ -72,8 +72,16 @@ export function Cell({ position, type, grid, highlighted, arrival, preview, site
     >
       {/* Carte dessinée par l'auteur quand elle existe, sinon icône de l'établissement, illustration (ancien site) ou médaillon d'icône */}
       {isMonument && carte ? (
-        // eslint-disable-next-line @next/next/no-img-element -- la carte ENTIÈRE, aussi grande que la case le permet
-        <img src={carte.back} alt="" aria-hidden="true" className="absolute inset-0 size-full object-contain" loading="lazy" decoding="async" data-testid={`establishment-art-${position}`} />
+        <>
+          {/* La case est carrée, la carte est bien plus haute que large : à l'afficher
+              entière, il resterait du fond de part et d'autre. Ce fond est donc la carte
+              elle-même, agrandie et floutée — la tuile est couverte par ses propres
+              couleurs, et la carte reste entière et nette par-dessus. */}
+          {/* eslint-disable-next-line @next/next/no-img-element -- fond : la carte elle-même, floutée */}
+          <img src={carte.back} alt="" aria-hidden="true" className="absolute inset-0 size-full scale-125 object-cover blur-[3px]" loading="lazy" decoding="async" />
+          {/* eslint-disable-next-line @next/next/no-img-element -- la carte ENTIÈRE, jamais coupée */}
+          <img src={carte.back} alt="" aria-hidden="true" className="absolute inset-0 size-full object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]" loading="lazy" decoding="async" data-testid={`establishment-art-${position}`} />
+        </>
       ) : isMonument && establishment?.icon ? (
         <span className="absolute top-[8%] flex size-[46%] items-center justify-center rounded-full text-[clamp(0.9rem,2.6vw,1.6rem)] leading-none" style={{ backgroundColor: "rgba(255,255,255,0.8)", boxShadow: `inset 0 0 0 1.5px ${style.accent}66` }} aria-hidden="true" data-testid={`establishment-${position}`}>
           {establishment.icon}
