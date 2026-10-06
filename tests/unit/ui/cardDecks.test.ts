@@ -33,15 +33,16 @@ describe("cartes illustrées — jeux de cartes fournis", () => {
     expect(deckFor({ cellType: "treasure" })?.id).toBe("tresor");
     expect(deckFor({ cellType: "halt" })?.id).toBe("halte");
     expect(deckFor({ cellType: "hassanat" })?.id).toBe("hassanat");
-    // Tant que l'illustration n'est pas fournie, la carte garde l'habillage historique :
-    // les établissements sans carte dessinée attendent la leur (Maktaba, hôtel…).
+    // La famille Patrimoine n'a pas de carte à elle : ce sont les ÉTABLISSEMENTS qui
+    // portent la leur. Un établissement ajouté plus tard, dont l'auteur n'aurait pas
+    // encore dessiné la carte, garde l'habillage historique : rien ne casse.
     expect(deckFor({ cellType: "heritage" })).toBeUndefined();
-    expect(deckFor({ siteId: "est-park-kounouzi", cellType: "heritage" })).toBeUndefined();
+    expect(deckFor({ siteId: "est-pas-encore-dessine", cellType: "heritage" })).toBeUndefined();
     expect(deckFor({})).toBeUndefined();
   });
 
   it("un établissement dont l'auteur a dessiné la carte ouvre LA SIENNE, avant toute famille", () => {
-    expect(deckFor({ siteId: "est-restaurant-algerie" })?.id).toBe("casbah-alger");
+    expect(deckFor({ siteId: "est-restaurant-algerie" })?.id).toBe("restaurant-algerien");
     expect(deckFor({ siteId: "est-restaurant-maroc" })?.id).toBe("restaurant-marocain");
     expect(deckFor({ siteId: "est-maktaba-albani" })?.id).toBe("maktaba-al-albani");
     expect(deckFor({ siteId: "est-maktaba-ibn-baz" })?.id).toBe("maktaba-as-sunnah");
@@ -50,6 +51,10 @@ describe("cartes illustrées — jeux de cartes fournis", () => {
     expect(deckFor({ siteId: "est-hotel-makkah-b" })?.id).toBe("hotel-la-mecque");
     expect(deckFor({ siteId: "est-hotel-madinah-a" })?.id).toBe("hotel-medine");
     expect(deckFor({ siteId: "est-hotel-madinah-b" })?.id).toBe("hotel-medine");
+    expect(deckFor({ siteId: "est-umrah-agency-a" })?.id).toBe("agence-omra-an-nour");
+    expect(deckFor({ siteId: "est-umrah-agency-b" })?.id).toBe("agence-omra-al-huda");
+    expect(deckFor({ siteId: "est-museum-dubai" })?.id).toBe("musee-dubai");
+    expect(deckFor({ siteId: "est-park-kounouzi" })?.id).toBe("parc-familial-halal");
     // L'établissement est plus précis que la case : même sur une case Patrimoine, c'est sa carte.
     expect(deckFor({ siteId: "est-restaurant-maroc", cellType: "heritage" })?.id).toBe("restaurant-marocain");
   });
@@ -58,13 +63,29 @@ describe("cartes illustrées — jeux de cartes fournis", () => {
     // Le titre vit dans l'illustration ; si les données disaient autre chose, le plateau,
     // les bandeaux et la voix contrediraient la carte que l'enfant a sous les yeux.
     const nom = (id: string) => DEMO_ESTABLISHMENTS.find((s) => s.id === id)?.establishment?.name;
-    expect(nom("est-restaurant-algerie")?.fr).toBe("Casbah d’Alger");
+    expect(nom("est-restaurant-algerie")?.fr).toBe("Restaurant Algérien");
     expect(nom("est-restaurant-maroc")?.fr).toBe("Restaurant Marocain");
     expect(nom("est-maktaba-albani")?.fr).toBe("Maktaba Al-Albānī");
     expect(nom("est-maktaba-ibn-baz")?.fr).toBe("Maktaba As-Sunnah");
+    expect(nom("est-umrah-agency-a")?.fr).toBe("Agence Omra An-Nour");
+    expect(nom("est-umrah-agency-b")?.fr).toBe("Agence Omra Al-Hudā");
+    expect(nom("est-museum-dubai")?.fr).toBe("Musée Dubaï");
+    expect(nom("est-park-kounouzi")?.fr).toBe("Parc Familial Halal");
+    // Le nom arabe est obligatoire partout : un enfant arabophone lit le plateau aussi.
+    for (const s of DEMO_ESTABLISHMENTS) expect(s.establishment?.name.ar, s.id).toBeTruthy();
     // Et chaque carte d'établissement vise un établissement qui existe vraiment.
     const connus = new Set(DEMO_ESTABLISHMENTS.map((s) => s.id));
     for (const d of CARD_DECKS) for (const s of d.sites) expect(connus, `${d.id} → ${s}`).toContain(s);
+  });
+
+  it("les douze établissements du plateau portent leur carte : plus aucune case d'emoji", () => {
+    for (const s of DEMO_ESTABLISHMENTS) {
+      const carte = deckFor({ siteId: s.id });
+      expect(carte, `${s.id} : aucune carte dessinée`).toBeDefined();
+      // Et le cadrage de la case est une donnée mesurée, jamais le bord de l'image.
+      expect(carte!.cellFocus, s.id).toBeGreaterThan(0);
+      expect(carte!.cellFocus, s.id).toBeLessThan(1);
+    }
   });
 
   it("aucun jeu ne réclame une catégorie qui n'existe pas", () => {

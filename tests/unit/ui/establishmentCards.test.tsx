@@ -1,8 +1,9 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import { deckFor } from "@/config/cards";
 import { DEMO_ESTABLISHMENTS } from "@/config/demo";
 import { HASSANAT_CARDS, HASSANAT_CONFIG } from "@/config/hassanat";
-import type { GameState, RulesConfig } from "@/core/game";
+import type { GameState, HeritageSite, RulesConfig } from "@/core/game";
 import { Board } from "@/ui/board/Board";
 import { EstablishmentCard, ServiceCard, siteDisplayName } from "@/ui/cards/EstablishmentCard";
 import { HassanatCard } from "@/ui/cards/HassanatCard";
@@ -18,8 +19,15 @@ const NAMES = ["Youssouf", "Maryam", "Yacine"];
 const profiles = makeSetup().players.map((p, i) => ({ id: p.id, displayName: NAMES[i]!, profileType: p.profileType, avatarId: ["garcon-7-9", "fille-7-9", "garcon-10-12"][i]!, ...(p.profileType === "child" ? { child: { birthYear: 2019 } } : { adult: { initialLevel: "standard" as const } }) }));
 const named = (s: GameState): GameState => ({ ...s, players: s.players.map((p, i) => ({ ...p, displayName: NAMES[i]! })) });
 const HOTEL = DEMO_ESTABLISHMENTS.find((s) => s.id === "est-hotel-madinah-a")!;
-/** Établissement dont l'auteur n'a pas encore dessiné la carte : il garde l'habillage historique (icône, vignette). */
-const SANS_CARTE = DEMO_ESTABLISHMENTS.find((s) => s.id === "est-park-kounouzi")!;
+const PARC = DEMO_ESTABLISHMENTS.find((s) => s.id === "est-park-kounouzi")!;
+/**
+ * Les douze établissements du plateau portent désormais leur carte dessinée. Le filet de
+ * sécurité — icône sur la case, vignette sur la carte — reste le chemin emprunté par tout
+ * établissement AJOUTÉ plus tard, avant que l'auteur n'en dessine la carte. On le prouve
+ * donc sur un établissement de test qu'aucun jeu de cartes ne vise, pas en laissant une
+ * case du plateau sans sa carte.
+ */
+const SANS_CARTE: HeritageSite = { ...PARC, id: "est-sans-carte-test" };
 
 describe("carte Établissement (achat) et carte Service (chez un autre joueur)", () => {
   const offered = named(journey(create(makeLineSetup({ cells: { 1: "heritage", 2: "question" }, heritageSites: [HOTEL], players: players(2), rules: NO_ZAKAT })).state).state);
@@ -77,7 +85,17 @@ describe("carte Établissement (achat) et carte Service (chez un autre joueur)",
     expect(html).toContain("Établissement 1");
   });
 
-  it("un établissement sans carte dessinée garde son icône sur la case et sa vignette sur la carte", () => {
+  it("chacun des douze établissements montre SA carte sur sa case, jamais un emoji", () => {
+    for (const site of DEMO_ESTABLISHMENTS) {
+      const etat = create(makeLineSetup({ cells: { 1: "heritage", 2: "question" }, heritageSites: [site], players: players(2), rules: NO_ZAKAT })).state;
+      const plateau = renderToStaticMarkup(<Board board={etat.config.board} highlightedCell={null} arrivalCell={null} previewPath={[]} pawns={null} center={null} holdings={[]} sites={etat.config.sites} players={etat.players} profiles={profiles} />);
+      expect(plateau, site.id).toContain('data-testid="establishment-art-1"');
+      expect(plateau, site.id).toContain(deckFor({ siteId: site.id })!.back.split("/").pop()!);
+      expect(plateau, site.id).not.toContain(site.establishment!.icon!);
+    }
+  });
+
+  it("un établissement ajouté sans carte dessinée garde son icône sur la case et sa vignette sur la carte", () => {
     const sansCarte = named(journey(create(makeLineSetup({ cells: { 1: "heritage", 2: "question" }, heritageSites: [SANS_CARTE], players: players(2), rules: NO_ZAKAT })).state).state);
     const card = cardForPhase(sansCarte);
     if (card?.kind !== "establishment") throw new Error("carte établissement attendue");

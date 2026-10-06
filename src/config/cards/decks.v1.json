@@ -1,5 +1,5 @@
 {
-  "$comment": "Jeux de cartes illustrés : pour chaque famille, le DOS (ce qu'on retourne) et la FACE (le parchemin où s'écrivent la question et la réponse). Un jeu de cartes se choisit par CATÉGORIE de Savoir, par FAMILLE de case, ou — le plus précis — par ÉTABLISSEMENT, quand l'auteur a dessiné la carte d'un établissement en particulier : son nom est alors peint sur l'illustration, et le nom en données doit dire la même chose. La zone d'écriture est une donnée, exprimée en fraction de la carte : elle borne le texte au parchemin, sans jamais mordre sur le cadre ni sur l'illustration du bas. Une famille sans jeu de cartes garde l'habillage historique : rien ne casse tant que toutes les illustrations ne sont pas fournies. `cellFocus` : où cadrer le DOS quand il remplit la case du plateau (fraction de la hauteur, 0 = par le haut, 1 = par le bas). La case est carrée et la carte deux tiers plus haute : il faut couper quelque part, et le bon endroit dépend du dessin. Mesuré sur chaque carte, jamais deviné.",
+  "$comment": "Jeux de cartes illustrés : pour chaque famille, le DOS (ce qu'on retourne) et la FACE (le parchemin où s'écrivent la question et la réponse). Un jeu de cartes se choisit par CATÉGORIE de Savoir, par FAMILLE de case, ou — le plus précis — par ÉTABLISSEMENT, quand l'auteur a dessiné la carte d'un établissement en particulier : son nom est alors peint sur l'illustration, et le nom en données doit dire la même chose. Les 12 établissements du plateau ont désormais leur carte : plus aucune case ne porte d'emoji. La zone d'écriture est une donnée, exprimée en fraction de la carte : elle borne le texte au parchemin, sans jamais mordre sur le cadre ni sur l'illustration du bas. Elle est MESURÉE sur chaque face (le parchemin est la grande zone lisse et claire, mesurée à ~0.08/0.32→0.92/0.90), puis rentrée d'une marge pour que le texte ne touche pas le dessin. Une famille sans jeu de cartes garde l'habillage historique : rien ne casse tant que toutes les illustrations ne sont pas fournies. `cellFocus` : où cadrer le DOS quand il remplit la case du plateau (fraction de la hauteur, 0 = par le haut, 1 = par le bas). La case est carrée et la carte deux tiers plus haute : il faut couper quelque part, et le bon endroit dépend du dessin. Mesuré sur chaque carte, jamais deviné.",
   "defaultPanel": {
     "start": 0.12,
     "top": 0.24,
@@ -127,21 +127,21 @@
       "height": 1058
     },
     {
-      "id": "casbah-alger",
+      "id": "restaurant-algerien",
       "categories": [],
       "cells": [],
       "sites": [
         "est-restaurant-algerie"
       ],
-      "back": "/kounouzi/cards/decks/casbah-alger-dos.webp",
-      "face": "/kounouzi/cards/decks/casbah-alger-face.webp",
-      "width": 664,
-      "height": 966,
+      "back": "/kounouzi/cards/decks/restaurant-algerien-dos.webp",
+      "face": "/kounouzi/cards/decks/restaurant-algerien-face.webp",
+      "width": 688,
+      "height": 1058,
       "panel": {
-        "start": 0.11,
-        "top": 0.355,
-        "end": 0.84,
-        "bottom": 0.7
+        "start": 0.14,
+        "top": 0.38,
+        "end": 0.86,
+        "bottom": 0.84
       },
       "cellFocus": 0.3
     },
@@ -234,6 +234,82 @@
       "face": "/kounouzi/cards/decks/hotel-medine-face.webp",
       "width": 689,
       "height": 1057,
+      "panel": {
+        "start": 0.14,
+        "top": 0.38,
+        "end": 0.86,
+        "bottom": 0.84
+      },
+      "cellFocus": 0.3
+    },
+    {
+      "id": "agence-omra-an-nour",
+      "categories": [],
+      "cells": [],
+      "sites": [
+        "est-umrah-agency-a"
+      ],
+      "back": "/kounouzi/cards/decks/agence-omra-an-nour-dos.webp",
+      "face": "/kounouzi/cards/decks/agence-omra-an-nour-face.webp",
+      "width": 672,
+      "height": 1031,
+      "panel": {
+        "start": 0.14,
+        "top": 0.38,
+        "end": 0.86,
+        "bottom": 0.84
+      },
+      "cellFocus": 0.3
+    },
+    {
+      "id": "agence-omra-al-huda",
+      "categories": [],
+      "cells": [],
+      "sites": [
+        "est-umrah-agency-b"
+      ],
+      "back": "/kounouzi/cards/decks/agence-omra-al-huda-dos.webp",
+      "face": "/kounouzi/cards/decks/agence-omra-al-huda-face.webp",
+      "width": 676,
+      "height": 1046,
+      "panel": {
+        "start": 0.14,
+        "top": 0.38,
+        "end": 0.86,
+        "bottom": 0.84
+      },
+      "cellFocus": 0.3
+    },
+    {
+      "id": "musee-dubai",
+      "categories": [],
+      "cells": [],
+      "sites": [
+        "est-museum-dubai"
+      ],
+      "back": "/kounouzi/cards/decks/musee-dubai-dos.webp",
+      "face": "/kounouzi/cards/decks/musee-dubai-face.webp",
+      "width": 695,
+      "height": 1039,
+      "panel": {
+        "start": 0.14,
+        "top": 0.38,
+        "end": 0.86,
+        "bottom": 0.84
+      },
+      "cellFocus": 0.3
+    },
+    {
+      "id": "parc-familial-halal",
+      "categories": [],
+      "cells": [],
+      "sites": [
+        "est-park-kounouzi"
+      ],
+      "back": "/kounouzi/cards/decks/parc-familial-halal-dos.webp",
+      "face": "/kounouzi/cards/decks/parc-familial-halal-face.webp",
+      "width": 680,
+      "height": 1023,
       "panel": {
         "start": 0.14,
         "top": 0.38,

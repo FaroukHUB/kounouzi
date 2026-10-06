@@ -1,5 +1,5 @@
 {
-  "$comment": "Les 12 ÉTABLISSEMENTS du plateau 28 (évolution du plateau produit ; ADR 0035 pour les établissements) : établissements FICTIFS de l'univers Kounouzi. Les deux maktaba portent le nom de savants en référence, sans prétendre être leurs véritables bibliothèques ; le musée est un établissement de jeu, aucune information historique n'est fabriquée ; le Parc Kounouzi est familial (attractions, sans musique). Noms des hôtels et des agences PROVISOIRES (données modifiables). ⚠️ Prix d'achat et frais de service = VALEURS DE DÉMONSTRATION NON VALIDÉES. `kind: purchasable_monument` est conservé pour la compatibilité des sauvegardes. Les lieux de culte restent non achetables. Les deux restaurants portent désormais le nom PEINT sur la carte illustrée fournie par l'auteur (« Casbah d’Alger », « Restaurant Marocain ») : la carte et le plateau doivent dire la même chose. La deuxième maktaba s'appelle « Maktaba As-Sunnah » depuis que l'auteur en a dessiné la carte : le nom peint sur l'illustration fait foi, l'identifiant ne change pas pour ne pas casser les parties enregistrées.",
+  "$comment": "Les 12 ÉTABLISSEMENTS du plateau 28 (évolution du plateau produit ; ADR 0035 pour les établissements) : établissements FICTIFS de l'univers Kounouzi. Les deux maktaba portent le nom de savants en référence, sans prétendre être leurs véritables bibliothèques ; le musée est un établissement de jeu, aucune information historique n'est fabriquée ; le parc est familial (attractions, sans musique). ⚠️ Prix d'achat et frais de service = VALEURS DE DÉMONSTRATION NON VALIDÉES. `kind: purchasable_monument` est conservé pour la compatibilité des sauvegardes. Les lieux de culte restent non achetables. Les 12 établissements portent désormais le nom PEINT sur leur carte illustrée fournie par l'auteur : la carte et le plateau doivent dire la même chose. Les identifiants ne changent jamais, même quand le nom change, pour ne pas casser les parties enregistrées. Les noms arabes sont la traduction du nom peint ; ils restent à relire par un humain arabophone.",
   "sites": [
     {
       "id": "est-maktaba-albani",
@@ -107,8 +107,8 @@
         "serviceType": "meal",
         "serviceFee": 30,
         "name": {
-          "fr": "Casbah d’Alger",
-          "ar": "قصبة الجزائر"
+          "fr": "Restaurant Algérien",
+          "ar": "مطعم جزائري"
         },
         "icon": "🍽️"
       }
@@ -139,8 +139,8 @@
         "serviceType": "umrah_trip",
         "serviceFee": 30,
         "name": {
-          "fr": "Agence ʿUmra A",
-          "ar": "وكالة عمرة أ"
+          "fr": "Agence Omra An-Nour",
+          "ar": "وكالة عمرة النور"
         },
         "icon": "🧳"
       }
@@ -155,8 +155,8 @@
         "serviceType": "umrah_trip",
         "serviceFee": 30,
         "name": {
-          "fr": "Agence ʿUmra B",
-          "ar": "وكالة عمرة ب"
+          "fr": "Agence Omra Al-Hudā",
+          "ar": "وكالة عمرة الهدى"
         },
         "icon": "🧳"
       }
@@ -171,8 +171,8 @@
         "serviceType": "ticket",
         "serviceFee": 30,
         "name": {
-          "fr": "Musée des Civilisations Islamiques de Dubaï",
-          "ar": "متحف الحضارات الإسلامية بدبي"
+          "fr": "Musée Dubaï",
+          "ar": "متحف دبي"
         },
         "icon": "🏛️"
       }
@@ -187,8 +187,8 @@
         "serviceType": "ticket",
         "serviceFee": 30,
         "name": {
-          "fr": "Parc Kounouzi",
-          "ar": "منتزه كنوزي"
+          "fr": "Parc Familial Halal",
+          "ar": "منتزه عائلي حلال"
         },
         "icon": "🎡"
       }

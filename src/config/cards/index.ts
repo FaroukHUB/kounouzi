@@ -31,7 +31,7 @@ export const CARD_DECKS: readonly CardDeck[] = fichier.decks.map((d) => ({ ...d,
 /**
  * Le jeu de cartes d'une carte affichée, DU PLUS PRÉCIS AU PLUS GÉNÉRAL.
  * L'appelant dit ce qui décide : un établissement passe son IDENTIFIANT
- * (la Casbah d'Alger a sa propre carte, son nom est peint dessus), une case
+ * (chaque établissement du plateau a sa propre carte, son nom est peint dessus), une case
  * Savoir passe sa CATÉGORIE (une question de maths porte la carte
  * Mathématiques), les autres cases passent leur FAMILLE (un Duel ouvre une
  * carte Défi, quelle que soit la matière de la question posée).
