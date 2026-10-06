@@ -83,6 +83,12 @@ export interface LearnerContext {
   readonly playerId: PlayerId;
   readonly profileType: ProfileType;
   readonly seedLevel: number;
+  /**
+   * Âge en années d'un enfant ; absent pour un adulte. Il servait seulement à
+   * calculer un niveau d'amorçage, puis était oublié : le moteur ne pouvait
+   * donc pas respecter la tranche d'âge d'une question (ADR 0055).
+   */
+  readonly age?: number | undefined;
 }
 
 export function emptyMemory(playerId: PlayerId): PlayerLearningMemory {

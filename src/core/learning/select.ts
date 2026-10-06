@@ -1,3 +1,4 @@
+import { ageBandGap } from "@/core/content/ageBand";
 import { questionRefKey, type KnowledgeSlot, type QuestionInstance } from "@/core/content/types";
 import { isAudienceAllowed } from "@/core/shared";
 import type { LearningConfig } from "./config";
@@ -110,6 +111,17 @@ export function rankSlots(input: SelectionInput): readonly ScoredSlot[] {
       reasons.push("faiblesse");
     }
     score -= w.distance * Math.abs(slot.difficulty - target);
+    // ÉCART À LA TRANCHE D'ÂGE. Le numéro de difficulté ne dit pas l'âge : une
+    // difficulté 2 vaut 5-6 ans en géographie et 8-10 ans en religion. Sans ce
+    // terme, un enfant de 6 ans recevait des questions écrites pour des 8-10
+    // ans tout en étant « au bon niveau » (ADR 0055). Une tolérance évite le
+    // mur : les banques hors religion n'ont que six questions par âge, et un
+    // filtre strict ferait tourner les mêmes en boucle.
+    const ecartAge = ageBandGap(learner.age, slot.ageBand);
+    if (ecartAge !== null && ecartAge > config.variety.ageToleranceYears) {
+      score -= w.ageBand * (ecartAge - config.variety.ageToleranceYears);
+      reasons.push("hors tranche d'âge");
+    }
     if (ks) {
       score += w.rarelySeen / (1 + ks.attempts);
       if (ks.mastery >= config.mastery.masteredThreshold && !due) {

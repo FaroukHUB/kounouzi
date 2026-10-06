@@ -31,3 +31,4 @@ export {
 export { questionRefKey } from "./types";
 export { questionRefSchema, questionInstanceSchema } from "./schema";
 export { pickInRange, strideFor } from "./generators/sequence";
+export { parseAgeBand, ageBandGap, type AgeBand } from "./ageBand";

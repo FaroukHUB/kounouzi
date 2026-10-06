@@ -70,6 +70,14 @@ export const learningConfigSchema = z.object({
     /** Pénalités d'une formulation / d'une notion déjà posée À UN AUTRE JOUEUR de la même partie (anti-répétition par tablée). */
     repeatAtTable: z.number().min(0),
     repeatNodeAtTable: z.number().min(0),
+    /**
+     * Pénalité par ANNÉE d'écart au-delà de la tolérance, entre l'âge de
+     * l'enfant et la tranche d'âge de la question. Le numéro de difficulté ne
+     * dit pas l'âge : une difficulté 2 vaut 5-6 ans dans une banque et 8-10 ans
+     * dans une autre (ADR 0055). Sans âge connu (adulte) ou sans tranche
+     * (contenu généré), rien n'est pénalisé.
+     */
+    ageBand: z.number().min(0),
   }),
   variety: z.object({
     /**
@@ -87,6 +95,12 @@ export const learningConfigSchema = z.object({
      * qui joue souvent revoyait sinon surtout ce qu'elle avait déjà vu.
      */
     revisionShare: z.number().min(0).max(1),
+    /**
+     * Années d'écart TOLÉRÉES à la tranche d'âge avant toute pénalité. Un mur
+     * strict (0) serait pire que le mal tant que les banques hors religion
+     * n'ont que six questions par âge : les mêmes tourneraient en boucle.
+     */
+    ageToleranceYears: z.number().min(0),
   }),
 });
 

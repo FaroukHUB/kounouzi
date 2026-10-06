@@ -46,6 +46,7 @@ export function createCuratedProvider(bank: readonly CuratedQuestion[], categori
           knowledgeNodeId: q.knowledgeNodeId,
           difficulty: q.difficulty,
           audienceScope: q.audienceScope,
+          ...(q.ageBand === undefined ? {} : { ageBand: q.ageBand }),
           instantiate: () => toInstance(q),
         })),
   };

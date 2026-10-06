@@ -31,5 +31,7 @@ export function seedLevelFor(profile: SeedProfile): number {
 }
 
 export function learnerContextFor(profile: SeedProfile & { readonly id: PlayerId }): LearnerContext {
-  return { playerId: profile.id, profileType: profile.profileType, seedLevel: seedLevelFor(profile) };
+  // L'âge suit le joueur jusqu'à la sélection : sans lui, la tranche d'âge des
+  // questions resterait une étiquette que personne ne lit (ADR 0055).
+  return { playerId: profile.id, profileType: profile.profileType, seedLevel: seedLevelFor(profile), ...(profile.age === undefined ? {} : { age: profile.age }) };
 }

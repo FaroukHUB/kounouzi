@@ -130,6 +130,8 @@ export interface KnowledgeSlot {
   readonly knowledgeNodeId: string;
   readonly difficulty: number;
   readonly audienceScope: AudienceScope;
+  /** Tranche d'âge de la question (« 7-8 », « 13+ »). Absente pour le contenu généré : rien à pénaliser (ADR 0055). */
+  readonly ageBand?: string | undefined;
   instantiate(variation: number): QuestionInstance | null;
 }
 
@@ -163,7 +165,7 @@ export interface CuratedQuestion {
   readonly animationKey?: string | undefined;
   /** Suggestion visuelle libre de l'auteur de la banque (pour la couche de présentation, jamais pour le jeu). */
   readonly animationHint?: string | undefined;
-  /** Tranche d'âge indicative de la banque (« 5-8 »), information de contrôle. */
+  /** Tranche d'âge de la banque (« 5-8 »). Depuis l'ADR 0055, elle COMPTE dans la sélection : ce n'est plus une simple information de contrôle. */
   readonly ageBand?: string | undefined;
   /** Note de relecture humaine (ex. arabe à saisir) : une carte annotée reste en brouillon. */
   readonly reviewNotes?: string | undefined;
