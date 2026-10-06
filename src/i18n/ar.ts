@@ -453,4 +453,5 @@ export const ar: Dictionary = {
   "settings.ecoute.why.insecure": "يحتاج الميكروفون إلى اتصال آمن (https): يبقى مغلقًا في هذه الصفحة.",
   "settings.ecoute.why.denied": "رُفِض الميكروفون لهذا الموقع. يلزم السماح به في إعدادات المتصفّح ثم إعادة فتح الصفحة.",
   "card.ecoute.hint": "قل «correct» أو «presque» أو «faux»",
+  "settings.voiceTone": "نبرة الصوت",
 };

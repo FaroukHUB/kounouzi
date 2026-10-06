@@ -1,0 +1,30 @@
+{
+  "$comment": "À ÉCRIRE — logic, enfants de 11-12. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 3 ou 4. Identifiants : LOG-1112-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$gabarit": {
+    "id": "LOG-1112-001",
+    "version": 1,
+    "categoryId": "logic",
+    "knowledgeNodeId": "logique.<notion>",
+    "difficulty": 3,
+    "ageBand": "11-12",
+    "audienceScope": "all",
+    "status": "draft — passer à « validated » SEULEMENT après relecture ; tant que c'est « draft », rien n'est servi",
+    "arReview": "provisional — passer à « reviewed » après relecture par un arabophone",
+    "prompt": {
+      "fr": "À REMPLIR — l'énoncé",
+      "ar": "À REMPLIR — l'énoncé en arabe (facultatif pour l'énoncé)"
+    },
+    "answer": {
+      "fr": "À REMPLIR — la réponse",
+      "ar": "À REMPLIR — la réponse en arabe (facultative)"
+    },
+    "explanation": {
+      "fr": "À REMPLIR — OBLIGATOIRE",
+      "ar": "À REMPLIR — OBLIGATOIRE, l'explication doit exister dans les DEUX langues"
+    },
+    "sources": []
+  },
+  "version": 1,
+  "sources": [],
+  "questions": []
+}

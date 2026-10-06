@@ -452,4 +452,5 @@ export const fr = {
   "settings.ecoute.why.insecure": "Le micro demande une connexion sécurisée (https) : il reste fermé sur cette page.",
   "settings.ecoute.why.denied": "Le micro a été refusé pour ce site. Il faut l'autoriser dans les réglages du navigateur, puis rouvrir la page.",
   "card.ecoute.hint": "Dis « correct », « presque » ou « faux »",
+  "settings.voiceTone": "Ton de la voix",
 } as const satisfies Record<string, string>;

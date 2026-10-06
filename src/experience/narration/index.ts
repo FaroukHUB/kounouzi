@@ -3,7 +3,7 @@ export { NullNarrator } from "./NarrationService";
 export { WebSpeechNarrator } from "./WebSpeechNarrator";
 export { CloudNarrator, type AudioLike, type CloudAvailability, type CloudNarratorOptions, type CloudReason } from "./CloudNarrator";
 export { voiceKey, hash53, normalizeVoiceText } from "./voiceKey";
-export { handleVoiceRequest, voiceConfigured, voiceQuerySchema, type VoiceRouteDeps } from "./voiceRoute";
+export { handleVoiceRequest, voiceConfigured, voiceQuerySchema, settingsForTone, type VoiceRouteDeps } from "./voiceRoute";
 export { utteranceFor, cleVariante, varianteDe, rangDeTour } from "./narrationScript";
 export { voiceHold, type VoiceHoldOptions } from "./voiceHold";
 export { annonce } from "./annonce";

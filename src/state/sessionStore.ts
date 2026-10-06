@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { DEFAULT_VOICE_TONE } from "@/config/narration";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 export const NARRATION_RATES = ["slow", "normal", "fast"] as const;
@@ -10,12 +11,15 @@ export interface SessionState {
   readonly reducedMotion: boolean | null;
   readonly narrationEnabled: boolean;
   readonly narrationRate: NarrationRate;
+  /** Ton de la voix (ADR 0056) : identifiant d'un ton des données, essayé à l'oreille dans les réglages. */
+  readonly voiceTone: string;
   /** Validation à la voix (ADR 0054) : OFF par défaut, c'est un micro. */
   readonly ecouteEnabled: boolean;
   readonly preciseTimer: boolean;
   setReducedMotion(value: boolean | null): void;
   setNarrationEnabled(value: boolean): void;
   setNarrationRate(value: NarrationRate): void;
+  setVoiceTone(value: string): void;
   setEcouteEnabled(value: boolean): void;
   setPreciseTimer(value: boolean): void;
 }
@@ -29,12 +33,14 @@ export const useSessionStore = create<SessionState>()(
       // Voix Kounouzi en ligne (ADR 0036) : ON par défaut ; le jeu n'attend jamais une narration.
       narrationEnabled: true,
       narrationRate: "normal",
+      voiceTone: DEFAULT_VOICE_TONE,
       // Le micro ne s'ouvre QUE si on le demande : jamais activé à la place du parent.
       ecouteEnabled: false,
       preciseTimer: false,
       setReducedMotion: (reducedMotion) => set({ reducedMotion }),
       setNarrationEnabled: (narrationEnabled) => set({ narrationEnabled }),
       setNarrationRate: (narrationRate) => set({ narrationRate }),
+      setVoiceTone: (voiceTone) => set({ voiceTone }),
       setEcouteEnabled: (ecouteEnabled) => set({ ecouteEnabled }),
       setPreciseTimer: (preciseTimer) => set({ preciseTimer }),
     }),
@@ -48,7 +54,7 @@ export const useSessionStore = create<SessionState>()(
         return version < 3 ? { ...s, narrationEnabled: true } : s;
       },
       storage: createJSONStorage(() => (typeof window === "undefined" ? noopStorage : window.localStorage)),
-      partialize: (s) => ({ reducedMotion: s.reducedMotion, narrationEnabled: s.narrationEnabled, narrationRate: s.narrationRate, ecouteEnabled: s.ecouteEnabled, preciseTimer: s.preciseTimer }),
+      partialize: (s) => ({ reducedMotion: s.reducedMotion, narrationEnabled: s.narrationEnabled, narrationRate: s.narrationRate, voiceTone: s.voiceTone, ecouteEnabled: s.ecouteEnabled, preciseTimer: s.preciseTimer }),
     },
   ),
 );

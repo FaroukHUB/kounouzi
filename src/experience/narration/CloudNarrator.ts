@@ -67,6 +67,10 @@ export class CloudNarrator implements NarrationService {
   private readonly fallback: NarrationService | null;
   private enabled = true;
   private rate: keyof CloudNarratorOptions["rates"] = "normal";
+  /** Ton demandé au serveur (ADR 0056). Vide = le ton par défaut de la configuration. */
+  private tone: string | null = null;
+  /** Débit propre au ton : un guide pour enfants parle un peu moins vite que la vitesse demandée. */
+  private toneRate = 1;
   private queue: Utterance[] = [];
   private playing = false;
   private current: AudioLike | null = null;
@@ -254,12 +258,27 @@ export class CloudNarrator implements NarrationService {
     return this.manifestLoading;
   }
 
-  /** URL statique si la phrase est pré-générée, sinon le point d'entrée serveur. */
+  /**
+   * URL statique si la phrase est pré-générée, sinon le point d'entrée serveur.
+   * Les phrases pré-générées l'ont été AVEC UN SEUL TON : dès qu'un autre ton
+   * est demandé, on repasse par le serveur, sinon on entendrait l'ancien ton
+   * sur les phrases du manifeste et le nouveau sur les autres — le pire des
+   * deux mondes.
+   */
   private urlFor(u: Utterance): string {
     const key = voiceKey(u.lang, u.text);
-    const file = this.manifest?.entries[key]?.file;
+    const file = this.tone === null ? this.manifest?.entries[key]?.file : undefined;
     if (file) return `${this.o.manifestUrl.slice(0, this.o.manifestUrl.lastIndexOf("/") + 1)}${file}`;
-    return `${this.o.endpoint}?lang=${u.lang}&text=${encodeURIComponent(u.text)}`;
+    const ton = this.tone === null ? "" : `&ton=${encodeURIComponent(this.tone)}`;
+    return `${this.o.endpoint}?lang=${u.lang}&text=${encodeURIComponent(u.text)}${ton}`;
+  }
+
+  /** Change le ton : les phrases suivantes le portent (ADR 0056). */
+  setTone(tone: string | null, rate = 1): void {
+    if (tone === this.tone && rate === this.toneRate) return;
+    this.tone = tone;
+    this.toneRate = rate > 0 ? rate : 1;
+    this.stop();
   }
 
   private async drain(): Promise<void> {
@@ -319,7 +338,8 @@ export class CloudNarrator implements NarrationService {
     const a = this.audio();
     this.current = a;
     a.src = url;
-    a.playbackRate = this.o.rates[this.rate];
+    // Vitesse DEMANDÉE par la tablée × débit propre au ton : les deux se composent.
+    a.playbackRate = this.o.rates[this.rate] * this.toneRate;
     await new Promise<void>((resolve) => {
       let done = false;
       const finish = () => {

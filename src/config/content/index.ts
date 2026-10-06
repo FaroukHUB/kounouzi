@@ -27,6 +27,21 @@ import kalimahJson from "@/content/questions/religion/kalimah-at-tawhid.v1.json"
 import histoireGeographieJson from "@/content/questions/history-geography/histoire-geographie.v1.json";
 import gestionJson from "@/content/questions/management/gestion.v1.json";
 import logiqueJson from "@/content/questions/logic/logique.v1.json";
+import histgeo56Json from "@/content/questions/history-geography/histoire-geographie-56.v1.json";
+import histgeo78Json from "@/content/questions/history-geography/histoire-geographie-78.v1.json";
+import histgeo910Json from "@/content/questions/history-geography/histoire-geographie-910.v1.json";
+import histgeo1112Json from "@/content/questions/history-geography/histoire-geographie-1112.v1.json";
+import histgeo13pJson from "@/content/questions/history-geography/histoire-geographie-13p.v1.json";
+import logique56Json from "@/content/questions/logic/logique-56.v1.json";
+import logique78Json from "@/content/questions/logic/logique-78.v1.json";
+import logique910Json from "@/content/questions/logic/logique-910.v1.json";
+import logique1112Json from "@/content/questions/logic/logique-1112.v1.json";
+import logique13pJson from "@/content/questions/logic/logique-13p.v1.json";
+import gestion56Json from "@/content/questions/management/gestion-56.v1.json";
+import gestion78Json from "@/content/questions/management/gestion-78.v1.json";
+import gestion910Json from "@/content/questions/management/gestion-910.v1.json";
+import gestion1112Json from "@/content/questions/management/gestion-1112.v1.json";
+import gestion13pJson from "@/content/questions/management/gestion-13p.v1.json";
 
 const bilingual = z.object({ fr: z.string().min(1), ar: z.string().min(1) });
 /** Énoncé et réponse : français obligatoire, arabe facultatif (ajouté par relecture humaine). */
@@ -179,8 +194,36 @@ export const MANAGEMENT_BANK: readonly CuratedQuestion[] = bankQuestions(curated
  * elles restent `draft` et ne sont donc pas servies, plutôt qu'inventées.
  */
 export const LOGIC_BANK: readonly CuratedQuestion[] = bankQuestions(curatedBankSchema.parse(logiqueJson));
+
+/**
+ * BANQUES À ÉCRIRE, une par catégorie et par tranche d'âge (ADR 0057). Elles
+ * sont VIDES et chargées quand même : une question ajoutée devient jouable dès
+ * qu'elle passe en « validated », sans toucher au code. Mesuré avant leur
+ * création : avec la tranche d'âge respectée (ADR 0055), un enfant ne disposait
+ * que de six à sept questions par catégorie pour son âge, quand une partie en
+ * sert huit par joueur — c'est la cause de la répétition, et aucun réglage ne
+ * la corrige. Aucune question n'est jamais inventée ici.
+ */
+export const BANQUES_A_ECRIRE: readonly CuratedQuestion[] = [
+  ...bankQuestions(curatedBankSchema.parse(histgeo56Json)),
+  ...bankQuestions(curatedBankSchema.parse(histgeo78Json)),
+  ...bankQuestions(curatedBankSchema.parse(histgeo910Json)),
+  ...bankQuestions(curatedBankSchema.parse(histgeo1112Json)),
+  ...bankQuestions(curatedBankSchema.parse(histgeo13pJson)),
+  ...bankQuestions(curatedBankSchema.parse(logique56Json)),
+  ...bankQuestions(curatedBankSchema.parse(logique78Json)),
+  ...bankQuestions(curatedBankSchema.parse(logique910Json)),
+  ...bankQuestions(curatedBankSchema.parse(logique1112Json)),
+  ...bankQuestions(curatedBankSchema.parse(logique13pJson)),
+  ...bankQuestions(curatedBankSchema.parse(gestion56Json)),
+  ...bankQuestions(curatedBankSchema.parse(gestion78Json)),
+  ...bankQuestions(curatedBankSchema.parse(gestion910Json)),
+  ...bankQuestions(curatedBankSchema.parse(gestion1112Json)),
+  ...bankQuestions(curatedBankSchema.parse(gestion13pJson)),
+];
+
 /** Banque curée complète : seules les questions `validated` (et sourcées si la catégorie l'exige) sont jouables. */
-export const CURATED_BANK: readonly CuratedQuestion[] = [...bankQuestions(curatedBankSchema.parse(curatedJson)), ...RELIGION_BANKS.flatMap((b) => b.questions), ...HISTORY_GEOGRAPHY_BANK, ...MANAGEMENT_BANK, ...LOGIC_BANK];
+export const CURATED_BANK: readonly CuratedQuestion[] = [...bankQuestions(curatedBankSchema.parse(curatedJson)), ...RELIGION_BANKS.flatMap((b) => b.questions), ...HISTORY_GEOGRAPHY_BANK, ...MANAGEMENT_BANK, ...LOGIC_BANK, ...BANQUES_A_ECRIRE];
 const BANDS = bandsSchema.parse(bandsJson);
 
 export const categoryById = (id: string): CategoryDefinition | undefined => CATEGORIES.find((c) => c.id === id);

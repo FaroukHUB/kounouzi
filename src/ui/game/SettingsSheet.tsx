@@ -1,6 +1,7 @@
 "use client";
 
 import { CHALLENGE_TOGGLES, type ChallengeSettings } from "@/core/game";
+import { VOICE_TONES } from "@/config/narration";
 import type { EcouteReason } from "@/experience/ecoute";
 import type { CloudReason, NarrationMode } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
@@ -84,6 +85,20 @@ export function SettingsSheet(props: SettingsSheetProps) {
             <p className="rounded-2xl bg-[var(--k-sand)] px-3 py-2 text-sm text-[var(--k-ink-soft)]" data-testid="narration-why" data-reason={props.narrationReason}>
               {t(DEFAULT_LOCALE, `settings.narration.why.${props.narrationReason}`)}
             </p>
+          ) : null}
+          {/* LE TON S'ÉCOUTE, il ne se lit pas : on le choisit puis on l'essaie, ici,
+              sans redéployer (ADR 0056). Il ne vaut que pour la voix en ligne. */}
+          {props.narrationMode === "cloud" ? (
+            <label className="flex items-center justify-between gap-3">
+              <span className="min-w-0 shrink">{t(DEFAULT_LOCALE, "settings.voiceTone")}</span>
+              <select className="min-h-11 max-w-[55%] shrink-0 truncate rounded-xl border px-3" value={s.voiceTone} onChange={(e) => s.setVoiceTone(e.target.value)} data-testid="voice-tone">
+                {VOICE_TONES.map((ton) => (
+                  <option key={ton.id} value={ton.id}>
+                    {ton.label.fr}
+                  </option>
+                ))}
+              </select>
+            </label>
           ) : null}
           {props.onTestVoice && props.narrationMode !== "none" ? (
             <Button variant="secondary" onClick={props.onTestVoice} data-testid="test-voice">

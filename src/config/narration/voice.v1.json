@@ -1,5 +1,5 @@
 {
-  "$comment": "Voix en ligne Kounouzi (ADR 0036). La clé ElevenLabs et l'identifiant de voix ne sont JAMAIS ici : variables d'environnement du serveur (ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID, ELEVENLABS_MODEL_ID). Les phrases fixes listées dans `phrases` sont pré-générées par `pnpm voice:generate` et servies depuis `public/kounouzi/audio/voix/`. `voiceSettings` règle le TON de la voix chez le fournisseur : une voix trop « stable » lit comme un robot, une voix plus expressive encourage. Ce sont des données : les changer ne demande aucun code.",
+  "$comment": "Voix en ligne Kounouzi (ADR 0036). La clé ElevenLabs et l'identifiant de voix ne sont JAMAIS ici : variables d'environnement du serveur (ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID, ELEVENLABS_MODEL_ID). Les phrases fixes listées dans `phrases` sont pré-générées par `pnpm voice:generate` et servies depuis `public/kounouzi/audio/voix/`. TONS (ADR 0056) : le ton ne se juge pas en lisant des nombres, il s'écoute. Chaque ton est une donnée nommée, choisie dans les réglages et essayée tout de suite avec « Essayer la voix » — plus besoin de redéployer pour entendre la différence. Le client n'envoie que l'IDENTIFIANT du ton : le serveur retrouve les valeurs ICI, il ne reçoit jamais de nombres d'un navigateur. Une voix très « stable » lit à plat, c'est ce qui fait dire « on dirait un robot » ; moins de stabilité et plus de style donnent une voix qui encourage, au prix d'une lecture moins régulière. `rate` fait partie du ton : un guide pour enfants parle un peu moins vite. ATTENTION : le plus gros levier n'est pas ici mais dans ELEVENLABS_VOICE_ID — une voix de narrateur adulte restera une voix de narrateur adulte, quels que soient ces réglages.",
   "version": 1,
   "endpoint": "/api/voix",
   "manifestUrl": "/kounouzi/audio/voix/manifest.json",
@@ -14,6 +14,71 @@
     "normal": 1,
     "fast": 1.15
   },
+  "voiceSettings": {
+    "stability": 0.35,
+    "similarity_boost": 0.8,
+    "style": 0.45,
+    "use_speaker_boost": true
+  },
+  "defaultTone": "chaleureux",
+  "tones": [
+    {
+      "id": "pose",
+      "label": {
+        "fr": "Posé",
+        "ar": "هادئ"
+      },
+      "rate": 0.92,
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarity_boost": 0.8,
+        "style": 0.2,
+        "use_speaker_boost": true
+      }
+    },
+    {
+      "id": "chaleureux",
+      "label": {
+        "fr": "Chaleureux",
+        "ar": "ودود"
+      },
+      "rate": 0.96,
+      "voiceSettings": {
+        "stability": 0.35,
+        "similarity_boost": 0.8,
+        "style": 0.45,
+        "use_speaker_boost": true
+      }
+    },
+    {
+      "id": "enjoue",
+      "label": {
+        "fr": "Enjoué",
+        "ar": "مرح"
+      },
+      "rate": 1.0,
+      "voiceSettings": {
+        "stability": 0.2,
+        "similarity_boost": 0.75,
+        "style": 0.7,
+        "use_speaker_boost": true
+      }
+    },
+    {
+      "id": "petillant",
+      "label": {
+        "fr": "Pétillant",
+        "ar": "حيوي"
+      },
+      "rate": 1.06,
+      "voiceSettings": {
+        "stability": 0.12,
+        "similarity_boost": 0.7,
+        "style": 0.9,
+        "use_speaker_boost": true
+      }
+    }
+  ],
   "phrases": [
     "narration.passedStart",
     "narration.lastRound",
@@ -33,11 +98,5 @@
     "narration.challenge.skipped",
     "narration.recitation.mastered",
     "narration.year"
-  ],
-  "voiceSettings": {
-    "stability": 0.35,
-    "similarity_boost": 0.8,
-    "style": 0.45,
-    "use_speaker_boost": true
-  }
+  ]
 }

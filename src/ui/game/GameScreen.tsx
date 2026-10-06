@@ -12,6 +12,7 @@ import { LEARNING_CONFIG } from "@/config/learning";
 import { PAWNS_3D_ENABLED } from "@/config/pawns";
 import { pendingRequest, resolveQuestion } from "@/experience/questionResolver";
 import { startPlayClock } from "@/experience/playClock";
+import { DEFAULT_VOICE_TONE, toneOf } from "@/config/narration";
 import { CloudNarrator, utteranceFor, voiceHold } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { ecouteur, gameStore, learningStore, narrator, useGameStore, useLearningStore } from "@/state/appStores";
@@ -65,7 +66,14 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   useEffect(() => {
     narrator.setEnabled(session.narrationEnabled);
     narrator.setRate(session.narrationRate);
-  }, [session.narrationEnabled, session.narrationRate]);
+    // Le ton (ADR 0056) : la phrase suivante le porte, et « Essayer la voix » le fait entendre tout de suite.
+    if (narrator instanceof CloudNarrator) {
+      const ton = toneOf(session.voiceTone);
+      // Au ton par défaut, on garde les phrases PRÉ-GÉNÉRÉES (gratuites, instantanées) :
+      // elles ont justement été faites avec ce ton-là. Tout autre ton repasse par le serveur.
+      narrator.setTone(ton.id === DEFAULT_VOICE_TONE ? null : ton.id, ton.rate);
+    }
+  }, [session.narrationEnabled, session.narrationRate, session.voiceTone]);
   useEffect(() => {
     if (narrator instanceof CloudNarrator) void narrator.probe();
     const unlock = () => {
