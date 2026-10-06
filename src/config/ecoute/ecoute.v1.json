@@ -1,0 +1,22 @@
+{
+  "$comment": "ÉCOUTE — validation sans les mains (ADR 0054). La tablée dit « correct », « presque » ou « faux » au lieu de tendre le bras pour appuyer. Le micro n'est JAMAIS ouvert pendant que l'enfant répond : il ne s'ouvre qu'une fois la réponse révélée, quand il n'y a plus que trois verdicts possibles. La machine ne juge RIEN : elle reconnaît un mot de ce vocabulaire et appuie sur le bouton à la place du doigt. Les phrases sont des DONNÉES, en toutes lettres, accents compris : la comparaison enlève accents et ponctuation des deux côtés. La plus LONGUE phrase reconnue gagne — sans cela « pas juste » serait entendu comme « juste » — et si deux verdicts différents sont reconnus à égale longueur, RIEN n'est validé : on ne devine pas un verdict à la place d'un enfant. `minConfidence` ne s'applique qu'aux propositions dont le navigateur donne vraiment la confiance : plusieurs navigateurs renvoient 0, ce qui ne veut pas dire « mauvaise ».",
+  "version": 1,
+  "lang": "fr-FR",
+  "minConfidence": 0.5,
+  "maxAlternatives": 3,
+  "silenceCheckMs": 250,
+  "commandes": [
+    {
+      "id": "correct",
+      "phrases": ["correct", "juste", "c'est juste", "c'est correct", "exact", "bonne réponse", "bravo", "gagné", "c'est bon", "oui"]
+    },
+    {
+      "id": "partial",
+      "phrases": ["presque", "presque juste", "presque bon", "à moitié", "à peu près", "pas tout à fait", "partiellement", "en partie"]
+    },
+    {
+      "id": "incorrect",
+      "phrases": ["faux", "c'est faux", "incorrect", "raté", "perdu", "non", "pas juste", "pas correct", "pas bon", "mauvaise réponse"]
+    }
+  ]
+}

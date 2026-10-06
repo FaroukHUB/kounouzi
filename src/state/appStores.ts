@@ -10,6 +10,7 @@ import {
 } from "@/data/local";
 import { LEARNING_CONFIG, ageOf, learnerContextFor } from "@/config/learning";
 import { VOICE_CONFIG } from "@/config/narration";
+import { NullEcouteur, WebSpeechEcouteur, type EcouteService } from "@/experience/ecoute";
 import { CloudNarrator, NullNarrator, WebSpeechNarrator, type NarrationService } from "@/experience/narration";
 import { createGameStore, useGameStoreOf, type GameStoreState } from "./gameStore";
 import { createLearningStore, useLearningStoreOf, type LearningStoreState } from "./learningStore";
@@ -26,6 +27,9 @@ export const playerProfileRepository = hasIndexedDb ? createIndexedDbPlayerProfi
 
 /** Voix en ligne Kounouzi (ADR 0036), voix de l'appareil en secours ; muet au rendu serveur. */
 export const narrator: NarrationService = isBrowser ? new CloudNarrator({ ...VOICE_CONFIG, fallback: new WebSpeechNarrator() }) : new NullNarrator();
+
+/** Validation à la voix (ADR 0054) : le NAVIGATEUR seul, aucun service Kounouzi. Sourd au rendu serveur. */
+export const ecouteur: EcouteService = isBrowser ? new WebSpeechEcouteur() : new NullEcouteur();
 
 const now = () => new Date().toISOString();
 

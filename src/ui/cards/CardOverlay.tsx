@@ -5,6 +5,7 @@ import type { GameState, MoneyDestination } from "@/core/game";
 import type { ChallengeSkipReason } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, PlayerId, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
+import type { EcouteService } from "@/experience/ecoute";
 import type { NarrationService } from "@/experience/narration";
 import { useUiStore } from "@/state/uiStore";
 import { ChallengeCard } from "./ChallengeCard";
@@ -25,6 +26,8 @@ export interface CardOverlayProps {
   readonly state: GameState;
   readonly profiles: readonly PlayerProfileDraft[];
   readonly narrator: NarrationService;
+  /** Validation à la voix (ADR 0054) : `undefined` quand elle est éteinte. */
+  readonly ecouteur?: EcouteService | undefined;
   readonly reduced: boolean;
   /** `playerId` = le joueur qui répond (joueur actif, ou dueliste en cours). */
   readonly onSubmitAnswer: (requestId: string, playerId: PlayerId, outcome: AnswerOutcome, mastery: ExplanationMastery, mode: ValidationMode) => void;
@@ -42,7 +45,7 @@ export interface CardOverlayProps {
 }
 
 /** Couche des cartes au-dessus du plateau (le plateau se met légèrement en retrait). */
-export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer, onDecidePurchase, onPayService, onAcceptHassanat, onSkipHassanat, onChoose, onChooseOpponent, onChooseRecipient, onDonate, onAcceptChallenge, onCompleteChallenge, onSkipChallenge }: CardOverlayProps) {
+export function CardOverlay({ state, profiles, narrator, ecouteur, reduced, onSubmitAnswer, onDecidePurchase, onPayService, onAcceptHassanat, onSkipHassanat, onChoose, onChooseOpponent, onChooseRecipient, onDonate, onAcceptChallenge, onCompleteChallenge, onSkipChallenge }: CardOverlayProps) {
   const card = useUiStore((s) => s.card);
   const updateCard = useUiStore((s) => s.updateCard);
 
@@ -55,6 +58,7 @@ export function CardOverlay({ state, profiles, narrator, reduced, onSubmitAnswer
             profiles={profiles}
             card={c}
             narrator={narrator}
+            ecouteur={ecouteur}
             reduced={reduced}
             onUpdate={(patch) => updateCard(patch)}
             onSubmit={(outcome, mastery, mode) => {

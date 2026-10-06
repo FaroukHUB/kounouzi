@@ -446,4 +446,10 @@ export const fr = {
   "help.legend.event": "Un événement du voyage.",
   "help.legend.management": "Une situation de gestion à trancher.",
   "help.legend.solidarity": "Un geste de solidarité.",
+  "settings.ecoute": "Validation à la voix",
+  "settings.ecoute.hint": "Une fois la réponse révélée, dire « correct », « presque » ou « faux » appuie sur le bouton — les boutons marchent toujours. Le micro ne s'ouvre QUE là : la réponse de l'enfant n'est jamais écoutée. L'écoute est faite par le navigateur, qui peut l'envoyer à son propre service ; Kounouzi n'envoie et n'enregistre aucun son.",
+  "settings.ecoute.why.unsupported": "Ce navigateur ne sait pas écouter (Firefox, notamment) — essayez Chrome, Edge ou Safari.",
+  "settings.ecoute.why.insecure": "Le micro demande une connexion sécurisée (https) : il reste fermé sur cette page.",
+  "settings.ecoute.why.denied": "Le micro a été refusé pour ce site. Il faut l'autoriser dans les réglages du navigateur, puis rouvrir la page.",
+  "card.ecoute.hint": "Dis « correct », « presque » ou « faux »",
 } as const satisfies Record<string, string>;

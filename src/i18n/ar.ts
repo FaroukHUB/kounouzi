@@ -447,4 +447,10 @@ export const ar: Dictionary = {
   "help.legend.event": "حدث من أحداث الرحلة.",
   "help.legend.management": "موقف تدبيري يُحسم.",
   "help.legend.solidarity": "لفتة تكافل.",
+  "settings.ecoute": "التصحيح بالصوت",
+  "settings.ecoute.hint": "بعد كشف الجواب، قول «correct» أو «presque» أو «faux» يضغط الزر — والأزرار تبقى تعمل دائمًا. لا يُفتح الميكروفون إلا في تلك اللحظة: جواب الطفل لا يُسمَع أبدًا. الاستماع يقوم به المتصفّح، وقد يرسله إلى خدمته الخاصة؛ أمّا كنوزي فلا يرسل ولا يسجّل أيّ صوت.",
+  "settings.ecoute.why.unsupported": "هذا المتصفّح لا يستطيع الاستماع (فَيَرفُكس خاصّة) — جرّب كروم أو إيدج أو سفاري.",
+  "settings.ecoute.why.insecure": "يحتاج الميكروفون إلى اتصال آمن (https): يبقى مغلقًا في هذه الصفحة.",
+  "settings.ecoute.why.denied": "رُفِض الميكروفون لهذا الموقع. يلزم السماح به في إعدادات المتصفّح ثم إعادة فتح الصفحة.",
+  "card.ecoute.hint": "قل «correct» أو «presque» أو «faux»",
 };

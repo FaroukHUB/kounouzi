@@ -14,7 +14,7 @@ import { pendingRequest, resolveQuestion } from "@/experience/questionResolver";
 import { startPlayClock } from "@/experience/playClock";
 import { CloudNarrator, utteranceFor, voiceHold } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
-import { gameStore, learningStore, narrator, useGameStore, useLearningStore } from "@/state/appStores";
+import { ecouteur, gameStore, learningStore, narrator, useGameStore, useLearningStore } from "@/state/appStores";
 import { useSessionStore } from "@/state/sessionStore";
 import { useUiStore } from "@/state/uiStore";
 import { Board } from "@/ui/board/Board";
@@ -189,6 +189,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         state={state}
         profiles={profiles}
         narrator={narrator}
+        ecouteur={session.ecouteEnabled ? ecouteur : undefined}
         reduced={reduced}
         onSubmitAnswer={(requestId, playerId, outcome, explanationMastery, validationMode) => dispatch({ type: "SubmitAnswer", playerId, requestId, answer: { outcome, explanationMastery, validationMode } })}
         onDecidePurchase={(siteId, buy) => dispatch({ type: "DecidePurchase", playerId: activeId, siteId, buy })}
@@ -237,6 +238,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         narrationSupported={narrator.isSupported()}
         narrationMode={narrator.mode?.() ?? "none"}
         narrationReason={narrator instanceof CloudNarrator ? narrator.availabilityReason() : undefined}
+        ecouteReason={ecouteur.raison()}
         // Après avoir corrigé la configuration du serveur, on peut revérifier sans relancer une partie.
         onTestVoice={() => {
           if (narrator instanceof CloudNarrator) void narrator.probe().then(() => setVoiceCheck((n) => n + 1));

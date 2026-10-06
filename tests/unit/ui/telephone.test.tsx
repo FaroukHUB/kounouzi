@@ -79,7 +79,7 @@ describe("sur téléphone, une action ne quitte jamais l'écran", () => {
 
   it("les panneaux plus hauts que l'écran se bornent et défilent, sinon « Fermer » sort de l'écran", () => {
     const reglages = renderToStaticMarkup(
-      <SettingsSheet open={true} onClose={() => {}} narrationSupported={true} narrationMode="cloud" onReplay={() => {}} paused={false} onTogglePause={() => {}} endRequested={false} onRequestEnd={() => {}} onOpenHelp={() => {}} challengeSettings={null} onChallengeSettings={() => {}} />,
+      <SettingsSheet open={true} onClose={() => {}} narrationSupported={true} narrationMode="cloud" ecouteReason="ok" onReplay={() => {}} paused={false} onTogglePause={() => {}} endRequested={false} onRequestEnd={() => {}} onOpenHelp={() => {}} challengeSettings={null} onChallengeSettings={() => {}} />,
     );
     expect(reglages).toContain("max-h-[92dvh]");
     expect(reglages).toContain("overflow-y-auto");

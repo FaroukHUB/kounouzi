@@ -8,6 +8,7 @@ import { QUESTION_TIMER, timerSecondsFor } from "@/config/timer";
 import type { CellType, GameState } from "@/core/game";
 import type { AnswerOutcome, ExplanationMastery, ValidationMode } from "@/core/shared";
 import type { PlayerProfileDraft } from "@/data/ports";
+import type { EcouteService } from "@/experience/ecoute";
 import { annonce, cleVariante, questionUtterances, splitChoices, type NarrationService } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Bidi } from "@/ui/primitives/Bidi";
@@ -16,6 +17,7 @@ import { CELL_STYLE } from "@/ui/board/cellStyles";
 import { CardShell } from "./CardShell";
 import { LongPressButton } from "./LongPressButton";
 import { QuestionTimer } from "./QuestionTimer";
+import { useEcoute } from "./useEcoute";
 import { CardAnimation } from "./animations/CardAnimation";
 import { siteDisplayName } from "./EstablishmentCard";
 import { servedFor, type CardState } from "./cardState";
@@ -29,6 +31,8 @@ export interface QuestionCardProps {
   readonly profiles: readonly PlayerProfileDraft[];
   readonly card: QuestionCardState;
   readonly narrator: NarrationService;
+  /** Validation à la voix (ADR 0054). `undefined` : éteinte — le micro ne s'ouvre jamais. */
+  readonly ecouteur?: EcouteService | undefined;
   readonly reduced: boolean;
   readonly onUpdate: (patch: Partial<QuestionCardState>) => void;
   readonly onSubmit: (outcome: AnswerOutcome, mastery: ExplanationMastery, mode: ValidationMode) => void;
@@ -44,7 +48,7 @@ export interface QuestionCardProps {
  */
 const PURPOSE_CELL: Record<QuestionCardState["purpose"], CellType> = { standard: "question", halt: "halt", heritage_visit: "heritage", duel: "challenge" };
 
-export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdate, onSubmit }: QuestionCardProps) {
+export function QuestionCard({ state, profiles, card, narrator, ecouteur, reduced, onUpdate, onSubmit }: QuestionCardProps) {
   void profiles;
   // La question affichée est celle FIGÉE dans l'état (question simple ou tour de Duel) : reprise exacte quel que soit le contenu.
   // Une fois la réponse envoyée, l'état réel est déjà passé à la suite : la carte garde son instantané pour le résultat et la récompense.
@@ -103,6 +107,17 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
     if (step === "reward" && card.rewardAmount) annonce(narrator, [{ text: t(DEFAULT_LOCALE, "narration.reward", { amount: card.rewardAmount, name: responder }), lang: "fr" }]);
     return undefined;
   }, [step, question, narrator, card.outcome, card.rewardAmount, responder, state.counters.request]);
+
+  // Un seul chemin de validation : les trois boutons et la voix appellent CECI.
+  // La voix n'a donc aucun pouvoir que le doigt n'a pas, et ne peut pas diverger.
+  const valider = (outcome: AnswerOutcome) => {
+    const next = afterValidation(category, outcome);
+    if (next.kind === "explain") onUpdate({ step: "explanation", outcome });
+    else onSubmit(next.outcome, next.mastery, card.validationMode);
+  };
+
+  // Validation à la voix : le micro ne s'ouvre qu'ici, la réponse déjà révélée.
+  const microOuvert = useEcoute({ ecouteur, narrator, etape: step, onVerdict: valider });
 
   if (!question) {
     if (pendingServe) return <CardShell cellType={cellType} title={title} testId="question-card"><p className="text-[var(--k-ink-soft)]">…</p></CardShell>;
@@ -180,17 +195,20 @@ export function QuestionCard({ state, profiles, card, narrator, reduced, onUpdat
                 key={o}
                 size="lg"
                 variant={o === "correct" ? "primary" : "secondary"}
-                onClick={() => {
-                  const next = afterValidation(category, o);
-                  if (next.kind === "explain") onUpdate({ step: "explanation", outcome: o });
-                  else onSubmit(next.outcome, next.mastery, card.validationMode);
-                }}
+                onClick={() => valider(o)}
                 data-testid={`validate-${o}`}
               >
                 {t(DEFAULT_LOCALE, `card.validation.${o}`)}
               </Button>
             ))}
           </div>
+          {/* Un micro ouvert sans que personne ne le sache serait inacceptable : il se voit. */}
+          {microOuvert ? (
+            <p className="flex items-center gap-2 text-sm font-semibold text-[var(--k-teal)]" data-testid="ecoute-indicator">
+              <span aria-hidden="true">🎙️</span>
+              {t(DEFAULT_LOCALE, "card.ecoute.hint")}
+            </p>
+          ) : null}
           <label className="flex items-center gap-2 text-sm text-[var(--k-ink-soft)]">
             <input type="checkbox" className="size-5" checked={card.validationMode === "self"} onChange={(e) => onUpdate({ validationMode: e.target.checked ? "self" : "collective" })} data-testid="self-eval" />
             <span>

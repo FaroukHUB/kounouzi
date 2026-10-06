@@ -10,10 +10,13 @@ export interface SessionState {
   readonly reducedMotion: boolean | null;
   readonly narrationEnabled: boolean;
   readonly narrationRate: NarrationRate;
+  /** Validation à la voix (ADR 0054) : OFF par défaut, c'est un micro. */
+  readonly ecouteEnabled: boolean;
   readonly preciseTimer: boolean;
   setReducedMotion(value: boolean | null): void;
   setNarrationEnabled(value: boolean): void;
   setNarrationRate(value: NarrationRate): void;
+  setEcouteEnabled(value: boolean): void;
   setPreciseTimer(value: boolean): void;
 }
 
@@ -26,10 +29,13 @@ export const useSessionStore = create<SessionState>()(
       // Voix Kounouzi en ligne (ADR 0036) : ON par défaut ; le jeu n'attend jamais une narration.
       narrationEnabled: true,
       narrationRate: "normal",
+      // Le micro ne s'ouvre QUE si on le demande : jamais activé à la place du parent.
+      ecouteEnabled: false,
       preciseTimer: false,
       setReducedMotion: (reducedMotion) => set({ reducedMotion }),
       setNarrationEnabled: (narrationEnabled) => set({ narrationEnabled }),
       setNarrationRate: (narrationRate) => set({ narrationRate }),
+      setEcouteEnabled: (ecouteEnabled) => set({ ecouteEnabled }),
       setPreciseTimer: (preciseTimer) => set({ preciseTimer }),
     }),
     {
@@ -42,7 +48,7 @@ export const useSessionStore = create<SessionState>()(
         return version < 3 ? { ...s, narrationEnabled: true } : s;
       },
       storage: createJSONStorage(() => (typeof window === "undefined" ? noopStorage : window.localStorage)),
-      partialize: (s) => ({ reducedMotion: s.reducedMotion, narrationEnabled: s.narrationEnabled, narrationRate: s.narrationRate, preciseTimer: s.preciseTimer }),
+      partialize: (s) => ({ reducedMotion: s.reducedMotion, narrationEnabled: s.narrationEnabled, narrationRate: s.narrationRate, ecouteEnabled: s.ecouteEnabled, preciseTimer: s.preciseTimer }),
     },
   ),
 );

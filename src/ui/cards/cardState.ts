@@ -2,7 +2,9 @@ import type { QuestionInstance } from "@/core/content";
 import type { AnswerOutcome, PlayerId, ValidationMode } from "@/core/shared";
 import type { CellType, ChallengeSkipReason, GameState, HassanatKind, QuestionPurposeKind, TransferReason } from "@/core/game";
 
-export type QuestionStep = "dealt" | "opening" | "question" | "revealed" | "explanation" | "mastery" | "submitted" | "result" | "reward";
+/** Les étapes de la carte question, DANS L'ORDRE. Énumérables pour qu'un test puisse les parcourir toutes. */
+export const QUESTION_STEPS = ["dealt", "opening", "question", "revealed", "explanation", "mastery", "submitted", "result", "reward"] as const;
+export type QuestionStep = (typeof QUESTION_STEPS)[number];
 
 /**
  * État TRANSITOIRE de la carte affichée. Le moteur ne le connaît pas ; la

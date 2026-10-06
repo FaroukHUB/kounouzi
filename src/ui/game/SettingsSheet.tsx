@@ -1,6 +1,7 @@
 "use client";
 
 import { CHALLENGE_TOGGLES, type ChallengeSettings } from "@/core/game";
+import type { EcouteReason } from "@/experience/ecoute";
 import type { CloudReason, NarrationMode } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { NARRATION_RATES, useSessionStore } from "@/state/sessionStore";
@@ -17,6 +18,8 @@ export interface SettingsSheetProps {
   /** Redemande au serveur si la voix en ligne existe, puis dit une phrase si elle répond. */
   readonly onTestVoice?: (() => void) | undefined;
   readonly onReplay: () => void;
+  /** Pourquoi le micro ne peut pas écouter sur cet appareil (`ok` : il le peut). */
+  readonly ecouteReason: EcouteReason;
   readonly paused: boolean;
   readonly onTogglePause: () => void;
   readonly endRequested: boolean;
@@ -102,6 +105,21 @@ export function SettingsSheet(props: SettingsSheetProps) {
           <Button variant="secondary" onClick={props.onReplay} disabled={!props.narrationSupported || !s.narrationEnabled}>
             {t(DEFAULT_LOCALE, "settings.replay")}
           </Button>
+
+          {/* Validation à la voix. C'est un MICRO : il est éteint par défaut, on dit
+              exactement quand il s'ouvre et ce qu'il écoute, et le doigt marche toujours. */}
+          <label className="flex items-center justify-between gap-3 border-t pt-4">
+            <span className="min-w-0 shrink">{t(DEFAULT_LOCALE, "settings.ecoute")}</span>
+            <input type="checkbox" className="size-6 shrink-0" checked={s.ecouteEnabled} onChange={(e) => s.setEcouteEnabled(e.target.checked)} data-testid="ecoute-toggle" />
+          </label>
+          <p className="text-sm text-[var(--k-ink-soft)]" data-testid="ecoute-hint">
+            {t(DEFAULT_LOCALE, "settings.ecoute.hint")}
+          </p>
+          {props.ecouteReason !== "ok" ? (
+            <p className="rounded-2xl bg-[var(--k-sand)] px-3 py-2 text-sm text-[var(--k-ink-soft)]" data-testid="ecoute-why" data-reason={props.ecouteReason}>
+              {t(DEFAULT_LOCALE, `settings.ecoute.why.${props.ecouteReason}`)}
+            </p>
+          ) : null}
 
           <label className="flex items-center justify-between gap-3">
             <span>{t(DEFAULT_LOCALE, "settings.preciseTimer")}</span>
