@@ -1,5 +1,5 @@
 {
-  "$comment": "À ÉCRIRE — geography, enfants de 9-10. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 2 ou 3. Identifiants : HISTGEO-910-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — geography, tranche 9-10. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Toute carte factuelle cite une ou plusieurs sources du catalogue via sourceKeys. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. ⚠️ Les trois références saoudiennes (saudi-mofa, saudi-hajj-makkah, saudi-hajj-madinah) n'ont PAS pu être ouvertes depuis l'environnement de développement : à vérifier page par page avant toute validation.",
   "$gabarit": {
     "id": "HISTGEO-910-001",
     "version": 1,
@@ -8,23 +8,748 @@
     "difficulty": 2,
     "ageBand": "9-10",
     "audienceScope": "all",
-    "status": "draft — passer à « validated » SEULEMENT après relecture ; tant que c'est « draft », rien n'est servi",
-    "arReview": "provisional — passer à « reviewed » après relecture par un arabophone",
+    "status": "draft",
+    "arReview": "provisional",
     "prompt": {
-      "fr": "À REMPLIR — l'énoncé",
-      "ar": "À REMPLIR — l'énoncé en arabe (facultatif pour l'énoncé)"
+      "fr": "Énoncé FR",
+      "ar": "Énoncé AR"
     },
     "answer": {
-      "fr": "À REMPLIR — la réponse",
-      "ar": "À REMPLIR — la réponse en arabe (facultative)"
+      "fr": "Réponse FR",
+      "ar": "Réponse AR"
     },
     "explanation": {
-      "fr": "À REMPLIR — OBLIGATOIRE",
-      "ar": "À REMPLIR — OBLIGATOIRE, l'explication doit exister dans les DEUX langues"
+      "fr": "Explication FR obligatoire",
+      "ar": "Explication AR obligatoire"
     },
     "sources": []
   },
   "version": 1,
-  "sources": [],
-  "questions": []
+  "sources": [
+    {
+      "key": "unsd-m49",
+      "title": "Codes standard de pays ou de zones à usage statistique (M49)",
+      "publisher": "Division de statistique des Nations unies (UNSD)",
+      "url": "https://unstats.un.org/unsd/methodology/m49/overview"
+    },
+    {
+      "key": "unesco-cordoue",
+      "title": "Centre historique de Cordoue — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/313"
+    },
+    {
+      "key": "unesco-marrakech",
+      "title": "Médina de Marrakech — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/331"
+    },
+    {
+      "key": "unesco-casbah-alger",
+      "title": "Casbah d'Alger — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/565"
+    },
+    {
+      "key": "unesco-kairouan",
+      "title": "Kairouan — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/499"
+    },
+    {
+      "key": "unesco-caire",
+      "title": "Le Caire historique — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/89"
+    },
+    {
+      "key": "unesco-jerusalem",
+      "title": "Vieille ville de Jérusalem et ses remparts — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/148"
+    },
+    {
+      "key": "unesco-istanbul",
+      "title": "Zones historiques d'Istanbul — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/356"
+    },
+    {
+      "key": "unesco-samarcande",
+      "title": "Samarcande — Carrefour de cultures — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/603"
+    },
+    {
+      "key": "saudi-mofa",
+      "title": "About Kingdom — Main Cities",
+      "publisher": "Ministry of Foreign Affairs, Kingdom of Saudi Arabia",
+      "url": "https://mofa.gov.sa/en/ksa/Pages/default.aspx"
+    },
+    {
+      "key": "saudi-hajj-makkah",
+      "title": "Makkah Al-Mukarramah",
+      "publisher": "Ministry of Hajj and Umrah, Kingdom of Saudi Arabia",
+      "url": "https://haj.gov.sa/ar/Makkah-Al-Mukarramah"
+    },
+    {
+      "key": "saudi-hajj-madinah",
+      "title": "Al-Madinah Al-Munawwarah",
+      "publisher": "Ministry of Hajj and Umrah, Kingdom of Saudi Arabia",
+      "url": "https://haj.gov.sa/en/Al-Madinah-Al-Munawwarah"
+    }
+  ],
+  "questions": [
+    {
+      "id": "HISTGEO-910-001",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.algerie-alger",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi les rues de la Casbah sont-elles souvent étroites et en pente ?",
+        "ar": "لماذا تكون أزقة القصبة غالبًا ضيقة ومنحدرة؟"
+      },
+      "answer": {
+        "fr": "Parce que la médina s’est adaptée au relief escarpé.",
+        "ar": "لأن المدينة العتيقة تكيفت مع التضاريس الشديدة الانحدار."
+      },
+      "explanation": {
+        "fr": "La Casbah d’Alger s’est développée sur un terrain fortement incliné au-dessus de la mer.",
+        "ar": "نشأت قصبة الجزائر على أرض شديدة الانحدار فوق البحر."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-casbah-alger"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-002",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.turquie-istanbul",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Istanbul a-t-elle longtemps été une ville stratégique ?",
+        "ar": "لماذا كانت إسطنبول مدينة استراتيجية لزمن طويل؟"
+      },
+      "answer": {
+        "fr": "Parce qu’elle contrôle un passage important entre des mers et des continents.",
+        "ar": "لأنها تشرف على ممر مهم بين بحار وقارات."
+      },
+      "explanation": {
+        "fr": "Sa position sur le Bosphore lui donne un rôle de passage entre l’Europe et l’Asie.",
+        "ar": "يمنحها موقعها على البوسفور دورًا مهمًا بين أوروبا وآسيا."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-istanbul"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-003",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.ouzbekistan-samarcande",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Samarcande a-t-elle accueilli des influences très différentes ?",
+        "ar": "لماذا استقبلت سمرقند تأثيرات متنوعة جدًا؟"
+      },
+      "answer": {
+        "fr": "Parce qu’elle se trouvait sur de grandes routes d’échanges.",
+        "ar": "لأنها كانت على طرق تبادل كبرى."
+      },
+      "explanation": {
+        "fr": "Les échanges ont relié Samarcande à plusieurs régions d’Asie et au-delà.",
+        "ar": "ربطت طرق التبادل سمرقند بمناطق متعددة في آسيا وخارجها."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-samarcande"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-004",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.maroc-marrakech",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Que montrent les remparts et les grandes portes de Marrakech ?",
+        "ar": "ماذا تدل أسوار مراكش وأبوابها الكبيرة؟"
+      },
+      "answer": {
+        "fr": "Qu’il s’agit d’une ancienne ville fortifiée.",
+        "ar": "على أنها مدينة قديمة محصنة."
+      },
+      "explanation": {
+        "fr": "La médina conserve des remparts et des portes monumentales hérités de son histoire.",
+        "ar": "تحافظ المدينة العتيقة على أسوار وأبواب ضخمة من تاريخها."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-marrakech"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-005",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-kairouan",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Kairouan est-elle importante pour l’histoire du Maghreb ?",
+        "ar": "لماذا تعد القيروان مهمة في تاريخ المغرب؟"
+      },
+      "answer": {
+        "fr": "Parce qu’elle fut l’un des premiers grands centres arabo-musulmans de la région.",
+        "ar": "لأنها كانت من أوائل المراكز العربية الإسلامية الكبرى في المنطقة."
+      },
+      "explanation": {
+        "fr": "Kairouan devint un centre majeur de l’Ifriqiya et du Maghreb.",
+        "ar": "أصبحت القيروان مركزًا مهمًا في إفريقية والمغرب."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-kairouan"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-006",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.andalousie-cordoue",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Cordoue est-elle importante pour comprendre Al-Andalus ?",
+        "ar": "لماذا تعد قرطبة مهمة لفهم تاريخ الأندلس؟"
+      },
+      "answer": {
+        "fr": "Parce qu’elle fut un grand centre politique et urbain de cette période.",
+        "ar": "لأنها كانت مركزًا سياسيًا وعمرانيًا كبيرًا في تلك الفترة."
+      },
+      "explanation": {
+        "fr": "Cordoue joua un rôle majeur dans l’histoire d’Al-Andalus.",
+        "ar": "لعبت قرطبة دورًا كبيرًا في تاريخ الأندلس."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-cordoue"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-007",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.egypte-caire",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Que nous apprend le grand nombre de monuments du Caire historique ?",
+        "ar": "ماذا يعلّمنا كثرة المعالم في القاهرة التاريخية؟"
+      },
+      "answer": {
+        "fr": "Que la ville s’est enrichie au fil de nombreuses périodes.",
+        "ar": "أن المدينة تراكم فيها التراث عبر فترات كثيرة."
+      },
+      "explanation": {
+        "fr": "Mosquées, madrasas, bains et fontaines témoignent de siècles d’histoire urbaine.",
+        "ar": "تشهد المساجد والمدارس والحمامات والنوافير على قرون من التاريخ العمراني."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-caire"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-008",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.palestine-jerusalem",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi les remparts de Jérusalem sont-ils importants pour lire la ville ?",
+        "ar": "لماذا تساعد أسوار القدس على فهم المدينة؟"
+      },
+      "answer": {
+        "fr": "Ils montrent clairement les limites de la vieille ville historique.",
+        "ar": "لأنها تحدد بوضوح نطاق البلدة القديمة التاريخية."
+      },
+      "explanation": {
+        "fr": "L’UNESCO inscrit ensemble la vieille ville de Jérusalem et ses remparts.",
+        "ar": "تسجل اليونسكو البلدة القديمة في القدس وأسوارها معًا."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-jerusalem"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-009",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi La Mecque accueille-t-elle des musulmans venus du monde entier ?",
+        "ar": "لماذا تستقبل مكة مسلمين من أنحاء العالم؟"
+      },
+      "answer": {
+        "fr": "Parce qu’elle est la destination du Hajj.",
+        "ar": "لأنها مقصد الحج."
+      },
+      "explanation": {
+        "fr": "La Mecque est le lieu du Hajj et abrite la Kaaba dans la Mosquée sacrée.",
+        "ar": "مكة هي مكان الحج وتضم الكعبة في المسجد الحرام."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-mofa",
+        "saudi-hajj-makkah"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-010",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Médine a-t-elle une place particulière dans l’histoire islamique ?",
+        "ar": "لماذا للمدينة المنورة مكانة خاصة في التاريخ الإسلامي؟"
+      },
+      "answer": {
+        "fr": "Parce que le Prophète ﷺ y a émigré et qu’elle devint un premier centre de l’État musulman.",
+        "ar": "لأن النبي ﷺ هاجر إليها وأصبحت مركزًا مبكرًا للدولة الإسلامية."
+      },
+      "explanation": {
+        "fr": "La Hijra vers Médine marque une étape majeure de l’histoire islamique.",
+        "ar": "تمثل الهجرة إلى المدينة مرحلة مهمة في التاريخ الإسلامي."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-mofa",
+        "saudi-hajj-madinah"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-011",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.turquie-istanbul",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quelle ancienne ville est devenue l’Istanbul actuelle ?",
+        "ar": "ما المدينة القديمة التي أصبحت إسطنبول الحالية؟"
+      },
+      "answer": {
+        "fr": "Constantinople.",
+        "ar": "القسطنطينية."
+      },
+      "explanation": {
+        "fr": "Istanbul s’est développée sur le site de l’ancienne Constantinople, capitale de l’Empire romain d’Orient.",
+        "ar": "تطورت إسطنبول في موقع القسطنطينية القديمة، عاصمة الإمبراطورية الرومانية الشرقية."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-istanbul"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-012",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.ouzbekistan-samarcande",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quel ensemble de Samarcande est célèbre pour ses grandes façades de madrasas ?",
+        "ar": "ما المجموعة الشهيرة في سمرقند بواجهات مدارسها الكبيرة؟"
+      },
+      "answer": {
+        "fr": "Le Registan.",
+        "ar": "ريجستان."
+      },
+      "explanation": {
+        "fr": "Le Registan rassemble plusieurs monuments majeurs de Samarcande.",
+        "ar": "يجمع ريجستان عددًا من أهم معالم سمرقند."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-samarcande"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-013",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.maroc-marrakech",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Marrakech a-t-elle été fondée avant ou après l’arrivée des Ottomans au Maghreb ?",
+        "ar": "هل تأسست مراكش قبل وصول العثمانيين إلى المغرب أم بعده؟"
+      },
+      "answer": {
+        "fr": "Avant.",
+        "ar": "قبل."
+      },
+      "explanation": {
+        "fr": "Marrakech fut fondée au XIe siècle par les Almoravides, bien avant la période ottomane au Maghreb.",
+        "ar": "أسس المرابطون مراكش في القرن الحادي عشر، قبل الفترة العثمانية في المغرب بزمن طويل."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-marrakech"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-014",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-kairouan",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Grande Mosquée de Kairouan est-elle surtout un monument moderne ou historique ?",
+        "ar": "هل الجامع الكبير بالقيروان معلم حديث أم تاريخي؟"
+      },
+      "answer": {
+        "fr": "Historique.",
+        "ar": "تاريخي."
+      },
+      "explanation": {
+        "fr": "Elle fait partie du patrimoine ancien qui a donné à Kairouan son importance.",
+        "ar": "هو جزء من التراث القديم الذي منح القيروان مكانتها."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-kairouan"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-015",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.algerie-alger",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Casbah d’Alger conserve-t-elle des palais de l’époque ottomane ?",
+        "ar": "هل تحتفظ قصبة الجزائر بقصور من العهد العثماني؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "La Casbah conserve notamment des maisons, des mosquées et des palais liés à la période ottomane.",
+        "ar": "تضم القصبة بيوتًا ومساجد وقصورًا مرتبطة بالعهد العثماني."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-casbah-alger"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-016",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.egypte-caire",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Caire historique est-il un seul monument ou tout un quartier ancien ?",
+        "ar": "هل القاهرة التاريخية معلم واحد أم نسيج عمراني كامل؟"
+      },
+      "answer": {
+        "fr": "Tout un ensemble urbain.",
+        "ar": "نسيج عمراني كامل."
+      },
+      "explanation": {
+        "fr": "Le site comprend un vaste tissu historique avec de nombreux édifices et rues anciennes.",
+        "ar": "يشمل الموقع منطقة تاريخية واسعة تضم مباني وشوارع قديمة كثيرة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-caire"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-017",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.andalousie-cordoue",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quel changement montre l’histoire de Cordoue après l’époque romaine ?",
+        "ar": "ما التغيير الذي يظهره تاريخ قرطبة بعد العصر الروماني؟"
+      },
+      "answer": {
+        "fr": "La ville devint ensuite un grand centre d’Al-Andalus.",
+        "ar": "أصبحت لاحقًا مركزًا كبيرًا في الأندلس."
+      },
+      "explanation": {
+        "fr": "Cordoue existait avant Al-Andalus puis connut une nouvelle période majeure sous domination musulmane.",
+        "ar": "كانت قرطبة موجودة قبل الأندلس ثم عاشت فترة كبرى تحت الحكم الإسلامي."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-cordoue"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-018",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.palestine-jerusalem",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Dôme du Rocher est-il plus ancien que l’époque ottomane ?",
+        "ar": "هل قبة الصخرة أقدم من العصر العثماني؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Le Dôme du Rocher remonte aux débuts de l’époque islamique, bien avant la période ottomane.",
+        "ar": "ترجع قبة الصخرة إلى بدايات العصر الإسلامي، قبل العهد العثماني بقرون."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-jerusalem"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-019",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quel événement historique relie directement La Mecque et Médine ?",
+        "ar": "ما الحدث التاريخي الذي يربط مكة بالمدينة مباشرة؟"
+      },
+      "answer": {
+        "fr": "La Hijra.",
+        "ar": "الهجرة."
+      },
+      "explanation": {
+        "fr": "La Hijra désigne l’émigration du Prophète ﷺ de La Mecque vers Médine.",
+        "ar": "الهجرة هي انتقال النبي ﷺ من مكة إلى المدينة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-mofa",
+        "saudi-hajj-madinah"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-020",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.ouzbekistan-samarcande",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Samarcande doit-elle son importance seulement à un seul peuple ?",
+        "ar": "هل ترجع أهمية سمرقند إلى شعب واحد فقط؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Son histoire reflète la rencontre de plusieurs cultures et périodes.",
+        "ar": "يعكس تاريخها التقاء ثقافات وفترات متعددة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-samarcande"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-021",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.turquie-istanbul",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi trouve-t-on à Istanbul des monuments de périodes très différentes ?",
+        "ar": "لماذا نجد في إسطنبول معالم من فترات مختلفة جدًا؟"
+      },
+      "answer": {
+        "fr": "Parce que la ville a été capitale de plusieurs empires.",
+        "ar": "لأن المدينة كانت عاصمة لعدة إمبراطوريات."
+      },
+      "explanation": {
+        "fr": "Son histoire byzantine puis ottomane a laissé des monuments de différentes époques.",
+        "ar": "ترك تاريخها البيزنطي ثم العثماني معالم من عصور مختلفة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-istanbul"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-022",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.maroc-marrakech",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La médina de Marrakech est-elle la partie moderne ou ancienne de la ville ?",
+        "ar": "هل مدينة مراكش العتيقة هي الجزء الحديث أم القديم من المدينة؟"
+      },
+      "answer": {
+        "fr": "La partie ancienne.",
+        "ar": "الجزء القديم."
+      },
+      "explanation": {
+        "fr": "Une médina désigne ici le cœur historique de la ville.",
+        "ar": "المدينة العتيقة هي القلب التاريخي للمدينة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-marrakech"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-023",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.algerie-alger",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Casbah d’Alger est-elle une médina historique ?",
+        "ar": "هل قصبة الجزائر مدينة عتيقة تاريخية؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "La Casbah est un exemple important de médina du Maghreb.",
+        "ar": "القصبة مثال مهم لمدن المغرب العتيقة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-casbah-alger"
+      ]
+    },
+    {
+      "id": "HISTGEO-910-024",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.andalousie-cordoue",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Grande Mosquée de Cordoue appartient-elle au patrimoine historique de la ville ?",
+        "ar": "هل الجامع الكبير في قرطبة جزء من تراث المدينة التاريخي؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Elle est l’un des éléments majeurs du centre historique de Cordoue.",
+        "ar": "هو من أبرز عناصر المركز التاريخي لقرطبة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-cordoue"
+      ]
+    }
+  ]
 }

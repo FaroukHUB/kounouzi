@@ -1,5 +1,5 @@
 {
-  "$comment": "À ÉCRIRE — logic, enfants de 11-12. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 3 ou 4. Identifiants : LOG-1112-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 11-12. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 3 ou 4. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
   "$gabarit": {
     "id": "LOG-1112-001",
     "version": 1,
@@ -8,23 +8,600 @@
     "difficulty": 3,
     "ageBand": "11-12",
     "audienceScope": "all",
-    "status": "draft — passer à « validated » SEULEMENT après relecture ; tant que c'est « draft », rien n'est servi",
-    "arReview": "provisional — passer à « reviewed » après relecture par un arabophone",
+    "status": "draft",
+    "arReview": "provisional",
     "prompt": {
-      "fr": "À REMPLIR — l'énoncé",
-      "ar": "À REMPLIR — l'énoncé en arabe (facultatif pour l'énoncé)"
+      "fr": "Énoncé FR",
+      "ar": "Énoncé AR"
     },
     "answer": {
-      "fr": "À REMPLIR — la réponse",
-      "ar": "À REMPLIR — la réponse en arabe (facultative)"
+      "fr": "Réponse FR",
+      "ar": "Réponse AR"
     },
     "explanation": {
-      "fr": "À REMPLIR — OBLIGATOIRE",
-      "ar": "À REMPLIR — OBLIGATOIRE, l'explication doit exister dans les DEUX langues"
+      "fr": "Explication FR obligatoire",
+      "ar": "Explication AR obligatoire"
     },
     "sources": []
   },
   "version": 1,
   "sources": [],
-  "questions": []
+  "questions": [
+    {
+      "id": "LOG-1112-001",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "2, 6, 12, 20… quel nombre vient ensuite si on ajoute 4, puis 6, puis 8 ?",
+        "ar": "2، 6، 12، 20… ما العدد التالي إذا أضفنا 4 ثم 6 ثم 8؟"
+      },
+      "answer": {
+        "fr": "30.",
+        "ar": "30."
+      },
+      "explanation": {
+        "fr": "L’ajout suivant est 10 : 20 + 10 = 30.",
+        "ar": "الإضافة التالية 10: 20 + 10 = 30."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-002",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A est avant B, C est après B. Quel est l’ordre des trois lettres ?",
+        "ar": "A قبل B، وC بعد B. ما ترتيب الحروف؟"
+      },
+      "answer": {
+        "fr": "A, B, C.",
+        "ar": "A، B، C."
+      },
+      "explanation": {
+        "fr": "A précède B et C vient après B.",
+        "ar": "A يسبق B وC يأتي بعد B."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-003",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quatre portes A, B, C, D. Le trésor n’est ni dans A ni dans D. Il est dans une porte dont la lettre vient avant C. Où est-il ?",
+        "ar": "أربعة أبواب A وB وC وD. الكنز ليس في A ولا D. وهو خلف باب حرفه قبل C. أين هو؟"
+      },
+      "answer": {
+        "fr": "Dans B.",
+        "ar": "في B."
+      },
+      "explanation": {
+        "fr": "Avant C, il reste A ou B ; A est éliminée.",
+        "ar": "قبل C يبقى A أو B، وA مستبعد."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-004",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tous les membres du club ont une carte verte. Youssef n’a pas de carte verte. Peut-on conclure qu’il n’est pas membre du club ?",
+        "ar": "كل أعضاء النادي لديهم بطاقة خضراء. يوسف ليست لديه بطاقة خضراء. هل نستنتج أنه ليس عضوًا؟"
+      },
+      "answer": {
+        "fr": "Oui, d’après la règle donnée.",
+        "ar": "نعم، حسب القاعدة المعطاة."
+      },
+      "explanation": {
+        "fr": "Si tous les membres ont une carte verte, quelqu’un sans carte verte ne peut pas faire partie du club dans cette situation.",
+        "ar": "إذا كان كل الأعضاء يملكون بطاقة خضراء، فمن لا يملكها ليس عضوًا في هذه المسألة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-005",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A coûte moins cher que B, et C coûte plus cher que B. Quel objet est le plus cher ?",
+        "ar": "A أرخص من B، وC أغلى من B. ما الأغلى؟"
+      },
+      "answer": {
+        "fr": "C.",
+        "ar": "C."
+      },
+      "explanation": {
+        "fr": "A < B < C en prix.",
+        "ar": "الترتيب في السعر: A ثم B ثم C."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-006",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Six personnes forment trois binômes. Combien de personnes y a-t-il dans chaque binôme ?",
+        "ar": "ستة أشخاص يشكلون ثلاثة ثنائيات. كم شخصًا في كل ثنائي؟"
+      },
+      "answer": {
+        "fr": "Deux.",
+        "ar": "اثنان."
+      },
+      "explanation": {
+        "fr": "Un binôme contient deux personnes.",
+        "ar": "الثنائي يتكون من شخصين."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-007",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu entres dans une pièce sombre avec une lampe éteinte et une lampe torche dans ta main. Qu’allumes-tu d’abord ?",
+        "ar": "دخلت غرفة مظلمة ومعك مصباح يدوي مطفأ. ماذا تشعل أولًا؟"
+      },
+      "answer": {
+        "fr": "La lampe torche.",
+        "ar": "المصباح اليدوي."
+      },
+      "explanation": {
+        "fr": "Tu dois d’abord utiliser ce qui te permet d’éclairer la pièce.",
+        "ar": "يجب أولًا استعمال ما يتيح لك إضاءة الغرفة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-008",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Sur une étagère, A est à gauche de B, B à gauche de C, et D à droite de C. Quel objet est le plus à droite ?",
+        "ar": "على رف، A يسار B، وB يسار C، وD يمين C. ما الشيء الأبعد يمينًا؟"
+      },
+      "answer": {
+        "fr": "D.",
+        "ar": "D."
+      },
+      "explanation": {
+        "fr": "L’ordre est A, B, C, D.",
+        "ar": "الترتيب هو A ثم B ثم C ثم D."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-009",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Lina doit être assise à côté d’Adam, mais pas à côté de Sami. Dans une rangée de trois places, qui doit être à une extrémité si Adam est au milieu ?",
+        "ar": "يجب أن تجلس لينا بجانب آدم لا بجانب سامي. في ثلاثة مقاعد، إذا كان آدم في الوسط فمن يكون في الطرف؟"
+      },
+      "answer": {
+        "fr": "Sami.",
+        "ar": "سامي."
+      },
+      "explanation": {
+        "fr": "Lina doit occuper une place voisine d’Adam ; Sami prend l’autre extrémité.",
+        "ar": "لينا تجلس بجانب آدم، فيأخذ سامي الطرف الآخر."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-010",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 3,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A dit : « B dit vrai. » B dit : « A ment. » Peuvent-ils tous les deux dire vrai ?",
+        "ar": "قال A: «B صادق». وقال B: «A كاذب». هل يمكن أن يكونا صادقين معًا؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Si A dit vrai, alors B dit vrai ; mais B affirme qu’A ment, contradiction.",
+        "ar": "إذا كان A صادقًا فـB صادق، لكن B يقول إن A كاذب، وهذا تناقض."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-011",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "1, 4, 9, 16… quel nombre vient ensuite ?",
+        "ar": "1، 4، 9، 16… ما العدد التالي؟"
+      },
+      "answer": {
+        "fr": "25.",
+        "ar": "25."
+      },
+      "explanation": {
+        "fr": "Ce sont les carrés 1², 2², 3², 4², puis 5².",
+        "ar": "هذه مربعات الأعداد 1 ثم 2 ثم 3 ثم 4 ثم 5."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-012",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois boîtes portent A, B, C. Une seule contient la clé. A est vide. La clé n’est pas dans C. Où est-elle ?",
+        "ar": "ثلاثة صناديق A وB وC. واحد فقط فيه المفتاح. A فارغ والمفتاح ليس في C. أين هو؟"
+      },
+      "answer": {
+        "fr": "Dans B.",
+        "ar": "في B."
+      },
+      "explanation": {
+        "fr": "A et C sont éliminées.",
+        "ar": "تم استبعاد A وC."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-013",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quatre joueurs : Lina est avant Adam, Adam avant Youssef, et Sami après Youssef. Qui est dernier ?",
+        "ar": "أربعة لاعبين: لينا قبل آدم، وآدم قبل يوسف، وسامي بعد يوسف. من الأخير؟"
+      },
+      "answer": {
+        "fr": "Sami.",
+        "ar": "سامي."
+      },
+      "explanation": {
+        "fr": "L’ordre imposé se termine par Sami.",
+        "ar": "الترتيب المفروض ينتهي بسامي."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-014",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le trajet A dure moins longtemps que B. Le trajet C dure plus longtemps que B. Peut-on dire que C est plus long en durée que A ?",
+        "ar": "المسار A يستغرق أقل من B، والمسار C أكثر من B. هل C أطول زمنًا من A؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Si A < B et C > B, alors C > A.",
+        "ar": "إذا كان A أقل من B وC أكبر من B فإن C أكبر من A."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-015",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Aucun membre du groupe rouge n’est dans le groupe bleu. Lina est dans le groupe rouge. Peut-elle être aussi dans le groupe bleu ?",
+        "ar": "لا يوجد أي عضو من المجموعة الحمراء في الزرقاء. لينا في الحمراء. هل يمكن أن تكون في الزرقاء أيضًا؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Les deux groupes sont déclarés incompatibles.",
+        "ar": "القاعدة تجعل المجموعتين غير متداخلتين."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-016",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un médecin te donne trois comprimés et dit d’en prendre un toutes les 30 minutes. En combien de temps auras-tu pris les trois ?",
+        "ar": "أعطاك الطبيب ثلاثة أقراص وقال خذ واحدًا كل 30 دقيقة. بعد كم وقت تكون قد أخذت الثلاثة؟"
+      },
+      "answer": {
+        "fr": "En 1 heure.",
+        "ar": "بعد ساعة."
+      },
+      "explanation": {
+        "fr": "Tu prends le premier tout de suite, le deuxième après 30 minutes et le troisième après 60 minutes.",
+        "ar": "تأخذ الأول فورًا، والثاني بعد 30 دقيقة، والثالث بعد 60 دقيقة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-017",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans un tournoi, quatre joueurs jouent chacun une seule fois contre chacun des autres. Combien de matchs ?",
+        "ar": "في بطولة، أربعة لاعبين يلعب كل واحد مرة واحدة ضد كل الآخرين. كم مباراة؟"
+      },
+      "answer": {
+        "fr": "Six.",
+        "ar": "ست."
+      },
+      "explanation": {
+        "fr": "Les paires possibles sont AB, AC, AD, BC, BD et CD.",
+        "ar": "الأزواج الممكنة هي AB وAC وAD وBC وBD وCD."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-018",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A est au nord de B, et C est à l’est de B. A est-il forcément à l’ouest de C ?",
+        "ar": "A شمال B، وC شرق B. هل A بالضرورة غرب C؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "A se trouve au-dessus de B, tandis que C est à droite de B ; A est donc à gauche de C.",
+        "ar": "A فوق B وC يمين B، لذلك A يقع يسار C."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-019",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quatre places numérotées 1 à 4. Adam doit être avant Lina. Lina doit être avant Sami. Youssef est en 4. Sami peut-il être en 2 ?",
+        "ar": "أربعة مقاعد من 1 إلى 4. آدم قبل لينا، ولينا قبل سامي، ويوسف في 4. هل يمكن أن يكون سامي في 2؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Il faudrait encore placer Adam puis Lina avant Sami, ce qui demande deux places avant lui.",
+        "ar": "يجب وضع آدم ثم لينا قبل سامي، وهذا يحتاج مكانين قبله."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-020",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une phrase affirme : « Exactement deux de ces trois lampes sont allumées. » Tu vois une seule lampe allumée. La phrase est-elle vraie ?",
+        "ar": "تقول العبارة: «مصباحان بالضبط من ثلاثة مضاءة». ترى مصباحًا واحدًا فقط. هل العبارة صحيحة؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Exactement deux signifie ni une, ni trois.",
+        "ar": "«بالضبط اثنان» لا تعني واحدًا ولا ثلاثة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-021",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "100, 90, 81, 73… quelle règle simple peut continuer la suite ?",
+        "ar": "100، 90، 81، 73… ما القاعدة البسيطة التي تواصل المتتالية؟"
+      },
+      "answer": {
+        "fr": "Retirer 10, puis 9, puis 8 ; ensuite retirer 7 pour obtenir 66.",
+        "ar": "نطرح 10 ثم 9 ثم 8، وبعدها 7 لنحصل على 66."
+      },
+      "explanation": {
+        "fr": "La quantité retirée diminue de 1 à chaque étape.",
+        "ar": "المقدار المطروح ينقص بواحد في كل خطوة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-022",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois suspects A, B, C. On sait que B est innocent et que le coupable n’est pas C. Qui reste ?",
+        "ar": "ثلاثة مشتبه بهم A وB وC. نعلم أن B بريء وأن المذنب ليس C. من يبقى؟"
+      },
+      "answer": {
+        "fr": "A.",
+        "ar": "A."
+      },
+      "explanation": {
+        "fr": "B et C sont éliminés.",
+        "ar": "تم استبعاد B وC."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-023",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans une bibliothèque, le livre rouge est entre le bleu et le vert. Le bleu est à gauche du rouge. Où est le vert ?",
+        "ar": "في مكتبة، الكتاب الأحمر بين الأزرق والأخضر. الأزرق يسار الأحمر. أين الأخضر؟"
+      },
+      "answer": {
+        "fr": "À droite du rouge.",
+        "ar": "يمين الأحمر."
+      },
+      "explanation": {
+        "fr": "Si le rouge est entre les deux et le bleu à gauche, le vert est à droite.",
+        "ar": "إذا كان الأحمر بينهما والأزرق يساره فالأخضر يمينه."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-1112-024",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 4,
+      "ageBand": "11-12",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "« Si la porte est ouverte, la lumière est allumée. » La porte est ouverte mais la lumière est éteinte. La règle est-elle respectée ?",
+        "ar": "«إذا كان الباب مفتوحًا فالضوء مشتعل». الباب مفتوح والضوء مطفأ. هل تحترم القاعدة؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Le cas observé contredit directement la règle donnée.",
+        "ar": "الحالة المشاهدة تناقض القاعدة مباشرة."
+      },
+      "sources": []
+    }
+  ]
 }

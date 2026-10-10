@@ -11,7 +11,36 @@ Six questions ne peuvent pas tourner sans se répéter. Aucun réglage du moteur
 ne corrige cela : **il manque du contenu**, et il n'en sera jamais inventé par
 un assistant.
 
-## Ce qu'il manque
+## État : les 358 cartes sont livrées, en attente de relecture
+
+Les quinze fichiers sont remplis. **Rien n'est servi** : toutes les cartes sont
+`draft`, et un test vérifie qu'une fois passées en `validated` elles
+franchissent la garde de jouabilité — il ne leur manque donc que ta relecture,
+ni source, ni explication, ni champ.
+
+| Catégorie | Validées (servies) | Brouillons (en attente) |
+|---|---|---|
+| Géographie | 32 | 118 |
+| Logique | 30 | 120 |
+| Gestion | 30 | 120 |
+
+Ce que la relecture débloque, par âge et par catégorie :
+
+| Âge | Géographie | Logique | Gestion |
+|---|---|---|---|
+| 6 ans | 6 → **30** | 6 → **30** | 6 → **30** |
+| 7 ans | 7 → **30** | 6 → **30** | 6 → **30** |
+| 9 ans | 6 → **30** | 6 → **30** | 6 → **30** |
+| 12 ans | 7 → **30** | 6 → **30** | 6 → **30** |
+| 14 ans | 6 → **30** | 6 → **30** | 6 → **30** |
+
+Sur quatre parties de huit questions, un enfant de 6 ans passe de 25 à **29**
+questions distinctes sur 32, et une même carte ne revient plus que deux fois au
+lieu de trois. Le reste des reprises n'est pas un manque de contenu : c'est la
+**révision espacée** qui fait son travail — elle se règle dans
+`learning.v1.json` (`variety.revisionShare`), elle ne s'écrit pas.
+
+## Ce qu'il manquait au départ
 
 Cible : **30 questions par catégorie et par tranche**, soit environ quatre
 parties sans qu'une question revienne.

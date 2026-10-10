@@ -1,30 +1,607 @@
 {
-  "$comment": "À ÉCRIRE — logic, enfants de 13+. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 4 ou 5. Identifiants : LOG-13P-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 13+. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 4 ou 5. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
   "$gabarit": {
-    "id": "LOG-13P-001",
+    "id": "LOG-13p-001",
     "version": 1,
     "categoryId": "logic",
     "knowledgeNodeId": "logique.<notion>",
     "difficulty": 4,
     "ageBand": "13+",
     "audienceScope": "all",
-    "status": "draft — passer à « validated » SEULEMENT après relecture ; tant que c'est « draft », rien n'est servi",
-    "arReview": "provisional — passer à « reviewed » après relecture par un arabophone",
+    "status": "draft",
+    "arReview": "provisional",
     "prompt": {
-      "fr": "À REMPLIR — l'énoncé",
-      "ar": "À REMPLIR — l'énoncé en arabe (facultatif pour l'énoncé)"
+      "fr": "Énoncé FR",
+      "ar": "Énoncé AR"
     },
     "answer": {
-      "fr": "À REMPLIR — la réponse",
-      "ar": "À REMPLIR — la réponse en arabe (facultative)"
+      "fr": "Réponse FR",
+      "ar": "Réponse AR"
     },
     "explanation": {
-      "fr": "À REMPLIR — OBLIGATOIRE",
-      "ar": "À REMPLIR — OBLIGATOIRE, l'explication doit exister dans les DEUX langues"
+      "fr": "Explication FR obligatoire",
+      "ar": "Explication AR obligatoire"
     },
     "sources": []
   },
   "version": 1,
   "sources": [],
-  "questions": []
+  "questions": [
+    {
+      "id": "LOG-13p-001",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A dit : « B ment. » B dit : « C ment. » C dit : « A et B mentent. » Une seule personne dit vrai. Qui ?",
+        "ar": "قال A: «B يكذب». وقال B: «C يكذب». وقال C: «A وB يكذبان». شخص واحد فقط صادق. من هو؟"
+      },
+      "answer": {
+        "fr": "B.",
+        "ar": "B."
+      },
+      "explanation": {
+        "fr": "Si B dit vrai, C ment ; alors A ment aussi, ce qui donne exactement une vérité.",
+        "ar": "إذا كان B صادقًا فـC كاذب، ويكون A كاذبًا أيضًا، فنحصل على حقيقة واحدة فقط."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-002",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quatre personnes A, B, C, D s’assoient en ligne. A doit être avant B, C après B, et D avant A. Qui est forcément premier ?",
+        "ar": "أربعة أشخاص A وB وC وD يجلسون في صف. A قبل B، وC بعد B، وD قبل A. من الأول حتمًا؟"
+      },
+      "answer": {
+        "fr": "D.",
+        "ar": "D."
+      },
+      "explanation": {
+        "fr": "L’ordre imposé est D avant A avant B avant C.",
+        "ar": "الترتيب المفروض هو D ثم A ثم B ثم C."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-003",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un code est 2, 4 ou 6. Il n’est pas pair supérieur à 4. Il n’est pas 2. Quel est le code ?",
+        "ar": "الرمز هو 2 أو 4 أو 6. ليس عددًا زوجيًا أكبر من 4، وليس 2. ما الرمز؟"
+      },
+      "answer": {
+        "fr": "4.",
+        "ar": "4."
+      },
+      "explanation": {
+        "fr": "6 est exclu par la première condition et 2 par la seconde.",
+        "ar": "يُستبعد 6 بالشرط الأول و2 بالثاني."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-004",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "2, 3, 5, 8, 13… quel nombre vient ensuite ?",
+        "ar": "2، 3، 5، 8، 13… ما العدد التالي؟"
+      },
+      "answer": {
+        "fr": "21.",
+        "ar": "21."
+      },
+      "explanation": {
+        "fr": "Chaque nombre est la somme des deux précédents.",
+        "ar": "كل عدد هو مجموع العددين السابقين."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-005",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tous les membres du groupe A appartiennent au groupe B. Aucun membre de B n’appartient à C. Lina est dans A. Peut-elle être dans C ?",
+        "ar": "كل أعضاء المجموعة A ينتمون إلى B. لا أحد من B ينتمي إلى C. لينا في A. هل يمكن أن تكون في C؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Être dans A implique être dans B, et B exclut C.",
+        "ar": "الانتماء إلى A يعني الانتماء إلى B، وB يستبعد C."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-006",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Projet A coûte moins que B mais rapporte autant. Si seul le coût compte, lequel est plus avantageux ?",
+        "ar": "المشروع A أقل تكلفة من B لكنه يعطي العائد نفسه. إذا كان معيارنا الوحيد هو التكلفة، فأيهما أفضل؟"
+      },
+      "answer": {
+        "fr": "A.",
+        "ar": "A."
+      },
+      "explanation": {
+        "fr": "À bénéfice identique, le coût inférieur rend A plus avantageux selon le critère donné.",
+        "ar": "مع عائد متساوٍ تكون الكلفة الأقل أفضل حسب المعيار المعطى."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-007",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Sur un plan, A est au nord de B, C à l’est de A, et D au sud de C. D peut-il être à l’est de B ?",
+        "ar": "على مخطط، A شمال B، وC شرق A، وD جنوب C. هل يمكن أن يكون D شرق B؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Avec cette disposition, D peut se retrouver à droite de B.",
+        "ar": "بهذا الترتيب يمكن أن يقع D إلى يمين B."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-008",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Cinq personnes veulent former tous les binômes possibles. Combien de binômes différents ?",
+        "ar": "خمسة أشخاص يريدون تكوين كل الثنائيات الممكنة. كم ثنائيًا مختلفًا؟"
+      },
+      "answer": {
+        "fr": "10.",
+        "ar": "10."
+      },
+      "explanation": {
+        "fr": "Il y a 5×4÷2 = 10 paires différentes.",
+        "ar": "عدد الأزواج المختلفة هو 5×4÷2 = 10."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-009",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un train électrique roule vers le nord. Le vent souffle vers l’ouest. De quel côté part la fumée ?",
+        "ar": "قطار كهربائي يسير شمالًا والريح تهب غربًا. إلى أين يذهب الدخان؟"
+      },
+      "answer": {
+        "fr": "Il n’y a pas de fumée.",
+        "ar": "لا يوجد دخان."
+      },
+      "explanation": {
+        "fr": "Un train électrique ne produit pas de fumée d’échappement comme une locomotive à vapeur.",
+        "ar": "القطار الكهربائي لا ينتج دخانًا كقاطرة بخارية."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-010",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une règle dit : « Si A est vrai, alors B est vrai. » A est vrai et B est faux. La règle est-elle respectée ?",
+        "ar": "قاعدة تقول: «إذا كان A صحيحًا فـB صحيح». A صحيح وB خطأ. هل تحترم القاعدة؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Le cas observé contredit directement l’implication annoncée.",
+        "ar": "الحالة تناقض الشرط المعطى مباشرة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-011",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A arrive avant B. C arrive après D. D arrive après B. Qui arrive forcément avant C ?",
+        "ar": "A يصل قبل B. C يصل بعد D. D يصل بعد B. من يصل قبل C حتمًا؟"
+      },
+      "answer": {
+        "fr": "A, B et D.",
+        "ar": "A وB وD."
+      },
+      "explanation": {
+        "fr": "L’ordre impose A avant B avant D avant C.",
+        "ar": "الترتيب المفروض هو A ثم B ثم D ثم C."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-012",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois coffres A, B, C. Une seule inscription est vraie : A dit « trésor ici », B dit « trésor dans C », C dit « trésor pas dans A ». Le trésor est dans A. Combien d’inscriptions sont vraies ?",
+        "ar": "ثلاثة صناديق A وB وC. كتابة واحدة فقط صحيحة: A يقول «الكنز هنا»، B يقول «الكنز في C»، C يقول «الكنز ليس في A». الكنز في A. كم كتابة صحيحة؟"
+      },
+      "answer": {
+        "fr": "Une.",
+        "ar": "واحدة."
+      },
+      "explanation": {
+        "fr": "A est vraie ; B et C sont fausses.",
+        "ar": "عبارة A صحيحة وB وC خاطئتان."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-013",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "1, 2, 6, 24… quel nombre vient ensuite ?",
+        "ar": "1، 2، 6، 24… ما العدد التالي؟"
+      },
+      "answer": {
+        "fr": "120.",
+        "ar": "120."
+      },
+      "explanation": {
+        "fr": "On multiplie successivement par 2, puis 3, puis 4 ; ensuite par 5.",
+        "ar": "نضرب تباعًا في 2 ثم 3 ثم 4، وبعدها في 5."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-014",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Cinq sièges. A doit être immédiatement à gauche de B. C ne peut être à une extrémité. Si A est en 2, où est B ?",
+        "ar": "خمسة مقاعد. يجب أن يكون A مباشرة يسار B. لا يمكن أن يكون C في طرف. إذا كان A في المقعد 2، فأين B؟"
+      },
+      "answer": {
+        "fr": "En 3.",
+        "ar": "في 3."
+      },
+      "explanation": {
+        "fr": "« Immédiatement à gauche » impose la place suivante.",
+        "ar": "«مباشرة يسار» يفرض المقعد التالي."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-015",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tous les X sont Y. Certains Y sont Z. Peut-on conclure que certains X sont Z ?",
+        "ar": "كل X هم Y. بعض Y هم Z. هل نستنتج أن بعض X هم Z؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Les Y qui sont Z ne sont pas forcément des X.",
+        "ar": "قد يكون أفراد Y الذين هم Z خارج مجموعة X."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-016",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A est moins risqué que B. B rapporte plus que C. Peut-on conclure que A rapporte moins que C ?",
+        "ar": "A أقل مخاطرة من B، وB يعطي عائدًا أكبر من C. هل نستنتج أن A يعطي أقل من C؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Les informations sur le risque et le rendement ne permettent pas cette comparaison.",
+        "ar": "معلومات المخاطرة والعائد لا تسمح بهذه المقارنة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-017",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Sur une grille, tu vas 2 cases au nord puis 2 au sud. Où es-tu par rapport au départ ?",
+        "ar": "على شبكة، تتحرك خانتين شمالًا ثم خانتين جنوبًا. أين تكون بالنسبة للبداية؟"
+      },
+      "answer": {
+        "fr": "Au même niveau nord-sud.",
+        "ar": "في المستوى نفسه شمالًا وجنوبًا."
+      },
+      "explanation": {
+        "fr": "Les déplacements verticaux s’annulent.",
+        "ar": "الحركتان العموديتان تلغي إحداهما الأخرى."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-018",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Six personnes sont réparties en deux groupes de trois. Combien de personnes changent de groupe si on échange une personne de chaque groupe ?",
+        "ar": "ستة أشخاص في مجموعتين من ثلاثة. كم شخصًا يغيّر مجموعته إذا تبادلنا شخصًا من كل مجموعة؟"
+      },
+      "answer": {
+        "fr": "Deux.",
+        "ar": "اثنان."
+      },
+      "explanation": {
+        "fr": "Une personne part de chaque groupe vers l’autre.",
+        "ar": "ينتقل شخص واحد من كل مجموعة إلى الأخرى."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-019",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une horloge sonne 6 coups en 5 secondes. En supposant des intervalles réguliers, combien d’intervalles séparent les 6 coups ?",
+        "ar": "ساعة تدق 6 دقات في 5 ثوانٍ. إذا كانت الفواصل منتظمة، كم فاصلًا بين الدقات الست؟"
+      },
+      "answer": {
+        "fr": "5 intervalles.",
+        "ar": "5 فواصل."
+      },
+      "explanation": {
+        "fr": "Six coups créent cinq espaces entre eux.",
+        "ar": "ست دقات تصنع خمسة فواصل بينها."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-020",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A dit : « Nous disons tous les deux faux. » B ne dit rien. La phrase de A peut-elle être vraie ?",
+        "ar": "قال A: «نحن الاثنان نقول كلامًا خاطئًا». وB لا يقول شيئًا. هل يمكن لعبارة A أن تكون صحيحة؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Si A disait vrai, il serait lui-même en train de dire faux, contradiction.",
+        "ar": "إذا كان A صادقًا فإنه يصف نفسه كاذبًا، وهذا تناقض."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-021",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A est avant C. B est après A mais avant D. C est après D. Quel ordre est compatible ?",
+        "ar": "A قبل C. B بعد A وقبل D. C بعد D. ما الترتيب الممكن؟"
+      },
+      "answer": {
+        "fr": "A, B, D, C.",
+        "ar": "A، B، D، C."
+      },
+      "explanation": {
+        "fr": "Toutes les contraintes sont respectées dans cet ordre.",
+        "ar": "هذا الترتيب يحترم كل الشروط."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-022",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un nombre est 12, 18 ou 24. Il est divisible par 6 mais pas par 4. Lequel est-ce ?",
+        "ar": "العدد هو 12 أو 18 أو 24. يقبل القسمة على 6 ولا يقبل القسمة على 4. ما هو؟"
+      },
+      "answer": {
+        "fr": "18.",
+        "ar": "18."
+      },
+      "explanation": {
+        "fr": "12 et 24 sont divisibles par 4 ; 18 ne l’est pas.",
+        "ar": "12 و24 يقبلان القسمة على 4، أما 18 فلا."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-023",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "81, 27, 9, 3… quel nombre vient ensuite ?",
+        "ar": "81، 27، 9، 3… ما العدد التالي؟"
+      },
+      "answer": {
+        "fr": "1.",
+        "ar": "1."
+      },
+      "explanation": {
+        "fr": "On divise par 3 à chaque fois.",
+        "ar": "نقسم على 3 في كل مرة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-13p-024",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois tâches A, B, C. A doit être faite avant B, et C seulement après B. Quelle tâche doit être première ?",
+        "ar": "ثلاث مهام A وB وC. يجب إنجاز A قبل B، وC بعد B فقط. ما المهمة الأولى؟"
+      },
+      "answer": {
+        "fr": "A.",
+        "ar": "A."
+      },
+      "explanation": {
+        "fr": "Les deux autres dépendent directement ou indirectement de A.",
+        "ar": "المهمتان الأخريان تعتمدان مباشرة أو غير مباشرة على A."
+      },
+      "sources": []
+    }
+  ]
 }

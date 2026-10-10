@@ -56,8 +56,14 @@ describe("banques à écrire — le terrain est prêt, les questions restent à 
     // manquante (la géographie en exige une), ni explication absente, ni arabe vide.
     // Mieux vaut le savoir maintenant que le découvrir après la relecture.
     const categories = CATEGORIES;
-    const brouillons = CURATED_BANK.filter((q) => q.status === "draft" && /-\d{2,4}-\d{3}$/.test(q.id));
+    // Les identifiants portent le jeton de tranche, « 13p » compris : un motif
+    // purement numérique laissait les cartes 13+ hors du contrôle.
+    const brouillons = CURATED_BANK.filter((q) => q.status === "draft" && /-(56|78|910|1112|13p)-\d{3}$/.test(q.id));
     expect(brouillons.length).toBeGreaterThan(0);
+    // Toutes les tranches sont représentées, 13+ comprise.
+    for (const jeton of ["56", "78", "910", "1112", "13p"]) {
+      expect(brouillons.some((q) => q.id.includes(`-${jeton}-`)), jeton).toBe(true);
+    }
     for (const q of brouillons) {
       const categorie = categories.find((c) => c.id === q.categoryId);
       expect(playabilityIssues({ ...q, status: "validated" }, categorie), q.id).toEqual([]);

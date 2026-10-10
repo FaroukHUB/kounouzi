@@ -1,5 +1,5 @@
 {
-  "$comment": "À ÉCRIRE — logic, enfants de 9-10. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 2 ou 3. Identifiants : LOG-910-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 9-10. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
   "$gabarit": {
     "id": "LOG-910-001",
     "version": 1,
@@ -8,23 +8,600 @@
     "difficulty": 2,
     "ageBand": "9-10",
     "audienceScope": "all",
-    "status": "draft — passer à « validated » SEULEMENT après relecture ; tant que c'est « draft », rien n'est servi",
-    "arReview": "provisional — passer à « reviewed » après relecture par un arabophone",
+    "status": "draft",
+    "arReview": "provisional",
     "prompt": {
-      "fr": "À REMPLIR — l'énoncé",
-      "ar": "À REMPLIR — l'énoncé en arabe (facultatif pour l'énoncé)"
+      "fr": "Énoncé FR",
+      "ar": "Énoncé AR"
     },
     "answer": {
-      "fr": "À REMPLIR — la réponse",
-      "ar": "À REMPLIR — la réponse en arabe (facultative)"
+      "fr": "Réponse FR",
+      "ar": "Réponse AR"
     },
     "explanation": {
-      "fr": "À REMPLIR — OBLIGATOIRE",
-      "ar": "À REMPLIR — OBLIGATOIRE, l'explication doit exister dans les DEUX langues"
+      "fr": "Explication FR obligatoire",
+      "ar": "Explication AR obligatoire"
     },
     "sources": []
   },
   "version": 1,
   "sources": [],
-  "questions": []
+  "questions": [
+    {
+      "id": "LOG-910-001",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "4, 8, 12, 16… quel nombre vient ensuite ?",
+        "ar": "4، 8، 12، 16… ما العدد التالي؟"
+      },
+      "answer": {
+        "fr": "20.",
+        "ar": "20."
+      },
+      "explanation": {
+        "fr": "On ajoute 4 à chaque fois.",
+        "ar": "نضيف 4 في كل مرة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-002",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Lina est plus âgée que Sara, Sara plus âgée qu’Adam. Qui est le plus jeune ?",
+        "ar": "لينا أكبر من سارة، وسارة أكبر من آدم. من الأصغر؟"
+      },
+      "answer": {
+        "fr": "Adam.",
+        "ar": "آدم."
+      },
+      "explanation": {
+        "fr": "Lina > Sara > Adam en âge.",
+        "ar": "الترتيب في العمر: لينا ثم سارة ثم آدم."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-003",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La clé est dans une des quatre boîtes A, B, C, D. Elle n’est ni dans A, ni B, ni D. Où est-elle ?",
+        "ar": "المفتاح في أحد الصناديق A أو B أو C أو D. ليس في A ولا B ولا D. أين هو؟"
+      },
+      "answer": {
+        "fr": "Dans C.",
+        "ar": "في C."
+      },
+      "explanation": {
+        "fr": "Trois possibilités sont éliminées.",
+        "ar": "تم استبعاد ثلاثة احتمالات."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-004",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tous les joueurs de cette équipe portent un badge bleu. Adam fait partie de l’équipe. Quel badge porte-t-il ?",
+        "ar": "كل لاعبي هذا الفريق يحملون شارة زرقاء. آدم من الفريق. ما لون شارته؟"
+      },
+      "answer": {
+        "fr": "Un badge bleu.",
+        "ar": "زرقاء."
+      },
+      "explanation": {
+        "fr": "La règle s’applique à tous les membres de l’équipe.",
+        "ar": "القاعدة تنطبق على كل أعضاء الفريق."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-005",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une boîte pèse plus qu’un livre, et le livre plus qu’un crayon. Quel objet est le plus léger ?",
+        "ar": "صندوق أثقل من كتاب، والكتاب أثقل من قلم. ما الأخف؟"
+      },
+      "answer": {
+        "fr": "Le crayon.",
+        "ar": "القلم."
+      },
+      "explanation": {
+        "fr": "Boîte > livre > crayon en poids.",
+        "ar": "الترتيب في الوزن: الصندوق ثم الكتاب ثم القلم."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-006",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quatre tables ont trois chaises chacune. Combien de chaises au total ?",
+        "ar": "أربع طاولات، حول كل واحدة ثلاثة كراسٍ. كم كرسيًا في المجموع؟"
+      },
+      "answer": {
+        "fr": "Douze.",
+        "ar": "اثنا عشر."
+      },
+      "explanation": {
+        "fr": "4 × 3 = 12.",
+        "ar": "4 × 3 = 12."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-007",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu as 5 bonbons et tu en donnes 2. Combien en as-tu donnés ?",
+        "ar": "معك 5 حلوى وأعطيت اثنتين. كم واحدة أعطيت؟"
+      },
+      "answer": {
+        "fr": "Deux.",
+        "ar": "اثنتين."
+      },
+      "explanation": {
+        "fr": "La question demande combien tu as donnés, pas combien il t’en reste.",
+        "ar": "السؤال عن العدد الذي أعطيته لا عن الباقي."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-008",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une petite boîte est dans une grande boîte, elle-même dans un sac. Où se trouve la petite boîte ?",
+        "ar": "صندوق صغير داخل صندوق كبير، والصندوق الكبير داخل حقيبة. أين الصندوق الصغير؟"
+      },
+      "answer": {
+        "fr": "Dans le sac aussi.",
+        "ar": "داخل الحقيبة أيضًا."
+      },
+      "explanation": {
+        "fr": "Tout ce qui est dans la grande boîte se trouve aussi à l’intérieur du sac.",
+        "ar": "كل ما في الصندوق الكبير يوجد داخل الحقيبة كذلك."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-009",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quatre sièges numérotés 1 à 4. Lina doit être après Adam mais avant Sami. Lina peut-elle être en place 1 ?",
+        "ar": "أربعة مقاعد من 1 إلى 4. يجب أن تكون لينا بعد آدم وقبل سامي. هل يمكن أن تكون في المقعد 1؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Si Lina est après Adam, quelqu’un doit être placé avant elle.",
+        "ar": "إذا كانت لينا بعد آدم فلا بد من وجود شخص قبلها."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-010",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A dit : « La boîte est vide. » B dit : « Il y a un cube dedans. » Peuvent-ils avoir raison en même temps ?",
+        "ar": "قال A: «الصندوق فارغ». وقال B: «فيه مكعب». هل يمكن أن يكونا على حق معًا؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Une boîte ne peut pas être vide et contenir un cube au même moment.",
+        "ar": "لا يمكن أن يكون الصندوق فارغًا ويحتوي مكعبًا في الوقت نفسه."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-011",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "1, 3, 6, 10… quel nombre vient ensuite si on ajoute 2, puis 3, puis 4 ?",
+        "ar": "1، 3، 6، 10… ما العدد التالي إذا أضفنا 2 ثم 3 ثم 4؟"
+      },
+      "answer": {
+        "fr": "15.",
+        "ar": "15."
+      },
+      "explanation": {
+        "fr": "L’ajout suivant est 5 : 10 + 5 = 15.",
+        "ar": "الإضافة التالية 5: 10 + 5 = 15."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-012",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois personnes ont chacune un fruit différent : pomme, banane, orange. Adam a la banane. Lina n’a pas la pomme. Si Sami a la pomme, que reste-t-il à Lina ?",
+        "ar": "ثلاثة أشخاص لكل واحد ثمرة مختلفة: تفاح وموز وبرتقال. آدم معه الموز، ولينا ليست معها التفاحة. إذا كانت التفاحة مع سامي، فما ثمرة لينا؟"
+      },
+      "answer": {
+        "fr": "L’orange.",
+        "ar": "البرتقال."
+      },
+      "explanation": {
+        "fr": "Banane pour Adam, pomme pour Sami ; il reste l’orange.",
+        "ar": "الموز لآدم والتفاح لسامي، فيبقى البرتقال."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-013",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans une course, Adam est devant Lina mais derrière Sami. Qui est premier parmi eux ?",
+        "ar": "في سباق، آدم أمام لينا وخلف سامي. من الأول بينهم؟"
+      },
+      "answer": {
+        "fr": "Sami.",
+        "ar": "سامي."
+      },
+      "explanation": {
+        "fr": "L’ordre est Sami, Adam, Lina.",
+        "ar": "الترتيب هو سامي ثم آدم ثم لينا."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-014",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le trajet A est plus court que B, et B plus court que C. Quel trajet est le plus long ?",
+        "ar": "المسار A أقصر من B، وB أقصر من C. ما الأطول؟"
+      },
+      "answer": {
+        "fr": "C.",
+        "ar": "C."
+      },
+      "explanation": {
+        "fr": "A < B < C en longueur.",
+        "ar": "الترتيب في الطول: A ثم B ثم C."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-015",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Aucun objet fragile n’est posé au sol. Ce vase est fragile. Peut-il être posé au sol selon la règle ?",
+        "ar": "لا يوضع أي شيء قابل للكسر على الأرض. هذه المزهرية قابلة للكسر. هل يجوز وضعها على الأرض حسب القاعدة؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Le vase appartient au groupe des objets fragiles.",
+        "ar": "المزهرية من الأشياء القابلة للكسر."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-016",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Combien de mois de l’année ont au moins 28 jours ?",
+        "ar": "كم شهرًا في السنة فيه 28 يومًا على الأقل؟"
+      },
+      "answer": {
+        "fr": "Douze.",
+        "ar": "اثنا عشر."
+      },
+      "explanation": {
+        "fr": "Tous les mois ont au moins 28 jours.",
+        "ar": "كل أشهر السنة فيها 28 يومًا على الأقل."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-017",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Cinq enfants se serrent la main une seule fois avec leur voisin de droite dans une file. Combien de poignées de main ont lieu ?",
+        "ar": "خمسة أطفال في صف، يصافح كل واحد جاره على اليمين مرة واحدة. كم مصافحة تحدث؟"
+      },
+      "answer": {
+        "fr": "Quatre.",
+        "ar": "أربع."
+      },
+      "explanation": {
+        "fr": "Il y a une poignée de main entre chaque paire de voisins.",
+        "ar": "هناك مصافحة واحدة بين كل زوج من الجيران."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-018",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un livre est à gauche d’une tasse, et la tasse à gauche d’une lampe. Quel objet est le plus à droite ?",
+        "ar": "كتاب على يسار كوب، والكوب على يسار مصباح. ما الشيء الأبعد إلى اليمين؟"
+      },
+      "answer": {
+        "fr": "La lampe.",
+        "ar": "المصباح."
+      },
+      "explanation": {
+        "fr": "L’ordre de gauche à droite est livre, tasse, lampe.",
+        "ar": "الترتيب من اليسار إلى اليمين: كتاب، كوب، مصباح."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-019",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Lina, Adam et Sami choisissent trois couleurs différentes. Adam choisit bleu. Lina ne veut pas rouge. Il reste rouge, bleu, vert. Quelle couleur doit choisir Lina ?",
+        "ar": "لينا وآدم وسامي يختارون ثلاثة ألوان مختلفة. آدم اختار الأزرق، ولينا لا تريد الأحمر. بقي الأحمر والأزرق والأخضر. ماذا تختار لينا؟"
+      },
+      "answer": {
+        "fr": "Vert.",
+        "ar": "الأخضر."
+      },
+      "explanation": {
+        "fr": "Bleu est pris par Adam et rouge est interdit à Lina.",
+        "ar": "الأزرق لآدم والأحمر مرفوض عند لينا."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-020",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "« Tous les vélos ont deux roues » et « ce vélo a trois roues » peuvent-ils être vrais ensemble dans cette énigme ?",
+        "ar": "هل يمكن أن تكون عبارتا «كل الدراجات لها عجلتان» و«هذه الدراجة لها ثلاث عجلات» صحيحتين معًا في هذه المسألة؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "La deuxième phrase contredit directement la règle donnée.",
+        "ar": "العبارة الثانية تناقض القاعدة مباشرة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-021",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une pièce est soit dans la poche gauche, soit dans la droite. La poche gauche est vide. Où est la pièce ?",
+        "ar": "قطعة نقدية إما في الجيب الأيسر أو الأيمن. الجيب الأيسر فارغ. أين القطعة؟"
+      },
+      "answer": {
+        "fr": "Dans la poche droite.",
+        "ar": "في الجيب الأيمن."
+      },
+      "explanation": {
+        "fr": "Il ne reste qu’une possibilité.",
+        "ar": "لم يبق إلا احتمال واحد."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-022",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "10, 8, 6, 4… quel nombre vient ensuite ?",
+        "ar": "10، 8، 6، 4… ما العدد التالي؟"
+      },
+      "answer": {
+        "fr": "2.",
+        "ar": "2."
+      },
+      "explanation": {
+        "fr": "On retire 2 à chaque fois.",
+        "ar": "نطرح 2 في كل مرة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-023",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Si aujourd’hui est vendredi, quel jour sera après-demain ?",
+        "ar": "إذا كان اليوم الجمعة، فما اليوم بعد غد؟"
+      },
+      "answer": {
+        "fr": "Dimanche.",
+        "ar": "الأحد."
+      },
+      "explanation": {
+        "fr": "Demain sera samedi, puis dimanche.",
+        "ar": "غدًا السبت ثم الأحد."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-910-024",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois paires de gants contiennent combien de gants ?",
+        "ar": "ثلاثة أزواج من القفازات فيها كم قفازًا؟"
+      },
+      "answer": {
+        "fr": "Six.",
+        "ar": "ستة."
+      },
+      "explanation": {
+        "fr": "Une paire contient deux gants, donc trois paires en contiennent six.",
+        "ar": "كل زوج فيه قفازان، فثلاثة أزواج فيها ستة."
+      },
+      "sources": []
+    }
+  ]
 }

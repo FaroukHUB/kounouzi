@@ -1,30 +1,607 @@
 {
-  "$comment": "À ÉCRIRE — management, enfants de 13+. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 4 ou 5. Identifiants : GEST-13P-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — management, tranche 13+. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 4 ou 5. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
   "$gabarit": {
-    "id": "GEST-13P-001",
+    "id": "GEST-13p-001",
     "version": 1,
     "categoryId": "management",
     "knowledgeNodeId": "gestion.<notion>",
     "difficulty": 4,
     "ageBand": "13+",
     "audienceScope": "all",
-    "status": "draft — passer à « validated » SEULEMENT après relecture ; tant que c'est « draft », rien n'est servi",
-    "arReview": "provisional — passer à « reviewed » après relecture par un arabophone",
+    "status": "draft",
+    "arReview": "provisional",
     "prompt": {
-      "fr": "À REMPLIR — l'énoncé",
-      "ar": "À REMPLIR — l'énoncé en arabe (facultatif pour l'énoncé)"
+      "fr": "Énoncé FR",
+      "ar": "Énoncé AR"
     },
     "answer": {
-      "fr": "À REMPLIR — la réponse",
-      "ar": "À REMPLIR — la réponse en arabe (facultative)"
+      "fr": "Réponse FR",
+      "ar": "Réponse AR"
     },
     "explanation": {
-      "fr": "À REMPLIR — OBLIGATOIRE",
-      "ar": "À REMPLIR — OBLIGATOIRE, l'explication doit exister dans les DEUX langues"
+      "fr": "Explication FR obligatoire",
+      "ar": "Explication AR obligatoire"
     },
     "sources": []
   },
   "version": 1,
   "sources": [],
-  "questions": []
+  "questions": [
+    {
+      "id": "GEST-13p-001",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.budget",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu reçois 1 000 Kounouz. Tes charges prévues sont 600, ton épargne 200 et tes dépenses libres 150. Quelle marge reste-t-il ?",
+        "ar": "دخل 1000 كنز. النفقات المخططة 600 والادخار 200 والمصاريف الحرة 150. ما الهامش؟"
+      },
+      "answer": {
+        "fr": "50 Kounouz.",
+        "ar": "50 كنزًا."
+      },
+      "explanation": {
+        "fr": "1 000 - 600 - 200 - 150 = 50.",
+        "ar": "1000 - 600 - 200 - 150 = 50."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-002",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.entrees-sorties",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une activité encaisse 500 Kounouz et dépense 420. Quel est son résultat net ?",
+        "ar": "نشاط يدخل 500 كنز وينفق 420. ما النتيجة الصافية؟"
+      },
+      "answer": {
+        "fr": "+80 Kounouz.",
+        "ar": "+80 كنزًا."
+      },
+      "explanation": {
+        "fr": "Le résultat net est la différence entre entrées et sorties.",
+        "ar": "النتيجة الصافية هي الفرق بين الدخول والخروج."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-003",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.reserve",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi une entreprise peut-elle avoir de l’argent en banque sans pouvoir tout dépenser librement ?",
+        "ar": "لماذا قد يكون لدى شركة مال في البنك دون أن تستطيع إنفاقه كله بحرية؟"
+      },
+      "answer": {
+        "fr": "Parce qu’une partie doit couvrir des charges, dettes ou dépenses futures.",
+        "ar": "لأن جزءًا منه مخصص لرسوم أو ديون أو نفقات قادمة."
+      },
+      "explanation": {
+        "fr": "La trésorerie disponible n’est pas forcément entièrement libre d’engagement.",
+        "ar": "النقد المتاح ليس بالضرورة كله حرًا من الالتزامات."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-004",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.planification",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu connais une grosse dépense prévue dans six mois. Quel est l’avantage de la financer progressivement ?",
+        "ar": "تعرف أن نفقة كبيرة ستأتي بعد ستة أشهر. ما فائدة تمويلها تدريجيًا؟"
+      },
+      "answer": {
+        "fr": "Réduire l’effort financier au moment de l’échéance.",
+        "ar": "تقليل الضغط المالي عند موعدها."
+      },
+      "explanation": {
+        "fr": "Épargner régulièrement répartit la charge dans le temps.",
+        "ar": "الادخار المنتظم يوزع العبء مع الوقت."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-005",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-total",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un appareil coûte 300 Kounouz, puis 20 par mois d’entretien pendant un an. Quel est son coût sur la première année ?",
+        "ar": "جهاز ثمنه 300 كنز ثم 20 شهريًا للصيانة لمدة سنة. ما تكلفته في السنة الأولى؟"
+      },
+      "answer": {
+        "fr": "540 Kounouz.",
+        "ar": "540 كنزًا."
+      },
+      "explanation": {
+        "fr": "300 + (20 × 12) = 540.",
+        "ar": "300 + (20 × 12) = 540."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-006",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.priorite",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu as plusieurs dépenses importantes, mais une seule entraîne une pénalité si elle n’est pas payée aujourd’hui. Que faut-il intégrer dans la priorité ?",
+        "ar": "لديك عدة نفقات مهمة، لكن واحدة فقط عليها غرامة إذا لم تدفع اليوم. ماذا تدخل في الأولوية؟"
+      },
+      "answer": {
+        "fr": "La pénalité et l’échéance.",
+        "ar": "الغرامة وموعد الاستحقاق."
+      },
+      "explanation": {
+        "fr": "La priorité dépend aussi des conséquences d’un retard.",
+        "ar": "الأولوية تعتمد أيضًا على نتائج التأخير."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-007",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.besoin-envie",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un achat peut-il être une envie tout en étant parfaitement raisonnable ?",
+        "ar": "هل يمكن أن يكون الشراء رغبة ومع ذلك يكون معقولًا؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Une envie peut être financée sans problème si les priorités, la réserve et le budget sont respectés.",
+        "ar": "يمكن تمويل الرغبة بشكل سليم إذا احترمت الأولويات والاحتياط والميزانية."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-008",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.epargne",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi définir un objectif précis d’épargne aide-t-il souvent davantage que « mettre de côté ce qui reste » ?",
+        "ar": "لماذا يساعد تحديد هدف ادخار واضح أكثر من «ادخار ما يتبقى»؟"
+      },
+      "answer": {
+        "fr": "Parce qu’on réserve une somme avant que le reste soit dépensé.",
+        "ar": "لأنك تخصص مبلغًا قبل إنفاق الباقي."
+      },
+      "explanation": {
+        "fr": "Un objectif précis rend l’épargne mesurable et planifiée.",
+        "ar": "الهدف الواضح يجعل الادخار قابلًا للقياس والتخطيط."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-009",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.risque",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Deux options rapportent pareil, mais l’une peut faire perdre beaucoup plus. Sont-elles équivalentes ?",
+        "ar": "خياران يعطيان العائد نفسه، لكن أحدهما قد يسبب خسارة أكبر بكثير. هل هما متساويان؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Le rendement seul ne suffit pas ; le niveau de risque compte aussi.",
+        "ar": "العائد وحده لا يكفي؛ مستوى المخاطرة مهم أيضًا."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-010",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-opportunite",
+      "difficulty": 4,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu bloques 500 Kounouz pendant un an pour gagner 20. Quelle question de coût d’opportunité faut-il se poser ?",
+        "ar": "جمدت 500 كنز لمدة سنة لتحصل على 20. ما سؤال تكلفة الفرصة؟"
+      },
+      "answer": {
+        "fr": "Ce que ces 500 Kounouz auraient pu permettre ailleurs pendant un an.",
+        "ar": "ما الذي كان يمكن أن تفعله الـ500 كنز في مكان آخر خلال السنة؟"
+      },
+      "explanation": {
+        "fr": "Immobiliser une ressource empêche de l’utiliser pour d’autres possibilités.",
+        "ar": "تجميد المورد يمنع استعماله في فرص أخرى."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-011",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.budget",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un budget prévoit 60 % de charges, 20 % d’épargne et 15 % de dépenses libres. Quelle part reste non affectée ?",
+        "ar": "ميزانية تخصص 60٪ للرسوم و20٪ للادخار و15٪ للمصاريف الحرة. كم يبقى غير مخصص؟"
+      },
+      "answer": {
+        "fr": "5 %.",
+        "ar": "5٪."
+      },
+      "explanation": {
+        "fr": "60 + 20 + 15 = 95 %, donc 5 % restent.",
+        "ar": "60 + 20 + 15 = 95٪، فيبقى 5٪."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-012",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.entrees-sorties",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le chiffre d’affaires augmente de 10 %, mais les dépenses augmentent de 20 %. Peut-on conclure que le bénéfice augmente ?",
+        "ar": "زاد الإيراد 10٪ لكن النفقات زادت 20٪. هل نستنتج أن الربح زاد؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Sans connaître les montants de départ, on ne peut pas conclure ; les dépenses peuvent absorber la hausse.",
+        "ar": "دون معرفة القيم الأصلية لا يمكن الجزم؛ قد تمتص النفقات الزيادة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-013",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.reserve",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi une réserve trop faible peut-elle forcer à prendre de mauvaises décisions ?",
+        "ar": "لماذا قد يجبر الاحتياط الضعيف على قرارات سيئة؟"
+      },
+      "answer": {
+        "fr": "Parce qu’un imprévu peut obliger à vendre, emprunter ou annuler autre chose dans l’urgence.",
+        "ar": "لأن المفاجأة قد تضطر إلى البيع أو الاقتراض أو إلغاء شيء بسرعة."
+      },
+      "explanation": {
+        "fr": "Une marge de sécurité donne du temps et des options.",
+        "ar": "هامش الأمان يمنح وقتًا وخيارات."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-014",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.planification",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu prévois une dépense annuelle de 1 200 Kounouz. Quelle somme mensuelle mettre de côté pour la lisser sur l’année ?",
+        "ar": "تتوقع نفقة سنوية 1200 كنز. كم تدخر شهريًا لتوزيعها على السنة؟"
+      },
+      "answer": {
+        "fr": "100 Kounouz par mois.",
+        "ar": "100 كنز شهريًا."
+      },
+      "explanation": {
+        "fr": "1 200 ÷ 12 = 100.",
+        "ar": "1200 ÷ 12 = 100."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-015",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-total",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Option A : 800 Kounouz et aucun frais. Option B : 650 + 25 par mois pendant 8 mois. Laquelle coûte moins ?",
+        "ar": "الخيار A: 800 كنز دون رسوم. الخيار B: 650 + 25 شهريًا لمدة 8 أشهر. أيهما أقل؟"
+      },
+      "answer": {
+        "fr": "L’option A.",
+        "ar": "الخيار A."
+      },
+      "explanation": {
+        "fr": "B coûte 650 + 200 = 850, contre 800 pour A.",
+        "ar": "B يكلف 650 + 200 = 850، مقابل 800 لـA."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-016",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.priorite",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une dépense urgente est-elle toujours plus importante qu’une dépense importante mais non urgente ?",
+        "ar": "هل النفقة العاجلة دائمًا أهم من نفقة مهمة غير عاجلة؟"
+      },
+      "answer": {
+        "fr": "Pas automatiquement.",
+        "ar": "ليس دائمًا."
+      },
+      "explanation": {
+        "fr": "Il faut comparer conséquences, échéances et gravité ; l’urgence seule ne suffit pas toujours.",
+        "ar": "يجب مقارنة النتائج والمواعيد والخطورة؛ العجلة وحدها لا تكفي دائمًا."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-017",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.besoin-envie",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi la distinction besoin/envie dépend-elle parfois du contexte ?",
+        "ar": "لماذا يعتمد الفرق بين الحاجة والرغبة أحيانًا على السياق؟"
+      },
+      "answer": {
+        "fr": "Parce qu’un même objet peut être indispensable dans une situation et facultatif dans une autre.",
+        "ar": "لأن الشيء نفسه قد يكون ضروريًا في حالة واختياريًا في أخرى."
+      },
+      "explanation": {
+        "fr": "La fonction réelle et les circonstances comptent plus que le nom de l’objet.",
+        "ar": "الوظيفة الحقيقية والظروف أهم من اسم الشيء."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-018",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.epargne",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Ton revenu augmente. Faut-il obligatoirement augmenter tes dépenses du même montant ?",
+        "ar": "زاد دخلك. هل يجب أن تزيد مصروفاتك بالمقدار نفسه؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Tu peux choisir d’augmenter l’épargne, la réserve ou seulement certaines dépenses.",
+        "ar": "يمكنك زيادة الادخار أو الاحتياط أو بعض النفقات فقط."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-019",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.risque",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi répartir son argent entre plusieurs usages peut-il réduire certains risques ?",
+        "ar": "لماذا قد يقلل توزيع المال على استعمالات متعددة بعض المخاطر؟"
+      },
+      "answer": {
+        "fr": "Parce qu’une seule mauvaise décision n’affecte pas toute la réserve.",
+        "ar": "لأن قرارًا سيئًا واحدًا لا يؤثر في كل الاحتياط."
+      },
+      "explanation": {
+        "fr": "La diversification évite de concentrer toutes les ressources dans un seul choix.",
+        "ar": "التوزيع يمنع تركيز كل الموارد في خيار واحد."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-020",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-opportunite",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu gardes de l’argent inutilisé pendant très longtemps alors qu’un objectif important attend. Peut-il y avoir aussi un coût d’opportunité à ne rien faire ?",
+        "ar": "تركت مالًا دون استعمال طويلًا بينما هدف مهم ينتظر. هل يمكن أن تكون لعدم الفعل تكلفة فرصة؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Ne pas utiliser une ressource peut faire perdre une possibilité utile.",
+        "ar": "عدم استعمال المورد قد يفوت فرصة مفيدة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-021",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-total",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi comparer seulement le paiement mensuel peut-il être trompeur ?",
+        "ar": "لماذا قد تكون مقارنة الدفعة الشهرية فقط مضللة؟"
+      },
+      "answer": {
+        "fr": "Parce qu’un petit paiement répété longtemps peut coûter plus cher au total.",
+        "ar": "لأن دفعة صغيرة تتكرر طويلًا قد تكلف أكثر في المجموع."
+      },
+      "explanation": {
+        "fr": "Il faut regarder la durée et la somme totale payée.",
+        "ar": "يجب النظر إلى المدة والمبلغ الإجمالي."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-022",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.entrees-sorties",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une activité a 1 000 Kounouz de recettes, 700 de coûts directs et 200 de frais fixes. Quel reste avant autres dépenses ?",
+        "ar": "نشاط لديه 1000 كنز إيرادات و700 تكاليف مباشرة و200 رسوم ثابتة. كم يبقى قبل النفقات الأخرى؟"
+      },
+      "answer": {
+        "fr": "100 Kounouz.",
+        "ar": "100 كنز."
+      },
+      "explanation": {
+        "fr": "1 000 - 700 - 200 = 100.",
+        "ar": "1000 - 700 - 200 = 100."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-023",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.budget",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi un budget réaliste doit-il prévoir une marge plutôt que d’affecter exactement 100 % des ressources ?",
+        "ar": "لماذا ينبغي للميزانية الواقعية أن تترك هامشًا بدل تخصيص 100٪ من الموارد؟"
+      },
+      "answer": {
+        "fr": "Pour absorber les écarts et petits imprévus.",
+        "ar": "لامتصاص الفروق والمفاجآت الصغيرة."
+      },
+      "explanation": {
+        "fr": "Une marge évite qu’un léger dépassement déséquilibre tout le plan.",
+        "ar": "الهامش يمنع أن يفسد تجاوز بسيط الخطة كلها."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-13p-024",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.risque",
+      "difficulty": 5,
+      "ageBand": "13+",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une décision a 90 % de chances de gagner 5 Kounouz mais 10 % de chances d’en perdre 100. Pourquoi regarder seulement les 90 % serait insuffisant ?",
+        "ar": "قرار لديه 90٪ فرصة ربح 5 كنوز و10٪ فرصة خسارة 100. لماذا لا يكفي النظر إلى 90٪؟"
+      },
+      "answer": {
+        "fr": "Parce que la perte possible est très importante.",
+        "ar": "لأن الخسارة المحتملة كبيرة جدًا."
+      },
+      "explanation": {
+        "fr": "Le risque dépend à la fois de la probabilité et de l’ampleur des conséquences.",
+        "ar": "المخاطرة تعتمد على الاحتمال وحجم النتيجة معًا."
+      },
+      "sources": []
+    }
+  ]
 }

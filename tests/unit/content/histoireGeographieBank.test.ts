@@ -122,10 +122,15 @@ describe("Histoire & Géographie V1 — source et arabe conditionnent la publica
     expect(registry.availableCategories("adult")).toEqual(["religion", "maths", "geography", "logic", "management"]);
     expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(32);
     expect(registry.resolve({ categoryId: "geography", difficulty: 2, profileType: "child", variation: 0 })).not.toBeNull();
-    // Ce qui est SERVI ne bouge pas quand des brouillons arrivent : les 24 cartes
-    // 5-6 écrites par l'auteur attendent sa relecture et ne sont pas distribuées.
-    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "validated")).toHaveLength(32);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "draft")).toHaveLength(24);
+    // Ce qui est SERVI ne bouge pas quand des brouillons arrivent : les cartes
+    // écrites par l'auteur attendent sa relecture et ne sont pas distribuées.
+    // Leur NOMBRE n'est pas figé ici — il grandit à chaque livraison, et un
+    // chiffre en dur ferait tomber ce test pour une raison qui n'en est pas une.
+    const geo = CURATED_BANK.filter((q) => q.categoryId === "geography");
+    expect(geo.filter((q) => q.status === "validated")).toHaveLength(32);
+    expect(geo.filter((q) => q.status === "draft").length).toBeGreaterThan(0);
+    const servies = new Set(registry.slots("child").filter((s) => s.categoryId === "geography").map((s) => s.slotId));
+    for (const q of geo.filter((x) => x.status === "draft")) expect(servies.has(`curated:${q.id}`), q.id).toBe(false);
     expect(CURATED_BANK.filter((q) => q.categoryId === "religion" && q.status === "validated")).toHaveLength(375);
     expect(registry.slots("child").filter((s) => s.categoryId === "maths")).toHaveLength(30);
   });

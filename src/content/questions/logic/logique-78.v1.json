@@ -1,5 +1,5 @@
 {
-  "$comment": "À ÉCRIRE — logic, enfants de 7-8. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 2 ou 3. Identifiants : LOG-78-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 7-8. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
   "$gabarit": {
     "id": "LOG-78-001",
     "version": 1,
@@ -8,23 +8,600 @@
     "difficulty": 2,
     "ageBand": "7-8",
     "audienceScope": "all",
-    "status": "draft — passer à « validated » SEULEMENT après relecture ; tant que c'est « draft », rien n'est servi",
-    "arReview": "provisional — passer à « reviewed » après relecture par un arabophone",
+    "status": "draft",
+    "arReview": "provisional",
     "prompt": {
-      "fr": "À REMPLIR — l'énoncé",
-      "ar": "À REMPLIR — l'énoncé en arabe (facultatif pour l'énoncé)"
+      "fr": "Énoncé FR",
+      "ar": "Énoncé AR"
     },
     "answer": {
-      "fr": "À REMPLIR — la réponse",
-      "ar": "À REMPLIR — la réponse en arabe (facultative)"
+      "fr": "Réponse FR",
+      "ar": "Réponse AR"
     },
     "explanation": {
-      "fr": "À REMPLIR — OBLIGATOIRE",
-      "ar": "À REMPLIR — OBLIGATOIRE, l'explication doit exister dans les DEUX langues"
+      "fr": "Explication FR obligatoire",
+      "ar": "Explication AR obligatoire"
     },
     "sources": []
   },
   "version": 1,
   "sources": [],
-  "questions": []
+  "questions": [
+    {
+      "id": "LOG-78-001",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "3, 6, 9, ?, 15 : quel nombre manque ?",
+        "ar": "3، 6، 9، ؟، 15: ما العدد الناقص؟"
+      },
+      "answer": {
+        "fr": "12.",
+        "ar": "12."
+      },
+      "explanation": {
+        "fr": "On ajoute 3 à chaque fois.",
+        "ar": "نضيف 3 في كل مرة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-002",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Lina est arrivée avant Sami, et Sami avant Adam. Qui est arrivé en premier ?",
+        "ar": "وصلت لينا قبل سامي، وسامي قبل آدم. من وصل أولًا؟"
+      },
+      "answer": {
+        "fr": "Lina.",
+        "ar": "لينا."
+      },
+      "explanation": {
+        "fr": "L’ordre est Lina, Sami, Adam.",
+        "ar": "الترتيب هو لينا ثم سامي ثم آدم."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-003",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le trésor est dans A, B ou C. Il n’est pas dans A ni dans C. Où est-il ?",
+        "ar": "الكنز في A أو B أو C. ليس في A ولا C. أين هو؟"
+      },
+      "answer": {
+        "fr": "Dans B.",
+        "ar": "في B."
+      },
+      "explanation": {
+        "fr": "A et C sont éliminées.",
+        "ar": "تم استبعاد A وC."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-004",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tous les objets de l’étagère sont des livres. Je prends un objet sur l’étagère. Qu’est-ce que c’est ?",
+        "ar": "كل ما على الرف كتب. أخذت شيئًا من الرف. ما هو؟"
+      },
+      "answer": {
+        "fr": "Un livre.",
+        "ar": "كتاب."
+      },
+      "explanation": {
+        "fr": "La règle concerne tous les objets de l’étagère.",
+        "ar": "القاعدة تشمل كل الأشياء على الرف."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-005",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Sami est plus rapide qu’Adam. Adam est plus rapide que Youssef. Qui est le plus lent ?",
+        "ar": "سامي أسرع من آدم، وآدم أسرع من يوسف. من الأبطأ؟"
+      },
+      "answer": {
+        "fr": "Youssef.",
+        "ar": "يوسف."
+      },
+      "explanation": {
+        "fr": "Sami > Adam > Youssef en vitesse.",
+        "ar": "الترتيب في السرعة: سامي ثم آدم ثم يوسف."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-006",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quatre enfants ont chacun un ballon. Combien y a-t-il de ballons ?",
+        "ar": "لأربعة أطفال كرة لكل واحد. كم كرة هناك؟"
+      },
+      "answer": {
+        "fr": "Quatre.",
+        "ar": "أربع."
+      },
+      "explanation": {
+        "fr": "Un ballon par enfant donne quatre ballons.",
+        "ar": "كرة واحدة لكل طفل تعطي أربع كرات."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-007",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu dépasses la personne qui est troisième dans une course. Quelle place prends-tu ?",
+        "ar": "تجاوزت الشخص الثالث في سباق. ما مركزك الآن؟"
+      },
+      "answer": {
+        "fr": "Troisième.",
+        "ar": "الثالث."
+      },
+      "explanation": {
+        "fr": "Tu prends sa place, pas celle de la personne devant elle.",
+        "ar": "تأخذ مكانه لا مكان الشخص الذي أمامه."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-008",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une clé est dans une enveloppe, et l’enveloppe est dans une boîte. Où est la clé ?",
+        "ar": "مفتاح داخل ظرف، والظرف داخل صندوق. أين المفتاح؟"
+      },
+      "answer": {
+        "fr": "Dans la boîte aussi.",
+        "ar": "داخل الصندوق أيضًا."
+      },
+      "explanation": {
+        "fr": "Si la clé est dans l’enveloppe et l’enveloppe dans la boîte, la clé est aussi dans la boîte.",
+        "ar": "إذا كان المفتاح داخل الظرف والظرف داخل الصندوق فالمفتاح داخل الصندوق كذلك."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-009",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Adam ne peut pas être premier. Lina doit être devant Sami. Qui peut être premier ?",
+        "ar": "آدم لا يمكن أن يكون الأول. يجب أن تكون لينا أمام سامي. من يمكن أن يكون الأول؟"
+      },
+      "answer": {
+        "fr": "Lina.",
+        "ar": "لينا."
+      },
+      "explanation": {
+        "fr": "Adam est exclu et Lina doit précéder Sami.",
+        "ar": "آدم مستبعد ولينا يجب أن تسبق سامي."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-010",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tous les carrés sont bleus. Cette forme est un carré. Peut-elle être rouge ?",
+        "ar": "كل المربعات زرقاء. هذا الشكل مربع. هل يمكن أن يكون أحمر؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "La règle dit que tous les carrés sont bleus.",
+        "ar": "القاعدة تقول إن كل المربعات زرقاء."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-011",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "A, B, A, B, A… quelle lettre vient ensuite ?",
+        "ar": "A، B، A، B، A… ما الحرف التالي؟"
+      },
+      "answer": {
+        "fr": "B.",
+        "ar": "B."
+      },
+      "explanation": {
+        "fr": "La suite alterne A puis B.",
+        "ar": "المتتالية تتناوب بين A وB."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-012",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Il reste deux gobelets : un vert et un jaune. La bille n’est pas sous le vert. Où est-elle ?",
+        "ar": "بقي كأسان: أخضر وأصفر. الكرة ليست تحت الأخضر. أين هي؟"
+      },
+      "answer": {
+        "fr": "Sous le jaune.",
+        "ar": "تحت الأصفر."
+      },
+      "explanation": {
+        "fr": "Il ne reste qu’un seul emplacement possible.",
+        "ar": "لم يبق إلا مكان واحد ممكن."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-013",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois boîtes contiennent deux cubes chacune. Combien y a-t-il de cubes en tout ?",
+        "ar": "ثلاثة صناديق في كل واحد مكعبان. كم مكعبًا في المجموع؟"
+      },
+      "answer": {
+        "fr": "Six.",
+        "ar": "ستة."
+      },
+      "explanation": {
+        "fr": "2 + 2 + 2 = 6.",
+        "ar": "2 + 2 + 2 = 6."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-014",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Aujourd’hui est mercredi. Quel jour était hier ?",
+        "ar": "اليوم الأربعاء. ما اليوم الذي كان أمس؟"
+      },
+      "answer": {
+        "fr": "Mardi.",
+        "ar": "الثلاثاء."
+      },
+      "explanation": {
+        "fr": "Mardi vient juste avant mercredi.",
+        "ar": "الثلاثاء يأتي مباشرة قبل الأربعاء."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-015",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une tour rouge est plus haute que la bleue, et la bleue plus haute que la verte. Laquelle est la plus haute ?",
+        "ar": "برج أحمر أعلى من الأزرق، والأزرق أعلى من الأخضر. أيها الأعلى؟"
+      },
+      "answer": {
+        "fr": "La rouge.",
+        "ar": "الأحمر."
+      },
+      "explanation": {
+        "fr": "Rouge > bleue > verte.",
+        "ar": "الأحمر ثم الأزرق ثم الأخضر."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-016",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Aucun jouet de cette boîte n’est en métal. Cette petite voiture vient de cette boîte. Peut-elle être en métal ?",
+        "ar": "لا توجد لعبة معدنية في هذا الصندوق. هذه السيارة الصغيرة منه. هل يمكن أن تكون معدنية؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "La règle exclut le métal pour tous les jouets de la boîte.",
+        "ar": "القاعدة تستبعد المعدن من كل ألعاب الصندوق."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-017",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La porte est fermée à clé. On dit en même temps qu’elle est ouverte. Les deux phrases peuvent-elles être vraies ?",
+        "ar": "الباب مقفل بالمفتاح، ويقال في الوقت نفسه إنه مفتوح. هل يمكن أن تكون العبارتان صحيحتين؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Une même porte ne peut pas être à la fois fermée à clé et ouverte au même moment.",
+        "ar": "لا يمكن أن يكون الباب نفسه مقفلًا ومفتوحًا في اللحظة نفسها."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-018",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "2, 5, 8, 11… quel nombre vient ensuite ?",
+        "ar": "2، 5، 8، 11… ما العدد التالي؟"
+      },
+      "answer": {
+        "fr": "14.",
+        "ar": "14."
+      },
+      "explanation": {
+        "fr": "On ajoute 3 à chaque étape.",
+        "ar": "نضيف 3 في كل خطوة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-019",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un coq pond-il des œufs ?",
+        "ar": "هل يبيض الديك؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Un coq est un mâle ; ce sont les poules qui pondent.",
+        "ar": "الديك ذكر، والدجاجة هي التي تبيض."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-020",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le livre est sous le coussin, et le coussin est sur la chaise. Le livre est-il sur la chaise ?",
+        "ar": "الكتاب تحت الوسادة، والوسادة على الكرسي. هل الكتاب على الكرسي؟"
+      },
+      "answer": {
+        "fr": "Oui, indirectement.",
+        "ar": "نعم، بصورة غير مباشرة."
+      },
+      "explanation": {
+        "fr": "Le livre est sous le coussin qui repose lui-même sur la chaise.",
+        "ar": "الكتاب تحت الوسادة التي تستند إلى الكرسي."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-021",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois places : gauche, milieu, droite. Sami ne veut ni gauche ni droite. Où doit-il s’asseoir ?",
+        "ar": "ثلاثة أماكن: يسار ووسط ويمين. سامي لا يريد اليسار ولا اليمين. أين يجلس؟"
+      },
+      "answer": {
+        "fr": "Au milieu.",
+        "ar": "في الوسط."
+      },
+      "explanation": {
+        "fr": "Les deux autres places sont exclues.",
+        "ar": "تم استبعاد المكانين الآخرين."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-022",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un animal est soit un chat soit un chien. Il ne miaule pas. Lequel est-ce probablement dans cette énigme ?",
+        "ar": "الحيوان إما قط أو كلب. لا يموء. ما هو في هذه المسألة؟"
+      },
+      "answer": {
+        "fr": "Le chien.",
+        "ar": "الكلب."
+      },
+      "explanation": {
+        "fr": "Dans cette énigme, le chat est associé au miaulement ; l’option chat est éliminée.",
+        "ar": "في هذه المسألة يرتبط القط بالمواء، لذلك يُستبعد."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-023",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Deux enfants ont chacun deux chaussures. Combien de chaussures au total ?",
+        "ar": "لطفلين حذاءان لكل واحد. كم حذاء في المجموع؟"
+      },
+      "answer": {
+        "fr": "Quatre.",
+        "ar": "أربعة."
+      },
+      "explanation": {
+        "fr": "Deux paires correspondent à quatre chaussures.",
+        "ar": "زوجان من الأحذية يساويان أربعة أحذية."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-78-024",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans une file, Youssef est derrière Lina mais devant Adam. Qui est au milieu ?",
+        "ar": "في صف، يوسف خلف لينا وأمام آدم. من في الوسط؟"
+      },
+      "answer": {
+        "fr": "Youssef.",
+        "ar": "يوسف."
+      },
+      "explanation": {
+        "fr": "L’ordre est Lina, Youssef, Adam.",
+        "ar": "الترتيب هو لينا ثم يوسف ثم آدم."
+      },
+      "sources": []
+    }
+  ]
 }

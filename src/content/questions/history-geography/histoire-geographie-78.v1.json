@@ -1,5 +1,5 @@
 {
-  "$comment": "À ÉCRIRE — geography, enfants de 7-8. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 2 ou 3. Identifiants : HISTGEO-78-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — geography, tranche 7-8. 23 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Toute carte factuelle cite une ou plusieurs sources du catalogue via sourceKeys. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. ⚠️ Les trois références saoudiennes (saudi-mofa, saudi-hajj-makkah, saudi-hajj-madinah) n'ont PAS pu être ouvertes depuis l'environnement de développement : à vérifier page par page avant toute validation.",
   "$gabarit": {
     "id": "HISTGEO-78-001",
     "version": 1,
@@ -8,23 +8,720 @@
     "difficulty": 2,
     "ageBand": "7-8",
     "audienceScope": "all",
-    "status": "draft — passer à « validated » SEULEMENT après relecture ; tant que c'est « draft », rien n'est servi",
-    "arReview": "provisional — passer à « reviewed » après relecture par un arabophone",
+    "status": "draft",
+    "arReview": "provisional",
     "prompt": {
-      "fr": "À REMPLIR — l'énoncé",
-      "ar": "À REMPLIR — l'énoncé en arabe (facultatif pour l'énoncé)"
+      "fr": "Énoncé FR",
+      "ar": "Énoncé AR"
     },
     "answer": {
-      "fr": "À REMPLIR — la réponse",
-      "ar": "À REMPLIR — la réponse en arabe (facultative)"
+      "fr": "Réponse FR",
+      "ar": "Réponse AR"
     },
     "explanation": {
-      "fr": "À REMPLIR — OBLIGATOIRE",
-      "ar": "À REMPLIR — OBLIGATOIRE, l'explication doit exister dans les DEUX langues"
+      "fr": "Explication FR obligatoire",
+      "ar": "Explication AR obligatoire"
     },
     "sources": []
   },
   "version": 1,
-  "sources": [],
-  "questions": []
+  "sources": [
+    {
+      "key": "unsd-m49",
+      "title": "Codes standard de pays ou de zones à usage statistique (M49)",
+      "publisher": "Division de statistique des Nations unies (UNSD)",
+      "url": "https://unstats.un.org/unsd/methodology/m49/overview"
+    },
+    {
+      "key": "unesco-cordoue",
+      "title": "Centre historique de Cordoue — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/313"
+    },
+    {
+      "key": "unesco-marrakech",
+      "title": "Médina de Marrakech — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/331"
+    },
+    {
+      "key": "unesco-casbah-alger",
+      "title": "Casbah d'Alger — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/565"
+    },
+    {
+      "key": "unesco-kairouan",
+      "title": "Kairouan — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/499"
+    },
+    {
+      "key": "unesco-caire",
+      "title": "Le Caire historique — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/89"
+    },
+    {
+      "key": "unesco-jerusalem",
+      "title": "Vieille ville de Jérusalem et ses remparts — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/148"
+    },
+    {
+      "key": "unesco-istanbul",
+      "title": "Zones historiques d'Istanbul — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/356"
+    },
+    {
+      "key": "unesco-samarcande",
+      "title": "Samarcande — Carrefour de cultures — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/603"
+    },
+    {
+      "key": "saudi-mofa",
+      "title": "About Kingdom — Main Cities",
+      "publisher": "Ministry of Foreign Affairs, Kingdom of Saudi Arabia",
+      "url": "https://mofa.gov.sa/en/ksa/Pages/default.aspx"
+    },
+    {
+      "key": "saudi-hajj-makkah",
+      "title": "Makkah Al-Mukarramah",
+      "publisher": "Ministry of Hajj and Umrah, Kingdom of Saudi Arabia",
+      "url": "https://haj.gov.sa/ar/Makkah-Al-Mukarramah"
+    },
+    {
+      "key": "saudi-hajj-madinah",
+      "title": "Al-Madinah Al-Munawwarah",
+      "publisher": "Ministry of Hajj and Umrah, Kingdom of Saudi Arabia",
+      "url": "https://haj.gov.sa/en/Al-Madinah-Al-Munawwarah"
+    }
+  ],
+  "questions": [
+    {
+      "id": "HISTGEO-78-001",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.maroc-marrakech",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quel monument célèbre de Marrakech possède un grand minaret : la Koutoubia ou le Registan ?",
+        "ar": "أي معلم مشهور في مراكش له صومعة كبيرة: الكتبية أم ريجستان؟"
+      },
+      "answer": {
+        "fr": "La Koutoubia.",
+        "ar": "الكتبية."
+      },
+      "explanation": {
+        "fr": "La Koutoubia est l’un des monuments majeurs de la médina de Marrakech.",
+        "ar": "الكتبية من أبرز معالم مدينة مراكش العتيقة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-marrakech"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-002",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-kairouan",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Grande Mosquée de Kairouan se trouve dans quel pays ?",
+        "ar": "في أي بلد يقع الجامع الكبير بالقيروان؟"
+      },
+      "answer": {
+        "fr": "En Tunisie.",
+        "ar": "في تونس."
+      },
+      "explanation": {
+        "fr": "Kairouan se trouve en Tunisie et sa Grande Mosquée est l’un de ses monuments historiques majeurs.",
+        "ar": "تقع القيروان في تونس وجامعها الكبير من أهم معالمها التاريخية."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-kairouan"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-003",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.ouzbekistan-samarcande",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans quelle ville trouve-t-on le Registan ?",
+        "ar": "في أي مدينة يوجد ريجستان؟"
+      },
+      "answer": {
+        "fr": "À Samarcande.",
+        "ar": "في سمرقند."
+      },
+      "explanation": {
+        "fr": "Le Registan est un ensemble monumental emblématique de Samarcande.",
+        "ar": "ريجستان مجموعة معمارية شهيرة في سمرقند."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-samarcande"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-004",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.turquie-istanbul",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quelle ville du voyage Kounouzi est installée autour du Bosphore ?",
+        "ar": "أي مدينة في رحلة كونوزي تقع حول مضيق البوسفور؟"
+      },
+      "answer": {
+        "fr": "Istanbul.",
+        "ar": "إسطنبول."
+      },
+      "explanation": {
+        "fr": "Le Bosphore traverse Istanbul et relie la mer Noire à la mer de Marmara.",
+        "ar": "يمر مضيق البوسفور بإسطنبول ويربط البحر الأسود ببحر مرمرة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-istanbul"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-005",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.algerie-alger",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Casbah est-elle la partie historique d’Alger ou du Caire ?",
+        "ar": "هل القصبة هي الجزء التاريخي من الجزائر أم من القاهرة؟"
+      },
+      "answer": {
+        "fr": "D’Alger.",
+        "ar": "من الجزائر."
+      },
+      "explanation": {
+        "fr": "La Casbah est la médina historique d’Alger.",
+        "ar": "القصبة هي المدينة العتيقة التاريخية للجزائر."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-casbah-alger"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-006",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.egypte-caire",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Caire historique se trouve-t-il en Égypte ou en Ouzbékistan ?",
+        "ar": "هل تقع القاهرة التاريخية في مصر أم في أوزبكستان؟"
+      },
+      "answer": {
+        "fr": "En Égypte.",
+        "ar": "في مصر."
+      },
+      "explanation": {
+        "fr": "Le Caire historique est un ensemble urbain ancien situé en Égypte.",
+        "ar": "القاهرة التاريخية نسيج عمراني قديم في مصر."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-caire"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-007",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.palestine-jerusalem",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Dôme du Rocher est-il à Jérusalem ou à Istanbul ?",
+        "ar": "هل تقع قبة الصخرة في القدس أم في إسطنبول؟"
+      },
+      "answer": {
+        "fr": "À Jérusalem.",
+        "ar": "في القدس."
+      },
+      "explanation": {
+        "fr": "Le Dôme du Rocher se trouve dans la vieille ville de Jérusalem.",
+        "ar": "تقع قبة الصخرة في البلدة القديمة بالقدس."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-jerusalem"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-008",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans quelle ville se trouve la Kaaba ?",
+        "ar": "في أي مدينة تقع الكعبة؟"
+      },
+      "answer": {
+        "fr": "À La Mecque.",
+        "ar": "في مكة."
+      },
+      "explanation": {
+        "fr": "La Kaaba se trouve dans la Mosquée sacrée à La Mecque.",
+        "ar": "تقع الكعبة في المسجد الحرام بمكة المكرمة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-hajj-makkah"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-009",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans quelle ville se trouve la Mosquée du Prophète ?",
+        "ar": "في أي مدينة يقع المسجد النبوي؟"
+      },
+      "answer": {
+        "fr": "À Médine.",
+        "ar": "في المدينة."
+      },
+      "explanation": {
+        "fr": "La Mosquée du Prophète se trouve à Médine.",
+        "ar": "يقع المسجد النبوي في المدينة المنورة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-hajj-madinah"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-010",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.andalousie-cordoue",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Cordoue est surtout liée à quelle région historique : Al-Andalus ou l’Asie centrale ?",
+        "ar": "بأي منطقة تاريخية ترتبط قرطبة أكثر: الأندلس أم آسيا الوسطى؟"
+      },
+      "answer": {
+        "fr": "À Al-Andalus.",
+        "ar": "بالأندلس."
+      },
+      "explanation": {
+        "fr": "Cordoue fut l’une des grandes villes d’Al-Andalus.",
+        "ar": "كانت قرطبة من كبريات مدن الأندلس."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-cordoue"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-011",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Mecque et Médine sont-elles deux villes d’Arabie saoudite ?",
+        "ar": "هل مكة والمدينة مدينتان في المملكة العربية السعودية؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Les deux villes se trouvent dans l’ouest de l’Arabie saoudite.",
+        "ar": "تقع المدينتان في غرب المملكة العربية السعودية."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-mofa"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-012",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.ouzbekistan-samarcande",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi Samarcande est-elle appelée un carrefour de cultures ?",
+        "ar": "لماذا توصف سمرقند بأنها ملتقى للثقافات؟"
+      },
+      "answer": {
+        "fr": "Parce que des peuples et des routes d’échanges s’y sont rencontrés.",
+        "ar": "لأن شعوبًا وطرق تجارة مختلفة التقت فيها."
+      },
+      "explanation": {
+        "fr": "Sa position a favorisé les échanges entre différentes régions et cultures.",
+        "ar": "ساعد موقعها على التبادل بين مناطق وثقافات متعددة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-samarcande"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-013",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.algerie-alger",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Casbah d’Alger est-elle bâtie sur un terrain plutôt plat ou en pente ?",
+        "ar": "هل بُنيت قصبة الجزائر على أرض مستوية أم منحدرة؟"
+      },
+      "answer": {
+        "fr": "En pente.",
+        "ar": "على أرض منحدرة."
+      },
+      "explanation": {
+        "fr": "La Casbah s’est développée sur un terrain escarpé dominant la mer.",
+        "ar": "نشأت القصبة على أرض شديدة الانحدار تطل على البحر."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-casbah-alger"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-014",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.maroc-marrakech",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Qui a fondé Marrakech : les Almoravides ou les Ottomans ?",
+        "ar": "من أسس مراكش: المرابطون أم العثمانيون؟"
+      },
+      "answer": {
+        "fr": "Les Almoravides.",
+        "ar": "المرابطون."
+      },
+      "explanation": {
+        "fr": "Marrakech a été fondée au XIe siècle par les Almoravides.",
+        "ar": "أسس المرابطون مراكش في القرن الحادي عشر."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-marrakech"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-015",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.tunisie-kairouan",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Kairouan est-elle une ville importante de l’histoire musulmane du Maghreb ?",
+        "ar": "هل القيروان مدينة مهمة في تاريخ المغرب الإسلامي؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Kairouan fut un grand centre politique, religieux et culturel de l’Ifriqiya.",
+        "ar": "كانت القيروان مركزًا سياسيًا ودينيًا وثقافيًا كبيرًا في إفريقية."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-kairouan"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-016",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.andalousie-cordoue",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Cordoue a-t-elle été une grande capitale d’Al-Andalus ?",
+        "ar": "هل كانت قرطبة عاصمة كبيرة في الأندلس؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Cordoue devint un grand centre politique et urbain d’Al-Andalus.",
+        "ar": "أصبحت قرطبة مركزًا سياسيًا وعمرانيًا كبيرًا في الأندلس."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-cordoue"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-017",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.turquie-istanbul",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Istanbul a-t-elle été capitale de grands empires ?",
+        "ar": "هل كانت إسطنبول عاصمة لإمبراطوريات كبرى؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "La ville fut capitale de l’Empire romain d’Orient puis de l’Empire ottoman.",
+        "ar": "كانت المدينة عاصمة للإمبراطورية الرومانية الشرقية ثم للدولة العثمانية."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-istanbul"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-018",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Médine est-elle liée à la Hijra du Prophète ﷺ ?",
+        "ar": "هل ترتبط المدينة المنورة بهجرة النبي ﷺ؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Le Prophète ﷺ a émigré vers Médine, qui devint la première capitale de l’histoire islamique.",
+        "ar": "هاجر النبي ﷺ إلى المدينة التي أصبحت أول عاصمة في تاريخ الإسلام."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-mofa",
+        "saudi-hajj-madinah"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-019",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Mecque est-elle la destination du Hajj ?",
+        "ar": "هل مكة هي مقصد الحج؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Les musulmans accomplissent le Hajj à La Mecque.",
+        "ar": "يؤدي المسلمون الحج في مكة المكرمة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-mofa",
+        "saudi-hajj-makkah"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-020",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.egypte-caire",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Caire historique contient-il seulement une seule mosquée ancienne ?",
+        "ar": "هل تضم القاهرة التاريخية مسجدًا قديمًا واحدًا فقط؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Il conserve un grand nombre de mosquées, madrasas, bains et fontaines historiques.",
+        "ar": "تضم عددًا كبيرًا من المساجد والمدارس والحمامات والنوافير التاريخية."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-caire"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-021",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.palestine-jerusalem",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La vieille ville de Jérusalem est-elle entourée de remparts ?",
+        "ar": "هل تحيط الأسوار بالبلدة القديمة في القدس؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Le site inscrit par l’UNESCO comprend la vieille ville et ses remparts.",
+        "ar": "يشمل الموقع المسجل لدى اليونسكو البلدة القديمة وأسوارها."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-jerusalem"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-022",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.maroc-marrakech",
+      "difficulty": 2,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La médina de Marrakech est-elle une ville ancienne entourée de remparts ?",
+        "ar": "هل مدينة مراكش العتيقة مدينة قديمة محاطة بأسوار؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "La médina conserve ses remparts et plusieurs portes monumentales.",
+        "ar": "تحافظ المدينة العتيقة على أسوارها وعدد من أبوابها الكبيرة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-marrakech"
+      ]
+    },
+    {
+      "id": "HISTGEO-78-023",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.turquie-istanbul",
+      "difficulty": 3,
+      "ageBand": "7-8",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi la position d’Istanbul a-t-elle favorisé les échanges ?",
+        "ar": "لماذا ساعد موقع إسطنبول على التبادل؟"
+      },
+      "answer": {
+        "fr": "Parce qu’elle se trouve sur un passage entre plusieurs régions et mers.",
+        "ar": "لأنها تقع على ممر بين مناطق وبحار مختلفة."
+      },
+      "explanation": {
+        "fr": "Le Bosphore a fait d’Istanbul un point de passage stratégique entre l’Europe et l’Asie.",
+        "ar": "جعل البوسفور إسطنبول نقطة عبور مهمة بين أوروبا وآسيا."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-istanbul"
+      ]
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 {
-  "$comment": "À ÉCRIRE — logic, enfants de 5-6. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 1 ou 2. Identifiants : LOG-56-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 5-6. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 1 ou 2. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
   "$gabarit": {
     "id": "LOG-56-001",
     "version": 1,
@@ -8,23 +8,600 @@
     "difficulty": 1,
     "ageBand": "5-6",
     "audienceScope": "all",
-    "status": "draft — passer à « validated » SEULEMENT après relecture ; tant que c'est « draft », rien n'est servi",
-    "arReview": "provisional — passer à « reviewed » après relecture par un arabophone",
+    "status": "draft",
+    "arReview": "provisional",
     "prompt": {
-      "fr": "À REMPLIR — l'énoncé",
-      "ar": "À REMPLIR — l'énoncé en arabe (facultatif pour l'énoncé)"
+      "fr": "Énoncé FR",
+      "ar": "Énoncé AR"
     },
     "answer": {
-      "fr": "À REMPLIR — la réponse",
-      "ar": "À REMPLIR — la réponse en arabe (facultative)"
+      "fr": "Réponse FR",
+      "ar": "Réponse AR"
     },
     "explanation": {
-      "fr": "À REMPLIR — OBLIGATOIRE",
-      "ar": "À REMPLIR — OBLIGATOIRE, l'explication doit exister dans les DEUX langues"
+      "fr": "Explication FR obligatoire",
+      "ar": "Explication AR obligatoire"
     },
     "sources": []
   },
   "version": 1,
   "sources": [],
-  "questions": []
+  "questions": [
+    {
+      "id": "LOG-56-001",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Rond, carré, rond, carré… quelle forme vient ensuite ?",
+        "ar": "دائرة، مربع، دائرة، مربع… ما الشكل التالي؟"
+      },
+      "answer": {
+        "fr": "Un rond.",
+        "ar": "دائرة."
+      },
+      "explanation": {
+        "fr": "Les deux formes alternent toujours dans le même ordre.",
+        "ar": "يتناوب الشكلان دائمًا بالترتيب نفسه."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-002",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quel est l’intrus : pomme, banane, chaussure, orange ?",
+        "ar": "ما الدخيل: تفاحة، موزة، حذاء، برتقالة؟"
+      },
+      "answer": {
+        "fr": "La chaussure.",
+        "ar": "الحذاء."
+      },
+      "explanation": {
+        "fr": "Les trois autres sont des fruits.",
+        "ar": "الثلاثة الأخرى فواكه."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-003",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Yasmine est plus petite que Lina. Qui est la plus grande ?",
+        "ar": "ياسمين أقصر من لينا. من الأطول؟"
+      },
+      "answer": {
+        "fr": "Lina.",
+        "ar": "لينا."
+      },
+      "explanation": {
+        "fr": "Si Yasmine est plus petite, alors Lina est plus grande.",
+        "ar": "إذا كانت ياسمين أقصر، فلينا أطول."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-004",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Adam est devant Sami. Qui est derrière ?",
+        "ar": "آدم أمام سامي. من في الخلف؟"
+      },
+      "answer": {
+        "fr": "Sami.",
+        "ar": "سامي."
+      },
+      "explanation": {
+        "fr": "Si Adam est devant Sami, Sami est derrière Adam.",
+        "ar": "إذا كان آدم أمام سامي فسامي خلف آدم."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-005",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tous les cubes de cette boîte sont jaunes. Tu en prends un. De quelle couleur est-il ?",
+        "ar": "كل المكعبات في هذا الصندوق صفراء. أخذت واحدًا. ما لونه؟"
+      },
+      "answer": {
+        "fr": "Jaune.",
+        "ar": "أصفر."
+      },
+      "explanation": {
+        "fr": "La boîte ne contient que des cubes jaunes.",
+        "ar": "لا يحتوي الصندوق إلا على مكعبات صفراء."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-006",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Il y a deux enfants et deux verres. Peut-on donner un verre à chacun ?",
+        "ar": "هناك طفلان وكأسان. هل يمكن إعطاء كل طفل كأسًا؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Il y a exactement autant de verres que d’enfants.",
+        "ar": "عدد الأكواب يساوي عدد الأطفال."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-007",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une balle est dans un panier. Je déplace le panier sans sortir la balle. Où est la balle ?",
+        "ar": "كرة داخل سلة. نقلت السلة دون إخراج الكرة. أين الكرة؟"
+      },
+      "answer": {
+        "fr": "Dans le panier.",
+        "ar": "داخل السلة."
+      },
+      "explanation": {
+        "fr": "Déplacer le panier ne fait pas sortir la balle.",
+        "ar": "نقل السلة لا يخرج الكرة منها."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-008",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "1, 2, 1, 2… quel nombre vient ensuite ?",
+        "ar": "1، 2، 1، 2… ما العدد التالي؟"
+      },
+      "answer": {
+        "fr": "1.",
+        "ar": "1."
+      },
+      "explanation": {
+        "fr": "La suite répète 1 puis 2.",
+        "ar": "المتتالية تكرر 1 ثم 2."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-009",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le jouet est dans la boîte rouge ou la bleue. Il n’est pas dans la rouge. Où est-il ?",
+        "ar": "اللعبة في الصندوق الأحمر أو الأزرق. ليست في الأحمر. أين هي؟"
+      },
+      "answer": {
+        "fr": "Dans la bleue.",
+        "ar": "في الأزرق."
+      },
+      "explanation": {
+        "fr": "Il ne reste qu’une possibilité : la boîte bleue.",
+        "ar": "لم يبق إلا احتمال واحد: الصندوق الأزرق."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-010",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Matin, midi, soir : qu’est-ce qui vient après le matin ?",
+        "ar": "الصباح، الظهر، المساء: ماذا يأتي بعد الصباح؟"
+      },
+      "answer": {
+        "fr": "Midi.",
+        "ar": "الظهر."
+      },
+      "explanation": {
+        "fr": "Dans une journée, midi vient après le matin.",
+        "ar": "في اليوم يأتي الظهر بعد الصباح."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-011",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un bâton est plus long qu’un crayon. Lequel est le plus court ?",
+        "ar": "عصا أطول من قلم. أيهما أقصر؟"
+      },
+      "answer": {
+        "fr": "Le crayon.",
+        "ar": "القلم."
+      },
+      "explanation": {
+        "fr": "Si le bâton est plus long, le crayon est plus court.",
+        "ar": "إذا كانت العصا أطول فالقلم أقصر."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-012",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.appartenance",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Quel est l’intrus : cuillère, fourchette, assiette, vélo ?",
+        "ar": "ما الدخيل: ملعقة، شوكة، طبق، دراجة؟"
+      },
+      "answer": {
+        "fr": "Le vélo.",
+        "ar": "الدراجة."
+      },
+      "explanation": {
+        "fr": "Les trois autres objets servent à table.",
+        "ar": "الثلاثة الأخرى تستعمل على المائدة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-013",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Trois oiseaux sont sur une branche. Un s’envole. Combien en reste-t-il ?",
+        "ar": "ثلاثة طيور على غصن. طار واحد. كم بقي؟"
+      },
+      "answer": {
+        "fr": "Deux.",
+        "ar": "اثنان."
+      },
+      "explanation": {
+        "fr": "Trois moins un laisse deux oiseaux.",
+        "ar": "ثلاثة ناقص واحد يساوي طائرين."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-014",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Lina est première, Sami est deuxième. Qui est devant Sami ?",
+        "ar": "لينا الأولى وسامي الثاني. من أمام سامي؟"
+      },
+      "answer": {
+        "fr": "Lina.",
+        "ar": "لينا."
+      },
+      "explanation": {
+        "fr": "La première personne est devant la deuxième.",
+        "ar": "الشخص الأول يكون أمام الثاني."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-015",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.suite",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Clap, tap, clap, tap… qu’est-ce qui vient ensuite ?",
+        "ar": "تصفيق، طرق، تصفيق، طرق… ماذا يأتي بعد ذلك؟"
+      },
+      "answer": {
+        "fr": "Clap.",
+        "ar": "تصفيق."
+      },
+      "explanation": {
+        "fr": "Le rythme alterne clap puis tap.",
+        "ar": "الإيقاع يتناوب بين التصفيق والطرق."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-016",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.elimination",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Il y a trois portes : rouge, verte et bleue. La clé n’est ni derrière la rouge ni derrière la verte. Où est-elle ?",
+        "ar": "هناك ثلاثة أبواب: أحمر وأخضر وأزرق. المفتاح ليس خلف الأحمر ولا الأخضر. أين هو؟"
+      },
+      "answer": {
+        "fr": "Derrière la bleue.",
+        "ar": "خلف الأزرق."
+      },
+      "explanation": {
+        "fr": "Les deux autres portes sont éliminées.",
+        "ar": "تم استبعاد البابين الآخرين."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-017",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.comparaison",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Sara a 4 cubes et Adam en a 2. Qui en a le plus ?",
+        "ar": "لدى سارة 4 مكعبات ولدى آدم 2. من لديه أكثر؟"
+      },
+      "answer": {
+        "fr": "Sara.",
+        "ar": "سارة."
+      },
+      "explanation": {
+        "fr": "Quatre est plus grand que deux.",
+        "ar": "أربعة أكبر من اثنين."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-018",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.representation",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une voiture miniature est sous la chaise. Si je regarde sur la table, est-ce que je la vois ?",
+        "ar": "سيارة صغيرة تحت الكرسي. إذا نظرت فوق الطاولة، هل أراها؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "La voiture est sous la chaise, pas sur la table.",
+        "ar": "السيارة تحت الكرسي وليست فوق الطاولة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-019",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.piege",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu prends une pomme parmi trois pommes. Combien de pommes as-tu dans la main ?",
+        "ar": "أخذت تفاحة من بين ثلاث تفاحات. كم تفاحة في يدك؟"
+      },
+      "answer": {
+        "fr": "Une.",
+        "ar": "واحدة."
+      },
+      "explanation": {
+        "fr": "Tu as pris une seule pomme ; la question demande ce que tu tiens.",
+        "ar": "أخذت تفاحة واحدة، والسؤال عما في يدك."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-020",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tous les poissons de l’aquarium sont petits. Nemo est dans cet aquarium. Peut-il être un grand poisson ?",
+        "ar": "كل أسماك الحوض صغيرة. نيمو في هذا الحوض. هل يمكن أن يكون سمكة كبيرة؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "La règle dit que tous les poissons de cet aquarium sont petits.",
+        "ar": "القاعدة تقول إن كل أسماك هذا الحوض صغيرة."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-021",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.contraintes",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Lina ne veut pas la chaise rouge. Il ne reste qu’une chaise rouge et une bleue. Laquelle peut-elle choisir ?",
+        "ar": "لينا لا تريد الكرسي الأحمر. بقي كرسي أحمر وآخر أزرق. أيهما تختار؟"
+      },
+      "answer": {
+        "fr": "La bleue.",
+        "ar": "الأزرق."
+      },
+      "explanation": {
+        "fr": "La chaise rouge est interdite par la règle.",
+        "ar": "القاعدة تمنع الكرسي الأحمر."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-022",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.denombrement",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Il y a quatre chaussons pour deux enfants. Si chacun a deux pieds, y en a-t-il assez ?",
+        "ar": "هناك أربعة نعال لطفلين. إذا كان لكل طفل قدمان، هل تكفي؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Deux enfants ont quatre pieds au total, donc quatre chaussons suffisent.",
+        "ar": "للطفلين أربع أقدام، لذا تكفي أربعة نعال."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-023",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.ordre",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Rouge est avant bleu, bleu est avant vert. Quelle couleur est la dernière ?",
+        "ar": "الأحمر قبل الأزرق، والأزرق قبل الأخضر. ما اللون الأخير؟"
+      },
+      "answer": {
+        "fr": "Vert.",
+        "ar": "الأخضر."
+      },
+      "explanation": {
+        "fr": "L’ordre est rouge, bleu, vert.",
+        "ar": "الترتيب هو الأحمر ثم الأزرق ثم الأخضر."
+      },
+      "sources": []
+    },
+    {
+      "id": "LOG-56-024",
+      "version": 1,
+      "categoryId": "logic",
+      "knowledgeNodeId": "logique.coherence",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une boîte est vide. Peut-elle contenir une balle en même temps ?",
+        "ar": "صندوق فارغ. هل يمكن أن يحتوي كرة في الوقت نفسه؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Si elle contient une balle, elle n’est plus vide.",
+        "ar": "إذا احتوى كرة فلن يكون فارغًا."
+      },
+      "sources": []
+    }
+  ]
 }

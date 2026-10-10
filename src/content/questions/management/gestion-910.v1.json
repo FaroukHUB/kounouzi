@@ -1,5 +1,5 @@
 {
-  "$comment": "À ÉCRIRE — management, enfants de 9-10. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 2 ou 3. Identifiants : GEST-910-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — management, tranche 9-10. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
   "$gabarit": {
     "id": "GEST-910-001",
     "version": 1,
@@ -8,23 +8,600 @@
     "difficulty": 2,
     "ageBand": "9-10",
     "audienceScope": "all",
-    "status": "draft — passer à « validated » SEULEMENT après relecture ; tant que c'est « draft », rien n'est servi",
-    "arReview": "provisional — passer à « reviewed » après relecture par un arabophone",
+    "status": "draft",
+    "arReview": "provisional",
     "prompt": {
-      "fr": "À REMPLIR — l'énoncé",
-      "ar": "À REMPLIR — l'énoncé en arabe (facultatif pour l'énoncé)"
+      "fr": "Énoncé FR",
+      "ar": "Énoncé AR"
     },
     "answer": {
-      "fr": "À REMPLIR — la réponse",
-      "ar": "À REMPLIR — la réponse en arabe (facultative)"
+      "fr": "Réponse FR",
+      "ar": "Réponse AR"
     },
     "explanation": {
-      "fr": "À REMPLIR — OBLIGATOIRE",
-      "ar": "À REMPLIR — OBLIGATOIRE, l'explication doit exister dans les DEUX langues"
+      "fr": "Explication FR obligatoire",
+      "ar": "Explication AR obligatoire"
     },
     "sources": []
   },
   "version": 1,
   "sources": [],
-  "questions": []
+  "questions": [
+    {
+      "id": "GEST-910-001",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.budget",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu disposes de 40 Kounouz. Tu prévois 15 pour un livre, 10 pour un cadeau et 8 pour le transport. Combien reste-t-il ?",
+        "ar": "معك 40 كنزًا. خصصت 15 لكتاب و10 لهدية و8 للنقل. كم يبقى؟"
+      },
+      "answer": {
+        "fr": "7 Kounouz.",
+        "ar": "7 كنوز."
+      },
+      "explanation": {
+        "fr": "15 + 10 + 8 = 33, puis 40 - 33 = 7.",
+        "ar": "15 + 10 + 8 = 33، ثم 40 - 33 = 7."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-002",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.epargne",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu veux 50 Kounouz et tu en as 32. Combien manque-t-il ?",
+        "ar": "تريد 50 كنزًا ومعك 32. كم ينقصك؟"
+      },
+      "answer": {
+        "fr": "18 Kounouz.",
+        "ar": "18 كنزًا."
+      },
+      "explanation": {
+        "fr": "50 - 32 = 18.",
+        "ar": "50 - 32 = 18."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-003",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.reserve",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi ne faut-il pas confondre tout l’argent disponible avec l’argent réellement libre de dépenser ?",
+        "ar": "لماذا لا نعتبر كل المال الموجود مالًا حرًا للإنفاق؟"
+      },
+      "answer": {
+        "fr": "Parce qu’une partie peut déjà être réservée à des besoins futurs.",
+        "ar": "لأن جزءًا منه قد يكون مخصصًا لحاجات قادمة."
+      },
+      "explanation": {
+        "fr": "Un solde total peut contenir des sommes déjà destinées à autre chose.",
+        "ar": "قد يحتوي الرصيد على مبالغ مخصصة مسبقًا."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-004",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-total",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un objet coûte 24 Kounouz, avec 4 de livraison et 2 d’emballage obligatoire. Quel est le coût total ?",
+        "ar": "شيء ثمنه 24 كنزًا، والتوصيل 4 والتغليف الإلزامي 2. ما التكلفة الكاملة؟"
+      },
+      "answer": {
+        "fr": "30 Kounouz.",
+        "ar": "30 كنزًا."
+      },
+      "explanation": {
+        "fr": "24 + 4 + 2 = 30.",
+        "ar": "24 + 4 + 2 = 30."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-005",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.priorite",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu dois remplacer une lampe cassée et tu veux aussi une décoration. Le budget ne permet qu’un achat. Que prioriser ?",
+        "ar": "عليك استبدال مصباح مكسور وتريد زينة أيضًا. الميزانية تكفي لشيء واحد. ما الأولوية؟"
+      },
+      "answer": {
+        "fr": "La lampe nécessaire.",
+        "ar": "المصباح الضروري."
+      },
+      "explanation": {
+        "fr": "La fonction essentielle passe avant l’achat décoratif.",
+        "ar": "الوظيفة الأساسية أولى من الزينة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-006",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.besoin-envie",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une marque plus chère rend-elle automatiquement un produit plus nécessaire ?",
+        "ar": "هل تجعل العلامة الأغلى المنتج أكثر ضرورة تلقائيًا؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "La nécessité dépend du besoin, pas du prestige de la marque.",
+        "ar": "الضرورة تتعلق بالحاجة لا باسم العلامة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-007",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.planification",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi fixer une limite de dépense avant d’entrer dans un magasin peut-il aider ?",
+        "ar": "لماذا يفيد تحديد سقف للإنفاق قبل دخول المتجر؟"
+      },
+      "answer": {
+        "fr": "Pour éviter de dépasser ce qu’on avait prévu.",
+        "ar": "لتجنب تجاوز ما خططنا له."
+      },
+      "explanation": {
+        "fr": "Une limite décidée à l’avance guide les choix.",
+        "ar": "الحد المحدد مسبقًا يوجه الاختيارات."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-008",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.risque",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un produit n’a aucune garantie et semble fragile. Que faut-il prendre en compte avant de l’acheter ?",
+        "ar": "منتج بلا ضمان ويبدو هشًا. ما الذي يجب التفكير فيه قبل شرائه؟"
+      },
+      "answer": {
+        "fr": "Le risque qu’il casse et doive être remplacé.",
+        "ar": "خطر أن ينكسر ويحتاج إلى استبدال."
+      },
+      "explanation": {
+        "fr": "Le prix initial n’est pas le seul élément important.",
+        "ar": "السعر الأولي ليس العنصر الوحيد المهم."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-009",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.entrees-sorties",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu reçois 30 Kounouz et en dépenses 18. Quel est ton résultat net sur cette opération ?",
+        "ar": "دخل 30 كنزًا وخرج 18. ما النتيجة الصافية؟"
+      },
+      "answer": {
+        "fr": "+12 Kounouz.",
+        "ar": "+12 كنزًا."
+      },
+      "explanation": {
+        "fr": "30 d’entrée moins 18 de sortie donne 12.",
+        "ar": "30 دخول ناقص 18 خروج يساوي 12."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-010",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-opportunite",
+      "difficulty": 2,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu utilises 25 Kounouz pour une sortie. Que ne peux-tu plus faire avec ces mêmes 25 Kounouz ?",
+        "ar": "أنفقت 25 كنزًا على نزهة. ماذا لا يمكنك أن تفعل بالمبلغ نفسه؟"
+      },
+      "answer": {
+        "fr": "Les utiliser pour un autre achat ou les épargner.",
+        "ar": "استعماله لشراء آخر أو ادخاره."
+      },
+      "explanation": {
+        "fr": "Une même somme ne peut pas servir deux fois en même temps.",
+        "ar": "المبلغ نفسه لا يمكن استعماله مرتين في الوقت نفسه."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-011",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.budget",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Ton budget mensuel est 100 Kounouz. Tu as déjà dépensé 72. Combien peux-tu encore dépenser sans dépasser ?",
+        "ar": "ميزانيتك الشهرية 100 كنز، وقد أنفقت 72. كم يمكنك إنفاقه دون تجاوزها؟"
+      },
+      "answer": {
+        "fr": "28 Kounouz.",
+        "ar": "28 كنزًا."
+      },
+      "explanation": {
+        "fr": "100 - 72 = 28.",
+        "ar": "100 - 72 = 28."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-012",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.epargne",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu épargnes 8 Kounouz par semaine. En combien de semaines atteins-tu au moins 32 ?",
+        "ar": "تدخر 8 كنوز أسبوعيًا. بعد كم أسبوع تصل إلى 32 على الأقل؟"
+      },
+      "answer": {
+        "fr": "4 semaines.",
+        "ar": "4 أسابيع."
+      },
+      "explanation": {
+        "fr": "8 × 4 = 32.",
+        "ar": "8 × 4 = 32."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-013",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.reserve",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Une dépense surprise de 15 Kounouz arrive. À quoi sert une réserve de 20 ?",
+        "ar": "ظهرت نفقة مفاجئة 15 كنزًا. ما فائدة احتياط 20؟"
+      },
+      "answer": {
+        "fr": "À la payer sans toucher immédiatement aux autres dépenses prévues.",
+        "ar": "دفعها دون المساس مباشرة بالنفقات الأخرى."
+      },
+      "explanation": {
+        "fr": "La réserve absorbe l’imprévu.",
+        "ar": "الاحتياط يمتص المفاجآت."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-014",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-total",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Magasin A : 30 Kounouz livraison comprise. Magasin B : 26 + 6 de livraison. Lequel revient moins cher ?",
+        "ar": "المتجر A: 30 كنزًا شامل التوصيل. المتجر B: 26 + 6 توصيل. أيهما أرخص؟"
+      },
+      "answer": {
+        "fr": "Le magasin A.",
+        "ar": "المتجر A."
+      },
+      "explanation": {
+        "fr": "A coûte 30 au total, B coûte 32.",
+        "ar": "A مجموعه 30 وB مجموعه 32."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-015",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.planification",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu sais que trois dépenses reviennent chaque semaine. Pourquoi les noter ?",
+        "ar": "تعرف أن ثلاث نفقات تتكرر كل أسبوع. لماذا تسجلها؟"
+      },
+      "answer": {
+        "fr": "Pour prévoir leur impact sur ton budget.",
+        "ar": "لتتوقع أثرها على ميزانيتك."
+      },
+      "explanation": {
+        "fr": "Les dépenses régulières sont plus faciles à gérer quand elles sont anticipées.",
+        "ar": "النفقات المتكررة أسهل في الإدارة عند توقعها."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-016",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.priorite",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Deux dépenses sont toutes les deux utiles, mais l’une doit être payée aujourd’hui et l’autre peut attendre une semaine. Laquelle traiter d’abord ?",
+        "ar": "نفقتان مفيدتان، إحداهما يجب دفعها اليوم والأخرى يمكن أن تنتظر أسبوعًا. أيهما أولًا؟"
+      },
+      "answer": {
+        "fr": "Celle qui doit être payée aujourd’hui.",
+        "ar": "التي يجب دفعها اليوم."
+      },
+      "explanation": {
+        "fr": "L’échéance fait partie de la priorité.",
+        "ar": "موعد الاستحقاق جزء من الأولوية."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-017",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.besoin-envie",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu achètes un objet uniquement parce qu’il est en promotion, alors que tu n’en avais pas besoin. As-tu forcément économisé ?",
+        "ar": "اشتريت شيئًا فقط لأنه مخفض رغم أنك لا تحتاجه. هل وفرت بالضرورة؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Tu as payé moins cher, mais tu as quand même créé une dépense non prévue.",
+        "ar": "دفعت سعرًا أقل لكنك أنشأت نفقة لم تكن مخططة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-018",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.risque",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu places toute ta réserve dans un seul achat. Quel est le principal risque ?",
+        "ar": "وضعت كل احتياطك في شراء واحد. ما الخطر الرئيسي؟"
+      },
+      "answer": {
+        "fr": "Ne plus avoir de marge si un imprévu arrive.",
+        "ar": "ألا يبقى هامش إذا حدث طارئ."
+      },
+      "explanation": {
+        "fr": "Concentrer tout son argent réduit la capacité à réagir.",
+        "ar": "تركيز كل المال يقلل القدرة على التصرف."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-019",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.entrees-sorties",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Sur une semaine, tu reçois 50 Kounouz et dépenses 35. Ton solde hebdomadaire est-il positif ou négatif ?",
+        "ar": "خلال أسبوع دخل 50 كنزًا وخرج 35. هل النتيجة إيجابية أم سلبية؟"
+      },
+      "answer": {
+        "fr": "Positif de 15 Kounouz.",
+        "ar": "إيجابية بـ15 كنزًا."
+      },
+      "explanation": {
+        "fr": "Les entrées dépassent les sorties de 15.",
+        "ar": "الدخول أكبر من الخروج بـ15."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-020",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-opportunite",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu choisis une activité gratuite qui prend tout ton après-midi au lieu d’un petit travail payé. Même sans dépense d’argent, y a-t-il un coût d’opportunité ?",
+        "ar": "اخترت نشاطًا مجانيًا يأخذ كل بعد الظهر بدل عمل صغير مدفوع. هل توجد تكلفة فرصة رغم عدم دفع المال؟"
+      },
+      "answer": {
+        "fr": "Oui.",
+        "ar": "نعم."
+      },
+      "explanation": {
+        "fr": "Le temps utilisé empêche de profiter de l’autre possibilité.",
+        "ar": "الوقت المستعمل يمنع الاستفادة من الفرصة الأخرى."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-021",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.cout-total",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Un appareil coûte peu à l’achat mais nécessite des piles très souvent. Que faut-il comparer ?",
+        "ar": "جهاز رخيص عند الشراء لكنه يحتاج بطاريات كثيرًا. ماذا نقارن؟"
+      },
+      "answer": {
+        "fr": "Le coût d’achat et le coût d’utilisation dans le temps.",
+        "ar": "ثمن الشراء وتكلفة الاستعمال مع الوقت."
+      },
+      "explanation": {
+        "fr": "Un prix initial bas peut cacher des dépenses répétées.",
+        "ar": "السعر الأولي المنخفض قد يخفي نفقات متكررة."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-022",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.budget",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Pourquoi séparer une catégorie « transport » dans un budget peut-il être utile ?",
+        "ar": "لماذا يفيد تخصيص بند «النقل» في الميزانية؟"
+      },
+      "answer": {
+        "fr": "Pour voir combien cette dépense prend réellement sur l’ensemble.",
+        "ar": "لرؤية مقدار ما يستهلكه فعليًا من الميزانية."
+      },
+      "explanation": {
+        "fr": "Classer les dépenses aide à comprendre où va l’argent.",
+        "ar": "تصنيف النفقات يساعد على معرفة أين يذهب المال."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-023",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.epargne",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Tu reçois une somme imprévue. Pourquoi en épargner une partie avant de décider du reste ?",
+        "ar": "حصلت على مبلغ غير متوقع. لماذا تدخر جزءًا قبل تقرير الباقي؟"
+      },
+      "answer": {
+        "fr": "Pour renforcer ton objectif ou ta réserve avant les dépenses facultatives.",
+        "ar": "لتقوية هدفك أو احتياطك قبل النفقات الاختيارية."
+      },
+      "explanation": {
+        "fr": "Épargner en premier protège une partie de la somme.",
+        "ar": "الادخار أولًا يحمي جزءًا من المبلغ."
+      },
+      "sources": []
+    },
+    {
+      "id": "GEST-910-024",
+      "version": 1,
+      "categoryId": "management",
+      "knowledgeNodeId": "gestion.risque",
+      "difficulty": 3,
+      "ageBand": "9-10",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Deux produits coûtent pareil, mais l’un a de nombreux frais possibles après l’achat. Sont-ils réellement équivalents ?",
+        "ar": "منتجان بالسعر نفسه لكن أحدهما قد يسبب مصاريف كثيرة بعد الشراء. هل هما متساويان فعلًا؟"
+      },
+      "answer": {
+        "fr": "Non.",
+        "ar": "لا."
+      },
+      "explanation": {
+        "fr": "Les coûts futurs possibles changent le risque et le coût réel.",
+        "ar": "التكاليف المستقبلية المحتملة تغير المخاطرة والتكلفة الحقيقية."
+      },
+      "sources": []
+    }
+  ]
 }
