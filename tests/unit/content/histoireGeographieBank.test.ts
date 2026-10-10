@@ -122,7 +122,10 @@ describe("Histoire & Géographie V1 — source et arabe conditionnent la publica
     expect(registry.availableCategories("adult")).toEqual(["religion", "maths", "geography", "logic", "management"]);
     expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(32);
     expect(registry.resolve({ categoryId: "geography", difficulty: 2, profileType: "child", variation: 0 })).not.toBeNull();
-    expect(CURATED_BANK.filter((q) => q.categoryId === "geography")).toHaveLength(32);
+    // Ce qui est SERVI ne bouge pas quand des brouillons arrivent : les 24 cartes
+    // 5-6 écrites par l'auteur attendent sa relecture et ne sont pas distribuées.
+    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "validated")).toHaveLength(32);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "draft")).toHaveLength(24);
     expect(CURATED_BANK.filter((q) => q.categoryId === "religion" && q.status === "validated")).toHaveLength(375);
     expect(registry.slots("child").filter((s) => s.categoryId === "maths")).toHaveLength(30);
   });

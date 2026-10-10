@@ -2,8 +2,8 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { CURATED_BANK, curatedBankSchema } from "@/config/content";
-import { parseAgeBand } from "@/core/content";
+import { CATEGORIES, CURATED_BANK, curatedBankSchema } from "@/config/content";
+import { parseAgeBand, playabilityIssues } from "@/core/content";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const dossier = join(root, "src/content/questions");
@@ -49,6 +49,19 @@ describe("banques à écrire — le terrain est prêt, les questions restent à 
     const vus = new Map<string, number>();
     for (const q of CURATED_BANK) vus.set(q.id, (vus.get(q.id) ?? 0) + 1);
     expect([...vus].filter(([, n]) => n > 1).map(([id]) => id)).toEqual([]);
+  });
+
+  it("les cartes écrites ne manquent QUE la relecture : passées en « validated », elles franchissent la garde", () => {
+    // Le jour où l'auteur relit et valide, rien d'autre ne doit bloquer : ni source
+    // manquante (la géographie en exige une), ni explication absente, ni arabe vide.
+    // Mieux vaut le savoir maintenant que le découvrir après la relecture.
+    const categories = CATEGORIES;
+    const brouillons = CURATED_BANK.filter((q) => q.status === "draft" && /-\d{2,4}-\d{3}$/.test(q.id));
+    expect(brouillons.length).toBeGreaterThan(0);
+    for (const q of brouillons) {
+      const categorie = categories.find((c) => c.id === q.categoryId);
+      expect(playabilityIssues({ ...q, status: "validated" }, categorie), q.id).toEqual([]);
+    }
   });
 
   it("une question se sert dès qu'elle est validée, sans toucher au code", () => {

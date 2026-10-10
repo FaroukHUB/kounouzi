@@ -1,5 +1,5 @@
 {
-  "$comment": "À ÉCRIRE — geography, enfants de 5-6. Fichier VIDE créé exprès (ADR 0057) : il se charge déjà, donc chaque question ajoutée ici devient jouable dès qu'elle passe en « validated », sans aucun code. Objectif 30 questions : en dessous, les mêmes reviennent — une partie en sert huit par joueur. Difficulté attendue dans cette tranche : 1 ou 2. Identifiants : HISTGEO-56-001, -002, … L'explication FR **et** AR est obligatoire (ADR 0004) ; le statut reste « draft » tant qu'un humain n'a pas relu — rien n'est servi d'ici là. AUCUNE question n'est inventée par un assistant : c'est la règle du projet.",
+  "$comment": "Histoire & Géographie, enfants de 5-6 ans. Les 24 cartes de ce fichier viennent de l'AUTEUR du jeu ; aucune n'a été inventée par un assistant. Avec les 6 cartes 5-6 déjà présentes dans histoire-geographie.v1.json, la tranche atteint l'objectif de 30. Elles restent toutes « draft » : rien n'est servi tant que l'auteur ne les a pas relues, et l'arabe reste « provisional » en attendant une relecture arabophone. Les clés de sources REPRENNENT le catalogue déjà validé de la banque principale (mêmes numéros UNESCO, mêmes intitulés) pour qu'il n'existe qu'une vérité par source. Trois cartes (013, 023, 024) portent une note de relecture : la référence saoudienne fournie est un portail général, pas une page qui énonce le fait — à préciser avant validation. Difficulté attendue dans cette tranche : 1 ou 2. L'explication FR **et** AR est obligatoire (ADR 0004).",
   "$gabarit": {
     "id": "HISTGEO-56-001",
     "version": 1,
@@ -25,6 +25,671 @@
     "sources": []
   },
   "version": 1,
-  "sources": [],
-  "questions": []
+  "sources": [
+    {
+      "key": "unsd-m49",
+      "title": "Codes standard de pays ou de zones à usage statistique (M49)",
+      "publisher": "Division de statistique des Nations unies (UNSD)",
+      "url": "https://unstats.un.org/unsd/methodology/m49/overview"
+    },
+    {
+      "key": "unesco-casbah-alger",
+      "title": "Casbah d'Alger — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/565"
+    },
+    {
+      "key": "unesco-marrakech",
+      "title": "Médina de Marrakech — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/331"
+    },
+    {
+      "key": "unesco-kairouan",
+      "title": "Kairouan — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/499"
+    },
+    {
+      "key": "unesco-caire",
+      "title": "Le Caire historique — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/89"
+    },
+    {
+      "key": "unesco-samarcande",
+      "title": "Samarcande — Carrefour de cultures — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/603"
+    },
+    {
+      "key": "unesco-istanbul",
+      "title": "Zones historiques d'Istanbul — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/356"
+    },
+    {
+      "key": "unesco-jerusalem",
+      "title": "Vieille ville de Jérusalem et ses remparts — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/148"
+    },
+    {
+      "key": "unesco-cordoue",
+      "title": "Centre historique de Cordoue — Liste du patrimoine mondial",
+      "publisher": "UNESCO, Centre du patrimoine mondial",
+      "url": "https://whc.unesco.org/en/list/313"
+    },
+    {
+      "key": "saudi-villes",
+      "title": "Royaume d'Arabie saoudite — présentation officielle du pays et de ses villes",
+      "publisher": "Ministère des Affaires étrangères du Royaume d'Arabie saoudite",
+      "url": "https://mofa.gov.sa/en/ksa/Pages/default.aspx"
+    }
+  ],
+  "questions": [
+    {
+      "id": "HISTGEO-56-001",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.continent-afrique",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "L’Algérie est-elle en Afrique ou en Asie ?"
+      },
+      "answer": {
+        "fr": "Afrique"
+      },
+      "explanation": {
+        "fr": "L’Algérie se trouve en Afrique du Nord.",
+        "ar": "تقع الجزائر في شمال إفريقيا."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unsd-m49"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-002",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.continent-afrique",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Maroc est-il en Afrique ou en Europe ?"
+      },
+      "answer": {
+        "fr": "Afrique"
+      },
+      "explanation": {
+        "fr": "Le Maroc se trouve en Afrique du Nord.",
+        "ar": "يقع المغرب في شمال إفريقيا."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unsd-m49"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-003",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.continent-afrique",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Tunisie est-elle en Afrique ou en Amérique ?"
+      },
+      "answer": {
+        "fr": "Afrique"
+      },
+      "explanation": {
+        "fr": "La Tunisie se trouve en Afrique du Nord.",
+        "ar": "تقع تونس في شمال إفريقيا."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unsd-m49"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-004",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.continent-afrique",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "L’Égypte est-elle en Afrique ou en Australie ?"
+      },
+      "answer": {
+        "fr": "Afrique"
+      },
+      "explanation": {
+        "fr": "L’Égypte fait partie de l’Afrique du Nord.",
+        "ar": "تقع مصر ضمن شمال إفريقيا."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unsd-m49"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-005",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.continent-asie",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "L’Arabie saoudite est-elle en Afrique ou en Asie ?"
+      },
+      "answer": {
+        "fr": "Asie"
+      },
+      "explanation": {
+        "fr": "L’Arabie saoudite se trouve en Asie occidentale.",
+        "ar": "تقع المملكة العربية السعودية في غربي آسيا."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unsd-m49"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-006",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.continent-asie",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "L’Ouzbékistan est-il en Asie ou en Afrique ?"
+      },
+      "answer": {
+        "fr": "Asie"
+      },
+      "explanation": {
+        "fr": "L’Ouzbékistan se trouve en Asie centrale.",
+        "ar": "تقع أوزبكستان في آسيا الوسطى."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unsd-m49"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-007",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.pays-lieu",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Casbah d’Alger se trouve dans quel pays ?"
+      },
+      "answer": {
+        "fr": "En Algérie"
+      },
+      "explanation": {
+        "fr": "La Casbah se trouve dans la ville d’Alger, en Algérie.",
+        "ar": "تقع قصبة الجزائر في مدينة الجزائر بالجزائر."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-casbah-alger"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-008",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.pays-ville",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Marrakech se trouve au Maroc ou en Égypte ?"
+      },
+      "answer": {
+        "fr": "Au Maroc"
+      },
+      "explanation": {
+        "fr": "Marrakech est une ville historique du Maroc.",
+        "ar": "مراكش مدينة تاريخية في المغرب."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-marrakech"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-009",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.pays-ville",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Kairouan se trouve en Tunisie ou en Turquie ?"
+      },
+      "answer": {
+        "fr": "En Tunisie"
+      },
+      "explanation": {
+        "fr": "Kairouan est une ville historique de Tunisie.",
+        "ar": "القيروان مدينة تاريخية في تونس."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-kairouan"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-010",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.pays-ville",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Caire se trouve en Égypte ou au Maroc ?"
+      },
+      "answer": {
+        "fr": "En Égypte"
+      },
+      "explanation": {
+        "fr": "Le Caire est une grande ville d’Égypte.",
+        "ar": "القاهرة مدينة كبيرة في مصر."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-caire"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-011",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.pays-ville",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Samarcande se trouve en Ouzbékistan ou en Algérie ?"
+      },
+      "answer": {
+        "fr": "En Ouzbékistan"
+      },
+      "explanation": {
+        "fr": "Samarcande est une ville historique d’Ouzbékistan.",
+        "ar": "سمرقند مدينة تاريخية في أوزبكستان."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-samarcande"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-012",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.pays-ville",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Istanbul se trouve en Türkiye ou en Tunisie ?"
+      },
+      "answer": {
+        "fr": "En Türkiye"
+      },
+      "explanation": {
+        "fr": "Istanbul est une grande ville historique de Türkiye.",
+        "ar": "إسطنبول مدينة تاريخية كبيرة في تركيا."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-istanbul"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-013",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.pays-ville",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Mecque et Médine sont-elles dans le même pays ?"
+      },
+      "answer": {
+        "fr": "Oui"
+      },
+      "explanation": {
+        "fr": "La Mecque et Médine se trouvent toutes les deux en Arabie saoudite.",
+        "ar": "تقع مكة والمدينة كلتاهما في المملكة العربية السعودية."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-villes"
+      ],
+      "reviewNotes": "Source à préciser avant validation : la référence saoudienne fournie est un portail général, pas une page qui énonce ce fait précis. Épingler la page exacte, ou retirer la question."
+    },
+    {
+      "id": "HISTGEO-56-014",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.pays-ville",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Cordoue se trouve aujourd’hui en Espagne ou en Égypte ?"
+      },
+      "answer": {
+        "fr": "En Espagne"
+      },
+      "explanation": {
+        "fr": "Cordoue est une ville d’Espagne, en Andalousie.",
+        "ar": "تقع قرطبة اليوم في إسبانيا، في الأندلس."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-cordoue"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-015",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.mer-littoral",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Casbah d’Alger est-elle près de la mer Méditerranée ?"
+      },
+      "answer": {
+        "fr": "Oui"
+      },
+      "explanation": {
+        "fr": "La Casbah d’Alger se trouve sur la côte méditerranéenne.",
+        "ar": "تقع قصبة الجزائر على ساحل البحر الأبيض المتوسط."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-casbah-alger"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-016",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.mer-littoral",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Istanbul est-elle une ville proche de l’eau ?"
+      },
+      "answer": {
+        "fr": "Oui"
+      },
+      "explanation": {
+        "fr": "Istanbul est située au bord du Bosphore, avec la mer autour d’une partie de la ville.",
+        "ar": "تقع إسطنبول عند مضيق البوسفور وتحيط المياه بجزء من المدينة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-istanbul"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-017",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.patrimoine-ville",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "À Kairouan, trouve-t-on une célèbre grande mosquée ?"
+      },
+      "answer": {
+        "fr": "Oui"
+      },
+      "explanation": {
+        "fr": "La Grande Mosquée fait partie des monuments historiques les plus connus de Kairouan.",
+        "ar": "الجامع الكبير من أشهر المعالم التاريخية في القيروان."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-kairouan"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-018",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.patrimoine-ville",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le palais El Badi se trouve à Marrakech ou à Samarcande ?"
+      },
+      "answer": {
+        "fr": "À Marrakech"
+      },
+      "explanation": {
+        "fr": "Le palais El Badi fait partie du patrimoine historique de Marrakech.",
+        "ar": "يقع قصر البديع ضمن التراث التاريخي لمدينة مراكش."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-marrakech"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-019",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.patrimoine-ville",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Registan se trouve à Samarcande ou à Alger ?"
+      },
+      "answer": {
+        "fr": "À Samarcande"
+      },
+      "explanation": {
+        "fr": "Le Registan fait partie des grands monuments historiques de Samarcande.",
+        "ar": "ريجستان من أبرز المعالم التاريخية في سمرقند."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-samarcande"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-020",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.patrimoine-ville",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Le Dôme du Rocher se trouve à Jérusalem ou à Marrakech ?"
+      },
+      "answer": {
+        "fr": "À Jérusalem"
+      },
+      "explanation": {
+        "fr": "Le Dôme du Rocher est l’un des monuments historiques de la vieille ville de Jérusalem.",
+        "ar": "قبة الصخرة من المعالم التاريخية في البلدة القديمة بالقدس."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-jerusalem"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-021",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.patrimoine-ville",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans le vieux Caire, trouve-t-on des mosquées et des fontaines ?"
+      },
+      "answer": {
+        "fr": "Oui"
+      },
+      "explanation": {
+        "fr": "Le Caire historique possède notamment des mosquées, des écoles anciennes, des bains et des fontaines.",
+        "ar": "تضم القاهرة التاريخية مساجد ومدارس قديمة وحمامات ونوافير."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-caire"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-022",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.histoire-cordoue",
+      "difficulty": 2,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "Dans l’ancienne Cordoue, trouvait-on des mosquées et des palais ?"
+      },
+      "answer": {
+        "fr": "Oui"
+      },
+      "explanation": {
+        "fr": "À l’époque d’Al-Andalus, Cordoue comptait de nombreuses mosquées et de nombreux palais.",
+        "ar": "في زمن الأندلس كانت قرطبة تضم مساجد وقصورًا كثيرة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "unesco-cordoue"
+      ]
+    },
+    {
+      "id": "HISTGEO-56-023",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.lieu-ville",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Kaaba se trouve à La Mecque ou à Médine ?"
+      },
+      "answer": {
+        "fr": "À La Mecque"
+      },
+      "explanation": {
+        "fr": "La Kaaba se trouve dans la Mosquée sacrée, à La Mecque.",
+        "ar": "تقع الكعبة في المسجد الحرام بمكة المكرمة."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-villes"
+      ],
+      "reviewNotes": "Source à préciser avant validation : la référence saoudienne fournie est un portail général, pas une page qui énonce ce fait précis. Épingler la page exacte, ou retirer la question."
+    },
+    {
+      "id": "HISTGEO-56-024",
+      "version": 1,
+      "categoryId": "geography",
+      "knowledgeNodeId": "histgeo.lieu-ville",
+      "difficulty": 1,
+      "ageBand": "5-6",
+      "audienceScope": "all",
+      "status": "draft",
+      "arReview": "provisional",
+      "prompt": {
+        "fr": "La Mosquée du Prophète se trouve à Médine ou à Marrakech ?"
+      },
+      "answer": {
+        "fr": "À Médine"
+      },
+      "explanation": {
+        "fr": "La Mosquée du Prophète se trouve à Médine, en Arabie saoudite.",
+        "ar": "يقع المسجد النبوي في المدينة المنورة بالمملكة العربية السعودية."
+      },
+      "sources": [],
+      "sourceKeys": [
+        "saudi-villes"
+      ],
+      "reviewNotes": "Source à préciser avant validation : la référence saoudienne fournie est un portail général, pas une page qui énonce ce fait précis. Épingler la page exacte, ou retirer la question."
+    }
+  ]
 }
