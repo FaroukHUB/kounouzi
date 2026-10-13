@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — geography, tranche 13+. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 4 ou 5. Les explications FR et AR sont présentes. Toute carte factuelle cite une ou plusieurs sources du catalogue via sourceKeys. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. ⚠️ Les trois références saoudiennes (saudi-mofa, saudi-hajj-makkah, saudi-hajj-madinah) n'ont PAS pu être ouvertes depuis l'environnement de développement : à vérifier page par page avant toute validation.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — geography, tranche 13+. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 4 ou 5. Les explications FR et AR sont présentes. Toute carte factuelle cite une ou plusieurs sources du catalogue via sourceKeys. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. ⚠️ Les trois références saoudiennes (saudi-mofa, saudi-hajj-makkah, saudi-hajj-madinah) n'ont PAS pu être ouvertes depuis l'environnement de développement : à vérifier page par page avant toute validation. DÉCISION DE L'AUTEUR : ces cartes sont ramenées à de la GÉOGRAPHIE PURE. Neuf cartes qui racontaient la Hijra, l'émigration du Prophète ﷺ ou la formation de la première communauté musulmane ont été RETIRÉES de la géographie : leur seule source était le portail de présentation du Royaume et les pages de villes du ministère du Hajj, qui établissent OÙ se trouvent La Mecque et Médine mais n'établissent pas la Hijra. S'ajoutait que la catégorie géographie ne lit pas l'explication et n'affiche aucune source : un récit historico-religieux y serait affirmé sans rien pour l'étayer. Ce qui reste — où est la Kaaba, où est la Mosquée du Prophète, les deux villes sont-elles dans le même pays, La Mecque est-elle la destination du Hajj — est bien ce que ces pages soutiennent. Ce contenu a sa place en catégorie religion, qui exige une source primaire et lit l'explication en FR puis en AR ; il faudra alors une référence de Sīra. DÉCISION DE L'AUTEUR, à ne pas « corriger » : les questions de cette tranche sont volontairement OUVERTES, avec des réponses attendues longues (72 à 91 caractères en moyenne, contre 38 dans la banque validée). Elles sont faites pour se DISCUTER en famille, pas pour se répondre au chronomètre. C'est un choix assumé, signalé et maintenu.",
   "$gabarit": {
     "id": "HISTGEO-13p-001",
     "version": 1,
@@ -26,12 +26,6 @@
   },
   "version": 1,
   "sources": [
-    {
-      "key": "unsd-m49",
-      "title": "Codes standard de pays ou de zones à usage statistique (M49)",
-      "publisher": "Division de statistique des Nations unies (UNSD)",
-      "url": "https://unstats.un.org/unsd/methodology/m49/overview"
-    },
     {
       "key": "unesco-cordoue",
       "title": "Centre historique de Cordoue — Liste du patrimoine mondial",
@@ -91,12 +85,6 @@
       "title": "Makkah Al-Mukarramah",
       "publisher": "Ministry of Hajj and Umrah, Kingdom of Saudi Arabia",
       "url": "https://haj.gov.sa/ar/Makkah-Al-Mukarramah"
-    },
-    {
-      "key": "saudi-hajj-madinah",
-      "title": "Al-Madinah Al-Munawwarah",
-      "publisher": "Ministry of Hajj and Umrah, Kingdom of Saudi Arabia",
-      "url": "https://haj.gov.sa/en/Al-Madinah-Al-Munawwarah"
     }
   ],
   "questions": [
@@ -317,34 +305,6 @@
       ]
     },
     {
-      "id": "HISTGEO-13p-009",
-      "version": 1,
-      "categoryId": "geography",
-      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
-      "difficulty": 4,
-      "ageBand": "13+",
-      "audienceScope": "all",
-      "status": "draft",
-      "arReview": "provisional",
-      "prompt": {
-        "fr": "Pourquoi la Hijra est-elle aussi un événement géographique, pas seulement religieux ?",
-        "ar": "لماذا تعد الهجرة حدثًا جغرافيًا أيضًا وليست دينيًا فقط؟"
-      },
-      "answer": {
-        "fr": "Parce qu’elle implique un déplacement majeur entre deux villes de l’ouest de l’Arabie.",
-        "ar": "لأنها تتضمن انتقالًا مهمًا بين مدينتين في غرب الجزيرة العربية."
-      },
-      "explanation": {
-        "fr": "Le passage de La Mecque à Médine relie directement espace, déplacement et transformation historique.",
-        "ar": "يربط الانتقال من مكة إلى المدينة بين المكان والحركة والتحول التاريخي."
-      },
-      "sources": [],
-      "sourceKeys": [
-        "saudi-mofa",
-        "saudi-hajj-madinah"
-      ]
-    },
-    {
       "id": "HISTGEO-13p-010",
       "version": 1,
       "categoryId": "geography",
@@ -370,34 +330,6 @@
       "sourceKeys": [
         "saudi-mofa",
         "saudi-hajj-makkah"
-      ]
-    },
-    {
-      "id": "HISTGEO-13p-011",
-      "version": 1,
-      "categoryId": "geography",
-      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
-      "difficulty": 5,
-      "ageBand": "13+",
-      "audienceScope": "all",
-      "status": "draft",
-      "arReview": "provisional",
-      "prompt": {
-        "fr": "Comment Médine montre-t-elle qu’un déplacement de population peut transformer l’histoire d’une ville ?",
-        "ar": "كيف تبين المدينة أن انتقال السكان قد يغير تاريخ مدينة؟"
-      },
-      "answer": {
-        "fr": "L’arrivée du Prophète ﷺ et des émigrants a fait de Médine le centre d’une nouvelle communauté politique et religieuse.",
-        "ar": "جعل وصول النبي ﷺ والمهاجرين المدينة مركزًا لجماعة سياسية ودينية جديدة."
-      },
-      "explanation": {
-        "fr": "La Hijra a profondément changé le rôle historique de la ville.",
-        "ar": "غيّرت الهجرة الدور التاريخي للمدينة بعمق."
-      },
-      "sources": [],
-      "sourceKeys": [
-        "saudi-mofa",
-        "saudi-hajj-madinah"
       ]
     },
     {
@@ -668,35 +600,6 @@
       "sources": [],
       "sourceKeys": [
         "unesco-samarcande"
-      ]
-    },
-    {
-      "id": "HISTGEO-13p-022",
-      "version": 1,
-      "categoryId": "geography",
-      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
-      "difficulty": 5,
-      "ageBand": "13+",
-      "audienceScope": "all",
-      "status": "draft",
-      "arReview": "provisional",
-      "prompt": {
-        "fr": "Pourquoi La Mecque et Médine ont-elles des fonctions urbaines différentes malgré leur proximité régionale ?",
-        "ar": "لماذا تختلف وظائف مكة والمدينة رغم قربهما الإقليمي؟"
-      },
-      "answer": {
-        "fr": "Leur importance historique repose sur des rôles distincts : Hajj et Kaaba pour La Mecque, Hijra et première communauté musulmane pour Médine.",
-        "ar": "لأن أهمية كل منهما ترتبط بدور مختلف: الحج والكعبة في مكة، والهجرة وأول جماعة مسلمة في المدينة."
-      },
-      "explanation": {
-        "fr": "Deux villes proches peuvent donc avoir des fonctions historiques très différentes.",
-        "ar": "قد تكون لمدينتين متقاربتين وظائف تاريخية مختلفة جدًا."
-      },
-      "sources": [],
-      "sourceKeys": [
-        "saudi-mofa",
-        "saudi-hajj-makkah",
-        "saudi-hajj-madinah"
       ]
     },
     {

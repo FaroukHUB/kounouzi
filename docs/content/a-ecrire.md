@@ -20,9 +20,42 @@ ni source, ni explication, ni champ.
 
 | Catégorie | Validées (servies) | Brouillons (en attente) |
 |---|---|---|
-| Géographie | 32 | 118 |
+| Géographie | 32 | 109 |
 | Logique | 30 | 120 |
 | Gestion | 30 | 120 |
+
+### Relecture de fond : ce qui a été décidé
+
+Les 358 cartes ont été lues une par une, pas seulement contrôlées sur leur
+forme. La logique et la gestion sont sans défaut relevé : les quinze calculs
+des explications ont été refaits, ainsi que les énigmes non triviales (le
+problème des menteurs n'admet bien qu'une solution). L'arabe est idiomatique et
+emploie la bonne terminologie ; une relecture arabophone reste nécessaire.
+
+Trois points ont été soulevés en géographie. L'auteur a tranché :
+
+1. **Neuf cartes RETIRÉES** (`HISTGEO-78-018`, `910-010`, `910-019`,
+   `1112-009/010/019`, `13p-009/011/022`). Elles racontaient la Hijra,
+   l'émigration du Prophète ﷺ ou la formation de la première communauté
+   musulmane, avec pour seule source le portail de présentation du Royaume et
+   les pages de villes du ministère du Hajj — qui établissent OÙ sont La Mecque
+   et Médine, pas la Hijra. La catégorie géographie ne lit pas l'explication et
+   n'affiche aucune source : un récit historico-religieux y serait affirmé sans
+   rien pour l'étayer. Ce contenu a sa place en catégorie religion, qui exige
+   une source primaire et lit l'explication en FR puis en AR ; il faudra alors
+   une référence de Sīra. **Ce qui reste est de la géographie pure** : où est la
+   Kaaba, où est la Mosquée du Prophète, les deux villes sont-elles dans le même
+   pays, La Mecque est-elle la destination du Hajj.
+2. **Les tranches 11-12 et 13+ gardent leurs questions ouvertes**, aux réponses
+   attendues longues (72 à 91 caractères, contre 38 dans la banque validée).
+   Choix assumé : elles sont faites pour se DISCUTER en famille, pas pour se
+   répondre au chronomètre. À ne pas « corriger ».
+3. **La tranche 5-6 garde ses questions binaires** (23 sur 24 gagnables une fois
+   sur deux au hasard). Choix assumé : reconnaître la bonne réponse entre deux
+   est déjà un apprentissage à cet âge. À ne pas « corriger ».
+
+Après retrait, les tranches de géographie 7-8 (29), 9-10 (29), 11-12 (27) et
+13+ (28) passent sous la cible de 30 ; 5-6 l'atteint (30).
 
 Ce que la relecture débloque, par âge et par catégorie :
 

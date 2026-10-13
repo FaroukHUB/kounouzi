@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — geography, tranche 11-12. 23 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 3 ou 4. Les explications FR et AR sont présentes. Toute carte factuelle cite une ou plusieurs sources du catalogue via sourceKeys. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. ⚠️ Les trois références saoudiennes (saudi-mofa, saudi-hajj-makkah, saudi-hajj-madinah) n'ont PAS pu être ouvertes depuis l'environnement de développement : à vérifier page par page avant toute validation.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — geography, tranche 11-12. 23 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 3 ou 4. Les explications FR et AR sont présentes. Toute carte factuelle cite une ou plusieurs sources du catalogue via sourceKeys. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. ⚠️ Les trois références saoudiennes (saudi-mofa, saudi-hajj-makkah, saudi-hajj-madinah) n'ont PAS pu être ouvertes depuis l'environnement de développement : à vérifier page par page avant toute validation. DÉCISION DE L'AUTEUR : ces cartes sont ramenées à de la GÉOGRAPHIE PURE. Neuf cartes qui racontaient la Hijra, l'émigration du Prophète ﷺ ou la formation de la première communauté musulmane ont été RETIRÉES de la géographie : leur seule source était le portail de présentation du Royaume et les pages de villes du ministère du Hajj, qui établissent OÙ se trouvent La Mecque et Médine mais n'établissent pas la Hijra. S'ajoutait que la catégorie géographie ne lit pas l'explication et n'affiche aucune source : un récit historico-religieux y serait affirmé sans rien pour l'étayer. Ce qui reste — où est la Kaaba, où est la Mosquée du Prophète, les deux villes sont-elles dans le même pays, La Mecque est-elle la destination du Hajj — est bien ce que ces pages soutiennent. Ce contenu a sa place en catégorie religion, qui exige une source primaire et lit l'explication en FR puis en AR ; il faudra alors une référence de Sīra. DÉCISION DE L'AUTEUR, à ne pas « corriger » : les questions de cette tranche sont volontairement OUVERTES, avec des réponses attendues longues (72 à 91 caractères en moyenne, contre 38 dans la banque validée). Elles sont faites pour se DISCUTER en famille, pas pour se répondre au chronomètre. C'est un choix assumé, signalé et maintenu.",
   "$gabarit": {
     "id": "HISTGEO-1112-001",
     "version": 1,
@@ -26,12 +26,6 @@
   },
   "version": 1,
   "sources": [
-    {
-      "key": "unsd-m49",
-      "title": "Codes standard de pays ou de zones à usage statistique (M49)",
-      "publisher": "Division de statistique des Nations unies (UNSD)",
-      "url": "https://unstats.un.org/unsd/methodology/m49/overview"
-    },
     {
       "key": "unesco-cordoue",
       "title": "Centre historique de Cordoue — Liste du patrimoine mondial",
@@ -91,12 +85,6 @@
       "title": "Makkah Al-Mukarramah",
       "publisher": "Ministry of Hajj and Umrah, Kingdom of Saudi Arabia",
       "url": "https://haj.gov.sa/ar/Makkah-Al-Mukarramah"
-    },
-    {
-      "key": "saudi-hajj-madinah",
-      "title": "Al-Madinah Al-Munawwarah",
-      "publisher": "Ministry of Hajj and Umrah, Kingdom of Saudi Arabia",
-      "url": "https://haj.gov.sa/en/Al-Madinah-Al-Munawwarah"
     }
   ],
   "questions": [
@@ -317,63 +305,6 @@
       ]
     },
     {
-      "id": "HISTGEO-1112-009",
-      "version": 1,
-      "categoryId": "geography",
-      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
-      "difficulty": 3,
-      "ageBand": "11-12",
-      "audienceScope": "all",
-      "status": "draft",
-      "arReview": "provisional",
-      "prompt": {
-        "fr": "Pourquoi La Mecque et Médine sont-elles souvent étudiées ensemble dans l’histoire islamique ?",
-        "ar": "لماذا تُدرَس مكة والمدينة معًا كثيرًا في التاريخ الإسلامي؟"
-      },
-      "answer": {
-        "fr": "Parce que la Hijra relie directement les deux villes.",
-        "ar": "لأن الهجرة تربط المدينتين مباشرة."
-      },
-      "explanation": {
-        "fr": "La migration de La Mecque vers Médine marque un tournant majeur de l’histoire islamique.",
-        "ar": "تمثل الهجرة من مكة إلى المدينة تحولًا مهمًا في التاريخ الإسلامي."
-      },
-      "sources": [],
-      "sourceKeys": [
-        "saudi-mofa",
-        "saudi-hajj-madinah"
-      ]
-    },
-    {
-      "id": "HISTGEO-1112-010",
-      "version": 1,
-      "categoryId": "geography",
-      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
-      "difficulty": 4,
-      "ageBand": "11-12",
-      "audienceScope": "all",
-      "status": "draft",
-      "arReview": "provisional",
-      "prompt": {
-        "fr": "Quelle différence historique majeure distingue La Mecque de Médine ?",
-        "ar": "ما الفرق التاريخي الكبير بين مكة والمدينة؟"
-      },
-      "answer": {
-        "fr": "La Mecque est le lieu de la Kaaba et du Hajj ; Médine est la ville de la Hijra et du premier État musulman.",
-        "ar": "مكة موضع الكعبة والحج، والمدينة مدينة الهجرة وأول دولة إسلامية."
-      },
-      "explanation": {
-        "fr": "Les deux villes ont des rôles différents mais complémentaires dans l’histoire islamique.",
-        "ar": "للمدينتين أدوار مختلفة لكنها متكاملة في التاريخ الإسلامي."
-      },
-      "sources": [],
-      "sourceKeys": [
-        "saudi-mofa",
-        "saudi-hajj-makkah",
-        "saudi-hajj-madinah"
-      ]
-    },
-    {
       "id": "HISTGEO-1112-011",
       "version": 1,
       "categoryId": "geography",
@@ -587,34 +518,6 @@
       "sources": [],
       "sourceKeys": [
         "unesco-jerusalem"
-      ]
-    },
-    {
-      "id": "HISTGEO-1112-019",
-      "version": 1,
-      "categoryId": "geography",
-      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
-      "difficulty": 4,
-      "ageBand": "11-12",
-      "audienceScope": "all",
-      "status": "draft",
-      "arReview": "provisional",
-      "prompt": {
-        "fr": "Pourquoi la situation de Médine dans l’ouest de l’Arabie est-elle importante pour son histoire ?",
-        "ar": "لماذا يعد موقع المدينة في غرب الجزيرة مهمًا لتاريخها؟"
-      },
-      "answer": {
-        "fr": "Parce qu’elle se trouve dans la région où s’est déroulée la Hijra et où la première communauté musulmane s’est organisée.",
-        "ar": "لأنه في المنطقة التي وقعت فيها الهجرة ونُظمت فيها أول جماعة مسلمة."
-      },
-      "explanation": {
-        "fr": "Sa place historique est liée à la migration et à l’installation du Prophète ﷺ et de ses compagnons.",
-        "ar": "ترتبط مكانتها التاريخية بالهجرة واستقرار النبي ﷺ وأصحابه."
-      },
-      "sources": [],
-      "sourceKeys": [
-        "saudi-mofa",
-        "saudi-hajj-madinah"
       ]
     },
     {

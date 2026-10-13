@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — geography, tranche 7-8. 23 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Toute carte factuelle cite une ou plusieurs sources du catalogue via sourceKeys. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. ⚠️ Les trois références saoudiennes (saudi-mofa, saudi-hajj-makkah, saudi-hajj-madinah) n'ont PAS pu être ouvertes depuis l'environnement de développement : à vérifier page par page avant toute validation.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — geography, tranche 7-8. 23 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Toute carte factuelle cite une ou plusieurs sources du catalogue via sourceKeys. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. ⚠️ Les trois références saoudiennes (saudi-mofa, saudi-hajj-makkah, saudi-hajj-madinah) n'ont PAS pu être ouvertes depuis l'environnement de développement : à vérifier page par page avant toute validation. DÉCISION DE L'AUTEUR : ces cartes sont ramenées à de la GÉOGRAPHIE PURE. Neuf cartes qui racontaient la Hijra, l'émigration du Prophète ﷺ ou la formation de la première communauté musulmane ont été RETIRÉES de la géographie : leur seule source était le portail de présentation du Royaume et les pages de villes du ministère du Hajj, qui établissent OÙ se trouvent La Mecque et Médine mais n'établissent pas la Hijra. S'ajoutait que la catégorie géographie ne lit pas l'explication et n'affiche aucune source : un récit historico-religieux y serait affirmé sans rien pour l'étayer. Ce qui reste — où est la Kaaba, où est la Mosquée du Prophète, les deux villes sont-elles dans le même pays, La Mecque est-elle la destination du Hajj — est bien ce que ces pages soutiennent. Ce contenu a sa place en catégorie religion, qui exige une source primaire et lit l'explication en FR puis en AR ; il faudra alors une référence de Sīra.",
   "$gabarit": {
     "id": "HISTGEO-78-001",
     "version": 1,
@@ -26,12 +26,6 @@
   },
   "version": 1,
   "sources": [
-    {
-      "key": "unsd-m49",
-      "title": "Codes standard de pays ou de zones à usage statistique (M49)",
-      "publisher": "Division de statistique des Nations unies (UNSD)",
-      "url": "https://unstats.un.org/unsd/methodology/m49/overview"
-    },
     {
       "key": "unesco-cordoue",
       "title": "Centre historique de Cordoue — Liste du patrimoine mondial",
@@ -557,34 +551,6 @@
       "sources": [],
       "sourceKeys": [
         "unesco-istanbul"
-      ]
-    },
-    {
-      "id": "HISTGEO-78-018",
-      "version": 1,
-      "categoryId": "geography",
-      "knowledgeNodeId": "histgeo.arabie-mecque-medine",
-      "difficulty": 3,
-      "ageBand": "7-8",
-      "audienceScope": "all",
-      "status": "draft",
-      "arReview": "provisional",
-      "prompt": {
-        "fr": "Médine est-elle liée à la Hijra du Prophète ﷺ ?",
-        "ar": "هل ترتبط المدينة المنورة بهجرة النبي ﷺ؟"
-      },
-      "answer": {
-        "fr": "Oui.",
-        "ar": "نعم."
-      },
-      "explanation": {
-        "fr": "Le Prophète ﷺ a émigré vers Médine, qui devint la première capitale de l’histoire islamique.",
-        "ar": "هاجر النبي ﷺ إلى المدينة التي أصبحت أول عاصمة في تاريخ الإسلام."
-      },
-      "sources": [],
-      "sourceKeys": [
-        "saudi-mofa",
-        "saudi-hajj-madinah"
       ]
     },
     {
