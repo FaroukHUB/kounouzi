@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — management, tranche 13+. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 4 ou 5. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — management, tranche 13+. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 4 ou 5. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. VALIDÉ PAR L'AUTEUR le 2026-10-13 : ces cartes sont désormais servies en partie. `arReview` reste « provisional » — c'est un champ DISTINCT, qui atteste d'une relecture par un arabophone et non de la relecture de l'auteur ; il sera passé à « reviewed » quand cette relecture aura eu lieu.",
   "$gabarit": {
     "id": "GEST-13p-001",
     "version": 1,
@@ -35,7 +35,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu reçois 1 000 Kounouz. Tes charges prévues sont 600, ton épargne 200 et tes dépenses libres 150. Quelle marge reste-t-il ?",
@@ -59,7 +59,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une activité encaisse 500 Kounouz et dépense 420. Quel est son résultat net ?",
@@ -83,7 +83,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi une entreprise peut-elle avoir de l’argent en banque sans pouvoir tout dépenser librement ?",
@@ -107,7 +107,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu connais une grosse dépense prévue dans six mois. Quel est l’avantage de la financer progressivement ?",
@@ -131,7 +131,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un appareil coûte 300 Kounouz, puis 20 par mois d’entretien pendant un an. Quel est son coût sur la première année ?",
@@ -155,7 +155,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as plusieurs dépenses importantes, mais une seule entraîne une pénalité si elle n’est pas payée aujourd’hui. Que faut-il intégrer dans la priorité ?",
@@ -179,7 +179,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un achat peut-il être une envie tout en étant parfaitement raisonnable ?",
@@ -203,7 +203,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi définir un objectif précis d’épargne aide-t-il souvent davantage que « mettre de côté ce qui reste » ?",
@@ -227,7 +227,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Deux options rapportent pareil, mais l’une peut faire perdre beaucoup plus. Sont-elles équivalentes ?",
@@ -251,7 +251,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu bloques 500 Kounouz pendant un an pour gagner 20. Quelle question de coût d’opportunité faut-il se poser ?",
@@ -275,7 +275,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un budget prévoit 60 % de charges, 20 % d’épargne et 15 % de dépenses libres. Quelle part reste non affectée ?",
@@ -299,7 +299,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Le chiffre d’affaires augmente de 10 %, mais les dépenses augmentent de 20 %. Peut-on conclure que le bénéfice augmente ?",
@@ -323,7 +323,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi une réserve trop faible peut-elle forcer à prendre de mauvaises décisions ?",
@@ -347,7 +347,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu prévois une dépense annuelle de 1 200 Kounouz. Quelle somme mensuelle mettre de côté pour la lisser sur l’année ?",
@@ -371,7 +371,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Option A : 800 Kounouz et aucun frais. Option B : 650 + 25 par mois pendant 8 mois. Laquelle coûte moins ?",
@@ -395,7 +395,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une dépense urgente est-elle toujours plus importante qu’une dépense importante mais non urgente ?",
@@ -419,7 +419,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi la distinction besoin/envie dépend-elle parfois du contexte ?",
@@ -443,7 +443,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Ton revenu augmente. Faut-il obligatoirement augmenter tes dépenses du même montant ?",
@@ -467,7 +467,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi répartir son argent entre plusieurs usages peut-il réduire certains risques ?",
@@ -491,7 +491,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu gardes de l’argent inutilisé pendant très longtemps alors qu’un objectif important attend. Peut-il y avoir aussi un coût d’opportunité à ne rien faire ?",
@@ -515,7 +515,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi comparer seulement le paiement mensuel peut-il être trompeur ?",
@@ -539,7 +539,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une activité a 1 000 Kounouz de recettes, 700 de coûts directs et 200 de frais fixes. Quel reste avant autres dépenses ?",
@@ -563,7 +563,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi un budget réaliste doit-il prévoir une marge plutôt que d’affecter exactement 100 % des ressources ?",
@@ -587,7 +587,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une décision a 90 % de chances de gagner 5 Kounouz mais 10 % de chances d’en perdre 100. Pourquoi regarder seulement les 90 % serait insuffisant ?",

@@ -11,18 +11,38 @@ Six questions ne peuvent pas tourner sans se répéter. Aucun réglage du moteur
 ne corrige cela : **il manque du contenu**, et il n'en sera jamais inventé par
 un assistant.
 
-## État : les 358 cartes sont livrées, en attente de relecture
+## État : VALIDÉ par l'auteur — les 349 cartes sont en jeu
 
-Les quinze fichiers sont remplis. **Rien n'est servi** : toutes les cartes sont
-`draft`, et un test vérifie qu'une fois passées en `validated` elles
-franchissent la garde de jouabilité — il ne leur manque donc que ta relecture,
-ni source, ni explication, ni champ.
+L'auteur a relu et validé le 2026-10-13. Les cartes sont **servies en partie**.
+Un test vérifie, pour chacune des 349, qu'elle franchit bien la garde de
+jouabilité : un `validated` que la garde rejetterait serait un piège silencieux
+— la carte serait réputée relue et pourtant jamais distribuée.
 
-| Catégorie | Validées (servies) | Brouillons (en attente) |
+| Catégorie | Cartes servies | Brouillons restants |
 |---|---|---|
-| Géographie | 32 | 109 |
-| Logique | 30 | 120 |
-| Gestion | 30 | 120 |
+| Géographie | **141** (32 + 109) | 0 |
+| Logique | **150** (30 + 120) | 0 |
+| Gestion | **150** (30 + 120) | 0 |
+| Religion | 375 | 0 |
+
+**`arReview` reste `provisional` sur les 349.** C'est un champ DISTINCT : il
+atteste d'une relecture par un **arabophone**, qui n'a pas eu lieu. La
+validation de l'auteur ne la remplace pas, et le passage à `reviewed` attendra.
+
+Mesuré sur quatre parties de huit questions, après validation :
+
+| Âge | Questions distinctes | Même carte au plus | Hors de sa tranche |
+|---|---|---|---|
+| 6 ans | 29 / 32 | 2× | **0** |
+| 7 ans | 26 / 32 | 3× | **0** |
+| 9 ans | 29 / 32 | 2× | **0** |
+| 12 ans | 28 / 32 | 3× | **0** |
+| 14 ans | 27 / 32 | 3× | **0** |
+
+Les cinq catégories sont désormais représentées de façon équilibrée dans une
+partie (aucune au-delà de 8 questions sur 32). Les reprises qui restent sont la
+**révision espacée**, pas un manque de contenu : elle se règle dans
+`learning.v1.json` (`variety.revisionShare`).
 
 ### Relecture de fond : ce qui a été décidé
 

@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — geography, tranche 9-10. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Toute carte factuelle cite une ou plusieurs sources du catalogue via sourceKeys. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. ⚠️ Les trois références saoudiennes (saudi-mofa, saudi-hajj-makkah, saudi-hajj-madinah) n'ont PAS pu être ouvertes depuis l'environnement de développement : à vérifier page par page avant toute validation. DÉCISION DE L'AUTEUR : ces cartes sont ramenées à de la GÉOGRAPHIE PURE. Neuf cartes qui racontaient la Hijra, l'émigration du Prophète ﷺ ou la formation de la première communauté musulmane ont été RETIRÉES de la géographie : leur seule source était le portail de présentation du Royaume et les pages de villes du ministère du Hajj, qui établissent OÙ se trouvent La Mecque et Médine mais n'établissent pas la Hijra. S'ajoutait que la catégorie géographie ne lit pas l'explication et n'affiche aucune source : un récit historico-religieux y serait affirmé sans rien pour l'étayer. Ce qui reste — où est la Kaaba, où est la Mosquée du Prophète, les deux villes sont-elles dans le même pays, La Mecque est-elle la destination du Hajj — est bien ce que ces pages soutiennent. Ce contenu a sa place en catégorie religion, qui exige une source primaire et lit l'explication en FR puis en AR ; il faudra alors une référence de Sīra.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — geography, tranche 9-10. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Toute carte factuelle cite une ou plusieurs sources du catalogue via sourceKeys. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. ⚠️ Les trois références saoudiennes (saudi-mofa, saudi-hajj-makkah, saudi-hajj-madinah) n'ont PAS pu être ouvertes depuis l'environnement de développement : à vérifier page par page avant toute validation. DÉCISION DE L'AUTEUR : ces cartes sont ramenées à de la GÉOGRAPHIE PURE. Neuf cartes qui racontaient la Hijra, l'émigration du Prophète ﷺ ou la formation de la première communauté musulmane ont été RETIRÉES de la géographie : leur seule source était le portail de présentation du Royaume et les pages de villes du ministère du Hajj, qui établissent OÙ se trouvent La Mecque et Médine mais n'établissent pas la Hijra. S'ajoutait que la catégorie géographie ne lit pas l'explication et n'affiche aucune source : un récit historico-religieux y serait affirmé sans rien pour l'étayer. Ce qui reste — où est la Kaaba, où est la Mosquée du Prophète, les deux villes sont-elles dans le même pays, La Mecque est-elle la destination du Hajj — est bien ce que ces pages soutiennent. Ce contenu a sa place en catégorie religion, qui exige une source primaire et lit l'explication en FR puis en AR ; il faudra alors une référence de Sīra. VALIDÉ PAR L'AUTEUR le 2026-10-13 : ces cartes sont désormais servies en partie. `arReview` reste « provisional » — c'est un champ DISTINCT, qui atteste d'une relecture par un arabophone et non de la relecture de l'auteur ; il sera passé à « reviewed » quand cette relecture aura eu lieu.",
   "$gabarit": {
     "id": "HISTGEO-910-001",
     "version": 1,
@@ -96,7 +96,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi les rues de la Casbah sont-elles souvent étroites et en pente ?",
@@ -123,7 +123,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi Istanbul a-t-elle longtemps été une ville stratégique ?",
@@ -150,7 +150,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi Samarcande a-t-elle accueilli des influences très différentes ?",
@@ -177,7 +177,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Que montrent les remparts et les grandes portes de Marrakech ?",
@@ -204,7 +204,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi Kairouan est-elle importante pour l’histoire du Maghreb ?",
@@ -231,7 +231,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi Cordoue est-elle importante pour comprendre Al-Andalus ?",
@@ -258,7 +258,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Que nous apprend le grand nombre de monuments du Caire historique ?",
@@ -285,7 +285,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi les remparts de Jérusalem sont-ils importants pour lire la ville ?",
@@ -312,7 +312,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi La Mecque accueille-t-elle des musulmans venus du monde entier ?",
@@ -340,7 +340,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Quelle ancienne ville est devenue l’Istanbul actuelle ?",
@@ -367,7 +367,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Quel ensemble de Samarcande est célèbre pour ses grandes façades de madrasas ?",
@@ -394,7 +394,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Marrakech a-t-elle été fondée avant ou après l’arrivée des Ottomans au Maghreb ?",
@@ -421,7 +421,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "La Grande Mosquée de Kairouan est-elle surtout un monument moderne ou historique ?",
@@ -448,7 +448,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "La Casbah d’Alger conserve-t-elle des palais de l’époque ottomane ?",
@@ -475,7 +475,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Le Caire historique est-il un seul monument ou tout un quartier ancien ?",
@@ -502,7 +502,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Quel changement montre l’histoire de Cordoue après l’époque romaine ?",
@@ -529,7 +529,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Le Dôme du Rocher est-il plus ancien que l’époque ottomane ?",
@@ -556,7 +556,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Samarcande doit-elle son importance seulement à un seul peuple ?",
@@ -583,7 +583,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi trouve-t-on à Istanbul des monuments de périodes très différentes ?",
@@ -610,7 +610,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "La médina de Marrakech est-elle la partie moderne ou ancienne de la ville ?",
@@ -637,7 +637,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "La Casbah d’Alger est-elle une médina historique ?",
@@ -664,7 +664,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "La Grande Mosquée de Cordoue appartient-elle au patrimoine historique de la ville ?",

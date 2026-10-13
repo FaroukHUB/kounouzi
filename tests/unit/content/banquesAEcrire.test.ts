@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { CATEGORIES, CURATED_BANK, curatedBankSchema } from "@/config/content";
+import { CATEGORIES, CURATED_BANK, contentRegistry, curatedBankSchema } from "@/config/content";
 import { parseAgeBand, playabilityIssues } from "@/core/content";
 
 const root = fileURLToPath(new URL("../../../", import.meta.url));
@@ -51,23 +51,28 @@ describe("banques à écrire — le terrain est prêt, les questions restent à 
     expect([...vus].filter(([, n]) => n > 1).map(([id]) => id)).toEqual([]);
   });
 
-  it("les cartes écrites ne manquent QUE la relecture : passées en « validated », elles franchissent la garde", () => {
-    // Le jour où l'auteur relit et valide, rien d'autre ne doit bloquer : ni source
-    // manquante (la géographie en exige une), ni explication absente, ni arabe vide.
-    // Mieux vaut le savoir maintenant que le découvrir après la relecture.
+  it("les cartes relues par l'auteur sont VALIDÉES et réellement servies, les cinq tranches comprises", () => {
+    // Un « validated » que la garde rejetterait serait un piège silencieux : la
+    // carte serait réputée relue, et pourtant jamais distribuée. On vérifie donc
+    // les deux, pour chaque carte des quinze banques.
     const categories = CATEGORIES;
-    // Les identifiants portent le jeton de tranche, « 13p » compris : un motif
-    // purement numérique laissait les cartes 13+ hors du contrôle.
-    const brouillons = CURATED_BANK.filter((q) => q.status === "draft" && /-(56|78|910|1112|13p)-\d{3}$/.test(q.id));
-    expect(brouillons.length).toBeGreaterThan(0);
-    // Toutes les tranches sont représentées, 13+ comprise.
-    for (const jeton of ["56", "78", "910", "1112", "13p"]) {
-      expect(brouillons.some((q) => q.id.includes(`-${jeton}-`)), jeton).toBe(true);
+    const servies = new Set(contentRegistry().slots("child").map((s) => s.slotId));
+    const parTranche = new Map<string, number>();
+    const cartes = CURATED_BANK.filter((q) => /-(56|78|910|1112|13p)-\d{3}$/.test(q.id));
+    expect(cartes).toHaveLength(349);
+    for (const q of cartes) {
+      expect(q.status, q.id).toBe("validated");
+      // `arReview` est un champ DISTINCT : il atteste d'une relecture ARABOPHONE,
+      // qui n'a pas eu lieu. La validation de l'auteur ne la remplace pas.
+      expect(q.arReview, q.id).toBe("provisional");
+      expect(playabilityIssues(q, categories.find((c) => c.id === q.categoryId)), q.id).toEqual([]);
+      expect(servies.has(`curated:${q.id}`), `${q.id} validée mais non servie`).toBe(true);
+      const jeton = /-(56|78|910|1112|13p)-\d{3}$/.exec(q.id)![1]!;
+      parTranche.set(jeton, (parTranche.get(jeton) ?? 0) + 1);
     }
-    for (const q of brouillons) {
-      const categorie = categories.find((c) => c.id === q.categoryId);
-      expect(playabilityIssues({ ...q, status: "validated" }, categorie), q.id).toEqual([]);
-    }
+    // Les cinq tranches sont servies, 13+ comprise (« 13p » n'est pas un nombre :
+    // un motif purement numérique les laissait hors du contrôle).
+    expect([...parTranche.keys()].sort()).toEqual(["1112", "13p", "56", "78", "910"]);
   });
 
   it("une question se sert dès qu'elle est validée, sans toucher au code", () => {

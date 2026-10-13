@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 9-10. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 9-10. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. VALIDÉ PAR L'AUTEUR le 2026-10-13 : ces cartes sont désormais servies en partie. `arReview` reste « provisional » — c'est un champ DISTINCT, qui atteste d'une relecture par un arabophone et non de la relecture de l'auteur ; il sera passé à « reviewed » quand cette relecture aura eu lieu.",
   "$gabarit": {
     "id": "LOG-910-001",
     "version": 1,
@@ -35,7 +35,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "4, 8, 12, 16… quel nombre vient ensuite ?",
@@ -59,7 +59,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Lina est plus âgée que Sara, Sara plus âgée qu’Adam. Qui est le plus jeune ?",
@@ -83,7 +83,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "La clé est dans une des quatre boîtes A, B, C, D. Elle n’est ni dans A, ni B, ni D. Où est-elle ?",
@@ -107,7 +107,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tous les joueurs de cette équipe portent un badge bleu. Adam fait partie de l’équipe. Quel badge porte-t-il ?",
@@ -131,7 +131,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une boîte pèse plus qu’un livre, et le livre plus qu’un crayon. Quel objet est le plus léger ?",
@@ -155,7 +155,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Quatre tables ont trois chaises chacune. Combien de chaises au total ?",
@@ -179,7 +179,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as 5 bonbons et tu en donnes 2. Combien en as-tu donnés ?",
@@ -203,7 +203,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une petite boîte est dans une grande boîte, elle-même dans un sac. Où se trouve la petite boîte ?",
@@ -227,7 +227,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Quatre sièges numérotés 1 à 4. Lina doit être après Adam mais avant Sami. Lina peut-elle être en place 1 ?",
@@ -251,7 +251,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "A dit : « La boîte est vide. » B dit : « Il y a un cube dedans. » Peuvent-ils avoir raison en même temps ?",
@@ -275,7 +275,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "1, 3, 6, 10… quel nombre vient ensuite si on ajoute 2, puis 3, puis 4 ?",
@@ -299,7 +299,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Trois personnes ont chacune un fruit différent : pomme, banane, orange. Adam a la banane. Lina n’a pas la pomme. Si Sami a la pomme, que reste-t-il à Lina ?",
@@ -323,7 +323,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Dans une course, Adam est devant Lina mais derrière Sami. Qui est premier parmi eux ?",
@@ -347,7 +347,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Le trajet A est plus court que B, et B plus court que C. Quel trajet est le plus long ?",
@@ -371,7 +371,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Aucun objet fragile n’est posé au sol. Ce vase est fragile. Peut-il être posé au sol selon la règle ?",
@@ -395,7 +395,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Combien de mois de l’année ont au moins 28 jours ?",
@@ -419,7 +419,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Cinq enfants se serrent la main une seule fois avec leur voisin de droite dans une file. Combien de poignées de main ont lieu ?",
@@ -443,7 +443,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un livre est à gauche d’une tasse, et la tasse à gauche d’une lampe. Quel objet est le plus à droite ?",
@@ -467,7 +467,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Lina, Adam et Sami choisissent trois couleurs différentes. Adam choisit bleu. Lina ne veut pas rouge. Il reste rouge, bleu, vert. Quelle couleur doit choisir Lina ?",
@@ -491,7 +491,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "« Tous les vélos ont deux roues » et « ce vélo a trois roues » peuvent-ils être vrais ensemble dans cette énigme ?",
@@ -515,7 +515,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une pièce est soit dans la poche gauche, soit dans la droite. La poche gauche est vide. Où est la pièce ?",
@@ -539,7 +539,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "10, 8, 6, 4… quel nombre vient ensuite ?",
@@ -563,7 +563,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Si aujourd’hui est vendredi, quel jour sera après-demain ?",
@@ -587,7 +587,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Trois paires de gants contiennent combien de gants ?",

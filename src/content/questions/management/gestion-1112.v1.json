@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — management, tranche 11-12. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 3 ou 4. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — management, tranche 11-12. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 3 ou 4. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. VALIDÉ PAR L'AUTEUR le 2026-10-13 : ces cartes sont désormais servies en partie. `arReview` reste « provisional » — c'est un champ DISTINCT, qui atteste d'une relecture par un arabophone et non de la relecture de l'auteur ; il sera passé à « reviewed » quand cette relecture aura eu lieu.",
   "$gabarit": {
     "id": "GEST-1112-001",
     "version": 1,
@@ -35,7 +35,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as un budget de 120 Kounouz. Tes dépenses prévues sont 35, 28, 22 et 15. Combien reste-t-il ?",
@@ -59,7 +59,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Sur un mois, 200 Kounouz entrent et 185 sortent. Quel est le résultat net ?",
@@ -83,7 +83,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi une réserve doit-elle idéalement rester disponible rapidement ?",
@@ -107,7 +107,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu sais qu’une dépense importante arrivera dans trois mois. Quelle stratégie est la plus simple ?",
@@ -131,7 +131,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un abonnement coûte 8 Kounouz par mois pendant 12 mois. Quel est son coût annuel ?",
@@ -155,7 +155,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une facture obligatoire arrive le même jour qu’une promotion non essentielle. Que faut-il traiter d’abord ?",
@@ -179,7 +179,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un téléphone fonctionne encore bien mais un nouveau modèle vient de sortir. Le remplacement est-il automatiquement un besoin ?",
@@ -203,7 +203,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu veux épargner 25 % de 80 Kounouz. Combien mets-tu de côté ?",
@@ -227,7 +227,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi vérifier les conditions d’un achat avant de payer peut-il réduire le risque ?",
@@ -251,7 +251,7 @@
       "difficulty": 3,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu immobilises 60 Kounouz dans un objet que tu utilises rarement. Quel coût d’opportunité cela peut-il créer ?",
@@ -275,7 +275,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un budget prévoit 50 Kounouz de dépenses fixes et 30 de dépenses variables sur 100. Quelle marge reste-t-il ?",
@@ -299,7 +299,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tes revenus augmentent de 20 Kounouz mais tes dépenses augmentent de 30. Ton résultat net s’améliore-t-il ?",
@@ -323,7 +323,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi utiliser sa réserve pour une dépense régulière prévue peut-il être un mauvais signal ?",
@@ -347,7 +347,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as plusieurs échéances dans le mois. Quelle information doit apparaître dans ton planning en plus du montant ?",
@@ -371,7 +371,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Option A : 100 Kounouz une fois. Option B : 9 Kounouz par mois pendant 12 mois. Laquelle coûte moins sur l’année ?",
@@ -395,7 +395,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Deux dettes doivent être payées : l’une aujourd’hui, l’autre dans un mois. Si tu ne peux couvrir qu’une maintenant, laquelle prioriser ?",
@@ -419,7 +419,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Peut-on transformer une envie en objectif d’épargne sans la considérer comme un besoin ?",
@@ -443,7 +443,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi automatiser une épargne régulière peut-il aider ?",
@@ -467,7 +467,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un investissement promet un gain très élevé mais tu ne comprends pas comment il fonctionne. Quelle attitude est prudente ?",
@@ -491,7 +491,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu consacres 3 heures à une activité gratuite au lieu d’un travail payé. Quel type de ressource as-tu aussi utilisée ?",
@@ -515,7 +515,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un objet à 70 Kounouz nécessite 10 de réparation immédiate. Un autre coûte 78 et fonctionne. Lequel est moins cher au départ réel ?",
@@ -539,7 +539,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une activité encaisse 150 Kounouz et dépense 110. Peut-on dire qu’elle gagne 150 ?",
@@ -563,7 +563,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi comparer le budget prévu au budget réellement dépensé en fin de mois ?",
@@ -587,7 +587,7 @@
       "difficulty": 4,
       "ageBand": "11-12",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as une réserve de 40 Kounouz et une urgence coûte 25. Après paiement, faut-il penser à reconstituer la réserve ?",

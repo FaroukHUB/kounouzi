@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — management, tranche 5-6. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 1 ou 2. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — management, tranche 5-6. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 1 ou 2. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. VALIDÉ PAR L'AUTEUR le 2026-10-13 : ces cartes sont désormais servies en partie. `arReview` reste « provisional » — c'est un champ DISTINCT, qui atteste d'une relecture par un arabophone et non de la relecture de l'auteur ; il sera passé à « reviewed » quand cette relecture aura eu lieu.",
   "$gabarit": {
     "id": "GEST-56-001",
     "version": 1,
@@ -35,7 +35,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as faim et tu veux aussi un nouveau jouet. Qu’est-ce qui est prioritaire ?",
@@ -59,7 +59,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as 6 Kounouz. Est-il prudent de dépenser les 6 si tu ne sais pas ce dont tu auras besoin ensuite ?",
@@ -83,7 +83,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu veux un objet qui coûte 10 Kounouz et tu en as 6. Que peux-tu faire ?",
@@ -107,7 +107,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu dois choisir entre un cahier dont tu as besoin et un deuxième ballon. Que choisis-tu d’abord ?",
@@ -131,7 +131,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as 8 Kounouz et un objet coûte 5. Peux-tu l’acheter sans dépasser ton argent ?",
@@ -155,7 +155,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Après un achat, il te reste 3 Kounouz. Ces 3 Kounouz peuvent-ils servir de petite réserve ?",
@@ -179,7 +179,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu reçois 4 Kounouz et tu en mets 1 de côté. Est-ce de l’épargne ?",
@@ -203,7 +203,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Des chaussures trop petites doivent être remplacées. Est-ce plutôt un besoin ou une envie ?",
@@ -227,7 +227,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Avant d’aller acheter trois choses, est-il utile de faire une petite liste ?",
@@ -251,7 +251,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as assez pour acheter soit de l’eau, soit un autocollant. Tu as très soif. Que choisis-tu ?",
@@ -275,7 +275,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as 5 Kounouz. Un objet coûte 7. Peux-tu l’acheter maintenant ?",
@@ -299,7 +299,7 @@
       "difficulty": 1,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as 10 Kounouz. Tu dépenses 7. Combien reste-t-il pour plus tard ?",
@@ -323,7 +323,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu mets 2 Kounouz de côté aujourd’hui et 2 demain. Combien as-tu épargné ?",
@@ -347,7 +347,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as 12 Kounouz. Tu veux acheter deux objets à 5 Kounouz chacun. Est-ce possible ?",
@@ -371,7 +371,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu sais qu’un achat important arrive demain. Est-il utile de garder de l’argent aujourd’hui ?",
@@ -395,7 +395,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un jouet coûte 6 Kounouz et sa livraison 2. Combien coûte-t-il au total ?",
@@ -419,7 +419,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu as déjà deux jouets semblables et tu en veux un troisième. Est-ce plutôt un besoin ou une envie ?",
@@ -443,7 +443,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu peux dépenser 9 Kounouz sur 10 ou seulement 6. Quelle option garde la plus grande réserve ?",
@@ -467,7 +467,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu veux atteindre 12 Kounouz. Tu en as déjà 9. Combien manque-t-il ?",
@@ -491,7 +491,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu n’as assez que pour une chose : réparer ton cartable ou acheter une décoration. Que choisis-tu d’abord ?",
@@ -515,7 +515,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu pars acheter du pain. Pourquoi prendre seulement l’argent nécessaire peut-il aider ?",
@@ -539,7 +539,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu utilises toutes tes économies pour un jouet. Qu’est-ce que tu abandonnes peut-être ?",
@@ -563,7 +563,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu veux acheter un objet fragile sans savoir s’il fonctionne. Est-il prudent de vérifier avant de payer ?",
@@ -587,7 +587,7 @@
       "difficulty": 2,
       "ageBand": "5-6",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu reçois 10 Kounouz et tu en dépenses 4. Ton argent a-t-il augmenté ou diminué après la dépense ?",

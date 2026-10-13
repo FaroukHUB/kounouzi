@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 13+. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 4 ou 5. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 13+. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 4 ou 5. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. VALIDÉ PAR L'AUTEUR le 2026-10-13 : ces cartes sont désormais servies en partie. `arReview` reste « provisional » — c'est un champ DISTINCT, qui atteste d'une relecture par un arabophone et non de la relecture de l'auteur ; il sera passé à « reviewed » quand cette relecture aura eu lieu.",
   "$gabarit": {
     "id": "LOG-13p-001",
     "version": 1,
@@ -35,7 +35,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "A dit : « B ment. » B dit : « C ment. » C dit : « A et B mentent. » Une seule personne dit vrai. Qui ?",
@@ -59,7 +59,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Quatre personnes A, B, C, D s’assoient en ligne. A doit être avant B, C après B, et D avant A. Qui est forcément premier ?",
@@ -83,7 +83,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un code est 2, 4 ou 6. Il n’est pas pair supérieur à 4. Il n’est pas 2. Quel est le code ?",
@@ -107,7 +107,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "2, 3, 5, 8, 13… quel nombre vient ensuite ?",
@@ -131,7 +131,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tous les membres du groupe A appartiennent au groupe B. Aucun membre de B n’appartient à C. Lina est dans A. Peut-elle être dans C ?",
@@ -155,7 +155,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Projet A coûte moins que B mais rapporte autant. Si seul le coût compte, lequel est plus avantageux ?",
@@ -179,7 +179,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Sur un plan, A est au nord de B, C à l’est de A, et D au sud de C. D peut-il être à l’est de B ?",
@@ -203,7 +203,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Cinq personnes veulent former tous les binômes possibles. Combien de binômes différents ?",
@@ -227,7 +227,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un train électrique roule vers le nord. Le vent souffle vers l’ouest. De quel côté part la fumée ?",
@@ -251,7 +251,7 @@
       "difficulty": 4,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une règle dit : « Si A est vrai, alors B est vrai. » A est vrai et B est faux. La règle est-elle respectée ?",
@@ -275,7 +275,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "A arrive avant B. C arrive après D. D arrive après B. Qui arrive forcément avant C ?",
@@ -299,7 +299,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Trois coffres A, B, C. Une seule inscription est vraie : A dit « trésor ici », B dit « trésor dans C », C dit « trésor pas dans A ». Le trésor est dans A. Combien d’inscriptions sont vraies ?",
@@ -323,7 +323,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "1, 2, 6, 24… quel nombre vient ensuite ?",
@@ -347,7 +347,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Cinq sièges. A doit être immédiatement à gauche de B. C ne peut être à une extrémité. Si A est en 2, où est B ?",
@@ -371,7 +371,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tous les X sont Y. Certains Y sont Z. Peut-on conclure que certains X sont Z ?",
@@ -395,7 +395,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "A est moins risqué que B. B rapporte plus que C. Peut-on conclure que A rapporte moins que C ?",
@@ -419,7 +419,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Sur une grille, tu vas 2 cases au nord puis 2 au sud. Où es-tu par rapport au départ ?",
@@ -443,7 +443,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Six personnes sont réparties en deux groupes de trois. Combien de personnes changent de groupe si on échange une personne de chaque groupe ?",
@@ -467,7 +467,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une horloge sonne 6 coups en 5 secondes. En supposant des intervalles réguliers, combien d’intervalles séparent les 6 coups ?",
@@ -491,7 +491,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "A dit : « Nous disons tous les deux faux. » B ne dit rien. La phrase de A peut-elle être vraie ?",
@@ -515,7 +515,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "A est avant C. B est après A mais avant D. C est après D. Quel ordre est compatible ?",
@@ -539,7 +539,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un nombre est 12, 18 ou 24. Il est divisible par 6 mais pas par 4. Lequel est-ce ?",
@@ -563,7 +563,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "81, 27, 9, 3… quel nombre vient ensuite ?",
@@ -587,7 +587,7 @@
       "difficulty": 5,
       "ageBand": "13+",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Trois tâches A, B, C. A doit être faite avant B, et C seulement après B. Quelle tâche doit être première ?",

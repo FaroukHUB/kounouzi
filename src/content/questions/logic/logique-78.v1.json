@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 7-8. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — logic, tranche 7-8. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. VALIDÉ PAR L'AUTEUR le 2026-10-13 : ces cartes sont désormais servies en partie. `arReview` reste « provisional » — c'est un champ DISTINCT, qui atteste d'une relecture par un arabophone et non de la relecture de l'auteur ; il sera passé à « reviewed » quand cette relecture aura eu lieu.",
   "$gabarit": {
     "id": "LOG-78-001",
     "version": 1,
@@ -35,7 +35,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "3, 6, 9, ?, 15 : quel nombre manque ?",
@@ -59,7 +59,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Lina est arrivée avant Sami, et Sami avant Adam. Qui est arrivé en premier ?",
@@ -83,7 +83,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Le trésor est dans A, B ou C. Il n’est pas dans A ni dans C. Où est-il ?",
@@ -107,7 +107,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tous les objets de l’étagère sont des livres. Je prends un objet sur l’étagère. Qu’est-ce que c’est ?",
@@ -131,7 +131,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Sami est plus rapide qu’Adam. Adam est plus rapide que Youssef. Qui est le plus lent ?",
@@ -155,7 +155,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Quatre enfants ont chacun un ballon. Combien y a-t-il de ballons ?",
@@ -179,7 +179,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu dépasses la personne qui est troisième dans une course. Quelle place prends-tu ?",
@@ -203,7 +203,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une clé est dans une enveloppe, et l’enveloppe est dans une boîte. Où est la clé ?",
@@ -227,7 +227,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Adam ne peut pas être premier. Lina doit être devant Sami. Qui peut être premier ?",
@@ -251,7 +251,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tous les carrés sont bleus. Cette forme est un carré. Peut-elle être rouge ?",
@@ -275,7 +275,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "A, B, A, B, A… quelle lettre vient ensuite ?",
@@ -299,7 +299,7 @@
       "difficulty": 2,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Il reste deux gobelets : un vert et un jaune. La bille n’est pas sous le vert. Où est-elle ?",
@@ -323,7 +323,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Trois boîtes contiennent deux cubes chacune. Combien y a-t-il de cubes en tout ?",
@@ -347,7 +347,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Aujourd’hui est mercredi. Quel jour était hier ?",
@@ -371,7 +371,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une tour rouge est plus haute que la bleue, et la bleue plus haute que la verte. Laquelle est la plus haute ?",
@@ -395,7 +395,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Aucun jouet de cette boîte n’est en métal. Cette petite voiture vient de cette boîte. Peut-elle être en métal ?",
@@ -419,7 +419,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "La porte est fermée à clé. On dit en même temps qu’elle est ouverte. Les deux phrases peuvent-elles être vraies ?",
@@ -443,7 +443,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "2, 5, 8, 11… quel nombre vient ensuite ?",
@@ -467,7 +467,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un coq pond-il des œufs ?",
@@ -491,7 +491,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Le livre est sous le coussin, et le coussin est sur la chaise. Le livre est-il sur la chaise ?",
@@ -515,7 +515,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Trois places : gauche, milieu, droite. Sami ne veut ni gauche ni droite. Où doit-il s’asseoir ?",
@@ -539,7 +539,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un animal est soit un chat soit un chien. Il ne miaule pas. Lequel est-ce probablement dans cette énigme ?",
@@ -563,7 +563,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Deux enfants ont chacun deux chaussures. Combien de chaussures au total ?",
@@ -587,7 +587,7 @@
       "difficulty": 3,
       "ageBand": "7-8",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Dans une file, Youssef est derrière Lina mais devant Adam. Qui est au milieu ?",

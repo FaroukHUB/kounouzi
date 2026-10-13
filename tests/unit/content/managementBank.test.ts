@@ -121,8 +121,12 @@ describe("Gestion V1 — régime documentaire et jouabilité", () => {
       expect(playabilityIssues(q, gestion), q.id).toEqual([]);
       expect(isPlayable(q, gestion), q.id).toBe(true);
     }
-    expect(slotsGestion("child")).toHaveLength(30);
-    expect(slotsGestion("adult")).toHaveLength(30);
+    // La banque V1 garde ses 30 cartes, et CHACUNE est servie ; le total servi a
+    // grandi avec les 120 cartes par tranche d'âge validées par l'auteur.
+    const servies = new Set(slotsGestion("child").map((s) => s.slotId));
+    for (const q of MANAGEMENT_BANK) expect(servies.has(`curated:${q.id}`), q.id).toBe(true);
+    expect(slotsGestion("child").length).toBe(slotsGestion("adult").length);
+    expect(slotsGestion("child").length).toBeGreaterThanOrEqual(MANAGEMENT_BANK.length);
     expect(contentRegistry().availableCategories("child")).toContain("management");
     const q = contentRegistry().resolve({ categoryId: "management", difficulty: 2, profileType: "child", variation: 0 })!;
     expect(q.ref.origin).toBe("curated");
@@ -209,10 +213,11 @@ describe("Gestion V1 — non-régression des autres catégories", () => {
     // Mathématiques : 30 créneaux algorithmiques, sans source.
     expect(registry.slots("child").filter((s) => s.categoryId === "maths")).toHaveLength(30);
     expect(categoryById("maths")).toMatchObject({ requiresSource: false, generationMode: "algorithmic" });
-    // Histoire & Géographie : sourcée depuis l'ADR 0045, 19 cartes servies ; les 32 cartes sont servies.
+    // Histoire & Géographie : sourcée depuis l'ADR 0045. 32 cartes V1 + 109 cartes
+    // par tranche d'âge, validées par l'auteur, toutes servies.
     expect(categoryById("geography")).toMatchObject({ requiresSource: true, generationMode: "curated" });
-    expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(32);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "validated")).toHaveLength(32);
+    expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(141);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "validated")).toHaveLength(141);
     // Les catégories sans contenu validé ne servent toujours rien.
     for (const id of ["history", "arabic", "culture"]) {
       expect(registry.slots("child").filter((s) => s.categoryId === id), id).toHaveLength(0);

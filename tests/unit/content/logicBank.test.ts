@@ -124,8 +124,13 @@ describe("Logique V1 — ce qui est servi et ce qui attend", () => {
       expect(playabilityIssues(q, categoryById("logic")), q.id).toEqual([]);
       expect(isPlayable(q, categoryById("logic")), q.id).toBe(true);
     }
-    expect(slotsLogique("child")).toHaveLength(30);
-    expect(slotsLogique("adult")).toHaveLength(30);
+    // La banque V1 garde ses 30 cartes, et CHACUNE est servie. Le total servi, lui,
+    // a grandi : les 120 cartes par tranche d'âge validées par l'auteur s'y ajoutent.
+    // On vérifie donc l'appartenance, pas un total figé qui bougera à chaque apport.
+    const serviesEnfant = new Set(slotsLogique("child").map((s) => s.slotId));
+    for (const q of LOGIC_BANK) expect(serviesEnfant.has(`curated:${q.id}`), q.id).toBe(true);
+    expect(slotsLogique("child").length).toBe(slotsLogique("adult").length);
+    expect(slotsLogique("child").length).toBeGreaterThanOrEqual(LOGIC_BANK.length);
     expect(contentRegistry().availableCategories("child")).toContain("logic");
     const q = contentRegistry().resolve({ categoryId: "logic", difficulty: 2, profileType: "child", variation: 0 })!;
     expect(q.ref.origin).toBe("curated");
@@ -137,8 +142,11 @@ describe("Logique V1 — ce qui est servi et ce qui attend", () => {
     const toutes = new Set(LOGIC_BANK.map((q) => q.knowledgeNodeId));
     const servies = new Set(slotsLogique().map((s) => s.knowledgeNodeId));
     expect([...servies].sort()).toEqual([...toutes].sort());
-    // Chaque notion garde toutes ses cartes : `comparaison` sert LOG-003, LOG-016 et LOG-020.
-    expect(slotsLogique().filter((s) => s.knowledgeNodeId === "logique.comparaison")).toHaveLength(3);
+    // Chaque notion garde toutes ses cartes : `comparaison` sert LOG-003, LOG-016 et
+    // LOG-020. Les banques par tranche d'âge réutilisent les mêmes notions — c'est
+    // voulu, la mémoire pédagogique suit la NOTION — donc on compte dans la banque V1.
+    const v1 = new Set(LOGIC_BANK.filter((q) => q.knowledgeNodeId === "logique.comparaison").map((q) => `curated:${q.id}`));
+    expect(slotsLogique().filter((s) => v1.has(s.slotId))).toHaveLength(3);
   });
 });
 
@@ -197,14 +205,13 @@ describe("Logique V1 — non-régression des autres catégories", () => {
     const registry = contentRegistry();
     expect(registry.slots("child").filter((s) => s.categoryId === "religion")).toHaveLength(375);
     expect(registry.slots("child").filter((s) => s.categoryId === "maths")).toHaveLength(30);
-    expect(registry.slots("child").filter((s) => s.categoryId === "management")).toHaveLength(30);
-    // Histoire & Géographie : 32 cartes servies. Les cartes écrites par l'auteur
-    // sont des BROUILLONS tant qu'il ne les a pas relues : elles n'entrent pas
-    // dans ce qui est distribué, quel que soit leur nombre — et ce nombre
-    // grandit à chaque livraison, donc on ne le fige pas ici.
-    expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(32);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "draft").length).toBeGreaterThan(0);
-    expect(CURATED_BANK.filter((q) => q.categoryId === "management" && q.status === "validated")).toHaveLength(30);
+    expect(registry.slots("child").filter((s) => s.categoryId === "management")).toHaveLength(150);
+    // Histoire & Géographie et Gestion ont été complétées par tranche d'âge puis
+    // VALIDÉES par l'auteur : 32 + 109 cartes servies en géographie, 30 + 120 en
+    // gestion. Plus aucun brouillon n'attend : ce qui est écrit est distribué.
+    expect(registry.slots("child").filter((s) => s.categoryId === "geography")).toHaveLength(141);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "geography" && q.status === "draft")).toHaveLength(0);
+    expect(CURATED_BANK.filter((q) => q.categoryId === "management" && q.status === "validated")).toHaveLength(150);
     for (const id of ["history", "arabic", "culture"]) {
       expect(registry.slots("child").filter((s) => s.categoryId === id), id).toHaveLength(0);
     }

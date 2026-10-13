@@ -1,5 +1,5 @@
 {
-  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — management, tranche 9-10. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un.",
+  "$comment": "PROPOSITIONS À RELIRE HUMAINEMENT — management, tranche 9-10. 24 cartes ajoutées pour compléter la banque existante vers la cible de 30 questions par tranche. Toutes restent en status=draft et arReview=provisional : aucune ne doit être servie avant relecture humaine. Difficulté autorisée pour cette tranche : 2 ou 3. Les explications FR et AR sont présentes. Aucune source externe requise pour cette catégorie. Provenance : cartes fournies par l'auteur du jeu ; aucune n'a été écrite ni retouchée par un assistant. Vérifié à l'installation : tranche d'âge et difficulté conformes au fichier, explication FR et AR présentes, identifiants uniques dans toute la banque, chaque sourceKeys résolue dans le catalogue du fichier, et les calculs des explications recalculés un à un. VALIDÉ PAR L'AUTEUR le 2026-10-13 : ces cartes sont désormais servies en partie. `arReview` reste « provisional » — c'est un champ DISTINCT, qui atteste d'une relecture par un arabophone et non de la relecture de l'auteur ; il sera passé à « reviewed » quand cette relecture aura eu lieu.",
   "$gabarit": {
     "id": "GEST-910-001",
     "version": 1,
@@ -35,7 +35,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu disposes de 40 Kounouz. Tu prévois 15 pour un livre, 10 pour un cadeau et 8 pour le transport. Combien reste-t-il ?",
@@ -59,7 +59,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu veux 50 Kounouz et tu en as 32. Combien manque-t-il ?",
@@ -83,7 +83,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi ne faut-il pas confondre tout l’argent disponible avec l’argent réellement libre de dépenser ?",
@@ -107,7 +107,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un objet coûte 24 Kounouz, avec 4 de livraison et 2 d’emballage obligatoire. Quel est le coût total ?",
@@ -131,7 +131,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu dois remplacer une lampe cassée et tu veux aussi une décoration. Le budget ne permet qu’un achat. Que prioriser ?",
@@ -155,7 +155,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une marque plus chère rend-elle automatiquement un produit plus nécessaire ?",
@@ -179,7 +179,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi fixer une limite de dépense avant d’entrer dans un magasin peut-il aider ?",
@@ -203,7 +203,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un produit n’a aucune garantie et semble fragile. Que faut-il prendre en compte avant de l’acheter ?",
@@ -227,7 +227,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu reçois 30 Kounouz et en dépenses 18. Quel est ton résultat net sur cette opération ?",
@@ -251,7 +251,7 @@
       "difficulty": 2,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu utilises 25 Kounouz pour une sortie. Que ne peux-tu plus faire avec ces mêmes 25 Kounouz ?",
@@ -275,7 +275,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Ton budget mensuel est 100 Kounouz. Tu as déjà dépensé 72. Combien peux-tu encore dépenser sans dépasser ?",
@@ -299,7 +299,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu épargnes 8 Kounouz par semaine. En combien de semaines atteins-tu au moins 32 ?",
@@ -323,7 +323,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Une dépense surprise de 15 Kounouz arrive. À quoi sert une réserve de 20 ?",
@@ -347,7 +347,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Magasin A : 30 Kounouz livraison comprise. Magasin B : 26 + 6 de livraison. Lequel revient moins cher ?",
@@ -371,7 +371,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu sais que trois dépenses reviennent chaque semaine. Pourquoi les noter ?",
@@ -395,7 +395,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Deux dépenses sont toutes les deux utiles, mais l’une doit être payée aujourd’hui et l’autre peut attendre une semaine. Laquelle traiter d’abord ?",
@@ -419,7 +419,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu achètes un objet uniquement parce qu’il est en promotion, alors que tu n’en avais pas besoin. As-tu forcément économisé ?",
@@ -443,7 +443,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu places toute ta réserve dans un seul achat. Quel est le principal risque ?",
@@ -467,7 +467,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Sur une semaine, tu reçois 50 Kounouz et dépenses 35. Ton solde hebdomadaire est-il positif ou négatif ?",
@@ -491,7 +491,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu choisis une activité gratuite qui prend tout ton après-midi au lieu d’un petit travail payé. Même sans dépense d’argent, y a-t-il un coût d’opportunité ?",
@@ -515,7 +515,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Un appareil coûte peu à l’achat mais nécessite des piles très souvent. Que faut-il comparer ?",
@@ -539,7 +539,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Pourquoi séparer une catégorie « transport » dans un budget peut-il être utile ?",
@@ -563,7 +563,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Tu reçois une somme imprévue. Pourquoi en épargner une partie avant de décider du reste ?",
@@ -587,7 +587,7 @@
       "difficulty": 3,
       "ageBand": "9-10",
       "audienceScope": "all",
-      "status": "draft",
+      "status": "validated",
       "arReview": "provisional",
       "prompt": {
         "fr": "Deux produits coûtent pareil, mais l’un a de nombreux frais possibles après l’achat. Sont-ils réellement équivalents ?",
