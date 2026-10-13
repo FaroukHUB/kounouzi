@@ -46,9 +46,13 @@
 @utility bg-table {
   /* La carte du plateau sert aussi de fond de page, sous un voile sombre : même
      univers que le plateau, mais assez éteinte pour que le plateau net se
-     détache. L'image est déjà chargée pour le plateau, le fond ne coûte rien. */
+     détache. L'image est déjà chargée pour le plateau, le fond ne coûte rien.
+     ⚠️ Ce chemin DOIT rester celui de `ASSETS.boardCenter` : le CSS ne peut pas
+     lire la constante TypeScript, donc un test vérifie que les deux disent la
+     même chose. Sans lui, changer l'illustration du plateau laissait le fond de
+     page sur l'ancienne — deux images différentes à l'écran en même temps. */
   background-color: #0c2430;
-  background-image: linear-gradient(rgba(12, 22, 30, 0.72), rgba(12, 22, 30, 0.78)), url("/kounouzi/board/center-carte.v5.webp");
+  background-image: linear-gradient(rgba(12, 22, 30, 0.72), rgba(12, 22, 30, 0.78)), url("/kounouzi/board/center-carte.v6.webp");
   background-size: cover, cover;
   background-position: center, center;
   background-attachment: fixed, fixed;
