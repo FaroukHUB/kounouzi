@@ -4,7 +4,7 @@ export { WebSpeechNarrator } from "./WebSpeechNarrator";
 export { CloudNarrator, type AudioLike, type CloudAvailability, type CloudNarratorOptions, type CloudReason } from "./CloudNarrator";
 export { voiceKey, hash53, normalizeVoiceText } from "./voiceKey";
 export { handleVoiceRequest, voiceConfigured, missingVoiceEnv, VOICE_ENV, voiceQuerySchema, settingsForTone, refusalCause, type RefusalCause, type VoiceRouteDeps } from "./voiceRoute";
-export { utteranceFor, cleVariante, varianteDe, rangDeTour } from "./narrationScript";
+export { utteranceFor, cleVariante, varianteDe, rangDeTour, listeDeNoms } from "./narrationScript";
 export { voiceHold, type VoiceHoldOptions } from "./voiceHold";
 export { annonce } from "./annonce";
 export { splitChoices, questionUtterances, pronounceable, segmentsByScript, planUtterances, EMPTY_LEXICON, type Choice, type SplitPrompt, type PronunciationLexicon } from "./speechText";

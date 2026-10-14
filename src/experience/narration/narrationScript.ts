@@ -54,10 +54,36 @@ export function cleVariante(base: CleBase, rang: number): CleVariante {
   return `${base}.${varianteDe(rang, VARIANTES[base])}` as CleVariante;
 }
 
+/**
+ * LA LISTE DES PRÉNOMS, dite d'un seul souffle.
+ *
+ * « Mariam », « Mariam et Adam », « Mariam, Adam et Yasmine »… La phrase part
+ * ENTIÈRE chez le fournisseur de voix : on ne colle jamais bout à bout des
+ * fichiers audio de prénoms, ce qui s'entendrait immédiatement — chaque bout
+ * aurait sa propre intonation de fin de phrase.
+ *
+ * Fonction pure : l'ordre des joueurs est celui des sièges, il est conservé, et
+ * aucun prénom n'est perdu. Les prénoms vides sont ignorés plutôt que de
+ * produire « Mariam,  et Adam ».
+ */
+export function listeDeNoms(noms: readonly string[], etMot = "et"): string {
+  const propres = noms.map((n) => n.trim()).filter((n) => n !== "");
+  if (propres.length === 0) return "";
+  if (propres.length === 1) return propres[0]!;
+  return `${propres.slice(0, -1).join(", ")} ${etMot} ${propres[propres.length - 1]!}`;
+}
+
 export function utteranceFor(event: GameEvent, state: GameState, locale: Locale): Utterance | null {
   const name = (playerId: string) => state.players.find((p) => p.id === playerId)?.displayName ?? "";
   const dit = (text: string, important = false): Utterance => (important ? { text, lang: locale, important: true } : { text, lang: locale });
   switch (event.type) {
+    // L'ACCUEIL, dit une seule fois. `GameCreated` n'est émis qu'à la création
+    // d'une partie ; reprendre une partie sauvegardée ne rejoue aucun événement
+    // (voir `gameStore`), donc aucun verrou n'est nécessaire ici. Les prénoms
+    // viennent de l'ÉTAT, dans l'ordre des sièges — l'événement ne porte que des
+    // identifiants.
+    case "GameCreated":
+      return dit(t(locale, "narration.gameStart", { names: listeDeNoms(state.players.map((p) => p.displayName)) }), true);
     case "TurnStarted":
       return dit(t(locale, cleVariante("narration.turn", rangDeTour(event.turnNumber, state.players.length)), { name: name(event.playerId) }), true);
     case "TurnSkipped":

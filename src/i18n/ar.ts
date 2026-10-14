@@ -462,4 +462,5 @@ export const ar: Dictionary = {
   "settings.narration.refused.unknown": "رفض ElevenLabs دون بيان السبب.",
   "settings.build": "النسخة المنشورة: {build}",
   "settings.narration.refused.payment": "اشتراكك في ElevenLabs لا يغطي هذا الطلب. قد يكون رصيدك سليمًا: المشكلة في الاشتراك لا في الرصيد. يلزم اشتراك مدفوع (من 6 دولارات شهريًا) أو وسيلة دفع مسجّلة.",
+  "narration.gameStart": "السلام عليكم يا عائلة كنوزي! مرحبًا بكم في كنوزي! معنا اليوم {names}. يسّر الله لكم هذه اللعبة… نلعب، نتعلّم، وندير… هيا، لنبدأ!",
 };

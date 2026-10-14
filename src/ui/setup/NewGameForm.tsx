@@ -14,7 +14,8 @@ import { MAX_PLAYERS, MIN_PLAYERS, type GameSetup } from "@/core/game";
 import { ADULT_INITIAL_LEVELS, DEFAULT_ADULT_INITIAL_LEVEL, type AdultInitialLevel, type GameId, type PlayerId, type ProfileType } from "@/core/shared";
 import type { PlayerProfileDraft, SavedPlayerProfile } from "@/data/ports";
 import { DEFAULT_LOCALE, t } from "@/i18n";
-import { gameStore, playerProfileRepository } from "@/state/appStores";
+import { CloudNarrator } from "@/experience/narration";
+import { narrator, gameStore, playerProfileRepository } from "@/state/appStores";
 import { AvatarBadge } from "@/ui/primitives/AvatarBadge";
 import { Button } from "@/ui/primitives/Button";
 
@@ -68,6 +69,11 @@ export function NewGameForm() {
     });
 
   const submit = async () => {
+    // L'ACCUEIL EST LA PREMIÈRE PHRASE DE LA PARTIE, et sur téléphone le son
+    // reste bloqué tant qu'aucun geste n'a eu lieu. Ce clic EST ce geste : on
+    // débloque l'audio ici, pendant qu'il est encore valable. Attendre l'arrivée
+    // sur le plateau serait trop tard — l'accueil y serait déjà joué, en muet.
+    if (narrator instanceof CloudNarrator) narrator.unlock();
     if (rows.some((r) => r.displayName.trim() === "")) return setError(t(DEFAULT_LOCALE, "setup.errors.name"));
     for (const r of rows) {
       if (r.profileType === "child" && r.birthYear !== "") {
