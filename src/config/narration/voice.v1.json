@@ -1,5 +1,5 @@
 {
-  "$comment": "Voix en ligne Kounouzi (ADR 0036). La clé ElevenLabs et l'identifiant de voix ne sont JAMAIS ici : variables d'environnement du serveur (ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID, ELEVENLABS_MODEL_ID). Les phrases fixes listées dans `phrases` sont pré-générées par `pnpm voice:generate` et servies depuis `public/kounouzi/audio/voix/`. TONS (ADR 0056) : le ton ne se juge pas en lisant des nombres, il s'écoute. Chaque ton est une donnée nommée, choisie dans les réglages et essayée tout de suite avec « Essayer la voix » — plus besoin de redéployer pour entendre la différence. Le client n'envoie que l'IDENTIFIANT du ton : le serveur retrouve les valeurs ICI, il ne reçoit jamais de nombres d'un navigateur. Une voix très « stable » lit à plat, c'est ce qui fait dire « on dirait un robot » ; moins de stabilité et plus de style donnent une voix qui encourage, au prix d'une lecture moins régulière. `rate` fait partie du ton : un guide pour enfants parle un peu moins vite. ATTENTION : le plus gros levier n'est pas ici mais dans ELEVENLABS_VOICE_ID — une voix de narrateur adulte restera une voix de narrateur adulte, quels que soient ces réglages.",
+  "$comment": "Voix en ligne Kounouzi (ADR 0036). La clé ElevenLabs et l'identifiant de voix ne sont JAMAIS ici : variables d'environnement du serveur (ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID, ELEVENLABS_MODEL_ID). Les phrases fixes listées dans `phrases` sont pré-générées par `pnpm voice:generate` et servies depuis `public/kounouzi/audio/voix/`. Une clé n'y entre QUE si elle existe dans le dictionnaire FR et ne contient AUCUN gabarit : une phrase qui nomme un joueur ou un montant ne peut pas être enregistrée à l'avance, elle est dite à la demande. La liste a contenu sept clés impossibles — quatre avec `{name}` et trois disparues quand les félicitations sont devenues des variantes (ADR 0051) — et le script refusait de démarrer, ce qui laissait le manifeste vide sans que personne le voie. Un test interdit désormais ce cas. TONS (ADR 0056) : le ton ne se juge pas en lisant des nombres, il s'écoute. Chaque ton est une donnée nommée, choisie dans les réglages et essayée tout de suite avec « Essayer la voix » — plus besoin de redéployer pour entendre la différence. Le client n'envoie que l'IDENTIFIANT du ton : le serveur retrouve les valeurs ICI, il ne reçoit jamais de nombres d'un navigateur. Une voix très « stable » lit à plat, c'est ce qui fait dire « on dirait un robot » ; moins de stabilité et plus de style donnent une voix qui encourage, au prix d'une lecture moins régulière. `rate` fait partie du ton : un guide pour enfants parle un peu moins vite. ATTENTION : le plus gros levier n'est pas ici mais dans ELEVENLABS_VOICE_ID — une voix de narrateur adulte restera une voix de narrateur adulte, quels que soient ces réglages.",
   "version": 1,
   "endpoint": "/api/voix",
   "manifestUrl": "/kounouzi/audio/voix/manifest.json",
@@ -80,23 +80,16 @@
     }
   ],
   "phrases": [
-    "narration.passedStart",
-    "narration.lastRound",
-    "narration.halt",
-    "narration.halt.lifted",
+    "narration.challenge.ohNo",
+    "narration.challenge.skipped",
+    "narration.duel.draw",
     "narration.halt.lost",
+    "narration.investment.lose",
+    "narration.lastRound",
+    "narration.passedStart",
+    "narration.recitation.mastered",
     "narration.revisit",
     "narration.shield",
-    "narration.investment.lose",
-    "narration.result.correct",
-    "narration.result.partial",
-    "narration.result.incorrect",
-    "narration.duel.draw",
-    "narration.challenge.ohNo",
-    "narration.challenge.success",
-    "narration.challenge.failure",
-    "narration.challenge.skipped",
-    "narration.recitation.mastered",
     "narration.year"
   ]
 }
