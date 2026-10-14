@@ -247,6 +247,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         narrationMode={narrator.mode?.() ?? "none"}
         narrationReason={narrator instanceof CloudNarrator ? narrator.availabilityReason() : undefined}
         narrationMissingEnv={narrator instanceof CloudNarrator ? narrator.missingEnv() : undefined}
+        narrationRefusal={narrator instanceof CloudNarrator ? narrator.refusal() : undefined}
         ecouteReason={ecouteur.raison()}
         // Après avoir corrigé la configuration du serveur, on peut revérifier sans relancer une partie.
         onTestVoice={() => {

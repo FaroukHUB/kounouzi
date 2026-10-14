@@ -454,4 +454,9 @@ export const fr = {
   "card.ecoute.hint": "Dis « correct », « presque » ou « faux »",
   "settings.voiceTone": "Ton de la voix",
   "settings.narration.why.missing": "Variable(s) manquante(s) sur le serveur : {names}. À ajouter dans Vercel, puis REDÉPLOYER.",
+  "settings.narration.refused.key": "La clé ELEVENLABS_API_KEY est refusée : vérifie qu'elle est complète, sans espace, et encore active chez ElevenLabs.",
+  "settings.narration.refused.voice": "L'identifiant ELEVENLABS_VOICE_ID est introuvable chez ElevenLabs : la voix doit figurer dans TES voix (My Voices), pas seulement dans la bibliothèque publique.",
+  "settings.narration.refused.quota": "Le quota de caractères ElevenLabs est épuisé : il repartira au prochain cycle, ou il faut changer de formule.",
+  "settings.narration.refused.request": "ElevenLabs a refusé la demande elle-même : souvent le modèle ou la langue. Essaie sans ELEVENLABS_MODEL_ID.",
+  "settings.narration.refused.unknown": "ElevenLabs a refusé sans dire pourquoi.",
 } as const satisfies Record<string, string>;

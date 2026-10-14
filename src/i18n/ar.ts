@@ -455,4 +455,9 @@ export const ar: Dictionary = {
   "card.ecoute.hint": "قل «correct» أو «presque» أو «faux»",
   "settings.voiceTone": "نبرة الصوت",
   "settings.narration.why.missing": "متغيّرات ناقصة على الخادم: {names}. أضِفها في Vercel ثم أعِد النشر.",
+  "settings.narration.refused.key": "رُفِض مفتاح ELEVENLABS_API_KEY: تأكّد أنه كامل وبلا فراغات وما زال فعّالًا لدى ElevenLabs.",
+  "settings.narration.refused.voice": "معرّف ELEVENLABS_VOICE_ID غير موجود لدى ElevenLabs: يجب أن يكون الصوت ضمن أصواتك (My Voices) لا في المكتبة العامة فقط.",
+  "settings.narration.refused.quota": "نفد رصيد الحروف لدى ElevenLabs: يعود في الدورة القادمة، أو يلزم تغيير الاشتراك.",
+  "settings.narration.refused.request": "رفض ElevenLabs الطلب نفسه: غالبًا النموذج أو اللغة. جرّب بدون ELEVENLABS_MODEL_ID.",
+  "settings.narration.refused.unknown": "رفض ElevenLabs دون بيان السبب.",
 };

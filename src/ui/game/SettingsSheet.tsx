@@ -3,6 +3,7 @@
 import { CHALLENGE_TOGGLES, type ChallengeSettings } from "@/core/game";
 import { VOICE_TONES } from "@/config/narration";
 import type { EcouteReason } from "@/experience/ecoute";
+import { refusalCause } from "@/experience/narration";
 import type { CloudReason, NarrationMode } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { NARRATION_RATES, useSessionStore } from "@/state/sessionStore";
@@ -18,6 +19,8 @@ export interface SettingsSheetProps {
   readonly narrationReason?: CloudReason | undefined;
   /** Variables d'environnement que le SERVEUR dit manquantes : on les nomme, au lieu de dire « il faut les deux ». */
   readonly narrationMissingEnv?: readonly string[] | undefined;
+  /** Ce que le FOURNISSEUR a répondu en refusant : sert à dire quoi corriger, au lieu d'énumérer trois causes. */
+  readonly narrationRefusal?: { readonly status?: number | undefined; readonly detail?: string | undefined } | undefined;
   /** Redemande au serveur si la voix en ligne existe, puis dit une phrase si elle répond. */
   readonly onTestVoice?: (() => void) | undefined;
   readonly onReplay: () => void;
@@ -89,6 +92,12 @@ export function SettingsSheet(props: SettingsSheetProps) {
               {props.narrationMissingEnv && props.narrationMissingEnv.length > 0 ? (
                 <span className="mt-1 block font-semibold" data-testid="narration-missing-env">
                   {t(DEFAULT_LOCALE, "settings.narration.why.missing", { names: props.narrationMissingEnv.join(", ") })}
+                </span>
+              ) : null}
+              {props.narrationReason === "refused" && props.narrationRefusal ? (
+                <span className="mt-1 block font-semibold" data-testid="narration-refusal" data-cause={refusalCause(props.narrationRefusal)}>
+                  {t(DEFAULT_LOCALE, `settings.narration.refused.${refusalCause(props.narrationRefusal)}`)}
+                  {props.narrationRefusal.detail ? ` (${props.narrationRefusal.detail})` : props.narrationRefusal.status ? ` (${props.narrationRefusal.status})` : ""}
                 </span>
               ) : null}
             </p>

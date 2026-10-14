@@ -80,6 +80,8 @@ export class CloudNarrator implements NarrationService {
   private reason: CloudReason = "none";
   /** Variables d'environnement nommées par le serveur comme manquantes (ADR 0059). */
   private missing: readonly string[] = [];
+  /** Ce que le FOURNISSEUR a répondu quand il a refusé : code HTTP et son propre repère. */
+  private refus: { readonly status?: number; readonly detail?: string } = {};
   private retryAt = 0;
   private manifest: Manifest | null = null;
   private manifestLoading: Promise<void> | null = null;
@@ -151,6 +153,11 @@ export class CloudNarrator implements NarrationService {
   /** Variables d'environnement que le SERVEUR dit manquantes ; vide s'il n'a rien dit. */
   missingEnv(): readonly string[] {
     return this.missing;
+  }
+
+  /** Ce que le fournisseur a répondu en refusant : code HTTP et son propre repère. */
+  refusal(): { readonly status?: number; readonly detail?: string } {
+    return this.refus;
   }
 
   stop(): void {
@@ -225,6 +232,7 @@ export class CloudNarrator implements NarrationService {
         this.missing = await lireManquantes(res);
       } else {
         this.reason = "refused";
+        this.refus = await lireRefus(res);
       }
     } catch {
       this.reason = "offline";
@@ -328,6 +336,7 @@ export class CloudNarrator implements NarrationService {
           this.missing = await lireManquantes(res);
         } else {
           this.reason = "refused";
+          this.refus = await lireRefus(res);
           this.retryAt = this.now() + this.retryAfterMs();
         }
         return false;
@@ -380,5 +389,18 @@ async function lireManquantes(res: Response): Promise<readonly string[]> {
     return Array.isArray(corps.missing) ? corps.missing.filter((x): x is string => typeof x === "string") : [];
   } catch {
     return [];
+  }
+}
+
+/** Le refus du fournisseur, relayé par notre serveur ; vide s'il n'a rien dit. */
+async function lireRefus(res: Response): Promise<{ readonly status?: number; readonly detail?: string }> {
+  try {
+    const corps = (await res.clone().json()) as { readonly status?: unknown; readonly detail?: unknown };
+    return {
+      ...(typeof corps.status === "number" ? { status: corps.status } : {}),
+      ...(typeof corps.detail === "string" ? { detail: corps.detail } : {}),
+    };
+  } catch {
+    return {};
   }
 }
