@@ -57,7 +57,7 @@ for (const p of phrases) {
   }
   if (dryRun) continue;
   if (!apiKey || !voiceId) throw new Error("ELEVENLABS_API_KEY et ELEVENLABS_VOICE_ID sont requis pour générer.");
-  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}?output_format=mp3_44100_64`, {
+  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}?output_format=${encodeURIComponent(config.outputFormat ?? 'mp3_44100_128')}`, {
     method: "POST",
     headers: { "xi-api-key": apiKey, "content-type": "application/json", accept: "audio/mpeg" },
     // Même règle que la route : `language_code` n'est envoyé que si les données

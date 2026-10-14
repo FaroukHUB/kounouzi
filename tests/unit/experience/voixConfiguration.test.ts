@@ -60,6 +60,13 @@ describe("voix en ligne — le serveur NOMME ce qui lui manque", () => {
     expect(refusalCause({ status: 404, detail: "voice_not_found" })).toBe("voice");
     expect(refusalCause({ status: 401, detail: "invalid_api_key" })).toBe("key");
     expect(refusalCause({ status: 429, detail: "quota_exceeded" })).toBe("quota");
+    // « payment_required » : l'OFFRE ne couvre pas l'appel, même avec des
+    // crédits intacts. Sans cette correspondance, le code tombait dans
+    // « refusé sans dire pourquoi » alors qu'il avait dit précisément pourquoi.
+    expect(refusalCause({ status: 402, detail: "payment_required" })).toBe("payment");
+    expect(refusalCause({ status: 401, detail: "payment_required" })).toBe("payment");
+    expect(refusalCause({ status: 402 })).toBe("payment");
+    expect(refusalCause({ status: 403, detail: "subscription_required" })).toBe("payment");
     expect(refusalCause({ status: 401 })).toBe("key");
     expect(refusalCause({ status: 403 })).toBe("key");
     expect(refusalCause({ status: 404 })).toBe("voice");
@@ -111,6 +118,21 @@ describe("voix en ligne — le serveur NOMME ce qui lui manque", () => {
     expect(Object.hasOwn(corps, "language_code")).toBe(false);
     expect(corps["model_id"]).toBe("eleven_multilingual_v2");
     expect(corps["text"]).toBe("bravo");
+  });
+
+  it("le format audio est une DONNÉE, pas une valeur écrite dans une URL", async () => {
+    // Il était figé à `mp3_44100_64` dans le code. Toutes les offres du
+    // fournisseur n'ouvrent pas tous les formats : c'était le dernier réglage
+    // deviné, et il échappait donc à toute correction sans toucher au code.
+    expect(VOICE_CONFIG.outputFormat).toBe("mp3_44100_128");
+    let url = "";
+    const espion: typeof fetch = async (u) => {
+      url = String(u);
+      return new Response(new ArrayBuffer(8), { status: 200 });
+    };
+    const env = { ELEVENLABS_API_KEY: "k", ELEVENLABS_VOICE_ID: "v" };
+    await handleVoiceRequest(new Request("https://x/api/voix?lang=fr&text=bravo"), { ...DEPS, env, fetch: espion, outputFormat: VOICE_CONFIG.outputFormat });
+    expect(url).toContain("output_format=mp3_44100_128");
   });
 
   it("la langue reste envoyée quand les données le demandent, pour un modèle qui l'accepte", async () => {

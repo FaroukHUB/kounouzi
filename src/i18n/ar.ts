@@ -461,4 +461,5 @@ export const ar: Dictionary = {
   "settings.narration.refused.request": "رفض ElevenLabs الطلب نفسه: غالبًا النموذج أو اللغة. جرّب بدون ELEVENLABS_MODEL_ID.",
   "settings.narration.refused.unknown": "رفض ElevenLabs دون بيان السبب.",
   "settings.build": "النسخة المنشورة: {build}",
+  "settings.narration.refused.payment": "اشتراكك في ElevenLabs لا يغطي هذا الطلب. قد يكون رصيدك سليمًا: المشكلة في الاشتراك لا في الرصيد. يلزم اشتراك مدفوع (من 6 دولارات شهريًا) أو وسيلة دفع مسجّلة.",
 };

@@ -39,6 +39,8 @@ export const voiceConfigSchema = z.object({
    * L'envoyer à un modèle qui n'en veut pas fait rejeter tout l'appel.
    */
   sendLanguageCode: z.boolean(),
+  /** Format audio demandé au fournisseur. Donnée : certaines offres n'ouvrent pas tous les formats. */
+  outputFormat: z.string().min(1),
   rates: z.object({ slow: z.number().positive(), normal: z.number().positive(), fast: z.number().positive() }),
   /**
    * Ton de la voix chez le fournisseur. Une voix très « stable » lit à plat —

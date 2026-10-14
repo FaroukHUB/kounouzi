@@ -460,4 +460,5 @@ export const fr = {
   "settings.narration.refused.request": "ElevenLabs a refusé la demande elle-même : souvent le modèle ou la langue. Essaie sans ELEVENLABS_MODEL_ID.",
   "settings.narration.refused.unknown": "ElevenLabs a refusé sans dire pourquoi.",
   "settings.build": "Version en ligne : {build}",
+  "settings.narration.refused.payment": "Ton offre ElevenLabs ne couvre pas cet appel. Le compteur de crédits peut être intact : c'est le FORFAIT qui est en cause, pas le solde. Il faut un forfait payant (à partir de 6 $/mois) ou une méthode de paiement enregistrée.",
 } as const satisfies Record<string, string>;

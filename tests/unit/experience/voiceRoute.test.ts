@@ -46,7 +46,9 @@ describe("route /api/voix : la clé reste au serveur, le texte est validé, l'au
     expect(res.headers.get("cache-control")).toBe("public, max-age=31536000, s-maxage=31536000, immutable");
     expect(new Uint8Array(await res.arrayBuffer())).toEqual(bytes);
     expect(calls).toHaveLength(1);
-    expect(calls[0]!.url).toBe("https://api.elevenlabs.io/v1/text-to-speech/voix-test?output_format=mp3_44100_64");
+    // Le format est une donnée ; à défaut, le format standard du fournisseur,
+    // celui qui est ouvert sur toutes les offres.
+    expect(calls[0]!.url).toBe("https://api.elevenlabs.io/v1/text-to-speech/voix-test?output_format=mp3_44100_128");
     const headers = calls[0]!.init.headers as Record<string, string>;
     expect(headers["xi-api-key"]).toBe("k-test");
     // Ce test EXIGEAIT `language_code`, c'est-à-dire le paramètre qui faisait
