@@ -169,6 +169,12 @@ export function SettingsSheet(props: SettingsSheetProps) {
             </fieldset>
           ) : null}
 
+          {/* Quelle version est en ligne ? Sans ce repère, un correctif pousse mais
+              non deploye se diagnostique comme un correctif qui ne marche pas. */}
+          <p className="border-t pt-4 text-center text-xs text-[var(--k-ink-soft)]" data-testid="build-marker">
+            {t(DEFAULT_LOCALE, "settings.build", { build: process.env.NEXT_PUBLIC_BUILD ?? "local" })}
+          </p>
+
           <div className="flex gap-2 border-t pt-4">
             <Button variant="secondary" className="flex-1" onClick={props.onTogglePause}>
               {props.paused ? t(DEFAULT_LOCALE, "game.resume") : t(DEFAULT_LOCALE, "game.pause")}

@@ -460,4 +460,5 @@ export const ar: Dictionary = {
   "settings.narration.refused.quota": "نفد رصيد الحروف لدى ElevenLabs: يعود في الدورة القادمة، أو يلزم تغيير الاشتراك.",
   "settings.narration.refused.request": "رفض ElevenLabs الطلب نفسه: غالبًا النموذج أو اللغة. جرّب بدون ELEVENLABS_MODEL_ID.",
   "settings.narration.refused.unknown": "رفض ElevenLabs دون بيان السبب.",
+  "settings.build": "النسخة المنشورة: {build}",
 };
