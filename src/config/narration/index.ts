@@ -32,6 +32,13 @@ export const voiceConfigSchema = z.object({
   languages: z.array(z.enum(LOCALES)).min(1),
   maxTextLength: z.number().int().min(1).max(5000),
   fallbackToDevice: z.boolean(),
+  /**
+   * Imposer la langue au fournisseur (`language_code`). FAUX par défaut :
+   * seuls certains modèles l'acceptent (Turbo v2.5, Flash v2.5) et
+   * `eleven_multilingual_v2` le REFUSE — il reconnaît la langue au texte.
+   * L'envoyer à un modèle qui n'en veut pas fait rejeter tout l'appel.
+   */
+  sendLanguageCode: z.boolean(),
   rates: z.object({ slow: z.number().positive(), normal: z.number().positive(), fast: z.number().positive() }),
   /**
    * Ton de la voix chez le fournisseur. Une voix très « stable » lit à plat —

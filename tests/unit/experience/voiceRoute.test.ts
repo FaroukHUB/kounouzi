@@ -49,7 +49,12 @@ describe("route /api/voix : la clé reste au serveur, le texte est validé, l'au
     expect(calls[0]!.url).toBe("https://api.elevenlabs.io/v1/text-to-speech/voix-test?output_format=mp3_44100_64");
     const headers = calls[0]!.init.headers as Record<string, string>;
     expect(headers["xi-api-key"]).toBe("k-test");
-    expect(JSON.parse(String(calls[0]!.init.body))).toEqual({ text: "C'est au tour de Maryam.", model_id: "modele-test", language_code: "fr" });
+    // Ce test EXIGEAIT `language_code`, c'est-à-dire le paramètre qui faisait
+    // rejeter chaque appel : il figeait le bug au lieu de le voir. Le modèle
+    // multilingue n'en veut pas et reconnaît la langue au texte ; on ne
+    // l'envoie donc plus, sauf si les données le demandent pour un modèle qui
+    // l'accepte (`sendLanguageCode`).
+    expect(JSON.parse(String(calls[0]!.init.body))).toEqual({ text: "C'est au tour de Maryam.", model_id: "modele-test" });
   });
 
   it("l'arabe est servi comme le français ; une panne amont donne 502 sans cache, jamais d'exception", async () => {

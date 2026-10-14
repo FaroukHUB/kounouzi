@@ -94,4 +94,34 @@ describe("voix en ligne — le serveur NOMME ce qui lui manque", () => {
     expect(res.status).toBe(502);
     expect(await res.json()).toEqual({ reason: "upstream", status: 502 });
   });
+
+  it("AUCUN language_code n'est envoyé : le modèle multilingue le refuse et rejette tout l'appel", async () => {
+    // Le bug qui a empêché la voix en ligne de parler depuis le début. Le
+    // paramètre n'est accepté que par Turbo v2.5 et Flash v2.5 ; envoyé à
+    // `eleven_multilingual_v2`, il fait rejeter la demande entière — d'où 100 %
+    // d'appels en erreur chez le fournisseur et zéro crédit consommé.
+    let corps: Record<string, unknown> = {};
+    const espion: typeof fetch = async (_u, init) => {
+      corps = JSON.parse(String(init?.body)) as Record<string, unknown>;
+      return new Response(new ArrayBuffer(8), { status: 200 });
+    };
+    const env = { ELEVENLABS_API_KEY: "k", ELEVENLABS_VOICE_ID: "v" };
+    await handleVoiceRequest(new Request("https://x/api/voix?lang=fr&text=bravo"), { ...DEPS, env, fetch: espion, sendLanguageCode: VOICE_CONFIG.sendLanguageCode });
+    expect(VOICE_CONFIG.sendLanguageCode, "la donnée doit rester à faux tant qu'on emploie le modèle multilingue").toBe(false);
+    expect(Object.hasOwn(corps, "language_code")).toBe(false);
+    expect(corps["model_id"]).toBe("eleven_multilingual_v2");
+    expect(corps["text"]).toBe("bravo");
+  });
+
+  it("la langue reste envoyée quand les données le demandent, pour un modèle qui l'accepte", async () => {
+    let corps: Record<string, unknown> = {};
+    const espion: typeof fetch = async (_u, init) => {
+      corps = JSON.parse(String(init?.body)) as Record<string, unknown>;
+      return new Response(new ArrayBuffer(8), { status: 200 });
+    };
+    const env = { ELEVENLABS_API_KEY: "k", ELEVENLABS_VOICE_ID: "v", ELEVENLABS_MODEL_ID: "eleven_turbo_v2_5" };
+    await handleVoiceRequest(new Request("https://x/api/voix?lang=ar&text=%D8%A8%D8%B1%D8%A7%D9%81%D9%88"), { ...DEPS, env, languages: ["fr", "ar"], fetch: espion, sendLanguageCode: true });
+    expect(corps["language_code"]).toBe("ar");
+    expect(corps["model_id"]).toBe("eleven_turbo_v2_5");
+  });
 });

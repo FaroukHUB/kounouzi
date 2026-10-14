@@ -60,7 +60,9 @@ for (const p of phrases) {
   const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}?output_format=mp3_44100_64`, {
     method: "POST",
     headers: { "xi-api-key": apiKey, "content-type": "application/json", accept: "audio/mpeg" },
-    body: JSON.stringify({ text: p.text, model_id: modelId, language_code: p.lang }),
+    // Même règle que la route : `language_code` n'est envoyé que si les données
+    // le demandent — le modèle multilingue le refuse et rejette tout l'appel.
+    body: JSON.stringify({ text: p.text, model_id: modelId, ...(config.sendLanguageCode ? { language_code: p.lang } : {}) }),
   });
   if (!res.ok) throw new Error(`ElevenLabs ${res.status} pour ${p.key} : ${await res.text()}`);
   mkdirSync(outDir, { recursive: true });
