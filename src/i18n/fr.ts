@@ -453,4 +453,5 @@ export const fr = {
   "settings.ecoute.why.denied": "Le micro a été refusé pour ce site. Il faut l'autoriser dans les réglages du navigateur, puis rouvrir la page.",
   "card.ecoute.hint": "Dis « correct », « presque » ou « faux »",
   "settings.voiceTone": "Ton de la voix",
+  "settings.narration.why.missing": "Variable(s) manquante(s) sur le serveur : {names}. À ajouter dans Vercel, puis REDÉPLOYER.",
 } as const satisfies Record<string, string>;

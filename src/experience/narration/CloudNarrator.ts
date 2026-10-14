@@ -78,6 +78,8 @@ export class CloudNarrator implements NarrationService {
   private last: readonly Utterance[] | null = null;
   private availability: CloudAvailability = "unknown";
   private reason: CloudReason = "none";
+  /** Variables d'environnement nommées par le serveur comme manquantes (ADR 0059). */
+  private missing: readonly string[] = [];
   private retryAt = 0;
   private manifest: Manifest | null = null;
   private manifestLoading: Promise<void> | null = null;
@@ -146,6 +148,11 @@ export class CloudNarrator implements NarrationService {
     return this.playing || this.queue.length > 0 || (this.fallback?.isSpeaking() ?? false);
   }
 
+  /** Variables d'environnement que le SERVEUR dit manquantes ; vide s'il n'a rien dit. */
+  missingEnv(): readonly string[] {
+    return this.missing;
+  }
+
   stop(): void {
     this.generation += 1;
     this.queue = [];
@@ -212,9 +219,10 @@ export class CloudNarrator implements NarrationService {
         this.availability = "available";
         this.reason = "none";
       } else if (res.status === 503) {
-        // Le serveur le dit lui-même : la clé ou l'identifiant de voix manque.
+        // Le serveur dit lui-même CE qui manque : on le garde pour l'afficher.
         this.availability = "unavailable";
         this.reason = "unconfigured";
+        this.missing = await lireManquantes(res);
       } else {
         this.reason = "refused";
       }
@@ -317,6 +325,7 @@ export class CloudNarrator implements NarrationService {
         if (res.status === 503) {
           this.availability = "unavailable";
           this.reason = "unconfigured";
+          this.missing = await lireManquantes(res);
         } else {
           this.reason = "refused";
           this.retryAt = this.now() + this.retryAfterMs();
@@ -363,3 +372,13 @@ const DEFAULT_MAX_QUEUED = 1;
 
 /** Un WAV d'un échantillon silencieux : suffit à débloquer l'audio sur mobile. */
 const SILENCE_WAV = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=";
+
+/** Les variables manquantes nommées par le serveur ; vide si la réponse ne le dit pas. */
+async function lireManquantes(res: Response): Promise<readonly string[]> {
+  try {
+    const corps = (await res.clone().json()) as { readonly missing?: unknown };
+    return Array.isArray(corps.missing) ? corps.missing.filter((x): x is string => typeof x === "string") : [];
+  } catch {
+    return [];
+  }
+}

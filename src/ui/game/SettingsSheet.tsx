@@ -16,6 +16,8 @@ export interface SettingsSheetProps {
   readonly narrationMode: NarrationMode;
   /** Pourquoi la voix en ligne ne parle pas (affiché tel quel : on ne devine pas à la place du serveur). */
   readonly narrationReason?: CloudReason | undefined;
+  /** Variables d'environnement que le SERVEUR dit manquantes : on les nomme, au lieu de dire « il faut les deux ». */
+  readonly narrationMissingEnv?: readonly string[] | undefined;
   /** Redemande au serveur si la voix en ligne existe, puis dit une phrase si elle répond. */
   readonly onTestVoice?: (() => void) | undefined;
   readonly onReplay: () => void;
@@ -84,6 +86,11 @@ export function SettingsSheet(props: SettingsSheetProps) {
           {props.narrationReason && props.narrationReason !== "none" ? (
             <p className="rounded-2xl bg-[var(--k-sand)] px-3 py-2 text-sm text-[var(--k-ink-soft)]" data-testid="narration-why" data-reason={props.narrationReason}>
               {t(DEFAULT_LOCALE, `settings.narration.why.${props.narrationReason}`)}
+              {props.narrationMissingEnv && props.narrationMissingEnv.length > 0 ? (
+                <span className="mt-1 block font-semibold" data-testid="narration-missing-env">
+                  {t(DEFAULT_LOCALE, "settings.narration.why.missing", { names: props.narrationMissingEnv.join(", ") })}
+                </span>
+              ) : null}
             </p>
           ) : null}
           {/* LE TON S'ÉCOUTE, il ne se lit pas : on le choisit puis on l'essaie, ici,

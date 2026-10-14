@@ -454,4 +454,5 @@ export const ar: Dictionary = {
   "settings.ecoute.why.denied": "رُفِض الميكروفون لهذا الموقع. يلزم السماح به في إعدادات المتصفّح ثم إعادة فتح الصفحة.",
   "card.ecoute.hint": "قل «correct» أو «presque» أو «faux»",
   "settings.voiceTone": "نبرة الصوت",
+  "settings.narration.why.missing": "متغيّرات ناقصة على الخادم: {names}. أضِفها في Vercel ثم أعِد النشر.",
 };
