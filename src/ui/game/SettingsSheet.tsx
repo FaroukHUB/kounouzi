@@ -7,7 +7,6 @@ import { refusalCause } from "@/experience/narration";
 import type { CloudReason, NarrationMode } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { NARRATION_RATES, useSessionStore } from "@/state/sessionStore";
-import { BOARD_TEXTURE_MODES, type BoardTextureMode } from "@/config/scene3d";
 import { BOARD_RENDER_PREFERENCES, type BoardRenderMode, type BoardRenderPreference, type FallbackReason } from "@/ui/scene/capability";
 import { Button } from "@/ui/primitives/Button";
 
@@ -109,29 +108,6 @@ export function SettingsSheet(props: SettingsSheetProps) {
               {t(DEFAULT_LOCALE, BOARD_REASON_KEY[props.boardReason])}
             </p>
           ) : null}
-          {/* Réglage TEMPORAIRE : deux rendus de l'illustration à comparer sur un vrai écran.
-              Une fois le choix fait, cette ligne et le mode perdant disparaissent — pas de code mort. */}
-          {props.boardMode === "3d" ? (
-            <>
-              <label className="flex items-center justify-between gap-3">
-                <span className="min-w-0 shrink">{t(DEFAULT_LOCALE, "settings.board.texture")}</span>
-                <select
-                  className="min-h-11 max-w-[55%] shrink-0 truncate rounded-xl border px-3"
-                  value={s.boardTexture}
-                  onChange={(e) => s.setBoardTexture(e.target.value as BoardTextureMode)}
-                  data-testid="board-texture"
-                >
-                  {BOARD_TEXTURE_MODES.map((value) => (
-                    <option key={value} value={value}>
-                      {t(DEFAULT_LOCALE, value === "center" ? "settings.board.texture.center" : "settings.board.texture.full")}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <p className="text-sm text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "settings.board.texture.hint")}</p>
-            </>
-          ) : null}
-
           <label className="flex items-center justify-between gap-3">
             <span className="min-w-0 shrink">{t(DEFAULT_LOCALE, "settings.haptics")}</span>
             <input type="checkbox" className="size-6 shrink-0" checked={s.hapticsEnabled} onChange={(e) => s.setHapticsEnabled(e.target.checked)} data-testid="haptics" />

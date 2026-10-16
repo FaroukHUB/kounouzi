@@ -237,3 +237,50 @@ aussi.
   nécessaires : l'appareil la propose (iOS ne la propose pas du tout), le joueur
   ne l'a pas coupée, et les animations ne sont pas réduites. **Une réponse fausse
   ne fait pas vibrer** : on n'ajoute pas une punition physique à une erreur.
+
+## Étape 7 — les emplacements des visuels, et la passe de performance
+
+### Les visuels fournis
+
+- Un manifeste unique (`src/config/visuals/visuals.v1.json`) déclare les modèles
+  livrés par l'auteur. **Rien n'est deviné d'après le contenu d'un dossier** :
+  un modèle existe pour le jeu parce qu'il est déclaré, et un test vérifie que
+  chaque chemin déclaré pointe vers un fichier présent — une illustration
+  manquante devient une erreur de construction, pas un trou découvert en pleine
+  partie.
+- Deux autres tests gardent ce qui, sinon, se découvre trop tard : un modèle
+  déclaré tient dans le budget d'un téléphone, et il porte des **normales** et
+  des **coordonnées de texture**. C'est exactement ce qui manquait à
+  `pion-fille.glb` — rien à éclairer, rien à texturer, donc une silhouette en
+  aplat quoi qu'on règle.
+- Le chargement est asynchrone et **jamais bloquant** : le visuel provisoire est
+  déjà posé, la partie se joue pendant le téléchargement, et un fichier absent
+  ou illisible le laisse simplement en place.
+- Le commutateur d'illustration de l'étape 1 est retiré, le choix étant fait :
+  l'illustration couvre tout le plateau. Le mode perdant part avec lui — aucun
+  code mort, et la préférence temporaire disparaît des réglages enregistrés.
+
+### Ce qui a été mesuré
+
+Sur la page de jeu en production, et dans le navigateur :
+
+| Mesure | Valeur |
+| --- | --- |
+| JavaScript chargé par la page de jeu | **2 091 Ko**, dont **zéro** de three.js |
+| Poids de la 3D, téléchargé seulement si elle est servie | **568 Ko** |
+| Au repos | **0 appel de dessin, 0 rendu en cinq secondes** |
+| Pendant un déplacement | **18 appels de dessin** et ~2 600 triangles par rendu |
+
+- **179 → 18 appels de dessin.** Les vingt-huit tuiles étaient dessinées FACE
+  PAR FACE : une boîte apporte ses six groupes de faces, et un groupe est un
+  appel de dessin. Fusionner les géométries ne suffisait pas — les groupes
+  survivent à la fusion et doivent être effacés explicitement. Trouvé en
+  comptant, depuis le navigateur, le nombre d'indices de chaque appel : des
+  milliers d'appels à six indices, c'est-à-dire un quadrilatère chacun.
+- Un test construit réellement la géométrie du plateau et exige un objet par
+  matériau, pas un par face — fabriquer des géométries est du calcul pur, c'est
+  les dessiner qui demande une carte graphique.
+- **Attention aux chiffres d'images par seconde** : ils sont mesurés dans un
+  rendu LOGICIEL (SwiftShader, sans carte graphique). Ils disent que la scène
+  est légère, ils ne prédisent pas ce que donnera un vrai téléphone — qui sera
+  très largement plus rapide. Seul un essai sur l'appareil le dira.

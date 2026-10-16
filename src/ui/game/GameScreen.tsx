@@ -211,7 +211,6 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         {boardRender.mode === "3d" ? (
           <Board3D
             board={state.config.board}
-            textureMode={session.boardTexture}
             quality={boardRender.quality}
             pawns={pawnProps}
             shot={cardOpen || shown.status === "finished" ? "wide" : "follow"}

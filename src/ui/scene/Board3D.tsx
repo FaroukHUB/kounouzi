@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 import type { ResolvedBoard } from "@/core/game";
-import type { BoardTextureMode } from "@/config/scene3d";
 import type { QualityTier } from "@/config/scene3d/tiers";
 import type { PawnLayerProps } from "@/ui/board/PawnLayer";
 import type { BuiltSite } from "./establishments";
@@ -19,7 +18,6 @@ const GameCanvas = dynamic(() => import("./GameCanvas").then((m) => m.GameCanvas
 
 export interface Board3DProps {
   readonly board: ResolvedBoard;
-  readonly textureMode: BoardTextureMode;
   readonly quality: QualityTier;
   readonly onTooSlow: () => void;
   /** Les pions, exactement les propriétés de la couche 2D : les deux vues lisent la même chose. */
@@ -50,7 +48,7 @@ export interface Board3DProps {
  * empruntés au plateau 2D, qui les place en pourcentages d'une surface plate et
  * les poserait à côté de leur case.
  */
-export function Board3D({ board, textureMode, quality, onTooSlow, pawns, shot, buildings, path, pathColor, reduced, center }: Board3DProps) {
+export function Board3D({ board, quality, onTooSlow, pawns, shot, buildings, path, pathColor, reduced, center }: Board3DProps) {
   const { cols, rows } = gridDims(board.cellCount);
   return (
     /* Ni coins arrondis ni ombre portée, contrairement au cadre 2D : la toile est
@@ -62,9 +60,8 @@ export function Board3D({ board, textureMode, quality, onTooSlow, pawns, shot, b
       style={{ aspectRatio: `${cols} / ${rows}` }}
       data-testid="board-3d"
       data-grid={`${cols}x${rows}`}
-      data-texture={textureMode}
     >
-      <GameCanvas board={board} textureMode={textureMode} quality={quality} pawns={pawns} shot={shot} buildings={buildings} path={path} pathColor={pathColor} reduced={reduced} onTooSlow={onTooSlow} />
+      <GameCanvas board={board} quality={quality} pawns={pawns} shot={shot} buildings={buildings} path={path} pathColor={pathColor} reduced={reduced} onTooSlow={onTooSlow} />
       {/* Le panneau du Chemin flotte au centre, comme une carte posée sur le plateau. */}
       <div className="pointer-events-none absolute inset-[14%] flex items-center justify-center">
         <div className="pointer-events-auto flex max-h-full w-full items-center justify-center">{center}</div>

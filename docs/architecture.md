@@ -213,7 +213,12 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   bandeau de transfert, la carte se retourne vraiment, le verdict d'une réponse
   se lit par sa forme autant que par sa couleur, et une vibration courte
   accompagne — jamais annonce — les moments clés (`src/experience/haptics.ts`,
-  `src/ui/common/CoinFlight.tsx`).
+  `src/ui/common/CoinFlight.tsx`). Les modèles 3D fournis par l'auteur sont
+  déclarés dans un manifeste (`src/config/visuals`) et remplacent les visuels
+  provisoires sans rien bloquer ; un test refuse un chemin déclaré dont le
+  fichier manque, dépasse le budget d'un téléphone ou n'a ni normales ni
+  coordonnées de texture. Le plateau est fusionné par matériau : dix-huit appels
+  de dessin par rendu, zéro au repos (mesuré dans le navigateur).
 - **Temps actif** : `startPlayClock` (couche session) compte les secondes
   visibles et non en pause, les envoie par paquets `AdvanceClock` ; le moteur
   ne lit jamais l'horloge.

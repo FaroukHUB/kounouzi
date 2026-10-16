@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import { DEFAULT_VOICE_TONE } from "@/config/narration";
-import { DEFAULT_BOARD_TEXTURE_MODE, type BoardTextureMode } from "@/config/scene3d";
 import type { BoardRenderPreference } from "@/ui/scene/capability";
 import { createJSONStorage, persist } from "zustand/middleware";
 
@@ -24,8 +23,6 @@ export interface SessionState {
    * cas aucun réglage ne fabrique la capacité absente.
    */
   readonly boardRender: BoardRenderPreference;
-  /** Comment l'illustration est posée sur le plateau 3D. Réglage TEMPORAIRE de l'étape 1, retiré après le choix. */
-  readonly boardTexture: BoardTextureMode;
   /** Vibration aux moments clés. ON par défaut : très courte, et jamais la seule information. */
   readonly hapticsEnabled: boolean;
   setReducedMotion(value: boolean | null): void;
@@ -35,7 +32,6 @@ export interface SessionState {
   setEcouteEnabled(value: boolean): void;
   setPreciseTimer(value: boolean): void;
   setBoardRender(value: BoardRenderPreference): void;
-  setBoardTexture(value: BoardTextureMode): void;
   setHapticsEnabled(value: boolean): void;
 }
 
@@ -53,7 +49,6 @@ export const useSessionStore = create<SessionState>()(
       ecouteEnabled: false,
       preciseTimer: false,
       boardRender: "auto",
-      boardTexture: DEFAULT_BOARD_TEXTURE_MODE,
       hapticsEnabled: true,
       setReducedMotion: (reducedMotion) => set({ reducedMotion }),
       setNarrationEnabled: (narrationEnabled) => set({ narrationEnabled }),
@@ -62,7 +57,6 @@ export const useSessionStore = create<SessionState>()(
       setEcouteEnabled: (ecouteEnabled) => set({ ecouteEnabled }),
       setPreciseTimer: (preciseTimer) => set({ preciseTimer }),
       setBoardRender: (boardRender) => set({ boardRender }),
-      setBoardTexture: (boardTexture) => set({ boardTexture }),
       setHapticsEnabled: (hapticsEnabled) => set({ hapticsEnabled }),
     }),
     {
@@ -73,15 +67,25 @@ export const useSessionStore = create<SessionState>()(
       // préférences de plateau ; `auto` est le bon défaut pour tout le monde, et
       // les autres préférences sont conservées telles quelles.
       // v5 : vibration (étape 6 du plateau 3D). ON par défaut pour tout le monde.
-      version: 5,
+      // v6 : le choix de l'illustration du plateau est fait — l'illustration
+      // couvre tout le plateau, et le réglage temporaire qui servait à comparer
+      // les deux rendus disparaît avec le mode perdant. Aucun code mort.
+      version: 6,
       migrate: (persisted, version) => {
         const s = (persisted ?? {}) as Partial<SessionState>;
         const withNarration = version < 3 ? { ...s, narrationEnabled: true } : s;
-        const withBoard = version < 4 ? { ...withNarration, boardRender: "auto" as const, boardTexture: DEFAULT_BOARD_TEXTURE_MODE } : withNarration;
-        return version < 5 ? { ...withBoard, hapticsEnabled: true } : withBoard;
+        const withBoard = version < 4 ? { ...withNarration, boardRender: "auto" as const } : withNarration;
+        const withHaptics = version < 5 ? { ...withBoard, hapticsEnabled: true } : withBoard;
+        if (version >= 6) return withHaptics;
+        // Le réglage temporaire d'illustration disparaît des préférences
+        // enregistrées : le choix est fait, et garder une clé morte ferait
+        // croire plus tard qu'un mode perdu existe encore.
+        const sansTexture = { ...(withHaptics as Record<string, unknown>) };
+        delete sansTexture["boardTexture"];
+        return sansTexture;
       },
       storage: createJSONStorage(() => (typeof window === "undefined" ? noopStorage : window.localStorage)),
-      partialize: (s) => ({ reducedMotion: s.reducedMotion, narrationEnabled: s.narrationEnabled, narrationRate: s.narrationRate, voiceTone: s.voiceTone, ecouteEnabled: s.ecouteEnabled, preciseTimer: s.preciseTimer, boardRender: s.boardRender, boardTexture: s.boardTexture, hapticsEnabled: s.hapticsEnabled }),
+      partialize: (s) => ({ reducedMotion: s.reducedMotion, narrationEnabled: s.narrationEnabled, narrationRate: s.narrationRate, voiceTone: s.voiceTone, ecouteEnabled: s.ecouteEnabled, preciseTimer: s.preciseTimer, boardRender: s.boardRender, hapticsEnabled: s.hapticsEnabled }),
     },
   ),
 );

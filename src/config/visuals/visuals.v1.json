@@ -1,0 +1,13 @@
+{
+  "$comment": "Emplacements des visuels 3D fournis par l'auteur. `null` = aucun fichier fourni, le jeu sert son visuel provisoire. Voir public/kounouzi/README.md pour le format attendu.",
+  "version": 1,
+  "pawns": {
+    "shared": null,
+    "tint": true,
+    "bySeat": {}
+  },
+  "establishments": {
+    "tint": true,
+    "byFamily": {}
+  }
+}

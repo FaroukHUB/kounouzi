@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { DEFAULT_BOARD } from "@/config/board";
 import { DEMO_ESTABLISHMENTS } from "@/config/demo";
-import { BOARD_TEXTURE_MODES, DEFAULT_BOARD_TEXTURE_MODE, SCENE_3D, scene3dConfigSchema } from "@/config/scene3d";
+import { SCENE_3D, scene3dConfigSchema } from "@/config/scene3d";
 import { QUALITY_TIERS } from "@/config/scene3d/tiers";
 import { resolveBoard } from "@/core/game";
 import { useSessionStore } from "@/state/sessionStore";
@@ -717,7 +717,6 @@ describe("les préférences de plateau survivent à une mise à jour", () => {
     const options = useSessionStore.persist.getOptions();
     const migre = options.migrate!({ narrationEnabled: false, narrationRate: "slow", preciseTimer: true, voiceTone: "chaleureux" }, 3) as Record<string, unknown>;
     expect(migre["boardRender"]).toBe("auto");
-    expect(migre["boardTexture"]).toBe(DEFAULT_BOARD_TEXTURE_MODE);
     // Rien de ce qu'il avait réglé ne doit disparaître au passage.
     expect(migre["narrationRate"]).toBe("slow");
     expect(migre["preciseTimer"]).toBe(true);
@@ -726,9 +725,10 @@ describe("les préférences de plateau survivent à une mise à jour", () => {
 
   it("le réglage est bien persisté : sinon il serait oublié à chaque partie", () => {
     const options = useSessionStore.persist.getOptions();
-    const kept = options.partialize!({ ...useSessionStore.getState(), boardRender: "3d", boardTexture: "full" }) as Record<string, unknown>;
+    const kept = options.partialize!({ ...useSessionStore.getState(), boardRender: "3d" }) as Record<string, unknown>;
     expect(kept["boardRender"]).toBe("3d");
-    expect(kept["boardTexture"]).toBe("full");
+    // Le réglage temporaire d'illustration n'est plus persisté : le choix est fait.
+    expect(kept["boardTexture"]).toBeUndefined();
   });
 });
 
@@ -738,33 +738,27 @@ describe("le plateau 3D à l'écran", () => {
   const board = resolved.value.board;
 
   const pions = { players: [], profiles: [], visuals: {}, activePlayerId: "", cellCount: board.cellCount, stepMs: 280 };
-  const render = (textureMode: (typeof BOARD_TEXTURE_MODES)[number]) =>
+  const render = () =>
     renderToStaticMarkup(
-      <Board3D board={board} textureMode={textureMode} quality="high" pawns={pions} shot="follow" buildings={[]} path={[]} pathColor="#0f766e" reduced={false} onTooSlow={() => {}} center={<p>panneau du chemin</p>} />,
+      <Board3D board={board} quality="high" pawns={pions} shot="follow" buildings={[]} path={[]} pathColor="#0f766e" reduced={false} onTooSlow={() => {}} center={<p>panneau du chemin</p>} />,
     );
 
   it("le cadre garde le rapport d'image du plateau : basculer 3D ↔ 2D ne fait pas sauter l'écran", () => {
     const { cols, rows } = gridDims(board.cellCount);
-    const html = render("center");
+    const html = render();
     expect(html).toContain('data-testid="board-3d"');
     expect(html).toContain(`data-grid="${cols}x${rows}"`);
     expect(html).toContain(`aspect-ratio:${cols} / ${rows}`);
   });
 
   it("le panneau du Chemin reste en DOM : il est interactif et lu par les lecteurs d'écran", () => {
-    expect(render("center")).toContain("panneau du chemin");
-    expect(render("full")).toContain("panneau du chemin");
-  });
-
-  it("le mode d'illustration est visible dans le rendu, pour pouvoir comparer les deux", () => {
-    expect(render("center")).toContain('data-texture="center"');
-    expect(render("full")).toContain('data-texture="full"');
+    expect(render()).toContain("panneau du chemin");
   });
 
   it("aucune toile WebGL côté serveur, et surtout aucun trou : le cadre est bien rendu", () => {
     // `three` n'est pas chargé au rendu serveur (import dynamique) — c'est ce
     // qui garantit qu'il n'entre pas dans le bundle initial.
-    const html = render("center");
+    const html = render();
     expect(html).not.toContain("<canvas");
     expect(html).toContain('data-testid="board-3d"');
   });
@@ -773,7 +767,7 @@ describe("le plateau 3D à l'écran", () => {
     // La toile est transparente et le plateau est dessiné À L'INTÉRIEUR : un
     // cadre de carte ne s'y voit pas, il ne ferait que rogner la largeur
     // disponible — et sur un téléphone, la largeur est tout ce qu'on a.
-    const html = render("full");
+    const html = render();
     expect(html).not.toContain("rounded-[1.6rem]");
     expect(html).not.toContain("shadow-[0_30px_70px");
     expect(html).toContain("max-w-[min(100vw,88dvh)]");

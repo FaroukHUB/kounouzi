@@ -1,68 +1,58 @@
 import * as THREE from "three";
-import type { ResolvedBoard } from "@/core/game";
-import type { BoardTextureMode, Scene3dConfig } from "@/config/scene3d";
+import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
+import type { CellType, ResolvedBoard } from "@/core/game";
+import type { Scene3dConfig } from "@/config/scene3d";
 import { CELL_STYLE } from "@/ui/board/cellStyles";
 import { boardExtent, cellCenter, centerArea, uvForCell, uvForCenter, type UvRect } from "./boardGeometry";
 
 /**
  * LE PLATEAU EN OBJETS 3D.
  *
- * Ce fichier ne décide rien (ADR 0059) : toutes les positions, toutes les
- * portions de texture et toutes les dimensions viennent de `boardGeometry.ts`,
- * qui est pur et testé. Ici on ne fait que fabriquer de la géométrie et des
- * matériaux — ce qui n'est pas testable dans Node, sans DOM ni WebGL.
+ * Ce fichier ne décide rien (ADR 0059) : toutes les positions et toutes les
+ * portions de texture viennent de `boardGeometry.ts`, qui est pur et testé.
+ *
+ * L'ILLUSTRATION COUVRE TOUT LE PLATEAU, cases comprises : chaque tuile porte
+ * le morceau d'image qui lui revient, donc le dessin continue d'une case à
+ * l'autre au lieu d'être répété sur chacune. Les flancs portent la couleur
+ * d'accent de leur famille — un plateau vu de loin ne distingue pas des fonds
+ * pastel, mais il distingue des tranches colorées, et en mode illustré le
+ * dessus ne porte plus aucune couleur de famille.
+ *
+ * GÉOMÉTRIES FUSIONNÉES PAR MATÉRIAU, et c'est une mesure, pas une précaution :
+ * une tuile faite d'une boîte à six matériaux coûte SIX appels de dessin, soit
+ * cent soixante-huit pour les vingt-huit cases. Compté dans le navigateur :
+ * 133 appels par image pour moins de deux mille triangles. Les dessus partagent
+ * tous la même illustration — ils tiennent donc en UN seul objet — et les flancs
+ * se regroupent par famille de case, soit sept au plus.
  *
  * Aucune ombre calculée : sur un téléphone, une carte d'ombres est le premier
- * poste de dépense, et pour un plateau vu d'un angle fixe elle n'apporte
- * presque rien. Le relief vient de l'éclairage et des flancs des tuiles.
+ * poste de dépense, et pour un plateau vu d'un angle fixe elle n'apporte presque
+ * rien. Le relief vient de l'éclairage et des flancs des tuiles.
  */
 
 export interface BoardMeshInput {
   readonly board: ResolvedBoard;
   readonly config: Scene3dConfig;
-  readonly textureMode: BoardTextureMode;
   /** Illustration du plateau. Absente, les surfaces restent unies — la scène ne doit jamais attendre une image. */
   readonly illustration: THREE.Texture | null;
 }
 
 export interface BoardMesh {
   readonly group: THREE.Group;
-  /** Une tuile par case, dans l'ordre des positions : les étapes suivantes s'en serviront pour la surbrillance et les établissements. */
-  readonly tiles: readonly THREE.Mesh[];
+  /** Nombre d'objets dessinés : sert à vérifier que la fusion fait son travail. */
+  readonly drawables: number;
   dispose(): void;
 }
 
-/** Applique une portion de texture au groupe d'UV d'une géométrie. */
+/** Applique une portion de texture à toutes les UV d'une géométrie. */
 function remapUv(geometry: THREE.BufferGeometry, rect: UvRect): void {
   const uv = geometry.getAttribute("uv");
   if (!uv) return;
-  for (let i = 0; i < uv.count; i += 1) {
-    uv.setXY(i, rect.u + uv.getX(i) * rect.du, rect.v + uv.getY(i) * rect.dv);
-  }
+  for (let i = 0; i < uv.count; i += 1) uv.setXY(i, rect.u + uv.getX(i) * rect.du, rect.v + uv.getY(i) * rect.dv);
   uv.needsUpdate = true;
 }
 
-/**
- * Une tuile de case.
- *
- * `BoxGeometry` sépare ses six faces en groupes d'UV distincts : seules les UV
- * de la face du dessus (groupe 2 dans l'ordre de three.js) doivent recevoir la
- * portion d'illustration. Les remapper toutes étirerait l'image sur les flancs.
- */
-function tileGeometry(size: number, height: number, rect: UvRect | null): THREE.BufferGeometry {
-  const geometry = new THREE.BoxGeometry(size, height, size);
-  if (rect) {
-    const uv = geometry.getAttribute("uv");
-    // Six faces × quatre sommets ; la face supérieure occupe les sommets 8 à 11.
-    for (let i = 8; i < 12; i += 1) {
-      uv.setXY(i, rect.u + uv.getX(i) * rect.du, rect.v + uv.getY(i) * rect.dv);
-    }
-    uv.needsUpdate = true;
-  }
-  return geometry;
-}
-
-export function createBoardMesh({ board, config, textureMode, illustration }: BoardMeshInput): BoardMesh {
+export function createBoardMesh({ board, config, illustration }: BoardMeshInput): BoardMesh {
   const { cellCount } = board;
   const extent = boardExtent(cellCount);
   const { cellGap, tileHeight, centerDrop, rimHeight } = config.board;
@@ -72,6 +62,11 @@ export function createBoardMesh({ board, config, textureMode, illustration }: Bo
   const keep = <T extends { dispose(): void }>(value: T): T => {
     disposables.push(value);
     return value;
+  };
+  let drawables = 0;
+  const add = (mesh: THREE.Mesh) => {
+    group.add(mesh);
+    drawables += 1;
   };
 
   // Le socle : il ferme le plateau par-dessous et sur les côtés, pour qu'aucun
@@ -88,15 +83,14 @@ export function createBoardMesh({ board, config, textureMode, illustration }: Bo
     keep(new THREE.MeshStandardMaterial({ color: new THREE.Color("#7a5a2e"), roughness: 0.85, metalness: 0 })),
   );
   base.position.y = -rimHeight / 2 - centerDrop - BASE_SOUS_LE_CENTRE;
-  group.add(base);
+  add(base);
 
-  // Le plan central : l'illustration en mode « plan central », sinon la portion
-  // d'image qui lui revient (mode « plateau entier »), sinon une couleur unie.
+  // Le plan central porte la portion d'illustration qui lui revient.
   const area = centerArea(cellCount);
   if (area.width > 0 && area.depth > 0) {
     const centerGeometry = keep(new THREE.PlaneGeometry(area.width, area.depth));
     centerGeometry.rotateX(-Math.PI / 2);
-    if (illustration) remapUv(centerGeometry, textureMode === "center" ? { u: 0, v: 0, du: 1, dv: 1 } : uvForCenter(cellCount));
+    if (illustration) remapUv(centerGeometry, uvForCenter(cellCount));
     const centerMaterial = keep(
       illustration
         ? new THREE.MeshStandardMaterial({ map: illustration, roughness: 0.9, metalness: 0 })
@@ -104,47 +98,58 @@ export function createBoardMesh({ board, config, textureMode, illustration }: Bo
     );
     const center = new THREE.Mesh(centerGeometry, centerMaterial);
     center.position.y = -centerDrop;
-    group.add(center);
+    add(center);
   }
 
-  // Les tuiles. En mode « plateau entier », chacune porte le morceau
-  // d'illustration qui lui correspond, pour que l'image continue d'une case à
-  // l'autre au lieu d'être répétée sur chacune. En mode « plan central », elles
-  // portent la couleur de leur famille — la même qu'en 2D.
-  const tiles: THREE.Mesh[] = [];
+  // Les DESSUS, tous ensemble : ils partagent l'illustration, donc un seul objet.
+  const tops: THREE.BufferGeometry[] = [];
+  // Les FLANCS, regroupés par famille : une couleur d'accent, un objet.
+  const sidesByType = new Map<CellType, THREE.BufferGeometry[]>();
+
   for (const cell of board.cells) {
     const point = cellCenter(cell.position, cellCount);
-    const style = CELL_STYLE[cell.type];
-    const textured = textureMode === "full" && illustration !== null;
-    const geometry = keep(tileGeometry(tileSize, tileHeight, textured ? uvForCell(cell.position, cellCount) : null));
-    const top = keep(
-      new THREE.MeshStandardMaterial({
-        color: new THREE.Color(textured ? "#ffffff" : style.bg),
-        ...(textured ? { map: illustration } : {}),
-        roughness: 0.78,
-        metalness: 0,
-      }),
+
+    const top = new THREE.PlaneGeometry(tileSize, tileSize);
+    top.rotateX(-Math.PI / 2);
+    if (illustration) remapUv(top, uvForCell(cell.position, cellCount));
+    // Juste au-dessus du flanc : deux surfaces au même niveau se disputeraient la profondeur.
+    top.translate(point.x, tileHeight + 0.001, point.z);
+    tops.push(top);
+
+    const side = new THREE.BoxGeometry(tileSize, tileHeight, tileSize);
+    side.translate(point.x, tileHeight / 2, point.z);
+    sidesByType.set(cell.type, [...(sidesByType.get(cell.type) ?? []), side]);
+  }
+
+  const topGeometry = mergeGeometries(tops, false);
+  for (const geometry of tops) geometry.dispose();
+  // FUSIONNER NE SUFFIT PAS : une boîte apporte ses six groupes de faces, et un
+  // groupe est un appel de dessin. Mesuré dans le navigateur, les vingt-huit
+  // tuiles coûtaient cent soixante-huit appels d'une seule face chacun, fusion
+  // comprise. Les groupes doivent être effacés pour qu'un objet redevienne un
+  // objet.
+  topGeometry?.clearGroups();
+  if (topGeometry) {
+    const topMaterial = keep(
+      illustration
+        ? new THREE.MeshStandardMaterial({ map: illustration, roughness: 0.78, metalness: 0 })
+        : new THREE.MeshStandardMaterial({ color: new THREE.Color("#efe3c8"), roughness: 0.78, metalness: 0 }),
     );
-    // LES FLANCS PORTENT LA COULEUR D'ACCENT de la famille. C'est ce qui rend
-    // une case reconnaissable d'un coup d'œil sur un plateau incliné : les
-    // fonds pastel du plateau 2D sont presque indistinguables vus de loin, et
-    // en mode texturé le dessus ne porte plus aucune couleur de famille. Un
-    // liseré posé par-dessus ne se voyait pas ; la tranche, elle, est
-    // exactement la surface qu'une vue en perspective met en avant.
-    const side = keep(new THREE.MeshStandardMaterial({ color: new THREE.Color(style.accent), roughness: 0.62, metalness: 0 }));
-    // Ordre des faces d'un `BoxGeometry` : +x, -x, +y (le dessus), -y, +z, -z.
-    const tile = new THREE.Mesh(geometry, [side, side, top, side, side, side]);
-    tile.position.set(point.x, tileHeight / 2, point.z);
-    tile.name = `cell-${cell.position}`;
-    tile.userData["position"] = cell.position;
-    tile.userData["type"] = cell.type;
-    group.add(tile);
-    tiles.push(tile);
+    add(new THREE.Mesh(keep(topGeometry), topMaterial));
+  }
+
+  for (const [type, geometries] of sidesByType) {
+    const merged = mergeGeometries(geometries, false);
+    for (const geometry of geometries) geometry.dispose();
+    if (!merged) continue;
+    merged.clearGroups();
+    const material = keep(new THREE.MeshStandardMaterial({ color: new THREE.Color(CELL_STYLE[type].accent), roughness: 0.62, metalness: 0 }));
+    add(new THREE.Mesh(keep(merged), material));
   }
 
   return {
     group,
-    tiles,
+    drawables,
     dispose() {
       for (const item of disposables) item.dispose();
       group.clear();

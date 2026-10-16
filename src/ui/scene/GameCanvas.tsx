@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import type { ResolvedBoard } from "@/core/game";
-import { SCENE_3D, type BoardTextureMode } from "@/config/scene3d";
+import { SCENE_3D } from "@/config/scene3d";
 import type { QualityTier } from "@/config/scene3d/tiers";
 import { pieceForSeat } from "@/config/pawns/pieces";
 import { ASSETS } from "@/ui/theme/assets";
@@ -16,12 +16,13 @@ import { createPawnModel } from "./pawnMesh";
 import { createEstablishmentModel } from "./establishmentMesh";
 import { buildingPoint, outwardOffset, riseAt, sameBuilding, type BuiltSite } from "./establishments";
 import { createJourneyMarkerModel } from "./journeyMesh";
+import { loadModel, type LoadedModel } from "./modelLoader";
+import { pawnModelFor, VISUALS } from "@/config/visuals";
 import { markerFade, markerProgress, markerScale, revealSchedule, walkedIndex, type RevealStep } from "./journeyReveal";
 import { facing, pawnPoint, stepProgress, turnToward } from "./pawnMotion";
 
 export interface GameCanvasProps {
   readonly board: ResolvedBoard;
-  readonly textureMode: BoardTextureMode;
   readonly quality: QualityTier;
   /** Les pions, exactement les propriétés que reçoit la couche 2D : une seule source. */
   readonly pawns: PawnLayerProps;
@@ -97,7 +98,7 @@ interface SceneApi {
  * appareil faible souffre réellement. Au tout premier affichage, où rien ne
  * bouge encore, une courte mesure de démarrage prend le relais.
  */
-export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings, path, pathColor, reduced, onTooSlow }: GameCanvasProps) {
+export function GameCanvas({ board, quality, pawns, shot, buildings, path, pathColor, reduced, onTooSlow }: GameCanvasProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<SceneApi | null>(null);
   // La fonction de repli change à chaque rendu du parent ; la scène, non. On la
@@ -152,7 +153,7 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
 
     const camera = new THREE.PerspectiveCamera(config.camera.fovDegrees, 1, 0.1, 500);
 
-    let mesh = createBoardMesh({ board, config, textureMode, illustration: null });
+    let mesh = createBoardMesh({ board, config, illustration: null });
     scene.add(mesh.group);
 
     const GROUND_Y = config.board.tileHeight;
@@ -421,6 +422,14 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
     };
     const addBuilding = (site: BuiltSite, riseMs: number) => {
       const group = buildingModel.instance(site);
+      // Modèle fourni pour cette famille ? Il remplace la carte dressée.
+      const url = VISUALS.establishments.byFamily[site.family];
+      if (url) {
+        remplacer(url, VISUALS.establishments.tint ? site.color : null, (fourni) => {
+          group.clear();
+          group.add(fourni);
+        });
+      }
       const point = buildingPoint(site.position, board.cellCount, config.establishments.inset);
       group.position.set(point.x, GROUND_Y, point.z);
       group.scale.set(1, riseMs > 0 ? 0.001 : 1, 1);
@@ -553,7 +562,7 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
         texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
         scene.remove(mesh.group);
         mesh.dispose();
-        mesh = createBoardMesh({ board, config, textureMode, illustration: texture });
+        mesh = createBoardMesh({ board, config, illustration: texture });
         scene.add(mesh.group);
         requestDraw();
       },
@@ -566,6 +575,36 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
     // Les établissements déjà acquis, posés sans animation : au montage, rien
     // n'est « nouveau », même après une reprise de partie.
     applyBuildings(buildingsRef.current);
+
+    /* ---- les modèles FOURNIS remplacent les visuels provisoires, quand ils arrivent ---- */
+    const loaded = new Map<string, LoadedModel>();
+
+    /**
+     * Remplace un objet de la scène par un modèle fourni, sans rien bloquer.
+     *
+     * Le visuel provisoire est déjà posé quand cette fonction part chercher le
+     * fichier : la partie se joue pendant le téléchargement, et si le fichier
+     * manque ou ne se lit pas, le provisoire reste en place. Un modèle absent ne
+     * doit jamais laisser un trou sur le plateau.
+     */
+    const remplacer = (url: string, color: string | null, poser: (group: THREE.Group) => void) => {
+      const deja = loaded.get(url);
+      if (deja) {
+        poser(deja.instance(color));
+        return;
+      }
+      void loadModel(url)
+        .then((model) => {
+          if (disposed) {
+            model.dispose();
+            return;
+          }
+          loaded.set(url, model);
+          poser(model.instance(color));
+          requestDraw();
+        })
+        .catch(() => undefined);
+    };
 
     // Les pions : une géométrie partagée, un matériau par joueur. Rien à
     // télécharger, donc rien à attendre et rien qui puisse échouer.
@@ -582,6 +621,18 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
         scene.add(group);
         // Aucun glissement au premier affichage : les pions apparaissent en place.
         scenePawns.set(player.id, { group, cell: target.cell, from: target.point, to: target.point, startedAt: 0, stepMs: 0, hop: 0, facing: 0, scale, targetScale: scale });
+
+        // Un modèle fourni pour ce siège ? Il prend la place du pion dessiné,
+        // au même endroit et à la même échelle, dès qu'il est là.
+        const url = pawnModelFor(seat);
+        if (url) {
+          remplacer(url, VISUALS.pawns.tint ? pieceForSeat(seat).color : null, (fourni) => {
+            const pawn = scenePawns.get(player.id);
+            if (!pawn) return;
+            pawn.group.clear();
+            pawn.group.add(fourni);
+          });
+        }
       }
     }
 
@@ -622,6 +673,8 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
       sceneBuildings.clear();
       clearMarkers();
       markerModel.dispose();
+      for (const model of loaded.values()) model.dispose();
+      loaded.clear();
       pawnModel.dispose();
       buildingModel.dispose();
       mesh.dispose();
@@ -629,7 +682,7 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
       renderer.dispose();
       canvas.remove();
     };
-  }, [board, textureMode, quality]);
+  }, [board, quality]);
 
   return <div ref={hostRef} className="absolute inset-0" data-testid="game-canvas" />;
 }
