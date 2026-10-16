@@ -202,7 +202,11 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   Chemin restent en DOM au-dessus de la toile. Les pions y avancent case par
   case en lisant les mêmes propriétés que la couche 2D, et la caméra penche
   vers le joueur actif — deux plans, aucune rotation, un glissement exprimé en
-  durée et non en fraction d'image.
+  durée et non en fraction d'image. Un établissement acquis dresse sur sa case
+  sa propre illustration (ADR 0050), sur un socle à la couleur du
+  propriétaire ; la scène le déduit en comparant deux listes, jamais en lisant
+  un événement, ce qui fait qu'une reprise de partie les affiche posés sans
+  rejouer d'animation.
 - **Temps actif** : `startPlayClock` (couche session) compte les secondes
   visibles et non en pause, les envoie par paquets `AdvanceClock` ; le moteur
   ne lit jamais l'horloge.

@@ -13,6 +13,8 @@ import { cameraPosition, clusterPoint, type Point3 } from "./boardGeometry";
 import { approachShot, followShot, shotSettled, wideShot, type Shot, type ShotInput } from "./cameraFraming";
 import { createBoardMesh } from "./boardMesh";
 import { createPawnModel } from "./pawnMesh";
+import { createEstablishmentModel } from "./establishmentMesh";
+import { buildingPoint, outwardOffset, riseAt, sameBuilding, type BuiltSite } from "./establishments";
 import { facing, pawnPoint, stepProgress, turnToward } from "./pawnMotion";
 
 export interface GameCanvasProps {
@@ -26,6 +28,8 @@ export interface GameCanvasProps {
    * l'écran de jeu qui sait qu'une carte est ouverte ou que la partie est finie.
    */
   readonly shot: "follow" | "wide";
+  /** Les établissements déjà acquis, résolus hors de la scène : case, famille, couleur du propriétaire. */
+  readonly buildings: readonly BuiltSite[];
   /** Animations réduites : la caméra se place au lieu de glisser. */
   readonly reduced: boolean;
   /** Appelé une seule fois si la 3D se révèle trop lente sur cet appareil. La décision de replier appartient à l'appelant. */
@@ -49,9 +53,20 @@ interface ScenePawn {
   targetScale: number;
 }
 
+/** Un établissement dans la scène : son volume, et sa sortie de terre en cours. */
+interface SceneBuilding {
+  readonly group: THREE.Group;
+  readonly site: BuiltSite;
+  startedAt: number;
+  riseMs: number;
+  /** Il attend que la carte se referme : personne ne regarde le plateau pendant ce temps-là. */
+  waiting: boolean;
+  waitingSince: number;
+}
+
 /** Ce que la scène expose au composant : on pousse des propriétés, on ne mute aucune ref de l'extérieur. */
 interface SceneApi {
-  update(pawns: PawnLayerProps, shot: "follow" | "wide", reduced: boolean): void;
+  update(pawns: PawnLayerProps, shot: "follow" | "wide", buildings: readonly BuiltSite[], reduced: boolean): void;
 }
 
 /**
@@ -72,7 +87,7 @@ interface SceneApi {
  * appareil faible souffre réellement. Au tout premier affichage, où rien ne
  * bouge encore, une courte mesure de démarrage prend le relais.
  */
-export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, onTooSlow }: GameCanvasProps) {
+export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings, reduced, onTooSlow }: GameCanvasProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<SceneApi | null>(null);
   // La fonction de repli change à chaque rendu du parent ; la scène, non. On la
@@ -86,13 +101,15 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, 
 
   const pawnsRef = useRef(pawns);
   const shotRef = useRef(shot);
+  const buildingsRef = useRef(buildings);
   const reducedRef = useRef(reduced);
   useEffect(() => {
     pawnsRef.current = pawns;
     shotRef.current = shot;
+    buildingsRef.current = buildings;
     reducedRef.current = reduced;
-    apiRef.current?.update(pawns, shot, reduced);
-  }, [pawns, shot, reduced]);
+    apiRef.current?.update(pawns, shot, buildings, reduced);
+  }, [pawns, shot, buildings, reduced]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -131,8 +148,15 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, 
     const GROUND_Y = config.board.tileHeight;
     const scenePawns = new Map<string, ScenePawn>();
     const pawnModel = createPawnModel();
+    // L'illustration d'un établissement arrive après coup : quand elle est là,
+    // il faut redessiner, sinon le panneau reste blanc jusqu'au prochain mouvement.
+    const buildingModel = createEstablishmentModel(() => requestDraw());
+    const sceneBuildings = new Map<string, SceneBuilding>();
+    /** Les cases qui portent un bâtiment : les pions s'y posent décalés vers l'extérieur. */
+    let builtCells = new Set<number>();
 
     let disposed = false;
+    let buildingsSeen = false;
     let pending = 0;
     /** Mesure de démarrage : quelques secondes de rendu continu, le temps d'avoir des images à compter. */
     let warmingUp = true;
@@ -149,19 +173,30 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, 
       for (const player of props.players) {
         const cell = props.visuals[player.id] ?? player.position;
         const cluster = byCell.get(cell) ?? [player.id];
-        out.set(player.id, { cell, point: clusterPoint(cell, props.cellCount, cluster.indexOf(player.id), cluster.length) });
+        const point = clusterPoint(cell, props.cellCount, cluster.indexOf(player.id), cluster.length);
+        // Sur une case construite, le pion se range du côté EXTÉRIEUR : le
+        // bâtiment occupe le côté intérieur, et un pion seul se poserait sinon
+        // au milieu de lui.
+        if (builtCells.has(cell)) {
+          const away = outwardOffset(cell, props.cellCount, config.establishments.pawnShift);
+          out.set(player.id, { cell, point: { x: point.x + away.x, y: 0, z: point.z + away.z } });
+        } else {
+          out.set(player.id, { cell, point });
+        }
       }
       return out;
     };
 
-    const applyTargets = (props: PawnLayerProps) => {
+    const applyTargets = (props: PawnLayerProps): boolean => {
       const targets = targetsFor(props);
       const now = performance.now();
+      let changed = false;
       for (const player of props.players) {
         const target = targets.get(player.id);
         const pawn = scenePawns.get(player.id);
         if (!target || !pawn) continue;
         if (target.cell !== pawn.cell || target.point.x !== pawn.to.x || target.point.z !== pawn.to.z) {
+          changed = true;
           // Le nouveau pas part d'OÙ LE PION EST VRAIMENT, pas de sa case
           // précédente : sans cela, deux pas enchaînés plus vite que l'animation
           // font revenir le pion en arrière avant de repartir.
@@ -172,9 +207,11 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, 
           pawn.hop = target.cell !== pawn.cell ? config.board.pawnHop : 0;
           pawn.cell = target.cell;
         }
-        pawn.targetScale = config.board.pawnHeight * (player.id === props.activePlayerId ? config.board.pawnActiveScale : 1);
+        const wantedScale = config.board.pawnHeight * (player.id === props.activePlayerId ? config.board.pawnActiveScale : 1);
+        if (wantedScale !== pawn.targetScale) changed = true;
+        pawn.targetScale = wantedScale;
       }
-      ensureLoop();
+      return changed;
     };
 
     /* ---- la boucle : elle tourne tant que quelque chose bouge ---- */
@@ -230,8 +267,9 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, 
       lastFrame = now;
       // Les pions d'abord : la caméra suit le pion là où il EST à cette image.
       const pawnsMoving = stepPawns(now);
+      const buildingsRising = stepBuildings(now);
       const cameraMoving = stepCamera(elapsed);
-      const moving = pawnsMoving || cameraMoving;
+      const moving = pawnsMoving || buildingsRising || cameraMoving;
       renderer.render(scene, camera);
       if (now - secondStart >= 1000) {
         watch = watchSlowness(watch, averageFps(frames), config.quality);
@@ -252,9 +290,25 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, 
       }
     };
 
+    /**
+     * Remet l'échantillonnage à zéro avant de redémarrer.
+     *
+     * SANS CELA, LE JEU FINIT EN 2D SANS RAISON. La boucle s'arrête au repos ;
+     * le dessin suivant pouvait arriver dix secondes plus tard et était compté
+     * comme une image de dix secondes, soit un dixième d'image par seconde. Trois
+     * redessins espacés — trois tours posés, trois cartes lues — et la
+     * surveillance déclarait l'appareil trop lent et repliait en 2D, sur un
+     * plateau qui n'avait jamais ramé. On ne mesure que du rendu CONTINU.
+     */
+    const resetSampler = () => {
+      frames = [];
+      lastFrame = performance.now();
+      secondStart = lastFrame;
+    };
+
     const ensureLoop = () => {
       if (disposed || looping || pending !== 0) return;
-      lastFrame = performance.now();
+      resetSampler();
       pending = requestAnimationFrame(tick);
       looping = true;
     };
@@ -262,7 +316,87 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, 
     /** Un seul dessin, sans démarrer de boucle : redimensionnement, illustration arrivée. */
     const requestDraw = () => {
       if (disposed || looping || pending !== 0) return;
+      resetSampler();
       pending = requestAnimationFrame(tick);
+    };
+
+    /* ---- les établissements : ce qui apparaît sort du sol, le reste est déjà posé ---- */
+    const timers = new Set<ReturnType<typeof setTimeout>>();
+    const addBuilding = (site: BuiltSite, riseMs: number) => {
+      const group = buildingModel.instance(site);
+      const point = buildingPoint(site.position, board.cellCount, config.establishments.inset);
+      group.position.set(point.x, GROUND_Y, point.z);
+      group.scale.set(1, riseMs > 0 ? 0.001 : 1, 1);
+      scene.add(group);
+      const now = performance.now();
+      // Une carte occupe l'écran au moment de l'achat : la construction
+      // attendra qu'elle se referme, sinon elle se joue derrière elle.
+      const waiting = riseMs > 0 && shotRef.current === "wide";
+      sceneBuildings.set(site.siteId, { group, site, startedAt: now, riseMs, waiting, waitingSince: now });
+      // La boucle s'arrête pendant l'attente — elle n'a rien à dessiner. Ce
+      // réveil garantit que le bâtiment finit par sortir même si la carte ne se
+      // referme jamais (une partie qui s'achève sur cet achat, par exemple).
+      if (waiting) timers.add(setTimeout(ensureLoop, config.establishments.riseWaitMaxMs));
+    };
+
+    const removeBuilding = (siteId: string) => {
+      const built = sceneBuildings.get(siteId);
+      if (!built) return;
+      scene.remove(built.group);
+      sceneBuildings.delete(siteId);
+    };
+
+    const applyBuildings = (sites: readonly BuiltSite[]): boolean => {
+      // Au tout premier passage, tout ce qui existe est DÉJÀ construit : une
+      // partie reprise ne doit rejouer aucune animation. Ensuite seulement, ce
+      // qui apparaît sort du sol.
+      const premier = !buildingsSeen;
+      buildingsSeen = true;
+      const riseMs = premier || reducedRef.current ? 0 : config.establishments.riseMs;
+      const ids = new Set(sites.map((s) => s.siteId));
+      let changed = false;
+      for (const siteId of [...sceneBuildings.keys()]) {
+        if (!ids.has(siteId)) {
+          removeBuilding(siteId);
+          changed = true;
+        }
+      }
+      for (const site of sites) {
+        const existing = sceneBuildings.get(site.siteId);
+        if (existing && sameBuilding(existing.site, site)) continue;
+        // Un bâtiment qui change de main ne resurgit pas : il change de couleur.
+        if (existing) removeBuilding(site.siteId);
+        addBuilding(site, existing ? 0 : riseMs);
+        changed = true;
+      }
+      builtCells = new Set(sites.map((s) => s.position));
+      return changed;
+    };
+
+    /** Fait monter les bâtiments en cours de construction ; rend vrai tant qu'il en reste. */
+    const stepBuildings = (now: number): boolean => {
+      let rising = false;
+      for (const built of sceneBuildings.values()) {
+        if (built.riseMs <= 0) {
+          built.group.scale.y = 1;
+          continue;
+        }
+        if (built.waiting) {
+          // La carte s'est refermée — ou l'attente a assez duré : on construit.
+          if (shotRef.current !== "wide" || now - built.waitingSince >= config.establishments.riseWaitMaxMs) {
+            built.waiting = false;
+            built.startedAt = now;
+          } else {
+            built.group.scale.y = 0.001;
+            continue;
+          }
+        }
+        const progress = stepProgress(now - built.startedAt, built.riseMs);
+        built.group.scale.y = Math.max(0.001, riseAt(progress, config.establishments.overshoot));
+        if (progress < 1) rising = true;
+        else built.riseMs = 0;
+      }
+      return rising;
     };
 
     /* ---- la caméra : deux plans, un glissement, aucune rotation ---- */
@@ -332,6 +466,10 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, 
       () => undefined,
     );
 
+    // Les établissements déjà acquis, posés sans animation : au montage, rien
+    // n'est « nouveau », même après une reprise de partie.
+    applyBuildings(buildingsRef.current);
+
     // Les pions : une géométrie partagée, un matériau par joueur. Rien à
     // télécharger, donc rien à attendre et rien qui puisse échouer.
     {
@@ -350,12 +488,18 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, 
       }
     }
 
+    // L'écran de jeu reconstruit ses objets de propriétés à chaque rendu : les
+    // recevoir ne veut pas dire que quelque chose a bougé. On ne réveille la
+    // boucle que sur un VRAI changement, sans quoi le rendu à la demande
+    // redeviendrait un rendu permanent — exactement ce qu'on cherchait à éviter.
+    let lastShot = shotRef.current;
     apiRef.current = {
-      update(nextPawns) {
-        applyTargets(nextPawns);
-        // Le plan a pu changer sans qu'un pion bouge (une carte s'ouvre) : la
-        // boucle doit repartir, sinon la caméra reste où elle était.
-        ensureLoop();
+      update(nextPawns, nextShot, nextBuildings) {
+        const built = applyBuildings(nextBuildings);
+        const moved = applyTargets(nextPawns);
+        const framing = nextShot !== lastShot;
+        lastShot = nextShot;
+        if (built || moved || framing) ensureLoop();
       },
     };
 
@@ -369,12 +513,17 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, 
       warmingUp = false;
       looping = false;
       clearTimeout(warmupTimer);
+      for (const timer of timers) clearTimeout(timer);
+      timers.clear();
       if (pending !== 0) cancelAnimationFrame(pending);
       observer.disconnect();
       apiRef.current = null;
       for (const pawn of scenePawns.values()) scene.remove(pawn.group);
       scenePawns.clear();
+      for (const built of sceneBuildings.values()) scene.remove(built.group);
+      sceneBuildings.clear();
       pawnModel.dispose();
+      buildingModel.dispose();
       mesh.dispose();
       scene.clear();
       renderer.dispose();

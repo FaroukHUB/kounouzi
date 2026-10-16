@@ -141,3 +141,38 @@ aussi.
 - La boucle de rendu tourne tant que les pions OU la caméra bougent. Mesuré sur
   la page réelle : **une image demandée en cinq secondes au repos**, contre
   vingt-quatre pendant un déplacement.
+
+## Étape 4 — les établissements sur leur case
+
+- **La scène ne lit pas les événements.** Elle compare deux listes
+  d'établissements : ce qui apparaît depuis la dernière fois se construit, le
+  reste est déjà posé. C'est ce qui fait qu'une partie reprise affiche les
+  établissements debout sans rejouer une seule animation, sans qu'il ait fallu
+  réécrire la règle de reprise ici. Un établissement qui change de main ne
+  resurgit pas : il change de couleur.
+- La liste est résolue **hors de la scène**, depuis l'état PRÉSENTÉ — donc un
+  bâtiment ne se construit qu'au moment où l'achat est rejoué, pas dès que le
+  moteur l'a acté.
+- **Un panneau illustré, pas une maquette.** La première version était une
+  maquette : un volume par famille, hôtel en tour, restaurant bas et large,
+  musée à colonnes. À l'écran, ça ne marche pas. Un établissement occupe une
+  demi-case sur un téléphone et le plateau se regarde d'en haut : il n'en reste
+  qu'une facette de quelques dizaines de pixels, et toute la silhouette censée
+  le rendre reconnaissable disparaît. Chaque établissement ayant déjà son
+  illustration avec son nom peint dessus (ADR 0050), c'est elle qu'on dresse sur
+  la case. Le socle porte la couleur du propriétaire — la seule information que
+  l'illustration ne donne pas. Un test exige que les douze établissements aient
+  bien la leur ; sans elle, on retombe sur un volume sobre, mais on l'apprend
+  au test et pas en partie.
+- **Deux erreurs corrigées en regardant l'écran**, pas en relisant le code :
+  la couleur du propriétaire avait d'abord été mise sur les MURS, invisibles
+  depuis une caméra qui plonge — le bâtiment paraissait crème quel que soit son
+  propriétaire ; et la construction se jouait DERRIÈRE la carte « ajouté à ton
+  patrimoine », donc personne ne la voyait. Un établissement acheté attend
+  désormais que la carte se referme, avec une attente bornée pour qu'un achat
+  conclu au dernier tour ne reste pas invisible.
+- Bâtiment et pion ne se posent pas au même endroit : le premier du côté
+  intérieur de la tuile, le second du côté extérieur. Sans cette séparation, un
+  pion seul sur une case construite se retrouvait au milieu du bâtiment.
+- **Aucun bâtiment religieux n'est représenté**, et ce n'est pas un oubli : les
+  lieux religieux ne sont jamais achetables.

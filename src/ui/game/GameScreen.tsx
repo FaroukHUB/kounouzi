@@ -19,6 +19,7 @@ import { useSessionStore } from "@/state/sessionStore";
 import { useUiStore } from "@/state/uiStore";
 import { Board } from "@/ui/board/Board";
 import { Board3D } from "@/ui/scene/Board3D";
+import { builtSites } from "@/ui/scene/establishments";
 import { useBoardRender, useSlowStore } from "@/ui/scene/useBoardRender";
 import { PawnLayer } from "@/ui/board/PawnLayer";
 import { CardOverlay } from "@/ui/cards/CardOverlay";
@@ -158,6 +159,13 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const cardOpen = ui.card !== null;
   /** Les pions : une seule source de propriétés, lue à l'identique par la vue 2D et par la scène 3D. */
   const pawnProps = { players: state.players, profiles, visuals: ui.pawnVisuals, activePlayerId: shownActiveId, cellCount: state.config.board.cellCount, stepMs: timings.stepMs };
+  /**
+   * Les établissements du plateau 3D, résolus ICI, hors de la scène. Ils sont
+   * lus dans l'état PRÉSENTÉ, comme les rubans de propriétaire en 2D : un
+   * bâtiment ne sort donc du sol qu'au moment où l'achat est rejoué, pas dès que
+   * le moteur l'a acté.
+   */
+  const buildings = builtSites({ board: state.config.board, sites: state.config.sites, holdings: shown.holdings, players: state.players });
   /** Jusqu'à 4 joueurs : les tuiles entourent le plateau (gros chiffres) ; au-delà, liste dans le panneau latéral. */
   const corners = state.players.length <= 4;
 
@@ -191,6 +199,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
             quality={boardRender.quality}
             pawns={pawnProps}
             shot={cardOpen || shown.status === "finished" ? "wide" : "follow"}
+            buildings={buildings}
             reduced={reduced}
             onTooSlow={markTooSlow}
             center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}

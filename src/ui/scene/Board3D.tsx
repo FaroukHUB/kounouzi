@@ -6,6 +6,7 @@ import type { ResolvedBoard } from "@/core/game";
 import type { BoardTextureMode } from "@/config/scene3d";
 import type { QualityTier } from "@/config/scene3d/tiers";
 import type { PawnLayerProps } from "@/ui/board/PawnLayer";
+import type { BuiltSite } from "./establishments";
 import { gridDims } from "@/ui/board/layout";
 
 /**
@@ -25,6 +26,8 @@ export interface Board3DProps {
   readonly pawns: PawnLayerProps;
   /** Plan de caméra : suivre le joueur actif, ou prendre du recul (carte ouverte, partie finie). */
   readonly shot: "follow" | "wide";
+  /** Les établissements acquis, résolus hors de la scène : case, famille, couleur du propriétaire. */
+  readonly buildings: readonly BuiltSite[];
   /** Animations réduites : la caméra se place au lieu de glisser. */
   readonly reduced: boolean;
   /** Panneau du Chemin : il reste en DOM, au-dessus de la toile — il est interactif et lu par les lecteurs d'écran. */
@@ -39,13 +42,11 @@ export interface Board3DProps {
  * en page ne change donc pas d'un mode à l'autre, et basculer 3D ↔ 2D ne fait
  * pas sauter l'écran.
  *
- * CE QUI MANQUE ENCORE, et c'est assumé : ni établissements qui sortent du sol,
- * ni rubans de propriétaire. Ils arrivent aux étapes suivantes. Les pions, eux,
- * sont dans la scène depuis l'étape 2 :
- * ils ne peuvent pas être empruntés au plateau 2D, qui les place en
- * pourcentages d'une surface plate et les poserait à côté de leur case.
+ * Pions et établissements vivent DANS la scène : ils ne peuvent pas être
+ * empruntés au plateau 2D, qui les place en pourcentages d'une surface plate et
+ * les poserait à côté de leur case.
  */
-export function Board3D({ board, textureMode, quality, onTooSlow, pawns, shot, reduced, center }: Board3DProps) {
+export function Board3D({ board, textureMode, quality, onTooSlow, pawns, shot, buildings, reduced, center }: Board3DProps) {
   const { cols, rows } = gridDims(board.cellCount);
   return (
     /* Ni coins arrondis ni ombre portée, contrairement au cadre 2D : la toile est
@@ -59,7 +60,7 @@ export function Board3D({ board, textureMode, quality, onTooSlow, pawns, shot, r
       data-grid={`${cols}x${rows}`}
       data-texture={textureMode}
     >
-      <GameCanvas board={board} textureMode={textureMode} quality={quality} pawns={pawns} shot={shot} reduced={reduced} onTooSlow={onTooSlow} />
+      <GameCanvas board={board} textureMode={textureMode} quality={quality} pawns={pawns} shot={shot} buildings={buildings} reduced={reduced} onTooSlow={onTooSlow} />
       {/* Le panneau du Chemin flotte au centre, comme une carte posée sur le plateau. */}
       <div className="pointer-events-none absolute inset-[14%] flex items-center justify-center">
         <div className="pointer-events-auto flex max-h-full w-full items-center justify-center">{center}</div>

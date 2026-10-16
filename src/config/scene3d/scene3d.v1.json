@@ -45,5 +45,12 @@
   "pawns": {
     "turnFactor": 0.22,
     "settleFactor": 0.18
+  },
+  "establishments": {
+    "inset": 0.19,
+    "pawnShift": 0.22,
+    "riseMs": 700,
+    "overshoot": 0.12,
+    "riseWaitMaxMs": 4000
   }
 }

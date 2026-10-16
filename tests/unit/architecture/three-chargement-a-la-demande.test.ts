@@ -32,7 +32,7 @@ describe("three.js se charge à la demande, jamais dans le bundle initial (ADR 0
   it("les modules qui embarquent three sont bien ceux qu'on croit", () => {
     // Si cette liste grandit sans qu'on l'ait voulu, c'est le signal qu'un
     // fichier vient de faire entrer une bibliothèque de 600 Ko quelque part.
-    expect(THREE_MODULES.map((f) => basename(f.rel)).sort()).toEqual(["GameCanvas.tsx", "boardMesh.ts", "pawnMesh.ts"]);
+    expect(THREE_MODULES.map((f) => basename(f.rel)).sort()).toEqual(["GameCanvas.tsx", "boardMesh.ts", "establishmentMesh.ts", "pawnMesh.ts"]);
   });
 
   it.each(THREE_MODULES.map((f) => basename(f.rel, ".tsx").replace(/\.ts$/, "")))(

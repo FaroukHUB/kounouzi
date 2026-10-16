@@ -1,6 +1,9 @@
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { DEFAULT_BOARD } from "@/config/board";
+import { DEMO_ESTABLISHMENTS } from "@/config/demo";
 import { BOARD_TEXTURE_MODES, DEFAULT_BOARD_TEXTURE_MODE, SCENE_3D, scene3dConfigSchema } from "@/config/scene3d";
 import { QUALITY_TIERS } from "@/config/scene3d/tiers";
 import { resolveBoard } from "@/core/game";
@@ -18,8 +21,14 @@ import {
 import { boardExtent, boardFitsInView, cameraPosition, cellCenter, centerArea, clusterPoint, fitDistance, uvForCell, uvForCenter } from "@/ui/scene/boardGeometry";
 import { easeStep, facing, hopHeight, pawnPoint, stepProgress, turnToward } from "@/ui/scene/pawnMotion";
 import { approach, approachShot, clampTarget, followShot, shotSettled, wideShot, type ShotInput } from "@/ui/scene/cameraFraming";
+import { buildingPoint, builtSites, outwardOffset, riseAt, sameBuilding } from "@/ui/scene/establishments";
+import { ESTABLISHMENT_FOOTPRINT, establishmentHeight } from "@/ui/scene/establishmentMesh";
+import { ESTABLISHMENT_FAMILIES } from "@/core/game";
+import { pieceForSeat } from "@/config/pawns/pieces";
 import { boardCorners, pointsFitInView } from "@/ui/scene/boardGeometry";
 import { TEST_MONUMENTS } from "../../fixtures/game/heritage.fixture";
+
+const root = fileURLToPath(new URL("../../../", import.meta.url));
 
 /** Les deux plateaux versionnés, plus celui réellement servi : la géométrie ne doit dépendre d'aucune constante. */
 const PLATEAUX = [26, 28] as const;
@@ -451,6 +460,131 @@ describe("surveillance des images par seconde", () => {
   });
 });
 
+describe("les établissements qui sortent du sol", () => {
+  // Les établissements réellement servis par le jeu : c'est leur famille qui
+  // décide de la silhouette, donc c'est eux qu'il faut éprouver, pas des
+  // monuments de test qui n'en portent aucune.
+  const resolu = resolveBoard(DEFAULT_BOARD, DEMO_ESTABLISHMENTS);
+  if (!resolu.ok) throw new Error("plateau");
+  const plateau = resolu.value.board;
+  const sites = resolu.value.sites;
+  const joueurs = [{ id: "p1" }, { id: "p2" }] as const;
+  const casePatrimoine = plateau.cells.find((c) => c.type === "heritage");
+  if (!casePatrimoine || casePatrimoine.type !== "heritage") throw new Error("aucune case patrimoine");
+
+  const detenu = (siteId: string, ownerId: string) => ({ siteId, ownerId: ownerId as never, price: 100, heritageValue: 50, acquiredTurn: 1 });
+
+  it("un établissement acquis se pose sur SA case, à la couleur de son propriétaire", () => {
+    const batiments = builtSites({ board: plateau, sites, holdings: [detenu(casePatrimoine.siteId, "p2")], players: joueurs });
+    expect(batiments).toHaveLength(1);
+    expect(batiments[0]!.position).toBe(casePatrimoine.position);
+    // La couleur vient du PION du propriétaire, la seule clé de lecture du plateau.
+    expect(batiments[0]!.color).toBe(pieceForSeat(1).color);
+  });
+
+  it("rien n'est inventé : un patrimoine sans établissement déclaré ne fabrique aucun bâtiment", () => {
+    const sansEtablissement = Object.fromEntries(Object.entries(sites).map(([id, site]) => [id, { ...site, establishment: undefined }]));
+    expect(builtSites({ board: plateau, sites: sansEtablissement, holdings: [detenu(casePatrimoine.siteId, "p1")], players: joueurs })).toEqual([]);
+    // Et un site qui n'est sur aucune case de CE plateau est ignoré, pas planté.
+    expect(builtSites({ board: plateau, sites, holdings: [detenu("site-qui-nexiste-pas", "p1")], players: joueurs })).toEqual([]);
+  });
+
+  it("TOUS les établissements du jeu ont leur illustration : aucun ne retombe sur un volume", () => {
+    // C'est la raison d'être du panneau. Si un établissement arrivait sans
+    // carte, il redeviendrait une boîte colorée — exactement ce qui ne marchait
+    // pas à l'écran — et ce test est là pour qu'on l'apprenne ici, pas en partie.
+    const tous = Object.keys(sites).map((siteId) => ({ siteId, ownerId: "p1", price: 1, heritageValue: 1, acquiredTurn: 1 }));
+    const batiments = builtSites({ board: plateau, sites, holdings: tous as never, players: joueurs });
+    expect(batiments.length).toBe(Object.keys(sites).length);
+    for (const b of batiments) {
+      expect(b.art, `${b.siteId} n'a pas d'illustration`).not.toBeNull();
+      expect(b.artWidth, b.siteId).toBeGreaterThan(0);
+      expect(b.artHeight, b.siteId).toBeGreaterThan(0);
+    }
+  });
+
+  it("un établissement illustré se dresse plus haut qu'un pion : on le voit par-dessus", () => {
+    const illustre = { art: "/x.webp", family: "maktaba" as const };
+    expect(establishmentHeight(illustre)).toBeGreaterThan(SCENE_3D.board.pawnHeight);
+    // Sans illustration, le volume de repli reste debout et distinct par famille.
+    for (const family of ESTABLISHMENT_FAMILIES) expect(establishmentHeight({ art: null, family }), family).toBeGreaterThan(0.2);
+    expect(establishmentHeight({ art: null, family: "makkah_hotel" })).toBeGreaterThan(establishmentHeight({ art: null, family: "madinah_hotel" }));
+  });
+
+  it("le bâtiment et le pion ne se posent pas au même endroit, et restent tous deux sur leur tuile", () => {
+    // Un pion seul sur une case construite se retrouverait sinon au milieu du bâtiment.
+    const inset = SCENE_3D.establishments.inset;
+    const shift = SCENE_3D.establishments.pawnShift;
+    const demiTuile = (1 - SCENE_3D.board.cellGap) / 2;
+    for (let position = 0; position < plateau.cellCount; position += 1) {
+      const centre = cellCenter(position, plateau.cellCount);
+      const batiment = buildingPoint(position, plateau.cellCount, inset);
+      const away = outwardOffset(position, plateau.cellCount, shift);
+      const pion = { x: centre.x + away.x, z: centre.z + away.z };
+      // Ils sont bien séparés…
+      expect(Math.hypot(batiment.x - pion.x, batiment.z - pion.z), `case ${position}`).toBeCloseTo(inset + shift, 10);
+      // …et le bâtiment, emprise comprise, ne déborde pas de sa tuile.
+      expect(Math.abs(batiment.x - centre.x) + ESTABLISHMENT_FOOTPRINT / 2, `case ${position}`).toBeLessThanOrEqual(demiTuile + 1e-9);
+      expect(Math.abs(batiment.z - centre.z) + ESTABLISHMENT_FOOTPRINT / 2, `case ${position}`).toBeLessThanOrEqual(demiTuile + 1e-9);
+    }
+  });
+
+  it("le décalage va bien vers l'extérieur du plateau, sur les quatre côtés", () => {
+    // Case 0 : coin inférieur droit, donc vers l'avant et vers la droite selon le côté parcouru.
+    const extent = boardExtent(28);
+    for (let position = 0; position < 28; position += 1) {
+      const centre = cellCenter(position, 28);
+      const dehors = outwardOffset(position, 28, 0.2);
+      const deplace = { x: centre.x + dehors.x, z: centre.z + dehors.z };
+      // S'éloigner du centre du plateau, c'est bien aller vers l'extérieur.
+      expect(Math.hypot(deplace.x, deplace.z), `case ${position}`).toBeGreaterThan(Math.hypot(centre.x, centre.z));
+      expect(Math.abs(deplace.x)).toBeLessThanOrEqual(extent.width / 2);
+      expect(Math.abs(deplace.z)).toBeLessThanOrEqual(extent.depth / 2);
+    }
+  });
+
+  it("la sortie de terre part de zéro, dépasse un peu, et se pose exactement à sa hauteur", () => {
+    expect(riseAt(0)).toBe(0);
+    expect(riseAt(1)).toBe(1);
+    let maximum = 0;
+    for (let i = 0; i <= 50; i += 1) {
+      const v = riseAt(i / 50);
+      expect(v).toBeGreaterThanOrEqual(0);
+      maximum = Math.max(maximum, v);
+    }
+    // Un vrai dépassement, mais borné : un bâtiment qui double de hauteur fait peur, pas plaisir.
+    expect(maximum).toBeGreaterThan(1);
+    expect(maximum).toBeLessThan(1.25);
+  });
+
+  it("un bâtiment qui change de main n'est pas le même bâtiment : il change de couleur, il ne resurgit pas", () => {
+    const a = { siteId: "s", position: 3, family: "museum" as const, color: "#aaaaaa", art: "/x.webp", artWidth: 645, artHeight: 1048 };
+    expect(sameBuilding(a, { ...a })).toBe(true);
+    expect(sameBuilding(a, { ...a, color: "#bbbbbb" })).toBe(false);
+    expect(sameBuilding(a, { ...a, position: 4 })).toBe(false);
+  });
+});
+
+describe("la surveillance ne doit pas confondre « au repos » et « trop lent »", () => {
+  it("trois redessins espacés ne doivent PAS faire replier en 2D", () => {
+    // Le défaut : la boucle s'arrête au repos, et le dessin suivant pouvait
+    // arriver dix secondes plus tard. Compté tel quel, c'était une image de dix
+    // secondes — un dixième d'image par seconde. Trois tours posés et la
+    // surveillance déclarait trop lent un plateau qui n'avait jamais ramé.
+    const config = { fallbackFps: SCENE_3D.quality.fallbackFps, fallbackSeconds: SCENE_3D.quality.fallbackSeconds };
+    const naif = averageFps([10_000]);
+    expect(naif).toBeLessThan(config.fallbackFps);
+    let state = SLOW_WATCH_START;
+    for (let i = 0; i < config.fallbackSeconds; i += 1) state = watchSlowness(state, naif, config);
+    expect(state.tooSlow, "trois mesures basses suffisent : c'est pourquoi elles ne doivent jamais être prises au repos").toBe(true);
+    // La scène remet donc l'échantillonnage à zéro à CHAQUE redémarrage de la boucle.
+    const source = readFileSync(root + "src/ui/scene/GameCanvas.tsx", "utf8");
+    expect(source).toContain("resetSampler");
+    const ensure = source.slice(source.indexOf("const ensureLoop"), source.indexOf("const placeCamera") === -1 ? undefined : source.indexOf("const placeCamera"));
+    expect(ensure).toContain("resetSampler()");
+  });
+});
+
 describe("configuration de la scène : des données, pas du code", () => {
   it("la configuration servie est valide et complète", () => {
     expect(() => scene3dConfigSchema.parse(SCENE_3D)).not.toThrow();
@@ -497,7 +631,7 @@ describe("le plateau 3D à l'écran", () => {
   const pions = { players: [], profiles: [], visuals: {}, activePlayerId: "", cellCount: board.cellCount, stepMs: 280 };
   const render = (textureMode: (typeof BOARD_TEXTURE_MODES)[number]) =>
     renderToStaticMarkup(
-      <Board3D board={board} textureMode={textureMode} quality="high" pawns={pions} shot="follow" reduced={false} onTooSlow={() => {}} center={<p>panneau du chemin</p>} />,
+      <Board3D board={board} textureMode={textureMode} quality="high" pawns={pions} shot="follow" buildings={[]} reduced={false} onTooSlow={() => {}} center={<p>panneau du chemin</p>} />,
     );
 
   it("le cadre garde le rapport d'image du plateau : basculer 3D ↔ 2D ne fait pas sauter l'écran", () => {

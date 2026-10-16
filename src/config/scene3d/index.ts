@@ -78,6 +78,24 @@ export const scene3dConfigSchema = z.object({
     /** Vitesse de rattrapage de la taille (joueur actif), par image. */
     settleFactor: z.number().min(0.01).max(1),
   }),
+  establishments: z.object({
+    /** Décalage du bâtiment vers l'intérieur du plateau, en unités de case. */
+    inset: z.number().min(0).max(0.5),
+    /** Décalage des pions vers l'extérieur sur une case construite, pour ne pas se poser dans le bâtiment. */
+    pawnShift: z.number().min(0).max(0.5),
+    /** Durée de la sortie de terre. */
+    riseMs: z.number().min(0).max(5000),
+    /** Petit dépassement au milieu de la montée : c'est lui qui fait lire « il surgit ». */
+    overshoot: z.number().min(0).max(1),
+    /**
+     * Attente MAXIMALE avant de sortir de terre quand une carte occupe encore
+     * l'écran. Un établissement acheté sort du sol pendant que la carte
+     * « ajouté à ton patrimoine » est affichée : personne ne le voit. Il attend
+     * donc qu'elle se referme — mais pas indéfiniment, sinon un achat conclu au
+     * tout dernier tour resterait invisible pour toujours.
+     */
+    riseWaitMaxMs: z.number().min(0).max(30000),
+  }),
   quality: z.object({
     minMemoryGb: z.number().positive(),
     minCores: z.number().int().positive(),
