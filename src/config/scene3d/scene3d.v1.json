@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "board": {
+    "tiltDegrees": 56,
+    "cellGap": 0.06,
+    "tileHeight": 0.16,
+    "centerDrop": 0.04,
+    "rimHeight": 0.1
+  },
+  "camera": {
+    "fovDegrees": 38,
+    "margin": 1.06,
+    "minDistance": 6,
+    "maxDistance": 80
+  },
+  "lighting": {
+    "hemisphere": 2.1,
+    "sun": 1.45,
+    "sunTiltDegrees": 52,
+    "sunTurnDegrees": -35,
+    "skyColor": "#fff6e5",
+    "groundColor": "#8a7a5c"
+  },
+  "quality": {
+    "minMemoryGb": 2,
+    "minCores": 4,
+    "pixelRatioCap": { "low": 1, "medium": 1.5, "high": 2 },
+    "antialias": { "low": false, "medium": true, "high": true },
+    "fallbackFps": 24,
+    "fallbackSeconds": 3
+  }
+}

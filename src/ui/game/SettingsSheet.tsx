@@ -7,11 +7,17 @@ import { refusalCause } from "@/experience/narration";
 import type { CloudReason, NarrationMode } from "@/experience/narration";
 import { DEFAULT_LOCALE, t } from "@/i18n";
 import { NARRATION_RATES, useSessionStore } from "@/state/sessionStore";
+import { BOARD_TEXTURE_MODES, type BoardTextureMode } from "@/config/scene3d";
+import { BOARD_RENDER_PREFERENCES, type BoardRenderMode, type BoardRenderPreference, type FallbackReason } from "@/ui/scene/capability";
 import { Button } from "@/ui/primitives/Button";
 
 export interface SettingsSheetProps {
   readonly open: boolean;
   readonly onClose: () => void;
+  /** Ce qui est RÉELLEMENT servi (ADR 0059) : le réglage peut dire « automatique », l'appareil tranche. */
+  readonly boardMode: BoardRenderMode;
+  /** Pourquoi la 2D, quand c'est la 2D. Une cause muette laisse croire que le réglage n'a servi à rien. */
+  readonly boardReason: FallbackReason;
   readonly narrationSupported: boolean;
   /** Source de la voix : en ligne, appareil (secours) ou aucune. */
   readonly narrationMode: NarrationMode;
@@ -36,6 +42,14 @@ export interface SettingsSheetProps {
   readonly challengeSettings: ChallengeSettings | null;
   readonly onChallengeSettings: (settings: ChallengeSettings) => void;
 }
+
+/** Pourquoi la 2D est servie — un texte par cause, jamais un message générique. */
+const BOARD_REASON_KEY = {
+  user: "settings.board.why.user",
+  "no-webgl": "settings.board.why.noWebgl",
+  "weak-device": "settings.board.why.weakDevice",
+  "too-slow": "settings.board.why.tooSlow",
+} as const satisfies Record<Exclude<FallbackReason, "none">, string>;
 
 /** Réglages d'expérience (préférences locales). Aucune règle de jeu. */
 export function SettingsSheet(props: SettingsSheetProps) {
@@ -70,6 +84,51 @@ export function SettingsSheet(props: SettingsSheetProps) {
               <option value="off">✗</option>
             </select>
           </label>
+
+          {/* ---- Plateau (ADR 0059) ---- */}
+          <label className="flex items-center justify-between gap-3">
+            <span className="min-w-0 shrink">{t(DEFAULT_LOCALE, "settings.board")}</span>
+            <select
+              className="min-h-11 max-w-[55%] shrink-0 truncate rounded-xl border px-3"
+              value={s.boardRender}
+              onChange={(e) => s.setBoardRender(e.target.value as BoardRenderPreference)}
+              data-testid="board-render"
+            >
+              {BOARD_RENDER_PREFERENCES.map((value) => (
+                <option key={value} value={value}>
+                  {t(DEFAULT_LOCALE, value === "auto" ? "settings.board.auto" : value === "3d" ? "settings.board.3d" : "settings.board.2d")}
+                </option>
+              ))}
+            </select>
+          </label>
+          {/* La 2D n'est jamais muette : elle dit laquelle des quatre raisons s'applique. */}
+          {props.boardMode === "2d" && props.boardReason !== "none" ? (
+            <p className="rounded-2xl bg-[var(--k-sand)] px-3 py-2 text-sm text-[var(--k-ink-soft)]" data-testid="board-why" data-reason={props.boardReason}>
+              {t(DEFAULT_LOCALE, BOARD_REASON_KEY[props.boardReason])}
+            </p>
+          ) : null}
+          {/* Réglage TEMPORAIRE : deux rendus de l'illustration à comparer sur un vrai écran.
+              Une fois le choix fait, cette ligne et le mode perdant disparaissent — pas de code mort. */}
+          {props.boardMode === "3d" ? (
+            <>
+              <label className="flex items-center justify-between gap-3">
+                <span className="min-w-0 shrink">{t(DEFAULT_LOCALE, "settings.board.texture")}</span>
+                <select
+                  className="min-h-11 max-w-[55%] shrink-0 truncate rounded-xl border px-3"
+                  value={s.boardTexture}
+                  onChange={(e) => s.setBoardTexture(e.target.value as BoardTextureMode)}
+                  data-testid="board-texture"
+                >
+                  {BOARD_TEXTURE_MODES.map((value) => (
+                    <option key={value} value={value}>
+                      {t(DEFAULT_LOCALE, value === "center" ? "settings.board.texture.center" : "settings.board.texture.full")}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <p className="text-sm text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "settings.board.texture.hint")}</p>
+            </>
+          ) : null}
 
           <label className="flex items-center justify-between gap-3">
             <span>{t(DEFAULT_LOCALE, "settings.narration")}</span>

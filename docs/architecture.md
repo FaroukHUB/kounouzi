@@ -185,6 +185,21 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   exactement `board.cells.length` cases (`gridDims` : plateau produit 28 → 8 × 8 ; anciens plateaux toujours supportés),
   cases placées par `perimeterPosition`, pions en `transform` uniquement
   (translate en unités de case), grappes étalées sur une même case.
+- **Plateau 3D** (ADR 0059, `src/ui/scene`) : une couche de REPRÉSENTATION,
+  servie à la place du plateau 2D selon le réglage `Plateau : 3D / 2D /
+  Automatique`. Elle lit `uiStore` et `presentedState`, n'importe rien de
+  `src/core`, n'émet aucune commande, et ne peut pas retarder le moteur. Une
+  seule toile WebGL, chargée par `next/dynamic` (three.js n'entre dans aucun
+  bundle initial, vérifié par un test), rendu à la demande, aucune ombre
+  calculée. Les fichiers purs (`boardGeometry.ts`, `capability.ts`)
+  n'importent pas `three` et portent toutes les décisions — géométrie de
+  l'anneau dérivée de `perimeterPosition`, cadrage de la caméra, mode de
+  rendu, surveillance des images par seconde ; les fichiers de scène ne font
+  que les traduire en objets, puisque les tests tournent sans DOM ni WebGL.
+  Inclinaison, cadrage, éclairage et seuils sont des données
+  (`src/config/scene3d`, Zod). Ni dé, ni hasard, ni musique : l'ADR 0013 n'est
+  pas assoupli par cette couche. Panneaux, bandeaux, cartes et bouton du
+  Chemin restent en DOM au-dessus de la toile.
 - **Temps actif** : `startPlayClock` (couche session) compte les secondes
   visibles et non en pause, les envoie par paquets `AdvanceClock` ; le moteur
   ne lit jamais l'horloge.

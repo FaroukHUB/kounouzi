@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
@@ -19,8 +20,9 @@ import { ecouteur, gameStore, learningStore, narrator, useGameStore, useLearning
 import { useSessionStore } from "@/state/sessionStore";
 import { useUiStore } from "@/state/uiStore";
 import { Board } from "@/ui/board/Board";
+import { Board3D } from "@/ui/scene/Board3D";
+import { useBoardRender, useSlowStore } from "@/ui/scene/useBoardRender";
 import { PawnLayer } from "@/ui/board/PawnLayer";
-import { PawnLayer3D } from "@/ui/board/PawnLayer3D";
 import { CardOverlay } from "@/ui/cards/CardOverlay";
 import { Button } from "@/ui/primitives/Button";
 import { FinalRanking } from "./FinalRanking";
@@ -33,6 +35,16 @@ import { SettingsSheet } from "./SettingsSheet";
 import { TimeBadge } from "./TimeBadge";
 import { TurnBanner } from "./TurnBanner";
 
+/**
+ * `three` ne doit entrer dans AUCUN bundle initial (ADR 0059). L'essai de pions
+ * 3D était importé statiquement : la bibliothèque partait donc dans le paquet de
+ * la page de jeu pour tous les joueurs, y compris avec le drapeau à `false` —
+ * un demi-mégaoctet téléchargé pour du code qui ne s'exécutait jamais. Cet
+ * essai sera absorbé par la scène à l'étape 2 ; en attendant, il se charge à la
+ * demande comme le reste de la 3D.
+ */
+const PawnLayer3D = dynamic(() => import("@/ui/board/PawnLayer3D").then((m) => m.PawnLayer3D), { ssr: false });
+
 export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const status = useGameStore((s) => s.status);
   const state = useGameStore((s) => s.state);
@@ -43,6 +55,10 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const timings = useTimings();
   const reduced = useReducedMotion();
   const session = useSessionStore();
+  // Plateau 3D ou 2D (ADR 0059) : une seule décision, prise ici, et le plateau
+  // 2D reste la vue complète tant que la scène ne porte pas encore les pions.
+  const boardRender = useBoardRender();
+  const markTooSlow = useSlowStore((s) => s.markTooSlow);
   const [settingsOpen, setSettingsOpen] = useState(false);
   /** Change à chaque test de la voix : le panneau relit alors l'état du narrateur. */
   const [voiceCheck, setVoiceCheck] = useState(0);
@@ -175,6 +191,15 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           </div>
         ) : null}
         <div className={`w-full ${corners ? "lg:col-start-2 lg:row-span-2 lg:flex lg:min-h-0 lg:w-auto lg:items-center lg:justify-center lg:self-stretch" : ""}`}>
+        {boardRender.mode === "3d" ? (
+          <Board3D
+            board={state.config.board}
+            textureMode={session.boardTexture}
+            quality={boardRender.quality}
+            onTooSlow={markTooSlow}
+            center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}
+          />
+        ) : (
         <Board
           board={state.config.board}
           highlightedCell={ui.highlightedCell}
@@ -190,6 +215,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           })()}
           center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}
         />
+        )}
         </div>
       </motion.main>
 
@@ -243,6 +269,8 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           setSettingsOpen(false);
           setHelpOpen(true);
         }}
+        boardMode={boardRender.mode}
+        boardReason={boardRender.reason}
         narrationSupported={narrator.isSupported()}
         narrationMode={narrator.mode?.() ?? "none"}
         narrationReason={narrator instanceof CloudNarrator ? narrator.availabilityReason() : undefined}

@@ -12,10 +12,14 @@ const root = fileURLToPath(new URL("../../../", import.meta.url));
 const source = (path: string) => readFileSync(`${root}${path}`, "utf8");
 
 describe("réglage de la voix (ADR 0035 → 0036) : ON par défaut avec la voix en ligne, jamais bloquante", () => {
-  it("la préférence de session est ON par défaut (v3) ; les préférences v1 et v2 sont migrées vers ON, les autres réglages conservés", () => {
+  it("la préférence de session est ON par défaut ; les préférences v1 et v2 sont migrées vers ON, les autres réglages conservés", () => {
     expect(useSessionStore.getState().narrationEnabled).toBe(true);
     const options = useSessionStore.persist.getOptions();
-    expect(options.version).toBe(3);
+    // Au moins 3, et pas EXACTEMENT 3 : ce test parle de la narration, et le
+    // magasin de préférences porte aussi tout le reste. Figer le numéro faisait
+    // de lui un fil-piège — la première migration sans rapport avec la voix (le
+    // plateau 3D, v4) le cassait sans qu'aucune règle de narration ait bougé.
+    expect(options.version).toBeGreaterThanOrEqual(3);
     const fromV2 = options.migrate!({ narrationEnabled: false, narrationRate: "fast", preciseTimer: true, reducedMotion: null }, 2) as { narrationEnabled: boolean; narrationRate: string; preciseTimer: boolean };
     expect(fromV2.narrationEnabled).toBe(true);
     expect(fromV2.narrationRate).toBe("fast");

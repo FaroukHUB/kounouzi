@@ -34,6 +34,8 @@ describe("validation à la voix — réglages", () => {
       <SettingsSheet
         open={true}
         onClose={() => {}}
+        boardMode="2d"
+        boardReason="none"
         narrationSupported={true}
         narrationMode="cloud"
         ecouteReason="ok"

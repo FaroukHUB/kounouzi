@@ -4,7 +4,7 @@ import { SettingsSheet } from "@/ui/game/SettingsSheet";
 
 const reglages = (props: Partial<Parameters<typeof SettingsSheet>[0]> = {}) =>
   renderToStaticMarkup(
-    <SettingsSheet open={true} onClose={() => {}} narrationSupported={true} narrationMode="cloud" ecouteReason="ok" onReplay={() => {}} paused={false} onTogglePause={() => {}} endRequested={false} onRequestEnd={() => {}} onOpenHelp={() => {}} challengeSettings={null} onChallengeSettings={() => {}} {...props} />,
+    <SettingsSheet open={true} onClose={() => {}} boardMode="2d" boardReason="none" narrationSupported={true} narrationMode="cloud" ecouteReason="ok" onReplay={() => {}} paused={false} onTogglePause={() => {}} endRequested={false} onRequestEnd={() => {}} onOpenHelp={() => {}} challengeSettings={null} onChallengeSettings={() => {}} {...props} />,
   );
 
 describe("marqueur de version — savoir CE QUI est en ligne", () => {
