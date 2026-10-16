@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "coins": {
+    "minCoins": 3,
+    "maxCoins": 12,
+    "amountForMax": 600,
+    "staggerMs": 45,
+    "travelMs": 720,
+    "spread": 0.18,
+    "size": 38,
+    "arcShare": 0.45,
+    "maxArc": 140,
+    "minApexY": 46
+  }
+}

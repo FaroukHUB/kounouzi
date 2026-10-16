@@ -31,12 +31,16 @@ export function PlayersDrawer({ state, profiles }: { readonly state: GameState; 
         aria-label={t(DEFAULT_LOCALE, "game.players")}
       >
         {state.players.slice(0, 4).map((p) => (
-          <AvatarBadge
-            key={p.id}
-            avatar={avatarById(profiles.find((d) => d.id === p.id)?.avatarId ?? DEFAULT_AVATAR_ID)}
-            color={pieceForPlayer(state.players, p.id).color}
-            className={`size-7 ${p.id === actif?.id ? "ring-2 ring-[var(--k-gold)]" : "opacity-60"}`}
-          />
+          <span key={p.id} data-player-anchor={p.id} className="inline-flex">
+            {/* Sur téléphone, le tiroir est fermé la plupart du temps : cette
+                pastille est le seul repère toujours visible d'un joueur, et
+                c'est donc elle qui reçoit les pièces. */}
+            <AvatarBadge
+              avatar={avatarById(profiles.find((d) => d.id === p.id)?.avatarId ?? DEFAULT_AVATAR_ID)}
+              color={pieceForPlayer(state.players, p.id).color}
+              className={`size-7 ${p.id === actif?.id ? "ring-2 ring-[var(--k-gold)]" : "opacity-60"}`}
+            />
+          </span>
         ))}
       </button>
 

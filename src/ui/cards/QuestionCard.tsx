@@ -14,6 +14,7 @@ import { DEFAULT_LOCALE, t } from "@/i18n";
 import { Bidi } from "@/ui/primitives/Bidi";
 import { Button } from "@/ui/primitives/Button";
 import { CELL_STYLE } from "@/ui/board/cellStyles";
+import { AnswerVerdict } from "./AnswerVerdict";
 import { CardShell } from "./CardShell";
 import { LongPressButton } from "./LongPressButton";
 import { QuestionTimer } from "./QuestionTimer";
@@ -140,8 +141,11 @@ export function QuestionCard({ state, profiles, card, narrator, ecouteur, reduce
         className={`flex h-[min(60vh,420px)] w-[min(70vw,300px)] flex-col items-center justify-center gap-3 rounded-[2rem] text-white shadow-2xl ${deck ? "overflow-hidden bg-cover bg-center" : ""}`}
         style={deck ? { backgroundImage: `url(${deck.back})`, backgroundSize: "cover", backgroundPosition: "center", perspective: 1000 } : { backgroundColor: "var(--k-teal)", perspective: 1000 }}
         initial={{ opacity: 0, scale: 0.8 }}
-        animate={step === "opening" ? { rotate: reduced ? 0 : 360, scale: reduced ? 1 : [1, 1.15, 1], rotateY: 90, opacity: 1 } : { opacity: 1, scale: 1, rotate: 0 }}
-        transition={{ duration: reduced ? 0 : 0.7, ease: "easeInOut" }}
+        /* Un RETOURNEMENT, pas une toupie : le dos pivote d'un quart de tour et
+           s'efface exactement là où la face reprend. Le tour complet d'avant
+           était un autre geste, collé devant celui-ci. */
+        animate={step === "opening" ? { rotateY: reduced ? 0 : 90, scale: reduced ? 1 : [1, 1.06, 1], opacity: 1 } : { opacity: 1, scale: 1, rotateY: 0 }}
+        transition={{ duration: reduced ? 0 : 0.35, ease: "easeIn" }}
         onAnimationComplete={() => {
           if (step === "opening") onUpdate({ step: "question" });
         }}
@@ -158,7 +162,7 @@ export function QuestionCard({ state, profiles, card, narrator, ecouteur, reduce
   }
 
   return (
-    <CardShell cellType={cellType} deck={deck} title={title} subtitle={`${category?.label.fr ?? ""} · ${t(DEFAULT_LOCALE, "card.difficulty", { level: question.difficulty })}${question.title ? ` · ${question.title}` : ""}`} testId="question-card">
+    <CardShell enter="flip" cellType={cellType} deck={deck} title={title} subtitle={`${category?.label.fr ?? ""} · ${t(DEFAULT_LOCALE, "card.difficulty", { level: question.difficulty })}${question.title ? ` · ${question.title}` : ""}`} testId="question-card">
       {intro}
       {step === "question" && question.animationKey ? <CardAnimation animationKey={question.animationKey} reduced={reduced} accent={CELL_STYLE[cellType].accent} /> : null}
       <p className="text-[clamp(1.25rem,3vw,1.75rem)] font-bold leading-snug" data-testid="question-prompt">
@@ -288,11 +292,7 @@ export function QuestionCard({ state, profiles, card, narrator, ecouteur, reduce
 
       {step === "submitted" ? <p className="text-[var(--k-ink-soft)]">…</p> : null}
 
-      {step === "result" && card.outcome ? (
-        <motion.p initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center text-2xl font-black" data-testid="result">
-          {t(DEFAULT_LOCALE, `card.result.${card.outcome}`)}
-        </motion.p>
-      ) : null}
+      {step === "result" && card.outcome ? <AnswerVerdict outcome={card.outcome} reduced={reduced} /> : null}
 
       {step === "reward" ? (
         <motion.div initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 260, damping: 18 }} className="flex flex-col items-center gap-1 text-center" data-testid="reward">

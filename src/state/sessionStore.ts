@@ -26,6 +26,8 @@ export interface SessionState {
   readonly boardRender: BoardRenderPreference;
   /** Comment l'illustration est posée sur le plateau 3D. Réglage TEMPORAIRE de l'étape 1, retiré après le choix. */
   readonly boardTexture: BoardTextureMode;
+  /** Vibration aux moments clés. ON par défaut : très courte, et jamais la seule information. */
+  readonly hapticsEnabled: boolean;
   setReducedMotion(value: boolean | null): void;
   setNarrationEnabled(value: boolean): void;
   setNarrationRate(value: NarrationRate): void;
@@ -34,6 +36,7 @@ export interface SessionState {
   setPreciseTimer(value: boolean): void;
   setBoardRender(value: BoardRenderPreference): void;
   setBoardTexture(value: BoardTextureMode): void;
+  setHapticsEnabled(value: boolean): void;
 }
 
 const noopStorage = { getItem: () => null, setItem: () => undefined, removeItem: () => undefined };
@@ -51,6 +54,7 @@ export const useSessionStore = create<SessionState>()(
       preciseTimer: false,
       boardRender: "auto",
       boardTexture: DEFAULT_BOARD_TEXTURE_MODE,
+      hapticsEnabled: true,
       setReducedMotion: (reducedMotion) => set({ reducedMotion }),
       setNarrationEnabled: (narrationEnabled) => set({ narrationEnabled }),
       setNarrationRate: (narrationRate) => set({ narrationRate }),
@@ -59,6 +63,7 @@ export const useSessionStore = create<SessionState>()(
       setPreciseTimer: (preciseTimer) => set({ preciseTimer }),
       setBoardRender: (boardRender) => set({ boardRender }),
       setBoardTexture: (boardTexture) => set({ boardTexture }),
+      setHapticsEnabled: (hapticsEnabled) => set({ hapticsEnabled }),
     }),
     {
       name: "kounouzi.session.v1",
@@ -67,14 +72,16 @@ export const useSessionStore = create<SessionState>()(
       // v4 : plateau 3D (ADR 0059). Les anciens enregistrements n'ont pas les
       // préférences de plateau ; `auto` est le bon défaut pour tout le monde, et
       // les autres préférences sont conservées telles quelles.
-      version: 4,
+      // v5 : vibration (étape 6 du plateau 3D). ON par défaut pour tout le monde.
+      version: 5,
       migrate: (persisted, version) => {
         const s = (persisted ?? {}) as Partial<SessionState>;
         const withNarration = version < 3 ? { ...s, narrationEnabled: true } : s;
-        return version < 4 ? { ...withNarration, boardRender: "auto" as const, boardTexture: DEFAULT_BOARD_TEXTURE_MODE } : withNarration;
+        const withBoard = version < 4 ? { ...withNarration, boardRender: "auto" as const, boardTexture: DEFAULT_BOARD_TEXTURE_MODE } : withNarration;
+        return version < 5 ? { ...withBoard, hapticsEnabled: true } : withBoard;
       },
       storage: createJSONStorage(() => (typeof window === "undefined" ? noopStorage : window.localStorage)),
-      partialize: (s) => ({ reducedMotion: s.reducedMotion, narrationEnabled: s.narrationEnabled, narrationRate: s.narrationRate, voiceTone: s.voiceTone, ecouteEnabled: s.ecouteEnabled, preciseTimer: s.preciseTimer, boardRender: s.boardRender, boardTexture: s.boardTexture }),
+      partialize: (s) => ({ reducedMotion: s.reducedMotion, narrationEnabled: s.narrationEnabled, narrationRate: s.narrationRate, voiceTone: s.voiceTone, ecouteEnabled: s.ecouteEnabled, preciseTimer: s.preciseTimer, boardRender: s.boardRender, boardTexture: s.boardTexture, hapticsEnabled: s.hapticsEnabled }),
     },
   ),
 );

@@ -208,7 +208,12 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   un événement, ce qui fait qu'une reprise de partie les affiche posés sans
   rejouer d'animation. Le Chemin du tour s'allume case par case — valeurs du
   moteur, jamais recalculées, aucun dé ni tirage (ADR 0013) — puis s'éteint sous
-  le pion à mesure qu'il avance.
+  le pion à mesure qu'il avance. Par-dessus, en DOM donc valable aussi en 2D :
+  des pièces dorées volent du compte du payeur à celui du receveur sur le
+  bandeau de transfert, la carte se retourne vraiment, le verdict d'une réponse
+  se lit par sa forme autant que par sa couleur, et une vibration courte
+  accompagne — jamais annonce — les moments clés (`src/experience/haptics.ts`,
+  `src/ui/common/CoinFlight.tsx`).
 - **Temps actif** : `startPlayClock` (couche session) compte les secondes
   visibles et non en pause, les envoie par paquets `AdvanceClock` ; le moteur
   ne lit jamais l'horloge.

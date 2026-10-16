@@ -23,6 +23,8 @@ export function PlayerTile({ state, profiles, playerId, className = "" }: { read
   return (
     <div
       data-player={p.id}
+      /* Repère des pièces qui volent : elles partent et arrivent exactement sur le compte du joueur. */
+      data-player-anchor={p.id}
       data-active={active}
       className={`flex items-center gap-2 rounded-2xl border px-3 py-2 transition ${active ? "border-[var(--k-gold)] bg-[var(--k-cream)] shadow-[0_10px_24px_-14px_rgba(60,35,10,0.8)]" : "border-[rgba(120,80,30,0.12)] bg-[rgba(255,250,240,0.85)]"} ${className}`}
     >

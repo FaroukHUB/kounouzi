@@ -77,8 +77,11 @@ describe("composants du plateau (rendu statique)", () => {
   it("le panneau des joueurs marque le joueur actif", () => {
     const { state } = create();
     const html = renderToStaticMarkup(<PlayerPanel state={state} profiles={profiles} />);
-    expect(html).toContain('data-player="p1" data-active="true"');
-    expect(html).toContain('data-player="p2" data-active="false"');
+    // Attributs vérifiés SÉPARÉMENT : ce qui compte est que le joueur actif
+    // soit marqué, pas que deux attributs se touchent dans le HTML. La version
+    // collée cassait dès qu'un attribut s'intercalait entre les deux.
+    expect(html).toMatch(/data-player="p1"[^>]*data-active="true"/);
+    expect(html).toMatch(/data-player="p2"[^>]*data-active="false"/);
   });
 
   it("le temps restant est approximatif par défaut, précis sur demande, absent en partie libre", () => {

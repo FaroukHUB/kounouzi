@@ -16,6 +16,8 @@ export interface SettingsSheetProps {
   readonly onClose: () => void;
   /** Ce qui est RÉELLEMENT servi (ADR 0059) : le réglage peut dire « automatique », l'appareil tranche. */
   readonly boardMode: BoardRenderMode;
+  /** L'appareil propose-t-il la vibration ? iOS, par exemple, ne la propose pas du tout. */
+  readonly hapticsSupported: boolean;
   /** Pourquoi la 2D, quand c'est la 2D. Une cause muette laisse croire que le réglage n'a servi à rien. */
   readonly boardReason: FallbackReason;
   readonly narrationSupported: boolean;
@@ -129,6 +131,12 @@ export function SettingsSheet(props: SettingsSheetProps) {
               <p className="text-sm text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, "settings.board.texture.hint")}</p>
             </>
           ) : null}
+
+          <label className="flex items-center justify-between gap-3">
+            <span className="min-w-0 shrink">{t(DEFAULT_LOCALE, "settings.haptics")}</span>
+            <input type="checkbox" className="size-6 shrink-0" checked={s.hapticsEnabled} onChange={(e) => s.setHapticsEnabled(e.target.checked)} data-testid="haptics" />
+          </label>
+          <p className="text-sm text-[var(--k-ink-soft)]">{t(DEFAULT_LOCALE, props.hapticsSupported ? "settings.haptics.hint" : "settings.haptics.unsupported")}</p>
 
           <label className="flex items-center justify-between gap-3">
             <span>{t(DEFAULT_LOCALE, "settings.narration")}</span>

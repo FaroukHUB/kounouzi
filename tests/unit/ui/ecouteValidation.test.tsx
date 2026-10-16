@@ -35,6 +35,7 @@ describe("validation à la voix — réglages", () => {
         open={true}
         onClose={() => {}}
         boardMode="2d"
+        hapticsSupported={true}
         boardReason="none"
         narrationSupported={true}
         narrationMode="cloud"

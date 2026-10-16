@@ -18,23 +18,38 @@ export interface CardShellProps {
   readonly tall?: boolean | undefined;
   /** Carte illustrée fournie : la FACE devient la carte, le texte vit dans son parchemin. */
   readonly deck?: CardDeck | undefined;
+  /**
+   * Comment la carte entre. `flip` CONTINUE la rotation du dos au lieu de
+   * surgir : le dos tourne d'un quart de tour, la face reprend exactement là
+   * où il s'arrête, et l'ensemble se lit comme UN seul retournement. Avant, le
+   * dos tournait puis la face apparaissait en grossissant — deux gestes
+   * différents collés bout à bout.
+   */
+  readonly enter?: "pop" | "flip" | undefined;
 }
 
 /**
  * Coque commune des cartes : parchemin, bandeau illustré par famille de case
  * (asset remplaçable), médaillon d'icône, coins ornés. Contenu scrollable, tactile.
  */
-export function CardShell({ cellType, title, subtitle, children, testId, tall, deck }: CardShellProps) {
+/** Entrée d'une carte : surgir, ou terminer le retournement commencé par son dos. */
+const ENTRANCE = {
+  pop: { initial: { opacity: 0, scale: 0.9, y: 24 }, animate: { opacity: 1, scale: 1, y: 0 }, duration: 0.25 },
+  flip: { initial: { opacity: 1, rotateY: -90, transformPerspective: 1100 }, animate: { opacity: 1, rotateY: 0, transformPerspective: 1100 }, duration: 0.35 },
+} as const;
+
+export function CardShell({ cellType, title, subtitle, children, testId, tall, deck, enter = "pop" }: CardShellProps) {
   const style = CARD_STYLE[cellType];
-  if (deck) return <IllustratedCard deck={deck} title={title} subtitle={subtitle} testId={testId} cellType={cellType}>{children}</IllustratedCard>;
+  const entrance = ENTRANCE[enter];
+  if (deck) return <IllustratedCard deck={deck} title={title} subtitle={subtitle} testId={testId} cellType={cellType} enter={enter}>{children}</IllustratedCard>;
   return (
     <motion.section
       data-testid={testId ?? "card"}
       data-card-type={cellType}
-      initial={{ opacity: 0, scale: 0.9, y: 24 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
+      initial={entrance.initial}
+      animate={entrance.animate}
       exit={{ opacity: 0, scale: 0.95, y: 12 }}
-      transition={{ type: "tween", duration: 0.25 }}
+      transition={{ type: "tween", duration: entrance.duration }}
       className="bg-parchment relative flex max-h-[min(90dvh,760px)] w-[min(94vw,580px)] flex-col overflow-hidden rounded-[1.8rem] shadow-[0_34px_80px_-30px_rgba(40,25,10,0.7),0_0_0_1px_rgba(120,80,30,0.25)]"
       role="dialog"
       aria-modal="true"
@@ -63,17 +78,18 @@ export function CardShell({ cellType, title, subtitle, children, testId, tall, d
  * zone d'écriture déclarée en données. Le titre de la famille est déjà peint
  * sur l'illustration : on ne le redessine pas.
  */
-function IllustratedCard({ deck, title, subtitle, children, testId, cellType }: { readonly deck: CardDeck; readonly title: string; readonly subtitle?: string | undefined; readonly children: ReactNode; readonly testId?: string | undefined; readonly cellType: CardStyleKey }) {
+function IllustratedCard({ deck, title, subtitle, children, testId, cellType, enter = "pop" }: { readonly deck: CardDeck; readonly title: string; readonly subtitle?: string | undefined; readonly children: ReactNode; readonly testId?: string | undefined; readonly cellType: CardStyleKey; readonly enter?: "pop" | "flip" | undefined }) {
   const p = deck.panel;
+  const entrance = ENTRANCE[enter];
   return (
     <motion.section
       data-testid={testId ?? "card"}
       data-card-type={cellType}
       data-deck={deck.id}
-      initial={{ opacity: 0, scale: 0.9, y: 24 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
+      initial={entrance.initial}
+      animate={entrance.animate}
       exit={{ opacity: 0, scale: 0.95, y: 12 }}
-      transition={{ type: "tween", duration: 0.25 }}
+      transition={{ type: "tween", duration: entrance.duration }}
       className="relative h-[min(88dvh,820px)] max-w-[94vw] select-none"
       style={{ aspectRatio: `${deck.width} / ${deck.height}` }}
       role="dialog"

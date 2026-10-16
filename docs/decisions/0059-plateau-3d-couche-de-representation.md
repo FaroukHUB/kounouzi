@@ -204,3 +204,36 @@ aussi.
   ne peut lire le cycle du Chemin et donc connaître les déplacements à venir
   (ADR 0018). Mon réglage n'a rien à voir avec ce cycle, mais un garde-fou qui
   protège un secret ne s'assouplit pas pour une commodité de nommage.
+
+## Étape 6 — pièces, carte retournée, verdict, vibration
+
+- **Les pièces volent en DOM, pas dans la scène.** Les comptes des joueurs sont
+  en DOM : les pièces doivent partir et arriver exactement dessus, et l'effet
+  marche ainsi sur le plateau 2D comme sur le 3D. Aucune plomberie nouvelle : le
+  bandeau de la file d'animation porte déjà qui paie, qui reçoit et combien, et
+  il est déjà synchronisé avec la voix.
+- La couche est **sans état** : le vol est entièrement déterminé par le bandeau
+  en cours, donc calculé au rendu. Rien à mémoriser, donc rien à poser depuis un
+  effet.
+- **L'effet ne porte jamais l'information.** Si l'un des deux joueurs n'est pas à
+  l'écran, aucune pièce ne part — le bandeau, lui, dit déjà tout.
+- **Deux défauts mesurés dans le navigateur, pas devinés** : une hauteur d'arc
+  fixe envoyait les pièces au-dessus du bord de la fenêtre sur téléphone, où les
+  deux repères sont deux pastilles voisines ; et borner le SOMMET au lieu de
+  l'ARC les plaquait contre le bord haut, à moitié dehors (centre mesuré à douze
+  pixels du haut). L'arc suit désormais la distance, et s'aplatit quand il n'y a
+  pas de place au-dessus.
+- Les pièces sont **dorées**, pas aux couleurs du joueur : ce sont des Kounouz,
+  et une pièce se reconnaît à l'or. La couleur du payeur reste en liseré.
+  Remplies de sa couleur, elles se perdaient dans l'illustration.
+- **La carte se retourne vraiment** : le dos pivote d'un quart de tour, la face
+  reprend exactement là où il s'arrête. Avant, le dos faisait un tour complet
+  puis la face apparaissait en grossissant — deux gestes collés bout à bout.
+- **Le verdict se lit sans la couleur** : chaque résultat a sa forme, son
+  mouvement ET sa teinte. Un garçon sur douze distingue mal le rouge du vert, et
+  la forme est de toute façon le signal le plus rapide. Une réponse fausse ne se
+  fait pas gronder : ni croix, ni secousse, ni rouge vif.
+- **La vibration est courte, rare, et jamais seule.** Trois conditions
+  nécessaires : l'appareil la propose (iOS ne la propose pas du tout), le joueur
+  ne l'a pas coupée, et les animations ne sont pas réduites. **Une réponse fausse
+  ne fait pas vibrer** : on n'ajoute pas une punition physique à une erreur.

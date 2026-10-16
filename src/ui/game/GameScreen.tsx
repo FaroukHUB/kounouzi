@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { useAnimationQueue } from "@/animation/useAnimationQueue";
 import { useReducedMotion, useTimings } from "@/animation/useReducedMotion";
@@ -19,6 +19,8 @@ import { useSessionStore } from "@/state/sessionStore";
 import { useUiStore } from "@/state/uiStore";
 import { Board } from "@/ui/board/Board";
 import { Board3D } from "@/ui/scene/Board3D";
+import { CoinFlight } from "@/ui/common/CoinFlight";
+import { hapticFor, shouldVibrate } from "@/experience/haptics";
 import { builtSites } from "@/ui/scene/establishments";
 import { pieceForPlayer } from "@/config/pawns/pieces";
 import { useBoardRender, useSlowStore } from "@/ui/scene/useBoardRender";
@@ -44,6 +46,12 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const ui = useUiStore();
   const timings = useTimings();
   const reduced = useReducedMotion();
+  // `onPlay` est mémorisé une fois pour toutes ; le mode réduit, lui, peut
+  // changer en cours de partie. On le lit donc au moment de s'en servir.
+  const reducedRef = useRef(reduced);
+  useEffect(() => {
+    reducedRef.current = reduced;
+  }, [reduced]);
   const session = useSessionStore();
   // Plateau 3D ou 2D (ADR 0059) : une seule décision, prise ici, et le plateau
   // 2D reste la vue complète tant que la scène ne porte pas encore les pions.
@@ -99,6 +107,13 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
       if (next?.type === "PawnMoved" && next.playerId === event.playerId) useUiStore.getState().setPathPreview(next.path);
     }
     if (event.type === "PawnMoved") useUiStore.getState().setPathPreview([]);
+    // La vibration accompagne ce qui est déjà écrit et déjà dit : elle n'annonce
+    // rien toute seule, et elle se tait si l'appareil ne la propose pas (iOS),
+    // si le joueur l'a coupée, ou en mode animations réduites.
+    const motif = hapticFor(event);
+    const session = useSessionStore.getState();
+    const vibrer = typeof navigator !== "undefined" && typeof navigator.vibrate === "function";
+    if (motif && shouldVibrate({ supported: vibrer, enabled: session.hapticsEnabled, reduced: reducedRef.current })) navigator.vibrate([...motif]);
   }, []);
   // Le bandeau ne s'efface pas avant la fin de sa phrase : la voix et le plateau disent la même chose.
   const holdForVoice = useMemo(() => voiceHold(narrator, timings.voiceHoldMaxMs), [timings.voiceHoldMaxMs]);
@@ -224,6 +239,9 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
         </div>
       </motion.main>
 
+      {/* Les pièces volent AU-DESSUS de tout, plateau 2D comme 3D. */}
+      <CoinFlight players={state.players} reduced={reduced} />
+
       <CardOverlay
         state={state}
         profiles={profiles}
@@ -275,6 +293,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           setHelpOpen(true);
         }}
         boardMode={boardRender.mode}
+        hapticsSupported={typeof navigator !== "undefined" && typeof navigator.vibrate === "function"}
         boardReason={boardRender.reason}
         narrationSupported={narrator.isSupported()}
         narrationMode={narrator.mode?.() ?? "none"}
