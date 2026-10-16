@@ -29,8 +29,22 @@ export const scene3dConfigSchema = z.object({
     centerDrop: z.number().min(0).max(1),
     /** Hauteur du rebord qui ceinture le plateau. */
     rimHeight: z.number().min(0).max(1),
+    /** Hauteur d'un pion, en unités de case. */
+    pawnHeight: z.number().min(0.1).max(4),
+    /** Hauteur du petit saut d'une case à l'autre, en unités de case. */
+    pawnHop: z.number().min(0).max(2),
+    /** Grossissement du pion du joueur actif. */
+    pawnActiveScale: z.number().min(1).max(2),
   }),
   camera: z.object({
+    /**
+     * Champ de vision. Plus il est ÉTROIT, plus la focale est longue et moins
+     * la perspective écrase le fond du plateau : à 38° la rangée du haut était
+     * nettement plus courte que celle du bas, et toute cette largeur perdue
+     * rapetissait le plateau pour rien. Une focale longue ne supprime pas la
+     * perspective — le plateau reste incliné et vu en volume — elle la rend
+     * seulement moins brutale.
+     */
     fovDegrees: z.number().min(10).max(120),
     /** Marge autour du plateau : 1 = au ras des bords. */
     margin: z.number().min(1).max(2),
@@ -44,6 +58,12 @@ export const scene3dConfigSchema = z.object({
     sunTurnDegrees: z.number().min(-180).max(180),
     skyColor: hexColor,
     groundColor: hexColor,
+  }),
+  pawns: z.object({
+    /** Vitesse de pivotement du pion vers sa direction de marche, par image. */
+    turnFactor: z.number().min(0.01).max(1),
+    /** Vitesse de rattrapage de la taille (joueur actif), par image. */
+    settleFactor: z.number().min(0.01).max(1),
   }),
   quality: z.object({
     minMemoryGb: z.number().positive(),

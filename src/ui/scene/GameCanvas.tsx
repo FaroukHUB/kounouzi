@@ -5,20 +5,46 @@ import * as THREE from "three";
 import type { ResolvedBoard } from "@/core/game";
 import { SCENE_3D, type BoardTextureMode } from "@/config/scene3d";
 import type { QualityTier } from "@/config/scene3d/tiers";
+import { pieceForSeat } from "@/config/pawns/pieces";
 import { ASSETS } from "@/ui/theme/assets";
+import type { PawnLayerProps } from "@/ui/board/PawnLayer";
 import { averageFps, SLOW_WATCH_START, watchSlowness, type SlowWatchState } from "./capability";
-import { cameraPosition, fitDistance } from "./boardGeometry";
+import { cameraPosition, clusterPoint, fitDistance, type Point3 } from "./boardGeometry";
 import { createBoardMesh } from "./boardMesh";
+import { createPawnModel } from "./pawnMesh";
+import { facing, pawnPoint, stepProgress, turnToward } from "./pawnMotion";
 
 export interface GameCanvasProps {
   readonly board: ResolvedBoard;
   readonly textureMode: BoardTextureMode;
   readonly quality: QualityTier;
+  /** Les pions, exactement les propriétés que reçoit la couche 2D : une seule source. */
+  readonly pawns: PawnLayerProps;
   /** Appelé une seule fois si la 3D se révèle trop lente sur cet appareil. La décision de replier appartient à l'appelant. */
   readonly onTooSlow: () => void;
 }
 
 const RAD = Math.PI / 180;
+
+/** Un pion dans la scène : son objet, le pas en cours, et ce vers quoi il tend. */
+interface ScenePawn {
+  readonly group: THREE.Group;
+  cell: number;
+  from: Point3;
+  to: Point3;
+  startedAt: number;
+  stepMs: number;
+  /** Un saut n'a lieu qu'en CHANGEANT de case : un réarrangement de grappe glisse. */
+  hop: number;
+  facing: number;
+  scale: number;
+  targetScale: number;
+}
+
+/** Ce que la scène expose au composant : on pousse des propriétés, on ne mute aucune ref de l'extérieur. */
+interface SceneApi {
+  update(pawns: PawnLayerProps): void;
+}
 
 /**
  * LA SEULE TOILE WEBGL DU JEU (ADR 0059).
@@ -27,21 +53,20 @@ const RAD = Math.PI / 180;
  * commandes, ni les règles ; elle ne peut rien retarder. Si elle échoue au
  * montage, l'appelant sert le plateau 2D.
  *
- * RENDU À LA DEMANDE. Le dessin n'a lieu que quand quelque chose a changé —
- * montage, redimensionnement, illustration arrivée. L'essai précédent
- * (`PawnLayer3D`) appelait `requestAnimationFrame` en boucle sans fin et
- * dessinait soixante images par seconde sur un plateau immobile : sur un
- * téléphone, c'est la batterie qui paie, pour zéro pixel de différence.
+ * RENDU À LA DEMANDE. Le dessin n'a lieu que quand quelque chose a changé ou
+ * bouge : un pion qui avance, un redimensionnement, l'illustration qui arrive.
+ * Dès que tout est posé, la boucle s'arrête. L'essai précédent
+ * (`PawnLayer3D`) appelait `requestAnimationFrame` sans fin et dessinait
+ * soixante images par seconde sur un plateau immobile : sur un téléphone, c'est
+ * la batterie qui paie, pour zéro pixel de différence.
  *
- * Une exception bornée : au montage, la toile dessine en continu quelques
- * secondes pour MESURER les images par seconde. C'est le seul moment où un
- * plateau statique peut être mesuré, et c'est aussi le moment où un appareil
- * faible souffre le plus (décodage de l'illustration, premier affichage). Passé
- * ce délai, on repasse à la demande. À partir de l'étape 2, les déplacements
- * fourniront d'eux-mêmes de quoi mesurer.
+ * Les images par seconde sont mesurées PENDANT ces animations — le moment où un
+ * appareil faible souffre réellement. Au tout premier affichage, où rien ne
+ * bouge encore, une courte mesure de démarrage prend le relais.
  */
-export function GameCanvas({ board, textureMode, quality, onTooSlow }: GameCanvasProps) {
+export function GameCanvas({ board, textureMode, quality, pawns, onTooSlow }: GameCanvasProps) {
   const hostRef = useRef<HTMLDivElement>(null);
+  const apiRef = useRef<SceneApi | null>(null);
   // La fonction de repli change à chaque rendu du parent ; la scène, non. On la
   // lit au moment de s'en servir au lieu de reconstruire la scène pour elle.
   const tooSlowRef = useRef(onTooSlow);
@@ -50,6 +75,12 @@ export function GameCanvas({ board, textureMode, quality, onTooSlow }: GameCanva
   useEffect(() => {
     tooSlowRef.current = onTooSlow;
   }, [onTooSlow]);
+
+  const pawnsRef = useRef(pawns);
+  useEffect(() => {
+    pawnsRef.current = pawns;
+    apiRef.current?.update(pawns);
+  }, [pawns]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -73,8 +104,7 @@ export function GameCanvas({ board, textureMode, quality, onTooSlow }: GameCanva
     host.appendChild(canvas);
 
     const scene = new THREE.Scene();
-    const hemisphere = new THREE.HemisphereLight(new THREE.Color(config.lighting.skyColor), new THREE.Color(config.lighting.groundColor), config.lighting.hemisphere);
-    scene.add(hemisphere);
+    scene.add(new THREE.HemisphereLight(new THREE.Color(config.lighting.skyColor), new THREE.Color(config.lighting.groundColor), config.lighting.hemisphere));
     const sun = new THREE.DirectionalLight(0xffffff, config.lighting.sun);
     const sunTilt = config.lighting.sunTiltDegrees * RAD;
     const sunTurn = config.lighting.sunTurnDegrees * RAD;
@@ -86,17 +116,119 @@ export function GameCanvas({ board, textureMode, quality, onTooSlow }: GameCanva
     let mesh = createBoardMesh({ board, config, textureMode, illustration: null });
     scene.add(mesh.group);
 
+    const GROUND_Y = config.board.tileHeight;
+    const scenePawns = new Map<string, ScenePawn>();
+    const pawnModel = createPawnModel();
+
     let disposed = false;
     let pending = 0;
-    let continuous = true;
+    /** Mesure de démarrage : quelques secondes de rendu continu, le temps d'avoir des images à compter. */
+    let warmingUp = true;
+    let looping = false;
 
-    const draw = () => {
-      pending = 0;
-      renderer.render(scene, camera);
+    /* ---- où doit se trouver chaque pion, d'après les propriétés reçues ---- */
+    const targetsFor = (props: PawnLayerProps): Map<string, { readonly cell: number; readonly point: Point3 }> => {
+      const byCell = new Map<number, string[]>();
+      for (const player of props.players) {
+        const cell = props.visuals[player.id] ?? player.position;
+        byCell.set(cell, [...(byCell.get(cell) ?? []), player.id]);
+      }
+      const out = new Map<string, { cell: number; point: Point3 }>();
+      for (const player of props.players) {
+        const cell = props.visuals[player.id] ?? player.position;
+        const cluster = byCell.get(cell) ?? [player.id];
+        out.set(player.id, { cell, point: clusterPoint(cell, props.cellCount, cluster.indexOf(player.id), cluster.length) });
+      }
+      return out;
     };
+
+    const applyTargets = (props: PawnLayerProps) => {
+      const targets = targetsFor(props);
+      const now = performance.now();
+      for (const player of props.players) {
+        const target = targets.get(player.id);
+        const pawn = scenePawns.get(player.id);
+        if (!target || !pawn) continue;
+        if (target.cell !== pawn.cell || target.point.x !== pawn.to.x || target.point.z !== pawn.to.z) {
+          // Le nouveau pas part d'OÙ LE PION EST VRAIMENT, pas de sa case
+          // précédente : sans cela, deux pas enchaînés plus vite que l'animation
+          // font revenir le pion en arrière avant de repartir.
+          pawn.from = { x: pawn.group.position.x, y: 0, z: pawn.group.position.z };
+          pawn.to = target.point;
+          pawn.startedAt = now;
+          pawn.stepMs = props.stepMs;
+          pawn.hop = target.cell !== pawn.cell ? config.board.pawnHop : 0;
+          pawn.cell = target.cell;
+        }
+        pawn.targetScale = config.board.pawnHeight * (player.id === props.activePlayerId ? config.board.pawnActiveScale : 1);
+      }
+      ensureLoop();
+    };
+
+    /* ---- la boucle : elle tourne tant que quelque chose bouge ---- */
+    let watch: SlowWatchState = SLOW_WATCH_START;
+    let frames: number[] = [];
+    let lastFrame = performance.now();
+    let secondStart = lastFrame;
+
+    const stepPawns = (now: number): boolean => {
+      let moving = false;
+      const props = pawnsRef.current;
+      // Durée nulle = mode « animations réduites » : tout se pose d'un coup,
+      // mêmes étapes, aucune transition (REDUCED_TIMINGS met toutes les durées à zéro).
+      const instant = !(props.stepMs > 0);
+      for (const pawn of scenePawns.values()) {
+        const progress = stepProgress(now - pawn.startedAt, pawn.stepMs);
+        const point = pawnPoint({ from: pawn.from, to: pawn.to, progress, groundY: GROUND_Y, hop: pawn.hop });
+        pawn.group.position.set(point.x, point.y, point.z);
+        const wanted = facing(pawn.from, pawn.to, pawn.facing);
+        pawn.facing = instant ? wanted : turnToward(pawn.facing, wanted, config.pawns.turnFactor);
+        pawn.group.rotation.y = pawn.facing;
+        pawn.scale = instant ? pawn.targetScale : pawn.scale + (pawn.targetScale - pawn.scale) * config.pawns.settleFactor;
+        pawn.group.scale.setScalar(pawn.scale);
+        if (progress < 1 || Math.abs(pawn.targetScale - pawn.scale) > 0.002 || Math.abs(wanted - pawn.facing) > 0.01) moving = true;
+      }
+      return moving;
+    };
+
+    const tick = () => {
+      pending = 0;
+      if (disposed) return;
+      const now = performance.now();
+      frames.push(now - lastFrame);
+      lastFrame = now;
+      const moving = stepPawns(now);
+      renderer.render(scene, camera);
+      if (now - secondStart >= 1000) {
+        watch = watchSlowness(watch, averageFps(frames), config.quality);
+        frames = [];
+        secondStart = now;
+        if (watch.tooSlow) {
+          looping = false;
+          warmingUp = false;
+          tooSlowRef.current();
+          return;
+        }
+      }
+      if (moving || warmingUp) {
+        pending = requestAnimationFrame(tick);
+        looping = true;
+      } else {
+        looping = false;
+      }
+    };
+
+    const ensureLoop = () => {
+      if (disposed || looping || pending !== 0) return;
+      lastFrame = performance.now();
+      pending = requestAnimationFrame(tick);
+      looping = true;
+    };
+
+    /** Un seul dessin, sans démarrer de boucle : redimensionnement, illustration arrivée. */
     const requestDraw = () => {
-      if (disposed || pending !== 0) return;
-      pending = requestAnimationFrame(draw);
+      if (disposed || looping || pending !== 0) return;
+      pending = requestAnimationFrame(tick);
     };
 
     const placeCamera = (width: number, height: number) => {
@@ -145,44 +277,42 @@ export function GameCanvas({ board, textureMode, quality, onTooSlow }: GameCanva
       () => undefined,
     );
 
-    /* ---- mesure des images par seconde, bornée au démarrage ---- */
-    const warmupMs = (config.quality.fallbackSeconds + 1) * 1000;
-    let watch: SlowWatchState = SLOW_WATCH_START;
-    let frames: number[] = [];
-    let lastFrame = performance.now();
-    let secondStart = lastFrame;
-    let loop = 0;
-
-    const measureTick = () => {
-      if (disposed || !continuous) return;
-      const now = performance.now();
-      frames.push(now - lastFrame);
-      lastFrame = now;
-      renderer.render(scene, camera);
-      if (now - secondStart >= 1000) {
-        watch = watchSlowness(watch, averageFps(frames), config.quality);
-        frames = [];
-        secondStart = now;
-        if (watch.tooSlow) {
-          continuous = false;
-          tooSlowRef.current();
-          return;
-        }
+    // Les pions : une géométrie partagée, un matériau par joueur. Rien à
+    // télécharger, donc rien à attendre et rien qui puisse échouer.
+    {
+      const props = pawnsRef.current;
+      const targets = targetsFor(props);
+      for (const [seat, player] of props.players.entries()) {
+        const target = targets.get(player.id);
+        if (!target) continue;
+        const group = pawnModel.instance(pieceForSeat(seat).color);
+        const scale = config.board.pawnHeight * (player.id === props.activePlayerId ? config.board.pawnActiveScale : 1);
+        group.position.set(target.point.x, GROUND_Y, target.point.z);
+        group.scale.setScalar(scale);
+        scene.add(group);
+        // Aucun glissement au premier affichage : les pions apparaissent en place.
+        scenePawns.set(player.id, { group, cell: target.cell, from: target.point, to: target.point, startedAt: 0, stepMs: 0, hop: 0, facing: 0, scale, targetScale: scale });
       }
-      loop = requestAnimationFrame(measureTick);
-    };
-    loop = requestAnimationFrame(measureTick);
+    }
+
+    apiRef.current = { update: applyTargets };
+
     const warmupTimer = setTimeout(() => {
-      continuous = false;
-    }, warmupMs);
+      warmingUp = false;
+    }, (config.quality.fallbackSeconds + 1) * 1000);
+    ensureLoop();
 
     return () => {
       disposed = true;
-      continuous = false;
+      warmingUp = false;
+      looping = false;
       clearTimeout(warmupTimer);
-      cancelAnimationFrame(loop);
       if (pending !== 0) cancelAnimationFrame(pending);
       observer.disconnect();
+      apiRef.current = null;
+      for (const pawn of scenePawns.values()) scene.remove(pawn.group);
+      scenePawns.clear();
+      pawnModel.dispose();
       mesh.dispose();
       scene.clear();
       renderer.dispose();

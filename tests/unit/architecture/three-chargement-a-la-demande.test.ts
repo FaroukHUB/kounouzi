@@ -32,7 +32,7 @@ describe("three.js se charge à la demande, jamais dans le bundle initial (ADR 0
   it("les modules qui embarquent three sont bien ceux qu'on croit", () => {
     // Si cette liste grandit sans qu'on l'ait voulu, c'est le signal qu'un
     // fichier vient de faire entrer une bibliothèque de 600 Ko quelque part.
-    expect(THREE_MODULES.map((f) => basename(f.rel)).sort()).toEqual(["GameCanvas.tsx", "PawnLayer3D.tsx", "boardMesh.ts"]);
+    expect(THREE_MODULES.map((f) => basename(f.rel)).sort()).toEqual(["GameCanvas.tsx", "boardMesh.ts", "pawnMesh.ts"]);
   });
 
   it.each(THREE_MODULES.map((f) => basename(f.rel, ".tsx").replace(/\.ts$/, "")))(
@@ -51,13 +51,16 @@ describe("three.js se charge à la demande, jamais dans le bundle initial (ADR 0
     },
   );
 
-  it("la scène et l'essai de pions passent tous deux par un import dynamique sans rendu serveur", () => {
+  it("la scène passe par un import dynamique sans rendu serveur", () => {
     const board3d = sources.find((f) => f.rel.endsWith("src/ui/scene/Board3D.tsx"));
-    const screen = sources.find((f) => f.rel.endsWith("src/ui/game/GameScreen.tsx"));
     expect(board3d?.code).toMatch(/dynamic\(\(\) => import\("\.\/GameCanvas"\)/);
-    expect(board3d?.code).toContain("ssr: false");
-    expect(screen?.code).toMatch(/dynamic\(\(\) => import\("@\/ui\/board\/PawnLayer3D"\)/);
     // Une toile WebGL n'existe pas sur le serveur : la demander y provoquerait une erreur de rendu.
-    expect(screen?.code).toContain("ssr: false");
+    expect(board3d?.code).toContain("ssr: false");
+  });
+
+  it("l'essai de pions 3D et son drapeau ont bien disparu : une seule scène, un seul réglage", () => {
+    expect(sources.find((f) => f.rel.endsWith("PawnLayer3D.tsx"))).toBeUndefined();
+    const flagged = sources.filter((f) => f.code.includes("PAWNS_3D_ENABLED") || f.code.includes("NEXT_PUBLIC_PIONS_3D")).map((f) => f.rel);
+    expect(flagged).toEqual([]);
   });
 });

@@ -1,15 +1,18 @@
 {
   "version": 1,
   "board": {
-    "tiltDegrees": 56,
+    "tiltDegrees": 64,
     "cellGap": 0.06,
     "tileHeight": 0.16,
     "centerDrop": 0.04,
-    "rimHeight": 0.1
+    "rimHeight": 0.1,
+    "pawnHeight": 1.05,
+    "pawnHop": 0.34,
+    "pawnActiveScale": 1.14
   },
   "camera": {
-    "fovDegrees": 38,
-    "margin": 1.06,
+    "fovDegrees": 26,
+    "margin": 1.02,
     "minDistance": 6,
     "maxDistance": 80
   },
@@ -24,9 +27,21 @@
   "quality": {
     "minMemoryGb": 2,
     "minCores": 4,
-    "pixelRatioCap": { "low": 1, "medium": 1.5, "high": 2 },
-    "antialias": { "low": false, "medium": true, "high": true },
+    "pixelRatioCap": {
+      "low": 1,
+      "medium": 1.5,
+      "high": 2
+    },
+    "antialias": {
+      "low": false,
+      "medium": true,
+      "high": true
+    },
     "fallbackFps": 24,
     "fallbackSeconds": 3
+  },
+  "pawns": {
+    "turnFactor": 0.22,
+    "settleFactor": 0.18
   }
 }

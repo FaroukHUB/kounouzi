@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "motion/react";
@@ -10,7 +9,6 @@ import type { GameEvent, GameState } from "@/core/game";
 import type { GameId, PlayerId } from "@/core/shared";
 import { contentRegistry } from "@/config/content";
 import { LEARNING_CONFIG } from "@/config/learning";
-import { PAWNS_3D_ENABLED } from "@/config/pawns";
 import { pendingRequest, resolveQuestion } from "@/experience/questionResolver";
 import { startPlayClock } from "@/experience/playClock";
 import { DEFAULT_VOICE_TONE, toneOf } from "@/config/narration";
@@ -34,16 +32,6 @@ import { formatKounouz } from "@/ui/primitives/money";
 import { SettingsSheet } from "./SettingsSheet";
 import { TimeBadge } from "./TimeBadge";
 import { TurnBanner } from "./TurnBanner";
-
-/**
- * `three` ne doit entrer dans AUCUN bundle initial (ADR 0059). L'essai de pions
- * 3D était importé statiquement : la bibliothèque partait donc dans le paquet de
- * la page de jeu pour tous les joueurs, y compris avec le drapeau à `false` —
- * un demi-mégaoctet téléchargé pour du code qui ne s'exécutait jamais. Cet
- * essai sera absorbé par la scène à l'étape 2 ; en attendant, il se charge à la
- * demande comme le reste de la 3D.
- */
-const PawnLayer3D = dynamic(() => import("@/ui/board/PawnLayer3D").then((m) => m.PawnLayer3D), { ssr: false });
 
 export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const status = useGameStore((s) => s.status);
@@ -168,6 +156,8 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
   const dispatch = gameStore.getState().dispatch;
   const startJourney = () => dispatch({ type: "StartJourney", playerId: activeId });
   const cardOpen = ui.card !== null;
+  /** Les pions : une seule source de propriétés, lue à l'identique par la vue 2D et par la scène 3D. */
+  const pawnProps = { players: state.players, profiles, visuals: ui.pawnVisuals, activePlayerId: shownActiveId, cellCount: state.config.board.cellCount, stepMs: timings.stepMs };
   /** Jusqu'à 4 joueurs : les tuiles entourent le plateau (gros chiffres) ; au-delà, liste dans le panneau latéral. */
   const corners = state.players.length <= 4;
 
@@ -190,12 +180,16 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
             <PlayerCorners state={shown} profiles={profiles} />
           </div>
         ) : null}
-        <div className={`w-full ${corners ? "lg:col-start-2 lg:row-span-2 lg:flex lg:min-h-0 lg:w-auto lg:items-center lg:justify-center lg:self-stretch" : ""}`}>
+        {/* La 3D déborde la marge de la page (`p-3`) : sur un téléphone, ces
+            douze pixels de chaque côté sont le DERNIER frein à la taille du
+            plateau, et le plateau 3D n'a pas de cadre à protéger. */}
+        <div className={`w-full ${boardRender.mode === "3d" ? "-mx-3 w-[calc(100%+1.5rem)]" : ""} ${corners ? "lg:col-start-2 lg:row-span-2 lg:flex lg:min-h-0 lg:w-auto lg:items-center lg:justify-center lg:self-stretch" : ""}`}>
         {boardRender.mode === "3d" ? (
           <Board3D
             board={state.config.board}
             textureMode={session.boardTexture}
             quality={boardRender.quality}
+            pawns={pawnProps}
             onTooSlow={markTooSlow}
             center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}
           />
@@ -209,10 +203,7 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
           sites={state.config.sites}
           players={state.players}
           profiles={profiles}
-          pawns={(() => {
-            const pawnProps = { players: state.players, profiles, visuals: ui.pawnVisuals, activePlayerId: shownActiveId, cellCount: state.config.board.cellCount, stepMs: timings.stepMs };
-            return PAWNS_3D_ENABLED ? <PawnLayer3D {...pawnProps} /> : <PawnLayer {...pawnProps} />;
-          })()}
+          pawns={<PawnLayer {...pawnProps} />}
           center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}
         />
         )}

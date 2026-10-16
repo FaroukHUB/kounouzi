@@ -81,3 +81,32 @@ aussi.
   d'essai en plus.
 - Pendant l'étape 1, le plateau 3D ne montre ni pion, ni établissement, ni
   propriétaire : la 2D reste la vue complète. C'est assumé et temporaire.
+
+## Étape 2 — les pions dans la scène
+
+- `PawnLayer3D` et `NEXT_PUBLIC_PIONS_3D` sont supprimés : une seule toile, un
+  seul réglage. Les pions lisent exactement les mêmes propriétés que la couche
+  2D (`PawnLayerProps`), donc une seule source pour les deux vues.
+- Le pion est un **solide de révolution dessiné dans le code**, pas le modèle
+  `pion-fille.glb`. Ce fichier ne contient QUE des positions — ni normales, ni
+  coordonnées de texture, ni couleur, ni matériau — et recoloré en aplat à la
+  taille d'une case il ne donne pas un personnage mais une silhouette informe.
+  Il n'est plus référencé nulle part. L'emplacement d'un modèle fourni par
+  l'auteur arrive avec le manifeste des illustrations (étape 7).
+- Le mouvement est calculé par `pawnMotion.ts`, pur et testé : avancement,
+  lissage, hauteur du saut, orientation, et le repli qui fait tourner un pion
+  par le plus court chemin. Une durée nulle — mode « animations réduites » —
+  pose tout instantanément, sans transition et sans division par zéro.
+- Un nouveau pas part d'où le pion EST, pas de sa case précédente : sans cela,
+  deux pas enchaînés plus vite que l'animation font reculer le pion avant de
+  repartir.
+- La boucle de rendu tourne tant qu'un pion bouge, puis s'arrête. Les images par
+  seconde se mesurent pendant ces déplacements — le moment où un appareil faible
+  souffre réellement.
+- **Taille du plateau** : trois leviers, tous mesurés sur capture plutôt que
+  supposés. La focale allongée (champ de 38° à 26°) élargit la rangée du fond de
+  12 % ; la marge de page neutralisée pour la 3D rend douze pixels de chaque
+  côté ; l'inclinaison portée de 56° à 64° ajoute 15 % de surface. Un plateau
+  plus redressé occupe plus d'écran, un plateau plus couché est plus
+  spectaculaire : c'est un arbitrage, et il tient dans un seul nombre
+  (`board.tiltDegrees`).

@@ -16,6 +16,7 @@ import {
   type DeviceReport,
 } from "@/ui/scene/capability";
 import { boardExtent, boardFitsInView, cameraPosition, cellCenter, centerArea, clusterPoint, fitDistance, uvForCell, uvForCenter } from "@/ui/scene/boardGeometry";
+import { easeStep, facing, hopHeight, pawnPoint, stepProgress, turnToward } from "@/ui/scene/pawnMotion";
 import { TEST_MONUMENTS } from "../../fixtures/game/heritage.fixture";
 
 /** Les deux plateaux versionnés, plus celui réellement servi : la géométrie ne doit dépendre d'aucune constante. */
@@ -186,6 +187,89 @@ describe("cadrage de la caméra", () => {
   });
 });
 
+describe("le pas d'un pion : case par case, jamais une téléportation", () => {
+  it("l'avancement va de 0 à 1 et ne déborde jamais", () => {
+    expect(stepProgress(0, 280)).toBe(0);
+    expect(stepProgress(140, 280)).toBeCloseTo(0.5, 10);
+    expect(stepProgress(280, 280)).toBe(1);
+    expect(stepProgress(5000, 280)).toBe(1);
+    expect(stepProgress(-50, 280)).toBe(0);
+  });
+
+  it("en mode « animations réduites », le pion se pose immédiatement", () => {
+    // REDUCED_TIMINGS met TOUTES les durées à zéro sans changer la séquence :
+    // une durée nulle doit donc rendre un pas déjà terminé, pas une division par zéro.
+    expect(stepProgress(0, 0)).toBe(1);
+    expect(stepProgress(0, -1)).toBe(1);
+    expect(Number.isFinite(stepProgress(10, 0))).toBe(true);
+  });
+
+  it("le lissage part de zéro, arrive à un, et ne recule jamais", () => {
+    expect(easeStep(0)).toBe(0);
+    expect(easeStep(1)).toBe(1);
+    let precedent = -1;
+    for (let i = 0; i <= 20; i += 1) {
+      const valeur = easeStep(i / 20);
+      expect(valeur).toBeGreaterThanOrEqual(precedent);
+      precedent = valeur;
+    }
+  });
+
+  it("le saut est nul aux deux bouts et maximal au milieu : le pion est POSÉ sur ses cases", () => {
+    expect(hopHeight(0, 0.34)).toBeCloseTo(0, 10);
+    expect(hopHeight(1, 0.34)).toBeCloseTo(0, 10);
+    expect(hopHeight(0.5, 0.34)).toBeCloseTo(0.34, 10);
+    for (let i = 0; i <= 20; i += 1) expect(hopHeight(i / 20, 0.34)).toBeGreaterThanOrEqual(0);
+    // Mode réduit : pas de saut du tout.
+    expect(hopHeight(0.5, 0)).toBe(0);
+  });
+
+  it("le pion part de sa case et arrive EXACTEMENT sur la suivante", () => {
+    const from = cellCenter(0, 28);
+    const to = cellCenter(1, 28);
+    const depart = pawnPoint({ from, to, progress: 0, groundY: 0.16, hop: 0.34 });
+    const arrivee = pawnPoint({ from, to, progress: 1, groundY: 0.16, hop: 0.34 });
+    expect(depart.x).toBeCloseTo(from.x, 10);
+    expect(depart.z).toBeCloseTo(from.z, 10);
+    expect(depart.y).toBeCloseTo(0.16, 10);
+    expect(arrivee.x).toBeCloseTo(to.x, 10);
+    expect(arrivee.z).toBeCloseTo(to.z, 10);
+    // Posé sur la tuile à l'arrivée, pas en suspension.
+    expect(arrivee.y).toBeCloseTo(0.16, 10);
+  });
+
+  it("le pion ne quitte jamais le segment entre les deux cases", () => {
+    const from = cellCenter(5, 28);
+    const to = cellCenter(6, 28);
+    for (let i = 0; i <= 20; i += 1) {
+      const p = pawnPoint({ from, to, progress: i / 20, groundY: 0, hop: 0.34 });
+      expect(Math.min(from.x, to.x) - 1e-9).toBeLessThanOrEqual(p.x);
+      expect(p.x).toBeLessThanOrEqual(Math.max(from.x, to.x) + 1e-9);
+      expect(Math.min(from.z, to.z) - 1e-9).toBeLessThanOrEqual(p.z);
+      expect(p.z).toBeLessThanOrEqual(Math.max(from.z, to.z) + 1e-9);
+    }
+  });
+
+  it("le pion regarde là où il va, et garde sa direction quand il ne bouge pas", () => {
+    expect(facing({ x: 0, z: 0 }, { x: 0, z: 1 }, 0)).toBeCloseTo(0, 10);
+    expect(facing({ x: 0, z: 0 }, { x: 1, z: 0 }, 0)).toBeCloseTo(Math.PI / 2, 10);
+    expect(facing({ x: 0, z: 0 }, { x: 0, z: -1 }, 0)).toBeCloseTo(Math.PI, 10);
+    // Immobile : il conserve son orientation au lieu de pivoter vers un défaut.
+    expect(facing({ x: 2, z: 2 }, { x: 2, z: 2 }, 1.23)).toBe(1.23);
+  });
+
+  it("un pion qui tourne prend le plus court chemin : jamais un tour complet pour cinq degrés", () => {
+    const presqueDemiTour = Math.PI - 0.05;
+    const autreCote = -Math.PI + 0.05;
+    const apres = turnToward(presqueDemiTour, autreCote, 1);
+    // 0,1 radian à parcourir, pas 6,2.
+    expect(Math.abs(apres - presqueDemiTour)).toBeLessThan(0.2);
+    // Un facteur de 1 atteint la cible (au tour près) ; un facteur nul ne bouge pas.
+    expect(turnToward(0, 1, 1)).toBeCloseTo(1, 10);
+    expect(turnToward(0.7, 2, 0)).toBe(0.7);
+  });
+});
+
 describe("qui décide du mode de rendu (ADR 0059)", () => {
   const capable: DeviceReport = { webgl: true, memoryGb: 8, cores: 8 };
   const faible: DeviceReport = { webgl: true, memoryGb: 1, cores: 2 };
@@ -302,9 +386,10 @@ describe("le plateau 3D à l'écran", () => {
   if (!resolved.ok) throw new Error("plateau");
   const board = resolved.value.board;
 
+  const pions = { players: [], profiles: [], visuals: {}, activePlayerId: "", cellCount: board.cellCount, stepMs: 280 };
   const render = (textureMode: (typeof BOARD_TEXTURE_MODES)[number]) =>
     renderToStaticMarkup(
-      <Board3D board={board} textureMode={textureMode} quality="high" onTooSlow={() => {}} center={<p>panneau du chemin</p>} />,
+      <Board3D board={board} textureMode={textureMode} quality="high" pawns={pions} onTooSlow={() => {}} center={<p>panneau du chemin</p>} />,
     );
 
   it("le cadre garde le rapport d'image du plateau : basculer 3D ↔ 2D ne fait pas sauter l'écran", () => {
@@ -330,6 +415,16 @@ describe("le plateau 3D à l'écran", () => {
     // qui garantit qu'il n'entre pas dans le bundle initial.
     const html = render("center");
     expect(html).not.toContain("<canvas");
-    expect(html).toContain("rounded-[1.6rem]");
+    expect(html).toContain('data-testid="board-3d"');
+  });
+
+  it("le cadre 3D ne porte ni coins arrondis ni ombre : ils ne se verraient pas et coûteraient de la place", () => {
+    // La toile est transparente et le plateau est dessiné À L'INTÉRIEUR : un
+    // cadre de carte ne s'y voit pas, il ne ferait que rogner la largeur
+    // disponible — et sur un téléphone, la largeur est tout ce qu'on a.
+    const html = render("full");
+    expect(html).not.toContain("rounded-[1.6rem]");
+    expect(html).not.toContain("shadow-[0_30px_70px");
+    expect(html).toContain("max-w-[min(100vw,88dvh)]");
   });
 });

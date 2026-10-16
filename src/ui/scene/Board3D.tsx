@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import type { ResolvedBoard } from "@/core/game";
 import type { BoardTextureMode } from "@/config/scene3d";
 import type { QualityTier } from "@/config/scene3d/tiers";
+import type { PawnLayerProps } from "@/ui/board/PawnLayer";
 import { gridDims } from "@/ui/board/layout";
 
 /**
@@ -20,6 +21,8 @@ export interface Board3DProps {
   readonly textureMode: BoardTextureMode;
   readonly quality: QualityTier;
   readonly onTooSlow: () => void;
+  /** Les pions, exactement les propriétés de la couche 2D : les deux vues lisent la même chose. */
+  readonly pawns: PawnLayerProps;
   /** Panneau du Chemin : il reste en DOM, au-dessus de la toile — il est interactif et lu par les lecteurs d'écran. */
   readonly center: ReactNode;
 }
@@ -32,23 +35,27 @@ export interface Board3DProps {
  * en page ne change donc pas d'un mode à l'autre, et basculer 3D ↔ 2D ne fait
  * pas sauter l'écran.
  *
- * CE QUI MANQUE À CETTE ÉTAPE, et c'est assumé : ni pions, ni établissements,
- * ni rubans de propriétaire. Les pions 2D sont placés en pourcentages du
- * plateau plat ; posés sur un plateau incliné ils tomberaient à côté de leur
- * case, ce qui ressemblerait à une panne. Ils arrivent à l'étape 2, dans la
- * scène. En attendant, la vue complète reste le plateau 2D.
+ * CE QUI MANQUE ENCORE, et c'est assumé : ni établissements qui sortent du sol,
+ * ni rubans de propriétaire, ni caméra qui suit le joueur actif. Ils arrivent
+ * aux étapes suivantes. Les pions, eux, sont dans la scène depuis l'étape 2 :
+ * ils ne peuvent pas être empruntés au plateau 2D, qui les place en
+ * pourcentages d'une surface plate et les poserait à côté de leur case.
  */
-export function Board3D({ board, textureMode, quality, onTooSlow, center }: Board3DProps) {
+export function Board3D({ board, textureMode, quality, onTooSlow, pawns, center }: Board3DProps) {
   const { cols, rows } = gridDims(board.cellCount);
   return (
+    /* Ni coins arrondis ni ombre portée, contrairement au cadre 2D : la toile est
+       transparente et le plateau est dessiné À L'INTÉRIEUR, donc ce cadre ne se
+       voit pas — il ne ferait que rogner la place disponible. Le plateau peut
+       ainsi occuper toute la largeur de l'écran. */
     <div
-      className="relative w-full max-w-[min(94vw,80dvh)] select-none overflow-hidden rounded-[1.6rem] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.8)] max-sm:max-w-[min(96vw,78dvh)] lg:h-full lg:w-auto lg:max-w-none"
+      className="relative w-full max-w-[min(100vw,88dvh)] select-none max-sm:max-w-[min(100vw,86dvh)] lg:h-full lg:w-auto lg:max-w-none"
       style={{ aspectRatio: `${cols} / ${rows}` }}
       data-testid="board-3d"
       data-grid={`${cols}x${rows}`}
       data-texture={textureMode}
     >
-      <GameCanvas board={board} textureMode={textureMode} quality={quality} onTooSlow={onTooSlow} />
+      <GameCanvas board={board} textureMode={textureMode} quality={quality} pawns={pawns} onTooSlow={onTooSlow} />
       {/* Le panneau du Chemin flotte au centre, comme une carte posée sur le plateau. */}
       <div className="pointer-events-none absolute inset-[14%] flex items-center justify-center">
         <div className="pointer-events-auto flex max-h-full w-full items-center justify-center">{center}</div>
