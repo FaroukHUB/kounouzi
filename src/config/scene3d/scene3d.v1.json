@@ -14,7 +14,9 @@
     "fovDegrees": 26,
     "margin": 1.02,
     "minDistance": 6,
-    "maxDistance": 80
+    "maxDistance": 80,
+    "followSpan": 7,
+    "smoothMs": 420
   },
   "lighting": {
     "hemisphere": 2.1,

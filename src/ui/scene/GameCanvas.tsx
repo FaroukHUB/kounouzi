@@ -9,7 +9,8 @@ import { pieceForSeat } from "@/config/pawns/pieces";
 import { ASSETS } from "@/ui/theme/assets";
 import type { PawnLayerProps } from "@/ui/board/PawnLayer";
 import { averageFps, SLOW_WATCH_START, watchSlowness, type SlowWatchState } from "./capability";
-import { cameraPosition, clusterPoint, fitDistance, type Point3 } from "./boardGeometry";
+import { cameraPosition, clusterPoint, type Point3 } from "./boardGeometry";
+import { approachShot, followShot, shotSettled, wideShot, type Shot, type ShotInput } from "./cameraFraming";
 import { createBoardMesh } from "./boardMesh";
 import { createPawnModel } from "./pawnMesh";
 import { facing, pawnPoint, stepProgress, turnToward } from "./pawnMotion";
@@ -20,6 +21,13 @@ export interface GameCanvasProps {
   readonly quality: QualityTier;
   /** Les pions, exactement les propriétés que reçoit la couche 2D : une seule source. */
   readonly pawns: PawnLayerProps;
+  /**
+   * Plan de caméra. La scène ne décide pas quand prendre du recul : c'est
+   * l'écran de jeu qui sait qu'une carte est ouverte ou que la partie est finie.
+   */
+  readonly shot: "follow" | "wide";
+  /** Animations réduites : la caméra se place au lieu de glisser. */
+  readonly reduced: boolean;
   /** Appelé une seule fois si la 3D se révèle trop lente sur cet appareil. La décision de replier appartient à l'appelant. */
   readonly onTooSlow: () => void;
 }
@@ -43,7 +51,7 @@ interface ScenePawn {
 
 /** Ce que la scène expose au composant : on pousse des propriétés, on ne mute aucune ref de l'extérieur. */
 interface SceneApi {
-  update(pawns: PawnLayerProps): void;
+  update(pawns: PawnLayerProps, shot: "follow" | "wide", reduced: boolean): void;
 }
 
 /**
@@ -64,7 +72,7 @@ interface SceneApi {
  * appareil faible souffre réellement. Au tout premier affichage, où rien ne
  * bouge encore, une courte mesure de démarrage prend le relais.
  */
-export function GameCanvas({ board, textureMode, quality, pawns, onTooSlow }: GameCanvasProps) {
+export function GameCanvas({ board, textureMode, quality, pawns, shot, reduced, onTooSlow }: GameCanvasProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<SceneApi | null>(null);
   // La fonction de repli change à chaque rendu du parent ; la scène, non. On la
@@ -77,10 +85,14 @@ export function GameCanvas({ board, textureMode, quality, pawns, onTooSlow }: Ga
   }, [onTooSlow]);
 
   const pawnsRef = useRef(pawns);
+  const shotRef = useRef(shot);
+  const reducedRef = useRef(reduced);
   useEffect(() => {
     pawnsRef.current = pawns;
-    apiRef.current?.update(pawns);
-  }, [pawns]);
+    shotRef.current = shot;
+    reducedRef.current = reduced;
+    apiRef.current?.update(pawns, shot, reduced);
+  }, [pawns, shot, reduced]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -171,6 +183,24 @@ export function GameCanvas({ board, textureMode, quality, pawns, onTooSlow }: Ga
     let lastFrame = performance.now();
     let secondStart = lastFrame;
 
+    /** Rapproche la caméra de son plan ; rend vrai tant qu'elle bouge encore. */
+    const stepCamera = (elapsedMs: number): boolean => {
+      const wanted = wantedShot();
+      if (!current) {
+        applyShot(wanted);
+        return false;
+      }
+      // Animations réduites : la caméra se PLACE, elle ne glisse pas. Même
+      // séquence, durée nulle — rien à poursuivre à l'image suivante.
+      if (reducedRef.current) {
+        applyShot(wanted);
+        return false;
+      }
+      if (shotSettled(current, wanted)) return false;
+      applyShot(approachShot(current, wanted, elapsedMs, config.camera.smoothMs));
+      return true;
+    };
+
     const stepPawns = (now: number): boolean => {
       let moving = false;
       const props = pawnsRef.current;
@@ -195,9 +225,13 @@ export function GameCanvas({ board, textureMode, quality, pawns, onTooSlow }: Ga
       pending = 0;
       if (disposed) return;
       const now = performance.now();
-      frames.push(now - lastFrame);
+      const elapsed = now - lastFrame;
+      frames.push(elapsed);
       lastFrame = now;
-      const moving = stepPawns(now);
+      // Les pions d'abord : la caméra suit le pion là où il EST à cette image.
+      const pawnsMoving = stepPawns(now);
+      const cameraMoving = stepCamera(elapsed);
+      const moving = pawnsMoving || cameraMoving;
       renderer.render(scene, camera);
       if (now - secondStart >= 1000) {
         watch = watchSlowness(watch, averageFps(frames), config.quality);
@@ -231,13 +265,29 @@ export function GameCanvas({ board, textureMode, quality, pawns, onTooSlow }: Ga
       pending = requestAnimationFrame(tick);
     };
 
-    const placeCamera = (width: number, height: number) => {
-      const aspect = width / height;
-      camera.aspect = aspect;
-      const distance = fitDistance({ cellCount: board.cellCount, fovDegrees: config.camera.fovDegrees, aspect, tiltDegrees: config.board.tiltDegrees, margin: config.camera.margin, minDistance: config.camera.minDistance, maxDistance: config.camera.maxDistance });
-      const eye = cameraPosition({ distance, tiltDegrees: config.board.tiltDegrees });
+    /* ---- la caméra : deux plans, un glissement, aucune rotation ---- */
+    let shotInput: ShotInput | null = null;
+    /** Plan réellement appliqué ; il rattrape le plan voulu, il ne saute pas. */
+    let current: Shot | null = null;
+
+    /** Le point suivi : le pion du joueur actif, à défaut le centre du plateau. */
+    const focusPoint = (): Point3 => {
+      const active = scenePawns.get(pawnsRef.current.activePlayerId);
+      return active ? { x: active.group.position.x, y: 0, z: active.group.position.z } : { x: 0, y: 0, z: 0 };
+    };
+
+    const wantedShot = (): Shot => {
+      if (!shotInput) return { target: { x: 0, y: 0, z: 0 }, distance: config.camera.maxDistance };
+      // Plan large dès qu'une carte occupe l'écran ou que la partie est finie :
+      // le plateau redevient un tout, et plus rien ne bouge derrière la carte.
+      return shotRef.current === "wide" ? wideShot(shotInput) : followShot(focusPoint(), shotInput);
+    };
+
+    const applyShot = (next: Shot) => {
+      current = next;
+      const eye = cameraPosition({ distance: next.distance, tiltDegrees: config.board.tiltDegrees, target: next.target });
       camera.position.set(eye.x, eye.y, eye.z);
-      camera.lookAt(0, 0, 0);
+      camera.lookAt(next.target.x, next.target.y, next.target.z);
       camera.updateProjectionMatrix();
     };
 
@@ -246,7 +296,12 @@ export function GameCanvas({ board, textureMode, quality, pawns, onTooSlow }: Ga
       const height = host.clientHeight;
       if (width === 0 || height === 0) return;
       renderer.setSize(width, height, false);
-      placeCamera(width, height);
+      const aspect = width / height;
+      camera.aspect = aspect;
+      shotInput = { cellCount: board.cellCount, fovDegrees: config.camera.fovDegrees, aspect, tiltDegrees: config.board.tiltDegrees, margin: config.camera.margin, minDistance: config.camera.minDistance, maxDistance: config.camera.maxDistance, followSpan: config.camera.followSpan };
+      // Un changement de taille d'écran n'est pas un mouvement de caméra : on se
+      // replace tout de suite, sinon la vue dérive pendant une rotation d'écran.
+      applyShot(wantedShot());
       requestDraw();
     };
     const observer = new ResizeObserver(resize);
@@ -295,7 +350,14 @@ export function GameCanvas({ board, textureMode, quality, pawns, onTooSlow }: Ga
       }
     }
 
-    apiRef.current = { update: applyTargets };
+    apiRef.current = {
+      update(nextPawns) {
+        applyTargets(nextPawns);
+        // Le plan a pu changer sans qu'un pion bouge (une carte s'ouvre) : la
+        // boucle doit repartir, sinon la caméra reste où elle était.
+        ensureLoop();
+      },
+    };
 
     const warmupTimer = setTimeout(() => {
       warmingUp = false;

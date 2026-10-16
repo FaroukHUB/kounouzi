@@ -23,6 +23,10 @@ export interface Board3DProps {
   readonly onTooSlow: () => void;
   /** Les pions, exactement les propriétés de la couche 2D : les deux vues lisent la même chose. */
   readonly pawns: PawnLayerProps;
+  /** Plan de caméra : suivre le joueur actif, ou prendre du recul (carte ouverte, partie finie). */
+  readonly shot: "follow" | "wide";
+  /** Animations réduites : la caméra se place au lieu de glisser. */
+  readonly reduced: boolean;
   /** Panneau du Chemin : il reste en DOM, au-dessus de la toile — il est interactif et lu par les lecteurs d'écran. */
   readonly center: ReactNode;
 }
@@ -36,12 +40,12 @@ export interface Board3DProps {
  * pas sauter l'écran.
  *
  * CE QUI MANQUE ENCORE, et c'est assumé : ni établissements qui sortent du sol,
- * ni rubans de propriétaire, ni caméra qui suit le joueur actif. Ils arrivent
- * aux étapes suivantes. Les pions, eux, sont dans la scène depuis l'étape 2 :
+ * ni rubans de propriétaire. Ils arrivent aux étapes suivantes. Les pions, eux,
+ * sont dans la scène depuis l'étape 2 :
  * ils ne peuvent pas être empruntés au plateau 2D, qui les place en
  * pourcentages d'une surface plate et les poserait à côté de leur case.
  */
-export function Board3D({ board, textureMode, quality, onTooSlow, pawns, center }: Board3DProps) {
+export function Board3D({ board, textureMode, quality, onTooSlow, pawns, shot, reduced, center }: Board3DProps) {
   const { cols, rows } = gridDims(board.cellCount);
   return (
     /* Ni coins arrondis ni ombre portée, contrairement au cadre 2D : la toile est
@@ -55,7 +59,7 @@ export function Board3D({ board, textureMode, quality, onTooSlow, pawns, center 
       data-grid={`${cols}x${rows}`}
       data-texture={textureMode}
     >
-      <GameCanvas board={board} textureMode={textureMode} quality={quality} pawns={pawns} onTooSlow={onTooSlow} />
+      <GameCanvas board={board} textureMode={textureMode} quality={quality} pawns={pawns} shot={shot} reduced={reduced} onTooSlow={onTooSlow} />
       {/* Le panneau du Chemin flotte au centre, comme une carte posée sur le plateau. */}
       <div className="pointer-events-none absolute inset-[14%] flex items-center justify-center">
         <div className="pointer-events-auto flex max-h-full w-full items-center justify-center">{center}</div>

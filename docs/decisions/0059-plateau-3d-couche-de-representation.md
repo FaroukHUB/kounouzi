@@ -110,3 +110,34 @@ aussi.
   plus redressé occupe plus d'écran, un plateau plus couché est plus
   spectaculaire : c'est un arbitrage, et il tient dans un seul nombre
   (`board.tiltDegrees`).
+
+## Étape 3 — la caméra qui suit le joueur actif
+
+- **Deux plans seulement**, et c'est volontaire : un plan large (tout le
+  plateau, centré) et un plan de suivi (penché vers le pion du joueur actif).
+  L'inclinaison ne change jamais et la caméra ne tourne jamais autour du
+  plateau : une tablée penchée sur un écran doit pouvoir lever les yeux et
+  retrouver le plateau là où elle l'a laissé.
+- La scène ne décide PAS quand prendre du recul : l'écran de jeu lui dit quel
+  plan servir, parce que c'est lui qui sait qu'une carte est ouverte ou que la
+  partie est finie.
+- **La cible est bornée au plateau** (`clampTarget`). Suivre un pion posté dans
+  un coin sans cette borne pointerait la caméra à moitié hors du plateau : la
+  moitié de l'écran montrerait le fond de page, et le joueur suivi se
+  retrouverait au bord de l'image. La caméra PENCHE vers lui, elle ne le
+  poursuit pas.
+- La zone suivie fait sept cases de côté sur un plateau de huit : le plateau
+  reste lisible en entier, et le mouvement reste perceptible. Plus serré, on
+  perd une rangée entière et on ne voit plus d'où vient le pion ; c'est un
+  arbitrage, et il tient dans `camera.followSpan`.
+- **Le glissement est une DURÉE, pas une fraction par image** : une avance « d'un
+  dixième à chaque image » rendrait la caméra deux fois plus rapide sur un écran
+  à 120 Hz que sur un téléphone à 60, et le réglage cesserait d'en être un. La
+  constante de temps est en millisecondes et le résultat ne dépend que du temps
+  écoulé — testé en comparant deux cadences.
+- **Animations réduites** : la caméra se place, elle ne glisse pas. Un
+  redimensionnement d'écran se replace aussi immédiatement, sinon la vue dérive
+  pendant une rotation de téléphone.
+- La boucle de rendu tourne tant que les pions OU la caméra bougent. Mesuré sur
+  la page réelle : **une image demandée en cinq secondes au repos**, contre
+  vingt-quatre pendant un déplacement.

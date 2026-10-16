@@ -50,6 +50,19 @@ export const scene3dConfigSchema = z.object({
     margin: z.number().min(1).max(2),
     minDistance: z.number().positive(),
     maxDistance: z.number().positive(),
+    /**
+     * Côté, en cases, de la zone cadrée quand la caméra suit le joueur actif.
+     * Proche du plateau entier, elle bouge à peine ; trop serrée, on ne voit
+     * plus d'où vient le pion.
+     */
+    followSpan: z.number().min(2).max(40),
+    /**
+     * Constante de temps du glissement de la caméra : au bout de cette durée,
+     * les deux tiers du chemin sont faits. C'est une DURÉE, pas une fraction
+     * par image — sinon la caméra irait deux fois plus vite sur un écran à
+     * 120 Hz que sur un téléphone à 60.
+     */
+    smoothMs: z.number().min(0).max(5000),
   }),
   lighting: z.object({
     hemisphere: z.number().min(0).max(10),

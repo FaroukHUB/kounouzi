@@ -129,84 +129,122 @@ export function uvForCenter(cellCount: number): UvRect {
 
 const RAD = Math.PI / 180;
 
+/** Les quatre coins du plateau, au niveau du plateau. */
+export function boardCorners(cellCount: number): readonly Point3[] {
+  const { width, depth } = boardExtent(cellCount);
+  return [
+    { x: -width / 2, y: 0, z: -depth / 2 },
+    { x: width / 2, y: 0, z: -depth / 2 },
+    { x: -width / 2, y: 0, z: depth / 2 },
+    { x: width / 2, y: 0, z: depth / 2 },
+  ];
+}
+
 /**
- * Distance à laquelle TOUT le plateau tient dans l'image, au plus juste.
+ * Position de la caméra : elle regarde `target` depuis une inclinaison donnée.
+ *
+ * `tiltDegrees` est l'angle entre le plateau et la direction du regard : 90°
+ * c'est la vue du dessus (le plateau à plat, sans perspective), 0° c'est au ras
+ * de la table. Entre 45 et 70 on retrouve la vue d'un vrai jeu de plateau posé
+ * devant soi. La caméra reste TOUJOURS dans le même axe au-dessus et devant sa
+ * cible : suivre un joueur la fait glisser, jamais tourner autour du plateau —
+ * une vue qui pivote oblige la tablée à se réorienter à chaque tour.
+ */
+export function cameraPosition(args: { readonly distance: number; readonly tiltDegrees: number; readonly target?: Point3 }): Point3 {
+  const { distance, tiltDegrees, target } = args;
+  if (!(tiltDegrees > 0 && tiltDegrees <= 90)) throw new RangeError(`inclinaison hors plage : ${tiltDegrees}`);
+  const tilt = tiltDegrees * RAD;
+  const t = target ?? { x: 0, y: 0, z: 0 };
+  return { x: t.x, y: t.y + distance * Math.sin(tilt), z: t.z + distance * Math.cos(tilt) };
+}
+
+/**
+ * Ces points tiennent-ils réellement dans l'image ? Sert aux tests : « est-ce
+ * que le cadrage est juste » doit avoir une réponse vérifiable, pas une
+ * impression.
+ */
+export function pointsFitInView(args: {
+  readonly points: readonly Point3[];
+  readonly target?: Point3;
+  readonly distance: number;
+  readonly tiltDegrees: number;
+  readonly fovDegrees: number;
+  readonly aspect: number;
+}): boolean {
+  const { points, target, distance, tiltDegrees, fovDegrees, aspect } = args;
+  const look = target ?? { x: 0, y: 0, z: 0 };
+  const eye = cameraPosition({ distance, tiltDegrees, target: look });
+  const halfV = (fovDegrees * RAD) / 2;
+  const halfH = Math.atan(Math.tan(halfV) * aspect);
+  // La caméra n'a aucun roulis et son décalage n'a pas de composante en X :
+  // l'axe X du monde reste donc son axe horizontal.
+  const forward = normalize({ x: look.x - eye.x, y: look.y - eye.y, z: look.z - eye.z });
+  const right = { x: 1, y: 0, z: 0 };
+  const up = cross(right, forward);
+  return points.every((point) => {
+    const v = { x: point.x - eye.x, y: point.y - eye.y, z: point.z - eye.z };
+    const depth = dot(v, forward);
+    if (depth <= 0) return false;
+    return Math.abs(dot(v, right)) <= Math.tan(halfH) * depth && Math.abs(dot(v, up)) <= Math.tan(halfV) * depth;
+  });
+}
+
+/**
+ * Plus petite distance à laquelle tous ces points tiennent dans l'image.
  *
  * La sphère englobante donnerait une formule d'une ligne, mais elle est trop
  * généreuse pour servir telle quelle : la sphère d'un plateau de 8 × 8 a un
  * rayon de 5,66 là où sa demi-largeur n'est que de 4, donc elle recule la
  * caméra de plus de 40 % et le plateau n'occupe plus que les deux tiers de
  * l'écran d'un téléphone. On s'en sert quand même — mais seulement comme borne
- * haute SÛRE d'une recherche par dichotomie sur le vrai critère : les quatre
- * coins projetés, inclinaison comprise.
+ * haute SÛRE d'une recherche par dichotomie sur le vrai critère : les points
+ * réellement projetés, inclinaison comprise.
  *
  * Reculer la caméra ne peut que rétrécir la projection : le critère est donc
  * monotone, et la dichotomie converge vers la plus petite distance qui convient.
- * Le résultat reste vérifiable — `boardFitsInView` est exactement ce que la
+ * Le résultat reste vérifiable — `pointsFitInView` est exactement ce que la
  * recherche optimise, et les tests l'exigent à toutes les inclinaisons et à
  * tous les rapports d'image.
  */
-export function fitDistance(args: { readonly cellCount: number; readonly fovDegrees: number; readonly aspect: number; readonly tiltDegrees: number; readonly margin: number; readonly minDistance: number; readonly maxDistance: number }): number {
-  const { cellCount, fovDegrees, aspect, tiltDegrees, margin, minDistance, maxDistance } = args;
+export function fitDistanceFor(args: {
+  readonly points: readonly Point3[];
+  readonly target?: Point3;
+  readonly fovDegrees: number;
+  readonly aspect: number;
+  readonly tiltDegrees: number;
+  readonly margin: number;
+  readonly minDistance: number;
+  readonly maxDistance: number;
+}): number {
+  const { points, target, fovDegrees, aspect, tiltDegrees, margin, minDistance, maxDistance } = args;
   if (!(aspect > 0)) throw new RangeError(`rapport d'image invalide : ${aspect}`);
   if (!(fovDegrees > 0 && fovDegrees < 180)) throw new RangeError(`champ de vision invalide : ${fovDegrees}`);
-  const extent = boardExtent(cellCount);
+  const look = target ?? { x: 0, y: 0, z: 0 };
   const halfV = (fovDegrees * RAD) / 2;
   const halfH = Math.atan(Math.tan(halfV) * aspect);
+  const radius = points.reduce((max, p) => Math.max(max, Math.hypot(p.x - look.x, p.y - look.y, p.z - look.z)), 0);
   // Borne haute sûre : à cette distance, la SPHÈRE englobante tient déjà, donc
-  // le plateau aussi, quelle que soit l'inclinaison.
-  let high = Math.hypot(extent.width / 2, extent.depth / 2) / Math.sin(Math.min(halfV, halfH));
+  // les points aussi, quelle que soit l'inclinaison.
+  let high = radius / Math.sin(Math.min(halfV, halfH));
   let low = 0;
   for (let i = 0; i < 48; i += 1) {
     const mid = (low + high) / 2;
-    if (boardFitsInView({ cellCount, distance: mid, tiltDegrees, fovDegrees, aspect })) high = mid;
+    if (pointsFitInView({ points, target: look, distance: mid, tiltDegrees, fovDegrees, aspect })) high = mid;
     else low = mid;
   }
   return Math.min(maxDistance, Math.max(minDistance, high * margin));
 }
 
-/**
- * Position de la caméra pour un plateau incliné, vu de face.
- *
- * `tiltDegrees` est l'angle entre le plateau et la direction du regard : 90°
- * c'est la vue du dessus (le plateau à plat, sans perspective), 0° c'est au ras
- * de la table. Entre 45 et 60 on retrouve la vue d'un vrai jeu de plateau posé
- * devant soi.
- */
-export function cameraPosition(args: { readonly distance: number; readonly tiltDegrees: number }): Point3 {
-  const { distance, tiltDegrees } = args;
-  if (!(tiltDegrees > 0 && tiltDegrees <= 90)) throw new RangeError(`inclinaison hors plage : ${tiltDegrees}`);
-  const tilt = tiltDegrees * RAD;
-  return { x: 0, y: distance * Math.sin(tilt), z: distance * Math.cos(tilt) };
+/** Distance à laquelle TOUT le plateau tient dans l'image, au plus juste. */
+export function fitDistance(args: { readonly cellCount: number; readonly fovDegrees: number; readonly aspect: number; readonly tiltDegrees: number; readonly margin: number; readonly minDistance: number; readonly maxDistance: number }): number {
+  const { cellCount, ...rest } = args;
+  return fitDistanceFor({ points: boardCorners(cellCount), ...rest });
 }
 
-/**
- * Le plateau tient-il réellement dans l'image à cette distance ? Sert aux tests
- * : la question « est-ce que le cadrage est juste » doit avoir une réponse
- * vérifiable, pas une impression.
- */
+/** Le plateau entier tient-il dans l'image à cette distance ? */
 export function boardFitsInView(args: { readonly cellCount: number; readonly distance: number; readonly tiltDegrees: number; readonly fovDegrees: number; readonly aspect: number }): boolean {
-  const { cellCount, distance, tiltDegrees, fovDegrees, aspect } = args;
-  const extent = boardExtent(cellCount);
-  const eye = cameraPosition({ distance, tiltDegrees });
-  const halfV = (fovDegrees * RAD) / 2;
-  const halfH = Math.atan(Math.tan(halfV) * aspect);
-  // Base de la caméra : elle regarde l'origine, l'axe X du monde reste son axe horizontal.
-  const forward = normalize({ x: -eye.x, y: -eye.y, z: -eye.z });
-  const right = { x: 1, y: 0, z: 0 };
-  const up = cross(right, forward);
-  const corners: readonly Point3[] = [
-    { x: -extent.width / 2, y: 0, z: -extent.depth / 2 },
-    { x: extent.width / 2, y: 0, z: -extent.depth / 2 },
-    { x: -extent.width / 2, y: 0, z: extent.depth / 2 },
-    { x: extent.width / 2, y: 0, z: extent.depth / 2 },
-  ];
-  return corners.every((corner) => {
-    const v = { x: corner.x - eye.x, y: corner.y - eye.y, z: corner.z - eye.z };
-    const depth = dot(v, forward);
-    if (depth <= 0) return false;
-    return Math.abs(dot(v, right)) <= Math.tan(halfH) * depth && Math.abs(dot(v, up)) <= Math.tan(halfV) * depth;
-  });
+  const { cellCount, ...rest } = args;
+  return pointsFitInView({ points: boardCorners(cellCount), ...rest });
 }
 
 const dot = (a: Point3, b: Point3): number => a.x * b.x + a.y * b.y + a.z * b.z;

@@ -17,6 +17,8 @@ import {
 } from "@/ui/scene/capability";
 import { boardExtent, boardFitsInView, cameraPosition, cellCenter, centerArea, clusterPoint, fitDistance, uvForCell, uvForCenter } from "@/ui/scene/boardGeometry";
 import { easeStep, facing, hopHeight, pawnPoint, stepProgress, turnToward } from "@/ui/scene/pawnMotion";
+import { approach, approachShot, clampTarget, followShot, shotSettled, wideShot, type ShotInput } from "@/ui/scene/cameraFraming";
+import { boardCorners, pointsFitInView } from "@/ui/scene/boardGeometry";
 import { TEST_MONUMENTS } from "../../fixtures/game/heritage.fixture";
 
 /** Les deux plateaux versionnés, plus celui réellement servi : la géométrie ne doit dépendre d'aucune constante. */
@@ -270,6 +272,112 @@ describe("le pas d'un pion : case par case, jamais une téléportation", () => {
   });
 });
 
+describe("la caméra qui suit le joueur actif", () => {
+  const plan = (aspect: number, cellCount = 28): ShotInput => ({
+    cellCount,
+    fovDegrees: SCENE_3D.camera.fovDegrees,
+    aspect,
+    tiltDegrees: SCENE_3D.board.tiltDegrees,
+    margin: SCENE_3D.camera.margin,
+    minDistance: SCENE_3D.camera.minDistance,
+    maxDistance: SCENE_3D.camera.maxDistance,
+    followSpan: SCENE_3D.camera.followSpan,
+  });
+  const RAPPORTS = [0.46, 0.56, 1, 1.78] as const;
+
+  it("le plan large montre tout le plateau, centré — c'est le plan de repos et celui des cartes", () => {
+    for (const aspect of RAPPORTS) {
+      const shot = wideShot(plan(aspect));
+      expect(shot.target).toEqual({ x: 0, y: 0, z: 0 });
+      expect(pointsFitInView({ points: boardCorners(28), distance: shot.distance, tiltDegrees: SCENE_3D.board.tiltDegrees, fovDegrees: SCENE_3D.camera.fovDegrees, aspect }), `rapport ${aspect}`).toBe(true);
+    }
+  });
+
+  it("suivre un joueur RAPPROCHE la caméra, sans jamais reculer plus loin que le plateau entier", () => {
+    for (const aspect of RAPPORTS) {
+      const input = plan(aspect);
+      const large = wideShot(input);
+      const suivi = followShot(cellCenter(3, 28), input);
+      expect(suivi.distance, `rapport ${aspect}`).toBeLessThanOrEqual(large.distance);
+      expect(suivi.distance).toBeGreaterThan(0);
+    }
+  });
+
+  it("la zone suivie tient toujours dans l'image, où que soit le joueur", () => {
+    const aspect = 0.46;
+    const input = plan(aspect);
+    const half = input.followSpan / 2;
+    for (let position = 0; position < 28; position += 1) {
+      const shot = followShot(cellCenter(position, 28), input);
+      const region = [
+        { x: shot.target.x - half, y: 0, z: shot.target.z - half },
+        { x: shot.target.x + half, y: 0, z: shot.target.z - half },
+        { x: shot.target.x - half, y: 0, z: shot.target.z + half },
+        { x: shot.target.x + half, y: 0, z: shot.target.z + half },
+      ];
+      expect(pointsFitInView({ points: region, target: shot.target, distance: shot.distance, tiltDegrees: input.tiltDegrees, fovDegrees: input.fovDegrees, aspect }), `case ${position}`).toBe(true);
+    }
+  });
+
+  it("la caméra PENCHE vers le joueur, elle ne sort jamais du plateau", () => {
+    // Suivre un pion posté dans un coin sans borner la cible montrerait la
+    // moitié du fond de page, et le joueur suivi finirait au bord de l'image.
+    const extent = boardExtent(28);
+    const span = SCENE_3D.camera.followSpan;
+    for (let position = 0; position < 28; position += 1) {
+      const t = clampTarget(cellCenter(position, 28), 28, span);
+      expect(Math.abs(t.x) + span / 2, `case ${position}`).toBeLessThanOrEqual(extent.width / 2 + 1e-9);
+      expect(Math.abs(t.z) + span / 2, `case ${position}`).toBeLessThanOrEqual(extent.depth / 2 + 1e-9);
+    }
+    // Un point déjà au centre n'est pas déplacé.
+    expect(clampTarget({ x: 0, y: 0, z: 0 }, 28, span)).toEqual({ x: 0, y: 0, z: 0 });
+  });
+
+  it("une zone plus large que le plateau ramène simplement la caméra au centre", () => {
+    expect(clampTarget(cellCenter(0, 28), 28, 99)).toEqual({ x: 0, y: 0, z: 0 });
+  });
+
+  it("le glissement ne dépend PAS du nombre d'images par seconde", () => {
+    // Une avance « d'un dixième par image » rendrait la caméra deux fois plus
+    // rapide sur un écran à 120 Hz que sur un téléphone à 60 : le réglage
+    // cesserait d'être un réglage. Deux cadences doivent donner le même état
+    // après la même DURÉE.
+    const tau = 420;
+    let a = 0;
+    for (let i = 0; i < 60; i += 1) a = approach(a, 10, 1000 / 60, tau);
+    let b = 0;
+    for (let i = 0; i < 120; i += 1) b = approach(b, 10, 1000 / 120, tau);
+    expect(a).toBeCloseTo(b, 6);
+  });
+
+  it("au bout d'une constante de temps, les deux tiers du chemin sont faits — et jamais de dépassement", () => {
+    expect(approach(0, 1, 420, 420)).toBeCloseTo(1 - Math.exp(-1), 10);
+    let v = 0;
+    for (let i = 0; i < 500; i += 1) {
+      v = approach(v, 1, 16, 420);
+      expect(v).toBeLessThanOrEqual(1);
+    }
+    expect(v).toBeCloseTo(1, 4);
+  });
+
+  it("une durée nulle ne bouge rien, une constante nulle pose la valeur d'un coup", () => {
+    expect(approach(3, 9, 0, 420)).toBe(3);
+    // Mode « animations réduites » : la caméra se place au lieu de glisser.
+    expect(approach(3, 9, 16, 0)).toBe(9);
+  });
+
+  it("le plan entier glisse ensemble : cible et distance", () => {
+    const depart = { target: { x: 0, y: 0, z: 0 }, distance: 20 };
+    const arrivee = { target: { x: 2, y: 0, z: -1 }, distance: 14 };
+    expect(shotSettled(depart, arrivee)).toBe(false);
+    let shot = depart;
+    for (let i = 0; i < 400; i += 1) shot = approachShot(shot, arrivee, 16, 420);
+    expect(shotSettled(shot, arrivee)).toBe(true);
+    expect(shot.target.x).toBeCloseTo(2, 3);
+    expect(shot.distance).toBeCloseTo(14, 3);
+  });
+});
+
 describe("qui décide du mode de rendu (ADR 0059)", () => {
   const capable: DeviceReport = { webgl: true, memoryGb: 8, cores: 8 };
   const faible: DeviceReport = { webgl: true, memoryGb: 1, cores: 2 };
@@ -389,7 +497,7 @@ describe("le plateau 3D à l'écran", () => {
   const pions = { players: [], profiles: [], visuals: {}, activePlayerId: "", cellCount: board.cellCount, stepMs: 280 };
   const render = (textureMode: (typeof BOARD_TEXTURE_MODES)[number]) =>
     renderToStaticMarkup(
-      <Board3D board={board} textureMode={textureMode} quality="high" pawns={pions} onTooSlow={() => {}} center={<p>panneau du chemin</p>} />,
+      <Board3D board={board} textureMode={textureMode} quality="high" pawns={pions} shot="follow" reduced={false} onTooSlow={() => {}} center={<p>panneau du chemin</p>} />,
     );
 
   it("le cadre garde le rapport d'image du plateau : basculer 3D ↔ 2D ne fait pas sauter l'écran", () => {

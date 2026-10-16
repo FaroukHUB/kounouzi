@@ -190,6 +190,8 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
             textureMode={session.boardTexture}
             quality={boardRender.quality}
             pawns={pawnProps}
+            shot={cardOpen || shown.status === "finished" ? "wide" : "follow"}
+            reduced={reduced}
             onTooSlow={markTooSlow}
             center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}
           />

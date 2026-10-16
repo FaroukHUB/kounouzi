@@ -199,7 +199,10 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   Inclinaison, cadrage, éclairage et seuils sont des données
   (`src/config/scene3d`, Zod). Ni dé, ni hasard, ni musique : l'ADR 0013 n'est
   pas assoupli par cette couche. Panneaux, bandeaux, cartes et bouton du
-  Chemin restent en DOM au-dessus de la toile.
+  Chemin restent en DOM au-dessus de la toile. Les pions y avancent case par
+  case en lisant les mêmes propriétés que la couche 2D, et la caméra penche
+  vers le joueur actif — deux plans, aucune rotation, un glissement exprimé en
+  durée et non en fraction d'image.
 - **Temps actif** : `startPlayClock` (couche session) compte les secondes
   visibles et non en pause, les envoie par paquets `AdvanceClock` ; le moteur
   ne lit jamais l'horloge.
