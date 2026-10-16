@@ -206,7 +206,9 @@ moteur ──► événements ──► gameStore (persistant, miroir de GameSta
   sa propre illustration (ADR 0050), sur un socle à la couleur du
   propriétaire ; la scène le déduit en comparant deux listes, jamais en lisant
   un événement, ce qui fait qu'une reprise de partie les affiche posés sans
-  rejouer d'animation.
+  rejouer d'animation. Le Chemin du tour s'allume case par case — valeurs du
+  moteur, jamais recalculées, aucun dé ni tirage (ADR 0013) — puis s'éteint sous
+  le pion à mesure qu'il avance.
 - **Temps actif** : `startPlayClock` (couche session) compte les secondes
   visibles et non en pause, les envoie par paquets `AdvanceClock` ; le moteur
   ne lit jamais l'horloge.

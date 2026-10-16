@@ -176,3 +176,31 @@ aussi.
   pion seul sur une case construite se retrouvait au milieu du bâtiment.
 - **Aucun bâtiment religieux n'est représenté**, et ce n'est pas un oubli : les
   lieux religieux ne sont jamais achetables.
+
+## Étape 5 — la révélation du Chemin
+
+- **Ni dé, ni roue, ni tirage** (ADR 0013). Il n'y a rien à lancer et rien à
+  faire tomber sur une face : le nombre d'étapes vient de
+  `MovementAssigned.steps` et les cases de `PawnMoved.path`, déposés par la file
+  d'animation. Cette couche les montre, elle ne les produit pas — et un test lit
+  les sources de la scène pour vérifier qu'aucun vocabulaire de hasard n'y est
+  réapparu, en image comme en mot.
+- Les cases du chemin s'allument **une par une, dans l'ordre du parcours**, et
+  toutes sont allumées avant la fin de la révélation : le pion ne part jamais
+  sur un chemin qui se dessine encore. Le temps qui reste laisse le chemin
+  complet à l'écran — c'est lui qui permet de compter les cases à voix haute.
+- **Elles s'éteignent SOUS le pion**, pas au moment où il s'ébranle. La première
+  version les effaçait toutes à son départ, c'est-à-dire précisément quand elles
+  servaient le plus. L'extinction suit l'INDICE de l'étape franchie et non la
+  seule case courante : le parcours est un anneau, on peut y repasser, et en
+  mode « animations réduites » le pion se pose directement à l'arrivée — toutes
+  les cases d'avant comptent alors comme franchies et aucun anneau ne reste
+  allumé derrière lui.
+- Les marqueurs sont en rendu ADDITIF : ils éclairent l'illustration au lieu de
+  la recouvrir. Le dessous est un dessin, pas un aplat.
+- **Un réglage renommé plutôt qu'un garde-fou assoupli.** La configuration de la
+  scène s'appelle `pathReveal` et non `journey` : le motif `config.journey` est
+  interdit dans toute l'interface par le garde-fou qui garantit qu'aucun écran
+  ne peut lire le cycle du Chemin et donc connaître les déplacements à venir
+  (ADR 0018). Mon réglage n'a rien à voir avec ce cycle, mais un garde-fou qui
+  protège un secret ne s'assouplit pas pour une commodité de nommage.

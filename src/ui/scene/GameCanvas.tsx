@@ -9,12 +9,14 @@ import { pieceForSeat } from "@/config/pawns/pieces";
 import { ASSETS } from "@/ui/theme/assets";
 import type { PawnLayerProps } from "@/ui/board/PawnLayer";
 import { averageFps, SLOW_WATCH_START, watchSlowness, type SlowWatchState } from "./capability";
-import { cameraPosition, clusterPoint, type Point3 } from "./boardGeometry";
+import { cameraPosition, cellCenter, clusterPoint, type Point3 } from "./boardGeometry";
 import { approachShot, followShot, shotSettled, wideShot, type Shot, type ShotInput } from "./cameraFraming";
 import { createBoardMesh } from "./boardMesh";
 import { createPawnModel } from "./pawnMesh";
 import { createEstablishmentModel } from "./establishmentMesh";
 import { buildingPoint, outwardOffset, riseAt, sameBuilding, type BuiltSite } from "./establishments";
+import { createJourneyMarkerModel } from "./journeyMesh";
+import { markerFade, markerProgress, markerScale, revealSchedule, walkedIndex, type RevealStep } from "./journeyReveal";
 import { facing, pawnPoint, stepProgress, turnToward } from "./pawnMotion";
 
 export interface GameCanvasProps {
@@ -30,6 +32,14 @@ export interface GameCanvasProps {
   readonly shot: "follow" | "wide";
   /** Les établissements déjà acquis, résolus hors de la scène : case, famille, couleur du propriétaire. */
   readonly buildings: readonly BuiltSite[];
+  /**
+   * LE CHEMIN DU TOUR, tel que le moteur l'a décidé : les cases de
+   * `PawnMoved.path`, déposées par la file d'animation et jamais recalculées.
+   * Vide dès que le pion se met en marche.
+   */
+  readonly path: readonly number[];
+  /** Couleur du joueur dont c'est le chemin. */
+  readonly pathColor: string;
   /** Animations réduites : la caméra se place au lieu de glisser. */
   readonly reduced: boolean;
   /** Appelé une seule fois si la 3D se révèle trop lente sur cet appareil. La décision de replier appartient à l'appelant. */
@@ -66,7 +76,7 @@ interface SceneBuilding {
 
 /** Ce que la scène expose au composant : on pousse des propriétés, on ne mute aucune ref de l'extérieur. */
 interface SceneApi {
-  update(pawns: PawnLayerProps, shot: "follow" | "wide", buildings: readonly BuiltSite[], reduced: boolean): void;
+  update(pawns: PawnLayerProps, shot: "follow" | "wide", buildings: readonly BuiltSite[], path: readonly number[], pathColor: string, reduced: boolean): void;
 }
 
 /**
@@ -87,7 +97,7 @@ interface SceneApi {
  * appareil faible souffre réellement. Au tout premier affichage, où rien ne
  * bouge encore, une courte mesure de démarrage prend le relais.
  */
-export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings, reduced, onTooSlow }: GameCanvasProps) {
+export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings, path, pathColor, reduced, onTooSlow }: GameCanvasProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<SceneApi | null>(null);
   // La fonction de repli change à chaque rendu du parent ; la scène, non. On la
@@ -108,8 +118,8 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
     shotRef.current = shot;
     buildingsRef.current = buildings;
     reducedRef.current = reduced;
-    apiRef.current?.update(pawns, shot, buildings, reduced);
-  }, [pawns, shot, buildings, reduced]);
+    apiRef.current?.update(pawns, shot, buildings, path, pathColor, reduced);
+  }, [pawns, shot, buildings, path, pathColor, reduced]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -268,8 +278,9 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
       // Les pions d'abord : la caméra suit le pion là où il EST à cette image.
       const pawnsMoving = stepPawns(now);
       const buildingsRising = stepBuildings(now);
+      const pathLighting = stepPath(now);
       const cameraMoving = stepCamera(elapsed);
-      const moving = pawnsMoving || buildingsRising || cameraMoving;
+      const moving = pawnsMoving || buildingsRising || pathLighting || cameraMoving;
       renderer.render(scene, camera);
       if (now - secondStart >= 1000) {
         watch = watchSlowness(watch, averageFps(frames), config.quality);
@@ -322,6 +333,92 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
 
     /* ---- les établissements : ce qui apparaît sort du sol, le reste est déjà posé ---- */
     const timers = new Set<ReturnType<typeof setTimeout>>();
+
+    /* ---- le Chemin : les cases décidées par le moteur s'allument une par une ---- */
+    const markerModel = createJourneyMarkerModel();
+    /** Un marqueur par ÉTAPE du chemin (une case peut y revenir : l'indice fait foi). */
+    interface SceneMarker {
+      readonly group: THREE.Group;
+      readonly position: number;
+      readonly index: number;
+      /** Instant où le pion l'a franchi ; `null` tant qu'il est allumé. */
+      consumedAt: number | null;
+    }
+    let markers: SceneMarker[] = [];
+    let schedule: readonly RevealStep[] = [];
+    let currentPath: readonly number[] = [];
+    let revealStartedAt = 0;
+    let revealKey = "";
+
+    const clearMarkers = () => {
+      for (const marker of markers) scene.remove(marker.group);
+      markers = [];
+      schedule = [];
+    };
+
+    const applyPath = (next: readonly number[], color: string): boolean => {
+      // La clé change dès que le chemin OU sa couleur change : deux tours de
+      // suite avec le même trajet restent deux révélations distinctes.
+      const key = `${color}|${next.join(",")}`;
+      if (key === revealKey) return false;
+      revealKey = key;
+      // UN CHEMIN VIDE NE SIGNIFIE PAS « EFFACE TOUT ». Il signifie que le pion
+      // s'est mis en marche : les anneaux restent allumés et s'éteindront sous
+      // lui, case par case. La première version les effaçait toutes au départ
+      // du pion, c'est-à-dire au moment précis où elles servaient le plus.
+      if (next.length === 0) return false;
+      clearMarkers();
+      currentPath = next;
+      markers = next.map((position, index) => {
+        const group = markerModel.instance(color);
+        const point = cellCenter(position, board.cellCount);
+        group.position.set(point.x, config.board.tileHeight + config.pathReveal.markerLift, point.z);
+        group.scale.setScalar(0.001);
+        group.visible = false;
+        scene.add(group);
+        return { group, position, index, consumedAt: null };
+      });
+      schedule = revealSchedule(next, reducedRef.current ? 0 : config.pathReveal.revealMs, config.pathReveal.spreadShare);
+      revealStartedAt = performance.now();
+      return true;
+    };
+
+    /** Allume les cases du chemin, puis les éteint sous le pion. Rend vrai tant que quelque chose change. */
+    const stepPath = (now: number): boolean => {
+      if (markers.length === 0) return false;
+      const elapsed = now - revealStartedAt;
+      const riseMs = reducedRef.current ? 0 : config.pathReveal.markerRiseMs;
+      const fadeMs = reducedRef.current ? 0 : config.pathReveal.markerFadeMs;
+
+      // Jusqu'où le pion actif est-il allé ? Tout ce qui est derrière lui s'éteint.
+      const active = scenePawns.get(pawnsRef.current.activePlayerId);
+      const franchi = active ? walkedIndex(currentPath, active.cell) : -1;
+
+      let busy = false;
+      const restants: SceneMarker[] = [];
+      for (const marker of markers) {
+        if (marker.consumedAt === null && marker.index <= franchi) marker.consumedAt = now;
+        if (marker.consumedAt !== null) {
+          const reste = markerFade(now - marker.consumedAt, fadeMs);
+          if (reste <= 0) {
+            scene.remove(marker.group);
+            continue;
+          }
+          marker.group.scale.setScalar(Math.max(0.001, reste));
+          busy = true;
+          restants.push(marker);
+          continue;
+        }
+        const step = schedule[marker.index];
+        const progress = step ? markerProgress(elapsed, step.startMs, riseMs) : 1;
+        marker.group.visible = progress > 0;
+        marker.group.scale.setScalar(Math.max(0.001, markerScale(progress, config.pathReveal.markerOvershoot)));
+        if (progress < 1) busy = true;
+        restants.push(marker);
+      }
+      markers = restants;
+      return busy;
+    };
     const addBuilding = (site: BuiltSite, riseMs: number) => {
       const group = buildingModel.instance(site);
       const point = buildingPoint(site.position, board.cellCount, config.establishments.inset);
@@ -494,12 +591,13 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
     // redeviendrait un rendu permanent — exactement ce qu'on cherchait à éviter.
     let lastShot = shotRef.current;
     apiRef.current = {
-      update(nextPawns, nextShot, nextBuildings) {
+      update(nextPawns, nextShot, nextBuildings, nextPath, nextPathColor) {
         const built = applyBuildings(nextBuildings);
         const moved = applyTargets(nextPawns);
+        const revealed = applyPath(nextPath, nextPathColor);
         const framing = nextShot !== lastShot;
         lastShot = nextShot;
-        if (built || moved || framing) ensureLoop();
+        if (built || moved || revealed || framing) ensureLoop();
       },
     };
 
@@ -522,6 +620,8 @@ export function GameCanvas({ board, textureMode, quality, pawns, shot, buildings
       scenePawns.clear();
       for (const built of sceneBuildings.values()) scene.remove(built.group);
       sceneBuildings.clear();
+      clearMarkers();
+      markerModel.dispose();
       pawnModel.dispose();
       buildingModel.dispose();
       mesh.dispose();

@@ -22,6 +22,7 @@ import { boardExtent, boardFitsInView, cameraPosition, cellCenter, centerArea, c
 import { easeStep, facing, hopHeight, pawnPoint, stepProgress, turnToward } from "@/ui/scene/pawnMotion";
 import { approach, approachShot, clampTarget, followShot, shotSettled, wideShot, type ShotInput } from "@/ui/scene/cameraFraming";
 import { buildingPoint, builtSites, outwardOffset, riseAt, sameBuilding } from "@/ui/scene/establishments";
+import { markerFade, markerProgress, markerScale, pathMatchesSteps, revealSchedule, walkedIndex } from "@/ui/scene/journeyReveal";
 import { ESTABLISHMENT_FOOTPRINT, establishmentHeight } from "@/ui/scene/establishmentMesh";
 import { ESTABLISHMENT_FAMILIES } from "@/core/game";
 import { pieceForSeat } from "@/config/pawns/pieces";
@@ -585,6 +586,114 @@ describe("la surveillance ne doit pas confondre « au repos » et « trop lent �
   });
 });
 
+describe("la révélation du Chemin : ce que le moteur a décidé, rien d'autre", () => {
+  it("le chemin montré est EXACTEMENT celui du moteur, dans l'ordre, sans rien ajouter", () => {
+    // Le chemin vient de `PawnMoved.path` et le nombre d'étapes de
+    // `MovementAssigned.steps`. La scène ne calcule ni l'un ni l'autre : elle
+    // ne saurait même pas comment. Kounouzi n'a ni dé ni tirage (ADR 0013).
+    const chemin = [7, 8, 9, 10];
+    const plan = revealSchedule(chemin, 1600);
+    expect(plan.map((p) => p.position)).toEqual(chemin);
+    expect(plan).toHaveLength(chemin.length);
+  });
+
+  it("les cases s'allument dans l'ordre du parcours, jamais toutes ensemble", () => {
+    const plan = revealSchedule([3, 4, 5, 6, 7], 1600);
+    for (let i = 1; i < plan.length; i += 1) expect(plan[i]!.startMs).toBeGreaterThan(plan[i - 1]!.startMs);
+    expect(plan[0]!.startMs).toBe(0);
+  });
+
+  it("tout est allumé AVANT la fin de la révélation : le pion ne part pas sur un chemin qui se dessine encore", () => {
+    const total = 1600;
+    const plan = revealSchedule([3, 4, 5, 6, 7], total, 0.7);
+    const dernier = plan[plan.length - 1]!;
+    expect(dernier.startMs).toBeLessThanOrEqual(total * 0.7 + 1e-9);
+    // Et il reste du temps, le chemin complet à l'écran, pour compter les cases.
+    expect(total - dernier.startMs).toBeGreaterThan(total * 0.25);
+  });
+
+  it("un seul pas s'allume tout de suite, et un chemin vide ne produit rien", () => {
+    expect(revealSchedule([5], 1600)).toEqual([{ position: 5, startMs: 0 }]);
+    expect(revealSchedule([], 1600)).toEqual([]);
+  });
+
+  it("en mode « animations réduites », tout le chemin est là immédiatement", () => {
+    const plan = revealSchedule([1, 2, 3], 0);
+    for (const step of plan) expect(step.startMs).toBe(0);
+    expect(markerProgress(0, 0, 0)).toBe(1);
+  });
+
+  it("une case n'est jamais allumée À MOITIÉ avant son tour", () => {
+    const plan = revealSchedule([1, 2, 3, 4], 1600);
+    const troisieme = plan[2]!;
+    expect(markerProgress(troisieme.startMs - 1, troisieme.startMs, 260)).toBe(0);
+    expect(markerProgress(troisieme.startMs, troisieme.startMs, 260)).toBe(0);
+    expect(markerProgress(troisieme.startMs + 130, troisieme.startMs, 260)).toBeCloseTo(0.5, 10);
+    expect(markerProgress(troisieme.startMs + 9999, troisieme.startMs, 260)).toBe(1);
+  });
+
+  it("un marqueur part de zéro, dépasse un peu, et se pose exactement", () => {
+    expect(markerScale(0)).toBe(0);
+    expect(markerScale(1)).toBe(1);
+    let maximum = 0;
+    for (let i = 0; i <= 40; i += 1) {
+      const v = markerScale(i / 40);
+      expect(v).toBeGreaterThanOrEqual(0);
+      maximum = Math.max(maximum, v);
+    }
+    expect(maximum).toBeGreaterThan(1);
+    expect(maximum).toBeLessThan(1.35);
+  });
+
+  it("le nombre d'étapes annoncé et les cases allumées décrivent le MÊME déplacement", () => {
+    // Si les deux divergeaient, c'est que quelqu'un aurait recalculé un chemin
+    // quelque part — et mieux vaut le savoir ici qu'en partie.
+    expect(pathMatchesSteps([4, 5, 6], 3)).toBe(true);
+    expect(pathMatchesSteps([4, 5, 6], 4)).toBe(false);
+    expect(pathMatchesSteps([], 0)).toBe(true);
+  });
+
+  it("les cases s'éteignent SOUS le pion, pas toutes au moment où il s'ébranle", () => {
+    // C'était la faute de la première version : les anneaux disparaissaient au
+    // départ du pion, c'est-à-dire au moment précis où ils servaient le plus.
+    const chemin = [11, 12, 13, 14];
+    expect(walkedIndex(chemin, 11)).toBe(0);
+    expect(walkedIndex(chemin, 13)).toBe(2);
+    // Pas encore parti : rien d'éteint.
+    expect(walkedIndex(chemin, 99)).toBe(-1);
+  });
+
+  it("en mode réduit, le pion se pose sur la dernière case et AUCUN anneau ne reste derrière lui", () => {
+    const chemin = [11, 12, 13, 14];
+    // Le pion saute directement à l'arrivée : tout le chemin compte comme franchi.
+    expect(walkedIndex(chemin, 14)).toBe(chemin.length - 1);
+    expect(markerFade(0, 0)).toBe(0);
+  });
+
+  it("un chemin qui repasse par la même case éteint la bonne étape, pas la première", () => {
+    // Le parcours est un anneau : rien n'interdit d'y revenir.
+    const boucle = [26, 27, 0, 1];
+    expect(walkedIndex(boucle, 0)).toBe(2);
+  });
+
+  it("l'extinction va de 1 à 0 et ne redevient jamais visible", () => {
+    expect(markerFade(0, 320)).toBe(1);
+    expect(markerFade(160, 320)).toBeCloseTo(0.5, 10);
+    expect(markerFade(320, 320)).toBe(0);
+    expect(markerFade(10_000, 320)).toBe(0);
+  });
+
+  it("la scène ne contient aucun vocabulaire de dé, de roue ni de tirage", () => {
+    // L'ADR 0013 interdit le hasard dans le noyau ; la mise en scène ne doit pas
+    // le réintroduire en image, ni même en mot.
+    for (const fichier of ["src/ui/scene/journeyReveal.ts", "src/ui/scene/journeyMesh.ts", "src/ui/scene/GameCanvas.tsx"]) {
+      const source = readFileSync(root + fichier, "utf8");
+      expect(source, fichier).not.toMatch(/\b(dice|wheel|spin|roll|rng|seed)\b/i);
+      expect(source, fichier).not.toMatch(/Math\.random/);
+    }
+  });
+});
+
 describe("configuration de la scène : des données, pas du code", () => {
   it("la configuration servie est valide et complète", () => {
     expect(() => scene3dConfigSchema.parse(SCENE_3D)).not.toThrow();
@@ -631,7 +740,7 @@ describe("le plateau 3D à l'écran", () => {
   const pions = { players: [], profiles: [], visuals: {}, activePlayerId: "", cellCount: board.cellCount, stepMs: 280 };
   const render = (textureMode: (typeof BOARD_TEXTURE_MODES)[number]) =>
     renderToStaticMarkup(
-      <Board3D board={board} textureMode={textureMode} quality="high" pawns={pions} shot="follow" buildings={[]} reduced={false} onTooSlow={() => {}} center={<p>panneau du chemin</p>} />,
+      <Board3D board={board} textureMode={textureMode} quality="high" pawns={pions} shot="follow" buildings={[]} path={[]} pathColor="#0f766e" reduced={false} onTooSlow={() => {}} center={<p>panneau du chemin</p>} />,
     );
 
   it("le cadre garde le rapport d'image du plateau : basculer 3D ↔ 2D ne fait pas sauter l'écran", () => {

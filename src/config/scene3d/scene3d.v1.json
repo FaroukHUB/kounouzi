@@ -52,5 +52,13 @@
     "riseMs": 700,
     "overshoot": 0.12,
     "riseWaitMaxMs": 4000
+  },
+  "pathReveal": {
+    "revealMs": 1600,
+    "spreadShare": 0.7,
+    "markerRiseMs": 260,
+    "markerOvershoot": 0.18,
+    "markerLift": 0.02,
+    "markerFadeMs": 320
   }
 }

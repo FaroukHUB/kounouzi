@@ -96,6 +96,33 @@ export const scene3dConfigSchema = z.object({
      */
     riseWaitMaxMs: z.number().min(0).max(30000),
   }),
+  /**
+   * NOM VOLONTAIRE : `pathReveal`, et surtout pas `journey`. Un garde-fou
+   * d'architecture interdit le motif `config.journey` dans toute l'interface —
+   * c'est ainsi que le projet garantit qu'aucun écran ne peut lire le cycle du
+   * Chemin et donc connaître les déplacements à venir (ADR 0018). Mon réglage
+   * n'a rien à voir avec ce cycle, mais un garde-fou qui protège un secret ne
+   * s'assouplit pas pour une commodité de nommage : c'est le réglage qui change
+   * de nom.
+   */
+  pathReveal: z.object({
+    /**
+     * Durée de la révélation du Chemin. Elle suit celle de l'interface
+     * (`journeyRevealMs`) : les cases s'allument pendant que le panneau annonce
+     * le nombre d'étapes, et tout se termine avant que le pion ne parte.
+     */
+    revealMs: z.number().min(0).max(10000),
+    /** Part de cette durée occupée par l'allumage ; le reste laisse le chemin complet à l'écran, le temps de compter. */
+    spreadShare: z.number().min(0).max(1),
+    /** Durée d'allumage d'une case. */
+    markerRiseMs: z.number().min(0).max(3000),
+    /** Petit dépassement : c'est lui qui fait lire « une case s'allume ». */
+    markerOvershoot: z.number().min(0).max(1),
+    /** Hauteur du marqueur au-dessus de la tuile, pour qu'il ne se batte pas avec elle. */
+    markerLift: z.number().min(0).max(0.5),
+    /** Durée d'extinction d'une case, quand le pion la franchit. */
+    markerFadeMs: z.number().min(0).max(3000),
+  }),
   quality: z.object({
     minMemoryGb: z.number().positive(),
     minCores: z.number().int().positive(),

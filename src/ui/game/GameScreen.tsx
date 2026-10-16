@@ -20,6 +20,7 @@ import { useUiStore } from "@/state/uiStore";
 import { Board } from "@/ui/board/Board";
 import { Board3D } from "@/ui/scene/Board3D";
 import { builtSites } from "@/ui/scene/establishments";
+import { pieceForPlayer } from "@/config/pawns/pieces";
 import { useBoardRender, useSlowStore } from "@/ui/scene/useBoardRender";
 import { PawnLayer } from "@/ui/board/PawnLayer";
 import { CardOverlay } from "@/ui/cards/CardOverlay";
@@ -200,6 +201,8 @@ export function GameScreen({ gameId }: { readonly gameId: GameId }) {
             pawns={pawnProps}
             shot={cardOpen || shown.status === "finished" ? "wide" : "follow"}
             buildings={buildings}
+            path={ui.pathPreview}
+            pathColor={pieceForPlayer(state.players, activeId).color}
             reduced={reduced}
             onTooSlow={markTooSlow}
             center={<JourneyPanel state={state} shown={shown} reveal={ui.journeyReveal} isAnimating={ui.isAnimating || ui.queue.length > 0 || cardOpen} onStartJourney={startJourney} />}

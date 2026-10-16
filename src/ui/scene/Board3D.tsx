@@ -28,6 +28,10 @@ export interface Board3DProps {
   readonly shot: "follow" | "wide";
   /** Les établissements acquis, résolus hors de la scène : case, famille, couleur du propriétaire. */
   readonly buildings: readonly BuiltSite[];
+  /** Le chemin du tour, décidé par le moteur : les cases s'allument une par une pendant la révélation. */
+  readonly path: readonly number[];
+  /** Couleur du joueur dont c'est le chemin. */
+  readonly pathColor: string;
   /** Animations réduites : la caméra se place au lieu de glisser. */
   readonly reduced: boolean;
   /** Panneau du Chemin : il reste en DOM, au-dessus de la toile — il est interactif et lu par les lecteurs d'écran. */
@@ -46,7 +50,7 @@ export interface Board3DProps {
  * empruntés au plateau 2D, qui les place en pourcentages d'une surface plate et
  * les poserait à côté de leur case.
  */
-export function Board3D({ board, textureMode, quality, onTooSlow, pawns, shot, buildings, reduced, center }: Board3DProps) {
+export function Board3D({ board, textureMode, quality, onTooSlow, pawns, shot, buildings, path, pathColor, reduced, center }: Board3DProps) {
   const { cols, rows } = gridDims(board.cellCount);
   return (
     /* Ni coins arrondis ni ombre portée, contrairement au cadre 2D : la toile est
@@ -60,7 +64,7 @@ export function Board3D({ board, textureMode, quality, onTooSlow, pawns, shot, b
       data-grid={`${cols}x${rows}`}
       data-texture={textureMode}
     >
-      <GameCanvas board={board} textureMode={textureMode} quality={quality} pawns={pawns} shot={shot} buildings={buildings} reduced={reduced} onTooSlow={onTooSlow} />
+      <GameCanvas board={board} textureMode={textureMode} quality={quality} pawns={pawns} shot={shot} buildings={buildings} path={path} pathColor={pathColor} reduced={reduced} onTooSlow={onTooSlow} />
       {/* Le panneau du Chemin flotte au centre, comme une carte posée sur le plateau. */}
       <div className="pointer-events-none absolute inset-[14%] flex items-center justify-center">
         <div className="pointer-events-auto flex max-h-full w-full items-center justify-center">{center}</div>
