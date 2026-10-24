@@ -232,9 +232,11 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 </div>
 <div id="banner" hidden></div>
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 addEventListener('error',e=>showErr(e.message));
 addEventListener('unhandledrejection',e=>showErr(e.reason&&e.reason.message||String(e.reason)));
 function showErr(m){ try{ const d=document.createElement('div'); d.className='toast'; d.style.top='auto'; d.style.bottom='120px'; d.textContent='Erreur : '+m; document.body.appendChild(d); setTimeout(()=>d.remove(),8000);}catch{} }
@@ -321,19 +323,35 @@ function playDevice(text,lang,tok){
     const u=new SpeechSynthesisUtterance(text); u.lang= lang==='ar'?'ar-SA':'fr-FR'; const v=deviceVoice(lang); if(v) u.voice=v;
     u.rate=RATES[SET.rate]||1; u.onend=u.onerror=()=>res(); if(tok!==VOICE.token) return res(); speechSynthesis.speak(u); setTimeout(res,20000); });
 }
+// Les phrases sont téléchargées à l'avance (pendant que le pion avance) et gardées en mémoire :
+// au moment de parler, l'audio est déjà là, la voix colle au plateau.
+const AUD=new Map();
+const cleanText=t=>String(t).replace(/\s+/g,' ').trim().slice(0,680);
+function fetchAudio(text,lang){
+  const key=lang+'|'+SET.tone+'|'+text;
+  if(!AUD.has(key)){
+    const pr=fetch(`api/voix?lang=${lang}&ton=${SET.tone}&text=${encodeURIComponent(text)}`)
+      .then(r=>r.ok? r.blob() : Promise.reject(new Error('voix '+r.status))).then(b=>URL.createObjectURL(b))
+      .catch(e=>{ AUD.delete(key); throw e; });
+    AUD.set(key,pr);
+    if(AUD.size>160){ const k=AUD.keys().next().value; AUD.get(k).then(u=>URL.revokeObjectURL(u)).catch(()=>{}); AUD.delete(k); }
+  }
+  return AUD.get(key);
+}
+function prefetch(text,lang='fr'){ if(SET.voice && VOICE.mode==='cloud' && text) fetchAudio(cleanText(text),lang).catch(()=>{}); }
 function playCloud(text,lang,tok){
-  return new Promise(res=>{ let done=false; const fin=ok=>{ if(done) return; done=true; res(ok); };
-    audioEl.onended=()=>fin(true); audioEl.onerror=()=>fin(false);
-    audioEl.src=`api/voix?lang=${lang}&ton=${SET.tone}&text=${encodeURIComponent(text)}`;
-    audioEl.playbackRate=RATES[SET.rate]||1;
+  return new Promise(async res=>{ let done=false; const fin=ok=>{ if(done) return; done=true; res(ok); };
+    let url; try{ url=await Promise.race([fetchAudio(text,lang), new Promise((_,rej)=>setTimeout(()=>rej(new Error('lent')),7000))]); }catch{ return fin(false); }
     if(tok!==VOICE.token) return fin(true);
+    audioEl.onended=()=>fin(true); audioEl.onerror=()=>fin(false);
+    audioEl.src=url; audioEl.playbackRate=RATES[SET.rate]||1;
     audioEl.play().catch(()=>fin(false)); setTimeout(()=>fin(true),30000); });
 }
 // Dit une phrase. Par défaut elle coupe la précédente ; {queue:true} la met à la suite.
 let voiceChain=Promise.resolve();
 function say(text,{lang='fr',queue=false}={}){
   if(!SET.voice || !text || VOICE.mode==='off') return Promise.resolve();
-  text=String(text).replace(/\s+/g,' ').trim().slice(0,680); VOICE.last={text,lang};
+  text=cleanText(text); VOICE.last={text,lang};
   if(!queue){ stopVoice(); voiceChain=Promise.resolve(); }
   const tok=VOICE.token;
   voiceChain = voiceChain.then(async()=>{ if(tok!==VOICE.token) return;
@@ -341,15 +359,21 @@ function say(text,{lang='fr',queue=false}={}){
     else await playDevice(text,lang,tok); });
   return voiceChain;
 }
+// Attendre la fin d'une phrase, sans jamais bloquer le jeu plus de `max` ms.
+const sayWait=(text,max=6000,opts)=> Promise.race([say(text,opts), wait(max)]);
+const voiceIdle=(max=5000)=> Promise.race([voiceChain, wait(max)]);
 const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
+const pickBy = (n,arr)=>arr[((n%arr.length)+arr.length)%arr.length];
 const namesList = ns=> ns.length<2? ns.join('') : ns.slice(0,-1).join(', ')+' et '+ns[ns.length-1];
+const THEME_SPOKEN={religion:'religion',maths:'mathématiques',geography:'histoire et géographie',logic:'logique',management:'gestion'};
+const deTheme=t=>{ const w=THEME_SPOKEN[t]; return /^[aeiouhéè]/i.test(w)? "d'"+w : 'de '+w; };
 const PH = {
   start: names=>`As-salāmu ʿalaykum la famille ! Bienvenue dans Kounouzi ! Aujourd'hui, nous avons ${names}. Qu'Allah vous facilite cette partie… On joue, on apprend, on gère… allez, c'est parti !`,
-  turn: n=>pick([`Allez ${n}, c'est à toi !`,`À toi, ${n}… voyons ce que ce tour te réserve !`,`${n}, à toi de jouer… c'est parti !`]),
-  journey: (n,k)=> k===1? `Une petite case pour toi, ${n}… mais elle peut tout changer !` : pick([`Allez ${n}… ${k} cases ! Voyons où ça t'emmène…`,`${k} cases pour toi, ${n}… en route !`,`${n}, tu avances de ${k} cases… c'est parti !`]),
-  good: n=>pick([`Bravo ${n} !`,`Excellent, ${n} !`,`Tu as tout bon, ${n} !`]),
-  partial: n=>pick([`Tu y es presque, ${n} !`,`C'est presque ça, ${n}. Continue !`,`Bien tenté, ${n}, tu te rapproches !`]),
-  wrong: n=>pick([`Ce n'est pas grave, ${n}. C'est comme ça qu'on apprend.`,`Pas de souci, ${n}. Tu la retiendras pour la prochaine fois.`,`Une de plus à apprendre, ${n}. Continue, tu progresses !`]),
+  turn: n=>pickBy(S.round+S.turn,[`Allez ${n}, c'est à toi !`,`À toi, ${n}… voyons ce que ce tour te réserve !`,`${n}, à toi de jouer… c'est parti !`]),
+  journey: (n,k)=> k===1? `Une petite case pour toi, ${n}… mais elle peut tout changer !` : pickBy(S.round,[`Allez ${n}… ${k} cases ! Voyons où ça t'emmène…`,`${k} cases pour toi, ${n}… en route !`,`${n}, tu avances de ${k} cases… c'est parti !`]),
+  good: n=>pickBy(S.usedQ.length,[`Bravo ${n} !`,`Excellent, ${n} !`,`Tu as tout bon, ${n} !`]),
+  partial: n=>pickBy(S.usedQ.length,[`Tu y es presque, ${n} !`,`C'est presque ça, ${n}. Continue !`,`Bien tenté, ${n}, tu te rapproches !`]),
+  wrong: n=>pickBy(S.usedQ.length,[`Ce n'est pas grave, ${n}. C'est comme ça qu'on apprend.`,`Pas de souci, ${n}. Tu la retiendras pour la prochaine fois.`,`Une de plus à apprendre, ${n}. Continue, tu progresses !`]),
 };
 
 function avatarFor(p){
@@ -393,12 +417,21 @@ catch(e){ $('#loading').textContent='Ton appareil ne prend pas en charge la 3D.'
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.setClearColor('#0c1626',1);
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.08;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 canvas.addEventListener('webglcontextlost',e=>{e.preventDefault(); showErr('la 3D a été interrompue, recharge la page');});
 const scene = new THREE.Scene();
-scene.background = new THREE.Color('#0c1626');
+// Ciel de nuit : dégradé bleu profond et étoiles.
+scene.background = (()=>{ const c=document.createElement('canvas'); c.width=512; c.height=1024; const g=c.getContext('2d');
+  const gr=g.createLinearGradient(0,0,0,1024); gr.addColorStop(0,'#050a18'); gr.addColorStop(.55,'#0f2140'); gr.addColorStop(1,'#1b2f52'); g.fillStyle=gr; g.fillRect(0,0,512,1024);
+  for(let k=0;k<220;k++){ const y=Math.pow(Math.random(),1.6)*800; g.globalAlpha=.25+Math.random()*.6; g.fillStyle=Math.random()<.15?'#ffe6a6':'#ffffff'; g.beginPath(); g.arc(Math.random()*512,y,Math.random()*1.3+.3,0,Math.PI*2); g.fill(); }
+  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t; })();
+// Reflets : un environnement doux pour l'or et les pions.
+const ENV = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
 const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
 scene.add(new THREE.HemisphereLight('#fff1d6','#1a2a40',1.15));
-const sun = new THREE.DirectionalLight('#ffe2a8',1.7); sun.position.set(4,10,7); scene.add(sun);
+const sun = new THREE.DirectionalLight('#ffe2a8',2.1); sun.position.set(5,11,6); scene.add(sun);
+sun.castShadow=true; sun.shadow.mapSize.set(1024,1024); Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6,near:1,far:30}); sun.shadow.bias=-0.0006; sun.shadow.radius=4;
 const rim = new THREE.DirectionalLight('#6fa8ff',0.45); rim.position.set(-6,4,-6); scene.add(rim);
 // Images chargées via fetch puis blob : même origine, aucun souci de CORS.
 function loadTex(url,cb){ const t=new THREE.Texture(); t.colorSpace=THREE.SRGBColorSpace;
@@ -417,13 +450,13 @@ function radialTex(inner, outer, size=256){
 const table = new THREE.Mesh(new THREE.CircleGeometry(30,64), new THREE.MeshBasicMaterial({map:radialTex('#2a3b55','#0c1626')}));
 table.rotation.x=-Math.PI/2; table.position.y=-0.32; scene.add(table);
 // Socle : cadre or + plateau émeraude
-const rimMesh = new THREE.Mesh(new THREE.BoxGeometry(8.75,0.26,8.75), new THREE.MeshStandardMaterial({color:'#c9952e',metalness:.55,roughness:.35}));
+const rimMesh = new THREE.Mesh(new RoundedBoxGeometry(8.8,0.28,8.8,4,0.08), new THREE.MeshStandardMaterial({color:'#d4a03a',metalness:.85,roughness:.28,envMap:ENV,envMapIntensity:1.2}));
 rimMesh.position.y=-0.18; scene.add(rimMesh);
-const base = new THREE.Mesh(new THREE.BoxGeometry(8.45,0.3,8.45), new THREE.MeshStandardMaterial({color:'#0f4d40',roughness:.8}));
+const base = new THREE.Mesh(new THREE.BoxGeometry(8.45,0.3,8.45), new THREE.MeshStandardMaterial({color:'#0f4d40',roughness:.8})); base.receiveShadow=true;
 base.position.y=-0.15; scene.add(base);
 const centerTex = loadTex('img/plateau.webp');
 const center = new THREE.Mesh(new THREE.PlaneGeometry(5.8,5.8), new THREE.MeshStandardMaterial({map:centerTex,roughness:.9}));
-center.rotation.x=-Math.PI/2; center.position.y=0.005; scene.add(center);
+center.rotation.x=-Math.PI/2; center.position.y=0.005; center.receiveShadow=true; scene.add(center);
 
 function gridOf(i){ i=((i%N)+N)%N;
   if(i<=7) return [7-i,7]; if(i<=14) return [0,7-(i-7)]; if(i<=21) return [i-14,0]; return [7,i-21]; }
@@ -456,7 +489,7 @@ function tileTexture(cell){
   if(h){ g.fillStyle='#fff'; g.font='900 30px Nunito, sans-serif'; g.fillText(cell.prix+' K',128,30); }
   const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; return t;
 }
-const tiles=[]; const tileGeo = new THREE.BoxGeometry(0.95,0.12,0.95);
+const tiles=[]; const tileGeo = new RoundedBoxGeometry(0.95,0.12,0.95,2,0.025);
 function buildTiles(){
   tiles.forEach(t=>scene.remove(t)); tiles.length=0;
   CELLS.forEach((cell,i)=>{
@@ -464,7 +497,7 @@ function buildTiles(){
     const top = new THREE.MeshStandardMaterial({map:tileTexture(cell), roughness:.75, emissive:'#ffcc55', emissiveIntensity:0});
     const m = new THREE.Mesh(tileGeo,[side,side,top,side,side,side]);
     m.position.copy(cellXZ(i)); m.position.y=0.06; m.userData.cell=i; m.userData.top=top;
-    scene.add(m); tiles.push(m);
+    m.receiveShadow=true; m.castShadow=true; scene.add(m); tiles.push(m);
   });
   dirty=true;
 }
@@ -476,11 +509,12 @@ function glow(i, v){ const t=tiles[i]; if(!t) return; t.userData.top.emissiveInt
 function pawnMesh(hex){
   const g=new THREE.Group();
   const pts=[[0,0],[.19,0],[.19,.045],[.14,.08],[.09,.24],[.055,.33],[.1,.35],[.105,.37],[.055,.39],[0,.39]].map(([x,y])=>new THREE.Vector2(x,y));
-  const mat=new THREE.MeshStandardMaterial({color:hex,roughness:.32,metalness:.08});
+  const mat=new THREE.MeshStandardMaterial({color:hex,roughness:.22,metalness:.15,envMap:ENV,envMapIntensity:.9});
   const body=new THREE.Mesh(new THREE.LatheGeometry(pts,32),mat); g.add(body);
   const head=new THREE.Mesh(new THREE.SphereGeometry(.088,24,16),mat); head.position.y=.47; g.add(head);
   const sh=new THREE.Mesh(new THREE.PlaneGeometry(.55,.55), new THREE.MeshBasicMaterial({map:radialTex('rgba(0,0,0,.55)','rgba(0,0,0,0)',128),transparent:true,depthWrite:false}));
-  sh.rotation.x=-Math.PI/2; sh.position.y=.003; g.add(sh); g.userData.shadow=sh; g.userData.mat=mat;
+  sh.rotation.x=-Math.PI/2; sh.position.y=.003; sh.material.opacity=.5; g.add(sh); g.userData.shadow=sh; g.userData.mat=mat;
+  body.castShadow=head.castShadow=true; g.userData.body=[body,head];
   return g;
 }
 const pawns=[];
@@ -537,18 +571,21 @@ function placeBuilding(pos, animate){
   const g=buildingMesh(CELLS[pos].fam, owner.hex);
   const v=cellXZ(pos), o=inward(pos); v.addScaledVector(o,-.2); g.position.set(v.x,TOP_Y,v.z);
   g.rotation.y = Math.atan2(o.x,o.z);
+  g.traverse(o=>{ if(o.isMesh){ o.castShadow=true; if(o.material&&o.material.metalness>.3){ o.material.envMap=ENV; } } });
   scene.add(g); buildings[pos]=g;
-  if(animate){ g.scale.set(1,0.001,1); return tween(900,k=>{g.scale.y=Math.max(.001,k);},easeBack); }
+  if(animate){ g.scale.set(1,0.001,1); fxRing(pos, owner.hex); fxBurst(pos, '#ffd36a', 40); return tween(900,k=>{g.scale.y=Math.max(.001,k);},easeBack); }
   dirty=true;
 }
 function rebuildBuildings(){ Object.keys(buildings).forEach(k=>{scene.remove(buildings[k]);delete buildings[k];}); Object.keys(S.owners).forEach(pos=>placeBuilding(+pos,false)); }
 
 // Caméra : par défaut, vue fixe sur tout le plateau, cadré entre les joueurs (en haut) et les boutons (en bas).
 let camMode='overview';
-const camState={target:new THREE.Vector3(), dist:14};
+let camFocus=false;   // la caméra accompagne le pion pendant son déplacement, puis revient sur tout le plateau
+let sway=0;           // léger balancement permanent : le plateau « respire »
+const camState={target:new THREE.Vector3(), dist:14, az:0, pol:0};
 let overviewDist=14, viewDy=0;
 const polar = ()=> camera.aspect<.9 ? 0.5 : 0.68; // plus vu du dessus sur téléphone
-function camPosFor(target,dist){ const a=polar(); return new THREE.Vector3(target.x, target.y+Math.cos(a)*dist, target.z+Math.sin(a)*dist); }
+function camPosFor(target,dist,az=0,pol=polar()){ return new THREE.Vector3(target.x+Math.sin(pol)*dist*Math.sin(az), target.y+Math.cos(pol)*dist, target.z+Math.sin(pol)*dist*Math.cos(az)); }
 function band(){
   const h=innerHeight; let top=8, bot=h-8;
   if(!$('#hud').hidden){ const c=$('#chips').getBoundingClientRect(); const b=$('.bottom').getBoundingClientRect(); top=c.bottom+6; bot=b.top-4; }
@@ -561,23 +598,28 @@ function fitOverview(){
   let best=40, cy=0;
   for(let d=5; d<60; d+=.1){ camera.position.copy(camPosFor(tgt,d)); camera.lookAt(tgt); camera.updateMatrixWorld();
     let minX=9,maxX=-9,minY=9,maxY=-9; pts.forEach(v=>{const q=v.clone().project(camera); minX=Math.min(minX,q.x);maxX=Math.max(maxX,q.x);minY=Math.min(minY,q.y);maxY=Math.max(maxY,q.y);});
-    if(maxX-minX<=1.96 && maxY-minY<=bandH*.98){ best=d; cy=(minY+maxY)/2; break; } }
+    // Marge sur les côtés : rien ne passe sous les coins arrondis de l'écran, même quand la caméra se balance.
+    if(maxX-minX<=1.82 && maxY-minY<=bandH*.94){ best=d; cy=(minY+maxY)/2; break; } }
   viewDy = ((B.top+B.bot)/2 - cy) * innerHeight/2;
   return best;
 }
-function applyCam(){ camera.position.copy(camPosFor(camState.target,camState.dist)); camera.lookAt(camState.target);
+function applyCam(){ camera.position.copy(camPosFor(camState.target,camState.dist,camState.az+sway,polar()+camState.pol)); camera.lookAt(camState.target);
   camera.setViewOffset(innerWidth,innerHeight,0,viewDy,innerWidth,innerHeight); dirty=true; }
 function camGoal(){
-  if(camMode==='overview' || !S) return {t:new THREE.Vector3(0,0,0), d:overviewDist};
+  if(!S || (camMode==='overview' && !camFocus)) return {t:new THREE.Vector3(0,0,0), d:overviewDist, az:0, pol:0};
   const p=pawns[S.turn]?.position || new THREE.Vector3();
-  return {t:new THREE.Vector3(p.x*.6,0,p.z*.6), d:overviewDist*.6};
+  const f = camMode==='follow'? .6 : .35, d = camMode==='follow'? .6 : .82;
+  return {t:new THREE.Vector3(p.x*f,0,p.z*f), d:overviewDist*d, az:-p.x*.05, pol:.08};
 }
 let camTweenId=0;
-function moveCam(dur=750){
-  const id=++camTweenId; const g=camGoal(); const t0=camState.target.clone(), d0=camState.dist;
-  return tween(dur,k=>{ if(id!==camTweenId) return; camState.target.lerpVectors(t0,g.t,k); camState.dist=d0+(g.d-d0)*k; applyCam(); },easeIO);
+const easeOut = t=>1-Math.pow(1-t,3);
+function moveCam(dur=750, ease=easeIO){
+  const id=++camTweenId; const g=camGoal(); const t0=camState.target.clone(), d0=camState.dist, a0=camState.az, p0=camState.pol;
+  return tween(dur,k=>{ if(id!==camTweenId) return; camState.target.lerpVectors(t0,g.t,k); camState.dist=d0+(g.d-d0)*k; camState.az=a0+(g.az-a0)*k; camState.pol=p0+(g.pol-p0)*k; applyCam(); },ease);
 }
-function followSoft(){ if(camMode!=='follow') return; const g=camGoal(); camState.target.lerp(g.t,.08); camState.dist+= (g.d-camState.dist)*.08; applyCam(); }
+function followSoft(){ if(camMode!=='follow' && !camFocus) return; const g=camGoal(); camState.target.lerp(g.t,.07); camState.dist+= (g.d-camState.dist)*.07; camState.az+=(g.az-camState.az)*.07; camState.pol+=(g.pol-camState.pol)*.07; applyCam(); }
+// Entrée en scène : la caméra tourne autour du plateau puis se pose.
+function introCam(){ if(REDUCED) return Promise.resolve(); camState.az=-1.25; camState.pol=.42; camState.dist=overviewDist*1.55; camState.target.set(0,0,-.6); applyCam(); return moveCam(3800,easeOut); }
 
 function resize(){
   const w=innerWidth,h=innerHeight; if(!w||!h) return; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
@@ -586,10 +628,42 @@ function resize(){
 addEventListener('resize',resize);
 new ResizeObserver(()=>resize()).observe(document.documentElement);
 let following=false;
+// Poussières d'or qui flottent au-dessus du plateau.
+const DUST_N=140, dustGeo=new THREE.BufferGeometry(), dustPos=new Float32Array(DUST_N*3), dustSpd=new Float32Array(DUST_N);
+for(let k=0;k<DUST_N;k++){ dustPos[k*3]=(Math.random()-.5)*12; dustPos[k*3+1]=Math.random()*4; dustPos[k*3+2]=(Math.random()-.5)*12; dustSpd[k]=.05+Math.random()*.12; }
+dustGeo.setAttribute('position',new THREE.BufferAttribute(dustPos,3));
+const dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({size:.07,map:radialTex('rgba(255,225,140,1)','rgba(255,200,80,0)',64),transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));
+scene.add(dust);
+// Anneau lumineux sous le pion du joueur actif.
+const activeRing=new THREE.Mesh(new THREE.RingGeometry(.2,.27,40),new THREE.MeshBasicMaterial({color:'#ffd36a',transparent:true,opacity:.8,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending}));
+activeRing.rotation.x=-Math.PI/2; scene.add(activeRing);
+// Effets d'arrivée : onde dorée et gerbe d'étincelles.
+function fxRing(i,col='#ffd36a'){ if(REDUCED) return; const m=new THREE.Mesh(new THREE.RingGeometry(.3,.38,48),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.9,side:THREE.DoubleSide,depthWrite:false,blending:THREE.AdditiveBlending}));
+  const v=cellXZ(i); m.position.set(v.x,TOP_Y+.02,v.z); m.rotation.x=-Math.PI/2; scene.add(m);
+  tween(900,k=>{ m.scale.setScalar(1+k*2.6); m.material.opacity=.9*(1-k); },easeOut).then(()=>{scene.remove(m); m.geometry.dispose();}); }
+function fxBurst(i,col='#ffd36a',n=26){ if(REDUCED) return; const v=cellXZ(i); const pos=new Float32Array(n*3), vel=[];
+  for(let k=0;k<n;k++){ pos[k*3]=v.x; pos[k*3+1]=TOP_Y+.1; pos[k*3+2]=v.z; const a=Math.random()*Math.PI*2, r=.6+Math.random()*1.2; vel.push([Math.cos(a)*r,1.6+Math.random()*1.6,Math.sin(a)*r]); }
+  const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const pts=new THREE.Points(g,new THREE.PointsMaterial({size:.12,color:col,map:radialTex('rgba(255,255,255,1)','rgba(255,255,255,0)',64),transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));
+  scene.add(pts);
+  tween(1000,k=>{ for(let j=0;j<n;j++){ pos[j*3]=v.x+vel[j][0]*k*.8; pos[j*3+1]=TOP_Y+.1+vel[j][1]*k-2.6*k*k; pos[j*3+2]=v.z+vel[j][2]*k*.8; } g.attributes.position.needsUpdate=true; pts.material.opacity=1-k; }).then(()=>{scene.remove(pts); g.dispose();}); }
+let lastFrame=0;
 function loop(now){
   for(let i=anims.length-1;i>=0;i--){ const a=anims[i]; const k=Math.min(1,(now-a.t0)/a.dur); a.fn(a.ease(k)); if(k>=1){anims.splice(i,1);a.res();} }
   if(following) followSoft();
-  if(anims.length||dirty||following){ renderer.render(scene,camera); dirty=false; }
+  const busy = anims.length||dirty||following;
+  // Au repos : 30 images par seconde suffisent pour le balancement et les poussières (économie de batterie).
+  if(busy || (!REDUCED && now-lastFrame>33)){
+    if(!REDUCED){
+      sway=Math.sin(now*.00016)*.05;
+      for(let k=0;k<DUST_N;k++){ dustPos[k*3+1]+=dustSpd[k]*.016; dustPos[k*3]+=Math.sin(now*.0004+k)*.0015; if(dustPos[k*3+1]>4) dustPos[k*3+1]=0; }
+      dustGeo.attributes.position.needsUpdate=true;
+      if(S && pawns[S.turn]){ const pp=pawns[S.turn].position; activeRing.visible=true; activeRing.position.set(pp.x,TOP_Y+.012,pp.z); const s=1+Math.sin(now*.005)*.12; activeRing.scale.setScalar(s); activeRing.material.opacity=.55+Math.sin(now*.005)*.3; activeRing.material.color.set(S.players[S.turn].hex); }
+      else activeRing.visible=false;
+      applyCam();
+    }
+    renderer.render(scene,camera); dirty=false; lastFrame=now;
+  }
   requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
@@ -693,9 +767,11 @@ function adapt(p,theme,res){
   else if(res==='wrong'){ p.levels[theme]=Math.max(1,p.levels[theme]-1); p.streak[theme]=0; }
 }
 // Pose une question au joueur, la table valide. Retourne 'good' | 'partial' | 'wrong'.
-async function askQuestion(p, {theme, title}={}){
+async function askQuestion(p, {theme, title, intro}={}){
+  let q;
+  if(!theme && p._pre){ ({theme,q}=p._pre); p._pre=null; }
   theme = theme || nextTheme(p);
-  const q=selectQuestion(p,theme); const ti=THEME_INFO[theme];
+  q = q || selectQuestion(p,theme); const ti=THEME_INFO[theme];
   const C=openCard({face:ti.card, back:ti.card});
   let lang='fr'; const hasAr=!!q.q.ar;
   const secs = p.child?60:45; let left=secs, timer=null, revealed=false;
@@ -712,13 +788,15 @@ async function askQuestion(p, {theme, title}={}){
   if(hasAr){ const lb=document.createElement('button'); lb.className='langbtn'; lb.textContent='ع'; lb.setAttribute('aria-label','Afficher en arabe');
     lb.onclick=()=>{ lang= lang==='fr'?'ar':'fr'; lb.textContent= lang==='fr'?'ع':'Fr'; draw(); readQ(); }; C.face.appendChild(lb); }
   const curL=()=> lang==='ar'&&hasAr? 'ar':'fr';
-  const readQ=()=>{ const L=curL(); if(!revealed) say((L==='ar'?'سؤال : ':'Question : ')+(q.q[L]||q.q.fr),{lang:L}); else say((L==='ar'?'الجواب : ':'La réponse est : ')+(q.r[L]||q.r.fr),{lang:L}); };
-  draw(); readQ();
+  const readQ=()=>{ const L=curL(); if(!revealed) return say(qPhrase(q,L),{lang:L}); return say(aPhrase(q,L),{lang:L}); };
+  prefetch(aPhrase(q,curL()),curL());
+  const preVerdicts=()=>{ ['good','partial','wrong'].forEach(r=>prefetch(PH[r](p.name)+gainText(r,1))); };
+  draw(); if(intro) await sayWait(intro,5000); readQ();
   timer=setInterval(()=>{ if(revealed) return; left=Math.max(0,left-1); const v=C.win.querySelector('#tmv'), b=C.win.querySelector('#tmb'), t=C.win.querySelector('#tm');
     if(v){ v.textContent= left>0? left+' s' : 'Temps écoulé, tu peux encore répondre'; b.style.width=(left/secs*100)+'%'; t.classList.toggle('alert',left<=10); if(left===10) vibrate(40); }
     if(left===0) clearInterval(timer); },1000);
   await choose(C.acts,[{label:'Voir la réponse',value:1}]);
-  revealed=true; clearInterval(timer); draw(); const revealVoice=readQ();
+  revealed=true; clearInterval(timer); draw(); const revealVoice=readQ(); preVerdicts();
   C.acts.innerHTML='';
   const chk=document.createElement('label'); chk.className='check'; chk.innerHTML='<input type="checkbox" id="mastery"> A aussi donné l\'explication (gain ×2)';
   const wrap=document.createElement('div'); wrap.className='cacts';
@@ -729,10 +807,11 @@ async function askQuestion(p, {theme, title}={}){
   const res = await verdict; stopEar();
   const mult = chk.querySelector('input').checked && res!=='wrong' ? 2:1;
   C.close(); adapt(p,theme,res);
-  say(PH[res](p.name));
-  if(res==='good') { vibrate([30,40,30]); await pay('bank',p,50*mult); say(`Tu gagnes ${50*mult} Kounouz.`,{queue:true}); }
-  else if(res==='partial') { await pay('bank',p,25*mult); say(`Tu gagnes ${25*mult} Kounouz.`,{queue:true}); }
+  const spoken = sayWait(PH[res](p.name)+gainText(res,mult),5000);
+  if(res==='good') { vibrate([30,40,30]); await pay('bank',p,50*mult); }
+  else if(res==='partial') { await pay('bank',p,25*mult); }
   else toast('Pas de souci, rien n\'est perdu.');
+  await spoken;
   return res;
 }
 
@@ -803,9 +882,19 @@ function openSettings(){
 }
 $('#setupSettings').onclick=()=>{ unlockAudio(); openSettings(); };
 
+const qPhrase=(q,L)=> (L==='ar'?'سؤال : ':'Question : ')+(q.q[L]||q.q.fr);
+const aPhrase=(q,L)=> (L==='ar'?'الجواب : ':'La réponse est : ')+(q.r[L]||q.r.fr);
+const gainText=(res,m)=> res==='good'? ` Tu gagnes ${50*m} Kounouz.` : res==='partial'? ` Tu gagnes ${25*m} Kounouz.` : '';
+
 /* =========================================================
    Cases
    ========================================================= */
+function heritageText(p,i){
+  const c=CELLS[i], o=S.owners[i];
+  if(o===undefined) return p.money>=c.prix? `Case établissement : ${c.nom}. Il est libre, pour ${c.prix} Kounouz. Tu veux l'acheter, ${p.name} ?` : `Case établissement : ${c.nom}. Il coûte ${c.prix} Kounouz, il ne te reste pas assez cette fois.`;
+  if(o===p.seat) return `Case établissement : ${c.nom}. C'est chez toi, tu retrouves ton patrimoine.`;
+  return `Case établissement : ${c.nom}, chez ${S.players[o].name}. Tu profites de ${SERVICE[c.fam]} et tu lui verses 30 Kounouz.`;
+}
 async function onHeritage(p,i){
   const c=CELLS[i]; const owner=S.owners[i];
   const nm=c.card.replace('-face.webp',''); const C=openCard({face:nm,back:nm,kind:'estab'});
@@ -813,28 +902,28 @@ async function onHeritage(p,i){
     C.win.innerHTML=`<div class="meta"><span class="tag">${c.ico} Établissement libre</span></div><h3>${esc(c.nom)}</h3><div class="small ar" dir="rtl" style="font-size:16px">${esc(c.ar)}</div>
       <div class="big">${c.prix} K</div><div class="small">Valeur de patrimoine : ${c.val} K<br>Chaque visiteur te paiera 30 K pour ${SERVICE[c.fam]}.</div>
       <div class="small">Tu as ${fmt(p.money)} K.</div>`;
-    say(p.money>=c.prix? `${c.nom}. Il est libre, pour ${c.prix} Kounouz. Tu veux l'acheter, ${p.name} ?` : `${c.nom} coûte ${c.prix} Kounouz. Il ne te reste pas assez pour l'acheter cette fois.`);
+    say(heritageText(p,i));
     const v=await choose(C.acts,[{label:`Acheter <small>−${c.prix}</small>`,value:'buy',disabled:p.money<c.prix},{label:'Ne pas acheter',cls:'btn-ghost',value:'no'}]);
     C.close();
     if(v==='buy'){ await pay(p,'bank',c.prix); S.owners[i]=p.seat; await placeBuilding(i,true); vibrate([20,30,60]); toast(`${p.name} possède ${c.nom} !`); say(`Bravo ${p.name} ! ${c.nom} rejoint ton patrimoine.`); }
   } else if(owner===p.seat){
-    C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">C'est chez toi. Rien à payer.</div>`; say('Tu retrouves ton patrimoine.');
+    C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">C'est chez toi. Rien à payer.</div>`; say(heritageText(p,i));
     await choose(C.acts,[{label:'Continuer',value:1}]); C.close();
   } else {
     const o=S.players[owner];
     C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">Propriété de <b>${esc(o.name)}</b>.</div><div class="small">Tu profites de ${SERVICE[c.fam]} et tu règles le service.</div><div class="big">30 K</div>`;
-    say(`Tu profites de ${SERVICE[c.fam]} chez ${o.name}. Tu lui verses 30 Kounouz.`);
+    say(heritageText(p,i));
     await choose(C.acts,[{label:`Payer ${esc(o.name)}`,value:1}]); C.close();
     await pay(p,o,30);
   }
 }
 async function simpleCard(face,html,label='Continuer'){ const C=openCard({face,back:face}); C.win.innerHTML=html; await choose(C.acts,[{label,value:1}]); C.close(); }
-async function onTreasure(p){ say('Trésor ! Tu remportes 100 Kounouz. Bien joué !'); await simpleCard('tresor',`<h3>Trésor !</h3><div class="big">+100 K</div><div class="small">Un coffre t'attendait au coin du plateau.</div>`,'Ramasser'); await pay('bank',p,100); }
-async function onHalt(p){ p.halted=true; say(`${p.name}, ton voyage s'interrompt ici. Au prochain tour, une question pour repartir.`); await simpleCard('halte',`<h3>Halte</h3><div class="small">Ton voyage s'arrête ici.</div><div class="small">Au prochain tour, tu réponds d'abord à une question de reprise. Bonne ou en partie : tu repars aussitôt.</div>`); }
+async function onTreasure(p){ say(cellIntro(p,p.pos)); await simpleCard('tresor',`<h3>Trésor !</h3><div class="big">+100 K</div><div class="small">Un coffre t'attendait au coin du plateau.</div>`,'Ramasser'); await pay('bank',p,100); }
+async function onHalt(p){ p.halted=true; say(cellIntro(p,p.pos)); await simpleCard('halte',`<h3>Halte</h3><div class="small">Ton voyage s'arrête ici.</div><div class="small">Au prochain tour, tu réponds d'abord à une question de reprise. Bonne ou en partie : tu repars aussitôt.</div>`); }
 async function onDonation(p){
   const C=openCard({face:'don',back:'don'});
   if(p.money<20){ C.win.innerHTML=`<h3>Don</h3><div class="small">Il te faut 20 K pour donner. Cette fois, la case ne fait rien.</div>`; await choose(C.acts,[{label:'Continuer',value:1}]); C.close(); return; }
-  C.win.innerHTML=`<h3>Don</h3><div class="big">20 K</div><div class="small">Choisis qui reçoit ton don.</div>`; say(`${p.name}, choisis à qui donner 20 Kounouz.`);
+  C.win.innerHTML=`<h3>Don</h3><div class="big">20 K</div><div class="small">Choisis qui reçoit ton don.</div>`; say(cellIntro(p,p.pos));
   const others=S.players.filter(q=>q!==p);
   const v=await choose(C.acts,[{label:'Caisse Masākīn',value:'caisse'},...others.map(q=>({label:esc(q.name),cls:'btn-ghost',value:q.seat}))]);
   C.close(); await pay(p, v==='caisse'?'caisse':S.players[v], 20);
@@ -861,7 +950,7 @@ async function onFamily(p){
       <h3>${esc(d.ti)}</h3><div class="qtext">${esc(d.tx)}</div>${v?`<div class="ans"><small>Pour ${esc(p.name)}</small>${esc(v.text)}</div>`:''}
       ${d.consent?'<div class="small">Chaque personne concernée doit être d\'accord.</div>':''}
       <div class="small">${d.rw>0?`Réussi : +${d.rw} K`:'Un choix t\'attend si tu réussis.'} · Raté ou refusé : rien de perdu.</div>`;
-    say(`${d.oh?'Oh non ! ':''}Un défi famille pour ${p.name} ! ${d.ti}. ${d.tx}${v?' Pour toi : '+v.text+'.':''}`);
+    say(`${d.oh?'Oh non ! ':''}${d.ti}. ${d.tx}${v?' Pour toi : '+v.text+'.':''}`);
     const opts=[{label:'Réussi !',cls:'btn-good',value:'ok'},{label:'Pas cette fois',cls:'btn-bad',value:'no'}];
     if(d.consent) opts.push({label:'Quelqu\'un refuse : autre défi',cls:'btn-ghost',value:'swap'});
     const r=await choose(C.acts,opts);
@@ -888,7 +977,7 @@ async function onHassanat(p){
   const C=openCard({face:'hassanat',back:'hassanat'});
   C.win.innerHTML=`<div class="meta"><span class="tag">Occasion Hassanāt</span></div><h3>${esc(card.title)}</h3><div class="qtext">${esc(card.text)}</div>
     <div class="big">${card.cost} K → ✦ ${card.hassanatReward}</div><div class="small">Chaque point Hassanāt vaut 5 au score final. Tu peux refuser sans rien perdre.</div>`;
-  say(`Une occasion Hassanāt pour ${p.name}. ${card.title} : ${card.text} Cela coûte ${card.cost} Kounouz et rapporte ${card.hassanatReward} Hassanāt.`);
+  say(`${card.title} : ${card.text} Cela coûte ${card.cost} Kounouz et rapporte ${card.hassanatReward} Hassanāt.`);
   const v=await choose(C.acts,[{label:'J\'accepte',cls:'btn-good',value:'yes'},{label:'Pas cette fois',cls:'btn-ghost',value:'no'}]);
   if(v==='no'){ C.close(); return; }
   C.win.innerHTML=`<h3>${esc(card.title)}</h3>`;
@@ -901,16 +990,31 @@ async function onDuel(p){
   const others=S.players.filter(q=>q!==p); const theme=nextTheme(p);
   const C=openCard({face:'defi',back:'defi'});
   C.win.innerHTML=`<div class="meta"><span class="tag">Duel</span><span class="tag">${THEME_INFO[theme].fr}</span></div><h3>Duel !</h3><div class="small">Chacun répond à une question du même thème. Le gagnant touche 80 K, en cas d'égalité chacun touche 30 K.</div>`;
-  say(`Duel ! ${p.name}, choisis ton adversaire.`);
   const opp=await pickPlayer(C.win,C.acts,others,'Choisis ton adversaire'); C.close();
-  say(`${p.name} défie ${opp.name} ! Chacun sa question.`); await wait(1800);
+  await sayWait(`${p.name} défie ${opp.name} ! Deux questions ${deTheme(theme)}.`,5000);
   const rank={good:2,partial:1,wrong:0};
-  const r1=await askQuestion(p,{theme,title:'Duel · '+p.name}); await wait(300);
-  const r2=await askQuestion(opp,{theme,title:'Duel · '+opp.name});
+  const r1=await askQuestion(p,{theme,title:'Duel · '+p.name,intro:`${p.name}, à toi !`}); await wait(300);
+  const r2=await askQuestion(opp,{theme,title:'Duel · '+opp.name,intro:`${opp.name}, à toi !`});
   const a=rank[r1], b=rank[r2];
   if(a===b){ say('Match nul, vous êtes à égalité ! 30 Kounouz chacun.'); await simpleCard('defi',`<h3>Égalité</h3><div class="big">+30 K chacun</div>`); await pay('bank',p,30); await pay('bank',opp,30); }
   else { const w=a>b?p:opp; say(`${w.name} remporte le Duel Kounouzi. Bravo !`); await simpleCard('defi',`<h3>${esc(w.name)} gagne le duel</h3><div class="big">+80 K</div>`); await pay('bank',w,80); }
 }
+// Ce que la voix annonce en arrivant sur une case. Même texte au préchargement et au moment de parler.
+function cellIntro(p,i){
+  const c=CELLS[i];
+  if(c.type==='question'){ const t=p._pre? p._pre.theme : THEMES[p.themeIdx%THEMES.length]; return `Case Savoir ! Une question ${deTheme(t)}.`; }
+  if(c.type==='challenge'){ const k=CHAL_ROT[S.chalIdx%CHAL_ROT.length];
+    if(k==='family') return `Case Défi ! C'est un défi famille pour ${p.name}.`;
+    if(k==='hassanat') return `Case Défi ! Une occasion Hassanāt pour ${p.name}.`;
+    if(k==='duel') return `Case Défi ! C'est un Duel ! ${p.name}, choisis ton adversaire.`;
+    const t=p._pre? p._pre.theme : THEMES[p.themeIdx%THEMES.length]; return `Case Défi ! Une question ${deTheme(t)}.`; }
+  if(c.type==='heritage') return heritageText(p,i);
+  if(c.type==='treasure') return 'Case Trésor ! Tu remportes 100 Kounouz. Bien joué !';
+  if(c.type==='halt') return `Case Halte. ${p.name}, ton voyage s'interrompt ici. Au prochain tour, une question pour repartir.`;
+  if(c.type==='donation') return p.money>=20? `Case Don. ${p.name}, choisis à qui donner 20 Kounouz.` : `Case Don. Il te faut 20 Kounouz pour donner : cette fois, rien ne se passe.`;
+  return 'Case Départ.';
+}
+const CELL_LABEL={question:'Case Savoir',challenge:'Case Défi',heritage:'Établissement',treasure:'Case Trésor',halt:'Case Halte',donation:'Case Don',start:'Case Départ'};
 async function onChallenge(p){
   const kind=CHAL_ROT[S.chalIdx%CHAL_ROT.length]; S.chalIdx++;
   if(kind==='family') return onFamily(p);
@@ -940,24 +1044,31 @@ async function revealChemin(n){
   T.textContent = n===1? '1 case' : n+' cases'; T.classList.add('show');
   await wait(900); box.hidden=true;
 }
+function peekSteps(p){ const start=((p.seat+S.gameNo)%6)*5; return CYCLE[(start+p.journey)%CYCLE.length]; }
 function assignSteps(p){ const start=((p.seat+S.gameNo)%6)*5; const v=CYCLE[(start+p.journey)%CYCLE.length]; p.journey++; return v; }
 
 async function movePawn(p, steps){
   const m=pawns[p.seat]; let passed=false;
   const path=[]; for(let k=1;k<=steps;k++) path.push((p.pos+k)%N);
   for(const i of path) glow(i,.25);
-  following=true;
+  following=true; camFocus=true;
   for(const i of path){
     const a=m.position.clone(); const v=cellXZ(i); if(CELLS[i].type==='heritage') v.addScaledVector(inward(i),.14); v.y=TOP_Y;
     await tween(300,k=>{ m.position.lerpVectors(a,v,k); m.position.y=TOP_Y+Math.sin(Math.PI*k)*.42; m.userData.shadow.position.y=-(m.position.y-TOP_Y)+.003; m.userData.shadow.scale.setScalar(1-Math.sin(Math.PI*k)*.4); },easeIO);
     glow(i,0); p.pos=i; vibrate(8);
+    if(!REDUCED){ const b=m.userData.body; tween(160,k=>{ const q=Math.sin(Math.PI*k)*.18; b.forEach(o=>{o.scale.set(1+q*.6,1-q,1+q*.6);}); }); }
     if(i===0 && path.length){ passed=true; }
   }
-  following=false; await settlePawns(); await moveCam(450);
-  if(passed){ toast('Passage par le Départ : +100 K'); say('Tu repasses par le départ. Beau tour complet ! Plus 100 Kounouz.'); await pay('bank',p,100); }
+  following=false; await settlePawns(); fxRing(p.pos, p.hex); fxBurst(p.pos, '#ffe08a', 22); await moveCam(450);
+  if(passed){ toast('Passage par le Départ : +100 K'); await Promise.all([sayWait('Tu repasses par le départ. Beau tour complet ! Plus 100 Kounouz.',5000), pay('bank',p,100)]); }
 }
 async function resolveCell(p){
-  const c=CELLS[p.pos]; glow(p.pos,.6); await wait(350); glow(p.pos,0);
+  const c=CELLS[p.pos]; glow(p.pos,.6);
+  const label = CELL_LABEL[c.type] + (c.type==='question'&&p._pre? ' · '+THEME_INFO[p._pre.theme].fr : c.type==='heritage'? ' · '+c.nom : '');
+  toast(label,1800);
+  // Savoir et Défi : la voix annonce la case avant d'ouvrir la carte.
+  if(c.type==='question'||c.type==='challenge') await sayWait(cellIntro(p,p.pos),5000); else await wait(300);
+  glow(p.pos,0);
   if(c.type==='heritage') return onHeritage(p,p.pos);
   if(c.type==='question') return askQuestion(p);
   if(c.type==='challenge') return onChallenge(p);
@@ -970,24 +1081,31 @@ async function playTurn(){
   save(); renderHUD(); highlightActive(); $('#chip'+S.turn)?.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
   const p=cur(); camMode= camMode==='overview'?'overview':'follow';
   if(!S.lastRoundSaid && S.duration && (store.get(ELAPSED)||0)>=S.duration && S.turn===0){ S.lastRoundSaid=true; say('Dernier tour de table ! Donnez tout ce que vous avez.'); await wait(2500); }
-  say(PH.turn(p.name),{queue:true});
-  await moveCam(700); await banner(p);
+  const turnText=PH.turn(p.name);
+  await Promise.all([moveCam(700), banner(p), sayWait(turnText,4500,{queue:true})]);
   if(p.halted){
     toast('Halte : question de reprise'); await wait(400);
-    const r=await askQuestion(p,{title:'Question de reprise'}); p.halted=false;
-    if(r!=='wrong') say(`Tu reprends la route, ${p.name} !`,{queue:true});
-    if(r==='wrong'){ say('Tu repartiras au prochain tour.',{queue:true}); toast(`${p.name} reste à la Halte ce tour-ci. Il repartira au prochain.`,3000); await wait(1200); return endTurn(); }
+    const r=await askQuestion(p,{title:'Question de reprise',intro:`${p.name}, une question pour quitter la Halte.`}); p.halted=false;
+    if(r!=='wrong') await sayWait(`Tu reprends la route, ${p.name} !`,3500);
+    if(r==='wrong'){ camFocus=false; say('Tu repartiras au prochain tour.'); toast(`${p.name} reste à la Halte ce tour-ci. Il repartira au prochain.`,3000); await wait(1200); return endTurn(); }
   }
+  // Préchargement pendant que le joueur appuie : phrase du Chemin, annonce de la case d'arrivée, question.
+  const steps=peekSteps(p), land=(p.pos+steps)%N, journeyText=PH.journey(p.name,steps);
+  const lc=CELLS[land], ck=CHAL_ROT[S.chalIdx%CHAL_ROT.length];
+  if(lc.type==='question' || (lc.type==='challenge' && ck==='question')){ const t=nextTheme(p); p._pre={theme:t, q:selectQuestion(p,t)}; }
+  prefetch(journeyText); prefetch(cellIntro(p,land)); if(p._pre) prefetch(qPhrase(p._pre.q,'fr'));
+  if(steps+p.pos>=N) prefetch('Tu repasses par le départ. Beau tour complet ! Plus 100 Kounouz.');
   await waitMain('Découvrir mon chemin');
-  const n=assignSteps(p); say(PH.journey(p.name,n)); await revealChemin(n);
+  const n=assignSteps(p); await Promise.all([revealChemin(n), sayWait(journeyText,5000)]);
   idleMain('En route…'); await movePawn(p,n);
   await resolveCell(p);
-  await wait(300); endTurn();
+  camFocus=false; moveCam(900);
+  await voiceIdle(5000); await wait(250); endTurn();
 }
 async function endTurn(){
   idleMain(); S.turn++;
   if(S.turn>=S.players.length){ S.turn=0; await endRound(); S.round++; if(S.over) { save(); return showEnd(); } }
-  playTurn();
+  prefetch(PH.turn(cur().name)); playTurn();
 }
 async function endRound(){
   // Zakat al-Māl : 6 tours de table de suite au-dessus du nissab (1 000 K) → 2,5 % à la Caisse Masākīn.
@@ -1100,10 +1218,13 @@ $('#resumeBtn').onclick=()=>{ S=store.get(SAVE); enterGame(); };
 function enterGame(fresh){
   unlockAudio();
   $('#setup').hidden=true; $('#hud').hidden=false;
-  if(fresh) setTimeout(()=>say(PH.start(namesList(S.players.map(p=>p.name)))),300);
   try{ navigator.wakeLock?.request('screen').catch(()=>{}); }catch{}
   buildPawns(); rebuildBuildings(); renderHUD(); resize(); clockText(store.get(ELAPSED)||0);
-  playTurn();
+  const intro = introCam();
+  // Nouvelle partie : l'accueil est dit en entier avant le premier tour.
+  const hello = fresh? sayWait(PH.start(namesList(S.players.map(p=>p.name))),16000) : Promise.resolve();
+  if(fresh) prefetch(PH.turn(cur().name));
+  Promise.all([hello,intro]).then(()=>playTurn());
 }
 
 // Démarrage
