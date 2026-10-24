@@ -481,7 +481,7 @@ const CELL_D=1, CELL_W=1, BOARD_L=2*CELL_D+6*CELL_W, HALF=BOARD_L/2;
 const TILE_H=.26; // les cases sortent du plateau, comme des blocs posés dessus
 const rimMesh = new THREE.Mesh(new RoundedBoxGeometry(8.8,0.28,8.8,4,0.08), new THREE.MeshStandardMaterial({color:'#d4a03a',metalness:.85,roughness:.28,envMap:ENV,envMapIntensity:1.2}));
 rimMesh.position.y=-0.18; scene.add(rimMesh);
-const base = new THREE.Mesh(new THREE.BoxGeometry(8.45,0.3,8.45), new THREE.MeshStandardMaterial({color:'#0f4d40',roughness:.8})); base.receiveShadow=true;
+const base = new THREE.Mesh(new THREE.BoxGeometry(8.45,0.3,8.45), new THREE.MeshStandardMaterial({color:'#0e1834',roughness:.55,metalness:.2})); base.receiveShadow=true;
 base.position.y=-0.15; scene.add(base);
 const centerTex = loadTex('img/plateau.webp');
 const center = new THREE.Mesh(new THREE.PlaneGeometry(BOARD_L-2*CELL_D-.1,BOARD_L-2*CELL_D-.1), new THREE.MeshStandardMaterial({map:centerTex,roughness:.9}));
@@ -506,60 +506,69 @@ const TYPE_STYLE = {
   treasure:{bg:'#d6a536',band:'#94680f',ico:'💎',lbl:'Trésor'}, donation:{bg:'#b6463a',band:'#7a2a22',ico:'🤲',lbl:'Don'}};
 const FAM_COL = {maktaba:'#2f8c86',madinah_hotel:'#2c7a46',makkah_hotel:'#8a6a2e',maghreb_restaurant:'#b5462f',umrah_agency:'#3a5fb0',museum:'#1f8a8f',park:'#5f9a2f'};
 const EMOJI='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+// Couleur néon de chaque case et icône illustrée (img/icons). Sans icône : émoji de secours.
+const NEON = {start:'#ffc94a',question:'#3aa8ff',challenge:'#b45cff',halt:'#ff8a3a',treasure:'#ffd24a',donation:'#ff5c7a',
+  maktaba:'#3ddc84',madinah_hotel:'#2ee6c9',makkah_hotel:'#ffb84a',maghreb_restaurant:'#ff6a3d',umrah_agency:'#4d8dff',museum:'#36d6ff',park:'#9be34a'};
+const ICON_FILE = {start:'depart',question:'savoir',challenge:'defi',halt:'halte',treasure:'tresor',
+  maktaba:'maktaba',madinah_hotel:'hotel-medine',makkah_hotel:'hotel-la-mecque',maghreb_restaurant:'restaurant',umrah_agency:'agence-omra',museum:'musee',park:'parc'};
+const ICONS={};
+const iconsReady = Promise.all(Object.values(ICON_FILE).map(n=>fetch(`img/icons/${n}.webp`).then(r=>r.ok?r.blob():Promise.reject()).then(b=>createImageBitmap(b)).then(im=>{ICONS[n]=im;}).catch(()=>{})));
+const neonOf = cell => cell.type==='heritage'? NEON[cell.fam] : NEON[cell.type];
+function rrect(g,x,y,w,h,r){ g.beginPath(); g.moveTo(x+r,y); g.arcTo(x+w,y,x+w,y+h,r); g.arcTo(x+w,y+h,x,y+h,r); g.arcTo(x,y+h,x,y,r); g.arcTo(x,y,x+w,y,r); g.closePath(); }
+function hexA(hex,a){ const n=parseInt(hex.slice(1),16); return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`; }
+// Case en verre : fond teinté translucide, contour néon lumineux, icône et nom qui brillent.
 function tileTexture(cell,i){
-  const [sx,sz]=cellSize(i); const PX=300; const cw=Math.round(sx*PX), ch=Math.round(sz*PX);
-  const c=document.createElement('canvas'); c.width=cw; c.height=ch; const g=c.getContext('2d');
-  const h = cell.type==='heritage', wide = cw>ch*1.2;
-  const st = h? {band:FAM_COL[cell.fam],ico:cell.ico} : TYPE_STYLE[cell.type];
-  g.fillStyle = h? '#f6e9cb' : st.bg; g.fillRect(0,0,cw,ch);
-  if(!h){ const gr=g.createRadialGradient(cw/2,ch*.42,10,cw/2,ch/2,Math.max(cw,ch)*.7); gr.addColorStop(0,'rgba(255,255,255,.3)'); gr.addColorStop(1,'rgba(0,0,0,.22)'); g.fillStyle=gr; g.fillRect(0,0,cw,ch); }
-  const bandH = h? Math.round(ch*(wide?.24:.19)) : 0;
-  if(h){ g.fillStyle=st.band; g.fillRect(0,0,cw,bandH); g.fillStyle='#fff'; g.textAlign='center'; g.textBaseline='middle'; g.font=`900 ${Math.round(bandH*.68)}px Nunito, sans-serif`; g.fillText(cell.prix+' K',cw/2,bandH/2+2); }
-  g.strokeStyle='#d8aa45'; g.lineWidth=12; g.strokeRect(6,6,cw-12,ch-12);
+  const S=320, c=document.createElement('canvas'); c.width=c.height=S; const g=c.getContext('2d');
+  const col=neonOf(cell), h=cell.type==='heritage', m=14, r=40;
+  rrect(g,m,m,S-2*m,S-2*m,r); const gr=g.createLinearGradient(0,0,0,S); gr.addColorStop(0,hexA(col,.38)); gr.addColorStop(.55,'rgba(10,16,40,.82)'); gr.addColorStop(1,hexA(col,.3)); g.fillStyle=gr; g.fill();
+  const rg=g.createRadialGradient(S/2,S*.38,10,S/2,S/2,S*.6); rg.addColorStop(0,hexA(col,.35)); rg.addColorStop(1,'rgba(255,255,255,0)'); g.fillStyle=rg; g.fill();
+  g.save(); g.shadowColor=col; g.shadowBlur=26; g.strokeStyle=col; g.lineWidth=10; rrect(g,m,m,S-2*m,S-2*m,r); g.stroke(); g.stroke(); g.restore();
+  g.strokeStyle='rgba(255,255,255,.55)'; g.lineWidth=2.5; rrect(g,m+9,m+9,S-2*m-18,S-2*m-18,r-9); g.stroke();
   g.textAlign='center'; g.textBaseline='middle';
-  const name = h? cell.nom : st.lbl;
-  if(wide){ // cases des côtés gauche et droit : icône à gauche, nom à droite, en grand
-    const top=bandH, H=ch-bandH, icoS=Math.round(Math.min(H*.72, cw*.34));
-    g.font=`${icoS}px ${EMOJI}`; g.fillText(st.ico, cw*.22, top+H*.52);
-    g.fillStyle = h? '#3b2a12' : '#fff'; if(!h){ g.shadowColor='rgba(0,0,0,.35)'; g.shadowBlur=6; }
-    const maxW=cw*.56; let fs=Math.round(H*.3); g.font=`900 ${fs}px Nunito, sans-serif`;
-    const words=name.split(' '); let lines=[name];
-    if(g.measureText(name).width>maxW && words.length>1){ const mid=Math.ceil(words.length/2); lines=[words.slice(0,mid).join(' '),words.slice(mid).join(' ')]; }
-    while(lines.some(l=>g.measureText(l).width>maxW)&&fs>16){ fs-=2; g.font=`900 ${fs}px Nunito, sans-serif`; }
-    lines.forEach((l,k)=>g.fillText(l, cw*.64, top+H*.52+(k-(lines.length-1)/2)*(fs*1.05)));
-    const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; return t;
-  }
-  const icoSize = Math.round(Math.min(cw*.6, (ch-bandH)*(h?.36:.46)));
-  const icoY = bandH + (ch-bandH)*(h?.3:.36);
-  g.font=`${icoSize}px ${EMOJI}`; g.fillText(st.ico,cw/2,icoY);
-  g.fillStyle = h? '#3b2a12' : '#fff';
-  const maxW=cw-24; let fs = Math.round(Math.min(cw*(h?.2:.24), ch*(h?.19:.2)));
-  g.font=`900 ${fs}px Nunito, sans-serif`;
+  let top=m+10;
+  if(h){ const pw=150, ph=46; g.save(); g.shadowColor=col; g.shadowBlur=12; g.fillStyle=col; rrect(g,S/2-pw/2,top,pw,ph,23); g.fill(); g.restore();
+    g.fillStyle='#0b1430'; g.font='900 32px Nunito, sans-serif'; g.fillText(cell.prix+' K',S/2,top+ph/2+2); top+=ph; }
+  const key = h? ICON_FILE[cell.fam] : ICON_FILE[cell.type], img=ICONS[key];
+  const isz = h? 142 : 172, iy = h? top+12+isz/2 : S*.42;
+  g.save(); g.shadowColor=hexA(col,.9); g.shadowBlur=24;
+  if(img) g.drawImage(img,S/2-isz/2,iy-isz/2,isz,isz);
+  else { g.font=`${Math.round(isz*.8)}px ${EMOJI}`; g.fillText(h? cell.ico : TYPE_STYLE[cell.type].ico,S/2,iy); }
+  g.restore();
+  const name = h? cell.nom : TYPE_STYLE[cell.type].lbl, maxW=S-2*m-26;
+  let fs = h? 40 : 50; g.font=`900 ${fs}px Nunito, sans-serif`;
   const words=name.split(' '); let lines=[name];
   if(g.measureText(name).width>maxW && words.length>1){ const mid=Math.ceil(words.length/2); lines=[words.slice(0,mid).join(' '),words.slice(mid).join(' ')]; }
-  while(lines.some(l=>g.measureText(l).width>maxW)&&fs>16){ fs-=2; g.font=`900 ${fs}px Nunito, sans-serif`; }
-  const y0 = bandH + (ch-bandH)*(h?.74:.76);
-  if(!h){ g.shadowColor='rgba(0,0,0,.35)'; g.shadowBlur=6; }
-  lines.forEach((l,k)=>g.fillText(l,cw/2,y0+(k-(lines.length-1)/2)*(fs*1.05)));
+  while(lines.some(l=>g.measureText(l).width>maxW)&&fs>18){ fs-=2; g.font=`900 ${fs}px Nunito, sans-serif`; }
+  const y0 = h? S-m-22-(lines.length-1)*fs*.52 : S*.8;
+  g.save(); g.shadowColor=col; g.shadowBlur=14; g.fillStyle='#fff';
+  lines.forEach((l,k)=>g.fillText(l,S/2,y0+(k-(lines.length-1)/2)*(fs*1.04))); g.restore();
+  g.fillStyle='#fff'; lines.forEach((l,k)=>g.fillText(l,S/2,y0+(k-(lines.length-1)/2)*(fs*1.04)));
   const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; return t;
 }
 const tiles=[]; const GAP=.045;
 const TILE_GEO = { corner:new RoundedBoxGeometry(CELL_D-GAP,TILE_H,CELL_D-GAP,3,.05), ns:new RoundedBoxGeometry(CELL_W-GAP,TILE_H,CELL_D-GAP,3,.05), ew:new RoundedBoxGeometry(CELL_D-GAP,TILE_H,CELL_W-GAP,3,.05) };
 const geoFor=i=>{ const sd=sideOf(i); return sd==='corner'? TILE_GEO.corner : (sd==='bottom'||sd==='top')? TILE_GEO.ns : TILE_GEO.ew; };
+const TILE_GLOW_TEX = radialTex('rgba(255,255,255,.9)','rgba(255,255,255,0)',128);
 function buildTiles(){
-  tiles.forEach(t=>scene.remove(t)); tiles.length=0;
+  tiles.forEach(t=>{ scene.remove(t); if(t.userData.spill) scene.remove(t.userData.spill); }); tiles.length=0;
   CELLS.forEach((cell,i)=>{
-    const side = new THREE.MeshStandardMaterial({color: cell.type==='heritage'? FAM_COL[cell.fam] : TYPE_STYLE[cell.type].band, roughness:.7});
-    const top = new THREE.MeshStandardMaterial({map:tileTexture(cell,i), roughness:.75, emissive:'#ffcc55', emissiveIntensity:0});
+    const col=neonOf(cell);
+    // Verre teinté : bords translucides qui s'éclairent de la couleur de la case.
+    const side = new THREE.MeshStandardMaterial({color:col, roughness:.15, metalness:.1, transparent:true, opacity:.6, emissive:col, emissiveIntensity:.6, envMap:ENV, envMapIntensity:.6, toneMapped:false});
+    const tex=tileTexture(cell,i);
+    const top = new THREE.MeshStandardMaterial({map:tex, emissiveMap:tex, emissive:'#ffffff', emissiveIntensity:.4, transparent:true, roughness:.25, metalness:0, envMap:ENV, envMapIntensity:.25, toneMapped:false});
     const m = new THREE.Mesh(geoFor(i),[side,side,top,side,side,side]);
     m.position.copy(cellXZ(i)); m.position.y=TILE_H/2; m.userData.cell=i; m.userData.top=top;
-    m.receiveShadow=true; m.castShadow=true; scene.add(m); tiles.push(m);
+    m.castShadow=true; m.renderOrder=2; scene.add(m); tiles.push(m);
+    // Halo de lumière qui déborde sur le plateau autour de la case.
+    const spill=new THREE.Mesh(new THREE.PlaneGeometry(1.45,1.45), new THREE.MeshBasicMaterial({map:TILE_GLOW_TEX,color:col,transparent:true,opacity:.5,depthWrite:false,blending:THREE.AdditiveBlending}));
+    spill.rotation.x=-Math.PI/2; const v=cellXZ(i); spill.position.set(v.x,.012,v.z); scene.add(spill); m.userData.spill=spill;
   });
   dirty=true;
 }
-document.fonts.load('900 30px Nunito').then(()=>{ buildTiles(); }).catch(()=>{});
+Promise.all([document.fonts.load('900 30px Nunito').catch(()=>{}), iconsReady]).then(()=>buildTiles());
 buildTiles();
-function glow(i, v){ const t=tiles[i]; if(!t) return; t.userData.top.emissiveIntensity=v; t.position.y = TILE_H/2 + v*0.12; dirty=true; }
+function glow(i, v){ const t=tiles[i]; if(!t) return; t.userData.top.emissiveIntensity=.4+v*1.2; if(t.userData.spill) t.userData.spill.material.opacity=.5+v*.8; t.position.y = TILE_H/2 + v*0.12; dirty=true; }
 
 // Pions
 function pawnMesh(hex){
