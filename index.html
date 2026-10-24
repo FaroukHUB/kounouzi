@@ -454,52 +454,80 @@ function radialTex(inner, outer, size=256){
 const table = new THREE.Mesh(new THREE.CircleGeometry(30,64), new THREE.MeshBasicMaterial({map:radialTex('#2a3b55','#0c1626')}));
 table.rotation.x=-Math.PI/2; table.position.y=-0.32; scene.add(table);
 // Socle : cadre or + plateau émeraude
+const CELL_D=1.42, CELL_W=0.88, BOARD_L=2*CELL_D+6*CELL_W, HALF=BOARD_L/2;
 const rimMesh = new THREE.Mesh(new RoundedBoxGeometry(8.8,0.28,8.8,4,0.08), new THREE.MeshStandardMaterial({color:'#d4a03a',metalness:.85,roughness:.28,envMap:ENV,envMapIntensity:1.2}));
 rimMesh.position.y=-0.18; scene.add(rimMesh);
 const base = new THREE.Mesh(new THREE.BoxGeometry(8.45,0.3,8.45), new THREE.MeshStandardMaterial({color:'#0f4d40',roughness:.8})); base.receiveShadow=true;
 base.position.y=-0.15; scene.add(base);
 const centerTex = loadTex('img/plateau.webp');
-const center = new THREE.Mesh(new THREE.PlaneGeometry(5.8,5.8), new THREE.MeshStandardMaterial({map:centerTex,roughness:.9}));
+const center = new THREE.Mesh(new THREE.PlaneGeometry(BOARD_L-2*CELL_D-.1,BOARD_L-2*CELL_D-.1), new THREE.MeshStandardMaterial({map:centerTex,roughness:.9}));
 center.rotation.x=-Math.PI/2; center.position.y=0.005; center.receiveShadow=true; scene.add(center);
 
-function gridOf(i){ i=((i%N)+N)%N;
-  if(i<=7) return [7-i,7]; if(i<=14) return [0,7-(i-7)]; if(i<=21) return [i-14,0]; return [7,i-21]; }
-function cellXZ(i){ const [gx,gz]=gridOf(i); return new THREE.Vector3(gx-3.5,0,gz-3.5); }
-function inward(i){ const v=cellXZ(i);
-  const o=new THREE.Vector3(); if(v.x>=3.4)o.x=-1; if(v.x<=-3.4)o.x=1; if(v.z>=3.4)o.z=-1; if(v.z<=-3.4)o.z=1; return o.normalize(); }
+// Plateau : coins carrés de côté D, cases rectangulaires (W de large, D de profondeur) pour être bien lisibles.
+function sideOf(i){ i=((i%N)+N)%N; if(i%7===0) return 'corner'; return i<7?'bottom': i<14?'left': i<21?'top':'right'; }
+function cellXZ(i){ i=((i%N)+N)%N; const h=HALF, D=CELL_D, W=CELL_W, a=h-D/2;
+  if(i===0) return new THREE.Vector3(a,0,a); if(i===7) return new THREE.Vector3(-a,0,a); if(i===14) return new THREE.Vector3(-a,0,-a); if(i===21) return new THREE.Vector3(a,0,-a);
+  if(i<7)  return new THREE.Vector3(h-D-W*(i-.5),0,a);
+  if(i<14) return new THREE.Vector3(-a,0,h-D-W*(i-7-.5));
+  if(i<21) return new THREE.Vector3(-h+D+W*(i-14-.5),0,-a);
+  return new THREE.Vector3(a,0,-h+D+W*(i-21-.5)); }
+function cellSize(i){ const sd=sideOf(i); return sd==='corner'? [CELL_D,CELL_D] : (sd==='bottom'||sd==='top')? [CELL_W,CELL_D] : [CELL_D,CELL_W]; }
+function inward(i){ const sd=sideOf(i), o=new THREE.Vector3();
+  if(sd==='bottom') o.z=-1; else if(sd==='top') o.z=1; else if(sd==='left') o.x=1; else if(sd==='right') o.x=-1;
+  else { const v=cellXZ(i); o.set(-Math.sign(v.x),0,-Math.sign(v.z)).normalize(); } return o; }
 
 const TYPE_STYLE = {
   start:{bg:'#2f8a57',band:'#1d5c39',ico:'⭐',lbl:'Départ'}, question:{bg:'#2b5aa8',band:'#173a73',ico:'💡',lbl:'Savoir'},
   challenge:{bg:'#7a3fb8',band:'#4e2380',ico:'🎯',lbl:'Défi'}, halt:{bg:'#1f4f86',band:'#123457',ico:'⛺',lbl:'Halte'},
   treasure:{bg:'#d6a536',band:'#94680f',ico:'💎',lbl:'Trésor'}, donation:{bg:'#b6463a',band:'#7a2a22',ico:'🤲',lbl:'Don'}};
 const FAM_COL = {maktaba:'#2f8c86',madinah_hotel:'#2c7a46',makkah_hotel:'#8a6a2e',maghreb_restaurant:'#b5462f',umrah_agency:'#3a5fb0',museum:'#1f8a8f',park:'#5f9a2f'};
-function tileTexture(cell){
-  const c=document.createElement('canvas'); c.width=c.height=256; const g=c.getContext('2d');
-  const h = cell.type==='heritage';
-  const st = h? {bg:'#f4e6c6',band:FAM_COL[cell.fam],ico:cell.ico,lbl:cell.nom} : TYPE_STYLE[cell.type];
-  g.fillStyle = h? '#f4e6c6' : st.bg; g.fillRect(0,0,256,256);
-  if(!h){ const gr=g.createRadialGradient(128,110,10,128,128,180); gr.addColorStop(0,'rgba(255,255,255,.28)'); gr.addColorStop(1,'rgba(0,0,0,.2)'); g.fillStyle=gr; g.fillRect(0,0,256,256); }
-  g.fillStyle=st.band; g.fillRect(0,0,256,h?58:0);
-  g.strokeStyle='#d8aa45'; g.lineWidth=10; g.strokeRect(5,5,246,246);
+const EMOJI='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+function tileTexture(cell,i){
+  const [sx,sz]=cellSize(i); const PX=300; const cw=Math.round(sx*PX), ch=Math.round(sz*PX);
+  const c=document.createElement('canvas'); c.width=cw; c.height=ch; const g=c.getContext('2d');
+  const h = cell.type==='heritage', wide = cw>ch*1.2;
+  const st = h? {band:FAM_COL[cell.fam],ico:cell.ico} : TYPE_STYLE[cell.type];
+  g.fillStyle = h? '#f6e9cb' : st.bg; g.fillRect(0,0,cw,ch);
+  if(!h){ const gr=g.createRadialGradient(cw/2,ch*.42,10,cw/2,ch/2,Math.max(cw,ch)*.7); gr.addColorStop(0,'rgba(255,255,255,.3)'); gr.addColorStop(1,'rgba(0,0,0,.22)'); g.fillStyle=gr; g.fillRect(0,0,cw,ch); }
+  const bandH = h? Math.round(ch*(wide?.24:.19)) : 0;
+  if(h){ g.fillStyle=st.band; g.fillRect(0,0,cw,bandH); g.fillStyle='#fff'; g.textAlign='center'; g.textBaseline='middle'; g.font=`900 ${Math.round(bandH*.68)}px Nunito, sans-serif`; g.fillText(cell.prix+' K',cw/2,bandH/2+2); }
+  g.strokeStyle='#d8aa45'; g.lineWidth=12; g.strokeRect(6,6,cw-12,ch-12);
   g.textAlign='center'; g.textBaseline='middle';
-  g.font='92px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; g.fillText(st.ico,128,h?132:112);
-  g.fillStyle = h? '#3b2a12' : '#fff';
   const name = h? cell.nom : st.lbl;
-  let fs = h? 30: 40; g.font=`900 ${fs}px Nunito, sans-serif`;
-  const words = name.split(' '); let lines=[name];
-  if(g.measureText(name).width>226 && words.length>1){ const mid=Math.ceil(words.length/2); lines=[words.slice(0,mid).join(' '),words.slice(mid).join(' ')]; }
-  while(lines.some(l=>g.measureText(l).width>230)&&fs>18){fs-=2; g.font=`900 ${fs}px Nunito, sans-serif`;}
-  const y0 = h? 205 : 200; lines.forEach((l,k)=>g.fillText(l,128,y0+(k-(lines.length-1)/2)*(fs+2)));
-  if(h){ g.fillStyle='#fff'; g.font='900 30px Nunito, sans-serif'; g.fillText(cell.prix+' K',128,30); }
-  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=4; return t;
+  if(wide){ // cases des côtés gauche et droit : icône à gauche, nom à droite, en grand
+    const top=bandH, H=ch-bandH, icoS=Math.round(Math.min(H*.72, cw*.34));
+    g.font=`${icoS}px ${EMOJI}`; g.fillText(st.ico, cw*.22, top+H*.52);
+    g.fillStyle = h? '#3b2a12' : '#fff'; if(!h){ g.shadowColor='rgba(0,0,0,.35)'; g.shadowBlur=6; }
+    const maxW=cw*.56; let fs=Math.round(H*.3); g.font=`900 ${fs}px Nunito, sans-serif`;
+    const words=name.split(' '); let lines=[name];
+    if(g.measureText(name).width>maxW && words.length>1){ const mid=Math.ceil(words.length/2); lines=[words.slice(0,mid).join(' '),words.slice(mid).join(' ')]; }
+    while(lines.some(l=>g.measureText(l).width>maxW)&&fs>16){ fs-=2; g.font=`900 ${fs}px Nunito, sans-serif`; }
+    lines.forEach((l,k)=>g.fillText(l, cw*.64, top+H*.52+(k-(lines.length-1)/2)*(fs*1.05)));
+    const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; return t;
+  }
+  const icoSize = Math.round(Math.min(cw*.62, (ch-bandH)*(h?.42:.5)));
+  const icoY = bandH + (ch-bandH)*(h?.36:.4);
+  g.font=`${icoSize}px ${EMOJI}`; g.fillText(st.ico,cw/2,icoY);
+  g.fillStyle = h? '#3b2a12' : '#fff';
+  const maxW=cw-30; let fs = Math.round(Math.min(cw*(h?.2:.24), ch*.14));
+  g.font=`900 ${fs}px Nunito, sans-serif`;
+  const words=name.split(' '); let lines=[name];
+  if(g.measureText(name).width>maxW && words.length>1){ const mid=Math.ceil(words.length/2); lines=[words.slice(0,mid).join(' '),words.slice(mid).join(' ')]; }
+  while(lines.some(l=>g.measureText(l).width>maxW)&&fs>16){ fs-=2; g.font=`900 ${fs}px Nunito, sans-serif`; }
+  const y0 = bandH + (ch-bandH)*.78;
+  if(!h){ g.shadowColor='rgba(0,0,0,.35)'; g.shadowBlur=6; }
+  lines.forEach((l,k)=>g.fillText(l,cw/2,y0+(k-(lines.length-1)/2)*(fs*1.05)));
+  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; return t;
 }
-const tiles=[]; const tileGeo = new RoundedBoxGeometry(0.95,0.12,0.95,2,0.025);
+const tiles=[]; const GAP=.045;
+const TILE_GEO = { corner:new RoundedBoxGeometry(CELL_D-GAP,.12,CELL_D-GAP,2,.03), ns:new RoundedBoxGeometry(CELL_W-GAP,.12,CELL_D-GAP,2,.03), ew:new RoundedBoxGeometry(CELL_D-GAP,.12,CELL_W-GAP,2,.03) };
+const geoFor=i=>{ const sd=sideOf(i); return sd==='corner'? TILE_GEO.corner : (sd==='bottom'||sd==='top')? TILE_GEO.ns : TILE_GEO.ew; };
 function buildTiles(){
   tiles.forEach(t=>scene.remove(t)); tiles.length=0;
   CELLS.forEach((cell,i)=>{
     const side = new THREE.MeshStandardMaterial({color: cell.type==='heritage'? FAM_COL[cell.fam] : TYPE_STYLE[cell.type].band, roughness:.7});
-    const top = new THREE.MeshStandardMaterial({map:tileTexture(cell), roughness:.75, emissive:'#ffcc55', emissiveIntensity:0});
-    const m = new THREE.Mesh(tileGeo,[side,side,top,side,side,side]);
+    const top = new THREE.MeshStandardMaterial({map:tileTexture(cell,i), roughness:.75, emissive:'#ffcc55', emissiveIntensity:0});
+    const m = new THREE.Mesh(geoFor(i),[side,side,top,side,side,side]);
     m.position.copy(cellXZ(i)); m.position.y=0.06; m.userData.cell=i; m.userData.top=top;
     m.receiveShadow=true; m.castShadow=true; scene.add(m); tiles.push(m);
   });
@@ -528,7 +556,7 @@ function restPos(p, exclude){
   const here = S.players.filter(q=>q.pos===p.pos);
   const k = here.indexOf(p); const off = clusterOffsets(here.length)[k]||[0,0];
   const v = cellXZ(p.pos); const inw = inward(p.pos);
-  if(CELLS[p.pos].type==='heritage'){ v.addScaledVector(inw,.14); }
+  if(CELLS[p.pos].type==='heritage'){ v.addScaledVector(inw,.24); }
   v.x+=off[0]*.85; v.z+=off[1]*.85; v.y=TOP_Y; return v;
 }
 function buildPawns(){
@@ -573,7 +601,7 @@ function placeBuilding(pos, animate){
   const owner=S.players[S.owners[pos]]; if(!owner) return;
   if(buildings[pos]) scene.remove(buildings[pos]);
   const g=buildingMesh(CELLS[pos].fam, owner.hex);
-  const v=cellXZ(pos), o=inward(pos); v.addScaledVector(o,-.2); g.position.set(v.x,TOP_Y,v.z);
+  const v=cellXZ(pos), o=inward(pos); v.addScaledVector(o,-.36); g.position.set(v.x,TOP_Y,v.z);
   g.rotation.y = Math.atan2(o.x,o.z);
   g.traverse(o=>{ if(o.isMesh){ o.castShadow=true; if(o.material&&o.material.metalness>.3){ o.material.envMap=ENV; } } });
   scene.add(g); buildings[pos]=g;
@@ -1058,7 +1086,7 @@ async function movePawn(p, steps){
   for(const i of path) glow(i,.25);
   following=true; camFocus=true;
   for(const i of path){
-    const a=m.position.clone(); const v=cellXZ(i); if(CELLS[i].type==='heritage') v.addScaledVector(inward(i),.14); v.y=TOP_Y;
+    const a=m.position.clone(); const v=cellXZ(i); if(CELLS[i].type==='heritage') v.addScaledVector(inward(i),.24); v.y=TOP_Y;
     await tween(300,k=>{ m.position.lerpVectors(a,v,k); m.position.y=TOP_Y+Math.sin(Math.PI*k)*.42; m.userData.shadow.position.y=-(m.position.y-TOP_Y)+.003; m.userData.shadow.scale.setScalar(1-Math.sin(Math.PI*k)*.4); },easeIO);
     glow(i,0); p.pos=i; vibrate(8);
     if(!REDUCED){ const b=m.userData.body; tween(160,k=>{ const q=Math.sin(Math.PI*k)*.18; b.forEach(o=>{o.scale.set(1+q*.6,1-q,1+q*.6);}); }); }
