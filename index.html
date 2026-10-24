@@ -261,7 +261,11 @@ const CHAL_ROT = ['family','hassanat','family','duel','family','question'];
 const SERVICE = {maktaba:'un livre',madinah_hotel:'un séjour',makkah_hotel:'un séjour',maghreb_restaurant:'un repas',umrah_agency:'un voyage',museum:'un billet',park:'un billet'};
 const DURATIONS = [{id:'rapide',lbl:'Rapide',min:30},{id:'classique',lbl:'Classique',min:45},{id:'grande',lbl:'Grande',min:60},{id:'libre',lbl:'Libre',min:null}];
 const $ = s=>document.querySelector(s);
-const wait = ms=>new Promise(r=>setTimeout(r, REDUCED? Math.min(ms,60): ms));
+// Pause : tout le jeu s'arrête (attentes, animations, chronomètre, voix) tant que le menu est ouvert.
+let paused=false, pausedAt=0;
+const wait = ms=>new Promise(r=>{ let left = REDUCED? Math.min(ms,60): ms, last=performance.now();
+  const tick=()=>{ const now=performance.now(); if(!paused) left-=now-last; last=now; if(left<=0) r(); else setTimeout(tick, Math.min(Math.max(left,16),100)); };
+  setTimeout(tick, Math.min(Math.max(left,0),100)); });
 const store = {
   get(k){try{return JSON.parse(localStorage.getItem(k))}catch{return null}},
   set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}},
@@ -321,7 +325,7 @@ function stopVoice(){ VOICE.token++; try{audioEl.pause();}catch{} try{ if('speec
 function playDevice(text,lang,tok){
   return new Promise(res=>{ if(!('speechSynthesis' in window)) return res();
     const u=new SpeechSynthesisUtterance(text); u.lang= lang==='ar'?'ar-SA':'fr-FR'; const v=deviceVoice(lang); if(v) u.voice=v;
-    u.rate=RATES[SET.rate]||1; u.onend=u.onerror=()=>res(); if(tok!==VOICE.token) return res(); speechSynthesis.speak(u); setTimeout(res,20000); });
+    u.rate=RATES[SET.rate]||1; u.onend=u.onerror=()=>res(); if(tok!==VOICE.token) return res(); speechSynthesis.speak(u); wait(20000).then(res); });
 }
 // Les phrases sont téléchargées à l'avance (pendant que le pion avance) et gardées en mémoire :
 // au moment de parler, l'audio est déjà là, la voix colle au plateau.
@@ -345,7 +349,7 @@ function playCloud(text,lang,tok){
     if(tok!==VOICE.token) return fin(true);
     audioEl.onended=()=>fin(true); audioEl.onerror=()=>fin(false);
     audioEl.src=url; audioEl.playbackRate=RATES[SET.rate]||1;
-    audioEl.play().catch(()=>fin(false)); setTimeout(()=>fin(true),30000); });
+    audioEl.play().catch(()=>fin(false)); wait(30000).then(()=>fin(true)); });
 }
 // Dit une phrase. Par défaut elle coupe la précédente ; {queue:true} la met à la suite.
 let voiceChain=Promise.resolve();
@@ -649,6 +653,7 @@ function fxBurst(i,col='#ffd36a',n=26){ if(REDUCED) return; const v=cellXZ(i); c
   tween(1000,k=>{ for(let j=0;j<n;j++){ pos[j*3]=v.x+vel[j][0]*k*.8; pos[j*3+1]=TOP_Y+.1+vel[j][1]*k-2.6*k*k; pos[j*3+2]=v.z+vel[j][2]*k*.8; } g.attributes.position.needsUpdate=true; pts.material.opacity=1-k; }).then(()=>{scene.remove(pts); g.dispose();}); }
 let lastFrame=0;
 function loop(now){
+  if(paused){ requestAnimationFrame(loop); return; }
   for(let i=anims.length-1;i>=0;i--){ const a=anims[i]; const k=Math.min(1,(now-a.t0)/a.dur); a.fn(a.ease(k)); if(k>=1){anims.splice(i,1);a.res();} }
   if(following) followSoft();
   const busy = anims.length||dirty||following;
@@ -792,7 +797,7 @@ async function askQuestion(p, {theme, title, intro}={}){
   prefetch(aPhrase(q,curL()),curL());
   const preVerdicts=()=>{ ['good','partial','wrong'].forEach(r=>prefetch(PH[r](p.name)+gainText(r,1))); };
   draw(); if(intro) await sayWait(intro,5000); readQ();
-  timer=setInterval(()=>{ if(revealed) return; left=Math.max(0,left-1); const v=C.win.querySelector('#tmv'), b=C.win.querySelector('#tmb'), t=C.win.querySelector('#tm');
+  timer=setInterval(()=>{ if(revealed||paused) return; left=Math.max(0,left-1); const v=C.win.querySelector('#tmv'), b=C.win.querySelector('#tmb'), t=C.win.querySelector('#tm');
     if(v){ v.textContent= left>0? left+' s' : 'Temps écoulé, tu peux encore répondre'; b.style.width=(left/secs*100)+'%'; t.classList.toggle('alert',left<=10); if(left===10) vibrate(40); }
     if(left===0) clearInterval(timer); },1000);
   await choose(C.acts,[{label:'Voir la réponse',value:1}]);
@@ -846,8 +851,8 @@ function listenVerdict(overlay, acts, afterVoice){
 /* =========================================================
    Écran des réglages
    ========================================================= */
-function openSettings(){
-  const wasPaused=paused; paused=true;
+function openSettings(fromMenu=false){
+  const wasPaused=paused; setPaused(true);
   const ov=document.createElement('div'); ov.id='overlay';
   const seg=(key,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button data-k="${key}" data-v="${v}" aria-pressed="${SET[key]===v}">${l}</button>`).join('')}</div>`;
   const sw=(key,lbl)=>`<div class="setrow">${lbl}<button class="sw2" role="switch" data-sw="${key}" aria-checked="${!!SET[key]}" aria-label="${lbl}"></button></div>`;
@@ -873,9 +878,9 @@ function openSettings(){
     if(t.dataset.sw){ SET[t.dataset.sw]=!SET[t.dataset.sw]; if(t.dataset.sw==='voice'&&!SET.voice) stopVoice(); }
     else if(t.dataset.k){ SET[t.dataset.k]=t.dataset.v; if(t.dataset.k==='reduced') applyReduced(); if(t.dataset.k==='tone') say('Bravo, tu avances bien !'); }
     else if(t.dataset.defi){ SET.defis[t.dataset.defi]=t.checked; saveSet(); return; }
-    else if(t.dataset.a==='test'){ unlockAudio(); const was=SET.voice; SET.voice=true; say('Bravo, tu avances bien ! Je suis la voix de Kounouzi.'); SET.voice=was; return; }
+    else if(t.dataset.a==='test'){ unlockAudio(); delete audioEl.dataset.resume; const was=SET.voice; SET.voice=true; say('Bravo, tu avances bien ! Je suis la voix de Kounouzi.'); SET.voice=was; return; }
     else if(t.dataset.a==='replay'){ if(VOICE.last){ const was=SET.voice; SET.voice=true; say(VOICE.last.text,{lang:VOICE.last.lang}); SET.voice=was; } return; }
-    else if(t.dataset.a==='close'){ saveSet(); ov.remove(); paused=wasPaused; return; }
+    else if(t.dataset.a==='close'){ saveSet(); ov.remove(); setPaused(wasPaused && !fromMenu ? true : false); return; }
     else return;
     saveSet(); draw();
   });
@@ -1122,7 +1127,7 @@ async function endRound(){
 /* =========================================================
    Horloge de partie (temps de jeu réel)
    ========================================================= */
-let paused=false, lastTick=performance.now();
+let lastTick=performance.now();
 setInterval(()=>{
   const now=performance.now(); const dt=now-lastTick; lastTick=now;
   if(!S||S.over||paused||document.hidden||$('#hud').hidden) return;
@@ -1136,8 +1141,24 @@ function clockText(e){ const el=$('#clock');
    Menu, fin de partie
    ========================================================= */
 $('#viewBtn').onclick=()=>{ camMode = camMode==='follow'?'overview':'follow'; $('#viewBtn').textContent= camMode==='follow'?'🔭':'🔍'; moveCam(700); };
+// L'application passe en arrière-plan (appel, autre appli) : pause automatique, reprise au retour.
+let autoPaused=false;
+document.addEventListener('visibilitychange',()=>{ if(!S) return;
+  if(document.hidden){ if(!paused){ autoPaused=true; setPaused(true); } }
+  else if(autoPaused){ autoPaused=false; setPaused(false); } });
+function setPaused(v){
+  if(v===paused) return;
+  if(v){ paused=true; pausedAt=performance.now();
+    try{ if(audioEl.src && !audioEl.paused){ audioEl.pause(); audioEl.dataset.resume='1'; } }catch{}
+    try{ if('speechSynthesis' in window && speechSynthesis.speaking) speechSynthesis.pause(); }catch{}
+  } else { const d=performance.now()-pausedAt; anims.forEach(a=>a.t0+=d); paused=false;
+    try{ if(audioEl.dataset.resume){ delete audioEl.dataset.resume; audioEl.play().catch(()=>{}); } }catch{}
+    try{ if('speechSynthesis' in window) speechSynthesis.resume(); }catch{}
+  }
+  if(S) clockText(store.get(ELAPSED)||0);
+}
 $('#menuBtn').onclick=()=>{
-  paused=true;
+  setPaused(true);
   const ov=document.createElement('div'); ov.id='overlay';
   ov.innerHTML=`<div class="sheet"><h2>Pause</h2>
    <p>Le temps de jeu est arrêté tant que ce menu est ouvert.</p>
@@ -1151,9 +1172,9 @@ $('#menuBtn').onclick=()=>{
    <button class="btn btn-ghost" data-a="new">Nouvelle partie…</button></div>`;
   document.body.appendChild(ov);
   ov.onclick=e=>{ const a=e.target.closest('[data-a]')?.dataset.a; if(!a) return;
-    if(a==='close'){ ov.remove(); paused=false; }
-    if(a==='settings'){ ov.remove(); paused=false; openSettings(); }
-    if(a==='end'){ S.endRequested=true; store.set(SAVE,{...store.get(SAVE),endRequested:true}); ov.remove(); paused=false; toast('La partie s\'arrêtera à la fin de ce tour de table.'); }
+    if(a==='close'){ ov.remove(); setPaused(false); }
+    if(a==='settings'){ ov.remove(); openSettings(true); }
+    if(a==='end'){ S.endRequested=true; store.set(SAVE,{...store.get(SAVE),endRequested:true}); ov.remove(); setPaused(false); toast('La partie s\'arrêtera à la fin de ce tour de table.'); }
     if(a==='new'){ const s=ov.querySelector('.sheet'); s.innerHTML=`<h2>Nouvelle partie ?</h2><p>La partie en cours sera perdue.</p><button class="btn btn-gold" data-a="confirm">Oui, recommencer</button><button class="btn btn-ghost" data-a="close">Non, continuer</button>`; }
     if(a==='confirm'){ store.del(SAVE); location.reload(); }
   };
