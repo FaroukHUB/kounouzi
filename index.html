@@ -50,7 +50,12 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .panel{background:rgba(20,36,59,.85);border:1.5px solid rgba(239,190,76,.25);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:12px}
 .panel h2{margin:0;font-family:var(--display);font-weight:400;font-size:20px;color:var(--gold);letter-spacing:.02em}
 .prow{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;padding:10px;border-radius:14px;background:rgba(0,0,0,.22)}
-.prow .av{width:56px;height:56px;border-radius:50%;background:#222 center/cover;border:3px solid var(--c);cursor:pointer}
+.prow .av{position:relative;width:56px;height:56px;border-radius:50%;background:#222 center/cover;border:3px solid var(--c);cursor:pointer;padding:0}
+.prow .av .avedit{position:absolute;right:-4px;bottom:-4px;width:22px;height:22px;border-radius:50%;background:var(--gold);color:#3a2606;font-size:12px;font-weight:900;display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,.4)}
+.avpick{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:10px;border-radius:14px;background:rgba(0,0,0,.25);animation:fade .2s}
+.avb{aspect-ratio:1;max-width:100%;border-radius:50%;background:#222 center/cover;border:3px solid rgba(255,255,255,.15);transition:transform .15s}
+.avb:active{transform:scale(.94)}
+.avb[aria-selected=true]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(239,190,76,.35)}
 .prow input[type=text]{width:100%;min-width:0;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;color:var(--parchment);font:800 16px var(--body);padding:9px 10px}
 .prow .opts{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .seg{display:inline-flex;background:rgba(255,255,255,.07);border-radius:10px;padding:3px}
@@ -395,7 +400,10 @@ const PH = {
   wrong: n=>pickBy(S.usedQ.length,[`Ce n'est pas grave, ${n}. C'est comme ça qu'on apprend.`,`Pas de souci, ${n}. Tu la retiendras pour la prochaine fois.`,`Une de plus à apprendre, ${n}. Continue, tu progresses !`]),
 };
 
+// Les 8 avatars, au choix libre : un enfant peut prendre celui d'un adulte, c'est un jeu.
+const AVATARS=['garcon-7-9','fille-7-9','garcon-10-12','fille-10-12','garcon-13-16','fille-13-16','garcon-17-plus','fille-17-plus'];
 function avatarFor(p){
+  if(p.avatar && AVATARS.includes(p.avatar)) return `img/${p.avatar}-portrait.webp`;
   const g = p.gender==='f'?'fille':'garcon';
   const band = !p.child? '17-plus' : p.age<=9?'7-9': p.age<=12?'10-12': p.age<=16?'13-16':'17-plus';
   return `img/${g}-${band}-portrait.webp`;
@@ -1251,7 +1259,7 @@ let dur = 'classique';
 function renderSetup(){
   const used=defs.map(d=>d.color);
   $('#plist').innerHTML = defs.map((d,i)=>{ const hex=COLORS.find(c=>c.id===d.color).hex; return `<div class="prow" style="--c:${hex}">
-    <div class="av" data-i="${i}" data-a="gender" style="background-image:url(${avatarFor(d)})" title="Changer d'avatar"></div>
+    <button class="av" data-i="${i}" data-a="pickav" style="background-image:url(${avatarFor(d)})" aria-label="Choisir l'avatar de ${esc(d.name)}" aria-expanded="${!!d._pick}"><span class="avedit">✎</span></button>
     <input type="text" id="pname${i}" data-i="${i}" value="${esc(d.name)}" maxlength="14" aria-label="Prénom du joueur ${i+1}">
     ${defs.length>2?`<button class="del" data-i="${i}" data-a="del" aria-label="Retirer">✕</button>`:'<span></span>'}
     <div class="opts">
@@ -1259,12 +1267,15 @@ function renderSetup(){
       ${d.child? `<select id="page${i}" data-i="${i}" aria-label="Âge">${Array.from({length:12},(_,k)=>k+5).map(a=>`<option value="${a}" ${a===d.age?'selected':''}>${a} ans</option>`).join('')}</select>`
         : `<select id="plvl${i}" data-i="${i}" aria-label="Niveau">${[['decouverte','Découverte'],['standard','Standard'],['avance','Avancé']].map(([v,l])=>`<option value="${v}" ${v===d.level?'selected':''}>${l}</option>`).join('')}</select>`}
       <div class="swatches">${COLORS.map(c=>`<button class="sw" style="--c:${c.hex}" data-i="${i}" data-a="color" data-c="${c.id}" aria-label="${c.name}" aria-pressed="${d.color===c.id}" ${used.includes(c.id)&&d.color!==c.id?'disabled':''}></button>`).join('')}</div>
-    </div></div>`; }).join('');
+    </div>
+    ${d._pick? `<div class="avpick" role="listbox" aria-label="Avatars">${AVATARS.map(a=>`<button class="avb" role="option" data-i="${i}" data-a="setav" data-av="${a}" aria-selected="${avatarFor(d)===`img/${a}-portrait.webp`}" style="background-image:url(img/${a}-portrait.webp)" aria-label="Avatar ${a.replace(/-/g,' ')}"></button>`).join('')}</div>`:''}
+    </div>`; }).join('');
   $('#addP').hidden = defs.length>=6;
   $('#durs').innerHTML = DURATIONS.map(x=>`<button data-d="${x.id}" aria-pressed="${dur===x.id}">${x.lbl}<span>${x.min?x.min+' min':'sans limite'}</span></button>`).join('');
 }
 $('#plist').addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b) return; const i=+b.dataset.i, d=defs[i];
-  if(b.dataset.a==='gender') d.gender= d.gender==='f'?'m':'f';
+  if(b.dataset.a==='pickav'){ const open=!d._pick; defs.forEach(x=>delete x._pick); if(open) d._pick=true; }
+  if(b.dataset.a==='setav'){ d.avatar=b.dataset.av; d.gender= b.dataset.av.startsWith('fille')?'f':'m'; delete d._pick; }
   if(b.dataset.a==='child') d.child=true; if(b.dataset.a==='adult') d.child=false;
   if(b.dataset.a==='color') d.color=b.dataset.c;
   if(b.dataset.a==='del') defs.splice(i,1);
@@ -1275,7 +1286,7 @@ $('#addP').onclick=()=>{ const free=COLORS.find(c=>!defs.some(d=>d.color===c.id)
 $('#durs').onclick=e=>{ const b=e.target.closest('[data-d]'); if(b){ dur=b.dataset.d; renderSetup(); } };
 $('#startBtn').onclick=()=>{
   defs.forEach((d,i)=>{ d.name=(d.name||'').trim()||('Joueur '+(i+1)); });
-  store.set(PLAYERS,defs);
+  defs.forEach(x=>delete x._pick); store.set(PLAYERS,defs);
   newGame(defs.map(d=>({...d, hex:COLORS.find(c=>c.id===d.color).hex})), DURATIONS.find(x=>x.id===dur).min);
   enterGame(true);
 };
