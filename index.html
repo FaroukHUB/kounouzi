@@ -170,8 +170,23 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted);font-weight:800}
 .legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;background:var(--c);vertical-align:-1px}
 .dims{grid-column:2/-1;font-size:12px;color:var(--muted);font-weight:800;font-variant-numeric:tabular-nums}
+.setgrp{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:14px;background:rgba(0,0,0,.22)}
+.setgrp h3{margin:0;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);font-weight:900}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:800;font-size:14px}
+.setrow .seg button{font-size:12px}
+.hint{font-size:12px;color:var(--muted);font-weight:700;line-height:1.4}
+.hint.ok{color:#8fdcaa}.hint.warn{color:#ffb39e}
+.sw2{position:relative;width:46px;height:28px;border-radius:99px;background:rgba(255,255,255,.15);flex:0 0 auto;transition:background .2s}
+.sw2::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw2[aria-checked=true]{background:var(--good)}.sw2[aria-checked=true]::after{transform:translateX(18px)}
+.chkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.chkgrid label{display:flex;gap:8px;align-items:center;font-size:13px;font-weight:800}
+.chkgrid input{width:20px;height:20px;accent-color:var(--gold)}
+.mic{display:flex;align-items:center;gap:8px;justify-content:center;font-weight:800;font-size:13px;color:var(--parchment)}
+.mic i{width:10px;height:10px;border-radius:50%;background:var(--bad);animation:pulse 1s infinite}
+.setup-actions{display:flex;gap:10px}.setup-actions #startBtn{flex:1}
 #loading{position:fixed;inset:0;display:grid;place-items:center;z-index:50;background:var(--night);font-family:var(--display);font-size:26px;color:var(--gold)}
-@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+.reduce *{animation-duration:.01ms!important;transition-duration:.01ms!important}
 </style>
 
 <div id="loading">Kounouzi…</div>
@@ -194,7 +209,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
       <h2>Durée de la partie</h2>
       <div class="durations" id="durs"></div>
     </div>
-    <button class="btn btn-gold" id="startBtn" style="min-height:60px;font-size:20px">Commencer la partie</button>
+    <div class="setup-actions"><button class="btn btn-ghost" id="setupSettings" style="min-height:60px" aria-label="Réglages">⚙️ Réglages</button><button class="btn btn-gold" id="startBtn" style="min-height:60px;font-size:20px">Commencer la partie</button></div>
   </div>
 </section>
 
@@ -243,7 +258,6 @@ const CYCLE = [[1,3,5,2,4],[3,5,2,4,1],[5,2,4,1,3],[2,4,1,3,5],[4,1,3,5,2],[3,1,
 const CHAL_ROT = ['family','hassanat','family','duel','family','question'];
 const SERVICE = {maktaba:'un livre',madinah_hotel:'un séjour',makkah_hotel:'un séjour',maghreb_restaurant:'un repas',umrah_agency:'un voyage',museum:'un billet',park:'un billet'};
 const DURATIONS = [{id:'rapide',lbl:'Rapide',min:30},{id:'classique',lbl:'Classique',min:45},{id:'grande',lbl:'Grande',min:60},{id:'libre',lbl:'Libre',min:null}];
-const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = s=>document.querySelector(s);
 const wait = ms=>new Promise(r=>setTimeout(r, REDUCED? Math.min(ms,60): ms));
 const store = {
@@ -251,9 +265,92 @@ const store = {
   set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}},
   del(k){try{localStorage.removeItem(k)}catch{}}
 };
-const vibrate = ms=>{try{navigator.vibrate&&navigator.vibrate(ms)}catch{}};
+const vibrate = ms=>{ if(!SET.haptics) return; try{navigator.vibrate&&navigator.vibrate(ms)}catch{}};
 const esc = s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt = n=>Math.round(n).toLocaleString('fr-FR');
+
+/* =========================================================
+   Réglages (gardés sur cet appareil)
+   ========================================================= */
+const SETTINGS='kounouzi_v2_settings';
+const DEFIS_GROUPS = [
+  {id:'movement',lbl:'Mouvement',cats:['movement']},{id:'fun',lbl:'Animaux et fun',cats:['animals']},
+  {id:'family',lbl:'Famille et solidarité',cats:['family','solidarity']},{id:'contact',lbl:'Contact (bisou, high-five…)',contact:true},
+  {id:'ohNo',lbl:'Cartes « Oh non ! »',oh:true},{id:'memoryLogic',lbl:'Mémoire et logique',cats:['memory','reflection','logic','observation','language']},
+  {id:'arabic',lbl:'Arabe',cats:['arabic']},{id:'religion',lbl:'Religion (récitation)',cats:['religion']},{id:'boss',lbl:'Grands défis (boss)',boss:true}];
+const SET = Object.assign({voice:true, tone:'chaleureux', rate:'normal', haptics:true, reduced:'system', ecoute:false, defis:{}}, store.get(SETTINGS)||{});
+DEFIS_GROUPS.forEach(g=>{ if(SET.defis[g.id]===undefined) SET.defis[g.id]=true; });
+const saveSet=()=>store.set(SETTINGS,SET);
+const MQ_REDUCE = matchMedia('(prefers-reduced-motion: reduce)');
+let REDUCED=false;
+function applyReduced(){ REDUCED = SET.reduced==='on' || (SET.reduced==='system' && MQ_REDUCE.matches); document.documentElement.classList.toggle('reduce',REDUCED); }
+applyReduced();
+function defiAllowed(d){
+  if(d.consent && !SET.defis.contact) return false;
+  if(d.oh && !SET.defis.ohNo) return false;
+  if(d.boss && !SET.defis.boss) return false;
+  const g=DEFIS_GROUPS.find(g=>g.cats&&g.cats.includes(d.cat)); return !g || SET.defis[g.id];
+}
+
+/* =========================================================
+   Voix du guide : ElevenLabs via le serveur (/api/voix), sinon la voix de l'appareil
+   ========================================================= */
+const TONES=[{id:'pose',lbl:'Posé'},{id:'chaleureux',lbl:'Chaleureux'},{id:'enjoue',lbl:'Enjoué'},{id:'petillant',lbl:'Pétillant'}];
+const RATES={lente:.9,normal:1,rapide:1.15};
+const VOICE={mode:'checking', why:'', last:null, token:0};
+const audioEl = new Audio(); audioEl.preload='auto';
+const SILENT='data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQxAADB8AhSmxhIIEVCSiJrDCQBTcu3UrAIwUdkRgQbFAZC1CQEwTJ9mjRvBA4UOLD8nKVOWfh+UlK3z/177OXrfOdKl7pyn3Xf//WreyTRUoAWgBgkOAGbZHBgG1OF6zM82DWbZaUmMBptgQhGjsyYqc9ae9XFz280948NMBWInljyzsNRFLPWdnZGWrddDsjK1unuSrVN9jJsK8KuQtQCtMBjCEtImISdNKJOopIpBFpNSMbIHCSRpRR5iakjTiyzLhchUUBwCgyKiweBv/7UsQbg8isVNoMPMjAAAA0gAAABEVFGmgqK////9bP/6XCykxBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq';
+let audioUnlocked=false;
+function unlockAudio(){ if(audioUnlocked) return; audioUnlocked=true; try{ audioEl.src=SILENT; audioEl.play().catch(()=>{}); }catch{}
+  try{ if('speechSynthesis' in window){ const u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u);} }catch{} }
+async function probeVoice(){
+  try{ const r=await fetch('api/voix?probe',{cache:'no-store'});
+    if(r.status===204){ VOICE.mode='cloud'; VOICE.why=''; return; }
+    const j=await r.json().catch(()=>null);
+    VOICE.why = j&&j.reason==='unconfigured' ? `Voix en ligne non configurée (${(j.missing||[]).join(', ')}).` : 'Voix en ligne indisponible pour l\'instant.';
+  }catch{ VOICE.why='Voix en ligne indisponible ici.'; }
+  VOICE.mode = 'speechSynthesis' in window ? 'device' : 'off';
+}
+function deviceVoice(lang){
+  const vs=speechSynthesis.getVoices().filter(v=>v.lang&&v.lang.toLowerCase().startsWith(lang));
+  return vs.find(v=>/premium|enhanced|natural|neural|google/i.test(v.name)) || vs.find(v=>/amélie|thomas|audrey|marie|maged|laila/i.test(v.name)) || vs[0] || null;
+}
+function stopVoice(){ VOICE.token++; try{audioEl.pause();}catch{} try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch{} }
+function playDevice(text,lang,tok){
+  return new Promise(res=>{ if(!('speechSynthesis' in window)) return res();
+    const u=new SpeechSynthesisUtterance(text); u.lang= lang==='ar'?'ar-SA':'fr-FR'; const v=deviceVoice(lang); if(v) u.voice=v;
+    u.rate=RATES[SET.rate]||1; u.onend=u.onerror=()=>res(); if(tok!==VOICE.token) return res(); speechSynthesis.speak(u); setTimeout(res,20000); });
+}
+function playCloud(text,lang,tok){
+  return new Promise(res=>{ let done=false; const fin=ok=>{ if(done) return; done=true; res(ok); };
+    audioEl.onended=()=>fin(true); audioEl.onerror=()=>fin(false);
+    audioEl.src=`api/voix?lang=${lang}&ton=${SET.tone}&text=${encodeURIComponent(text)}`;
+    audioEl.playbackRate=RATES[SET.rate]||1;
+    if(tok!==VOICE.token) return fin(true);
+    audioEl.play().catch(()=>fin(false)); setTimeout(()=>fin(true),30000); });
+}
+// Dit une phrase. Par défaut elle coupe la précédente ; {queue:true} la met à la suite.
+let voiceChain=Promise.resolve();
+function say(text,{lang='fr',queue=false}={}){
+  if(!SET.voice || !text || VOICE.mode==='off') return Promise.resolve();
+  text=String(text).replace(/\s+/g,' ').trim().slice(0,680); VOICE.last={text,lang};
+  if(!queue){ stopVoice(); voiceChain=Promise.resolve(); }
+  const tok=VOICE.token;
+  voiceChain = voiceChain.then(async()=>{ if(tok!==VOICE.token) return;
+    if(VOICE.mode==='cloud'){ const ok=await playCloud(text,lang,tok); if(!ok && tok===VOICE.token) await playDevice(text,lang,tok); }
+    else await playDevice(text,lang,tok); });
+  return voiceChain;
+}
+const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
+const namesList = ns=> ns.length<2? ns.join('') : ns.slice(0,-1).join(', ')+' et '+ns[ns.length-1];
+const PH = {
+  start: names=>`As-salāmu ʿalaykum la famille ! Bienvenue dans Kounouzi ! Aujourd'hui, nous avons ${names}. Qu'Allah vous facilite cette partie… On joue, on apprend, on gère… allez, c'est parti !`,
+  turn: n=>pick([`Allez ${n}, c'est à toi !`,`À toi, ${n}… voyons ce que ce tour te réserve !`,`${n}, à toi de jouer… c'est parti !`]),
+  journey: (n,k)=> k===1? `Une petite case pour toi, ${n}… mais elle peut tout changer !` : pick([`Allez ${n}… ${k} cases ! Voyons où ça t'emmène…`,`${k} cases pour toi, ${n}… en route !`,`${n}, tu avances de ${k} cases… c'est parti !`]),
+  good: n=>pick([`Bravo ${n} !`,`Excellent, ${n} !`,`Tu as tout bon, ${n} !`]),
+  partial: n=>pick([`Tu y es presque, ${n} !`,`C'est presque ça, ${n}. Continue !`,`Bien tenté, ${n}, tu te rapproches !`]),
+  wrong: n=>pick([`Ce n'est pas grave, ${n}. C'est comme ça qu'on apprend.`,`Pas de souci, ${n}. Tu la retiendras pour la prochaine fois.`,`Une de plus à apprendre, ${n}. Continue, tu progresses !`]),
+};
 
 function avatarFor(p){
   const g = p.gender==='f'?'fille':'garcon';
@@ -610,29 +707,101 @@ async function askQuestion(p, {theme, title}={}){
         ${q.e.fr||q.e.ar? `<button class="linkbtn" id="explBtn">Voir l'explication</button><div class="expl" id="expl" hidden>${esc(q.e.fr||'')}${q.e.ar?`<span class="ar" dir="rtl">${esc(q.e.ar)}</span>`:''}</div>`:''}
         ${q.s?`<div class="src">${esc(q.s)}</div>`:''}`
       : `<div class="timer" id="tm"><span id="tmv">${left} s</span><span class="bar"><i id="tmb" style="width:${left/secs*100}%"></i></span></div>`}`;
-    const eb=C.win.querySelector('#explBtn'); if(eb) eb.onclick=()=>{ C.win.querySelector('#expl').hidden=false; eb.remove(); };
+    const eb=C.win.querySelector('#explBtn'); if(eb) eb.onclick=()=>{ C.win.querySelector('#expl').hidden=false; eb.remove(); if(q.e.fr) say(q.e.fr); if(q.e.ar) say(q.e.ar,{lang:'ar',queue:true}); };
   }
   if(hasAr){ const lb=document.createElement('button'); lb.className='langbtn'; lb.textContent='ع'; lb.setAttribute('aria-label','Afficher en arabe');
-    lb.onclick=()=>{ lang= lang==='fr'?'ar':'fr'; lb.textContent= lang==='fr'?'ع':'Fr'; draw(); }; C.face.appendChild(lb); }
-  draw();
+    lb.onclick=()=>{ lang= lang==='fr'?'ar':'fr'; lb.textContent= lang==='fr'?'ع':'Fr'; draw(); readQ(); }; C.face.appendChild(lb); }
+  const curL=()=> lang==='ar'&&hasAr? 'ar':'fr';
+  const readQ=()=>{ const L=curL(); if(!revealed) say((L==='ar'?'سؤال : ':'Question : ')+(q.q[L]||q.q.fr),{lang:L}); else say((L==='ar'?'الجواب : ':'La réponse est : ')+(q.r[L]||q.r.fr),{lang:L}); };
+  draw(); readQ();
   timer=setInterval(()=>{ if(revealed) return; left=Math.max(0,left-1); const v=C.win.querySelector('#tmv'), b=C.win.querySelector('#tmb'), t=C.win.querySelector('#tm');
     if(v){ v.textContent= left>0? left+' s' : 'Temps écoulé, tu peux encore répondre'; b.style.width=(left/secs*100)+'%'; t.classList.toggle('alert',left<=10); if(left===10) vibrate(40); }
     if(left===0) clearInterval(timer); },1000);
   await choose(C.acts,[{label:'Voir la réponse',value:1}]);
-  revealed=true; clearInterval(timer); draw();
+  revealed=true; clearInterval(timer); draw(); const revealVoice=readQ();
   C.acts.innerHTML='';
   const chk=document.createElement('label'); chk.className='check'; chk.innerHTML='<input type="checkbox" id="mastery"> A aussi donné l\'explication (gain ×2)';
   const wrap=document.createElement('div'); wrap.className='cacts';
   C.el.appendChild(chk); C.el.appendChild(wrap);
   C.acts.remove(); C.acts=wrap;
-  const res = await choose(wrap,[{label:'Bonne réponse <small>+50</small>',cls:'btn-good',value:'good'},{label:'En partie <small>+25</small>',cls:'btn-mid',value:'partial'},{label:'Pas cette fois',cls:'btn-bad',value:'wrong'}]);
+  const verdict = choose(wrap,[{label:'Bonne réponse <small>+50</small>',cls:'btn-good',value:'good'},{label:'En partie <small>+25</small>',cls:'btn-mid',value:'partial'},{label:'Pas cette fois',cls:'btn-bad',value:'wrong'}]);
+  const stopEar = listenVerdict(C.el, wrap, revealVoice);
+  const res = await verdict; stopEar();
   const mult = chk.querySelector('input').checked && res!=='wrong' ? 2:1;
   C.close(); adapt(p,theme,res);
-  if(res==='good') { vibrate([30,40,30]); await pay('bank',p,50*mult); }
-  else if(res==='partial') await pay('bank',p,25*mult);
+  say(PH[res](p.name));
+  if(res==='good') { vibrate([30,40,30]); await pay('bank',p,50*mult); say(`Tu gagnes ${50*mult} Kounouz.`,{queue:true}); }
+  else if(res==='partial') { await pay('bank',p,25*mult); say(`Tu gagnes ${25*mult} Kounouz.`,{queue:true}); }
   else toast('Pas de souci, rien n\'est perdu.');
   return res;
 }
+
+/* ---------- Validation à la voix : « correct », « presque », « faux » ---------- */
+const EAR = {
+  correct:["correct","juste","c'est juste","c'est correct","exact","bonne réponse","bravo","gagné","c'est bon","oui"],
+  partial:["presque","presque juste","presque bon","à moitié","à peu près","pas tout à fait","partiellement","en partie"],
+  wrong:["faux","c'est faux","incorrect","raté","perdu","non","pas juste","pas correct","pas bon","mauvaise réponse"]};
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const norm = t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z' ]/g,' ').replace(/\s+/g,' ').trim();
+function verdictOf(phrases){
+  let best=null, len=0, tie=false;
+  for(const ph of phrases){ const t=' '+norm(ph)+' ';
+    for(const [v,list] of Object.entries(EAR)) for(const w of list){ const n=norm(w); if(t.includes(' '+n+' ')){ if(n.length>len){best=v;len=n.length;tie=false;} else if(n.length===len && v!==best) tie=true; } } }
+  return tie? null : best;
+}
+// Ouvre le micro une fois la réponse révélée (et lue). Appuie sur le bouton reconnu. Renvoie une fonction d'arrêt.
+function listenVerdict(overlay, acts, afterVoice){
+  if(!SET.ecoute || !SR) return ()=>{};
+  let stopped=false, rec=null; const tag=document.createElement('div'); tag.className='mic'; tag.innerHTML='<i></i> J\'écoute : dites « correct », « presque » ou « faux »';
+  const idx={correct:0,partial:1,wrong:2};
+  const start=()=>{ if(stopped) return; try{ rec=new SR(); rec.lang='fr-FR'; rec.maxAlternatives=3; rec.interimResults=false; rec.continuous=false;
+      rec.onresult=e=>{ const alts=[...e.results[e.results.length-1]].map(a=>a.transcript); const v=verdictOf(alts);
+        if(v){ const b=acts.querySelectorAll('button')[idx[v]]; if(b&&!b.disabled){ stopped=true; b.click(); } } };
+      rec.onerror=ev=>{ if(ev.error==='not-allowed'||ev.error==='service-not-allowed'){ stopped=true; tag.innerHTML='Micro refusé : autorise-le dans le navigateur, ou utilise les boutons.'; } };
+      rec.onend=()=>{ if(!stopped) setTimeout(start,250); };
+      rec.start(); }catch{ stopped=true; } };
+  Promise.resolve(afterVoice).then(()=>{ if(!stopped){ overlay.appendChild(tag); start(); } });
+  return ()=>{ stopped=true; try{rec&&rec.abort();}catch{} tag.remove(); };
+}
+
+/* =========================================================
+   Écran des réglages
+   ========================================================= */
+function openSettings(){
+  const wasPaused=paused; paused=true;
+  const ov=document.createElement('div'); ov.id='overlay';
+  const seg=(key,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button data-k="${key}" data-v="${v}" aria-pressed="${SET[key]===v}">${l}</button>`).join('')}</div>`;
+  const sw=(key,lbl)=>`<div class="setrow">${lbl}<button class="sw2" role="switch" data-sw="${key}" aria-checked="${!!SET[key]}" aria-label="${lbl}"></button></div>`;
+  const vstate = ()=> VOICE.mode==='cloud'? '<span class="hint ok">Voix Kounouzi en ligne (ElevenLabs) : prénoms et montants sont dits.</span>'
+    : VOICE.mode==='device'? `<span class="hint warn">Voix de l'appareil en secours. ${esc(VOICE.why)}</span>` : VOICE.mode==='checking'? '<span class="hint">Vérification de la voix…</span>' : '<span class="hint warn">Aucune voix disponible sur cet appareil.</span>';
+  function draw(){
+    ov.innerHTML=`<div class="sheet"><h2>Réglages</h2>
+     <div class="setgrp"><h3>Voix du guide</h3>${sw('voice','Narration vocale')}<div id="vstate">${vstate()}</div>
+       <div class="setrow">Ton ${seg('tone',TONES.map(t=>[t.id,t.lbl]))}</div>
+       <div class="setrow">Vitesse ${seg('rate',[['lente','Lente'],['normal','Normale'],['rapide','Rapide']])}</div>
+       <div class="setrow"><button class="btn btn-ghost" data-a="test">▶ Tester la voix</button><button class="btn btn-ghost" data-a="replay" ${VOICE.last?'':'disabled'}>↺ Réécouter la dernière annonce</button></div></div>
+     <div class="setgrp"><h3>Validation à la voix</h3>${sw('ecoute','Écouter « correct, presque, faux »')}
+       <span class="hint">${SR? 'Une fois la réponse révélée, le micro s\'ouvre : la table dit le verdict au lieu d\'appuyer. Les boutons marchent toujours.' : 'Ce navigateur ne sait pas écouter (Firefox notamment). Essaie Chrome, Edge ou Safari.'}</span></div>
+     <div class="setgrp"><h3>Confort</h3>${sw('haptics','Vibration')}
+       <div class="setrow">Animations réduites ${seg('reduced',[['system','Comme l\'appareil'],['on','Oui'],['off','Non']])}</div></div>
+     <div class="setgrp"><h3>Défis famille (parents)</h3><div class="chkgrid">${DEFIS_GROUPS.map(g=>`<label><input type="checkbox" data-defi="${g.id}" ${SET.defis[g.id]?'checked':''}> ${g.lbl}</label>`).join('')}</div>
+       <span class="hint">Une famille décochée ne sera plus proposée sur les cases Défi.</span></div>
+     <button class="btn btn-gold" data-a="close">Fermer</button></div>`;
+  }
+  draw(); document.body.appendChild(ov);
+  ov.addEventListener('click',e=>{
+    const t=e.target.closest('button,input'); if(!t) return;
+    if(t.dataset.sw){ SET[t.dataset.sw]=!SET[t.dataset.sw]; if(t.dataset.sw==='voice'&&!SET.voice) stopVoice(); }
+    else if(t.dataset.k){ SET[t.dataset.k]=t.dataset.v; if(t.dataset.k==='reduced') applyReduced(); if(t.dataset.k==='tone') say('Bravo, tu avances bien !'); }
+    else if(t.dataset.defi){ SET.defis[t.dataset.defi]=t.checked; saveSet(); return; }
+    else if(t.dataset.a==='test'){ unlockAudio(); const was=SET.voice; SET.voice=true; say('Bravo, tu avances bien ! Je suis la voix de Kounouzi.'); SET.voice=was; return; }
+    else if(t.dataset.a==='replay'){ if(VOICE.last){ const was=SET.voice; SET.voice=true; say(VOICE.last.text,{lang:VOICE.last.lang}); SET.voice=was; } return; }
+    else if(t.dataset.a==='close'){ saveSet(); ov.remove(); paused=wasPaused; return; }
+    else return;
+    saveSet(); draw();
+  });
+}
+$('#setupSettings').onclick=()=>{ unlockAudio(); openSettings(); };
 
 /* =========================================================
    Cases
@@ -644,29 +813,32 @@ async function onHeritage(p,i){
     C.win.innerHTML=`<div class="meta"><span class="tag">${c.ico} Établissement libre</span></div><h3>${esc(c.nom)}</h3><div class="small ar" dir="rtl" style="font-size:16px">${esc(c.ar)}</div>
       <div class="big">${c.prix} K</div><div class="small">Valeur de patrimoine : ${c.val} K<br>Chaque visiteur te paiera 30 K pour ${SERVICE[c.fam]}.</div>
       <div class="small">Tu as ${fmt(p.money)} K.</div>`;
+    say(p.money>=c.prix? `${c.nom}. Il est libre, pour ${c.prix} Kounouz. Tu veux l'acheter, ${p.name} ?` : `${c.nom} coûte ${c.prix} Kounouz. Il ne te reste pas assez pour l'acheter cette fois.`);
     const v=await choose(C.acts,[{label:`Acheter <small>−${c.prix}</small>`,value:'buy',disabled:p.money<c.prix},{label:'Ne pas acheter',cls:'btn-ghost',value:'no'}]);
     C.close();
-    if(v==='buy'){ await pay(p,'bank',c.prix); S.owners[i]=p.seat; await placeBuilding(i,true); vibrate([20,30,60]); toast(`${p.name} possède ${c.nom} !`); }
+    if(v==='buy'){ await pay(p,'bank',c.prix); S.owners[i]=p.seat; await placeBuilding(i,true); vibrate([20,30,60]); toast(`${p.name} possède ${c.nom} !`); say(`Bravo ${p.name} ! ${c.nom} rejoint ton patrimoine.`); }
   } else if(owner===p.seat){
-    C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">C'est chez toi. Rien à payer.</div>`;
+    C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">C'est chez toi. Rien à payer.</div>`; say('Tu retrouves ton patrimoine.');
     await choose(C.acts,[{label:'Continuer',value:1}]); C.close();
   } else {
     const o=S.players[owner];
     C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">Propriété de <b>${esc(o.name)}</b>.</div><div class="small">Tu profites de ${SERVICE[c.fam]} et tu règles le service.</div><div class="big">30 K</div>`;
+    say(`Tu profites de ${SERVICE[c.fam]} chez ${o.name}. Tu lui verses 30 Kounouz.`);
     await choose(C.acts,[{label:`Payer ${esc(o.name)}`,value:1}]); C.close();
     await pay(p,o,30);
   }
 }
 async function simpleCard(face,html,label='Continuer'){ const C=openCard({face,back:face}); C.win.innerHTML=html; await choose(C.acts,[{label,value:1}]); C.close(); }
-async function onTreasure(p){ await simpleCard('tresor',`<h3>Trésor !</h3><div class="big">+100 K</div><div class="small">Un coffre t'attendait au coin du plateau.</div>`,'Ramasser'); await pay('bank',p,100); }
-async function onHalt(p){ p.halted=true; await simpleCard('halte',`<h3>Halte</h3><div class="small">Ton voyage s'arrête ici.</div><div class="small">Au prochain tour, tu réponds d'abord à une question de reprise. Bonne ou en partie : tu repars aussitôt.</div>`); }
+async function onTreasure(p){ say('Trésor ! Tu remportes 100 Kounouz. Bien joué !'); await simpleCard('tresor',`<h3>Trésor !</h3><div class="big">+100 K</div><div class="small">Un coffre t'attendait au coin du plateau.</div>`,'Ramasser'); await pay('bank',p,100); }
+async function onHalt(p){ p.halted=true; say(`${p.name}, ton voyage s'interrompt ici. Au prochain tour, une question pour repartir.`); await simpleCard('halte',`<h3>Halte</h3><div class="small">Ton voyage s'arrête ici.</div><div class="small">Au prochain tour, tu réponds d'abord à une question de reprise. Bonne ou en partie : tu repars aussitôt.</div>`); }
 async function onDonation(p){
   const C=openCard({face:'don',back:'don'});
   if(p.money<20){ C.win.innerHTML=`<h3>Don</h3><div class="small">Il te faut 20 K pour donner. Cette fois, la case ne fait rien.</div>`; await choose(C.acts,[{label:'Continuer',value:1}]); C.close(); return; }
-  C.win.innerHTML=`<h3>Don</h3><div class="big">20 K</div><div class="small">Choisis qui reçoit ton don.</div>`;
+  C.win.innerHTML=`<h3>Don</h3><div class="big">20 K</div><div class="small">Choisis qui reçoit ton don.</div>`; say(`${p.name}, choisis à qui donner 20 Kounouz.`);
   const others=S.players.filter(q=>q!==p);
   const v=await choose(C.acts,[{label:'Caisse Masākīn',value:'caisse'},...others.map(q=>({label:esc(q.name),cls:'btn-ghost',value:q.seat}))]);
   C.close(); await pay(p, v==='caisse'?'caisse':S.players[v], 20);
+  say(v==='caisse'? `${p.name} donne 20 Kounouz à la Caisse Masākīn. Belle générosité !` : `${p.name} donne 20 Kounouz à ${S.players[v].name}. Quelle générosité !`);
 }
 
 /* ---------- Défis ---------- */
@@ -674,10 +846,10 @@ function nextFamily(p, skip=new Set()){
   const age=ageOf(p); const L=DATA.defis; let tries=0;
   while(tries<L.length*2){
     const d=L[S.famIdx%L.length]; S.famIdx++; tries++;
-    if(d.min<=age && !S.usedFam.includes(d.id) && !skip.has(d.id)){ S.usedFam.push(d.id); return d; }
+    if(d.min<=age && defiAllowed(d) && !S.usedFam.includes(d.id) && !skip.has(d.id)){ S.usedFam.push(d.id); return d; }
     if(tries===L.length){ S.usedFam=[]; }
   }
-  return L[0];
+  return L.find(d=>d.min<=ageOf(p)&&defiAllowed(d)) || L[0];
 }
 function variantFor(d,age){ return d.v.find(v=>age>=v.ageMin && (v.ageMax===undefined||age<v.ageMax)) || (d.v.length? d.v[d.v.length-1]:null); }
 async function onFamily(p){
@@ -689,11 +861,12 @@ async function onFamily(p){
       <h3>${esc(d.ti)}</h3><div class="qtext">${esc(d.tx)}</div>${v?`<div class="ans"><small>Pour ${esc(p.name)}</small>${esc(v.text)}</div>`:''}
       ${d.consent?'<div class="small">Chaque personne concernée doit être d\'accord.</div>':''}
       <div class="small">${d.rw>0?`Réussi : +${d.rw} K`:'Un choix t\'attend si tu réussis.'} · Raté ou refusé : rien de perdu.</div>`;
+    say(`${d.oh?'Oh non ! ':''}Un défi famille pour ${p.name} ! ${d.ti}. ${d.tx}${v?' Pour toi : '+v.text+'.':''}`);
     const opts=[{label:'Réussi !',cls:'btn-good',value:'ok'},{label:'Pas cette fois',cls:'btn-bad',value:'no'}];
     if(d.consent) opts.push({label:'Quelqu\'un refuse : autre défi',cls:'btn-ghost',value:'swap'});
     const r=await choose(C.acts,opts);
     if(r==='swap'){ C.close(); skip.add(d.id); await wait(250); continue; }
-    if(r==='no'){ C.close(); return; }
+    if(r==='no'){ C.close(); say(`Pas grave, ${p.name}. L'important, c'est d'avoir essayé.`); return; }
     // Réussi : effets particuliers puis récompense
     const others=S.players.filter(q=>q!==p);
     for(const ef of (d.on||[])){
@@ -704,7 +877,7 @@ async function onFamily(p){
         if(ch==='keep') await pay('bank',p,10);
         else { for(let k=0;k<2;k++){ C.win.innerHTML=`<h3>${esc(d.ti)}</h3>`; const t=await pickPlayer(C.win,C.acts,others,`Joueur ${k+1} sur 2 : qui reçoit 5 K ?`); await pay(p,t,5); } await pay('bank',p,25); } }
     }
-    C.close(); if(d.rw>0){ vibrate([30,40,30]); await pay('bank',p,d.rw); }
+    C.close(); say(`Défi réussi, bravo ${p.name} !${d.rw>0?' Tu gagnes '+d.rw+' Kounouz.':''}`); if(d.rw>0){ vibrate([30,40,30]); await pay('bank',p,d.rw); }
     return;
   }
 }
@@ -715,25 +888,28 @@ async function onHassanat(p){
   const C=openCard({face:'hassanat',back:'hassanat'});
   C.win.innerHTML=`<div class="meta"><span class="tag">Occasion Hassanāt</span></div><h3>${esc(card.title)}</h3><div class="qtext">${esc(card.text)}</div>
     <div class="big">${card.cost} K → ✦ ${card.hassanatReward}</div><div class="small">Chaque point Hassanāt vaut 5 au score final. Tu peux refuser sans rien perdre.</div>`;
+  say(`Une occasion Hassanāt pour ${p.name}. ${card.title} : ${card.text} Cela coûte ${card.cost} Kounouz et rapporte ${card.hassanatReward} Hassanāt.`);
   const v=await choose(C.acts,[{label:'J\'accepte',cls:'btn-good',value:'yes'},{label:'Pas cette fois',cls:'btn-ghost',value:'no'}]);
   if(v==='no'){ C.close(); return; }
   C.win.innerHTML=`<h3>${esc(card.title)}</h3>`;
   const t=await pickPlayer(C.win,C.acts,others,'Pour qui ?'); C.close();
   await pay(p, card.costDestination==='beneficiary'? t : 'bank', card.cost);
   p.hassanat+=card.hassanatReward; renderHUD(); floatNum(p,'✦ +'+card.hassanatReward,'#bfe8ff'); vibrate([20,40,20]);
-  toast(`${p.name} offre à ${t.name}. ✦ +${card.hassanatReward} Hassanāt`);
+  toast(`${p.name} offre à ${t.name}. ✦ +${card.hassanatReward} Hassanāt`); say(`Belle action, ${p.name} : ${card.hassanatReward} Hassanāt.`);
 }
 async function onDuel(p){
   const others=S.players.filter(q=>q!==p); const theme=nextTheme(p);
   const C=openCard({face:'defi',back:'defi'});
   C.win.innerHTML=`<div class="meta"><span class="tag">Duel</span><span class="tag">${THEME_INFO[theme].fr}</span></div><h3>Duel !</h3><div class="small">Chacun répond à une question du même thème. Le gagnant touche 80 K, en cas d'égalité chacun touche 30 K.</div>`;
+  say(`Duel ! ${p.name}, choisis ton adversaire.`);
   const opp=await pickPlayer(C.win,C.acts,others,'Choisis ton adversaire'); C.close();
+  say(`${p.name} défie ${opp.name} ! Chacun sa question.`); await wait(1800);
   const rank={good:2,partial:1,wrong:0};
   const r1=await askQuestion(p,{theme,title:'Duel · '+p.name}); await wait(300);
   const r2=await askQuestion(opp,{theme,title:'Duel · '+opp.name});
   const a=rank[r1], b=rank[r2];
-  if(a===b){ await simpleCard('defi',`<h3>Égalité</h3><div class="big">+30 K chacun</div>`); await pay('bank',p,30); await pay('bank',opp,30); }
-  else { const w=a>b?p:opp; await simpleCard('defi',`<h3>${esc(w.name)} gagne le duel</h3><div class="big">+80 K</div>`); await pay('bank',w,80); }
+  if(a===b){ say('Match nul, vous êtes à égalité ! 30 Kounouz chacun.'); await simpleCard('defi',`<h3>Égalité</h3><div class="big">+30 K chacun</div>`); await pay('bank',p,30); await pay('bank',opp,30); }
+  else { const w=a>b?p:opp; say(`${w.name} remporte le Duel Kounouzi. Bravo !`); await simpleCard('defi',`<h3>${esc(w.name)} gagne le duel</h3><div class="big">+80 K</div>`); await pay('bank',w,80); }
 }
 async function onChallenge(p){
   const kind=CHAL_ROT[S.chalIdx%CHAL_ROT.length]; S.chalIdx++;
@@ -778,7 +954,7 @@ async function movePawn(p, steps){
     if(i===0 && path.length){ passed=true; }
   }
   following=false; await settlePawns(); await moveCam(450);
-  if(passed){ toast('Passage par le Départ : +100 K'); await pay('bank',p,100); }
+  if(passed){ toast('Passage par le Départ : +100 K'); say('Tu repasses par le départ. Beau tour complet ! Plus 100 Kounouz.'); await pay('bank',p,100); }
 }
 async function resolveCell(p){
   const c=CELLS[p.pos]; glow(p.pos,.6); await wait(350); glow(p.pos,0);
@@ -793,14 +969,17 @@ async function playTurn(){
   if(S.over) return showEnd();
   save(); renderHUD(); highlightActive(); $('#chip'+S.turn)?.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
   const p=cur(); camMode= camMode==='overview'?'overview':'follow';
+  if(!S.lastRoundSaid && S.duration && (store.get(ELAPSED)||0)>=S.duration && S.turn===0){ S.lastRoundSaid=true; say('Dernier tour de table ! Donnez tout ce que vous avez.'); await wait(2500); }
+  say(PH.turn(p.name),{queue:true});
   await moveCam(700); await banner(p);
   if(p.halted){
     toast('Halte : question de reprise'); await wait(400);
     const r=await askQuestion(p,{title:'Question de reprise'}); p.halted=false;
-    if(r==='wrong'){ toast(`${p.name} reste à la Halte ce tour-ci. Il repartira au prochain.`,3000); await wait(1200); return endTurn(); }
+    if(r!=='wrong') say(`Tu reprends la route, ${p.name} !`,{queue:true});
+    if(r==='wrong'){ say('Tu repartiras au prochain tour.',{queue:true}); toast(`${p.name} reste à la Halte ce tour-ci. Il repartira au prochain.`,3000); await wait(1200); return endTurn(); }
   }
   await waitMain('Découvrir mon chemin');
-  const n=assignSteps(p); await revealChemin(n);
+  const n=assignSteps(p); say(PH.journey(p.name,n)); await revealChemin(n);
   idleMain('En route…'); await movePawn(p,n);
   await resolveCell(p);
   await wait(300); endTurn();
@@ -815,8 +994,8 @@ async function endRound(){
   for(const p of S.players){
     if(p.money>=1000) p.zakat++; else p.zakat=0;
     if(p.zakat>=6){ const amt=Math.round(p.money*0.025); p.zakat=0;
-      await simpleCard('don',`<h3>Zakat al-Māl</h3><div class="small">${esc(p.name)} a gardé plus de 1 000 K pendant 6 tours de table : un ḥawl est passé.</div><div class="big">${amt} K</div><div class="small">2,5 % versés à la Caisse Masākīn.</div>`,'Verser');
-      await pay(p,'caisse',amt); }
+      say(`Une année s'achève pour ${p.name}. C'est le moment de la Zakat.`); await simpleCard('don',`<h3>Zakat al-Māl</h3><div class="small">${esc(p.name)} a gardé plus de 1 000 K pendant 6 tours de table : un ḥawl est passé.</div><div class="big">${amt} K</div><div class="small">2,5 % versés à la Caisse Masākīn.</div>`,'Verser');
+      say(`${p.name} verse sa Zakat : ${amt} Kounouz. Bravo !`); await pay(p,'caisse',amt); }
   }
   const elapsed=store.get(ELAPSED)||0;
   if(S.endRequested || (S.duration && elapsed>=S.duration)) S.over=true;
@@ -849,11 +1028,13 @@ $('#menuBtn').onclick=()=>{
    <li>Établissement : achat à son prix, chaque visite rapporte 30 K au propriétaire.</li>
    <li>Score final = Kounouz + patrimoine + Hassanāt × 5.</li></ul>
    <button class="btn btn-gold" data-a="close">Reprendre la partie</button>
+   <button class="btn btn-ghost" data-a="settings">⚙️ Réglages (voix, défis, confort)</button>
    <button class="btn btn-ghost" data-a="end">${S.endRequested?'Fin demandée à la fin du tour de table':'Terminer à la fin de ce tour de table'}</button>
    <button class="btn btn-ghost" data-a="new">Nouvelle partie…</button></div>`;
   document.body.appendChild(ov);
   ov.onclick=e=>{ const a=e.target.closest('[data-a]')?.dataset.a; if(!a) return;
     if(a==='close'){ ov.remove(); paused=false; }
+    if(a==='settings'){ ov.remove(); paused=false; openSettings(); }
     if(a==='end'){ S.endRequested=true; store.set(SAVE,{...store.get(SAVE),endRequested:true}); ov.remove(); paused=false; toast('La partie s\'arrêtera à la fin de ce tour de table.'); }
     if(a==='new'){ const s=ov.querySelector('.sheet'); s.innerHTML=`<h2>Nouvelle partie ?</h2><p>La partie en cours sera perdue.</p><button class="btn btn-gold" data-a="confirm">Oui, recommencer</button><button class="btn btn-ghost" data-a="close">Non, continuer</button>`; }
     if(a==='confirm'){ store.del(SAVE); location.reload(); }
@@ -863,6 +1044,7 @@ function showEnd(){
   idleMain('Partie terminée'); camMode='overview'; moveCam(900);
   const ranked=[...S.players].sort((a,b)=>scoreOf(b)-scoreOf(a)||b.money-a.money||a.seat-b.seat);
   const max=Math.max(...ranked.map(scoreOf),1);
+  say(`La partie est terminée. Bravo à tous, et félicitations ${ranked[0].name} !`);
   const ov=document.createElement('div'); ov.id='overlay';
   ov.innerHTML=`<div class="sheet"><h2>Classement final</h2>
    <div class="legend"><span style="--c:#efbe4c">Kounouz</span><span style="--c:#3fae6a">Patrimoine</span><span style="--c:#7cc4ff">Hassanāt × 5</span></div>
@@ -912,11 +1094,13 @@ $('#startBtn').onclick=()=>{
   defs.forEach((d,i)=>{ d.name=(d.name||'').trim()||('Joueur '+(i+1)); });
   store.set(PLAYERS,defs);
   newGame(defs.map(d=>({...d, hex:COLORS.find(c=>c.id===d.color).hex})), DURATIONS.find(x=>x.id===dur).min);
-  enterGame();
+  enterGame(true);
 };
 $('#resumeBtn').onclick=()=>{ S=store.get(SAVE); enterGame(); };
-function enterGame(){
+function enterGame(fresh){
+  unlockAudio();
   $('#setup').hidden=true; $('#hud').hidden=false;
+  if(fresh) setTimeout(()=>say(PH.start(namesList(S.players.map(p=>p.name)))),300);
   try{ navigator.wakeLock?.request('screen').catch(()=>{}); }catch{}
   buildPawns(); rebuildBuildings(); renderHUD(); resize(); clockText(store.get(ELAPSED)||0);
   playTurn();
@@ -925,7 +1109,7 @@ function enterGame(){
 // Démarrage
 const saved=store.get(SAVE);
 if(saved && saved.v===2 && !saved.over){ $('#resumeBox').hidden=false; $('#resumeInfo').textContent=`${saved.players.map(p=>p.name).join(', ')} · tour de table ${saved.round}`; }
-renderSetup(); resize();
+renderSetup(); resize(); probeVoice();
 $('#loading').remove(); $('#setup').hidden=false;
 </script>
 
