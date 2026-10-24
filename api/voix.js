@@ -28,6 +28,7 @@ export async function GET(request) {
     });
     if (!up.ok) {
       let detail; try { const b = await up.json(); detail = typeof b.detail === 'string' ? b.detail : b.detail && b.detail.status; } catch {}
+      console.error('ElevenLabs a refusé', up.status, detail);
       return json(502, { reason: 'upstream', status: up.status, detail: detail ? String(detail).slice(0, 120) : undefined });
     }
     const audio = await up.arrayBuffer();

@@ -309,12 +309,13 @@ const SILENT='data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEw
 let audioUnlocked=false;
 function unlockAudio(){ if(audioUnlocked) return; audioUnlocked=true; try{ audioEl.src=SILENT; audioEl.play().catch(()=>{}); }catch{}
   try{ if('speechSynthesis' in window){ const u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u);} }catch{} }
-async function probeVoice(){
+async function probeVoice(retry=2){
   try{ const r=await fetch('api/voix?probe',{cache:'no-store'});
     if(r.status===204){ VOICE.mode='cloud'; VOICE.why=''; return; }
     const j=await r.json().catch(()=>null);
     VOICE.why = j&&j.reason==='unconfigured' ? `Voix en ligne non configurée (${(j.missing||[]).join(', ')}).` : 'Voix en ligne indisponible pour l\'instant.';
-  }catch{ VOICE.why='Voix en ligne indisponible ici.'; }
+    if(r.status!==503 && retry>0){ await new Promise(z=>setTimeout(z,1500)); return probeVoice(retry-1); }
+  }catch{ VOICE.why='Voix en ligne indisponible ici.'; if(retry>0 && location.protocol==='https:'){ await new Promise(z=>setTimeout(z,1500)); return probeVoice(retry-1); } }
   VOICE.mode = 'speechSynthesis' in window ? 'device' : 'off';
 }
 function deviceVoice(lang){
@@ -331,12 +332,25 @@ function playDevice(text,lang,tok){
 // au moment de parler, l'audio est déjà là, la voix colle au plateau.
 const AUD=new Map();
 const cleanText=t=>String(t).replace(/\s+/g,' ').trim().slice(0,680);
-function fetchAudio(text,lang){
+// ElevenLabs limite le nombre de demandes simultanées : jamais plus de 2 à la fois, les phrases urgentes passent devant.
+const FQ={active:0, queue:[]};
+function runFQ(){ while(FQ.active<2 && FQ.queue.length){ const job=FQ.queue.shift(); FQ.active++; job().finally(()=>{ FQ.active--; runFQ(); }); } }
+function queued(fn,urgent){ return new Promise((res,rej)=>{ const job=()=>fn().then(res,rej); if(urgent) FQ.queue.unshift(job); else FQ.queue.push(job); runFQ(); }); }
+async function getVoice(url){
+  for(let attempt=0; attempt<3; attempt++){
+    const r=await fetch(url);
+    if(r.ok){ VOICE.err=''; return URL.createObjectURL(await r.blob()); }
+    const j=await r.json().catch(()=>({})); VOICE.err = j.detail || (j.status? 'erreur '+j.status : 'erreur '+r.status);
+    if(r.status===400) break;
+    await new Promise(z=>setTimeout(z, 700*(attempt+1)));
+  }
+  throw new Error(VOICE.err);
+}
+function fetchAudio(text,lang,urgent=false){
   const key=lang+'|'+SET.tone+'|'+text;
   if(!AUD.has(key)){
-    const pr=fetch(`api/voix?lang=${lang}&ton=${SET.tone}&text=${encodeURIComponent(text)}`)
-      .then(r=>r.ok? r.blob() : Promise.reject(new Error('voix '+r.status))).then(b=>URL.createObjectURL(b))
-      .catch(e=>{ AUD.delete(key); throw e; });
+    const url=`api/voix?lang=${lang}&ton=${SET.tone}&text=${encodeURIComponent(text)}`;
+    const pr=queued(()=>getVoice(url),urgent).catch(e=>{ AUD.delete(key); throw e; });
     AUD.set(key,pr);
     if(AUD.size>160){ const k=AUD.keys().next().value; AUD.get(k).then(u=>URL.revokeObjectURL(u)).catch(()=>{}); AUD.delete(k); }
   }
@@ -345,7 +359,7 @@ function fetchAudio(text,lang){
 function prefetch(text,lang='fr'){ if(SET.voice && VOICE.mode==='cloud' && text) fetchAudio(cleanText(text),lang).catch(()=>{}); }
 function playCloud(text,lang,tok){
   return new Promise(async res=>{ let done=false; const fin=ok=>{ if(done) return; done=true; res(ok); };
-    let url; try{ url=await Promise.race([fetchAudio(text,lang), new Promise((_,rej)=>setTimeout(()=>rej(new Error('lent')),7000))]); }catch{ return fin(false); }
+    let url; try{ url=await Promise.race([fetchAudio(text,lang,true), new Promise((_,rej)=>setTimeout(()=>rej(new Error('lent')),15000))]); }catch{ return fin(false); }
     if(tok!==VOICE.token) return fin(true);
     audioEl.onended=()=>fin(true); audioEl.onerror=()=>fin(false);
     audioEl.src=url; audioEl.playbackRate=RATES[SET.rate]||1;
@@ -359,7 +373,8 @@ function say(text,{lang='fr',queue=false}={}){
   if(!queue){ stopVoice(); voiceChain=Promise.resolve(); }
   const tok=VOICE.token;
   voiceChain = voiceChain.then(async()=>{ if(tok!==VOICE.token) return;
-    if(VOICE.mode==='cloud'){ const ok=await playCloud(text,lang,tok); if(!ok && tok===VOICE.token) await playDevice(text,lang,tok); }
+    // Voix ElevenLabs configurée : on ne bascule JAMAIS sur la voix robotique de l'appareil.
+    if(VOICE.mode==='cloud'){ await playCloud(text,lang,tok); }
     else await playDevice(text,lang,tok); });
   return voiceChain;
 }
@@ -454,7 +469,8 @@ function radialTex(inner, outer, size=256){
 const table = new THREE.Mesh(new THREE.CircleGeometry(30,64), new THREE.MeshBasicMaterial({map:radialTex('#2a3b55','#0c1626')}));
 table.rotation.x=-Math.PI/2; table.position.y=-0.32; scene.add(table);
 // Socle : cadre or + plateau émeraude
-const CELL_D=1.42, CELL_W=0.88, BOARD_L=2*CELL_D+6*CELL_W, HALF=BOARD_L/2;
+const CELL_D=1, CELL_W=1, BOARD_L=2*CELL_D+6*CELL_W, HALF=BOARD_L/2;
+const TILE_H=.26; // les cases sortent du plateau, comme des blocs posés dessus
 const rimMesh = new THREE.Mesh(new RoundedBoxGeometry(8.8,0.28,8.8,4,0.08), new THREE.MeshStandardMaterial({color:'#d4a03a',metalness:.85,roughness:.28,envMap:ENV,envMapIntensity:1.2}));
 rimMesh.position.y=-0.18; scene.add(rimMesh);
 const base = new THREE.Mesh(new THREE.BoxGeometry(8.45,0.3,8.45), new THREE.MeshStandardMaterial({color:'#0f4d40',roughness:.8})); base.receiveShadow=true;
@@ -505,22 +521,22 @@ function tileTexture(cell,i){
     lines.forEach((l,k)=>g.fillText(l, cw*.64, top+H*.52+(k-(lines.length-1)/2)*(fs*1.05)));
     const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; return t;
   }
-  const icoSize = Math.round(Math.min(cw*.62, (ch-bandH)*(h?.42:.5)));
-  const icoY = bandH + (ch-bandH)*(h?.36:.4);
+  const icoSize = Math.round(Math.min(cw*.6, (ch-bandH)*(h?.36:.46)));
+  const icoY = bandH + (ch-bandH)*(h?.3:.36);
   g.font=`${icoSize}px ${EMOJI}`; g.fillText(st.ico,cw/2,icoY);
   g.fillStyle = h? '#3b2a12' : '#fff';
-  const maxW=cw-30; let fs = Math.round(Math.min(cw*(h?.2:.24), ch*.14));
+  const maxW=cw-24; let fs = Math.round(Math.min(cw*(h?.2:.24), ch*(h?.19:.2)));
   g.font=`900 ${fs}px Nunito, sans-serif`;
   const words=name.split(' '); let lines=[name];
   if(g.measureText(name).width>maxW && words.length>1){ const mid=Math.ceil(words.length/2); lines=[words.slice(0,mid).join(' '),words.slice(mid).join(' ')]; }
   while(lines.some(l=>g.measureText(l).width>maxW)&&fs>16){ fs-=2; g.font=`900 ${fs}px Nunito, sans-serif`; }
-  const y0 = bandH + (ch-bandH)*.78;
+  const y0 = bandH + (ch-bandH)*(h?.74:.76);
   if(!h){ g.shadowColor='rgba(0,0,0,.35)'; g.shadowBlur=6; }
   lines.forEach((l,k)=>g.fillText(l,cw/2,y0+(k-(lines.length-1)/2)*(fs*1.05)));
   const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; return t;
 }
 const tiles=[]; const GAP=.045;
-const TILE_GEO = { corner:new RoundedBoxGeometry(CELL_D-GAP,.12,CELL_D-GAP,2,.03), ns:new RoundedBoxGeometry(CELL_W-GAP,.12,CELL_D-GAP,2,.03), ew:new RoundedBoxGeometry(CELL_D-GAP,.12,CELL_W-GAP,2,.03) };
+const TILE_GEO = { corner:new RoundedBoxGeometry(CELL_D-GAP,TILE_H,CELL_D-GAP,3,.05), ns:new RoundedBoxGeometry(CELL_W-GAP,TILE_H,CELL_D-GAP,3,.05), ew:new RoundedBoxGeometry(CELL_D-GAP,TILE_H,CELL_W-GAP,3,.05) };
 const geoFor=i=>{ const sd=sideOf(i); return sd==='corner'? TILE_GEO.corner : (sd==='bottom'||sd==='top')? TILE_GEO.ns : TILE_GEO.ew; };
 function buildTiles(){
   tiles.forEach(t=>scene.remove(t)); tiles.length=0;
@@ -528,14 +544,14 @@ function buildTiles(){
     const side = new THREE.MeshStandardMaterial({color: cell.type==='heritage'? FAM_COL[cell.fam] : TYPE_STYLE[cell.type].band, roughness:.7});
     const top = new THREE.MeshStandardMaterial({map:tileTexture(cell,i), roughness:.75, emissive:'#ffcc55', emissiveIntensity:0});
     const m = new THREE.Mesh(geoFor(i),[side,side,top,side,side,side]);
-    m.position.copy(cellXZ(i)); m.position.y=0.06; m.userData.cell=i; m.userData.top=top;
+    m.position.copy(cellXZ(i)); m.position.y=TILE_H/2; m.userData.cell=i; m.userData.top=top;
     m.receiveShadow=true; m.castShadow=true; scene.add(m); tiles.push(m);
   });
   dirty=true;
 }
 document.fonts.load('900 30px Nunito').then(()=>{ buildTiles(); }).catch(()=>{});
 buildTiles();
-function glow(i, v){ const t=tiles[i]; if(!t) return; t.userData.top.emissiveIntensity=v; t.position.y = 0.06 + v*0.08; dirty=true; }
+function glow(i, v){ const t=tiles[i]; if(!t) return; t.userData.top.emissiveIntensity=v; t.position.y = TILE_H/2 + v*0.12; dirty=true; }
 
 // Pions
 function pawnMesh(hex){
@@ -550,13 +566,13 @@ function pawnMesh(hex){
   return g;
 }
 const pawns=[];
-const TOP_Y = 0.12;
+const TOP_Y = TILE_H;
 function clusterOffsets(n){ if(n<=1) return [[0,0]]; const r=n<=2?.17:.22; return Array.from({length:n},(_,k)=>{const a=k/n*Math.PI*2+Math.PI/4; return [Math.cos(a)*r,Math.sin(a)*r];}); }
 function restPos(p, exclude){
   const here = S.players.filter(q=>q.pos===p.pos);
   const k = here.indexOf(p); const off = clusterOffsets(here.length)[k]||[0,0];
   const v = cellXZ(p.pos); const inw = inward(p.pos);
-  if(CELLS[p.pos].type==='heritage'){ v.addScaledVector(inw,.24); }
+  if(CELLS[p.pos].type==='heritage'){ v.addScaledVector(inw,.16); }
   v.x+=off[0]*.85; v.z+=off[1]*.85; v.y=TOP_Y; return v;
 }
 function buildPawns(){
@@ -601,7 +617,7 @@ function placeBuilding(pos, animate){
   const owner=S.players[S.owners[pos]]; if(!owner) return;
   if(buildings[pos]) scene.remove(buildings[pos]);
   const g=buildingMesh(CELLS[pos].fam, owner.hex);
-  const v=cellXZ(pos), o=inward(pos); v.addScaledVector(o,-.36); g.position.set(v.x,TOP_Y,v.z);
+  const v=cellXZ(pos), o=inward(pos); v.addScaledVector(o,-.24); g.position.set(v.x,TOP_Y,v.z);
   g.rotation.y = Math.atan2(o.x,o.z);
   g.traverse(o=>{ if(o.isMesh){ o.castShadow=true; if(o.material&&o.material.metalness>.3){ o.material.envMap=ENV; } } });
   scene.add(g); buildings[pos]=g;
@@ -624,7 +640,7 @@ function band(){
   return {top:1-2*top/h, bot:1-2*bot/h};
 }
 function fitOverview(){
-  const pts=[]; for(const x of[-4.4,4.4]) for(const z of[-4.4,4.4]) for(const y of[-.3,.15]) pts.push(new THREE.Vector3(x,y,z));
+  const pts=[]; for(const x of[-4.4,4.4]) for(const z of[-4.4,4.4]) for(const y of[-.3,.32]) pts.push(new THREE.Vector3(x,y,z));
   const tgt=new THREE.Vector3(0,0,0); const B=band(); const bandH=B.top-B.bot;
   camera.clearViewOffset();
   let best=40, cy=0;
@@ -823,7 +839,7 @@ async function askQuestion(p, {theme, title, intro}={}){
   const curL=()=> lang==='ar'&&hasAr? 'ar':'fr';
   const readQ=()=>{ const L=curL(); if(!revealed) return say(qPhrase(q,L),{lang:L}); return say(aPhrase(q,L),{lang:L}); };
   prefetch(aPhrase(q,curL()),curL());
-  const preVerdicts=()=>{ ['good','partial','wrong'].forEach(r=>prefetch(PH[r](p.name)+gainText(r,1))); };
+  const preVerdicts=()=>{ prefetch(PH.good(p.name)+gainText('good',1)); };
   draw(); if(intro) await sayWait(intro,5000); readQ();
   timer=setInterval(()=>{ if(revealed||paused) return; left=Math.max(0,left-1); const v=C.win.querySelector('#tmv'), b=C.win.querySelector('#tmb'), t=C.win.querySelector('#tm');
     if(v){ v.textContent= left>0? left+' s' : 'Temps écoulé, tu peux encore répondre'; b.style.width=(left/secs*100)+'%'; t.classList.toggle('alert',left<=10); if(left===10) vibrate(40); }
@@ -884,7 +900,7 @@ function openSettings(fromMenu=false){
   const ov=document.createElement('div'); ov.id='overlay';
   const seg=(key,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button data-k="${key}" data-v="${v}" aria-pressed="${SET[key]===v}">${l}</button>`).join('')}</div>`;
   const sw=(key,lbl)=>`<div class="setrow">${lbl}<button class="sw2" role="switch" data-sw="${key}" aria-checked="${!!SET[key]}" aria-label="${lbl}"></button></div>`;
-  const vstate = ()=> VOICE.mode==='cloud'? '<span class="hint ok">Voix Kounouzi en ligne (ElevenLabs) : prénoms et montants sont dits.</span>'
+  const vstate = ()=> VOICE.mode==='cloud'? `<span class="hint ok">Voix Kounouzi en ligne (ElevenLabs) : prénoms et montants sont dits.</span>${VOICE.err?`<br><span class="hint warn">Dernier refus d'ElevenLabs : ${esc(VOICE.err)}</span>`:''}`
     : VOICE.mode==='device'? `<span class="hint warn">Voix de l'appareil en secours. ${esc(VOICE.why)}</span>` : VOICE.mode==='checking'? '<span class="hint">Vérification de la voix…</span>' : '<span class="hint warn">Aucune voix disponible sur cet appareil.</span>';
   function draw(){
     ov.innerHTML=`<div class="sheet"><h2>Réglages</h2>
@@ -1086,7 +1102,7 @@ async function movePawn(p, steps){
   for(const i of path) glow(i,.25);
   following=true; camFocus=true;
   for(const i of path){
-    const a=m.position.clone(); const v=cellXZ(i); if(CELLS[i].type==='heritage') v.addScaledVector(inward(i),.24); v.y=TOP_Y;
+    const a=m.position.clone(); const v=cellXZ(i); if(CELLS[i].type==='heritage') v.addScaledVector(inward(i),.16); v.y=TOP_Y;
     await tween(300,k=>{ m.position.lerpVectors(a,v,k); m.position.y=TOP_Y+Math.sin(Math.PI*k)*.42; m.userData.shadow.position.y=-(m.position.y-TOP_Y)+.003; m.userData.shadow.scale.setScalar(1-Math.sin(Math.PI*k)*.4); },easeIO);
     glow(i,0); p.pos=i; vibrate(8);
     if(!REDUCED){ const b=m.userData.body; tween(160,k=>{ const q=Math.sin(Math.PI*k)*.18; b.forEach(o=>{o.scale.set(1+q*.6,1-q,1+q*.6);}); }); }
