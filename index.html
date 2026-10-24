@@ -121,7 +121,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 #overlay{position:fixed;inset:0;z-index:30;background:rgba(5,10,20,.62);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));padding-block:calc(10px + env(safe-area-inset-top,0px)) calc(12px + env(safe-area-inset-bottom,0px));animation:fade .25s}
 @keyframes fade{from{opacity:0}}
 .card{position:relative;width:min(400px,92vw,calc((100dvh - 230px) * .65));aspect-ratio:.65;max-width:100%;perspective:1400px;flex:0 0 auto}
-.card .flip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.25,.5,1)}
+.card .flip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform 1.1s cubic-bezier(.3,1.25,.5,1)}
+.card.tease .flip{animation:tease .7s ease-in-out}
+@keyframes tease{0%,100%{transform:rotateY(180deg) scale(1)}50%{transform:rotateY(180deg) scale(1.05)}}
 .card.hidden-face .flip{transform:rotateY(180deg)}
 .card .face,.card .back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:4.5% / 3%;background:center/100% 100% no-repeat}
 .card .back{transform:rotateY(180deg)}
@@ -261,6 +263,10 @@ const THEME_INFO = {
   logic:{fr:'Logique',card:'logique'}, management:{fr:'Gestion',card:'gestion'}};
 // Le Chemin : six blocs de cinq valeurs, chacun contient 1,2,3,4,5 une fois. Jamais deux fois la même valeur de suite.
 const CYCLE = [[1,3,5,2,4],[3,5,2,4,1],[5,2,4,1,3],[2,4,1,3,5],[4,1,3,5,2],[3,1,4,2,5]].flat();
+// Économie du jeu (relevée : les gains de la V1 étaient des valeurs de démonstration trop faibles).
+const ECO = { qGood:100, qPartial:50, startPass:200, treasure:200, duelWin:150, duelTie:50, familyX:2, donation:30, donationHassanat:10, visitRate:.15 };
+const visitFee = c => Math.round(c.prix*ECO.visitRate/5)*5;   // 300 K → 45 K … 850 K → 130 K
+const famReward = d => d.rw*ECO.familyX;
 // Rotation des cases Défi : le Défi famille revient une fois sur deux, les Hassanāt arrivent en 2e.
 const CHAL_ROT = ['family','hassanat','family','duel','family','question'];
 const SERVICE = {maktaba:'un livre',madinah_hotel:'un séjour',makkah_hotel:'un séjour',maghreb_restaurant:'un repas',umrah_agency:'un voyage',museum:'un billet',park:'un billet'};
@@ -289,7 +295,7 @@ const DEFIS_GROUPS = [
   {id:'family',lbl:'Famille et solidarité',cats:['family','solidarity']},{id:'contact',lbl:'Contact (bisou, high-five…)',contact:true},
   {id:'ohNo',lbl:'Cartes « Oh non ! »',oh:true},{id:'memoryLogic',lbl:'Mémoire et logique',cats:['memory','reflection','logic','observation','language']},
   {id:'arabic',lbl:'Arabe',cats:['arabic']},{id:'religion',lbl:'Religion (récitation)',cats:['religion']},{id:'boss',lbl:'Grands défis (boss)',boss:true}];
-const SET = Object.assign({voice:true, tone:'chaleureux', rate:'normal', haptics:true, reduced:'system', ecoute:false, defis:{}}, store.get(SETTINGS)||{});
+const SET = Object.assign({sfx:true, voice:true, tone:'chaleureux', rate:'normal', haptics:true, reduced:'system', ecoute:false, defis:{}}, store.get(SETTINGS)||{});
 DEFIS_GROUPS.forEach(g=>{ if(SET.defis[g.id]===undefined) SET.defis[g.id]=true; });
 const saveSet=()=>store.set(SETTINGS,SET);
 const MQ_REDUCE = matchMedia('(prefers-reduced-motion: reduce)');
@@ -316,7 +322,7 @@ function unlockAudio(){ if(audioUnlocked) return; audioUnlocked=true; try{ audio
   try{ if('speechSynthesis' in window){ const u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u);} }catch{} }
 async function probeVoice(retry=2){
   try{ const r=await fetch('api/voix?probe',{cache:'no-store'});
-    if(r.status===204){ VOICE.mode='cloud'; VOICE.why=''; return; }
+    if(r.status===204){ VOICE.mode='cloud'; VOICE.why=''; ['bravo','presque','achat','tresor'].forEach(k=>loadSfx(k)); return; }
     const j=await r.json().catch(()=>null);
     VOICE.why = j&&j.reason==='unconfigured' ? `Voix en ligne non configurée (${(j.missing||[]).join(', ')}).` : 'Voix en ligne indisponible pour l\'instant.';
     if(r.status!==503 && retry>0){ await new Promise(z=>setTimeout(z,1500)); return probeVoice(retry-1); }
@@ -336,7 +342,13 @@ function playDevice(text,lang,tok){
 // Les phrases sont téléchargées à l'avance (pendant que le pion avance) et gardées en mémoire :
 // au moment de parler, l'audio est déjà là, la voix colle au plateau.
 const AUD=new Map();
-const cleanText=t=>String(t).replace(/\s+/g,' ').trim().slice(0,680);
+// La voix lit les mots arabes en arabe : on les écrit en lettres arabes dans le texte parlé (l'écran garde le français).
+const AR_WORDS = [
+  [/As-salāmu ʿalaykum/gi,'السلام عليكم'],[/Zakat al-Māl/gi,'زكاة المال'],[/Caisse Masākīn/gi,'صندوق المساكين'],[/Masākīn/gi,'المساكين'],
+  [/Hassanāt|Hassanat/gi,'حسنات'],[/ʿUmra|Omra/gi,'عمرة'],[/Zakat/gi,'الزكاة'],[/ḥawl/gi,'الحول'],
+  [/Maktaba Al-Albānī/gi,'مكتبة الألباني'],[/Maktaba As-Sunnah/gi,'مكتبة السنة'],[/Agence Omra An-Nour|Agence عمرة An-Nour/gi,'وكالة عمرة النور'],[/Agence Omra Al-Hudā|Agence عمرة Al-Hudā/gi,'وكالة عمرة الهدى']];
+const toVoice=t=>{ AR_WORDS.forEach(([re,ar])=>{ t=t.replace(re,ar); }); return t; };
+const cleanText=t=>toVoice(String(t)).replace(/\s+/g,' ').trim().slice(0,680);
 // ElevenLabs limite le nombre de demandes simultanées : jamais plus de 2 à la fois, les phrases urgentes passent devant.
 const FQ={active:0, queue:[]};
 function runFQ(){ while(FQ.active<2 && FQ.queue.length){ const job=FQ.queue.shift(); FQ.active++; job().finally(()=>{ FQ.active--; runFQ(); }); } }
@@ -386,6 +398,13 @@ function say(text,{lang='fr',queue=false}={}){
 // Attendre la fin d'une phrase, sans jamais bloquer le jeu plus de `max` ms.
 const sayWait=(text,max=6000,opts)=> Promise.race([say(text,opts), wait(max)]);
 const voiceIdle=(max=5000)=> Promise.race([voiceChain, wait(max)]);
+// Effets sonores (enfants qui applaudissent, étincelles) : générés une fois par ElevenLabs côté serveur, puis gardés en cache.
+const sfxEl = new Audio(); sfxEl.preload='auto';
+const SFX={};
+function loadSfx(k){ if(VOICE.mode!=='cloud') return Promise.resolve(null);
+  if(!SFX[k]) SFX[k]=fetch(`api/son?k=${k}`).then(r=>r.ok?r.blob():Promise.reject()).then(b=>URL.createObjectURL(b)).catch(()=>{ delete SFX[k]; return null; });
+  return SFX[k]; }
+async function sfx(k){ if(!SET.voice || !SET.sfx) return; const url=await loadSfx(k); if(!url||paused) return; try{ const a=new Audio(url); a.volume=.55; a.play().catch(()=>{}); }catch{} }
 const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
 const pickBy = (n,arr)=>arr[((n%arr.length)+arr.length)%arr.length];
 const namesList = ns=> ns.length<2? ns.join('') : ns.slice(0,-1).join(', ')+' et '+ns[ns.length-1];
@@ -503,11 +522,12 @@ function inward(i){ const sd=sideOf(i), o=new THREE.Vector3();
 const TYPE_STYLE = {
   start:{bg:'#2f8a57',band:'#1d5c39',ico:'⭐',lbl:'Départ'}, question:{bg:'#2b5aa8',band:'#173a73',ico:'💡',lbl:'Savoir'},
   challenge:{bg:'#7a3fb8',band:'#4e2380',ico:'🎯',lbl:'Défi'}, halt:{bg:'#1f4f86',band:'#123457',ico:'⛺',lbl:'Halte'},
-  treasure:{bg:'#d6a536',band:'#94680f',ico:'💎',lbl:'Trésor'}, donation:{bg:'#b6463a',band:'#7a2a22',ico:'🤲',lbl:'Don'}};
+  treasure:{bg:'#d6a536',band:'#94680f',ico:'💎',lbl:'Trésor'}, donation:{bg:'#b6463a',band:'#7a2a22',ico:'🤲',lbl:'Don'},
+  hassanat:{bg:'#b0408f',band:'#6e1f59',ico:'✨',lbl:'Hassanāt'}};
 const FAM_COL = {maktaba:'#2f8c86',madinah_hotel:'#2c7a46',makkah_hotel:'#8a6a2e',maghreb_restaurant:'#b5462f',umrah_agency:'#3a5fb0',museum:'#1f8a8f',park:'#5f9a2f'};
 const EMOJI='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
 // Couleur néon de chaque case et icône illustrée (img/icons). Sans icône : émoji de secours.
-const NEON = {start:'#ffc94a',question:'#3aa8ff',challenge:'#b45cff',halt:'#ff8a3a',treasure:'#ffd24a',donation:'#ff5c7a',
+const NEON = {hassanat:'#ff6fd8',start:'#ffc94a',question:'#3aa8ff',challenge:'#b45cff',halt:'#ff8a3a',treasure:'#ffd24a',donation:'#ff5c7a',
   maktaba:'#3ddc84',madinah_hotel:'#2ee6c9',makkah_hotel:'#ffb84a',maghreb_restaurant:'#ff6a3d',umrah_agency:'#4d8dff',museum:'#36d6ff',park:'#9be34a'};
 const ICON_FILE = {start:'depart',question:'savoir',challenge:'defi',halt:'halte',treasure:'tresor',
   maktaba:'maktaba',madinah_hotel:'hotel-medine',makkah_hotel:'hotel-la-mecque',maghreb_restaurant:'restaurant',umrah_agency:'agence-omra',museum:'musee',park:'parc'};
@@ -771,6 +791,25 @@ async function flyCoins(from,to,amount){
     ps.push(anim.finished.then(()=>c.remove())); }
   await Promise.all(ps);
 }
+// La fête : confettis, ballons et paillettes qui envahissent l'écran pendant 3 secondes.
+function fxParty(big=true){
+  if(REDUCED || !SET.sfx) return;
+  const cv=document.createElement('canvas'); cv.style.cssText='position:fixed;inset:0;width:100%;height:100%;z-index:44;pointer-events:none';
+  const W=cv.width=innerWidth*Math.min(devicePixelRatio,2), H=cv.height=innerHeight*Math.min(devicePixelRatio,2); document.body.appendChild(cv);
+  const g=cv.getContext('2d'), k=W/innerWidth, cols=['#ffd36a','#ff5c7a','#3aa8ff','#3ddc84','#b45cff','#ff8a3a','#ffffff'];
+  const conf=Array.from({length:big?140:60},()=>({x:Math.random()*W,y:-Math.random()*H*.5,vx:(Math.random()-.5)*3*k,vy:(2+Math.random()*3)*k,r:Math.random()*6.28,vr:(Math.random()-.5)*.3,w:(6+Math.random()*6)*k,h:(10+Math.random()*8)*k,c:pick(cols)}));
+  const ball=big? Array.from({length:9},(_,i)=>({x:(0.08+i*0.105)*W+(Math.random()-.5)*30*k,y:H+Math.random()*H*.3,vy:-(2.4+Math.random()*1.6)*k,sw:Math.random()*6.28,r:(22+Math.random()*10)*k,c:pick(cols.slice(0,6))})):[];
+  const glit=Array.from({length:big?60:25},()=>({x:Math.random()*W,y:Math.random()*H*.7,t:Math.random()*60}));
+  let f=0; const T=big?190:110;
+  (function frame(){ f++; g.clearRect(0,0,W,H); const fade=f>T-40? (T-f)/40 : 1; g.globalAlpha=Math.max(0,fade);
+    for(const b of ball){ b.y+=b.vy; b.sw+=.04; const x=b.x+Math.sin(b.sw)*14*k;
+      g.strokeStyle='rgba(255,255,255,.6)'; g.lineWidth=1.5*k; g.beginPath(); g.moveTo(x,b.y+b.r*1.15); g.quadraticCurveTo(x+8*k,b.y+b.r*2,x,b.y+b.r*3); g.stroke();
+      const gr=g.createRadialGradient(x-b.r*.35,b.y-b.r*.4,b.r*.1,x,b.y,b.r*1.1); gr.addColorStop(0,'#fff'); gr.addColorStop(.25,b.c); gr.addColorStop(1,b.c);
+      g.fillStyle=gr; g.beginPath(); g.ellipse(x,b.y,b.r*.88,b.r*1.05,0,0,6.28); g.fill(); }
+    for(const c of conf){ c.x+=c.vx; c.y+=c.vy; c.r+=c.vr; c.vx*=.995; g.save(); g.translate(c.x,c.y); g.rotate(c.r); g.fillStyle=c.c; g.fillRect(-c.w/2,-c.h/2,c.w,c.h*Math.abs(Math.cos(c.r*2))); g.restore(); }
+    for(const s of glit){ s.t++; const a=Math.abs(Math.sin(s.t*.15)); g.fillStyle=`rgba(255,230,150,${a})`; const r=(1.5+a*2.5)*k; g.beginPath(); g.moveTo(s.x,s.y-r*2); g.lineTo(s.x+r*.5,s.y); g.lineTo(s.x,s.y+r*2); g.lineTo(s.x-r*.5,s.y); g.fill(); g.beginPath(); g.moveTo(s.x-r*2,s.y); g.lineTo(s.x,s.y+r*.5); g.lineTo(s.x+r*2,s.y); g.lineTo(s.x,s.y-r*.5); g.fill(); }
+    if(f<T) requestAnimationFrame(frame); else cv.remove(); })();
+}
 function floatNum(who,txt,col){ const a=anchorOf(who); const f=document.createElement('div'); f.className='floatnum'; f.textContent=txt; f.style.color=col; f.style.left=(a.x-10)+'px'; f.style.top=(a.y+10)+'px'; document.body.appendChild(f);
   f.animate([{transform:'translateY(0)',opacity:1},{transform:'translateY(36px)',opacity:0}],{duration:1300,easing:'ease-out'}).finished.then(()=>f.remove()); }
 // Transfert d'argent : jamais sous zéro, on paie ce qu'on peut.
@@ -795,7 +834,8 @@ function openCard({face,back,kind='scene',lang=false}){
   const ov=document.createElement('div'); ov.id='overlay';
   ov.innerHTML=`<div class="card ${kind} hidden-face"><div class="flip"><div class="face" style="background-image:url(img/${face}-face.webp)"><div class="win"></div></div><div class="back" style="background-image:url(img/${back||'defi'}-dos.webp)"></div></div></div><div class="cacts"></div>`;
   document.body.appendChild(ov); const card=ov.querySelector('.card');
-  requestAnimationFrame(()=>requestAnimationFrame(()=>card.classList.remove('hidden-face')));
+  // Suspense : on voit d'abord le dos de la carte qui palpite, puis elle se retourne.
+  card.classList.add('tease'); wait(750).then(()=>{ card.classList.remove('tease'); card.classList.remove('hidden-face'); });
   vibrate(15);
   return { el:ov, win:ov.querySelector('.win'), acts:ov.querySelector('.cacts'), face:ov.querySelector('.face'),
     close(){ ov.style.transition='opacity .2s'; ov.style.opacity=0; setTimeout(()=>ov.remove(),200); } };
@@ -862,20 +902,21 @@ async function askQuestion(p, {theme, title, intro}={}){
     if(v){ v.textContent= left>0? left+' s' : 'Temps écoulé, tu peux encore répondre'; b.style.width=(left/secs*100)+'%'; t.classList.toggle('alert',left<=10); if(left===10) vibrate(40); }
     if(left===0) clearInterval(timer); },1000);
   await choose(C.acts,[{label:'Voir la réponse',value:1}]);
+  clearInterval(timer); const tm=C.win.querySelector('#tm'); if(tm){ tm.classList.remove('alert'); tm.innerHTML='<span style="font-size:22px;letter-spacing:6px">• • •</span>'; } await wait(900);
   revealed=true; clearInterval(timer); draw(); const revealVoice=readQ(); preVerdicts();
   C.acts.innerHTML='';
   const chk=document.createElement('label'); chk.className='check'; chk.innerHTML='<input type="checkbox" id="mastery"> A aussi donné l\'explication (gain ×2)';
   const wrap=document.createElement('div'); wrap.className='cacts';
   C.el.appendChild(chk); C.el.appendChild(wrap);
   C.acts.remove(); C.acts=wrap;
-  const verdict = choose(wrap,[{label:'Bonne réponse <small>+50</small>',cls:'btn-good',value:'good'},{label:'En partie <small>+25</small>',cls:'btn-mid',value:'partial'},{label:'Pas cette fois',cls:'btn-bad',value:'wrong'}]);
+  const verdict = choose(wrap,[{label:`Bonne réponse <small>+${ECO.qGood}</small>`,cls:'btn-good',value:'good'},{label:`En partie <small>+${ECO.qPartial}</small>`,cls:'btn-mid',value:'partial'},{label:'Pas cette fois',cls:'btn-bad',value:'wrong'}]);
   const stopEar = listenVerdict(C.el, wrap, revealVoice);
   const res = await verdict; stopEar();
   const mult = chk.querySelector('input').checked && res!=='wrong' ? 2:1;
   C.close(); adapt(p,theme,res);
   const spoken = sayWait(PH[res](p.name)+gainText(res,mult),5000);
-  if(res==='good') { vibrate([30,40,30]); await pay('bank',p,50*mult); }
-  else if(res==='partial') { await pay('bank',p,25*mult); }
+  if(res==='good') { vibrate([30,40,30]); fxParty(); sfx('bravo'); await pay('bank',p,ECO.qGood*mult); }
+  else if(res==='partial') { fxParty(false); sfx('presque'); await pay('bank',p,ECO.qPartial*mult); }
   else toast('Pas de souci, rien n\'est perdu.');
   await spoken;
   return res;
@@ -925,6 +966,7 @@ function openSettings(fromMenu=false){
        <div class="setrow">Ton ${seg('tone',TONES.map(t=>[t.id,t.lbl]))}</div>
        <div class="setrow">Vitesse ${seg('rate',[['lente','Lente'],['normal','Normale'],['rapide','Rapide']])}</div>
        <div class="setrow"><button class="btn btn-ghost" data-a="test">▶ Tester la voix</button><button class="btn btn-ghost" data-a="replay" ${VOICE.last?'':'disabled'}>↺ Réécouter la dernière annonce</button></div></div>
+     <div class="setgrp"><h3>Effets de fête</h3>${sw('sfx','Enfants qui applaudissent, confettis')}</div>
      <div class="setgrp"><h3>Validation à la voix</h3>${sw('ecoute','Écouter « correct, presque, faux »')}
        <span class="hint">${SR? 'Une fois la réponse révélée, le micro s\'ouvre : la table dit le verdict au lieu d\'appuyer. Les boutons marchent toujours.' : 'Ce navigateur ne sait pas écouter (Firefox notamment). Essaie Chrome, Edge ou Safari.'}</span></div>
      <div class="setgrp"><h3>Confort</h3>${sw('haptics','Vibration')}
@@ -950,50 +992,52 @@ $('#setupSettings').onclick=()=>{ unlockAudio(); openSettings(); };
 
 const qPhrase=(q,L)=> (L==='ar'?'سؤال : ':'Question : ')+(q.q[L]||q.q.fr);
 const aPhrase=(q,L)=> (L==='ar'?'الجواب : ':'La réponse est : ')+(q.r[L]||q.r.fr);
-const gainText=(res,m)=> res==='good'? ` Tu gagnes ${50*m} Kounouz.` : res==='partial'? ` Tu gagnes ${25*m} Kounouz.` : '';
+const gainText=(res,m)=> res==='good'? ` Tu gagnes ${ECO.qGood*m} Kounouz.` : res==='partial'? ` Tu gagnes ${ECO.qPartial*m} Kounouz.` : '';
 
 /* =========================================================
    Cases
    ========================================================= */
 function heritageText(p,i){
-  const c=CELLS[i], o=S.owners[i];
+  const c={...CELLS[i]}, o=S.owners[i];
+  if(c.fam==='maktaba'||c.fam==='umrah_agency') c.nom=c.ar;
   if(o===undefined) return p.money>=c.prix? `Case établissement : ${c.nom}. Il est libre, pour ${c.prix} Kounouz. Tu veux l'acheter, ${p.name} ?` : `Case établissement : ${c.nom}. Il coûte ${c.prix} Kounouz, il ne te reste pas assez cette fois.`;
   if(o===p.seat) return `Case établissement : ${c.nom}. C'est chez toi, tu retrouves ton patrimoine.`;
-  return `Case établissement : ${c.nom}, chez ${S.players[o].name}. Tu profites de ${SERVICE[c.fam]} et tu lui verses 30 Kounouz.`;
+  return `Case établissement : ${c.nom}, chez ${S.players[o].name}. Tu profites de ${SERVICE[c.fam]} et tu lui verses ${visitFee(c)} Kounouz.`;
 }
 async function onHeritage(p,i){
   const c=CELLS[i]; const owner=S.owners[i];
   const nm=c.card.replace('-face.webp',''); const C=openCard({face:nm,back:nm,kind:'estab'});
   if(owner===undefined){
     C.win.innerHTML=`<div class="meta"><span class="tag">${c.ico} Établissement libre</span></div><h3>${esc(c.nom)}</h3><div class="small ar" dir="rtl" style="font-size:16px">${esc(c.ar)}</div>
-      <div class="big">${c.prix} K</div><div class="small">Valeur de patrimoine : ${c.val} K<br>Chaque visiteur te paiera 30 K pour ${SERVICE[c.fam]}.</div>
+      <div class="big">${c.prix} K</div><div class="small">Valeur de patrimoine : ${c.val} K<br>Chaque visiteur te paiera ${visitFee(c)} K pour ${SERVICE[c.fam]}.</div>
       <div class="small">Tu as ${fmt(p.money)} K.</div>`;
     say(heritageText(p,i));
     const v=await choose(C.acts,[{label:`Acheter <small>−${c.prix}</small>`,value:'buy',disabled:p.money<c.prix},{label:'Ne pas acheter',cls:'btn-ghost',value:'no'}]);
     C.close();
-    if(v==='buy'){ await pay(p,'bank',c.prix); S.owners[i]=p.seat; await placeBuilding(i,true); vibrate([20,30,60]); toast(`${p.name} possède ${c.nom} !`); say(`Bravo ${p.name} ! ${c.nom} rejoint ton patrimoine.`); }
+    if(v==='buy'){ await pay(p,'bank',c.prix); S.owners[i]=p.seat; await placeBuilding(i,true); vibrate([20,30,60]); toast(`${p.name} possède ${c.nom} !`); fxParty(false); sfx('achat'); say(`Bravo ${p.name} ! ${c.nom} rejoint ton patrimoine.`); }
   } else if(owner===p.seat){
     C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">C'est chez toi. Rien à payer.</div>`; say(heritageText(p,i));
     await choose(C.acts,[{label:'Continuer',value:1}]); C.close();
   } else {
     const o=S.players[owner];
-    C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">Propriété de <b>${esc(o.name)}</b>.</div><div class="small">Tu profites de ${SERVICE[c.fam]} et tu règles le service.</div><div class="big">30 K</div>`;
+    C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">Propriété de <b>${esc(o.name)}</b>.</div><div class="small">Tu profites de ${SERVICE[c.fam]} et tu règles le service.</div><div class="big">${visitFee(c)} K</div>`;
     say(heritageText(p,i));
     await choose(C.acts,[{label:`Payer ${esc(o.name)}`,value:1}]); C.close();
-    await pay(p,o,30);
+    await pay(p,o,visitFee(c));
   }
 }
 async function simpleCard(face,html,label='Continuer'){ const C=openCard({face,back:face}); C.win.innerHTML=html; await choose(C.acts,[{label,value:1}]); C.close(); }
-async function onTreasure(p){ say(cellIntro(p,p.pos)); await simpleCard('tresor',`<h3>Trésor !</h3><div class="big">+100 K</div><div class="small">Un coffre t'attendait au coin du plateau.</div>`,'Ramasser'); await pay('bank',p,100); }
+async function onTreasure(p){ say(cellIntro(p,p.pos)); sfx('tresor'); await simpleCard('tresor',`<h3>Trésor !</h3><div class="big">+${ECO.treasure} K</div><div class="small">Un coffre t'attendait au coin du plateau.</div>`,'Ramasser'); await pay('bank',p,ECO.treasure); }
 async function onHalt(p){ p.halted=true; say(cellIntro(p,p.pos)); await simpleCard('halte',`<h3>Halte</h3><div class="small">Ton voyage s'arrête ici.</div><div class="small">Au prochain tour, tu réponds d'abord à une question de reprise. Bonne ou en partie : tu repars aussitôt.</div>`); }
 async function onDonation(p){
   const C=openCard({face:'don',back:'don'});
-  if(p.money<20){ C.win.innerHTML=`<h3>Don</h3><div class="small">Il te faut 20 K pour donner. Cette fois, la case ne fait rien.</div>`; await choose(C.acts,[{label:'Continuer',value:1}]); C.close(); return; }
-  C.win.innerHTML=`<h3>Don</h3><div class="big">20 K</div><div class="small">Choisis qui reçoit ton don.</div>`; say(cellIntro(p,p.pos));
+  if(p.money<ECO.donation){ C.win.innerHTML=`<h3>Don</h3><div class="small">Il te faut ${ECO.donation} K pour donner. Cette fois, la case ne fait rien.</div>`; await choose(C.acts,[{label:'Continuer',value:1}]); C.close(); return; }
+  C.win.innerHTML=`<h3>Don</h3><div class="big">${ECO.donation} K → ✦ ${ECO.donationHassanat}</div><div class="small">Choisis qui reçoit ton don. Donner rapporte ${ECO.donationHassanat} Hassanāt.</div>`; say(cellIntro(p,p.pos));
   const others=S.players.filter(q=>q!==p);
   const v=await choose(C.acts,[{label:'Caisse Masākīn',value:'caisse'},...others.map(q=>({label:esc(q.name),cls:'btn-ghost',value:q.seat}))]);
-  C.close(); await pay(p, v==='caisse'?'caisse':S.players[v], 20);
-  say(v==='caisse'? `${p.name} donne 20 Kounouz à la Caisse Masākīn. Belle générosité !` : `${p.name} donne 20 Kounouz à ${S.players[v].name}. Quelle générosité !`);
+  C.close(); await pay(p, v==='caisse'?'caisse':S.players[v], ECO.donation);
+  p.hassanat+=ECO.donationHassanat; renderHUD(); floatNum(p,'✦ +'+ECO.donationHassanat,'#bfe8ff');
+  say(v==='caisse'? `${p.name} donne ${ECO.donation} Kounouz à la Caisse Masākīn. Belle générosité ! ${ECO.donationHassanat} Hassanāt.` : `${p.name} donne ${ECO.donation} Kounouz à ${S.players[v].name}. Quelle générosité ! ${ECO.donationHassanat} Hassanāt.`);
 }
 
 /* ---------- Défis ---------- */
@@ -1015,7 +1059,7 @@ async function onFamily(p){
     C.win.innerHTML=`<div class="meta"><span class="tag">Défi famille</span><span class="tag">${esc(d.cl)}</span>${d.boss?'<span class="tag">Grand défi</span>':''}</div>
       <h3>${esc(d.ti)}</h3><div class="qtext">${esc(d.tx)}</div>${v?`<div class="ans"><small>Pour ${esc(p.name)}</small>${esc(v.text)}</div>`:''}
       ${d.consent?'<div class="small">Chaque personne concernée doit être d\'accord.</div>':''}
-      <div class="small">${d.rw>0?`Réussi : +${d.rw} K`:'Un choix t\'attend si tu réussis.'} · Raté ou refusé : rien de perdu.</div>`;
+      <div class="small">${d.rw>0?`Réussi : +${famReward(d)} K`:'Un choix t\'attend si tu réussis.'} · Raté ou refusé : rien de perdu.</div>`;
     say(`${d.oh?'Oh non ! ':''}${d.ti}. ${d.tx}${v?' Pour toi : '+v.text+'.':''}`);
     const opts=[{label:'Réussi !',cls:'btn-good',value:'ok'},{label:'Pas cette fois',cls:'btn-bad',value:'no'}];
     if(d.consent) opts.push({label:'Quelqu\'un refuse : autre défi',cls:'btn-ghost',value:'swap'});
@@ -1032,7 +1076,7 @@ async function onFamily(p){
         if(ch==='keep') await pay('bank',p,10);
         else { for(let k=0;k<2;k++){ C.win.innerHTML=`<h3>${esc(d.ti)}</h3>`; const t=await pickPlayer(C.win,C.acts,others,`Joueur ${k+1} sur 2 : qui reçoit 5 K ?`); await pay(p,t,5); } await pay('bank',p,25); } }
     }
-    C.close(); say(`Défi réussi, bravo ${p.name} !${d.rw>0?' Tu gagnes '+d.rw+' Kounouz.':''}`); if(d.rw>0){ vibrate([30,40,30]); await pay('bank',p,d.rw); }
+    C.close(); fxParty(); sfx('bravo'); say(`Défi réussi, bravo ${p.name} !${d.rw>0?' Tu gagnes '+famReward(d)+' Kounouz.':''}`); if(d.rw>0){ vibrate([30,40,30]); await pay('bank',p,famReward(d)); }
     return;
   }
 }
@@ -1055,15 +1099,15 @@ async function onHassanat(p){
 async function onDuel(p){
   const others=S.players.filter(q=>q!==p); const theme=nextTheme(p);
   const C=openCard({face:'defi',back:'defi'});
-  C.win.innerHTML=`<div class="meta"><span class="tag">Duel</span><span class="tag">${THEME_INFO[theme].fr}</span></div><h3>Duel !</h3><div class="small">Chacun répond à une question du même thème. Le gagnant touche 80 K, en cas d'égalité chacun touche 30 K.</div>`;
+  C.win.innerHTML=`<div class="meta"><span class="tag">Duel</span><span class="tag">${THEME_INFO[theme].fr}</span></div><h3>Duel !</h3><div class="small">Chacun répond à une question du même thème. Le gagnant touche ${ECO.duelWin} K, en cas d'égalité chacun touche ${ECO.duelTie} K.</div>`;
   const opp=await pickPlayer(C.win,C.acts,others,'Choisis ton adversaire'); C.close();
   await sayWait(`${p.name} défie ${opp.name} ! Deux questions ${deTheme(theme)}.`,5000);
   const rank={good:2,partial:1,wrong:0};
   const r1=await askQuestion(p,{theme,title:'Duel · '+p.name,intro:`${p.name}, à toi !`}); await wait(300);
   const r2=await askQuestion(opp,{theme,title:'Duel · '+opp.name,intro:`${opp.name}, à toi !`});
   const a=rank[r1], b=rank[r2];
-  if(a===b){ say('Match nul, vous êtes à égalité ! 30 Kounouz chacun.'); await simpleCard('defi',`<h3>Égalité</h3><div class="big">+30 K chacun</div>`); await pay('bank',p,30); await pay('bank',opp,30); }
-  else { const w=a>b?p:opp; say(`${w.name} remporte le Duel Kounouzi. Bravo !`); await simpleCard('defi',`<h3>${esc(w.name)} gagne le duel</h3><div class="big">+80 K</div>`); await pay('bank',w,80); }
+  if(a===b){ say(`Match nul, vous êtes à égalité ! ${ECO.duelTie} Kounouz chacun.`); await simpleCard('defi',`<h3>Égalité</h3><div class="big">+${ECO.duelTie} K chacun</div>`); await pay('bank',p,ECO.duelTie); await pay('bank',opp,ECO.duelTie); }
+  else { const w=a>b?p:opp; say(`${w.name} remporte le Duel Kounouzi. Bravo !`); await simpleCard('defi',`<h3>${esc(w.name)} gagne le duel</h3><div class="big">+${ECO.duelWin} K</div>`); fxParty(); sfx('bravo'); await pay('bank',w,ECO.duelWin); }
 }
 // Ce que la voix annonce en arrivant sur une case. Même texte au préchargement et au moment de parler.
 function cellIntro(p,i){
@@ -1075,12 +1119,13 @@ function cellIntro(p,i){
     if(k==='duel') return `Case Défi ! C'est un Duel ! ${p.name}, choisis ton adversaire.`;
     const t=p._pre? p._pre.theme : THEMES[p.themeIdx%THEMES.length]; return `Case Défi ! Une question ${deTheme(t)}.`; }
   if(c.type==='heritage') return heritageText(p,i);
-  if(c.type==='treasure') return 'Case Trésor ! Tu remportes 100 Kounouz. Bien joué !';
+  if(c.type==='treasure') return `Case Trésor ! Tu remportes ${ECO.treasure} Kounouz. Bien joué !`;
   if(c.type==='halt') return `Case Halte. ${p.name}, ton voyage s'interrompt ici. Au prochain tour, une question pour repartir.`;
-  if(c.type==='donation') return p.money>=20? `Case Don. ${p.name}, choisis à qui donner 20 Kounouz.` : `Case Don. Il te faut 20 Kounouz pour donner : cette fois, rien ne se passe.`;
+  if(c.type==='donation') return p.money>=ECO.donation? `Case Don. ${p.name}, choisis à qui donner ${ECO.donation} Kounouz. Donner rapporte ${ECO.donationHassanat} Hassanāt.` : `Case Don. Il te faut ${ECO.donation} Kounouz pour donner : cette fois, rien ne se passe.`;
+  if(c.type==='hassanat') return `Case Hassanāt ! Une occasion de générosité pour ${p.name}.`;
   return 'Case Départ.';
 }
-const CELL_LABEL={question:'Case Savoir',challenge:'Case Défi',heritage:'Établissement',treasure:'Case Trésor',halt:'Case Halte',donation:'Case Don',start:'Case Départ'};
+const CELL_LABEL={hassanat:'Case Hassanāt',question:'Case Savoir',challenge:'Case Défi',heritage:'Établissement',treasure:'Case Trésor',halt:'Case Halte',donation:'Case Don',start:'Case Départ'};
 async function onChallenge(p){
   const kind=CHAL_ROT[S.chalIdx%CHAL_ROT.length]; S.chalIdx++;
   if(kind==='family') return onFamily(p);
@@ -1099,16 +1144,18 @@ function idleMain(label='…'){ const b=$('#mainBtn'); b.textContent=label; b.di
 
 async function banner(p){
   const b=$('#banner'); b.hidden=false; b.innerHTML=`<div class="in" style="--c:${p.hex}"><div class="av" style="background-image:url(${avatarFor(p)})"></div><div><small>Tour ${S.round}</small><b>Au tour de ${esc(p.name)}</b></div></div>`;
-  await wait(1300); b.hidden=true;
+  await wait(1800); b.hidden=true;
 }
 const LANTERN=`<svg viewBox="0 0 46 78" aria-hidden="true"><circle class="halo" cx="23" cy="44" r="24" fill="rgba(255,200,80,.35)" opacity="0"/><path d="M23 2v8" stroke="#c9952e" stroke-width="2.5"/><path d="M14 12h18l-3 8H17z" fill="#c9952e"/><path d="M15 20h16c3 10 3 34 0 44H15c-3-10-3-34 0-44z" class="glass" fill="#5a4a2a" stroke="#c9952e" stroke-width="2.5"/><path d="M23 20v44M15.5 32h15M15.5 52h15" stroke="#c9952e" stroke-width="1.6" opacity=".8"/><path d="M13 64h20l-3 8H16z" fill="#c9952e"/></svg>`;
 async function revealChemin(n){
   const box=$('#chemin'); box.hidden=false; const L=$('#lanterns'); L.innerHTML=Array.from({length:5},()=>`<div class="lantern">${LANTERN}</div>`).join('');
   const T=$('#cheminText'); T.classList.remove('show'); T.textContent='';
-  await wait(250);
-  for(let k=0;k<n;k++){ L.children[k].classList.add('on'); vibrate(12); await wait(330); }
-  T.textContent = n===1? '1 case' : n+' cases'; T.classList.add('show');
-  await wait(900); box.hidden=true;
+  await wait(600);
+  // Les lanternes s'allument une à une, de plus en plus lentement… puis le nombre tombe.
+  for(let k=0;k<n;k++){ L.children[k].classList.add('on'); vibrate(12); await wait(420+k*120); }
+  await wait(450);
+  T.textContent = n===1? '1 case' : n+' cases'; T.classList.add('show'); vibrate([20,30,40]);
+  await wait(1300); box.hidden=true;
 }
 function peekSteps(p){ const start=((p.seat+S.gameNo)%6)*5; return CYCLE[(start+p.journey)%CYCLE.length]; }
 function assignSteps(p){ const start=((p.seat+S.gameNo)%6)*5; const v=CYCLE[(start+p.journey)%CYCLE.length]; p.journey++; return v; }
@@ -1120,20 +1167,20 @@ async function movePawn(p, steps){
   following=true; camFocus=true;
   for(const i of path){
     const a=m.position.clone(); const v=cellXZ(i); if(CELLS[i].type==='heritage') v.addScaledVector(inward(i),.16); v.y=TOP_Y;
-    await tween(300,k=>{ m.position.lerpVectors(a,v,k); m.position.y=TOP_Y+Math.sin(Math.PI*k)*.42; m.userData.shadow.position.y=-(m.position.y-TOP_Y)+.003; m.userData.shadow.scale.setScalar(1-Math.sin(Math.PI*k)*.4); },easeIO);
+    await tween(400,k=>{ m.position.lerpVectors(a,v,k); m.position.y=TOP_Y+Math.sin(Math.PI*k)*.42; m.userData.shadow.position.y=-(m.position.y-TOP_Y)+.003; m.userData.shadow.scale.setScalar(1-Math.sin(Math.PI*k)*.4); },easeIO);
     glow(i,0); p.pos=i; vibrate(8);
     if(!REDUCED){ const b=m.userData.body; tween(160,k=>{ const q=Math.sin(Math.PI*k)*.18; b.forEach(o=>{o.scale.set(1+q*.6,1-q,1+q*.6);}); }); }
     if(i===0 && path.length){ passed=true; }
   }
   following=false; await settlePawns(); fxRing(p.pos, p.hex); fxBurst(p.pos, '#ffe08a', 22); await moveCam(450);
-  if(passed){ toast('Passage par le Départ : +100 K'); await Promise.all([sayWait('Tu repasses par le départ. Beau tour complet ! Plus 100 Kounouz.',5000), pay('bank',p,100)]); }
+  if(passed){ toast(`Passage par le Départ : +${ECO.startPass} K`); await Promise.all([sayWait(`Tu repasses par le départ. Beau tour complet ! Plus ${ECO.startPass} Kounouz.`,5000), pay('bank',p,ECO.startPass)]); }
 }
 async function resolveCell(p){
   const c=CELLS[p.pos]; glow(p.pos,.6);
   const label = CELL_LABEL[c.type] + (c.type==='question'&&p._pre? ' · '+THEME_INFO[p._pre.theme].fr : c.type==='heritage'? ' · '+c.nom : '');
   toast(label,1800);
   // Savoir et Défi : la voix annonce la case avant d'ouvrir la carte.
-  if(c.type==='question'||c.type==='challenge') await sayWait(cellIntro(p,p.pos),5000); else await wait(300);
+  if(c.type==='question'||c.type==='challenge'||c.type==='hassanat') await Promise.all([sayWait(cellIntro(p,p.pos),5000), wait(1100)]); else await wait(900);
   glow(p.pos,0);
   if(c.type==='heritage') return onHeritage(p,p.pos);
   if(c.type==='question') return askQuestion(p);
@@ -1141,6 +1188,7 @@ async function resolveCell(p){
   if(c.type==='treasure') return onTreasure(p);
   if(c.type==='halt') return onHalt(p);
   if(c.type==='donation') return onDonation(p);
+  if(c.type==='hassanat') return onHassanat(p);
 }
 async function playTurn(){
   if(S.over) return showEnd();
@@ -1160,7 +1208,7 @@ async function playTurn(){
   const lc=CELLS[land], ck=CHAL_ROT[S.chalIdx%CHAL_ROT.length];
   if(lc.type==='question' || (lc.type==='challenge' && ck==='question')){ const t=nextTheme(p); p._pre={theme:t, q:selectQuestion(p,t)}; }
   prefetch(journeyText); prefetch(cellIntro(p,land)); if(p._pre) prefetch(qPhrase(p._pre.q,'fr'));
-  if(steps+p.pos>=N) prefetch('Tu repasses par le départ. Beau tour complet ! Plus 100 Kounouz.');
+  if(steps+p.pos>=N) prefetch(`Tu repasses par le départ. Beau tour complet ! Plus ${ECO.startPass} Kounouz.`);
   await waitMain('Découvrir mon chemin');
   const n=assignSteps(p); await Promise.all([revealChemin(n), sayWait(journeyText,5000)]);
   idleMain('En route…'); await movePawn(p,n);
@@ -1224,8 +1272,9 @@ $('#menuBtn').onclick=()=>{
   ov.innerHTML=`<div class="sheet"><h2>Pause</h2>
    <p>Le temps de jeu est arrêté tant que ce menu est ouvert.</p>
    <ul><li>Le Chemin donne 1 à 5 cases, sans hasard : tout le monde avance autant au total.</li>
-   <li>Bonne réponse +50 K, en partie +25 K, ×2 si l'explication est donnée.</li>
-   <li>Établissement : achat à son prix, chaque visite rapporte 30 K au propriétaire.</li>
+   <li>Bonne réponse +${ECO.qGood} K, en partie +${ECO.qPartial} K, ×2 si l'explication est donnée.</li>
+   <li>Établissement : achat à son prix, chaque visite rapporte 15 % du prix au propriétaire.</li>
+   <li>Zakat al-Māl : 6 tours de table de suite au-dessus de 1 000 K, et 2,5 % vont à la Caisse Masākīn. ${S.players.map(p=>`${esc(p.name)} ${p.zakat}/6`).join(' · ')}</li>
    <li>Score final = Kounouz + patrimoine + Hassanāt × 5.</li></ul>
    <button class="btn btn-gold" data-a="close">Reprendre la partie</button>
    <button class="btn btn-ghost" data-a="settings">⚙️ Réglages (voix, défis, confort)</button>
@@ -1312,6 +1361,8 @@ function enterGame(fresh){
   Promise.all([hello,intro]).then(()=>playTurn());
 }
 
+// Accès de diagnostic (lecture de l'état depuis la console)
+window.__kounouzi={get state(){return S}};
 // Démarrage
 const saved=store.get(SAVE);
 if(saved && saved.v===2 && !saved.over){ $('#resumeBox').hidden=false; $('#resumeInfo').textContent=`${saved.players.map(p=>p.name).join(', ')} · tour de table ${saved.round}`; }
