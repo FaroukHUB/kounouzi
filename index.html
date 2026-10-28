@@ -257,10 +257,10 @@ const N = CELLS.length; // 28
 const COLORS = [
   {id:'rouge',hex:'#d2443c',name:'Rouge'},{id:'bleu',hex:'#2f6fd6',name:'Bleu'},{id:'vert',hex:'#3e9b4f',name:'Vert'},
   {id:'ambre',hex:'#e8a33a',name:'Ambre'},{id:'violet',hex:'#8a4fc9',name:'Violet'},{id:'blanc',hex:'#efe9dc',name:'Blanc'}];
-const THEMES = ['religion','maths','geography','logic','management'];
+const THEMES = ['religion','maths','geography','sciences','logic','management'];
 const THEME_INFO = {
   religion:{fr:'Religion',card:'religion'}, maths:{fr:'Mathématiques',card:'maths'}, geography:{fr:'Histoire & Géographie',card:'histoire-geo'},
-  logic:{fr:'Logique',card:'logique'}, management:{fr:'Gestion',card:'gestion'}};
+  logic:{fr:'Logique',card:'logique'}, management:{fr:'Gestion',card:'gestion'}, sciences:{fr:'Sciences & Nature',card:'sciences'}};
 // Le Chemin : six blocs de cinq valeurs, chacun contient 1,2,3,4,5 une fois. Jamais deux fois la même valeur de suite.
 const CYCLE = [[1,3,5,2,4],[3,5,2,4,1],[5,2,4,1,3],[2,4,1,3,5],[4,1,3,5,2],[3,1,4,2,5]].flat();
 // Économie du jeu (relevée : les gains de la V1 étaient des valeurs de démonstration trop faibles).
@@ -408,7 +408,7 @@ async function sfx(k){ if(!SET.voice || !SET.sfx) return; const url=await loadSf
 const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
 const pickBy = (n,arr)=>arr[((n%arr.length)+arr.length)%arr.length];
 const namesList = ns=> ns.length<2? ns.join('') : ns.slice(0,-1).join(', ')+' et '+ns[ns.length-1];
-const THEME_SPOKEN={religion:'religion',maths:'mathématiques',geography:'histoire et géographie',logic:'logique',management:'gestion'};
+const THEME_SPOKEN={religion:'religion',maths:'mathématiques',geography:'histoire et géographie',logic:'logique',management:'gestion',sciences:'sciences et nature'};
 const deTheme=t=>{ const w=THEME_SPOKEN[t]; return /^[aeiouhéè]/i.test(w)? "d'"+w : 'de '+w; };
 const PH = {
   start: names=>`As-salāmu ʿalaykum la famille ! Bienvenue dans Kounouzi ! Aujourd'hui, nous avons ${names}. Qu'Allah vous facilite cette partie… On joue, on apprend, on gère… allez, c'est parti !`,
@@ -883,6 +883,7 @@ function selectQuestion(p, theme){
   // 2) toutes vues : on recommence le cycle de cette série, en évitant les 15 dernières
   if(!cands.length){ const ids=new Set(pool.map(q=>q.id)); SEEN[p.name.toLowerCase()] = seen.filter(id=>!ids.has(id)); const recent=new Set(seen.slice(-15)); cands=pool.filter(q=>!table.has(q.id)&&!recent.has(q.id)); if(!cands.length) cands=pool; }
   // Le niveau du joueur oriente le tirage (questions proches de son niveau plus probables) sans enfermer dans 5 questions.
+  if(p.levels[theme]===undefined){ p.levels[theme]=startLevel(p); p.streak[theme]=0; }
   const lvl=p.levels[theme]; const w=cands.map(q=>1/(1+Math.abs(q.d-lvl)*1.5)); let r=Math.random()*w.reduce((x,y)=>x+y,0), i=0; while(r>w[i]){ r-=w[i]; i++; }
   const q=cands[Math.min(i,cands.length-1)];
   S.usedQ.push(q.id); seenOf(p).push(q.id); if(seenOf(p).length>1200) seenOf(p).splice(0,200); store.set(SEEN_KEY,SEEN);
@@ -890,7 +891,7 @@ function selectQuestion(p, theme){
 }
 function nextTheme(p){ const t=THEMES[p.themeIdx%THEMES.length]; p.themeIdx++; return t; }
 function levelRange(p,theme){ const ds=poolFor(p,theme).map(q=>q.d); return [Math.min(...ds),Math.max(...ds)]; }
-function adapt(p,theme,res){ const [lo,hi]=levelRange(p,theme); p.levels[theme]=Math.min(hi,Math.max(lo,p.levels[theme]));
+function adapt(p,theme,res){ if(p.streak[theme]===undefined) p.streak[theme]=0; if(p.levels[theme]===undefined) p.levels[theme]=startLevel(p); const [lo,hi]=levelRange(p,theme); p.levels[theme]=Math.min(hi,Math.max(lo,p.levels[theme]));
   if(res==='good'){ p.streak[theme]++; if(p.streak[theme]>=2){ p.levels[theme]=Math.min(5,p.levels[theme]+1); p.streak[theme]=0; } }
   else if(res==='wrong'){ p.levels[theme]=Math.max(1,p.levels[theme]-1); p.streak[theme]=0; }
 }
