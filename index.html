@@ -856,19 +856,41 @@ function pickPlayer(win, acts, players, title){
 /* =========================================================
    Questions
    ========================================================= */
-function bandMatch(band,age){ if(!band) return true; if(band.endsWith('+')) return age>=parseInt(band); const [a,b]=band.split('-').map(Number); return age>=a&&age<=b; }
+// Tranches d'âge : un enfant ne reçoit QUE des questions de sa tranche. Un adulte reçoit les tranches les plus hautes.
+const AGE_BANDS = { std:['5-6','7-8','9-10','11-12','13+'], rel:['5-8','8-10','10-12','12-14','14+'] };
+function bandsFor(p,theme){
+  const rel = theme==='religion', a=ageOf(p);
+  if(!p.child) return rel? (p.level==='decouverte'? ['12-14','14+'] : ['14+','12-14']) : (p.level==='decouverte'? ['11-12','13+'] : ['13+','11-12']);
+  if(rel) return [a<=7?'5-8': a<=9?'8-10': a<=11?'10-12': a<=13?'12-14':'14+'];
+  return [a<=6?'5-6': a<=8?'7-8': a<=10?'9-10': a<=12?'11-12':'13+'];
+}
+// Mathématiques (sans tranche) : difficultés autorisées selon l'âge.
+function mathsDiffs(p){ if(!p.child) return p.level==='decouverte'?[3,4]:[4,5]; const a=p.age; return a<=6?[1]: a<=8?[1,2]: a<=10?[2,3]: a<=12?[3,4]:[4,5]; }
+// Mémoire des questions déjà vues par chaque joueur, gardée d'une partie à l'autre sur cet appareil.
+const SEEN_KEY='kounouzi_v2_seen';
+const SEEN = store.get(SEEN_KEY) || {};
+const seenOf = p => (SEEN[p.name.toLowerCase()] ||= []);
+function poolFor(p,theme){
+  if(theme==='maths'){ const ds=mathsDiffs(p); return DATA.questions.filter(q=>q.t==='maths' && ds.includes(q.d)); }
+  const bands=bandsFor(p,theme);
+  const pool=DATA.questions.filter(q=>q.t===theme && bands.includes(q.a));
+  return pool.length? pool : DATA.questions.filter(q=>q.t===theme);
+}
 function selectQuestion(p, theme){
-  const lvl=p.levels[theme]; const used=new Set(S.usedQ); const recent=new Set(S.usedQ.slice(-30));
-  let pool=DATA.questions.filter(q=>q.t===theme && !used.has(q.id));
-  if(!pool.length){ S.usedQ=S.usedQ.filter(id=>!DATA.questions.find(q=>q.id===id&&q.t===theme)); pool=DATA.questions.filter(q=>q.t===theme&&!recent.has(q.id)); }
-  const age=ageOf(p);
-  let best=Infinity, cands=[];
-  pool.forEach(q=>{ let s=Math.abs(q.d-lvl)*2; if(p.child && !bandMatch(q.a,age)) s+=3; if(!p.child && q.a && /^(5-6|5-8|7-8)$/.test(q.a)) s+=2;
-    if(s<best){best=s;cands=[q];} else if(s===best) cands.push(q); });
-  const q=cands[Math.floor(Math.random()*cands.length)]; S.usedQ.push(q.id); return q;
+  const pool=poolFor(p,theme), table=new Set(S.usedQ), seen=seenOf(p), seenSet=new Set(seen);
+  // 1) jamais vue par ce joueur et pas encore posée à la table
+  let cands=pool.filter(q=>!seenSet.has(q.id) && !table.has(q.id));
+  // 2) toutes vues : on recommence le cycle de cette série, en évitant les 15 dernières
+  if(!cands.length){ const ids=new Set(pool.map(q=>q.id)); SEEN[p.name.toLowerCase()] = seen.filter(id=>!ids.has(id)); const recent=new Set(seen.slice(-15)); cands=pool.filter(q=>!table.has(q.id)&&!recent.has(q.id)); if(!cands.length) cands=pool; }
+  // Le niveau du joueur oriente le tirage (questions proches de son niveau plus probables) sans enfermer dans 5 questions.
+  const lvl=p.levels[theme]; const w=cands.map(q=>1/(1+Math.abs(q.d-lvl)*1.5)); let r=Math.random()*w.reduce((x,y)=>x+y,0), i=0; while(r>w[i]){ r-=w[i]; i++; }
+  const q=cands[Math.min(i,cands.length-1)];
+  S.usedQ.push(q.id); seenOf(p).push(q.id); if(seenOf(p).length>1200) seenOf(p).splice(0,200); store.set(SEEN_KEY,SEEN);
+  return q;
 }
 function nextTheme(p){ const t=THEMES[p.themeIdx%THEMES.length]; p.themeIdx++; return t; }
-function adapt(p,theme,res){
+function levelRange(p,theme){ const ds=poolFor(p,theme).map(q=>q.d); return [Math.min(...ds),Math.max(...ds)]; }
+function adapt(p,theme,res){ const [lo,hi]=levelRange(p,theme); p.levels[theme]=Math.min(hi,Math.max(lo,p.levels[theme]));
   if(res==='good'){ p.streak[theme]++; if(p.streak[theme]>=2){ p.levels[theme]=Math.min(5,p.levels[theme]+1); p.streak[theme]=0; } }
   else if(res==='wrong'){ p.levels[theme]=Math.max(1,p.levels[theme]-1); p.streak[theme]=0; }
 }
