@@ -354,7 +354,7 @@ const AUD=new Map();
 const AR_WORDS = [
   [/As-salāmu ʿalaykum/gi,'السلام عليكم'],[/Zakat al-Māl/gi,'زكاة المال'],[/Caisse Masākīn/gi,'صندوق المساكين'],[/Masākīn/gi,'المساكين'],
   [/Hassanāt|Hassanat/gi,'حسنات'],[/ʿUmra|Omra/gi,'عمرة'],[/Zakat/gi,'الزكاة'],[/ḥawl/gi,'الحول'],
-  [/Maktaba Al-Albānī/gi,'مكتبة الألباني'],[/Maktaba As-Sunnah/gi,'مكتبة السنة'],[/Agence Omra An-Nour|Agence عمرة An-Nour/gi,'وكالة عمرة النور'],[/Agence Omra Al-Hudā|Agence عمرة Al-Hudā/gi,'وكالة عمرة الهدى'],[/Hôtel At-Tawḥīd/gi,'فندق التوحيد'],[/Hôtel Al-Iḥsān/gi,'فندق الإحسان']];
+  [/Maktaba Al-Albānī/gi,'مكتبة الألباني'],[/Maktaba As-Sunnah/gi,'مكتبة السنة'],[/Agence Omra An-Nour|Agence عمرة An-Nour/gi,'وكالة عمرة النور'],[/Agence Omra Al-Hudā|Agence عمرة Al-Hudā/gi,'وكالة عمرة الهدى'],[/Hôtel At-Tawḥīd/gi,'فندق التوحيد'],[/Hôtel Al-Iḥsān/gi,'فندق الإحسان'],[/Hôtel Al-Sharif/gi,'فندق الشريف'],[/Hôtel El Kunuz/gi,'فندق الكنوز']];
 const toVoice=t=>{ AR_WORDS.forEach(([re,ar])=>{ t=t.replace(re,ar); }); return t; };
 const cleanText=t=>toVoice(String(t)).replace(/\s+/g,' ').trim().slice(0,680);
 // ElevenLabs limite le nombre de demandes simultanées : jamais plus de 2 à la fois, les phrases urgentes passent devant.
@@ -1031,7 +1031,7 @@ const gainText=(res,m)=> res==='good'? ` Tu gagnes ${ECO.qGood*m} Kounouz.` : re
    ========================================================= */
 function heritageText(p,i){
   const c={...CELLS[i]}, o=S.owners[i];
-  if(c.fam==='maktaba'||c.fam==='umrah_agency'||c.fam==='makkah_hotel') c.nom=c.ar;
+  if(c.fam==='maktaba'||c.fam==='umrah_agency'||c.fam==='makkah_hotel'||c.fam==='madinah_hotel') c.nom=c.ar;
   if(o===undefined) return p.money>=c.prix? `Case établissement : ${c.nom}. Il est libre, pour ${c.prix} Kounouz. Tu veux l'acheter, ${p.name} ?` : `Case établissement : ${c.nom}. Il coûte ${c.prix} Kounouz, il ne te reste pas assez cette fois.`;
   if(o===p.seat) return `Case établissement : ${c.nom}. C'est chez toi, tu retrouves ton patrimoine.`;
   return `Case établissement : ${c.nom}, chez ${S.players[o].name}. Tu profites de ${SERVICE[c.fam]} et tu lui verses ${visitFee(c)} Kounouz.`;
