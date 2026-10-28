@@ -354,7 +354,7 @@ const AUD=new Map();
 const AR_WORDS = [
   [/As-salāmu ʿalaykum/gi,'السلام عليكم'],[/Zakat al-Māl/gi,'زكاة المال'],[/Caisse Masākīn/gi,'صندوق المساكين'],[/Masākīn/gi,'المساكين'],
   [/Hassanāt|Hassanat/gi,'حسنات'],[/ʿUmra|Omra/gi,'عمرة'],[/Zakat/gi,'الزكاة'],[/ḥawl/gi,'الحول'],
-  [/Maktaba Al-Albānī/gi,'مكتبة الألباني'],[/Maktaba As-Sunnah/gi,'مكتبة السنة'],[/Agence Omra An-Nour|Agence عمرة An-Nour/gi,'وكالة عمرة النور'],[/Agence Omra Al-Hudā|Agence عمرة Al-Hudā/gi,'وكالة عمرة الهدى']];
+  [/Maktaba Al-Albānī/gi,'مكتبة الألباني'],[/Maktaba As-Sunnah/gi,'مكتبة السنة'],[/Agence Omra An-Nour|Agence عمرة An-Nour/gi,'وكالة عمرة النور'],[/Agence Omra Al-Hudā|Agence عمرة Al-Hudā/gi,'وكالة عمرة الهدى'],[/Hôtel At-Tawḥīd/gi,'فندق التوحيد'],[/Hôtel Al-Iḥsān/gi,'فندق الإحسان']];
 const toVoice=t=>{ AR_WORDS.forEach(([re,ar])=>{ t=t.replace(re,ar); }); return t; };
 const cleanText=t=>toVoice(String(t)).replace(/\s+/g,' ').trim().slice(0,680);
 // ElevenLabs limite le nombre de demandes simultanées : jamais plus de 2 à la fois, les phrases urgentes passent devant.
@@ -529,7 +529,7 @@ function inward(i){ const sd=sideOf(i), o=new THREE.Vector3();
 
 const TYPE_STYLE = {
   start:{bg:'#2f8a57',band:'#1d5c39',ico:'⭐',lbl:'Départ'}, question:{bg:'#2b5aa8',band:'#173a73',ico:'💡',lbl:'Savoir'},
-  challenge:{bg:'#7a3fb8',band:'#4e2380',ico:'🎯',lbl:'Défi'}, halt:{bg:'#1f4f86',band:'#123457',ico:'⛺',lbl:'Halte'},
+  challenge:{bg:'#7a3fb8',band:'#4e2380',ico:'🎯',lbl:'Défi'}, halt:{bg:'#1f4f86',band:'#123457',ico:'🔒',lbl:'Prison'},
   treasure:{bg:'#d6a536',band:'#94680f',ico:'💎',lbl:'Trésor'}, donation:{bg:'#b6463a',band:'#7a2a22',ico:'🤲',lbl:'Don'},
   hassanat:{bg:'#b0408f',band:'#6e1f59',ico:'✨',lbl:'Hassanāt'}};
 const FAM_COL = {maktaba:'#2f8c86',madinah_hotel:'#2c7a46',makkah_hotel:'#8a6a2e',maghreb_restaurant:'#b5462f',umrah_agency:'#3a5fb0',museum:'#1f8a8f',park:'#5f9a2f'};
@@ -537,7 +537,7 @@ const EMOJI='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'
 // Couleur néon de chaque case et icône illustrée (img/icons). Sans icône : émoji de secours.
 const NEON = {hassanat:'#ff6fd8',start:'#ffc94a',question:'#3aa8ff',challenge:'#b45cff',halt:'#ff8a3a',treasure:'#ffd24a',donation:'#ff5c7a',
   maktaba:'#3ddc84',madinah_hotel:'#2ee6c9',makkah_hotel:'#ffb84a',maghreb_restaurant:'#ff6a3d',umrah_agency:'#4d8dff',museum:'#36d6ff',park:'#9be34a'};
-const ICON_FILE = {start:'depart',question:'savoir',challenge:'defi',halt:'halte',treasure:'tresor',
+const ICON_FILE = {start:'depart',question:'savoir',challenge:'defi',halt:'prison',treasure:'tresor',
   maktaba:'maktaba',madinah_hotel:'hotel-medine',makkah_hotel:'hotel-la-mecque',maghreb_restaurant:'restaurant',umrah_agency:'agence-omra',museum:'musee',park:'parc'};
 const ICONS={};
 const iconsReady = Promise.all(Object.values(ICON_FILE).map(n=>fetch(`img/icons/${n}.webp`).then(r=>r.ok?r.blob():Promise.reject()).then(b=>createImageBitmap(b)).then(im=>{ICONS[n]=im;}).catch(()=>{})));
@@ -1031,7 +1031,7 @@ const gainText=(res,m)=> res==='good'? ` Tu gagnes ${ECO.qGood*m} Kounouz.` : re
    ========================================================= */
 function heritageText(p,i){
   const c={...CELLS[i]}, o=S.owners[i];
-  if(c.fam==='maktaba'||c.fam==='umrah_agency') c.nom=c.ar;
+  if(c.fam==='maktaba'||c.fam==='umrah_agency'||c.fam==='makkah_hotel') c.nom=c.ar;
   if(o===undefined) return p.money>=c.prix? `Case établissement : ${c.nom}. Il est libre, pour ${c.prix} Kounouz. Tu veux l'acheter, ${p.name} ?` : `Case établissement : ${c.nom}. Il coûte ${c.prix} Kounouz, il ne te reste pas assez cette fois.`;
   if(o===p.seat) return `Case établissement : ${c.nom}. C'est chez toi, tu retrouves ton patrimoine.`;
   return `Case établissement : ${c.nom}, chez ${S.players[o].name}. Tu profites de ${SERVICE[c.fam]} et tu lui verses ${visitFee(c)} Kounouz.`;
@@ -1060,7 +1060,7 @@ async function onHeritage(p,i){
 }
 async function simpleCard(face,html,label='Continuer'){ const C=openCard({face,back:face}); C.win.innerHTML=html; await choose(C.acts,[{label,value:1}]); C.close(); }
 async function onTreasure(p){ say(cellIntro(p,p.pos)); sfx('tresor'); await simpleCard('tresor',`<h3>Trésor !</h3><div class="big">+${ECO.treasure} K</div><div class="small">Un coffre t'attendait au coin du plateau.</div>`,'Ramasser'); await pay('bank',p,ECO.treasure); }
-async function onHalt(p){ p.halted=true; say(cellIntro(p,p.pos)); await simpleCard('halte',`<h3>Halte</h3><div class="small">Ton voyage s'arrête ici.</div><div class="small">Au prochain tour, tu réponds d'abord à une question de reprise. Bonne ou en partie : tu repars aussitôt.</div>`); }
+async function onHalt(p){ p.halted=true; say(cellIntro(p,p.pos)); await simpleCard('halte',`<h3>Prison</h3><div class="small">Tu vas en prison : ton voyage s'arrête ici.</div><div class="small">Au prochain tour, tu réponds d'abord à une question pour sortir de prison. Bonne ou en partie : tu sors aussitôt.</div>`); }
 async function onDonation(p){
   const C=openCard({face:'don',back:'don'});
   if(p.money<ECO.donation){ C.win.innerHTML=`<h3>Don</h3><div class="small">Il te faut ${ECO.donation} K pour donner. Cette fois, la case ne fait rien.</div>`; await choose(C.acts,[{label:'Continuer',value:1}]); C.close(); return; }
@@ -1152,12 +1152,12 @@ function cellIntro(p,i){
     const t=p._pre? p._pre.theme : THEMES[p.themeIdx%THEMES.length]; return `Case Défi ! Une question ${deTheme(t)}.`; }
   if(c.type==='heritage') return heritageText(p,i);
   if(c.type==='treasure') return `Case Trésor ! Tu remportes ${ECO.treasure} Kounouz. Bien joué !`;
-  if(c.type==='halt') return `Case Halte. ${p.name}, ton voyage s'interrompt ici. Au prochain tour, une question pour repartir.`;
+  if(c.type==='halt') return `Case Prison. ${p.name}, tu vas en prison ! Au prochain tour, une question pour en sortir.`;
   if(c.type==='donation') return p.money>=ECO.donation? `Case Don. ${p.name}, choisis à qui donner ${ECO.donation} Kounouz. Donner rapporte ${ECO.donationHassanat} Hassanāt.` : `Case Don. Il te faut ${ECO.donation} Kounouz pour donner : cette fois, rien ne se passe.`;
   if(c.type==='hassanat') return `Case Hassanāt ! Une occasion de générosité pour ${p.name}.`;
   return 'Case Départ.';
 }
-const CELL_LABEL={hassanat:'Case Hassanāt',question:'Case Savoir',challenge:'Case Défi',heritage:'Établissement',treasure:'Case Trésor',halt:'Case Halte',donation:'Case Don',start:'Case Départ'};
+const CELL_LABEL={hassanat:'Case Hassanāt',question:'Case Savoir',challenge:'Case Défi',heritage:'Établissement',treasure:'Case Trésor',halt:'Case Prison',donation:'Case Don',start:'Case Départ'};
 async function onChallenge(p){
   const kind=CHAL_ROT[S.chalIdx%CHAL_ROT.length]; S.chalIdx++;
   if(kind==='family') return onFamily(p);
@@ -1230,10 +1230,10 @@ async function playTurn(){
   const turnText=PH.turn(p.name);
   await Promise.all([moveCam(700), banner(p), sayWait(turnText,4500,{queue:true})]);
   if(p.halted){
-    toast('Halte : question de reprise'); await wait(400);
-    const r=await askQuestion(p,{title:'Question de reprise',intro:`${p.name}, une question pour quitter la Halte.`}); p.halted=false;
+    toast('Prison : question pour sortir'); await wait(400);
+    const r=await askQuestion(p,{title:'Question pour sortir',intro:`${p.name}, une question pour sortir de prison.`}); p.halted=false;
     if(r!=='wrong') await sayWait(`Tu reprends la route, ${p.name} !`,3500);
-    if(r==='wrong'){ camFocus=false; say('Tu repartiras au prochain tour.'); toast(`${p.name} reste à la Halte ce tour-ci. Il repartira au prochain.`,3000); await wait(1200); return endTurn(); }
+    if(r==='wrong'){ camFocus=false; say('Tu restes en prison ce tour-ci, tu sortiras au prochain.'); toast(`${p.name} reste en prison ce tour-ci. Il sortira au prochain.`,3000); await wait(1200); return endTurn(); }
   }
   // Préchargement pendant que le joueur appuie : phrase du Chemin, annonce de la case d'arrivée, question.
   const steps=peekSteps(p), land=(p.pos+steps)%N, journeyText=PH.journey(p.name,steps);
@@ -1401,6 +1401,7 @@ if(saved && saved.v===2 && !saved.over){ $('#resumeBox').hidden=false; $('#resum
 renderSetup(); resize(); probeVoice();
 $('#loading').remove(); $('#setup').hidden=false;
 </script>
+
 
 </body>
 </html>
