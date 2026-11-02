@@ -1,3 +1,4 @@
+import { aAcces } from './_lib.js';
 // Voix en ligne Kounouzi : le navigateur envoie une phrase, le serveur la fait dire par ElevenLabs.
 // La clé reste sur le serveur (variables ELEVENLABS_API_KEY et ELEVENLABS_VOICE_ID dans Vercel).
 // Le texte voyage dans l'URL : chaque phrase est mise en cache par le CDN et n'est payée qu'une fois.
@@ -12,6 +13,7 @@ const TONES = {
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
 
 export async function GET(request) {
+  if (!aAcces(request)) return new Response('Accès réservé', { status: 401 });
   const url = new URL(request.url);
   const key = process.env.ELEVENLABS_API_KEY, voice = process.env.ELEVENLABS_VOICE_ID;
   const missing = [!key && 'ELEVENLABS_API_KEY', !voice && 'ELEVENLABS_VOICE_ID'].filter(Boolean);

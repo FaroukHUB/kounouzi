@@ -2,7 +2,14 @@
   "framework": null,
   "buildCommand": "",
   "installCommand": "",
+  "outputDirectory": "public",
+  "functions": { "api/jeu.js": { "includeFiles": "private/**" } },
+  "rewrites": [
+    { "source": "/jouer", "destination": "/api/jeu" },
+    { "source": "/data.json", "destination": "/api/jeu?f=data" }
+  ],
   "headers": [
-    { "source": "/img/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] }
+    { "source": "/img/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] },
+    { "source": "/admin.html", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }
   ]
 }

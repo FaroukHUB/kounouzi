@@ -1,3 +1,4 @@
+import { aAcces } from './_lib.js';
 // Effets sonores du jeu, générés par ElevenLabs (sound-generation) puis gardés en cache par le CDN :
 // chaque son n'est payé qu'une seule fois. Seules les clés ci-dessous sont acceptées.
 const SOUNDS = {
@@ -8,6 +9,7 @@ const SOUNDS = {
 };
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
 export async function GET(request) {
+  if (!aAcces(request)) return new Response('Accès réservé', { status: 401 });
   const k = new URL(request.url).searchParams.get('k');
   const key = process.env.ELEVENLABS_API_KEY;
   if (!key) return json(503, { reason: 'unconfigured' });
