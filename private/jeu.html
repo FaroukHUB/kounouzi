@@ -4,7 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0c1626">
-<link rel="icon" href="img/tresor-face.webp">
+<link rel="icon" href="/img/app/favicon-48.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kounouzi">
+
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}</style>
 </head>
 <body>
@@ -92,6 +99,19 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .turnline{display:flex;align-items:center;gap:10px;background:rgba(12,22,38,.82);border:1.5px solid rgba(239,190,76,.3);border-radius:999px;padding:5px 14px 5px 5px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .turnline .av{width:32px;height:32px;border-radius:50%;background:#333 center/cover;border:3px solid var(--c)}
 .turnline b{font-family:var(--display);font-weight:400;font-size:18px;letter-spacing:.02em}
+.turnline .tl{display:flex;flex-direction:column}
+.turnline .st{display:none}
+/* Téléphone en hauteur : la carte du joueur prend la place libre, comme dans une appli */
+@media (max-aspect-ratio:62/100){
+  .turnline{box-sizing:border-box;width:min(100%,520px);border-radius:22px;padding:10px 16px 10px 10px;gap:14px;background:linear-gradient(135deg,rgba(28,48,80,.92),rgba(12,22,38,.92));border-color:color-mix(in srgb,var(--c) 55%,transparent);box-shadow:0 10px 30px rgba(0,0,0,.35),0 0 24px color-mix(in srgb,var(--c) 22%,transparent)}
+  .turnline .av{width:54px;height:54px;border-width:3px}
+  .turnline b{font-size:21px}
+  .turnline .st{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:3px;font-weight:800;font-size:13.5px;color:var(--muted)}
+  .turnline .st i{font-style:normal;white-space:nowrap}
+  .bottom{gap:12px;padding-bottom:max(14px,env(safe-area-inset-bottom,0px))}
+  .actions .main{min-height:62px;font-size:19px;border-radius:20px}
+  .iconbtn{width:56px;height:56px;border-radius:18px}
+}
 .actions{display:flex;gap:10px;width:100%;max-width:520px;align-items:center}
 .actions .main{flex:1;min-height:56px;font-size:18px}
 .iconbtn{width:48px;height:48px;border-radius:14px;background:rgba(12,22,38,.82);border:1.5px solid rgba(255,255,255,.14);display:grid;place-items:center;font-size:20px;flex:0 0 auto}
@@ -689,7 +709,7 @@ let camFocus=false;   // la caméra accompagne le pion pendant son déplacement,
 let sway=0;           // léger balancement permanent : le plateau « respire »
 const camState={target:new THREE.Vector3(), dist:14, az:0, pol:0};
 let overviewDist=14, viewDy=0;
-const polar = ()=> camera.aspect<.9 ? 0.5 : 0.68; // plus vu du dessus sur téléphone
+const polar = ()=> camera.aspect<.62 ? 0.34 : camera.aspect<.9 ? 0.46 : 0.68; // téléphone : presque vu du dessus, le plateau remplit l'écran
 function camPosFor(target,dist,az=0,pol=polar()){ return new THREE.Vector3(target.x+Math.sin(pol)*dist*Math.sin(az), target.y+Math.cos(pol)*dist, target.z+Math.sin(pol)*dist*Math.cos(az)); }
 function band(){
   const h=innerHeight; let top=8, bot=h-8;
@@ -704,7 +724,7 @@ function fitOverview(){
   for(let d=5; d<60; d+=.1){ camera.position.copy(camPosFor(tgt,d)); camera.lookAt(tgt); camera.updateMatrixWorld();
     let minX=9,maxX=-9,minY=9,maxY=-9; pts.forEach(v=>{const q=v.clone().project(camera); minX=Math.min(minX,q.x);maxX=Math.max(maxX,q.x);minY=Math.min(minY,q.y);maxY=Math.max(maxY,q.y);});
     // Marge sur les côtés : rien ne passe sous les coins arrondis de l'écran, même quand la caméra se balance.
-    if(maxX-minX<=1.82 && maxY-minY<=bandH*.94){ best=d; cy=(minY+maxY)/2; break; } }
+    if(maxX-minX<=(camera.aspect<.9?1.9:1.82) && maxY-minY<=bandH*.95){ best=d; cy=(minY+maxY)/2; break; } }
   viewDy = ((B.top+B.bot)/2 - cy) * innerHeight/2;
   return best;
 }
@@ -794,7 +814,7 @@ function chipHTML(p){ return `<div class="chip${p.seat===S.turn?' active':''}" i
 function renderHUD(){
   $('#chips').innerHTML = S.players.map(chipHTML).join('') + `<div class="chip caisse" id="chipCaisse"><div class="nm">Caisse Masākīn</div><div class="mn"><span>${fmt(S.caisse)}</span><small>K</small></div></div>`;
   const p=cur(); $('#turnline').style.setProperty('--c',p.hex);
-  $('#turnline').innerHTML=`<div class="av" style="background-image:url(${avatarFor(p)})"></div><b>Au tour de ${esc(p.name)}</b>`;
+  $('#turnline').innerHTML=`<div class="av" style="background-image:url(${avatarFor(p)})"></div><div class="tl"><b>Au tour de ${esc(p.name)}</b><span class="st"><i>💰 ${fmt(p.money)} K</i><i>✨ ${p.hassanat} Hassanāt</i><i>🏛 ${fmt(heritageOf(p))} K</i></span></div>`;
 }
 function toast(msg,ms=2600){ document.querySelectorAll('.toast').forEach(t=>t.remove()); const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),ms); }
 function anchorOf(who){
@@ -1419,5 +1439,6 @@ $('#loading').remove(); $('#setup').hidden=false;
 </script>
 
 
+<script>if('serviceWorker' in navigator) addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));</script>
 </body>
 </html>
