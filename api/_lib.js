@@ -56,3 +56,53 @@ export const json = (status, body, headers = {}) => new Response(JSON.stringify(
 export const origine = (request) => { const u = new URL(request.url); return `${u.protocol}//${u.host}`; };
 export const moyens = () => ({ stripe: !!process.env.STRIPE_SECRET_KEY, chargily: !!process.env.CHARGILY_SECRET_KEY });
 export const chargilyBase = () => (process.env.CHARGILY_SECRET_KEY || '').startsWith('test_') ? 'https://pay.chargily.net/test/api/v2' : 'https://pay.chargily.net/api/v2';
+
+// ---------- Base de données (Supabase, schéma kounouzi, via la fonction kz_api) ----------
+export const dbActive = () => !!(process.env.KZ_DB_URL && process.env.KZ_DB_KEY && process.env.KZ_DB_TOKEN);
+export async function db(action, data = {}, { timeout = 5000 } = {}) {
+  if (!dbActive()) throw new Error('base non configurée');
+  const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), timeout);
+  try {
+    const r = await fetch(`${process.env.KZ_DB_URL}/rest/v1/rpc/kz_api`, {
+      method: 'POST', signal: ctl.signal,
+      headers: { apikey: process.env.KZ_DB_KEY, 'content-type': 'application/json' },
+      body: JSON.stringify({ p_token: process.env.KZ_DB_TOKEN, p_action: action, p_data: data }),
+    });
+    const out = await r.json().catch(() => null);
+    if (!r.ok) throw new Error((out && out.message) || `base ${r.status}`);
+    return out;
+  } finally { clearTimeout(t); }
+}
+// Enregistrement « au mieux » : ne bloque jamais le joueur si la base est lente ou absente.
+export async function noter(action, data) { try { if (dbActive()) await db(action, data, { timeout: 1500 }); } catch (e) { console.error('noter', action, e.message); } }
+
+// Appareil : un identifiant au hasard, gardé dans un cookie (aucune donnée personnelle).
+export function appareil(request) {
+  let id = lireCookie(request, 'kz_dev');
+  const nouveau = !id || !/^[A-Za-z0-9_-]{10,40}$/.test(id);
+  if (nouveau) id = randomBytes(12).toString('base64url');
+  return { id, cookie: nouveau ? `kz_dev=${id}; Path=/; Max-Age=${60 * 60 * 24 * 365 * 5}; HttpOnly; Secure; SameSite=Lax` : null };
+}
+export const lieu = (request) => {
+  const h = request.headers;
+  let ville = h.get('x-vercel-ip-city'); try { ville = ville ? decodeURIComponent(ville) : null; } catch {}
+  return { pays: h.get('x-vercel-ip-country') || null, ville };
+};
+export const resume = (ua = '') => /iPhone|iPad/.test(ua) ? 'iPhone/iPad' : /Android/.test(ua) ? 'Android' : /Macintosh/.test(ua) ? 'Mac' : /Windows/.test(ua) ? 'Windows' : 'Autre';
+
+// Code désactivé depuis le tableau de bord ? (mémoire de 60 s pour ne pas interroger la base à chaque fois)
+const REV = new Map();
+export const oublierRevocation = (code) => REV.delete(formater(code));
+export async function revoqueEnBase(code) {
+  if (!dbActive()) return false;
+  const c = formater(code), m = REV.get(c);
+  if (m && Date.now() - m.t < 60000) return m.v;
+  try { const r = await db('revoque', { code: c }, { timeout: 2000 }); REV.set(c, { v: !!r?.revoque, t: Date.now() }); return !!r?.revoque; }
+  catch { return m ? m.v : false; }
+}
+export async function accesValide(request) {
+  const code = lireCookie(request, 'kz');
+  try { if (!codeValide(code)) return null; } catch { return null; }
+  if (await revoqueEnBase(code)) return null;
+  return formater(code);
+}

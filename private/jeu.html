@@ -265,20 +265,24 @@ const N = CELLS.length; // 28
 const COLORS = [
   {id:'rouge',hex:'#d2443c',name:'Rouge'},{id:'bleu',hex:'#2f6fd6',name:'Bleu'},{id:'vert',hex:'#3e9b4f',name:'Vert'},
   {id:'ambre',hex:'#e8a33a',name:'Ambre'},{id:'violet',hex:'#8a4fc9',name:'Violet'},{id:'blanc',hex:'#efe9dc',name:'Blanc'}];
-const THEMES = ['religion','maths','geography','sciences','logic','management'];
+// Réglages modifiables depuis le tableau de bord (DATA.reglages) ; sinon les valeurs par défaut.
+const RG = DATA.reglages || {};
+const ALL_THEMES = ['religion','maths','geography','sciences','logic','management'];
+const THEMES = (Array.isArray(RG.themes)? RG.themes.filter(t=>ALL_THEMES.includes(t)) : []).length ? RG.themes.filter(t=>ALL_THEMES.includes(t)) : ALL_THEMES;
 const THEME_INFO = {
   religion:{fr:'Religion',card:'religion'}, maths:{fr:'Mathématiques',card:'maths'}, geography:{fr:'Histoire & Géographie',card:'histoire-geo'},
   logic:{fr:'Logique',card:'logique'}, management:{fr:'Gestion',card:'gestion'}, sciences:{fr:'Sciences & Nature',card:'sciences'}};
 // Le Chemin : six blocs de cinq valeurs, chacun contient 1,2,3,4,5 une fois. Jamais deux fois la même valeur de suite.
 const CYCLE = [[1,3,5,2,4],[3,5,2,4,1],[5,2,4,1,3],[2,4,1,3,5],[4,1,3,5,2],[3,1,4,2,5]].flat();
 // Économie du jeu (relevée : les gains de la V1 étaient des valeurs de démonstration trop faibles).
-const ECO = { qGood:100, qPartial:50, startPass:200, treasure:200, duelWin:150, duelTie:50, familyX:2, donation:30, donationHassanat:10, visitRate:.15 };
+const ECO = { qGood:100, qPartial:50, startPass:200, treasure:200, duelWin:150, duelTie:50, familyX:2, donation:30, donationHassanat:10, visitRate:.15, ...(RG.eco||{}) };
 const visitFee = c => Math.round(c.prix*ECO.visitRate/5)*5;   // 300 K → 45 K … 850 K → 130 K
 const famReward = d => d.rw*ECO.familyX;
 // Rotation des cases Défi : le Défi famille revient une fois sur deux, les Hassanāt arrivent en 2e.
-const CHAL_ROT = ['family','hassanat','family','duel','family','question'];
+const CHAL_ROT = Array.isArray(RG.defis)&&RG.defis.length? RG.defis : ['family','hassanat','family','duel','family','question'];
 const SERVICE = {maktaba:'un livre',madinah_hotel:'un séjour',makkah_hotel:'un séjour',maghreb_restaurant:'un repas',umrah_agency:'un voyage',museum:'un billet',park:'un billet'};
-const DURATIONS = [{id:'rapide',lbl:'Rapide',min:30},{id:'classique',lbl:'Classique',min:45},{id:'grande',lbl:'Grande',min:60},{id:'libre',lbl:'Libre',min:null}];
+const DUR_RG = RG.durees||{};
+const DURATIONS = [{id:'rapide',lbl:'Rapide',min:DUR_RG.rapide||30},{id:'classique',lbl:'Classique',min:DUR_RG.classique||45},{id:'grande',lbl:'Grande',min:DUR_RG.grande||60},{id:'libre',lbl:'Libre',min:null}];
 const $ = s=>document.querySelector(s);
 // Pause : tout le jeu s'arrête (attentes, animations, chronomètre, voix) tant que le menu est ouvert.
 let paused=false, pausedAt=0;
@@ -448,6 +452,13 @@ let S = null;           // état sauvegardé au début de chaque tour
 const SAVE='kounouzi_v2_game', PLAYERS='kounouzi_v2_players', GAMENO='kounouzi_v2_gameno', ELAPSED='kounouzi_v2_elapsed';
 const save = ()=>{ if(S) store.set(SAVE,S); };
 const cur = ()=>S.players[S.turn];
+// Statistiques anonymes pour le tableau de bord (jamais de prénom) : début et fin de partie, réponses.
+const ageBand = p=> !p.child? 'adulte' : (p.age<=6?'5-6': p.age<=8?'7-8': p.age<=10?'9-10': p.age<=12?'11-12':'13+');
+function track(kind,payload){ try{ const body=JSON.stringify({kind,...payload}); if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/stat',new Blob([body],{type:'text/plain'})))) fetch('/api/stat',{method:'POST',body,keepalive:true}).catch(()=>{}); }catch{} }
+let ANS=[];
+function flushAnswers(){ if(ANS.length){ track('reponses',{liste:ANS}); ANS=[]; } }
+function trackAnswer(p,q,theme,res){ ANS.push({qid:q.id,theme,band:q.a||null,d:q.d,res,child:!!p.child}); if(ANS.length>=5) flushAnswers(); }
+addEventListener('pagehide',flushAnswers); document.addEventListener('visibilitychange',()=>{ if(document.hidden) flushAnswers(); });
 
 function newGame(defs, durMin){
   const gameNo = (store.get(GAMENO)||0)+1; store.set(GAMENO,gameNo);
@@ -457,6 +468,7 @@ function newGame(defs, durMin){
   S.players.forEach(p=>THEMES.forEach(t=>{p.levels[t]=startLevel(p); p.streak[t]=0;}));
   store.set(ELAPSED,0);
   save();
+  track('partie_debut',{data:{joueurs:S.players.length, mode:(DURATIONS.find(x=>x.min===durMin)||{id:'libre'}).id, ages:S.players.map(ageBand), partie:gameNo}});
 }
 function heritageOf(p){ return Object.entries(S.owners).filter(([,o])=>o===p.seat).reduce((s,[pos])=>s+CELLS[pos].val,0); }
 const scoreOf = p=> p.money + heritageOf(p) + p.hassanat*5;
@@ -889,11 +901,14 @@ function selectQuestion(p, theme){
   const pool=poolFor(p,theme), table=new Set(S.usedQ), seen=seenOf(p), seenSet=new Set(seen);
   // 1) jamais vue par ce joueur et pas encore posée à la table
   let cands=pool.filter(q=>!seenSet.has(q.id) && !table.has(q.id));
+  // Poids 0 = question mise de côté ; « prioritaire » = posée avant les autres tant qu'elle n'a pas été vue.
+  const usable=cands.filter(q=>(q.w??1)>0); if(usable.length) cands=usable;
+  const prio=cands.filter(q=>q.prio); if(prio.length) cands=prio;
   // 2) toutes vues : on recommence le cycle de cette série, en évitant les 15 dernières
-  if(!cands.length){ const ids=new Set(pool.map(q=>q.id)); SEEN[p.name.toLowerCase()] = seen.filter(id=>!ids.has(id)); const recent=new Set(seen.slice(-15)); cands=pool.filter(q=>!table.has(q.id)&&!recent.has(q.id)); if(!cands.length) cands=pool; }
+  if(!cands.length){ const ids=new Set(pool.map(q=>q.id)); SEEN[p.name.toLowerCase()] = seen.filter(id=>!ids.has(id)); const recent=new Set(RG.eviter===0?[]:seen.slice(-(RG.eviter||15))); cands=pool.filter(q=>!table.has(q.id)&&!recent.has(q.id)); if(!cands.length) cands=pool; }
   // Le niveau du joueur oriente le tirage (questions proches de son niveau plus probables) sans enfermer dans 5 questions.
   if(p.levels[theme]===undefined){ p.levels[theme]=startLevel(p); p.streak[theme]=0; }
-  const lvl=p.levels[theme]; const w=cands.map(q=>1/(1+Math.abs(q.d-lvl)*1.5)); let r=Math.random()*w.reduce((x,y)=>x+y,0), i=0; while(r>w[i]){ r-=w[i]; i++; }
+  const lvl=p.levels[theme]; const w=cands.map(q=>(q.w??1)/(1+Math.abs(q.d-lvl)*1.5)+1e-9); let r=Math.random()*w.reduce((x,y)=>x+y,0), i=0; while(r>w[i]){ r-=w[i]; i++; }
   const q=cands[Math.min(i,cands.length-1)];
   S.usedQ.push(q.id); seenOf(p).push(q.id); if(seenOf(p).length>1200) seenOf(p).splice(0,200); store.set(SEEN_KEY,SEEN);
   return q;
@@ -912,7 +927,7 @@ async function askQuestion(p, {theme, title, intro}={}){
   q = q || selectQuestion(p,theme); const ti=THEME_INFO[theme];
   const C=openCard({face:ti.card, back:ti.card});
   let lang='fr'; const hasAr=!!q.q.ar;
-  const secs = p.child?60:45; let left=secs, timer=null, revealed=false;
+  const secs = p.child?(RG.minuteur?.enfant||60):(RG.minuteur?.adulte||45); let left=secs, timer=null, revealed=false;
   function draw(){
     const L = lang==='ar'&&hasAr? 'ar':'fr'; const dir = L==='ar'?'rtl':'ltr';
     C.win.innerHTML = `<div class="meta"><span class="tag">${title?esc(title):ti.fr}</span><span class="tag">Niveau ${q.d}</span><span class="tag">${esc(p.name)}</span></div>
@@ -945,7 +960,7 @@ async function askQuestion(p, {theme, title, intro}={}){
   const stopEar = listenVerdict(C.el, wrap, revealVoice);
   const res = await verdict; stopEar();
   const mult = chk.querySelector('input').checked && res!=='wrong' ? 2:1;
-  C.close(); adapt(p,theme,res);
+  C.close(); adapt(p,theme,res); trackAnswer(p,q,theme,res);
   const spoken = sayWait(PH[res](p.name)+gainText(res,mult),5000);
   if(res==='good') { vibrate([30,40,30]); fxParty(); sfx('bravo'); await pay('bank',p,ECO.qGood*mult); }
   else if(res==='partial') { fxParty(false); sfx('presque'); await pay('bank',p,ECO.qPartial*mult); }
@@ -1322,6 +1337,7 @@ $('#menuBtn').onclick=()=>{
   };
 };
 function showEnd(){
+  flushAnswers(); if(!S.tracked){ S.tracked=true; save(); track('partie_fin',{data:{joueurs:S.players.length, tours:S.round, minutes:Math.round((store.get(ELAPSED)||0)/60000), partie:S.gameNo}}); }
   idleMain('Partie terminée'); camMode='overview'; moveCam(900);
   const ranked=[...S.players].sort((a,b)=>scoreOf(b)-scoreOf(a)||b.money-a.money||a.seat-b.seat);
   const max=Math.max(...ranked.map(scoreOf),1);

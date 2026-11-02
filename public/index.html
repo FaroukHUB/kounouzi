@@ -423,7 +423,8 @@ function ouvert(){
   $$('[data-hide-acces]').forEach(a=>a.hidden=true);
   $('#playBtn').hidden=false; $('#codeMsg').className='msg ok'; $('#codeMsg').textContent='Kounouzi est ouvert sur cet appareil.';
 }
-fetch('/api/code').then(r=>r.json()).then(d=>{
+const sp=new URLSearchParams(location.search), vq=new URLSearchParams({v:'1',ref:document.referrer||''}); if(sp.get('utm_source')) vq.set('utm',sp.get('utm_source'));
+fetch('/api/code?'+vq).then(r=>r.json()).then(d=>{
   if(d.prix){ $$('[data-prix]').forEach(e=>e.textContent=eur(d.prix.eur)); $$('[data-prix-dzd]').forEach(e=>e.textContent=dzd(d.prix.dzd)); }
   const m=d.moyens||{}; let any=false;
   $$('[data-moyen]').forEach(a=>{ const on=!!m[a.dataset.moyen]; a.hidden=!on; any=any||on; });

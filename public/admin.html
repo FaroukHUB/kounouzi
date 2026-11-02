@@ -1,49 +1,428 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin — Kounouzi</title><meta name="robots" content="noindex"><meta name="theme-color" content="#0c1626"><link rel="icon" href="/img/tresor-face.webp">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@600;800;900&display=swap">
+<title>Tableau de bord — Kounouzi</title><meta name="robots" content="noindex"><meta name="theme-color" content="#0c1626"><link rel="icon" href="/img/tresor-face.webp">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@600;700;800;900&family=Noto+Naskh+Arabic:wght@500;700&display=swap">
 <style>
-:root{--night:#0c1626;--n2:#14243b;--gold:#efbe4c;--gold-deep:#b9821d;--parchment:#f7ecd4;--muted:#9fb0c7;--emerald:#3ddc84}
-*{box-sizing:border-box}html,body{margin:0;background:var(--night);color:var(--parchment);font-family:Nunito,system-ui,sans-serif}
-main{width:min(760px,100% - 32px);margin:32px auto 60px;display:grid;gap:18px}
-h1{font-family:"Lilita One",sans-serif;font-weight:400;color:var(--gold);margin:0;font-size:34px}
-h2{font-family:"Lilita One",sans-serif;font-weight:400;margin:0 0 10px;font-size:22px}
-.card{background:var(--n2);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:20px}
+:root{--night:#0c1626;--n2:#14243b;--n3:#1b2f4d;--line:rgba(255,255,255,.08);--gold:#efbe4c;--gold-deep:#b9821d;--parchment:#f7ecd4;--muted:#9fb0c7;--faint:#6d7f99;--good:#3ddc84;--bad:#ff8f7a;--warn:#ffb84a;--bar:#efbe4c;--bar2:#36d6ff}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0;background:var(--night);color:var(--parchment);font:600 15px/1.45 Nunito,system-ui,sans-serif}
+h1,h2,h3{font-family:"Lilita One",sans-serif;font-weight:400;margin:0;letter-spacing:.01em}
+h1{color:var(--gold);font-size:28px}h2{font-size:21px;margin-bottom:12px}h3{font-size:17px;margin-bottom:10px}
+.ar{font-family:"Noto Naskh Arabic",serif}
+a{color:var(--gold)}
+button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{border-radius:10px;border:1.5px solid rgba(255,255,255,.14);background:rgba(0,0,0,.25);color:var(--parchment);padding:9px 11px;min-width:0}
+textarea{width:100%;resize:vertical;min-height:62px}
+select option{background:#14243b}
+.btn{border:0;border-radius:999px;padding:9px 16px;font-weight:900;cursor:pointer;background:linear-gradient(180deg,#ffd978,var(--gold) 45%,var(--gold-deep));color:#3a2606;white-space:nowrap}
+.btn.g{background:rgba(255,255,255,.08);color:var(--parchment);border:1.5px solid rgba(255,255,255,.16)}
+.btn.r{background:rgba(255,143,122,.14);color:var(--bad);border:1.5px solid rgba(255,143,122,.35)}
+.btn.sm{padding:6px 12px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+.wrap{width:min(1240px,100% - 32px);margin:0 auto}
+header.top{position:sticky;top:0;z-index:20;background:rgba(12,22,38,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:16px;min-height:62px;flex-wrap:wrap;padding:8px 0}
+nav.tabs{display:flex;gap:4px;margin-inline-start:auto;flex-wrap:wrap}
+nav.tabs button{background:none;border:0;padding:9px 14px;border-radius:999px;font-weight:900;color:var(--muted);cursor:pointer}
+nav.tabs button[aria-selected=true]{background:rgba(239,190,76,.15);color:var(--gold)}
+main{padding:22px 0 60px}
+.card{background:var(--n2);border:1px solid var(--line);border-radius:18px;padding:18px}
+.grid{display:grid;gap:14px}
+.kpis{grid-template-columns:repeat(auto-fill,minmax(178px,1fr))}
+.kpi{padding:16px}
+.kpi .l{color:var(--muted);font-weight:800;font-size:13px}
+.kpi .v{font-family:"Lilita One",sans-serif;font-size:34px;line-height:1.1;color:var(--parchment);margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi .s{color:var(--muted);font-size:12.5px;font-weight:700;margin-top:2px}
+.kpi.hl .v{color:var(--gold)}
+.two{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.sec{margin-top:26px}
+.sec>h2{display:flex;align-items:center;gap:10px}
+.muted{color:var(--muted)}.small{font-size:13px}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.tip{position:absolute;pointer-events:none;background:#0b1424;border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:7px 10px;font-size:13px;font-weight:800;white-space:nowrap;transform:translate(-50%,-110%);z-index:3}
+.hbars{display:grid;gap:8px}
+.hb{display:grid;grid-template-columns:minmax(90px,150px) 1fr 52px;gap:10px;align-items:center;font-size:14px}
+.hb .tr{height:12px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}
+.hb .tr i{display:block;height:100%;border-radius:999px;background:var(--bar)}
+.hb .n{text-align:end;font-variant-numeric:tabular-nums;color:var(--muted);font-weight:800}
+.empty{color:var(--faint);font-weight:700;padding:14px 0}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:start;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-size:12.5px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;position:sticky;top:0;background:var(--n2)}
+.tscroll{overflow:auto;max-height:70vh;border-radius:12px}
+.mono{font-family:ui-monospace,Menlo,monospace;font-weight:700;letter-spacing:.03em}
+.tag{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:900;background:rgba(255,255,255,.08);color:var(--muted);white-space:nowrap}
+.tag.good{background:rgba(61,220,132,.14);color:var(--good)}.tag.bad{background:rgba(255,143,122,.14);color:var(--bad)}.tag.warn{background:rgba(255,184,74,.14);color:var(--warn)}.tag.gold{background:rgba(239,190,76,.16);color:var(--gold)}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-input{flex:1 1 180px;min-width:0;border-radius:12px;border:1.5px solid rgba(255,255,255,.16);background:rgba(0,0,0,.25);color:var(--parchment);font:800 16px Nunito;padding:12px 14px}
-input[type=number]{flex:0 0 90px}
-button{border:0;border-radius:999px;padding:12px 20px;font:900 15px Nunito;cursor:pointer;background:linear-gradient(180deg,#ffd978,var(--gold) 45%,var(--gold-deep));color:#3a2606}
-button.g{background:rgba(255,255,255,.08);color:var(--parchment);border:1.5px solid rgba(255,255,255,.18)}
-p{color:var(--muted);margin:0 0 12px}
-.out{margin-top:14px;display:grid;gap:8px}
-.code{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 14px;border-radius:12px;background:rgba(0,0,0,.25);font:900 17px Nunito,monospace;letter-spacing:.06em;flex-wrap:wrap}
-.code small{font:700 13px Nunito;color:var(--muted);letter-spacing:0}
-.ok{color:var(--emerald);font-weight:900}.bad{color:#ff8f7a;font-weight:900}
-[hidden]{display:none!important}
-</style></head><body><main>
-<h1>Kounouzi · admin</h1>
-<div class="card" id="login"><h2>Connexion</h2><form class="row" id="lf"><input type="password" id="pw" placeholder="Mot de passe (KZ_ADMIN)" autocomplete="current-password" required><button>Entrer</button></form><p class="bad" id="lerr" style="margin-top:10px"></p></div>
-<div id="app" hidden style="display:grid;gap:18px">
-  <div class="card"><h2>🎁 Créer des codes cadeaux</h2><p>Chaque code ouvre Kounouzi pour une famille, sur tous ses appareils. Lien direct à envoyer : le code est déjà rempli.</p>
-    <div class="row"><input type="number" id="nb" value="1" min="1" max="50"><button id="mk">Créer</button><button class="g" id="cpall" hidden>Tout copier</button></div><div class="out" id="mkout"></div></div>
-  <div class="card"><h2>🔎 Vérifier un code</h2><div class="row"><input id="vc" placeholder="KZ-XXXX-XXXX-XXXX"><button id="vb">Vérifier</button></div><div class="out" id="vout"></div></div>
-  <div class="card"><h2>📨 Retrouver le code d'un acheteur</h2><p>Par l'e-mail du paiement par carte (Stripe), ou par la référence du paiement Chargily.</p>
-    <div class="row"><input id="em" type="email" placeholder="email@exemple.com"><input id="ch" placeholder="Référence Chargily (facultatif)"><button id="rb">Chercher</button></div><div class="out" id="rout"></div></div>
-  <div class="card"><h2>⛔ Désactiver un code</h2><p>Ajoute le code dans la variable Vercel <b>KZ_REVOQUES</b> (codes séparés par des virgules), puis redéploie.</p></div>
+.row>input,.row>select{flex:1 1 160px}
+.row>input[type=checkbox]{flex:0 0 auto;width:18px;height:18px}
+input[type=checkbox],input[type=range]{accent-color:var(--gold)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.toolbar input[type=search]{flex:1 1 220px}
+.qrow{cursor:pointer}.qrow:hover td{background:rgba(255,255,255,.03)}
+.qtext{max-width:520px}
+.note-in{width:100%;background:transparent;border-color:transparent;padding:4px 6px}
+.note-in:hover,.note-in:focus{border-color:rgba(255,255,255,.18);background:rgba(0,0,0,.2)}
+dialog{border:1px solid rgba(255,255,255,.14);border-radius:20px;background:var(--n2);color:var(--parchment);padding:0;width:min(820px,100% - 24px);max-height:92vh}
+dialog::backdrop{background:rgba(4,8,16,.7)}
+.dlg{padding:20px;display:grid;gap:12px;overflow:auto;max-height:92vh}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.f2{grid-template-columns:1fr}}
+label.f{display:grid;gap:5px;font-size:13px;font-weight:900;color:var(--muted)}
+label.f small{font-weight:700;color:var(--faint)}
+.msg{font-weight:800;min-height:20px}.msg.ok{color:var(--good)}.msg.err{color:var(--bad)}
+.toast{position:fixed;inset-inline:0;bottom:22px;margin:auto;width:max-content;max-width:90vw;background:#0b1424;border:1.5px solid var(--gold);border-radius:14px;padding:10px 16px;font-weight:800;z-index:50}
+.order li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.04);margin-bottom:6px}
+.order{list-style:none;padding:0;margin:0}
+.order li b{flex:1}
+.eco{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.banner{padding:12px 16px;border-radius:14px;background:rgba(255,184,74,.1);border:1px solid rgba(255,184,74,.3);color:var(--warn);font-weight:800}
+.login{max-width:420px;margin:12vh auto 0}
+</style></head><body>
+
+<section id="login" class="wrap login">
+  <div class="card grid" style="gap:14px"><h1>Kounouzi · tableau de bord</h1>
+    <form class="row" id="lf"><input type="password" id="pw" placeholder="Mot de passe" autocomplete="current-password" required><button class="btn">Entrer</button></form>
+    <div class="msg err" id="lerr"></div></div>
+</section>
+
+<div id="app" hidden>
+<header class="top"><div class="wrap">
+  <h1>Kounouzi</h1>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="vue" aria-selected="true">Vue d'ensemble</button>
+    <button role="tab" data-tab="codes">Codes</button>
+    <button role="tab" data-tab="questions">Questions</button>
+    <button role="tab" data-tab="reglages">Réglages du jeu</button>
+    <button role="tab" data-tab="outils">Outils</button>
+  </nav>
+  <button class="btn g sm" id="logout">Quitter</button>
+</div></header>
+
+<main class="wrap">
+  <div class="banner" id="nobase" hidden>La base de données n'est pas encore branchée : les statistiques et l'éditeur de questions seront vides.</div>
+
+  <!-- VUE D'ENSEMBLE -->
+  <section data-panel="vue">
+    <div class="row" style="justify-content:space-between;margin-bottom:14px"><h2 style="margin:0">Vue d'ensemble</h2><span class="muted small" id="maj"></span><button class="btn g sm" id="refresh">Actualiser</button></div>
+    <div class="grid kpis" id="kpis"></div>
+
+    <div class="sec grid two">
+      <div class="card"><h3>Parties lancées · 30 derniers jours</h3><div class="chart" id="chParties"></div></div>
+      <div class="card"><h3>Visites de la page · 30 derniers jours</h3><div class="chart" id="chVisites"></div></div>
+    </div>
+
+    <div class="sec"><h2>Comment ils jouent</h2>
+      <div class="grid two">
+        <div class="card"><h3>Âge des joueurs</h3><div class="hbars" id="hbAges"></div></div>
+        <div class="card"><h3>Durée choisie</h3><div class="hbars" id="hbModes"></div></div>
+      </div>
+    </div>
+
+    <div class="sec"><h2>Qualité des questions</h2>
+      <div class="grid two">
+        <div class="card"><h3>Réussite par thème <span class="muted small">(bonne = 100 %, en partie = 50 %)</span></h3><div class="hbars" id="hbThemes"></div></div>
+        <div class="card"><h3>Réussite par tranche d'âge</h3><div class="hbars" id="hbBands"></div></div>
+      </div>
+      <div class="grid two" style="margin-top:14px">
+        <div class="card"><h3>À revoir : les plus ratées <span class="muted small">(posées au moins 3 fois)</span></h3><div id="lsHard"></div></div>
+        <div class="card"><h3>Les plus posées</h3><div id="lsFreq"></div></div>
+      </div>
+    </div>
+
+    <div class="sec"><h2>D'où viennent les visiteurs</h2>
+      <div class="grid two">
+        <div class="card"><h3>Pays</h3><div class="hbars" id="hbPays"></div></div>
+        <div class="card"><h3>Sources</h3><div class="hbars" id="hbSources"></div><p class="muted small" style="margin:10px 0 0">Astuce : ajoute <span class="mono">?utm_source=instagram</span> à ton lien pour savoir d'où viennent les visiteurs.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CODES -->
+  <section data-panel="codes" hidden>
+    <div class="card"><h2>🎁 Offrir des codes</h2>
+      <div class="row"><input type="number" id="nb" value="1" min="1" max="50" style="flex:0 0 90px"><input id="nbNote" placeholder="Pour qui ? (ex. Famille Benali, École Al-Nour…)"><button class="btn" id="mk">Créer</button></div>
+      <div id="mkout" class="grid" style="gap:8px;margin-top:12px"></div>
+    </div>
+    <div class="card sec">
+      <div class="toolbar"><h2 style="margin:0">Tous les codes</h2><span class="tag" id="codesCount"></span>
+        <input type="search" id="cq" placeholder="Chercher un code, une note, un e-mail…">
+        <select id="cf"><option value="">Tous</option><option value="cadeau">Cadeaux</option><option value="achat">Achats</option><option value="actifs">Utilisés</option><option value="dormants">Jamais utilisés</option><option value="revoques">Désactivés</option></select>
+        <button class="btn g sm" id="csv">Exporter (CSV)</button></div>
+      <div class="tscroll"><table><thead><tr><th>Code</th><th>Type</th><th>Note</th><th>1re utilisation</th><th>Appareils</th><th>Parties</th><th>Dernière activité</th><th></th></tr></thead><tbody id="codesBody"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- QUESTIONS -->
+  <section data-panel="questions" hidden>
+    <div class="card">
+      <div class="toolbar"><h2 style="margin:0">Questions</h2><span class="tag" id="qCount"></span>
+        <input type="search" id="qq" placeholder="Chercher dans les questions et réponses…">
+        <select id="qt"><option value="">Tous les thèmes</option></select>
+        <select id="qa"><option value="">Tous les âges</option></select>
+        <select id="qs"><option value="">Tous les statuts</option><option value="publiee">Publiées</option><option value="brouillon">Brouillons</option><option value="archivee">Archivées</option></select>
+        <select id="qo"><option value="theme">Trier : thème</option><option value="taux">Les plus ratées</option><option value="n">Les plus posées</option><option value="recent">Modifiées récemment</option></select>
+        <button class="btn" id="qnew">+ Nouvelle question</button></div>
+      <p class="muted small" style="margin:0 0 10px">Les changements arrivent dans le jeu en moins d'une minute, pour les nouvelles parties. Les questions de religion ne peuvent être publiées qu'avec leur source et leur explication en français et en arabe.</p>
+      <div class="tscroll"><table><thead><tr><th>Question</th><th>Thème</th><th>Âge</th><th>Niv.</th><th>Posée</th><th>Réussite</th><th>Statut</th></tr></thead><tbody id="qBody"></tbody></table></div>
+      <div class="row" style="justify-content:center;margin-top:12px"><button class="btn g" id="qmore" hidden>Afficher plus</button></div>
+    </div>
+  </section>
+
+  <!-- RÉGLAGES -->
+  <section data-panel="reglages" hidden>
+    <div class="grid two">
+      <div class="card"><h2>Ordre des thèmes</h2><p class="muted small" style="margin-top:0">Chaque joueur reçoit les thèmes dans cet ordre, à tour de rôle. Décoche un thème pour le retirer du jeu.</p><ul class="order" id="thOrder"></ul></div>
+      <div class="card"><h2>Cases Défi</h2><p class="muted small" style="margin-top:0">Ce qui se passe sur une case Défi, dans l'ordre, puis ça recommence.</p><ul class="order" id="dfOrder"></ul><button class="btn g sm" id="dfAdd">+ Ajouter une étape</button></div>
+    </div>
+    <div class="card sec"><h2>Gains et économie</h2><div class="eco" id="ecoF"></div></div>
+    <div class="grid two sec">
+      <div class="card"><h2>Temps et répétitions</h2><div class="grid" style="gap:12px" id="tpsF"></div></div>
+      <div class="card"><h2>Durées des parties</h2><div class="grid" style="gap:12px" id="durF"></div></div>
+    </div>
+    <div class="row sec"><button class="btn" id="rgSave">Enregistrer les réglages</button><button class="btn g" id="rgReset">Revenir aux valeurs d'origine</button><span class="msg" id="rgMsg"></span></div>
+  </section>
+
+  <!-- OUTILS -->
+  <section data-panel="outils" hidden>
+    <div class="grid two">
+      <div class="card"><h2>🔎 Vérifier un code</h2><div class="row"><input id="vc" placeholder="KZ-XXXX-XXXX-XXXX"><button class="btn" id="vb">Vérifier</button></div><div id="vout" style="margin-top:10px"></div></div>
+      <div class="card"><h2>📨 Retrouver le code d'un acheteur</h2><div class="grid" style="gap:10px"><input id="em" type="email" placeholder="E-mail du paiement par carte"><input id="ch" placeholder="ou référence du paiement Chargily"><button class="btn" id="rb">Chercher</button></div><div id="rout" style="margin-top:10px"></div></div>
+    </div>
+    <div class="card sec"><h2>Paiements</h2><div id="payState" class="grid" style="gap:8px"></div></div>
+  </section>
+</main>
 </div>
+
+<dialog id="qdlg"><form class="dlg" id="qform" method="dialog">
+  <div class="row" style="justify-content:space-between"><h2 style="margin:0" id="qdTitle">Question</h2><span class="tag mono" id="qdId"></span></div>
+  <div class="f2">
+    <label class="f">Thème<select name="t" id="fT"></select></label>
+    <div class="f2"><label class="f">Tranche d'âge<select name="a" id="fA"></select></label><label class="f">Niveau<select name="d"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label></div>
+  </div>
+  <div class="f2">
+    <label class="f">Question (français)<textarea name="q_fr" required></textarea></label>
+    <label class="f">Question (arabe) <small>facultatif</small><textarea name="q_ar" dir="rtl" class="ar"></textarea></label>
+    <label class="f">Réponse (français)<textarea name="r_fr" required></textarea></label>
+    <label class="f">Réponse (arabe) <small>facultatif</small><textarea name="r_ar" dir="rtl" class="ar"></textarea></label>
+    <label class="f">Explication (français)<textarea name="e_fr"></textarea></label>
+    <label class="f">Explication (arabe)<textarea name="e_ar" dir="rtl" class="ar"></textarea></label>
+  </div>
+  <label class="f">Source <small>obligatoire pour la religion (livre, auteur)</small><input name="s"></label>
+  <div class="f2">
+    <label class="f">Statut<select name="statut"><option value="publiee">Publiée (dans le jeu)</option><option value="brouillon">Brouillon (pas dans le jeu)</option><option value="archivee">Archivée</option></select></label>
+    <label class="f">Fréquence <small id="poidsLbl"></small><input type="range" name="poids" min="0" max="5" step="0.5"></label>
+  </div>
+  <label class="row" style="gap:10px;font-weight:800;justify-content:flex-start;flex-wrap:nowrap"><input type="checkbox" name="prio"> Prioritaire : posée avant les autres de sa série, tant que le joueur ne l'a pas vue</label>
+  <div id="qdStats" class="muted small"></div>
+  <div class="msg" id="qdMsg"></div>
+  <div class="row" style="justify-content:space-between">
+    <button type="button" class="btn r" id="qdDel">Supprimer</button>
+    <div class="row"><button type="button" class="btn g" id="qdCancel">Annuler</button><button type="submit" class="btn" id="qdSave">Enregistrer</button></div>
+  </div>
+</form></dialog>
+
 <script>
-const $=s=>document.querySelector(s); let PW=sessionStorage.getItem('kzpw')||'';
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-async function api(body){ const r=await fetch('/api/admin',{method:'POST',headers:{'content-type':'application/json','x-admin':PW},body:JSON.stringify(body)}); const d=await r.json(); if(!r.ok) throw new Error(d.erreur||'Erreur'); return d; }
-async function enter(){ try{ await api({action:'entrer'}); sessionStorage.setItem('kzpw',PW); $('#login').hidden=true; $('#app').hidden=false; }catch(e){ $('#lerr').textContent=e.message; } }
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>(n??0).toLocaleString('fr-FR');
+const dt=s=>s? new Date(s).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'2-digit'}) : '—';
+const ago=s=>{ if(!s) return '—'; const m=(Date.now()-new Date(s))/60000; if(m<60) return `il y a ${Math.max(1,Math.round(m))} min`; const h=m/60; if(h<24) return `il y a ${Math.round(h)} h`; const d=h/24; return d<30? `il y a ${Math.round(d)} j` : dt(s); };
+const THEMES={religion:'Religion',maths:'Maths',geography:'Histoire & Géo',sciences:'Sciences',logic:'Logique',management:'Gestion'};
+const BANDS={std:['5-6','7-8','9-10','11-12','13+'],rel:['5-8','8-10','10-12','12-14','14+']};
+const DEFIS={family:'Défi famille',hassanat:'Carte Hassanāt',duel:'Duel',question:'Question bonus'};
+const ECO_L={qGood:['Bonne réponse','Kounouz'],qPartial:['Réponse en partie','Kounouz'],startPass:['Passage par Départ','Kounouz'],treasure:['Case Trésor','Kounouz'],duelWin:['Duel gagné','Kounouz'],duelTie:['Duel à égalité','Kounouz'],familyX:['Multiplicateur Défi famille','×'],donation:['Case Don : montant donné','Kounouz'],donationHassanat:['Case Don : Hassanāt gagnées','points'],visitRate:['Frais de visite d\'un établissement','part du prix (0,15 = 15 %)']};
+let PW=sessionStorage.getItem('kzpw')||'', INFO={};
+function toast(t){ const d=document.createElement('div'); d.className='toast'; d.textContent=t; document.body.appendChild(d); setTimeout(()=>d.remove(),2600); }
+async function api(action,body={}){ const r=await fetch('/api/admin',{method:'POST',headers:{'content-type':'application/json','x-admin':PW},body:JSON.stringify({action,...body})}); const d=await r.json().catch(()=>({erreur:'Réponse illisible'})); if(r.status===401){ sessionStorage.removeItem('kzpw'); } if(!r.ok) throw new Error(d.erreur||'Erreur'); return d; }
+
+/* ---------- Connexion & onglets ---------- */
+async function enter(){ try{ INFO=await api('entrer'); sessionStorage.setItem('kzpw',PW); $('#login').hidden=true; $('#app').hidden=false; $('#nobase').hidden=!!INFO.base; show(location.hash.slice(1)||'vue'); }catch(e){ $('#lerr').textContent=e.message; } }
 $('#lf').onsubmit=e=>{ e.preventDefault(); PW=$('#pw').value; enter(); };
+$('#logout').onclick=()=>{ sessionStorage.removeItem('kzpw'); location.reload(); };
+const loaded={};
+function show(tab){ if(!$(`[data-panel="${tab}"]`)) tab='vue'; $$('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==tab); $$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===tab)); history.replaceState(null,'','#'+tab);
+  if(!loaded[tab]){ loaded[tab]=true; ({vue:loadStats,codes:loadCodes,questions:loadQuestions,reglages:loadReglages,outils:loadOutils})[tab]?.(); } }
+$$('nav.tabs button').forEach(b=>b.onclick=()=>show(b.dataset.tab));
 if(PW) enter();
+
+/* ---------- Vue d'ensemble ---------- */
+const money=o=>{ const p=[]; if(o?.EUR) p.push((o.EUR/100).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})); if(o?.DZD) p.push(fmt(o.DZD)+' DA'); return p.join(' · ')||'0 €'; };
+const pct=(a,b)=> b? Math.round(a/b*1000)/10+' %' : '—';
+function kpi(l,v,s='',hl=false){ return `<div class="card kpi ${hl?'hl':''}"><div class="l">${l}</div><div class="v">${v}</div><div class="s">${s}</div></div>`; }
+async function loadStats(){
+  $('#kpis').innerHTML='<div class="empty">Chargement…</div>';
+  let s; try{ s=await api('stats'); }catch(e){ $('#kpis').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; return; }
+  $('#maj').textContent='Mis à jour à '+new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  if(!s || s.familles===undefined){ $('#kpis').innerHTML='<div class="empty">Pas encore de données.</div>'; return; }
+  $('#kpis').innerHTML=[
+    kpi('Familles inscrites',fmt(s.familles),`+${fmt(s.familles_7j)} cette semaine`,true),
+    kpi('Appareils',fmt(s.appareils),'téléphones, tablettes, ordinateurs'),
+    kpi('Familles actives',fmt(s.actifs_7j),'ont ouvert le jeu ces 7 jours'),
+    kpi('Ventes',fmt(s.ventes),`${fmt(s.ventes_30j)} ces 30 jours`,true),
+    kpi('Revenus',money(s.revenus),'30 jours : '+money(s.revenus_30j)),
+    kpi('Codes offerts',fmt(s.cadeaux),`${fmt(s.cadeaux_utilises)} utilisés (${pct(s.cadeaux_utilises,s.cadeaux)})`),
+    kpi('Visiteurs',fmt(s.visiteurs_30j),`${fmt(s.visites_30j)} visites ces 30 jours`),
+    kpi('Conversion',pct(s.activations_30j,s.visiteurs_30j),'visiteurs → nouveaux codes ouverts (30 j)'),
+    kpi('Parties lancées',fmt(s.parties),`${fmt(s.parties_7j)} ces 7 jours`,true),
+    kpi('Parties finies',fmt(s.parties_finies),pct(s.parties_finies,s.parties)+' des parties'),
+    kpi('Durée moyenne',s.duree_moy!=null? s.duree_moy+' min':'—','des parties finies'),
+    kpi('Joueurs par partie',s.joueurs_moy??'—','en moyenne'),
+    kpi('Familles fidèles',fmt(s.fideles),'ont joué au moins 2 jours différents'),
+    kpi('Jamais joué',fmt(s.jamais_joue),'code ouvert mais aucune partie'),
+    kpi('Réponses données',fmt(s.reponses),''),
+    kpi('Questions dans le jeu',fmt(s.questions?.publiees),`${fmt(s.questions?.brouillons)} brouillons · ${fmt(s.questions?.archivees)} archivées`),
+  ].join('');
+  bars('#chParties',(s.jours||[]).map(j=>({x:j.j,v:j.parties})),'parties','var(--bar)');
+  bars('#chVisites',(s.jours||[]).map(j=>({x:j.j,v:j.visites})),'visites','var(--bar2)');
+  const AGE_ORDER=['5-6','7-8','9-10','11-12','13+','adulte'];
+  hbars('#hbAges',AGE_ORDER.filter(k=>s.ages?.[k]).map(k=>({l:k==='adulte'?'Adultes':k+' ans',v:s.ages[k]})));
+  const ML={rapide:'Rapide',classique:'Classique',grande:'Grande',libre:'Libre'};
+  hbars('#hbModes',Object.entries(s.modes||{}).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({l:ML[k]||k,v})));
+  hbars('#hbThemes',(s.themes||[]).sort((a,b)=>a.taux-b.taux).map(t=>({l:THEMES[t.theme]||t.theme,v:t.taux,max:100,lab:t.taux+' %',sub:fmt(t.n)+' rép.'})),true);
+  hbars('#hbBands',(s.tranches||[]).map(t=>({l:t.band==='?'?'Maths (sans tranche)':t.band+' ans',v:t.taux,max:100,lab:t.taux+' %'})),true);
+  hbars('#hbPays',(s.pays||[]).map(p=>({l:pays(p.pays),v:p.visites})));
+  hbars('#hbSources',(s.sources||[]).map(p=>({l:p.source,v:p.visites})));
+  qlist('#lsHard',s.difficiles,q=>`<span class="tag bad">${q.taux} %</span> <span class="tag">${fmt(q.n)}×</span>`);
+  qlist('#lsFreq',s.frequentes,q=>`<span class="tag gold">${fmt(q.n)}×</span>`);
+}
+$('#refresh').onclick=loadStats;
+const pays=c=>{ if(!c||c==='?') return 'Inconnu'; try{ return new Intl.DisplayNames(['fr'],{type:'region'}).of(c); }catch{ return c; } };
+function qlist(sel,list,badge){ const el=$(sel); if(!list?.length){ el.innerHTML='<div class="empty">Pas encore assez de réponses.</div>'; return; }
+  el.innerHTML='<table><tbody>'+list.map(q=>`<tr class="qrow" data-qid="${esc(q.qid)}"><td class="qtext">${esc(q.texte||q.qid)}<div class="muted small">${esc(THEMES[q.theme]||q.theme||'')}${q.band?' · '+esc(q.band)+' ans':''}</div></td><td style="text-align:end;white-space:nowrap">${badge(q)}</td></tr>`).join('')+'</tbody></table>';
+  el.querySelectorAll('.qrow').forEach(r=>r.onclick=async()=>{ await ensureQuestions(); const q=Q.find(x=>x.id===r.dataset.qid); if(q) openQ(q); }); }
+function hbars(sel,items,isPct=false){ const el=$(sel); if(!items.length){ el.innerHTML='<div class="empty">Pas encore de données.</div>'; return; }
+  const max=Math.max(...items.map(i=>i.max??i.v),1);
+  el.innerHTML=items.map(i=>`<div class="hb" title="${esc(i.l)} : ${esc(i.lab??fmt(i.v))}${i.sub?' · '+esc(i.sub):''}"><span>${esc(i.l)}</span><span class="tr"><i style="width:${Math.max(2,(i.v/(i.max??max))*100)}%"></i></span><span class="n">${esc(i.lab??fmt(i.v))}</span></div>`).join(''); }
+function bars(sel,data,unit,color){
+  const el=$(sel); if(!data.length){ el.innerHTML='<div class="empty">Pas encore de données.</div>'; return; }
+  const W=560,H=190,pl=30,pb=22,pt=10, max=Math.max(4,...data.map(d=>d.v)), step=(W-pl)/data.length, bw=Math.max(3,step-2);
+  const nice=Math.ceil(max/4)*4, y=v=>pt+(H-pt-pb)*(1-v/nice);
+  let g=''; for(let i=0;i<=4;i++){ const v=nice*i/4; g+=`<line x1="${pl}" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(255,255,255,.07)"/><text x="${pl-6}" y="${y(v)+4}" text-anchor="end" fill="#6d7f99" font-size="11">${v}</text>`; }
+  const b=data.map((d,i)=>{ const x=pl+i*step+1, h=Math.max(0,H-pb-y(d.v)); const r=Math.min(4,bw/2,h);
+    const path=h>0? `M${x},${H-pb} V${H-pb-h+r} Q${x},${H-pb-h} ${x+r},${H-pb-h} H${x+bw-r} Q${x+bw},${H-pb-h} ${x+bw},${H-pb-h+r} V${H-pb} Z` : '';
+    return `<g data-i="${i}"><rect x="${pl+i*step}" y="${pt}" width="${step}" height="${H-pt-pb}" fill="transparent"/>${path?`<path d="${path}" fill="${color}"/>`:''}</g>`; }).join('');
+  const lab=data.map((d,i)=> i%7===0||(i===data.length-1&&i%7>=4)? `<text x="${pl+i*step+step/2}" y="${H-6}" text-anchor="middle" fill="#6d7f99" font-size="11">${new Date(d.x).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}</text>`:'').join('');
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(unit)} par jour">${g}${b}${lab}</svg><div class="tip" hidden></div>`;
+  const tip=el.querySelector('.tip'), svg=el.querySelector('svg');
+  svg.querySelectorAll('g[data-i]').forEach(n=>{ n.onmouseenter=n.ontouchstart=()=>{ const d=data[+n.dataset.i]; const rc=n.getBoundingClientRect(), pr=el.getBoundingClientRect();
+    tip.hidden=false; tip.textContent=`${new Date(d.x).toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'})} : ${d.v} ${unit}`; tip.style.left=(rc.left-pr.left+rc.width/2)+'px'; tip.style.top=(rc.top-pr.top+24)+'px'; }; });
+  svg.onmouseleave=()=>tip.hidden=true;
+}
+
+/* ---------- Codes ---------- */
+let CODES=[];
 const lien=c=>`${location.origin}/?code=${encodeURIComponent(c)}#acceder`;
-const row=(c,extra='')=>`<div class="code"><span>${esc(c)} ${extra}</span><button class="g" data-c="${esc(c)}">Copier le lien</button></div>`;
-document.addEventListener('click',async e=>{ const c=e.target.dataset&&e.target.dataset.c; if(!c) return; try{ await navigator.clipboard.writeText(`Ton accès Kounouzi 🎁\nCode : ${c}\n${lien(c)}`); e.target.textContent='Copié ✓'; }catch{} });
-let last=[];
-$('#mk').onclick=async()=>{ try{ const d=await api({action:'cadeaux',nombre:$('#nb').value}); last=d.codes; $('#mkout').innerHTML=d.codes.map(c=>row(c)).join(''); $('#cpall').hidden=false; }catch(e){ $('#mkout').innerHTML=`<p class="bad">${esc(e.message)}</p>`; } };
-$('#cpall').onclick=async e=>{ try{ await navigator.clipboard.writeText(last.join('\n')); e.target.textContent='Copiés ✓'; }catch{} };
-$('#vb').onclick=async()=>{ try{ const d=await api({action:'verifier',code:$('#vc').value}); $('#vout').innerHTML=`<div class="code"><span>${esc(d.code)}</span><span class="${d.valide?'ok':'bad'}">${d.valide?'Valide ✓':'Non valide'}</span></div>`; }catch(e){ $('#vout').innerHTML=`<p class="bad">${esc(e.message)}</p>`; } };
-$('#rb').onclick=async()=>{ $('#rout').innerHTML='<p>Recherche…</p>'; try{ const d=await api({action:'retrouver',email:$('#em').value,chargily:$('#ch').value||undefined}); $('#rout').innerHTML=d.resultats.length? d.resultats.map(x=>row(x.code,`<small>${esc(x.moyen)} ${esc(x.date||x.reference||'')}</small>`)).join('') : '<p>Aucun paiement trouvé pour cet e-mail.</p>'; }catch(e){ $('#rout').innerHTML=`<p class="bad">${esc(e.message)}</p>`; } };
-</script></main></body></html>
+async function copier(c,btn){ try{ await navigator.clipboard.writeText(`Ton accès Kounouzi 🎁\nCode : ${c}\n${lien(c)}`); if(btn){ btn.textContent='Copié ✓'; setTimeout(()=>btn.textContent='Copier le lien',1500);} }catch{ toast('Copie impossible'); } }
+async function loadCodes(){ $('#codesBody').innerHTML='<tr><td colspan="8" class="empty">Chargement…</td></tr>'; try{ CODES=(await api('codes')).codes||[]; }catch(e){ $('#codesBody').innerHTML=`<tr><td colspan="8" class="msg err">${esc(e.message)}</td></tr>`; return; } renderCodes(); }
+function codesFiltres(){ const q=$('#cq').value.trim().toLowerCase(), f=$('#cf').value;
+  return CODES.filter(c=>(!q||[c.code,c.note,c.email].some(x=>(x||'').toLowerCase().includes(q)))
+    && (!f || (f==='cadeau'&&c.kind==='cadeau') || (f==='achat'&&c.kind==='achat') || (f==='actifs'&&c.appareils>0) || (f==='dormants'&&!c.appareils) || (f==='revoques'&&c.revoked))); }
+function renderCodes(){ const L=codesFiltres(); $('#codesCount').textContent=`${L.length} / ${CODES.length}`;
+  $('#codesBody').innerHTML= L.length? L.map(c=>`<tr data-c="${esc(c.code)}">
+    <td class="mono">${esc(c.code)}${c.revoked?' <span class="tag bad">désactivé</span>':''}</td>
+    <td>${c.kind==='achat'? `<span class="tag gold">Achat</span><div class="muted small">${esc(c.moyen||'')} ${c.montant? esc(c.devise==='DZD'? fmt(c.montant)+' DA' : (c.montant/100).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})):''}</div>${c.email?`<div class="muted small">${esc(c.email)}</div>`:''}` : '<span class="tag">Cadeau</span>'}</td>
+    <td><input class="note-in" value="${esc(c.note||'')}" placeholder="Ajouter une note…" data-note></td>
+    <td>${c.premiere? dt(c.premiere) : '<span class="tag warn">jamais utilisé</span>'}</td>
+    <td>${fmt(c.appareils)}</td><td>${fmt(c.parties)}</td><td>${ago(c.derniere)}</td>
+    <td style="white-space:nowrap"><button class="btn g sm" data-copy>Copier le lien</button> <button class="btn ${c.revoked?'g':'r'} sm" data-rev>${c.revoked?'Réactiver':'Désactiver'}</button></td></tr>`).join('')
+    : '<tr><td colspan="8" class="empty">Aucun code.</td></tr>';
+  $$('#codesBody tr[data-c]').forEach(tr=>{ const code=tr.dataset.c, c=CODES.find(x=>x.code===code);
+    tr.querySelector('[data-copy]').onclick=e=>copier(code,e.target);
+    tr.querySelector('[data-rev]').onclick=async e=>{ const b=e.target; if(!c.revoked && b.dataset.sure!=='1'){ b.dataset.sure='1'; b.textContent='Confirmer ?'; setTimeout(()=>{ if(b.isConnected){ b.dataset.sure=''; b.textContent='Désactiver'; } },3000); return; }
+      try{ await api('code_maj',{code,revoked:!c.revoked}); c.revoked=!c.revoked; toast(c.revoked?'Code désactivé (effet en moins d\'une minute)':'Code réactivé'); renderCodes(); }catch(err){ toast(err.message); } };
+    const ni=tr.querySelector('[data-note]'); ni.onchange=async()=>{ try{ await api('code_maj',{code,note:ni.value}); c.note=ni.value; toast('Note enregistrée'); }catch(err){ toast(err.message); } };
+  }); }
+$('#cq').oninput=renderCodes; $('#cf').onchange=renderCodes;
+$('#mk').onclick=async()=>{ try{ const d=await api('cadeaux',{nombre:$('#nb').value,note:$('#nbNote').value});
+  $('#mkout').innerHTML=d.codes.map(c=>`<div class="row card" style="padding:10px 14px;justify-content:space-between"><span class="mono">${esc(c)}</span><button class="btn g sm" data-c="${esc(c)}">Copier le lien</button></div>`).join('')+(d.codes.length>1?`<button class="btn g sm" id="cpall" style="justify-self:start">Copier tous les codes</button>`:'');
+  $$('#mkout [data-c]').forEach(b=>b.onclick=()=>copier(b.dataset.c,b));
+  const all=$('#cpall'); if(all) all.onclick=async()=>{ try{ await navigator.clipboard.writeText(d.codes.join('\n')); all.textContent='Copiés ✓'; }catch{} };
+  loaded.codes && loadCodes(); }catch(e){ toast(e.message); } };
+$('#csv').onclick=()=>{ const L=codesFiltres(), H=['code','type','note','moyen','montant','devise','email','cree_le','premiere_utilisation','appareils','parties','derniere_activite','desactive'];
+  const rows=L.map(c=>[c.code,c.kind,c.note,c.moyen,c.devise==='EUR'&&c.montant?c.montant/100:c.montant,c.devise,c.email,c.created_at,c.premiere,c.appareils,c.parties,c.derniere,c.revoked?'oui':'non']);
+  const csv=[H,...rows].map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(';')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv'})); a.download=`kounouzi-codes-${new Date().toISOString().slice(0,10)}.csv`; a.click(); };
+
+/* ---------- Questions ---------- */
+let Q=[], QLIM=100, QLOADING=null;
+async function ensureQuestions(){ if(Q.length) return; if(!QLOADING) QLOADING=api('questions').then(d=>{ Q=d.questions||[]; }); await QLOADING; }
+async function loadQuestions(){ $('#qBody').innerHTML='<tr><td colspan="7" class="empty">Chargement des questions…</td></tr>';
+  $('#qt').innerHTML='<option value="">Tous les thèmes</option>'+Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+  $('#qa').innerHTML='<option value="">Tous les âges</option>'+[...new Set([...BANDS.std,...BANDS.rel])].map(b=>`<option>${b}</option>`).join('');
+  try{ QLOADING=null; Q=[]; await ensureQuestions(); }catch(e){ $('#qBody').innerHTML=`<tr><td colspan="7" class="msg err">${esc(e.message)}</td></tr>`; return; } renderQ(); }
+const ST={publiee:['Publiée','good'],brouillon:['Brouillon','warn'],archivee:['Archivée','']};
+function qFiltres(){ const s=$('#qq').value.trim().toLowerCase(), t=$('#qt').value, a=$('#qa').value, st=$('#qs').value, o=$('#qo').value;
+  let L=Q.filter(q=>(!t||q.t===t)&&(!a||q.a===a)&&(!st||q.statut===st)&&(!s||[q.q?.fr,q.q?.ar,q.r?.fr,q.id].some(x=>(x||'').toLowerCase().includes(s))));
+  if(o==='taux') L=L.filter(q=>q.n>0).sort((x,y)=>(x.taux??101)-(y.taux??101)||y.n-x.n);
+  else if(o==='n') L=[...L].sort((x,y)=>y.n-x.n);
+  else if(o==='recent') L=[...L].sort((x,y)=>String(y.updated_at).localeCompare(String(x.updated_at)));
+  return L; }
+function renderQ(){ const L=qFiltres(); $('#qCount').textContent=`${fmt(L.length)} / ${fmt(Q.length)}`;
+  $('#qBody').innerHTML= L.length? L.slice(0,QLIM).map(q=>`<tr class="qrow" data-id="${esc(q.id)}"><td class="qtext">${esc(q.q?.fr)}<div class="muted small">→ ${esc(q.r?.fr)}</div></td><td>${esc(THEMES[q.t]||q.t)}</td><td>${esc(q.a||'—')}</td><td>${q.d}</td><td>${fmt(q.n)}</td><td>${q.n? `<span class="tag ${q.taux<40?'bad':q.taux<70?'warn':'good'}">${q.taux} %</span>`:'—'}</td><td><span class="tag ${ST[q.statut]?.[1]||''}">${ST[q.statut]?.[0]||q.statut}</span>${q.prio?' <span class="tag gold">prioritaire</span>':''}${q.poids===0?' <span class="tag">mise de côté</span>':q.poids>1?' <span class="tag">×'+q.poids+'</span>':''}</td></tr>`).join('') : '<tr><td colspan="7" class="empty">Aucune question.</td></tr>';
+  $('#qmore').hidden=L.length<=QLIM;
+  $$('#qBody .qrow').forEach(r=>r.onclick=()=>openQ(Q.find(x=>x.id===r.dataset.id))); }
+['#qq','#qt','#qa','#qs','#qo'].forEach(s=>$(s).addEventListener(s==='#qq'?'input':'change',()=>{ QLIM=100; renderQ(); }));
+$('#qmore').onclick=()=>{ QLIM+=200; renderQ(); };
+const dlg=$('#qdlg'), F=$('#qform'); let EDIT=null;
+$('#fT').innerHTML=Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+function fillBands(t,val){ const list=t==='maths'?[]:(t==='religion'?BANDS.rel:BANDS.std); $('#fA').innerHTML= t==='maths'? '<option value="">(selon le niveau)</option>' : list.map(b=>`<option ${b===val?'selected':''}>${b}</option>`).join(''); $('#fA').disabled=t==='maths'; }
+$('#fT').onchange=()=>fillBands($('#fT').value);
+const poidsTxt=v=>v==0?'jamais posée':v<1?'moins souvent':v==1?'normale':v<=2?'plus souvent':'beaucoup plus souvent';
+F.poids.oninput=()=>$('#poidsLbl').textContent=poidsTxt(+F.poids.value);
+function openQ(q){ EDIT=q||null; const x=q||{t:$('#qt').value||'logic',d:1,q:{},r:{},e:{},statut:'brouillon',poids:1};
+  $('#qdTitle').textContent=q?'Modifier la question':'Nouvelle question'; $('#qdId').textContent=q?q.id:'nouvelle';
+  F.t.value=x.t; fillBands(x.t,x.a); F.d.value=x.d||1;
+  F.q_fr.value=x.q?.fr||''; F.q_ar.value=x.q?.ar||''; F.r_fr.value=x.r?.fr||''; F.r_ar.value=x.r?.ar||''; F.e_fr.value=x.e?.fr||''; F.e_ar.value=x.e?.ar||'';
+  F.s.value=x.s||''; F.statut.value=x.statut||'brouillon'; F.poids.value=x.poids??1; F.prio.checked=!!x.prio; F.poids.oninput();
+  $('#qdStats').textContent=q&&q.n? `Posée ${q.n} fois · réussite ${q.taux} %` : q? 'Pas encore posée en partie.' : '';
+  $('#qdDel').hidden=!q; $('#qdDel').dataset.sure=''; $('#qdDel').textContent='Supprimer'; $('#qdMsg').textContent=''; $('#qdMsg').className='msg';
+  dlg.showModal(); }
+$('#qnew').onclick=()=>openQ(null);
+$('#qdCancel').onclick=()=>dlg.close();
+F.onsubmit=async e=>{ e.preventDefault(); const b=$('#qdSave'); b.disabled=true; $('#qdMsg').className='msg'; $('#qdMsg').textContent='Enregistrement…';
+  const question={id:EDIT?.id, t:F.t.value, a:F.a.value, d:+F.d.value, q:{fr:F.q_fr.value,ar:F.q_ar.value}, r:{fr:F.r_fr.value,ar:F.r_ar.value}, e:{fr:F.e_fr.value,ar:F.e_ar.value}, s:F.s.value, src:EDIT?.src, statut:F.statut.value, poids:+F.poids.value, prio:F.prio.checked};
+  try{ const d=await api('question_maj',{question}); const clean=o=>Object.fromEntries(Object.entries(o).filter(([,v])=>v&&String(v).trim()));
+    const nq={...(EDIT||{n:0,taux:null}),...question,id:d.id,q:clean(question.q),r:clean(question.r),e:clean(question.e),a:question.t==='maths'?null:question.a,updated_at:new Date().toISOString()};
+    if(EDIT) Object.assign(EDIT,nq); else Q.unshift(nq);
+    dlg.close(); toast('Question enregistrée'); renderQ(); }
+  catch(err){ $('#qdMsg').className='msg err'; $('#qdMsg').textContent=err.message; } finally{ b.disabled=false; } };
+$('#qdDel').onclick=async()=>{ const b=$('#qdDel'); if(b.dataset.sure!=='1'){ b.dataset.sure='1'; b.textContent='Supprimer définitivement ?'; return; }
+  try{ await api('question_suppr',{id:EDIT.id}); Q=Q.filter(x=>x!==EDIT); dlg.close(); toast('Question supprimée'); renderQ(); }catch(err){ $('#qdMsg').className='msg err'; $('#qdMsg').textContent=err.message; } };
+
+/* ---------- Réglages ---------- */
+let RG=null, RGD=null;
+async function loadReglages(){ try{ const d=await api('reglages'); RG=structuredClone(d.reglages); RGD=d.defaut; renderRG(); }catch(e){ $('#rgMsg').className='msg err'; $('#rgMsg').textContent=e.message; } }
+function renderRG(){
+  const all=[...RG.themes,...Object.keys(THEMES).filter(t=>!RG.themes.includes(t))];
+  $('#thOrder').innerHTML=all.map((t,i)=>`<li data-t="${t}"><input type="checkbox" ${RG.themes.includes(t)?'checked':''} aria-label="Actif"><b>${THEMES[t]}</b><button class="btn g sm" data-up ${i===0?'disabled':''}>↑</button><button class="btn g sm" data-down ${i===all.length-1?'disabled':''}>↓</button></li>`).join('');
+  const readThemes=()=>$$('#thOrder li').filter(li=>li.querySelector('input').checked).map(li=>li.dataset.t);
+  $$('#thOrder li').forEach(li=>{ li.querySelector('input').onchange=()=>{ RG.themes=readThemes(); };
+    li.querySelector('[data-up]').onclick=()=>{ li.previousElementSibling&&li.parentNode.insertBefore(li,li.previousElementSibling); RG.themes=readThemes(); renderRG(); };
+    li.querySelector('[data-down]').onclick=()=>{ li.nextElementSibling&&li.parentNode.insertBefore(li.nextElementSibling,li); RG.themes=readThemes(); renderRG(); }; });
+  $('#dfOrder').innerHTML=RG.defis.map((d,i)=>`<li><span class="tag">${i+1}</span><select data-i="${i}">${Object.entries(DEFIS).map(([k,v])=>`<option value="${k}" ${k===d?'selected':''}>${v}</option>`).join('')}</select><b></b><button class="btn r sm" data-rm="${i}" ${RG.defis.length<2?'disabled':''}>✕</button></li>`).join('');
+  $$('#dfOrder select').forEach(s=>s.onchange=()=>RG.defis[+s.dataset.i]=s.value);
+  $$('#dfOrder [data-rm]').forEach(b=>b.onclick=()=>{ RG.defis.splice(+b.dataset.rm,1); renderRG(); });
+  $('#ecoF').innerHTML=Object.entries(ECO_L).map(([k,[l,u]])=>`<label class="f">${l} <small>${u}</small><input type="number" step="${k==='visitRate'?'0.01':'1'}" min="0" data-eco="${k}" value="${RG.eco[k]}"></label>`).join('');
+  $$('[data-eco]').forEach(i=>i.oninput=()=>RG.eco[i.dataset.eco]=+i.value);
+  $('#tpsF').innerHTML=`<label class="f">Temps pour répondre, enfant <small>secondes</small><input type="number" min="15" max="180" data-k="minuteur.enfant" value="${RG.minuteur.enfant}"></label>
+    <label class="f">Temps pour répondre, adulte <small>secondes</small><input type="number" min="15" max="180" data-k="minuteur.adulte" value="${RG.minuteur.adulte}"></label>
+    <label class="f">Ne pas reposer les … dernières questions vues <small>quand un joueur a tout vu dans sa série</small><input type="number" min="0" max="100" data-k="eviter" value="${RG.eviter}"></label>`;
+  $('#durF').innerHTML=['rapide','classique','grande'].map(k=>`<label class="f">Partie ${k} <small>minutes</small><input type="number" min="10" max="240" data-k="durees.${k}" value="${RG.durees[k]}"></label>`).join('');
+  $$('[data-k]').forEach(i=>i.oninput=()=>{ const [a,b]=i.dataset.k.split('.'); if(b) RG[a][b]=+i.value; else RG[a]=+i.value; });
+}
+$('#dfAdd').onclick=()=>{ RG.defis.push('family'); renderRG(); };
+$('#rgSave').onclick=async()=>{ const m=$('#rgMsg'); m.className='msg'; m.textContent='Enregistrement…'; try{ const d=await api('reglages_maj',{reglages:RG}); RG=d.reglages; renderRG(); m.className='msg ok'; m.textContent='Enregistré. Les nouvelles parties utiliseront ces réglages (moins d\'une minute).'; }catch(e){ m.className='msg err'; m.textContent=e.message; } };
+$('#rgReset').onclick=()=>{ RG=structuredClone(RGD); renderRG(); $('#rgMsg').className='msg'; $('#rgMsg').textContent='Valeurs d\'origine remises : clique sur Enregistrer pour les appliquer.'; };
+
+/* ---------- Outils ---------- */
+function loadOutils(){ const m=INFO.moyens||{}, p=INFO.prix||{};
+  $('#payState').innerHTML=`<div class="row"><span class="tag ${m.stripe?'good':'warn'}">${m.stripe?'Ouvert':'Pas encore'}</span> Carte bancaire (Stripe) — ${p.eur? (p.eur/100).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}):''}</div>
+  <div class="row"><span class="tag ${m.chargily?'good':'warn'}">${m.chargily?'Ouvert':'Pas encore'}</span> CIB / Edahabia (Chargily) — ${p.dzd? fmt(p.dzd)+' DA':''}</div>
+  <p class="muted small" style="margin:6px 0 0">Pour ouvrir un paiement : ajoute la clé secrète dans Vercel (STRIPE_SECRET_KEY ou CHARGILY_SECRET_KEY), puis redéploie.</p>`; }
+$('#vb').onclick=async()=>{ try{ const d=await api('verifier',{code:$('#vc').value}); $('#vout').innerHTML=`<div class="row"><span class="mono">${esc(d.code)}</span><span class="tag ${d.valide?'good':'bad'}">${d.valide?'Valide':'Non valide'}</span></div>`; }catch(e){ $('#vout').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; } };
+$('#rb').onclick=async()=>{ $('#rout').innerHTML='<div class="muted">Recherche…</div>'; try{ const d=await api('retrouver',{email:$('#em').value,chargily:$('#ch').value||undefined});
+  $('#rout').innerHTML=d.resultats.length? d.resultats.map(x=>`<div class="row card" style="padding:10px 14px;justify-content:space-between"><span><span class="mono">${esc(x.code)}</span> <span class="muted small">${esc(x.moyen)} ${esc(x.date||x.reference||'')}</span></span><button class="btn g sm" data-c="${esc(x.code)}">Copier le lien</button></div>`).join('') : '<div class="empty">Aucun paiement trouvé.</div>';
+  $$('#rout [data-c]').forEach(b=>b.onclick=()=>copier(b.dataset.c,b)); }catch(e){ $('#rout').innerHTML=`<div class="msg err">${esc(e.message)}</div>`; } };
+</script></body></html>
