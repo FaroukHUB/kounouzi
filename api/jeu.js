@@ -19,8 +19,10 @@ async function donnees() {
     try {
       const c = await db('contenu', {}, { timeout: 6000 });
       if (c && Array.isArray(c.questions) && c.questions.length) {
-        const f = (c.defis && c.cells) ? null : await fichier();
-        body = JSON.stringify(pourJeu({ questions: c.questions, defis: c.defis || f.defis, hassanat: c.hassanat || f.hassanat, sourates: c.sourates || f.sourates, cells: c.cells || f.cells, reglages: c.reglages || null }, await annexes()));
+        // Les défis viennent toujours du fichier déployé (ils ne se modifient pas dans le tableau de bord) : une nouvelle version
+        // des défis arrive donc avec le déploiement, sans toucher à la base.
+        const f = await fichier();
+        body = JSON.stringify(pourJeu({ questions: c.questions, defis: f.defis, hassanat: c.hassanat || f.hassanat, sourates: c.sourates || f.sourates, cells: c.cells || f.cells, reglages: c.reglages || null }, await annexes()));
       }
     } catch (e) { console.error('contenu', e.message); }
   }
