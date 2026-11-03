@@ -26,11 +26,11 @@ EXTRA = """
 """
 
 T = {
- 'fr': dict(home='/', other='/en/', home_l='Accueil', guides_l='Guides', nav=[('/#halal', 'Jeu halal'), ('/#benefices', 'Bénéfices'), ('/#essayer', 'Essayer'), ('/#offre', 'Offre'), ('/#guides', 'Guides')],
+ 'fr': dict(home='/', other='/en/', home_l='Accueil', guides_l='Guides', nav=[('/#valeurs', 'Nos valeurs'), ('/#benefices', 'Bénéfices'), ('/#essayer', 'Essayer'), ('/#offre', 'Offre'), ('/#guides', 'Guides')],
    code="J'ai un code", cta='Obtenir mon accès', flag='gb', flag_l='English version', cta_box="Prêt à jouer en famille ? Accès à vie pour 6,99 €, paiement unique, sans abonnement.",
    cta_btn='Obtenir mon accès', try_btn='▶ Essayer gratuitement', faq_t='Questions fréquentes', more_t='À lire aussi', foot='Jouez ensemble, apprenez autrement, transmettez l\'essentiel', foot_g='Guides',
    loc='fr_FR', aria='Kounouzi, accueil'),
- 'en': dict(home='/en/', other='/', home_l='Home', guides_l='Guides', nav=[('/en/#halal', 'Halal game'), ('/en/#benefices', 'Benefits'), ('/en/#essayer', 'Try it'), ('/en/#offre', 'Offer'), ('/en/#guides', 'Guides')],
+ 'en': dict(home='/en/', other='/', home_l='Home', guides_l='Guides', nav=[('/en/#valeurs', 'Our values'), ('/en/#benefices', 'Benefits'), ('/en/#essayer', 'Try it'), ('/en/#offre', 'Offer'), ('/en/#guides', 'Guides')],
    code='I have a code', cta='Get access', flag='fr', flag_l='Version française', cta_box="Ready to play as a family? Lifetime access for €6.99, one-time payment, no subscription.",
    cta_btn='Get my access', try_btn='▶ Try it for free', faq_t='Frequently asked questions', more_t='Read also', foot='Play together, learn differently, pass on what matters', foot_g='Guides',
    loc='en_GB', aria='Kounouzi, home'),

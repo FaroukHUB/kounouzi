@@ -1,26 +1,25 @@
 # Contenu des guides Kounouzi (FR / EN). Chaque guide cible une recherche précise.
 # Faits vérifiés dans le jeu : 1 764 questions (religion 375, histoire-géo 340, maths 338, gestion 250, logique 249, sciences 212),
 # 84 défis famille, 28 cases, 12 établissements, 2 à 6 joueurs, parties de 30/45/60 min ou libres, déplacement par « le Chemin »
-# (suite fixe, la même pour tous), voix + 4 courts effets désactivables, personnages sans visage, Zakat 2,5 % après 6 tours au-dessus de 1 000 K.
+# (suite fixe, la même pour tous), voix + 4 courts effets désactivables, Zakat 2,5 % après 6 tours au-dessus de 1 000 K.
 
 GUIDES = [
  {
   'id': 'halal',
   'fr': {
-   'slug': 'jeu-de-societe-halal',
-   'title': "Jeu de société halal : sans dés, sans hasard, sans musique | Kounouzi",
-   'desc': "Un jeu de société halal pour toute la famille : sans dés, sans hasard, sans musique, sans riba ni publicité. Découvrez comment Kounouzi a été pensé.",
-   'kick': "Jeu de société halal", 'h1': "Enfin un jeu de société <em>vraiment halal</em> pour toute la famille",
-   'lead': "Pas de dés, pas de hasard, pas de musique, pas de publicité. Kounouzi a été pensé dès le départ pour que les familles musulmanes puissent jouer l'esprit tranquille, et apprendre en s'amusant.",
+   'slug': 'jeu-de-societe-valeurs-islamiques',
+   'title': "Un jeu de société fidèle à nos valeurs, sans dés ni musique",
+   'desc': "Un jeu de société familial en accord avec nos valeurs : sans dés, sans hasard, sans musique, sans riba ni publicité. Découvrez comment il a été pensé.",
+   'kick': "Fidèle à nos valeurs", 'h1': "Enfin un jeu de société <em>fidèle à nos valeurs</em>, pour toute la famille",
+   'lead': "Pas de dés, pas de hasard, pas de musique, pas de publicité. Kounouzi a été pensé dès le départ en accord avec nos principes, pour que chaque famille puisse jouer l'esprit tranquille et apprendre en s'amusant.",
    'sections': [
-    ("Pourquoi tant de parents cherchent un jeu de société halal", [
+    ("Pourquoi tant de parents cherchent un jeu fidèle à leurs valeurs", [
       "Beaucoup de jeux de plateau classiques reposent sur les dés et la chance, mettent en avant la spéculation ou l'argent gagné sans effort, et s'accompagnent de musique ou de publicités. Pour une famille musulmane, ce n'est pas toujours l'ambiance que l'on veut installer autour de la table.",
       "Kounouzi part de l'idée inverse : un vrai jeu de plateau, avec du suspense et des décisions, mais où chaque mécanique a été choisie dans le respect des principes islamiques."]),
-    ("Ce qui rend Kounouzi halal, concrètement", [
+    ("Ce qui rend Kounouzi fidèle à nos valeurs, concrètement", [
       ("ul", [
         "<b>Sans dés et sans hasard pour avancer</b> : le nombre de cases est donné par le Chemin, une suite équitable et identique pour tous les joueurs. Personne ne gagne grâce à la chance.",
         "<b>Sans musique</b> : seulement une voix chaleureuse qui lit les questions et annonce les cases, et quelques petits effets (applaudissements, pièces) que l'on peut couper en un geste.",
-        "<b>Personnages sans visage</b> et tenues pudiques : les avatars des joueurs et les illustrations respectent cette sensibilité.",
         "<b>Sans riba</b> : on n'apprend jamais à prêter avec intérêt. On apprend à épargner, à acheter avec mesure, à donner à la Caisse Masākīn et à verser la Zakat.",
         "<b>Sans publicité, sans achat intégré</b>, sans discussion avec des inconnus : un seul paiement, et l'écran reste entre vous.",
         "<b>Contenu religieux sourcé</b> : les questions de religion viennent de livres reconnus, avec leur source, et sont relues avant publication."])]),
@@ -30,24 +29,23 @@ GUIDES = [
     ("Pour qui ?", [
       "Pour les familles avec des enfants dès 5 ans, les grands-parents, les écoles coraniques et les associations. De 2 à 6 joueurs sur un seul écran : téléphone, tablette ou ordinateur."]),
    ],
-   'faq': [("Kounouzi est-il certifié halal ?", "Kounouzi n'a pas de certification : il a été conçu dans le respect des principes islamiques (sans dés ni hasard pour avancer, sans musique, sans riba, sans publicité, personnages sans visage). Chaque famille reste juge de ce qui lui convient."),
+   'faq': [("Kounouzi a-t-il une certification religieuse ?", "Non : Kounouzi a été conçu dans le respect des principes islamiques (sans dés ni hasard pour avancer, sans musique, sans riba, sans publicité). Chaque famille reste juge de ce qui lui convient."),
            ("Peut-on couper tous les sons ?", "Oui. La voix et les petits effets se désactivent dans les réglages du jeu.")],
   },
   'en': {
-   'slug': 'halal-board-game',
-   'title': "Halal board game: no dice, no luck, no music | Kounouzi",
-   'desc': "A halal board game for the whole family: no dice, no luck, no music, no riba and no ads. Discover how Kounouzi was designed for Muslim families.",
-   'kick': "Halal board game", 'h1': "Finally, a <em>truly halal</em> board game for the whole family",
-   'lead': "No dice, no luck, no music, no ads. Kounouzi was designed from day one so Muslim families can play with peace of mind, and learn while having fun.",
+   'slug': 'board-game-islamic-values',
+   'title': "A board game true to our values: no dice, no music | Kounouzi",
+   'desc': "A family board game in line with our values: no dice, no luck, no music, no riba and no ads. Discover how Kounouzi was designed.",
+   'kick': "True to our values", 'h1': "Finally, a board game <em>true to our values</em>, for the whole family",
+   'lead': "No dice, no luck, no music, no ads. Kounouzi was designed from day one in line with our principles, so every family can play with peace of mind and learn while having fun.",
    'sections': [
-    ("Why so many parents look for a halal board game", [
+    ("Why so many parents look for a game true to their values", [
       "Many classic board games rely on dice and luck, celebrate speculation or easy money, and come with music or ads. For a Muslim family, that is not always the atmosphere you want around the table.",
       "Kounouzi starts from the opposite idea: a real board game, with suspense and decisions, where every mechanic was chosen with respect for Islamic principles."]),
-    ("What makes Kounouzi halal, in practice", [
+    ("What makes Kounouzi true to our values, in practice", [
       ("ul", [
         "<b>No dice and no luck to move</b>: the number of squares comes from the Path, a fair sequence that is the same for every player. Nobody wins thanks to chance.",
         "<b>No music</b>: only a warm voice that reads the questions and announces the squares, plus a few short effects (cheering, coins) you can switch off in one tap.",
-        "<b>Faceless characters</b> and modest clothing: player avatars and illustrations respect this sensitivity.",
         "<b>No riba</b>: children never learn to lend with interest. They learn to save, to buy wisely, to give to the Masākīn Fund and to pay Zakat.",
         "<b>No ads, no in-app purchases</b>, no chatting with strangers: one payment, and the screen stays within your family.",
         "<b>Sourced religious content</b>: religion questions come from recognised books, with their source, and are reviewed before publication."])]),
@@ -57,7 +55,7 @@ GUIDES = [
     ("Who is it for?", [
       "For families with children from age 5, grandparents, Qur'an schools and community groups. 2 to 6 players on a single screen: phone, tablet or computer."]),
    ],
-   'faq': [("Is Kounouzi halal certified?", "Kounouzi has no certification: it was designed with respect for Islamic principles (no dice or luck to move, no music, no riba, no ads, faceless characters). Each family remains the judge of what suits them."),
+   'faq': [("Does Kounouzi have a religious certification?", "No: Kounouzi was designed with respect for Islamic principles (no dice or luck to move, no music, no riba, no ads). Each family remains the judge of what suits them."),
            ("Can all sounds be switched off?", "Yes. The voice and the short effects can be turned off in the game settings.")],
   },
  },
@@ -224,15 +222,15 @@ GUIDES = [
   'id': 'cadeau',
   'fr': {
    'slug': 'cadeau-ramadan-aid-enfant',
-   'title': "Idée cadeau Ramadan et Aïd pour enfant : un jeu halal | Kounouzi",
-   'desc': "Une idée cadeau pour le Ramadan ou l'Aïd : Kounouzi, le jeu de société halal et éducatif pour toute la famille. Offert par code, en quelques secondes.",
+   'title': "Idée cadeau Ramadan et Aïd pour enfant : un jeu en famille",
+   'desc': "Une idée cadeau pour le Ramadan ou l'Aïd : Kounouzi, le jeu de société éducatif fidèle à nos valeurs. Offert par code, en quelques secondes.",
    'kick': "Idée cadeau", 'h1': "Le cadeau de Ramadan et d'Aïd <em>qui rassemble toute la famille</em>",
    'lead': "Un cadeau qui ne finit pas au fond d'un placard : Kounouzi se joue ensemble, s'adapte à chaque âge et transmet des valeurs. Et il s'offre en quelques secondes, avec un simple code.",
    'sections': [
     ("Pourquoi offrir Kounouzi", [
       ("ul", [
         "<b>Pour toute la famille</b> : de 2 à 6 joueurs, dès 5 ans, petits et grands autour du même écran.",
-        "<b>Halal</b> : sans dés ni hasard pour avancer, sans musique, sans publicité, personnages sans visage.",
+        "<b>Fidèle à nos valeurs</b> : sans dés ni hasard pour avancer, sans musique, sans publicité.",
         "<b>Éducatif</b> : 1 764 questions (religion, sciences, maths, histoire, logique, gestion) adaptées à l'âge de chacun.",
         "<b>Accès familial à vie</b> : un seul paiement, aucun abonnement, sur tous les appareils de la famille."])]),
     ("Parfait pour les soirées de Ramadan", [
@@ -250,15 +248,15 @@ GUIDES = [
   },
   'en': {
    'slug': 'ramadan-eid-gift-for-kids',
-   'title': "Ramadan and Eid gift idea for kids: a halal game | Kounouzi",
-   'desc': "A gift idea for Ramadan or Eid: Kounouzi, the halal and educational board game for the whole family. Given with a code in seconds.",
+   'title': "Ramadan and Eid gift idea for kids: a family game | Kounouzi",
+   'desc': "A gift idea for Ramadan or Eid: Kounouzi, the educational board game true to our values. Given with a code in seconds.",
    'kick': "Gift idea", 'h1': "The Ramadan and Eid gift <em>that brings the whole family together</em>",
    'lead': "A gift that does not end up at the back of a cupboard: Kounouzi is played together, adapts to every age and passes on values. And it can be given in seconds, with a simple code.",
    'sections': [
     ("Why give Kounouzi", [
       ("ul", [
         "<b>For the whole family</b>: 2 to 6 players, from age 5, young and old around the same screen.",
-        "<b>Halal</b>: no dice or luck to move, no music, no ads, faceless characters.",
+        "<b>True to our values</b>: no dice or luck to move, no music, no ads.",
         "<b>Educational</b>: 1,764 questions (religion, science, maths, history, logic, money skills) suited to each age; the English translation of the questions is in progress.",
         "<b>Lifetime family access</b>: one payment, no subscription, on all the family's devices."])]),
     ("Perfect for Ramadan evenings", [

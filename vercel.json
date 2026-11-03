@@ -62,6 +62,16 @@
       ],
       "destination": "https://kounouzi.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/jeu-de-societe-halal/:p*",
+      "destination": "/jeu-de-societe-valeurs-islamiques/",
+      "permanent": true
+    },
+    {
+      "source": "/en/halal-board-game/:p*",
+      "destination": "/en/board-game-islamic-values/",
+      "permanent": true
     }
   ]
 }
