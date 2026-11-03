@@ -3,7 +3,8 @@
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { accesValide, appareil, db, dbActive, langueDe, lieu, noter } from './_lib.js';
-import { questionsPourJeu } from '../public/trad.js';
+import { questionsPourJeu, analyserImport, lots } from '../public/trad.js';
+import { createHash } from 'node:crypto';
 
 const DIR = path.join(process.cwd(), 'private');
 let CACHE = null; // { t, body }
@@ -34,6 +35,19 @@ async function amorcer() { // première fois : copie les questions du fichier da
 }
 export async function GET(request) {
   const f = new URL(request.url).searchParams.get('f');
+  // Import unique des traductions anglaises (fichier private/trad-en-1764.json), protégé par une clé à usage unique.
+  // Retiré juste après l'import. Écrit seulement l'anglais, statut « à relire ». ?lot=0..3 (500 lignes par lot), ?simuler=1.
+  if (f === 'import-en') {
+    const u = new URL(request.url), k = u.searchParams.get('k') || '';
+    if (createHash('sha256').update(k).digest('hex') !== 'ccd4d6c219af70891740fe2eb741b88cbdebd5b6ed0dce94133fdafbbe8f6495') return new Response('Refusé', { status: 403 });
+    const fichier = JSON.parse(await readFile(path.join(DIR, 'trad-en-1764.json'), 'utf8'));
+    const base = await db('questions_liste', {}, { timeout: 20000 });
+    const r = analyserImport(fichier, base);
+    const lot = Number(u.searchParams.get('lot') || 0), morceau = lots(r.aEcrire, 500)[lot] || [];
+    let ecrites = 0;
+    if (r.ok && !u.searchParams.has('simuler') && morceau.length) ecrites = (await db('trad_import', { langue: 'en', lignes: morceau }, { timeout: 25000 }))?.ecrites || 0;
+    return new Response(JSON.stringify({ ok: r.ok, stats: r.stats, aEcrire: r.aEcrire.length, lot, taille: morceau.length, ecrites, erreurs: r.erreurs.slice(0, 5) }), { headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
+  }
   if (f === 'ping') { // vérification technique (sans rien montrer du contenu) + amorçage de la base si elle est vide
     const ok = await Promise.all(['jeu.html', 'data.json'].map(n => stat(path.join(DIR, n)).then(() => true, () => false)));
     let base = dbActive() ? 'configurée' : 'absente';
