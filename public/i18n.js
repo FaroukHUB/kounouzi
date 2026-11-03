@@ -10,23 +10,42 @@ const CLE = 'kounouzi_lang';
 
 export const langueValide = (l) => LANGUES.includes(l) ? l : null;
 
-/** Langue choisie : préférence gardée, sinon la langue du navigateur (anglais si le navigateur est en anglais), sinon français. */
-export function detecterLangue({ stockee, navigateur } = {}) {
+// Pays de connexion (fourni par Vercel) : francophones → français, anglophones → anglais.
+// Les autres pays (et le Canada, bilingue) suivent la langue du navigateur.
+export const PAYS_FR = new Set(['FR', 'BE', 'CH', 'LU', 'MC', 'DZ', 'MA', 'TN', 'MR', 'SN', 'CI', 'ML', 'BF', 'NE', 'GN', 'TD', 'CM', 'GA', 'CG', 'CD', 'CF', 'BJ', 'TG', 'MG', 'DJ', 'KM', 'BI', 'HT', 'RE', 'GP', 'MQ', 'GF', 'YT', 'NC', 'PF', 'PM', 'BL', 'MF', 'WF']);
+export const PAYS_EN = new Set(['GB', 'US', 'IE', 'AU', 'NZ', 'ZA', 'NG', 'GH', 'KE', 'UG', 'TZ', 'ZW', 'ZM', 'MW', 'BW', 'SL', 'GM', 'LR', 'SG', 'MY', 'IN', 'PK', 'BD', 'LK', 'PH', 'JM', 'TT', 'BB', 'BS', 'MT', 'GI', 'IM', 'JE', 'GG', 'AE', 'SA', 'QA', 'KW', 'BH', 'OM', 'JO', 'EG', 'SD', 'SO']);
+
+/**
+ * Langue de départ : 1) le choix déjà fait sur l'appareil ; 2) le pays de connexion (francophone ou anglophone) ;
+ * 3) la langue du navigateur ; 4) anglais si l'on se connecte d'un autre pays ; sinon français.
+ */
+export function detecterLangue({ stockee, pays, navigateur } = {}) {
   const s = langueValide(stockee);
   if (s) return s;
+  const p = String(pays || '').toUpperCase();
+  if (PAYS_FR.has(p)) return 'fr';
+  if (PAYS_EN.has(p)) return 'en';
   for (const n of navigateur || []) {
     const base = String(n || '').toLowerCase().slice(0, 2);
     if (base === 'fr') return 'fr';
     if (base === 'en') return 'en';
   }
+  if (/^[A-Z]{2}$/.test(p) && p !== 'XX') return 'en';
   return LANGUE_DEFAUT;
 }
+/** Un choix de langue a-t-il déjà été fait sur cet appareil ? */
+export function choixFait() {
+  try { if (langueValide(localStorage.getItem(CLE))) return true; } catch {}
+  return typeof document !== 'undefined' && /(?:^|;\s*)kz_lang=(fr|en)/.test(document.cookie);
+}
+export const DRAPEAU = { fr: '/img/flags/fr.svg', en: '/img/flags/gb.svg' };
 export function lireLangue() {
   let stockee = null;
   try { stockee = localStorage.getItem(CLE); } catch {}
   if (!stockee && typeof document !== 'undefined') { const m = document.cookie.match(/(?:^|;\s*)kz_lang=([a-z]{2})/); if (m) stockee = m[1]; }
   const nav = typeof navigator !== 'undefined' ? (navigator.languages || [navigator.language]) : [];
-  return detecterLangue({ stockee, navigateur: nav });
+  const pays = typeof document !== 'undefined' ? document.documentElement.dataset.pays : null;
+  return detecterLangue({ stockee, pays, navigateur: nav });
 }
 /** Garde la langue sur l'appareil (et dans un cookie, pour que le serveur réponde dans la même langue). */
 export function ecrireLangue(l) {

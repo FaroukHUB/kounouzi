@@ -165,3 +165,18 @@ test('statuts et progression', () => {
   assert.deepEqual(p.total, { n: 4, a_faire: 3, a_relire: 0, validee: 1 });
   assert.equal(normaliser(' L’eau  «x» '), 'L\'eau "x"');
 });
+
+test('langue selon le pays de connexion (seulement si aucun choix n’a été fait)', () => {
+  assert.equal(detecterLangue({ pays: 'GB', navigateur: ['fr-FR'] }), 'en', 'Royaume-Uni → anglais');
+  assert.equal(detecterLangue({ pays: 'US' }), 'en');
+  assert.equal(detecterLangue({ pays: 'FR', navigateur: ['en-US'] }), 'fr', 'France → français');
+  assert.equal(detecterLangue({ pays: 'DZ', navigateur: ['ar'] }), 'fr', 'Algérie → français');
+  assert.equal(detecterLangue({ pays: 'MA' }), 'fr'); assert.equal(detecterLangue({ pays: 'BE' }), 'fr');
+  assert.equal(detecterLangue({ pays: 'CA', navigateur: ['fr-CA'] }), 'fr', 'Canada : selon le navigateur');
+  assert.equal(detecterLangue({ pays: 'CA', navigateur: ['en-CA'] }), 'en');
+  assert.equal(detecterLangue({ pays: 'DE', navigateur: ['de-DE'] }), 'en', 'autre pays, ni français ni anglais → anglais');
+  assert.equal(detecterLangue({ pays: 'DE', navigateur: ['de', 'fr'] }), 'fr');
+  assert.equal(detecterLangue({ stockee: 'fr', pays: 'GB' }), 'fr', 'le choix fait sur l’appareil passe avant le pays');
+  assert.equal(detecterLangue({ stockee: 'en', pays: 'FR' }), 'en');
+  assert.equal(detecterLangue({ pays: '' }), 'fr'); assert.equal(detecterLangue({ pays: 'XX' }), 'fr');
+});

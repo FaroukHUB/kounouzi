@@ -52,5 +52,7 @@ export async function GET(request) {
   await noter('event', { kind: 'ouverture', code, device: dev.id, pays: lieu(request).pays });
   const headers = { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'private, no-cache' };
   if (dev.cookie) headers['set-cookie'] = dev.cookie;
-  return new Response(await readFile(path.join(DIR, 'jeu.html'), 'utf8'), { headers });
+  // Pays de connexion transmis au jeu : il choisit la langue de départ tant que la famille n'en a pas choisi une.
+  const pays = /^[A-Z]{2}$/.test(lieu(request).pays || '') ? lieu(request).pays : '';
+  return new Response((await readFile(path.join(DIR, 'jeu.html'), 'utf8')).replace('<html lang="fr">', `<html lang="fr" data-pays="${pays}">`), { headers });
 }

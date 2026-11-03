@@ -16,7 +16,7 @@ export async function GET(request) {
   const u = new URL(request.url), dev = appareil(request), code = await accesValide(request);
   if (u.searchParams.has('v')) await noter('event', { kind: 'visite', code, device: dev.id, pays: lieu(request).pays, data: { source: source(u) } });
   const h = dev.cookie ? { 'set-cookie': dev.cookie } : {};
-  return json(200, { acces: !!code, prix: PRIX, moyens: moyens(), contact: process.env.KZ_CONTACT || null }, h);
+  return json(200, { acces: !!code, prix: PRIX, moyens: moyens(), contact: process.env.KZ_CONTACT || null, pays: lieu(request).pays || null }, h);
 }
 export async function POST(request) {
   let code = '', corps = {};
