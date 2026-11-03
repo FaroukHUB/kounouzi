@@ -1494,7 +1494,7 @@ function enterGame(fresh){
 }
 
 // Accès de diagnostic (lecture de l'état depuis la console)
-window.__kounouzi={get state(){return S}, get lang(){return LANG}, setLang:l=>setLang(l), ask:th=>askQuestion(cur(),{theme:th}), visite:i=>onHeritage(cur(),i)};
+window.__kounouzi={get state(){return S}, get lang(){return LANG}, setLang:l=>setLang(l), ask:th=>askQuestion(cur(),{theme:th}), visite:i=>onHeritage(cur(),i), case:i=>{ const p=cur(); p.pos=i; return resolveCell(p); }, tour:()=>endRound(), fin:()=>showEnd()};
 // Démarrage
 const saved=store.get(SAVE);
 function renderResume(){ const sv=store.get(SAVE); if(sv && sv.v===2 && !sv.over){ $('#resumeBox').hidden=false; $('#resumeInfo').textContent=t('resume.info',{noms:sv.players.map(p=>p.name).join(', '),r:sv.round}); } }
