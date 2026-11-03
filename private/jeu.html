@@ -1173,6 +1173,7 @@ async function onDuel(p){
   const r1=await askQuestion(p,{theme,title:'Duel · '+p.name,intro:`${p.name}, à toi !`}); await wait(300);
   const r2=await askQuestion(opp,{theme,title:'Duel · '+opp.name,intro:`${opp.name}, à toi !`});
   const a=rank[r1], b=rank[r2];
+  if(r1==='skip'&&r2==='skip') return;   // aucune question adaptée pour les deux : pas de duel, pas de gain
   if(a===b){ say(`Match nul, vous êtes à égalité ! ${ECO.duelTie} Kounouz chacun.`); await simpleCard('defi',`<h3>Égalité</h3><div class="big">+${ECO.duelTie} K chacun</div>`); await pay('bank',p,ECO.duelTie); await pay('bank',opp,ECO.duelTie); }
   else { const w=a>b?p:opp; say(`${w.name} remporte le Duel Kounouzi. Bravo !`); await simpleCard('defi',`<h3>${esc(w.name)} gagne le duel</h3><div class="big">+${ECO.duelWin} K</div>`); fxParty(); sfx('bravo'); await pay('bank',w,ECO.duelWin); }
 }

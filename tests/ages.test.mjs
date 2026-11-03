@@ -16,17 +16,19 @@ const GENERAUX = ['geography', 'sciences', 'logic', 'management'];
 function moteur(data, { seen = {}, used = [] } = {}) {
   const html = readFileSync(new URL('../private/jeu.html', import.meta.url), 'utf8');
   const fn = (nom) => {
-    const l = html.split('\n').find(x => x.startsWith(`function ${nom}(`)); assert.ok(l, `fonction ${nom} introuvable`);
+    const l = html.split('\n').find(x => x.startsWith(`function ${nom}(`) || x.startsWith(`async function ${nom}(`)); assert.ok(l, `fonction ${nom} introuvable`);
     if (l.trimEnd().endsWith('}')) return l;
-    const m = html.match(new RegExp(`(function ${nom}\\([\\s\\S]*?\\n})\\n`)); return m[1]; };
+    const m = html.match(new RegExp(`((?:async )?function ${nom}\\([\\s\\S]*?\\n})\\n`)); return m[1]; };
   const ligne = (debut) => { const l = html.split('\n').find(x => x.startsWith(debut)); assert.ok(l, debut); return l; };
   const store = { _s: { kounouzi_v2_seen: seen }, get(k) { return this._s[k]; }, set(k, v) { this._s[k] = v; } };
   const ctx = { DATA: data, S: { usedQ: used }, RG: {}, THEMES: ['religion', 'maths', 'geography', 'sciences', 'logic', 'management'],
-    store, tranchesPourJoueur: A.tranchesPourJoueur, questionsEligibles: A.questionsEligibles, Math, Set, console };
+    store, tranchesPourJoueur: A.tranchesPourJoueur, questionsEligibles: A.questionsEligibles, Math, Set, console,
+    toasts: [], THEME_INFO: {}, openCard() { throw new Error('ne doit pas ouvrir de carte sans question'); } };
+  ctx.toast = (m) => ctx.toasts.push(m);
   vm.createContext(ctx);
   vm.runInContext([fn('startLevel'), ligne('const bandsFor'), ligne("const SEEN_KEY"), ligne('const SEEN ='), ligne('const seenOf'),
-    fn('poolFor'), fn('selectQuestion'), fn('nextTheme'),
-    'this.api={startLevel,bandsFor,poolFor,selectQuestion,nextTheme}'].join('\n'), ctx);
+    fn('poolFor'), fn('selectQuestion'), fn('nextTheme'), fn('levelRange'), fn('adapt'), fn('askQuestion'),
+    'this.api={startLevel,bandsFor,poolFor,selectQuestion,nextTheme,levelRange,adapt,askQuestion,toasts:this.toasts}'].join('\n'), ctx);
   return ctx.api;
 }
 // Ancienne règle (avant correction), pour la non-régression.
@@ -217,4 +219,47 @@ test('changement de catégorie : une tranche incompatible est refusée, jamais e
   assert.match(verifierQuestion({ ...base, id: 'S1', t: 'religion', a: '11-12' }).erreur, /Tranche/);   // sciences → religion
   assert.equal(verifierQuestion({ ...base, id: 'S1', t: 'maths', a: '11-12' }).question.a, null);       // maths : pas de tranche
   assert.ok(verifierQuestion({ ...base, id: 'S1', t: 'religion', a: '10-12' }).question);
+});
+
+// ---------- Vérifications avant publication ----------
+test('progression : le niveau du joueur oriente le tirage à l’intérieur des deux tranches (religion, 8 ans)', () => {
+  const M = moteur(DATA), p = enfant(8);
+  const part = (lvl) => { p.levels.religion = lvl; let d1 = 0; for (let k = 0; k < 2000; k++) { const q = M.selectQuestion(p, 'religion'); if (q.d === 1) d1++; } return d1 / 2000; };
+  const n1 = part(1), n2 = part(2);
+  console.log(`  8 ans, niveau 1 : ${(n1 * 100).toFixed(0)} % de questions niveau 1 ; niveau 2 : ${(n2 * 100).toFixed(0)} %`);
+  assert.ok(n1 > 0.6 && n2 < 0.4, `niveau 1 → ${n1}, niveau 2 → ${n2}`);
+});
+test('progression : 2 bonnes réponses font monter d’un niveau, une erreur fait descendre, dans les limites des tranches du joueur', () => {
+  const M = moteur(DATA), p = enfant(10);           // religion 8-10 (niv. 2) + 10-12 (niv. 3)
+  p.levels.religion = M.startLevel(p); p.streak.religion = 0;
+  assert.equal(p.levels.religion, 2);
+  M.adapt(p, 'religion', 'good'); assert.equal(p.levels.religion, 2);
+  M.adapt(p, 'religion', 'good'); assert.equal(p.levels.religion, 3);
+  M.adapt(p, 'religion', 'wrong'); assert.equal(p.levels.religion, 2);
+  M.adapt(p, 'religion', 'wrong'); M.adapt(p, 'religion', 'wrong');
+  assert.deepEqual([...M.levelRange(p, 'religion')], [2, 3]);
+  M.adapt(p, 'religion', 'partial'); assert.equal(p.levels.religion, 2, 'le niveau est ramené dans la plage de ses tranches');
+});
+test('aucun thème n’a de question adaptée : pas de boucle infinie, pas de plantage, la question est sautée', async () => {
+  const M = moteur({ ...DATA, questions: [] }), p = enfant(8);
+  const t0 = Date.now();
+  for (let k = 0; k < 50; k++) assert.ok(typeof M.nextTheme(p) === 'string');
+  assert.equal(M.selectQuestion(p, 'religion'), null);
+  assert.deepEqual([...M.levelRange(p, 'religion')], [1, 5]);
+  assert.equal(await M.askQuestion(p), 'skip');
+  assert.equal(await M.askQuestion(p, { theme: 'sciences', title: 'Duel' }), 'skip');
+  assert.match(M.toasts[0], /Pas de question adaptée/);
+  assert.ok(Date.now() - t0 < 500);
+});
+test('traductions : l’anglais (et toute langue déjà présente parmi fr/ar/en) survit à une modification depuis l’éditeur', () => {
+  const enBase = { id: 'GEOW-78-040', t: 'geography', a: '7-8', d: 3, q: { fr: 'Q', ar: 'س', en: 'Q en' }, r: { fr: 'R', en: 'A' }, e: { fr: 'E', ar: 'ش', en: 'Ex' } };
+  // ce que l'éditeur envoie : la question d'origine + les champs fr/ar du formulaire
+  const envoi = { ...enBase, q: { ...enBase.q, fr: 'Q modifiée', ar: 'س' }, r: { ...enBase.r, fr: 'R', ar: '' }, e: { ...enBase.e, fr: 'E', ar: 'ش' }, statut: 'publiee' };
+  const v = verifierQuestion(envoi).question;
+  assert.deepEqual(v.q, { fr: 'Q modifiée', ar: 'س', en: 'Q en' });
+  assert.deepEqual(v.r, { fr: 'R', en: 'A' });
+  assert.deepEqual(v.e, { fr: 'E', ar: 'ش', en: 'Ex' });
+  // le moteur et les filtres fonctionnent avec ou sans anglais
+  assert.equal(A.questionsEligibles([{ ...enBase, q: { fr: 'x', en: 'y' } }], 'geography', enfant(8)).length, 1);
+  assert.equal(A.filtrerQuestions([{ ...enBase, statut: 'publiee' }], { recherche: 'q en' }).length, 1);
 });
