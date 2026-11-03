@@ -5,7 +5,7 @@ import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 
 const ALPHA = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // sans O/0, I/1, L : pas de confusion à la lecture
 export const PRIX = {
-  eur: Number(process.env.KZ_PRIX_EUR_CENTIMES || 990),   // 9,90 €
+  eur: Number(process.env.KZ_PRIX_EUR_CENTIMES || 699),   // 6,99 € (prix de lancement)
   dzd: Number(process.env.KZ_PRIX_DZD || 1000),           // 1 000 DA
 };
 
@@ -54,7 +54,9 @@ export const verifier = (s) => { if (!s) return null; const i = s.lastIndexOf('.
 
 export const json = (status, body, headers = {}) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store', ...headers } });
 export const origine = (request) => { const u = new URL(request.url); return `${u.protocol}//${u.host}`; };
-export const moyens = () => ({ stripe: !!process.env.STRIPE_SECRET_KEY, chargily: !!process.env.CHARGILY_SECRET_KEY });
+// Le paiement en dinars (Chargily) est en pause : il ne s'ouvre que si KZ_DINARS=1 dans Vercel.
+export const dinarsActifs = () => process.env.KZ_DINARS === '1' && !!process.env.CHARGILY_SECRET_KEY;
+export const moyens = () => ({ stripe: !!process.env.STRIPE_SECRET_KEY, chargily: dinarsActifs() });
 export const chargilyBase = () => (process.env.CHARGILY_SECRET_KEY || '').startsWith('test_') ? 'https://pay.chargily.net/test/api/v2' : 'https://pay.chargily.net/api/v2';
 
 // ---------- Base de données (Supabase, schéma kounouzi, via la fonction kz_api) ----------

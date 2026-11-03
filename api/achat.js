@@ -1,5 +1,5 @@
 // /api/achat?moyen=stripe|chargily : crée la page de paiement et y envoie l'acheteur.
-import { chargilyBase, json, origine, PRIX, signer } from './_lib.js';
+import { chargilyBase, dinarsActifs, json, origine, PRIX, signer } from './_lib.js';
 
 const PRODUIT = 'Kounouzi — accès famille à vie';
 export async function GET(request) {
@@ -23,7 +23,7 @@ export async function GET(request) {
       if (!r.ok) { console.error('Stripe', r.status, s?.error?.message); return json(502, { erreur: 'Paiement indisponible pour le moment.' }); }
       return new Response(null, { status: 303, headers: { location: s.url, 'cache-control': 'no-store' } });
     }
-    if (moyen === 'chargily' && process.env.CHARGILY_SECRET_KEY) {
+    if (moyen === 'chargily' && dinarsActifs()) {
       const r = await fetch(`${chargilyBase()}/checkouts`, { method: 'POST', headers: { authorization: `Bearer ${process.env.CHARGILY_SECRET_KEY}`, 'content-type': 'application/json', accept: 'application/json' },
         body: JSON.stringify({ amount: PRIX.dzd, currency: 'dzd', locale: 'fr', description: PRODUIT, success_url: `${base}/merci.html?moyen=chargily`, failure_url: `${base}/#acheter` }) });
       const c = await r.json();

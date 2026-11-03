@@ -1,7 +1,7 @@
 // Tableau de bord de Farouk : chiffres, codes, questions, réglages du jeu.
 // Protégé par le mot de passe KZ_ADMIN (variable Vercel).
 import { timingSafeEqual } from 'node:crypto';
-import { codeCadeau, codePourPaiement, codeValide, db, dbActive, formater, json, oublierRevocation, PRIX } from './_lib.js';
+import { moyens, codeCadeau, codePourPaiement, codeValide, db, dbActive, formater, json, oublierRevocation, PRIX } from './_lib.js';
 
 const THEMES = ['religion', 'maths', 'geography', 'sciences', 'logic', 'management'];
 const BANDES = { std: ['5-6', '7-8', '9-10', '11-12', '13+'], rel: ['5-8', '8-10', '10-12', '12-14', '14+'] };
@@ -64,7 +64,7 @@ export async function POST(request) {
   const base = dbActive();
   try {
     switch (b.action) {
-      case 'entrer': return json(200, { ok: true, base, prix: PRIX, moyens: { stripe: !!process.env.STRIPE_SECRET_KEY, chargily: !!process.env.CHARGILY_SECRET_KEY } });
+      case 'entrer': return json(200, { ok: true, base, prix: PRIX, moyens: moyens() });
       case 'stats': return json(200, base ? await db('stats') : {});
       case 'codes': return json(200, { codes: base ? await db('codes_liste') : [] });
       case 'cadeaux': {
