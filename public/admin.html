@@ -223,14 +223,14 @@ label.f small{font-weight:700;color:var(--faint)}
   </div>
 </form></dialog>
 
-<script>
+<script type="module">
+import { optionsFiltreAge, filtreAgeCompatible, filtrerQuestions, tranchesDuTheme, trancheValidePour, systemeDe, libelleTranche } from '/ages.js';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>(n??0).toLocaleString('fr-FR');
 const dt=s=>s? new Date(s).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'2-digit'}) : '—';
 const ago=s=>{ if(!s) return '—'; const m=(Date.now()-new Date(s))/60000; if(m<60) return `il y a ${Math.max(1,Math.round(m))} min`; const h=m/60; if(h<24) return `il y a ${Math.round(h)} h`; const d=h/24; return d<30? `il y a ${Math.round(d)} j` : dt(s); };
 const THEMES={religion:'Religion',maths:'Maths',geography:'Histoire & Géo',sciences:'Sciences',logic:'Logique',management:'Gestion'};
-const BANDS={std:['5-6','7-8','9-10','11-12','13+'],rel:['5-8','8-10','10-12','12-14','14+']};
 const DEFIS={family:'Défi famille',hassanat:'Carte Hassanāt',duel:'Duel',question:'Question bonus'};
 const ECO_L={qGood:['Bonne réponse','Kounouz'],qPartial:['Réponse en partie','Kounouz'],startPass:['Passage par Départ','Kounouz'],treasure:['Case Trésor','Kounouz'],duelWin:['Duel gagné','Kounouz'],duelTie:['Duel à égalité','Kounouz'],familyX:['Multiplicateur Défi famille','×'],donation:['Case Don : montant donné','Kounouz'],donationHassanat:['Case Don : Hassanāt gagnées','points'],visitRate:['Frais de visite d\'un établissement','part du prix (0,15 = 15 %)']};
 let PW=sessionStorage.getItem('kzpw')||'', INFO={};
@@ -351,11 +351,17 @@ let Q=[], QLIM=100, QLOADING=null;
 async function ensureQuestions(){ if(Q.length) return; if(!QLOADING) QLOADING=api('questions').then(d=>{ Q=d.questions||[]; }); await QLOADING; }
 async function loadQuestions(){ $('#qBody').innerHTML='<tr><td colspan="7" class="empty">Chargement des questions…</td></tr>';
   $('#qt').innerHTML='<option value="">Tous les thèmes</option>'+Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
-  $('#qa').innerHTML='<option value="">Tous les âges</option>'+[...new Set([...BANDS.std,...BANDS.rel])].map(b=>`<option>${b}</option>`).join('');
+  majFiltreAge();
   try{ QLOADING=null; Q=[]; await ensureQuestions(); }catch(e){ $('#qBody').innerHTML=`<tr><td colspan="7" class="msg err">${esc(e.message)}</td></tr>`; return; } renderQ(); }
 const ST={publiee:['Publiée','good'],brouillon:['Brouillon','warn'],archivee:['Archivée','']};
-function qFiltres(){ const s=$('#qq').value.trim().toLowerCase(), t=$('#qt').value, a=$('#qa').value, st=$('#qs').value, o=$('#qo').value;
-  let L=Q.filter(q=>(!t||q.t===t)&&(!a||q.a===a)&&(!st||q.statut===st)&&(!s||[q.q?.fr,q.q?.ar,q.r?.fr,q.id].some(x=>(x||'').toLowerCase().includes(s))));
+// Filtre d'âge contextuel : tranches de la religion OU tranches générales selon le thème ; les deux (séparées) pour « Tous les thèmes ».
+// Les valeurs portent la classification ('religion:10-12', 'generale:11-12') : aucune ambiguïté possible.
+function majFiltreAge(){ const t=$('#qt').value, cur=$('#qa').value, groupes=optionsFiltreAge(t);
+  $('#qa').innerHTML='<option value="">Tous les âges</option>'+groupes.map(g=>`<optgroup label="${esc(g.label)}">${g.options.map(o=>`<option value="${o.value}">${esc(o.label)}</option>`).join('')}</optgroup>`).join('');
+  $('#qa').value= filtreAgeCompatible(t,cur)? cur : '';
+  $('#qa').disabled= t==='maths'; $('#qa').title= t==='maths'? 'Les maths sont choisies selon le niveau, sans tranche d\'âge' : ''; }
+function qFiltres(){ const o=$('#qo').value;
+  let L=filtrerQuestions(Q,{theme:$('#qt').value, age:$('#qa').value, statut:$('#qs').value, recherche:$('#qq').value});
   if(o==='taux') L=L.filter(q=>q.n>0).sort((x,y)=>(x.taux??101)-(y.taux??101)||y.n-x.n);
   else if(o==='n') L=[...L].sort((x,y)=>y.n-x.n);
   else if(o==='recent') L=[...L].sort((x,y)=>String(y.updated_at).localeCompare(String(x.updated_at)));
@@ -364,12 +370,19 @@ function renderQ(){ const L=qFiltres(); $('#qCount').textContent=`${fmt(L.length
   $('#qBody').innerHTML= L.length? L.slice(0,QLIM).map(q=>`<tr class="qrow" data-id="${esc(q.id)}"><td class="qtext">${esc(q.q?.fr)}<div class="muted small">→ ${esc(q.r?.fr)}</div></td><td>${esc(THEMES[q.t]||q.t)}</td><td>${esc(q.a||'—')}</td><td>${q.d}</td><td>${fmt(q.n)}</td><td>${q.n? `<span class="tag ${q.taux<40?'bad':q.taux<70?'warn':'good'}">${q.taux} %</span>`:'—'}</td><td><span class="tag ${ST[q.statut]?.[1]||''}">${ST[q.statut]?.[0]||q.statut}</span>${q.prio?' <span class="tag gold">prioritaire</span>':''}${q.poids===0?' <span class="tag">mise de côté</span>':q.poids>1?' <span class="tag">×'+q.poids+'</span>':''}</td></tr>`).join('') : '<tr><td colspan="7" class="empty">Aucune question.</td></tr>';
   $('#qmore').hidden=L.length<=QLIM;
   $$('#qBody .qrow').forEach(r=>r.onclick=()=>openQ(Q.find(x=>x.id===r.dataset.id))); }
+$('#qt').addEventListener('change',majFiltreAge);
 ['#qq','#qt','#qa','#qs','#qo'].forEach(s=>$(s).addEventListener(s==='#qq'?'input':'change',()=>{ QLIM=100; renderQ(); }));
 $('#qmore').onclick=()=>{ QLIM+=200; renderQ(); };
 const dlg=$('#qdlg'), F=$('#qform'); let EDIT=null;
 $('#fT').innerHTML=Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
-function fillBands(t,val){ const list=t==='maths'?[]:(t==='religion'?BANDS.rel:BANDS.std); $('#fA').innerHTML= t==='maths'? '<option value="">(selon le niveau)</option>' : list.map(b=>`<option ${b===val?'selected':''}>${b}</option>`).join(''); $('#fA').disabled=t==='maths'; }
-$('#fT').onchange=()=>fillBands($('#fT').value);
+// Tranches proposées selon le thème de la question. Si la tranche actuelle n'existe pas pour le nouveau thème,
+// rien n'est choisi à sa place : l'administrateur doit en choisir une (pas d'enregistrement incohérent).
+function fillBands(t,val){ const list=tranchesDuTheme(t), garde=list.includes(val);
+  $('#fA').innerHTML= t==='maths'? '<option value="">(selon le niveau)</option>'
+    : (garde?'':'<option value="" selected disabled>— Choisir la tranche —</option>')+list.map(b=>`<option value="${b}" ${b===val?'selected':''}>${esc(libelleTranche(b))}</option>`).join('');
+  $('#fA').disabled=t==='maths'; return garde||t==='maths'||!val; }
+$('#fT').onchange=()=>{ const avant=$('#fA').value || EDIT?.a || ''; const ok=fillBands($('#fT').value,avant);
+  $('#qdMsg').className= ok?'msg':'msg err'; $('#qdMsg').textContent= ok? '' : `La tranche « ${avant} » n'existe pas pour ce thème : choisis une nouvelle tranche.`; };
 const poidsTxt=v=>v==0?'jamais posée':v<1?'moins souvent':v==1?'normale':v<=2?'plus souvent':'beaucoup plus souvent';
 F.poids.oninput=()=>$('#poidsLbl').textContent=poidsTxt(+F.poids.value);
 function openQ(q){ EDIT=q||null; const x=q||{t:$('#qt').value||'logic',d:1,q:{},r:{},e:{},statut:'brouillon',poids:1};
@@ -383,7 +396,9 @@ function openQ(q){ EDIT=q||null; const x=q||{t:$('#qt').value||'logic',d:1,q:{},
 $('#qnew').onclick=()=>openQ(null);
 $('#qdCancel').onclick=()=>dlg.close();
 F.onsubmit=async e=>{ e.preventDefault(); const b=$('#qdSave'); b.disabled=true; $('#qdMsg').className='msg'; $('#qdMsg').textContent='Enregistrement…';
-  const question={id:EDIT?.id, t:F.t.value, a:F.a.value, d:+F.d.value, q:{fr:F.q_fr.value,ar:F.q_ar.value}, r:{fr:F.r_fr.value,ar:F.r_ar.value}, e:{fr:F.e_fr.value,ar:F.e_ar.value}, s:F.s.value, src:EDIT?.src, statut:F.statut.value, poids:+F.poids.value, prio:F.prio.checked};
+  if(F.t.value!=='maths' && !trancheValidePour(F.t.value,F.a.value)){ b.disabled=false; $('#qdMsg').className='msg err'; $('#qdMsg').textContent='Choisis une tranche d\'âge valable pour ce thème.'; return; }
+  // Les autres langues déjà présentes (ex. anglais) sont conservées : on ne remplace que le français et l'arabe.
+  const question={id:EDIT?.id, t:F.t.value, a:F.t.value==='maths'?'':F.a.value, d:+F.d.value, q:{...(EDIT?.q||{}),fr:F.q_fr.value,ar:F.q_ar.value}, r:{...(EDIT?.r||{}),fr:F.r_fr.value,ar:F.r_ar.value}, e:{...(EDIT?.e||{}),fr:F.e_fr.value,ar:F.e_ar.value}, s:F.s.value, src:EDIT?.src, statut:F.statut.value, poids:+F.poids.value, prio:F.prio.checked};
   try{ const d=await api('question_maj',{question}); const clean=o=>Object.fromEntries(Object.entries(o).filter(([,v])=>v&&String(v).trim()));
     const nq={...(EDIT||{n:0,taux:null}),...question,id:d.id,q:clean(question.q),r:clean(question.r),e:clean(question.e),a:question.t==='maths'?null:question.a,updated_at:new Date().toISOString()};
     if(EDIT) Object.assign(EDIT,nq); else Q.unshift(nq);

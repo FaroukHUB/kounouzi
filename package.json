@@ -1,1 +1,8 @@
-{ "name": "kounouzi-v2", "private": true, "type": "module" }
+{
+  "name": "kounouzi-v2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  }
+}

@@ -272,6 +272,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { tranchesPourJoueur, questionsEligibles } from '/ages.js';
 addEventListener('error',e=>showErr(e.message));
 addEventListener('unhandledrejection',e=>showErr(e.reason&&e.reason.message||String(e.reason)));
 function showErr(m){ try{ const d=document.createElement('div'); d.className='toast'; d.style.top='auto'; d.style.bottom='120px'; d.textContent='Erreur : '+m; document.body.appendChild(d); setTimeout(()=>d.remove(),8000);}catch{} }
@@ -896,28 +897,20 @@ function pickPlayer(win, acts, players, title){
 /* =========================================================
    Questions
    ========================================================= */
-// Tranches d'âge : un enfant ne reçoit QUE des questions de sa tranche. Un adulte reçoit les tranches les plus hautes.
-const AGE_BANDS = { std:['5-6','7-8','9-10','11-12','13+'], rel:['5-8','8-10','10-12','12-14','14+'] };
-function bandsFor(p,theme){
-  const rel = theme==='religion', a=ageOf(p);
-  if(!p.child) return rel? (p.level==='decouverte'? ['12-14','14+'] : ['14+','12-14']) : (p.level==='decouverte'? ['11-12','13+'] : ['13+','11-12']);
-  if(rel) return [a<=7?'5-8': a<=9?'8-10': a<=11?'10-12': a<=13?'12-14':'14+'];
-  return [a<=6?'5-6': a<=8?'7-8': a<=10?'9-10': a<=12?'11-12':'13+'];
-}
-// Mathématiques (sans tranche) : difficultés autorisées selon l'âge.
-function mathsDiffs(p){ if(!p.child) return p.level==='decouverte'?[3,4]:[4,5]; const a=p.age; return a<=6?[1]: a<=8?[1,2]: a<=10?[2,3]: a<=12?[3,4]:[4,5]; }
+// Tranches d'âge : définies une seule fois dans /ages.js (partagé avec le tableau de bord et le serveur).
+// Un enfant reçoit les questions des tranches qui contiennent son âge réel (en religion, deux tranches aux âges
+// charnières 8, 10, 12, 14 ans) ; un adulte, les deux tranches les plus hautes ; les maths se choisissent par niveau.
+const bandsFor = (p,theme)=> tranchesPourJoueur(theme,p);
 // Mémoire des questions déjà vues par chaque joueur, gardée d'une partie à l'autre sur cet appareil.
 const SEEN_KEY='kounouzi_v2_seen';
 const SEEN = store.get(SEEN_KEY) || {};
 const seenOf = p => (SEEN[p.name.toLowerCase()] ||= []);
-function poolFor(p,theme){
-  if(theme==='maths'){ const ds=mathsDiffs(p); return DATA.questions.filter(q=>q.t==='maths' && ds.includes(q.d)); }
-  const bands=bandsFor(p,theme);
-  const pool=DATA.questions.filter(q=>q.t===theme && bands.includes(q.a));
-  return pool.length? pool : DATA.questions.filter(q=>q.t===theme);
-}
+// Questions adaptées à ce joueur dans ce thème. Jamais de question d'une autre tranche « pour combler » :
+// si un thème n'a rien d'adapté, nextTheme passe au thème suivant.
+function poolFor(p,theme){ return questionsEligibles(DATA.questions,theme,p); }
 function selectQuestion(p, theme){
   const pool=poolFor(p,theme), table=new Set(S.usedQ), seen=seenOf(p), seenSet=new Set(seen);
+  if(!pool.length) return null;   // aucune question adaptée : l'appelant choisit un autre thème
   // 1) jamais vue par ce joueur et pas encore posée à la table
   let cands=pool.filter(q=>!seenSet.has(q.id) && !table.has(q.id));
   // Poids 0 = question mise de côté ; « prioritaire » = posée avant les autres tant qu'elle n'a pas été vue.
@@ -932,8 +925,12 @@ function selectQuestion(p, theme){
   S.usedQ.push(q.id); seenOf(p).push(q.id); if(seenOf(p).length>1200) seenOf(p).splice(0,200); store.set(SEEN_KEY,SEEN);
   return q;
 }
-function nextTheme(p){ const t=THEMES[p.themeIdx%THEMES.length]; p.themeIdx++; return t; }
-function levelRange(p,theme){ const ds=poolFor(p,theme).map(q=>q.d); return [Math.min(...ds),Math.max(...ds)]; }
+// Thème suivant du joueur ; un thème sans aucune question adaptée à son âge est sauté (jamais de question inadaptée).
+function nextTheme(p){
+  for(let k=0;k<THEMES.length;k++){ const t=THEMES[p.themeIdx%THEMES.length]; p.themeIdx++; if(poolFor(p,t).length) return t; }
+  const t=THEMES[p.themeIdx%THEMES.length]; p.themeIdx++; return t;   // aucun thème n'a de question adaptée (cas extrême)
+}
+function levelRange(p,theme){ const ds=poolFor(p,theme).map(q=>q.d); return ds.length? [Math.min(...ds),Math.max(...ds)] : [1,5]; }
 function adapt(p,theme,res){ if(p.streak[theme]===undefined) p.streak[theme]=0; if(p.levels[theme]===undefined) p.levels[theme]=startLevel(p); const [lo,hi]=levelRange(p,theme); p.levels[theme]=Math.min(hi,Math.max(lo,p.levels[theme]));
   if(res==='good'){ p.streak[theme]++; if(p.streak[theme]>=2){ p.levels[theme]=Math.min(5,p.levels[theme]+1); p.streak[theme]=0; } }
   else if(res==='wrong'){ p.levels[theme]=Math.max(1,p.levels[theme]-1); p.streak[theme]=0; }
@@ -943,7 +940,11 @@ async function askQuestion(p, {theme, title, intro}={}){
   let q;
   if(!theme && p._pre){ ({theme,q}=p._pre); p._pre=null; }
   theme = theme || nextTheme(p);
-  q = q || selectQuestion(p,theme); const ti=THEME_INFO[theme];
+  q = q || selectQuestion(p,theme);
+  // Thème imposé (ex. duel) sans question adaptée à ce joueur : on prend son prochain thème adapté.
+  if(!q){ theme=nextTheme(p); q=selectQuestion(p,theme); }
+  if(!q){ toast(`Pas de question adaptée à l'âge de ${p.name} pour le moment.`,3000); return 'skip'; }
+  const ti=THEME_INFO[theme];
   const C=openCard({face:ti.card, back:ti.card});
   let lang='fr'; const hasAr=!!q.q.ar;
   const secs = p.child?(RG.minuteur?.enfant||60):(RG.minuteur?.adulte||45); let left=secs, timer=null, revealed=false;
@@ -1168,7 +1169,7 @@ async function onDuel(p){
   C.win.innerHTML=`<div class="meta"><span class="tag">Duel</span><span class="tag">${THEME_INFO[theme].fr}</span></div><h3>Duel !</h3><div class="small">Chacun répond à une question du même thème. Le gagnant touche ${ECO.duelWin} K, en cas d'égalité chacun touche ${ECO.duelTie} K.</div>`;
   const opp=await pickPlayer(C.win,C.acts,others,'Choisis ton adversaire'); C.close();
   await sayWait(`${p.name} défie ${opp.name} ! Deux questions ${deTheme(theme)}.`,5000);
-  const rank={good:2,partial:1,wrong:0};
+  const rank={good:2,partial:1,wrong:0,skip:0};
   const r1=await askQuestion(p,{theme,title:'Duel · '+p.name,intro:`${p.name}, à toi !`}); await wait(300);
   const r2=await askQuestion(opp,{theme,title:'Duel · '+opp.name,intro:`${opp.name}, à toi !`});
   const a=rank[r1], b=rank[r2];
@@ -1273,7 +1274,7 @@ async function playTurn(){
   const steps=peekSteps(p), land=(p.pos+steps)%N, journeyText=PH.journey(p.name,steps);
   const lc=CELLS[land], ck=CHAL_ROT[S.chalIdx%CHAL_ROT.length];
   if(lc.type==='question' || (lc.type==='challenge' && ck==='question')){ const t=nextTheme(p); p._pre={theme:t, q:selectQuestion(p,t)}; }
-  prefetch(journeyText); prefetch(cellIntro(p,land)); if(p._pre) prefetch(qPhrase(p._pre.q,'fr'));
+  prefetch(journeyText); prefetch(cellIntro(p,land)); if(p._pre?.q) prefetch(qPhrase(p._pre.q,'fr'));
   if(steps+p.pos>=N) prefetch(`Tu repasses par le départ. Beau tour complet ! Plus ${ECO.startPass} Kounouz.`);
   await waitMain('Découvrir mon chemin');
   const n=assignSteps(p); await Promise.all([revealChemin(n), sayWait(journeyText,5000)]);

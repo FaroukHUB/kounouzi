@@ -1,10 +1,10 @@
 // Tableau de bord de Farouk : chiffres, codes, questions, réglages du jeu.
 // Protégé par le mot de passe KZ_ADMIN (variable Vercel).
 import { timingSafeEqual } from 'node:crypto';
+import { normaliserTranche, systemeDe, tranchesDuTheme } from '../public/ages.js';
 import { moyens, codeCadeau, codePourPaiement, codeValide, db, dbActive, formater, json, oublierRevocation, PRIX } from './_lib.js';
 
 const THEMES = ['religion', 'maths', 'geography', 'sciences', 'logic', 'management'];
-const BANDES = { std: ['5-6', '7-8', '9-10', '11-12', '13+'], rel: ['5-8', '8-10', '10-12', '12-14', '14+'] };
 const ROTATION = ['family', 'hassanat', 'duel', 'question'];
 export const REGLAGES_DEFAUT = {
   themes: THEMES,
@@ -23,18 +23,21 @@ function autorise(request) {
 const num = (v, min, max, def) => { const n = Number(v); return Number.isFinite(n) ? Math.min(max, Math.max(min, n)) : def; };
 const txt = (v, max = 600) => (v == null ? '' : String(v)).trim().slice(0, max);
 
-function verifierQuestion(b) {
+export function verifierQuestion(b) {
   const t = b.t;
   if (!THEMES.includes(t)) return { erreur: 'Thème inconnu.' };
-  const q = { fr: txt(b.q?.fr) }, r = { fr: txt(b.r?.fr) }, e = {};
-  if (txt(b.q?.ar)) q.ar = txt(b.q.ar);
-  if (txt(b.r?.ar)) r.ar = txt(b.r.ar);
-  if (txt(b.e?.fr, 1200)) e.fr = txt(b.e.fr, 1200);
-  if (txt(b.e?.ar, 1200)) e.ar = txt(b.e.ar, 1200);
+  // Langues gardées : français, arabe, anglais (une traduction déjà présente n'est jamais perdue à la modification).
+  const LANGUES = ['fr', 'ar', 'en'];
+  const champ = (o, max) => Object.fromEntries(LANGUES.map(l => [l, txt(o?.[l], max)]).filter(([, v]) => v));
+  const q = champ(b.q, 600), r = champ(b.r, 600), e = champ(b.e, 1200);
   if (!q.fr || !r.fr) return { erreur: 'La question et la réponse en français sont obligatoires.' };
   const d = num(b.d, 1, 5, 1);
-  let a = txt(b.a, 8) || null;
-  if (t !== 'maths') { const ok = t === 'religion' ? BANDES.rel : BANDES.std; if (!ok.includes(a)) return { erreur: `Tranche d'âge invalide (attendu : ${ok.join(', ')}).` }; }
+  // Tranche d'âge : celle de la classification du thème (religion ou générale) ; aucune pour les maths.
+  let a = null;
+  if (systemeDe(t)) {
+    const ok = tranchesDuTheme(t); a = normaliserTranche(b.a);
+    if (!ok.includes(a)) return { erreur: `Tranche d'âge invalide pour ce thème (attendu : ${ok.join(', ')}).` };
+  }
   const statut = ['publiee', 'brouillon', 'archivee'].includes(b.statut) ? b.statut : 'brouillon';
   const s = txt(b.s, 300);
   // Contenu religieux : jamais publié sans source ni sans explication en français ET en arabe.
