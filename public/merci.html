@@ -1,5 +1,16 @@
 <!doctype html>
-<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<html lang="fr"><head><meta charset="utf-8">
+<!-- Google tag (gtag.js) : mesure d'audience, cookies seulement après accord (mode consentement) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  var kzConsent=null; try{ kzConsent=localStorage.getItem('kz_consent'); }catch(e){}
+  gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage: kzConsent==='oui'?'granted':'denied'});
+  gtag('js', new Date());
+  gtag('config', 'G-QT8SX98GY7');
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QT8SX98GY7"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Merci — Kounouzi</title><meta name="robots" content="noindex"><meta name="theme-color" content="#0c1626"><link rel="icon" type="image/png" sizes="32x32" href="/img/logo/favicon-32.png"><link rel="icon" type="image/png" sizes="48x48" href="/img/logo/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/img/logo/favicon-192.png">
 <link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
 
@@ -47,4 +58,15 @@ async function go(n=0){
 }
 go();
 </script><script>if('serviceWorker' in navigator) addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));</script>
+<div id="kzCookies" role="region" aria-label="Cookies" hidden style="position:fixed;inset-inline:12px;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:70;max-width:520px;margin-inline:auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-end;padding:12px 14px;border-radius:16px;background:#1c3050;border:1.5px solid rgba(239,190,76,.45);box-shadow:0 10px 30px rgba(0,0,0,.45);font:700 13px/1.45 Nunito,system-ui,sans-serif;color:#f7ecd4">
+  <span style="flex:1 1 100%"></span>
+  <button type="button" data-c="non" style="border:1.5px solid rgba(255,255,255,.25);background:transparent;color:inherit;border-radius:999px;padding:8px 14px;font:inherit;cursor:pointer"></button>
+  <button type="button" data-c="oui" style="border:0;background:#efbe4c;color:#3a2606;border-radius:999px;padding:8px 16px;font:inherit;font-weight:900;cursor:pointer"></button>
+</div>
+<script>(function(){ var T={fr:["Nous utilisons des cookies de mesure d'audience (Google Analytics) pour améliorer le site, seulement avec ton accord.","Accepter","Refuser"],en:["We use audience measurement cookies (Google Analytics) to improve the site, only with your consent.","Accept","Decline"]};
+  var b=document.getElementById('kzCookies'), L=document.documentElement.lang==='en'?'en':'fr', t=T[L];
+  b.lang=L; b.querySelector('span').textContent=t[0]; b.querySelector('[data-c=oui]').textContent=t[1]; b.querySelector('[data-c=non]').textContent=t[2];
+  if(kzConsent===null) b.hidden=false;
+  b.addEventListener('click',function(e){ var v=e.target.getAttribute('data-c'); if(!v) return; try{ localStorage.setItem('kz_consent',v); }catch(x){}
+    if(v==='oui') gtag('consent','update',{analytics_storage:'granted'}); b.remove(); }); })();</script>
 </body></html>
