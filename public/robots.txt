@@ -4,4 +4,4 @@ Disallow: /admin.html
 Disallow: /api/
 Disallow: /merci.html
 
-Sitemap: https://kounouzi-taupe.vercel.app/sitemap.xml
+Sitemap: https://kounouzi.com/sitemap.xml
