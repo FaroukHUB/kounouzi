@@ -1,0 +1,616 @@
+{
+ "defis": {
+  "CH-001": {
+   "ti": "5 little jumps",
+   "cl": "Move",
+   "tx": "Do 5 little jumps on the spot.",
+   "v": [
+    "5 jumps",
+    "8 jumps"
+   ]
+  },
+  "CH-002": {
+   "ti": "Lightning balance",
+   "cl": "Move",
+   "tx": "Stand on one foot without putting the other one down.",
+   "v": [
+    "5 s",
+    "10 s",
+    "15 s"
+   ]
+  },
+  "CH-004": {
+   "ti": "Mystery nose",
+   "cl": "Move",
+   "tx": "Close your eyes and touch your nose with your index finger.",
+   "v": []
+  },
+  "CH-005": {
+   "ti": "Statue",
+   "cl": "Move",
+   "tx": "Stay completely still.",
+   "v": [
+    "15 s",
+    "25 s"
+   ]
+  },
+  "CH-006": {
+   "ti": "On tiptoe",
+   "cl": "Move",
+   "tx": "Stand on tiptoe without moving.",
+   "v": [
+    "5 s",
+    "10 s"
+   ]
+  },
+  "CH-007": {
+   "ti": "The invisible line",
+   "cl": "Move",
+   "tx": "Walk 6 steps, placing your heel right in front of the toes of your other foot.",
+   "v": []
+  },
+  "CH-008": {
+   "ti": "The royal cushion",
+   "cl": "Move",
+   "tx": "Keep a small, light cushion on your head without dropping it.",
+   "v": [
+    "5 s",
+    "10 s"
+   ]
+  },
+  "CH-009": {
+   "ti": "Crossed hands",
+   "cl": "Move",
+   "tx": "Touch your right ear with your left hand, then your left ear with your right hand, 4 times.",
+   "v": []
+  },
+  "CH-010": {
+   "ti": "Knee up",
+   "cl": "Move",
+   "tx": "Lift one knee and count to 10 without putting your foot down.",
+   "v": [
+    "count to 5"
+   ]
+  },
+  "CH-012": {
+   "ti": "Walking robot",
+   "cl": "Move",
+   "tx": "Take 8 steps walking like a robot.",
+   "v": []
+  },
+  "CH-014": {
+   "ti": "Arms out",
+   "cl": "Move",
+   "tx": "Keep your arms stretched out to the sides.",
+   "v": [
+    "8 s",
+    "15 s"
+   ]
+  },
+  "CH-016": {
+   "ti": "Pass the cushion",
+   "cl": "Move",
+   "tx": "Pass a small cushion from one hand to the other 10 times without dropping it.",
+   "v": []
+  },
+  "CH-017": {
+   "ti": "The giant walk",
+   "cl": "Move",
+   "tx": "Take 5 big, very slow steps as if you were a giant.",
+   "v": []
+  },
+  "CH-018": {
+   "ti": "The tiny walk",
+   "cl": "Move",
+   "tx": "Take 10 tiny steps, each no longer than your foot.",
+   "v": []
+  },
+  "CH-019": {
+   "ti": "Mirror pose",
+   "cl": "Move",
+   "tx": "The game shows a very simple pose. Copy it for 5 seconds.",
+   "v": []
+  },
+  "CH-020": {
+   "ti": "BOSS coordination",
+   "cl": "Move",
+   "tx": "Do it all: balance + 5 little jumps + touch your nose with your eyes closed.",
+   "v": []
+  },
+  "CH-021": {
+   "ti": "The lion",
+   "cl": "Animals",
+   "tx": "Roar like a lion.",
+   "v": []
+  },
+  "CH-022": {
+   "ti": "The cow",
+   "cl": "Animals",
+   "tx": "Moo like a cow.",
+   "v": []
+  },
+  "CH-023": {
+   "ti": "The cat",
+   "cl": "Animals",
+   "tx": "Act like a cat for 5 seconds.",
+   "v": []
+  },
+  "CH-024": {
+   "ti": "The elephant",
+   "cl": "Animals",
+   "tx": "Imitate an elephant's call or trunk.",
+   "v": []
+  },
+  "CH-025": {
+   "ti": "The hen",
+   "cl": "Animals",
+   "tx": "Act like a hen until a player guesses the animal.",
+   "v": []
+  },
+  "CH-026": {
+   "ti": "The frog",
+   "cl": "Animals",
+   "tx": "Get the others to guess a frog using only gestures.",
+   "v": []
+  },
+  "CH-027": {
+   "ti": "The penguin",
+   "cl": "Animals",
+   "tx": "Walk 5 steps like a penguin.",
+   "v": []
+  },
+  "CH-028": {
+   "ti": "The silent fish",
+   "cl": "Animals",
+   "tx": "Get the others to guess a fish without making a sound.",
+   "v": []
+  },
+  "CH-029": {
+   "ti": "The rabbit",
+   "cl": "Animals",
+   "tx": "Get the others to guess a rabbit using gestures.",
+   "v": []
+  },
+  "CH-030": {
+   "ti": "The giraffe",
+   "cl": "Animals",
+   "tx": "Get the others to guess a giraffe without speaking.",
+   "v": []
+  },
+  "CH-031": {
+   "ti": "Three calls",
+   "cl": "Animals",
+   "tx": "Make the calls of 3 animals chosen by the card, one after another.",
+   "v": []
+  },
+  "CH-032": {
+   "ti": "Mystery animal",
+   "cl": "Animals",
+   "tx": "The game gives you 3 clues. Guess the animal.",
+   "v": []
+  },
+  "CH-033": {
+   "ti": "Surprise mime",
+   "cl": "Animals",
+   "tx": "The game shows an animal: get the family to guess it without speaking.",
+   "v": []
+  },
+  "CH-034": {
+   "ti": "No gestures",
+   "cl": "Animals",
+   "tx": "Get the others to guess an animal using only its call, with no gestures.",
+   "v": []
+  },
+  "CH-035": {
+   "ti": "No sounds",
+   "cl": "Animals",
+   "tx": "Get the others to guess an animal using only gestures, with no sound.",
+   "v": []
+  },
+  "CH-036": {
+   "ti": "Express zoo",
+   "cl": "Animals",
+   "tx": "Name 5 animals in 10 seconds.",
+   "v": [
+    "4 animals"
+   ]
+  },
+  "CH-037": {
+   "ti": "Animal letter",
+   "cl": "Animals",
+   "tx": "Name an animal whose name starts with the letter shown.",
+   "v": []
+  },
+  "CH-038": {
+   "ti": "Who lives where?",
+   "cl": "Animals",
+   "tx": "The game gives an animal. Say whether it lives mostly in water, on land or in the air.",
+   "v": []
+  },
+  "CH-039": {
+   "ti": "BOSS zoo",
+   "cl": "Animals",
+   "tx": "Get the others to guess 3 different animals in under 40 seconds.",
+   "v": []
+  },
+  "CH-040": {
+   "ti": "The fake animal",
+   "cl": "Animals",
+   "tx": "Among 3 names shown, find the one that is not an animal.",
+   "v": []
+  },
+  "CH-041": {
+   "ti": "Kiss on the forehead",
+   "cl": "Family",
+   "tx": "Kiss each member of your family who agrees on the forehead.",
+   "v": []
+  },
+  "CH-042": {
+   "ti": "Round of compliments",
+   "cl": "Family",
+   "tx": "Give each player a sincere compliment.",
+   "v": []
+  },
+  "CH-043": {
+   "ti": "One good quality",
+   "cl": "Family",
+   "tx": "Name a good quality of the player on your left.",
+   "v": []
+  },
+  "CH-044": {
+   "ti": "Thank you for...",
+   "cl": "Family",
+   "tx": "Thank a player for something specific.",
+   "v": []
+  },
+  "CH-045": {
+   "ti": "Family high five",
+   "cl": "Family",
+   "tx": "High-five each player who agrees.",
+   "v": []
+  },
+  "CH-046": {
+   "ti": "Invented handshake",
+   "cl": "Family",
+   "tx": "Invent a very simple handshake with a player who agrees.",
+   "v": []
+  },
+  "CH-048": {
+   "ti": "Applause",
+   "cl": "Family",
+   "tx": "Get the whole table clapping in under 15 seconds.",
+   "v": []
+  },
+  "CH-049": {
+   "ti": "Kind wish",
+   "cl": "Family",
+   "tx": "Choose a player and wish them something good.",
+   "v": []
+  },
+  "CH-050": {
+   "ti": "What I love about us",
+   "cl": "Family",
+   "tx": "Say one thing you love about your family.",
+   "v": []
+  },
+  "CH-051": {
+   "ti": "Solidarity gift",
+   "cl": "Solidarity",
+   "tx": "Give 5 Kounouz to the player of your choice. If you do, win 15 Kounouz.",
+   "v": []
+  },
+  "CH-052": {
+   "ti": "Help the lowest balance",
+   "cl": "Solidarity",
+   "tx": "Give 10 Kounouz to the player with the fewest Kounouz. Then you win 20 Kounouz.",
+   "v": []
+  },
+  "CH-053": {
+   "ti": "Surprise sharing",
+   "cl": "Solidarity",
+   "tx": "Choose: keep 10 Kounouz, or give 5 to two players and win 25 Kounouz.",
+   "v": []
+  },
+  "CH-054": {
+   "ti": "The kind word",
+   "cl": "Family",
+   "tx": "Say an encouraging sentence to the person with the fewest Kounouz.",
+   "v": []
+  },
+  "CH-055": {
+   "ti": "BOSS family",
+   "cl": "Family",
+   "tx": "Complete 3 missions: a compliment, a specific thank you and a kind gesture without contact.",
+   "v": []
+  },
+  "CH-056": {
+   "ti": "No yes or no",
+   "cl": "Oh no!",
+   "tx": "Until your next turn, you are not allowed to say \"yes\" or \"no\".",
+   "v": [
+    "limited to 30 seconds"
+   ]
+  },
+  "CH-057": {
+   "ti": "Silence!",
+   "cl": "Oh no!",
+   "tx": "Stay silent until your next turn.",
+   "v": [
+    "20 seconds only"
+   ]
+  },
+  "CH-058": {
+   "ti": "Whisper only",
+   "cl": "Oh no!",
+   "tx": "Until your next turn, speak only in a whisper.",
+   "v": []
+  },
+  "CH-059": {
+   "ti": "Robot mode",
+   "cl": "Oh no!",
+   "tx": "Until your next turn, speak with a robot voice.",
+   "v": []
+  },
+  "CH-060": {
+   "ti": "Don't laugh!",
+   "cl": "Oh no!",
+   "tx": "For 30 seconds, try not to laugh while the others try to make you laugh without touching you.",
+   "v": [
+    "20 seconds"
+   ]
+  },
+  "CH-061": {
+   "ti": "Don't smile!",
+   "cl": "Oh no!",
+   "tx": "Stay serious for 20 seconds.",
+   "v": []
+  },
+  "CH-062": {
+   "ti": "The forbidden word",
+   "cl": "Oh no!",
+   "tx": "Until your next turn, you are not allowed to say the word \"Kounouz\".",
+   "v": [
+    "30 seconds"
+   ]
+  },
+  "CH-063": {
+   "ti": "Your name is forbidden",
+   "cl": "Oh no!",
+   "tx": "For 30 seconds, don't say your own first name.",
+   "v": []
+  },
+  "CH-064": {
+   "ti": "Full answer",
+   "cl": "Oh no!",
+   "tx": "Until your next turn, every time you answer, you must use a full sentence.",
+   "v": []
+  },
+  "CH-065": {
+   "ti": "OH NO statue",
+   "cl": "Oh no!",
+   "tx": "Stay in a statue pose while the next player starts their turn.",
+   "v": []
+  },
+  "CH-066": {
+   "ti": "Hand on head",
+   "cl": "Oh no!",
+   "tx": "Keep one hand on your head until your next turn.",
+   "v": []
+  },
+  "CH-067": {
+   "ti": "Arms crossed",
+   "cl": "Oh no!",
+   "tx": "Keep your arms crossed until your next turn.",
+   "v": [
+    "20 seconds"
+   ]
+  },
+  "CH-068": {
+   "ti": "The secret word",
+   "cl": "Oh no!",
+   "tx": "The game shows an everyday word. You must avoid saying it until your next turn.",
+   "v": []
+  },
+  "CH-069": {
+   "ti": "Double rule",
+   "cl": "Oh no!",
+   "tx": "For 30 seconds: don't say \"yes\" or \"no\" and keep one hand on your head.",
+   "v": []
+  },
+  "CH-070": {
+   "ti": "BOSS OH NO",
+   "cl": "Oh no!",
+   "tx": "One after another: 20 seconds without laughing + 10 seconds of silence + an animal call.",
+   "v": []
+  },
+  "CH-071": {
+   "ti": "Memory: 5 pictures",
+   "cl": "Memory",
+   "tx": "Look at 5 pictures for 10 seconds, then name at least 4 of them.",
+   "v": [
+    "4 pictures, find 3"
+   ]
+  },
+  "CH-072": {
+   "ti": "Number sequence",
+   "cl": "Memory",
+   "tx": "Memorise, then repeat the sequence of numbers shown.",
+   "v": [
+    "3 numbers",
+    "4",
+    "5-6"
+   ]
+  },
+  "CH-073": {
+   "ti": "Word sequence",
+   "cl": "Memory",
+   "tx": "Memorise, then repeat the words in the right order.",
+   "v": [
+    "3 words",
+    "4-5"
+   ]
+  },
+  "CH-074": {
+   "ti": "Colours in order",
+   "cl": "Memory",
+   "tx": "Memorise the order of the colours, then repeat it.",
+   "v": []
+  },
+  "CH-075": {
+   "ti": "What's missing?",
+   "cl": "Memory",
+   "tx": "Look at 5 objects. The game hides one. Find which one.",
+   "v": [
+    "4 objects"
+   ]
+  },
+  "CH-076": {
+   "ti": "5 fruits",
+   "cl": "Thinking",
+   "tx": "Name 5 fruits in 15 seconds.",
+   "v": [
+    "4 fruits"
+   ]
+  },
+  "CH-079": {
+   "ti": "Same colour",
+   "cl": "Observation",
+   "tx": "Find 3 objects around you that are the colour shown.",
+   "v": []
+  },
+  "CH-080": {
+   "ti": "Lightning letter",
+   "cl": "Language",
+   "tx": "Find 5 words starting with the letter shown.",
+   "v": [
+    "3 words; easier letter"
+   ]
+  },
+  "CH-081": {
+   "ti": "Set sentence",
+   "cl": "Language",
+   "tx": "Make a correct sentence with the 3 words shown.",
+   "v": []
+  },
+  "CH-084": {
+   "ti": "Lightning riddle",
+   "cl": "Logic",
+   "tx": "Solve a little riddle suited to your age.",
+   "v": []
+  },
+  "CH-085": {
+   "ti": "BOSS memory",
+   "cl": "Memory",
+   "tx": "Memorise 5 items, answer a sum, then recall the 5 items.",
+   "v": [
+    "4 items",
+    "3 items + a very simple sum"
+   ]
+  },
+  "CH-086": {
+   "ti": "3 Arabic words",
+   "cl": "Arabic",
+   "tx": "Say 3 Arabic words you know and what they mean in English.",
+   "v": [
+    "2 words"
+   ]
+  },
+  "CH-088": {
+   "ti": "Count in Arabic",
+   "cl": "Arabic",
+   "tx": "Count in Arabic up to the number asked.",
+   "v": [
+    "up to 5",
+    "10 or more depending on level"
+   ]
+  },
+  "CH-091": {
+   "ti": "Level recitation",
+   "cl": "Religion",
+   "tx": "Recite a surah already validated for your level.",
+   "v": []
+  },
+  "CH-092": {
+   "ti": "Two surahs",
+   "cl": "Religion",
+   "tx": "Recite two short surahs you already know well.",
+   "v": []
+  },
+  "CH-093": {
+   "ti": "Al-Fātiḥah",
+   "cl": "Religion",
+   "tx": "Recite Al-Fātiḥah.",
+   "v": []
+  },
+  "CH-098": {
+   "ti": "BOSS adventure",
+   "cl": "Big challenge",
+   "tx": "Do it all: a simple movement challenge + an animal challenge + a memory challenge.",
+   "v": []
+  },
+  "CH-099": {
+   "ti": "BOSS family + knowledge",
+   "cl": "Big challenge",
+   "tx": "Give a sincere compliment to 2 players, then answer a knowledge question suited to you.",
+   "v": []
+  },
+  "CH-100": {
+   "ti": "GRAND BOSS KOUNOUZI",
+   "cl": "Big challenge",
+   "tx": "Complete 3 trials: a fun trial, a memory or logic trial, then a knowledge trial.",
+   "v": []
+  }
+ },
+ "hassanat": {
+  "HS-001": {
+   "title": "Offer a meal",
+   "text": "Offer a meal to another player."
+  },
+  "HS-002": {
+   "title": "Offer an ʿUmra",
+   "text": "Offer an ʿUmra to another player."
+  },
+  "HS-003": {
+   "title": "Help a player",
+   "text": "Give Kounouz to another player who needs them."
+  }
+ },
+ "cells": {
+  "1": {
+   "nom": "Maktaba Al-Albānī"
+  },
+  "3": {
+   "nom": "Maktaba As-Sunnah"
+  },
+  "5": {
+   "nom": "Hotel Al-Sharif"
+  },
+  "8": {
+   "nom": "Hotel El Kunuz"
+  },
+  "10": {
+   "nom": "Hotel At-Tawḥīd"
+  },
+  "12": {
+   "nom": "Hotel Al-Iḥsān"
+  },
+  "15": {
+   "nom": "Algerian Restaurant"
+  },
+  "17": {
+   "nom": "Moroccan Restaurant"
+  },
+  "19": {
+   "nom": "An-Nour Umrah Agency"
+  },
+  "22": {
+   "nom": "Al-Hudā Umrah Agency"
+  },
+  "24": {
+   "nom": "Dubai Museum"
+  },
+  "26": {
+   "nom": "Halal Family Park"
+  }
+ }
+}

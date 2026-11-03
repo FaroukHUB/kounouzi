@@ -7,10 +7,16 @@
 <meta name="description" content="Kounouzi, le jeu familial qui réunit petits et grands autour de défis, de connaissances et de valeurs islamiques. 1 764 questions, 2 à 6 joueurs, paiement unique, accès familial à vie, sans publicité.">
 <meta name="theme-color" content="#0c1626">
 <link rel="canonical" href="https://kounouzi-taupe.vercel.app/">
+<link rel="alternate" hreflang="fr" href="https://kounouzi-taupe.vercel.app/">
+<link rel="alternate" hreflang="en" href="https://kounouzi-taupe.vercel.app/en/">
+<link rel="alternate" hreflang="x-default" href="https://kounouzi-taupe.vercel.app/">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:url" content="https://kounouzi-taupe.vercel.app/">
 <meta property="og:title" content="Kounouzi — Jouez ensemble, apprenez autrement, transmettez l'essentiel">
 <meta property="og:description" content="Le jeu familial qui réunit petits et grands autour de défis, de connaissances et de valeurs islamiques.">
-<meta property="og:image" content="/img/site/plateau.webp">
+<meta property="og:image" content="https://kounouzi-taupe.vercel.app/img/site/plateau.webp">
 <link rel="icon" href="/img/app/favicon-48.png">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
@@ -23,6 +29,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800;900&family=Noto+Naskh+Arabic:wght@500;700&display=swap">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Kounouzi","description":"Jeu familial de questions et de valeurs islamiques, plateau 3D, 1 764 questions, 2 à 6 joueurs.","image":"https://kounouzi-taupe.vercel.app/img/site/plateau.webp","brand":{"@type":"Brand","name":"Kounouzi"},"offers":{"@type":"Offer","price":"6.99","priceCurrency":"EUR","availability":"https://schema.org/PreOrder"}}</script>
 <style>
+.langsw{font-weight:900;font-size:13px;padding:6px 10px;border-radius:999px;border:1.5px solid rgba(255,255,255,.2);color:inherit;text-decoration:none}
+.langsug{position:fixed;inset-inline:12px;top:76px;z-index:60;max-width:460px;margin-inline:auto;display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:16px;background:#1c3050;border:1.5px solid rgba(239,190,76,.5);font-weight:800;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.langsug a{color:var(--gold)}.langsug button{background:none;border:0;color:inherit;font-size:18px;cursor:pointer}
 :root{
   --night:#0c1626; --night-2:#14243b; --night-3:#1b2f4d; --gold:#efbe4c; --gold-deep:#b9821d; --gold-soft:#ffd978;
   --parchment:#f7ecd4; --muted:#a4b4ca; --faint:#6d7f99; --emerald:#3ddc84; --cyan:#36d6ff; --magenta:#ff6fd8; --violet:#8b3dff; --orange:#ff9a3a;
@@ -348,6 +357,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
     <a class="logo" href="#" aria-label="Kounouzi, accueil"><img src="/img/app/icon-192.png" alt="" width="38" height="38"><b>Kounouzi</b><span lang="ar">كنوزي</span></a>
     <nav aria-label="Sections"><a href="#benefices">Bénéfices</a><a href="#niveau">Chacun à son niveau</a><a href="#essayer">Essayer</a><a href="#difference">Pourquoi Kounouzi</a><a href="#offre">Offre</a><a href="#faq">Questions</a></nav>
     <div class="acts">
+      <a class="langsw" href="/en/" hreflang="en" lang="en" data-lang="en" title="English version">EN</a>
       <a class="btn btn-ghost btn-sm" href="#acceder" data-hide-acces>J'ai un code</a>
       <button class="btn btn-ghost btn-sm" data-install hidden>📲 Installer</button>
       <a class="btn btn-gold btn-sm" href="#offre" data-cta>Obtenir mon accès</a>
@@ -573,7 +583,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
 
 <footer><div class="wrap">
   <a class="logo" href="#"><img src="/img/app/icon-192.png" alt="" width="30" height="30" style="width:30px;height:30px;border-radius:9px"><b style="font-size:21px">Kounouzi</b></a>
-  <span>Jouez ensemble, apprenez autrement, transmettez l'essentiel — © <span id="yr">2026</span></span>
+  <span>Jouez ensemble, apprenez autrement, transmettez l'essentiel — © <span id="yr">2026</span> · <a href="/en/" hreflang="en" lang="en" data-lang="en" style="color:inherit">English version</a></span>
   <span id="contactFoot"></span>
 </div></footer>
 
@@ -597,6 +607,14 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
 <script>
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 $('#yr').textContent=new Date().getFullYear();
+// Langue : le site garde le choix pour le jeu. Navigateur en anglais sans choix enregistré : simple suggestion, jamais de redirection.
+function garderLangue(l){ try{ localStorage.setItem('kounouzi_lang',l); }catch{} document.cookie=`kz_lang=${l}; path=/; max-age=31536000; samesite=lax`; }
+$$('[data-lang]').forEach(a=>a.addEventListener('click',()=>garderLangue(a.dataset.lang)));
+(()=>{ let choisi=null; try{ choisi=localStorage.getItem('kounouzi_lang'); }catch{}
+  const nav=(navigator.languages||[navigator.language]).map(x=>String(x||'').slice(0,2).toLowerCase()), en=nav.find(x=>x==='fr'||x==='en')==='en';
+  if(choisi || !en) return;
+  const d=document.createElement('div'); d.className='langsug'; d.lang='en'; d.innerHTML='<span>This page is also available in English. <a href="/en/" data-lang="en">View in English →</a></span><button aria-label="Close">✕</button>';
+  d.querySelector('a').onclick=()=>garderLangue('en'); d.querySelector('button').onclick=()=>{ garderLangue('fr'); d.remove(); }; document.body.appendChild(d); })();
 const eur=c=>(c/100).toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €';
 const fmt=n=>n.toLocaleString('fr-FR');
 const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;

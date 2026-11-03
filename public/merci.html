@@ -25,24 +25,30 @@ p{color:var(--muted);margin:0 0 18px}
 .small{font-size:14px}
 .err{color:#ff8f7a;font-weight:800}
 </style></head><body>
-<div class="box" id="box"><img class="c" src="/img/tresor-face.webp" alt=""><h1>Vérification…</h1><p>On confirme ton paiement, un instant.</p></div>
+<div class="box" id="box"><img class="c" src="/img/tresor-face.webp" alt=""><h1 id="h">Vérification…</h1><p id="p">On confirme ton paiement, un instant.</p></div>
 <script>
 const q=new URLSearchParams(location.search), box=document.getElementById('box');
+// Langue : celle du parcours d'achat (?lang=en), sinon le choix gardé sur l'appareil.
+let L=q.get('lang'); if(!L){ try{ L=localStorage.getItem('kounouzi_lang'); }catch{} } L= L==='en'?'en':'fr';
+if(L==='en'){ try{ localStorage.setItem('kounouzi_lang','en'); }catch{} document.cookie='kz_lang=en; path=/; max-age=31536000; samesite=lax'; q.set('lang','en'); }
+const T={fr:{titre:'Merci — Kounouzi',verif:'Vérification…',attente:'On confirme ton paiement, un instant.',merci:'Merci, bienvenue !',ouvert:"Kounouzi est ouvert sur cet appareil. Voici ton code d'accès : garde-le pour ouvrir le jeu sur les autres appareils de la famille.",copier:'Copier le code',jouer:'Jouer à Kounouzi →',astuce:"Astuce : fais une capture d'écran de cette page.",copie:'Code copié ✓',selection:'Sélectionne le code et copie-le',oups:'Oups',introuvable:'Paiement introuvable.',retour:'Retour',accueil:'/#acheter',connexion:"Connexion impossible. Recharge la page dans un instant : ton paiement n'est pas perdu."},
+ en:{titre:'Thank you — Kounouzi',verif:'Checking…',attente:'We are confirming your payment, one moment.',merci:'Thank you, welcome!',ouvert:'Kounouzi is open on this device. Here is your access code: keep it to open the game on your family\'s other devices.',copier:'Copy the code',jouer:'Play Kounouzi →',astuce:'Tip: take a screenshot of this page.',copie:'Code copied ✓',selection:'Select the code and copy it',oups:'Oops',introuvable:'Payment not found.',retour:'Back',accueil:'/en/#offre',connexion:'Cannot connect. Reload the page in a moment: your payment is not lost.'}}[L];
+document.documentElement.lang=L; document.title=T.titre; document.getElementById('h').textContent=T.verif; document.getElementById('p').textContent=T.attente;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 async function go(n=0){
   try{
     const r=await fetch('/api/merci?'+q.toString()); const d=await r.json();
     if(d.ok){
-      box.innerHTML=`<img class="c" src="/img/tresor-face.webp" alt=""><h1>Merci, bienvenue !</h1>
-      <p>Kounouzi est ouvert sur cet appareil. Voici ton code d'accès : garde-le pour ouvrir le jeu sur les autres appareils de la famille.</p>
+      box.innerHTML=`<img class="c" src="/img/tresor-face.webp" alt=""><h1>${T.merci}</h1>
+      <p>${T.ouvert}</p>
       <div class="code" id="code">${esc(d.code)}</div>
-      <button class="btn ghost" id="copy">Copier le code</button>
-      <a class="btn gold" href="/jouer">Jouer à Kounouzi →</a>
-      <p class="small" style="margin-top:16px">Astuce : fais une capture d'écran de cette page.</p>`;
-      document.getElementById('copy').onclick=async e=>{ try{ await navigator.clipboard.writeText(d.code); e.target.textContent='Code copié ✓'; }catch{ e.target.textContent='Sélectionne le code et copie-le'; } };
+      <button class="btn ghost" id="copy">${T.copier}</button>
+      <a class="btn gold" href="/jouer">${T.jouer}</a>
+      <p class="small" style="margin-top:16px">${T.astuce}</p>`;
+      document.getElementById('copy').onclick=async e=>{ try{ await navigator.clipboard.writeText(d.code); e.target.textContent=T.copie; }catch{ e.target.textContent=T.selection; } };
     } else if(r.status===402 && n<6){ setTimeout(()=>go(n+1),2500); }
-    else box.innerHTML=`<h1>Oups</h1><p class="err">${esc(d.erreur||'Paiement introuvable.')}</p><a class="btn gold" href="/#acheter">Retour</a>`;
-  }catch{ if(n<3) setTimeout(()=>go(n+1),2500); else box.innerHTML=`<h1>Oups</h1><p class="err">Connexion impossible. Recharge la page dans un instant : ton paiement n'est pas perdu.</p>`; }
+    else box.innerHTML=`<h1>${T.oups}</h1><p class="err">${esc(d.erreur||T.introuvable)}</p><a class="btn gold" href="${T.accueil}">${T.retour}</a>`;
+  }catch{ if(n<3) setTimeout(()=>go(n+1),2500); else box.innerHTML=`<h1>${T.oups}</h1><p class="err">${T.connexion}</p>`; }
 }
 go();
 </script><script>if('serviceWorker' in navigator) addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));</script>

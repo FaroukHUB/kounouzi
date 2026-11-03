@@ -2,6 +2,7 @@
 // Protégé par le mot de passe KZ_ADMIN (variable Vercel).
 import { timingSafeEqual } from 'node:crypto';
 import { normaliserTranche, systemeDe, tranchesDuTheme } from '../public/ages.js';
+import { analyserImport, lots, STATUTS_TRAD } from '../public/trad.js';
 import { moyens, codeCadeau, codePourPaiement, codeValide, db, dbActive, formater, json, oublierRevocation, PRIX } from './_lib.js';
 
 const THEMES = ['religion', 'maths', 'geography', 'sciences', 'logic', 'management'];
@@ -13,6 +14,7 @@ export const REGLAGES_DEFAUT = {
   minuteur: { enfant: 60, adulte: 45 },
   eviter: 15,
   durees: { rapide: 30, classique: 45, grande: 60 },
+  tradRelire: false, // true : les traductions « à relire » sont déjà montrées dans le jeu (sinon seulement les validées)
 };
 
 function autorise(request) {
@@ -44,7 +46,10 @@ export function verifierQuestion(b) {
   if (t === 'religion' && statut === 'publiee' && (!s || !e.fr || !e.ar))
     return { erreur: 'Une question de religion ne peut être publiée qu’avec sa source et son explication en français et en arabe. Enregistre-la en brouillon en attendant.' };
   const id = txt(b.id, 60) || `${t.slice(0, 3).toUpperCase()}-A-${Date.now().toString(36).toUpperCase()}`;
-  return { question: { id, t, d, a, q, r, e, s, src: txt(b.src, 120), statut, poids: num(b.poids, 0, 5, 1), prio: !!b.prio } };
+  const question = { id, t, d, a, q, r, e, s, src: txt(b.src, 120), statut, poids: num(b.poids, 0, 5, 1), prio: !!b.prio };
+  // Statut de traduction (indépendant de la publication) : envoyé seulement s'il est fourni, sinon la base garde l'actuel.
+  if (b.trad && typeof b.trad === 'object') question.trad = Object.fromEntries(Object.entries(b.trad).filter(([l, v]) => /^[a-z]{2}$/.test(l) && !['fr', 'ar'].includes(l) && STATUTS_TRAD.includes(v)));
+  return { question };
 }
 function verifierReglages(b) {
   const D = REGLAGES_DEFAUT, eco = {};
@@ -58,6 +63,7 @@ function verifierReglages(b) {
     minuteur: { enfant: num(b.minuteur?.enfant, 15, 180, 60), adulte: num(b.minuteur?.adulte, 15, 180, 45) },
     eviter: num(b.eviter, 0, 100, 15),
     durees: { rapide: num(b.durees?.rapide, 10, 120, 30), classique: num(b.durees?.classique, 10, 180, 45), grande: num(b.durees?.grande, 10, 240, 60) },
+    tradRelire: !!b.tradRelire,
   } };
 }
 
@@ -105,6 +111,24 @@ export async function POST(request) {
       case 'question_maj': {
         const v = verifierQuestion(b.question || {}); if (v.erreur) return json(400, v);
         await db('question_maj', v.question); return json(200, { ok: true, id: v.question.id });
+      }
+      case 'trad_import': {
+        // Un lot du fichier (même en-tête, au plus 500 questions). Le serveur revérifie tout contre la base avant d'écrire.
+        const f = b.fichier || {};
+        if (!Array.isArray(f.questions) || f.questions.length > 500) return json(400, { erreur: 'Lot de traductions invalide (500 questions au plus).' });
+        const r = analyserImport(f, base ? await db('questions_liste', {}, { timeout: 15000 }) : [], { ignorerFr: !!b.ignorerFr });
+        if (!r.ok) return json(400, { erreur: r.erreurs.map(e => e.message).join(' '), rapport: r });
+        let ecrites = 0;
+        if (!b.simuler) for (const l of lots(r.aEcrire, 200)) ecrites += (await db('trad_import', { langue: r.langue, lignes: l }, { timeout: 15000 }))?.ecrites || 0;
+        const { aEcrire, ...rapport } = r;
+        return json(200, { ok: true, simule: !!b.simuler, ecrites, aEcrire: aEcrire.length, rapport });
+      }
+      case 'trad_statut': {
+        const ids = (Array.isArray(b.ids) ? b.ids : []).map(x => txt(x, 60)).filter(Boolean).slice(0, 2000);
+        const langue = txt(b.langue, 2) || 'en';
+        if (!STATUTS_TRAD.includes(b.statut) || ['fr', 'ar'].includes(langue)) return json(400, { erreur: 'Statut de traduction invalide.' });
+        const r = await db('trad_statut', { ids, langue, statut: b.statut }, { timeout: 15000 });
+        return json(200, { ok: true, modifiees: r?.modifiees ?? 0 });
       }
       case 'question_suppr': await db('question_suppr', { id: txt(b.id, 60) }); return json(200, { ok: true });
       case 'reglages': {

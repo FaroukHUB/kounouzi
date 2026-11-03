@@ -18,6 +18,6 @@ self.addEventListener('fetch', e => {
   }
   if (u.origin === location.origin && (r.mode === 'navigate' || u.pathname === '/data.json')) {
     e.respondWith(fetch(r).then(res => { if (res.ok && !res.redirected) caches.open(V).then(c => c.put(r, res.clone())); return res; })
-      .catch(() => caches.match(r).then(m => m || caches.match('/'))));
+      .catch(() => caches.match(r).then(m => m || caches.match(u.pathname.startsWith('/en') ? '/en/' : '/'))));
   }
 });

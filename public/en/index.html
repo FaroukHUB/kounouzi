@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kounouzi — Play together, learn differently, pass on what matters</title>
+<meta name="description" content="Kounouzi, the family game that brings children and adults together around challenges, knowledge and Islamic values. 2 to 6 players, one-time payment, lifetime family access, no ads. English version in progress.">
+<meta name="theme-color" content="#0c1626">
+<link rel="canonical" href="https://kounouzi-taupe.vercel.app/en/">
+<link rel="alternate" hreflang="fr" href="https://kounouzi-taupe.vercel.app/">
+<link rel="alternate" hreflang="en" href="https://kounouzi-taupe.vercel.app/en/">
+<link rel="alternate" hreflang="x-default" href="https://kounouzi-taupe.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta property="og:url" content="https://kounouzi-taupe.vercel.app/en/">
+<meta property="og:title" content="Kounouzi — Play together, learn differently, pass on what matters">
+<meta property="og:description" content="The family game that brings children and adults together around challenges, knowledge and Islamic values.">
+<meta property="og:image" content="https://kounouzi-taupe.vercel.app/img/site/plateau.webp">
+<link rel="icon" href="/img/app/favicon-48.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kounouzi">
+<link rel="preload" as="image" href="/img/site/plateau.webp" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800;900&family=Noto+Naskh+Arabic:wght@500;700&display=swap">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Kounouzi","description":"Family game of questions and Islamic values, 3D board, 2 to 6 players.","inLanguage":"en","image":"https://kounouzi-taupe.vercel.app/img/site/plateau.webp","brand":{"@type":"Brand","name":"Kounouzi"},"offers":{"@type":"Offer","price":"6.99","priceCurrency":"EUR","availability":"https://schema.org/PreOrder"}}</script>
+<style>
+.langsw{font-weight:900;font-size:13px;padding:6px 10px;border-radius:999px;border:1.5px solid rgba(255,255,255,.2);color:inherit;text-decoration:none}
+.enwip{margin:14px 0 0;padding:10px 14px;border-radius:14px;background:rgba(239,190,76,.12);border:1px solid rgba(239,190,76,.4);font-weight:800;font-size:14px;line-height:1.45}
+:root{
+  --night:#0c1626; --night-2:#14243b; --night-3:#1b2f4d; --gold:#efbe4c; --gold-deep:#b9821d; --gold-soft:#ffd978;
+  --parchment:#f7ecd4; --muted:#a4b4ca; --faint:#6d7f99; --emerald:#3ddc84; --cyan:#36d6ff; --magenta:#ff6fd8; --violet:#8b3dff; --orange:#ff9a3a;
+  --display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;
+  --body:"Nunito",ui-rounded,"Segoe UI",system-ui,sans-serif;
+  --arabic:"Noto Naskh Arabic","Geeza Pro",serif;
+  --r:24px; --max:1160px; --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;background:var(--night);overflow-x:clip;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--night);color:var(--parchment);font-family:var(--body);font-size:17px;line-height:1.58;overflow-x:hidden;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{width:min(var(--max),100% - 32px);margin-inline:auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.01em;line-height:1.1;margin:0}
+h2{font-size:clamp(30px,4.4vw,50px)}
+h3{font-size:22px}
+.kick{display:inline-flex;align-items:center;gap:8px;font-weight:900;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.kick::before{content:"";width:22px;height:2px;background:currentColor;border-radius:2px}
+.lead{color:var(--muted);font-size:18.5px;max-width:660px}
+section{position:relative;padding:96px 0}
+.center{text-align:center}.center .lead{margin-inline:auto}
+.gold{color:var(--gold)}
+
+.sky{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+  radial-gradient(900px 600px at 85% -10%,rgba(139,61,255,.24),transparent 60%),
+  radial-gradient(800px 600px at -10% 30%,rgba(54,214,255,.13),transparent 60%),
+  radial-gradient(900px 700px at 50% 120%,rgba(239,190,76,.12),transparent 60%),var(--night)}
+.sky::after{content:"";position:absolute;inset:0;background-image:radial-gradient(1.2px 1.2px at 20px 30px,#fff8,transparent),radial-gradient(1px 1px at 120px 80px,#fff6,transparent),radial-gradient(1.4px 1.4px at 200px 160px,#fff5,transparent),radial-gradient(1px 1px at 300px 40px,#fff7,transparent);background-size:340px 220px;opacity:.55}
+
+/* boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:16px 26px;font:900 17px/1.1 var(--body);cursor:pointer;text-decoration:none;transition:transform .15s,filter .15s,background .15s;-webkit-user-select:none;user-select:none;text-align:center}
+.btn:active{transform:scale(.97)}
+.btn-gold{background:linear-gradient(180deg,var(--gold-soft),var(--gold) 45%,var(--gold-deep));color:#3a2606;box-shadow:0 4px 0 #7d540c,0 12px 30px rgba(239,190,76,.3)}
+.btn-gold:hover{filter:brightness(1.06)}
+.btn-ghost{background:rgba(255,255,255,.08);color:var(--parchment);border:1.5px solid rgba(255,255,255,.16)}
+.btn-ghost:hover{background:rgba(255,255,255,.13)}
+.btn-sm{padding:10px 16px;font-size:14.5px}
+.btn-lg{padding:19px 30px;font-size:18px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+/* barre du haut */
+.top{position:sticky;top:0;z-index:30;backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);background:rgba(12,22,38,.74);border-bottom:1px solid rgba(255,255,255,.06);padding-top:var(--sat)}
+.top .wrap{display:flex;align-items:center;gap:18px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo img{width:38px;height:38px;border-radius:11px;box-shadow:0 0 0 1px rgba(255,215,120,.25),0 4px 14px rgba(0,0,0,.4)}
+.logo b{font-family:var(--display);font-weight:400;font-size:26px;color:var(--gold);text-shadow:0 2px 0 #5c3c07}
+.logo span{font-family:var(--arabic);color:var(--muted);font-size:17px}
+.top nav{display:flex;gap:22px;margin-inline-start:auto;font-weight:800;font-size:15px;color:var(--muted)}
+.top nav a{text-decoration:none}.top nav a:hover{color:var(--parchment)}
+.top .acts{display:flex;gap:10px}
+
+/* HERO */
+.hero{padding:56px 0 34px;overflow:hidden}
+.hgrid{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:center}
+.hero h1{font-size:clamp(34px,5vw,62px);margin:18px 0 18px;line-height:1.08}
+.hero h1 em{font-style:normal;background:linear-gradient(180deg,#fff 15%,var(--gold-soft) 55%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 #5c3c07)}
+.hero .lead{font-size:19px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 20px}
+.reassure{display:flex;flex-wrap:wrap;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);font-weight:800;font-size:13.5px;white-space:nowrap}
+.pill i{font-style:normal;color:var(--emerald)}
+.board{position:relative}
+.board::before{content:"";position:absolute;inset:6% 4%;border-radius:50%;background:radial-gradient(closest-side,rgba(239,190,76,.4),rgba(139,61,255,.2) 60%,transparent);filter:blur(34px);z-index:-1;animation:glow 6s ease-in-out infinite}
+.board img{width:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent),linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent);mask-composite:intersect;animation:hover 7s ease-in-out infinite}
+@keyframes hover{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes glow{0%,100%{opacity:.75}50%{opacity:1}}
+.fl{position:absolute;display:flex;align-items:center;gap:9px;padding:10px 14px;border-radius:16px;background:rgba(12,22,38,.88);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-weight:900;font-size:14px;box-shadow:0 12px 30px rgba(0,0,0,.45);animation:hover 6s ease-in-out infinite}
+.fl small{display:block;font-weight:700;color:var(--muted);font-size:12px}
+.fl i{font-style:normal;font-size:22px}
+.fl.f1{inset-inline-start:0;top:8%;animation-delay:-2s}
+.fl.f2{inset-inline-end:0;bottom:10%;animation-delay:-4s}
+.fl.f3{inset-inline-end:4%;top:2%;animation-delay:-1s}
+@media (prefers-reduced-motion:reduce){.board img,.fl,.board::before{animation:none}html{scroll-behavior:auto}}
+.signature{margin-top:34px;text-align:center;font-family:var(--display);font-size:clamp(20px,2.4vw,28px);color:var(--parchment);opacity:.92}
+.signature span{color:var(--gold)}
+
+/* bénéfices */
+.benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+.bcard{position:relative;border-radius:var(--r);padding:26px 22px 24px;background:linear-gradient(165deg,color-mix(in srgb,var(--g) 20%,#14243b),#111d31 70%);border:1px solid color-mix(in srgb,var(--g) 35%,transparent);overflow:hidden;transition:transform .25s,box-shadow .25s}
+.bcard:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,.35),0 0 30px color-mix(in srgb,var(--g) 20%,transparent)}
+.bcard::after{content:"";position:absolute;inset-inline-end:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--g) 35%,transparent),transparent 70%)}
+.bcard .ic{width:62px;height:62px;border-radius:18px;display:grid;place-items:center;background:color-mix(in srgb,var(--g) 22%,rgba(0,0,0,.2));border:1px solid color-mix(in srgb,var(--g) 40%,transparent);margin-bottom:16px;font-size:30px}
+.bcard .ic img{width:44px;height:44px;object-fit:contain}
+.bcard h3{font-size:21px;margin-bottom:8px}
+.bcard p{margin:0;color:var(--muted);font-size:15.5px}
+
+.niv{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.agerow{margin-top:12px}
+.agerow small{display:block;font-weight:900;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.agerow .chips{display:flex;flex-wrap:wrap;gap:6px}
+.agerow .chips span{padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-weight:900;font-size:13px}
+.lvl{display:flex;align-items:flex-end;gap:6px;height:64px;margin-top:14px}
+.lvl i{flex:1;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--g),color-mix(in srgb,var(--g) 40%,transparent));opacity:.35}
+.lvl i.on{opacity:1;box-shadow:0 0 18px color-mix(in srgb,var(--g) 60%,transparent)}
+.lvl-l{display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:var(--muted);margin-top:6px}
+/* émotion */
+.emotion{padding:110px 0;overflow:hidden}
+.emotion .bg{position:absolute;inset:0;background:url(/img/site/plateau.webp) center/cover no-repeat;opacity:.12;filter:blur(3px) saturate(1.2);-webkit-mask-image:linear-gradient(180deg,transparent,#000 25%,#000 75%,transparent);mask-image:linear-gradient(180deg,transparent,#000 25%,#000 75%,transparent)}
+.quote{position:relative;text-align:center;max-width:900px;margin:0 auto}
+.quote blockquote{margin:0;font-family:var(--display);font-size:clamp(30px,4.8vw,56px);line-height:1.15}
+.quote blockquote span{display:block;color:var(--gold);margin-top:10px;text-shadow:0 3px 0 #5c3c07,0 0 30px rgba(239,190,76,.35)}
+.quote p{color:var(--muted);font-size:18.5px;margin:26px auto 0;max-width:680px}
+.talks{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px;text-align:start}
+.talk{border-radius:20px;padding:18px 18px 16px;background:rgba(20,36,59,.85);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.talk .when{font-weight:900;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.talk .say{font-weight:800;font-size:16.5px;margin-top:6px}
+.talk .say::before{content:"« "}.talk .say::after{content:" »"}
+
+/* démo */
+.demo{display:grid;grid-template-columns:1fr 1.05fr;gap:40px;align-items:center;margin-top:44px}
+.demo-side{display:grid;gap:16px}
+.score{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sc{border-radius:18px;padding:14px 12px;background:var(--night-2);border:1px solid rgba(255,255,255,.08);text-align:center}
+.sc b{display:block;font-family:var(--display);font-weight:400;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.sc span{font-size:12.5px;font-weight:800;color:var(--muted)}
+.sc.k b{color:var(--gold)}.sc.h b{color:var(--magenta)}.sc.t b{color:var(--parchment)}
+.sc.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.08)}}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:1.5px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:var(--parchment);border-radius:999px;padding:9px 14px;font:800 14.5px var(--body);cursor:pointer}
+.tab[aria-pressed=true]{background:rgba(239,190,76,.16);border-color:var(--gold);color:var(--gold)}
+.dstep{border-radius:20px;padding:16px 18px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.14);color:var(--muted);font-weight:700;font-size:15px}
+.dstep b{color:var(--parchment)}
+.stage3d{position:relative;perspective:1600px;width:min(380px,100%);margin:0 auto}
+.dcard{position:relative;aspect-ratio:2/3;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.3,1.35,.45,1)}
+.dcard.back{transform:rotateY(180deg)}
+.dcard .fc,.dcard .bk{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:8% / 5.4%;background:center/100% 100% no-repeat;overflow:hidden;filter:drop-shadow(0 26px 40px rgba(0,0,0,.55))}
+.dcard .bk{transform:rotateY(180deg);background-image:url(/img/kounouzi-dos.webp)}
+.dcard .win{position:absolute;top:38.8%;bottom:11.8%;inset-inline:9.4%;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:6% 7%;color:#2b1f10;text-align:center;container-type:inline-size}
+.dcard .q{font-weight:900;font-size:clamp(15px,7cqw,22px);line-height:1.25;text-wrap:balance}
+.dcard .ans{font-weight:900;color:#0a6b3a;font-size:clamp(15px,6.6cqw,20px)}
+.dcard .ex{font-weight:700;font-size:clamp(12px,4.6cqw,14.5px);color:#5a4630}
+.dcard .src{font-size:11px;color:#7a6650;font-weight:700}
+.dcard .tag{align-self:center;font-weight:900;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:rgba(0,0,0,.07);border-radius:99px;padding:3px 10px;color:#5a4630}
+.dacts{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px;min-height:56px}
+.dacts .btn{padding:13px 18px;font-size:15.5px}
+.b-good{background:linear-gradient(180deg,#5ee89a,#2fae63);color:#06311a;box-shadow:0 4px 0 #1d6b3d}
+.b-mid{background:linear-gradient(180deg,#ffd278,#e3a33a);color:#3a2606;box-shadow:0 4px 0 #8a5a12}
+.b-bad{background:rgba(255,255,255,.08);color:var(--parchment);border:1.5px solid rgba(255,255,255,.16)}
+.toastd{position:absolute;inset-inline:0;top:-14px;margin:auto;width:max-content;max-width:90%;padding:9px 16px;border-radius:999px;background:#0b1424;border:1.5px solid var(--gold);font-weight:900;z-index:3;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+.note{font-size:13.5px;color:var(--faint);font-weight:700}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:4}
+.confetti i{position:absolute;top:30%;left:50%;width:9px;height:14px;border-radius:2px;animation:conf 1.1s ease-out forwards}
+@keyframes conf{to{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:0}}
+
+/* captures */
+.rail{display:grid;grid-auto-flow:column;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 18px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rail::-webkit-scrollbar{display:none}
+.rail>*{scroll-snap-align:start}
+.dots{display:flex;justify-content:center;gap:6px;margin-top:2px}
+.dots i{width:7px;height:7px;border-radius:99px;background:rgba(255,255,255,.2);transition:width .25s,background .25s}
+.dots i.on{width:22px;background:var(--gold)}
+.shots{grid-auto-columns:clamp(220px,26vw,290px);justify-content:center}
+.shot{margin:0}
+.shot .ph{border-radius:34px;padding:9px;background:linear-gradient(160deg,#33496d,#0e1a2c);box-shadow:0 24px 60px rgba(0,0,0,.55),inset 0 0 0 1.5px rgba(255,255,255,.12)}
+.shot img{border-radius:26px;width:100%;aspect-ratio:585/1266;object-fit:cover}
+.shot figcaption{text-align:center;margin-top:14px;font-weight:900}
+.shot figcaption span{display:block;color:var(--muted);font-weight:700;font-size:14px}
+.install{display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;border-radius:28px;padding:22px 26px;margin-top:34px;background:linear-gradient(135deg,rgba(139,61,255,.22),rgba(54,214,255,.1) 60%,rgba(255,255,255,.03));border:1px solid rgba(139,61,255,.35)}
+.install img{width:72px;height:72px;border-radius:19px;box-shadow:0 10px 30px rgba(0,0,0,.45),0 0 0 1px rgba(255,215,120,.25)}
+.install p{margin:4px 0 0;color:var(--muted)}
+
+/* différence */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+.vcol{border-radius:var(--r);padding:26px 24px;border:1px solid rgba(255,255,255,.08);background:var(--night-2)}
+.vcol.k{background:linear-gradient(165deg,rgba(239,190,76,.14),#14243b 60%);border-color:rgba(239,190,76,.45);box-shadow:0 0 0 6px rgba(239,190,76,.05)}
+.vcol h3{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.vcol h3 img{width:34px;height:34px;border-radius:10px}
+.vcol ul{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+.vcol li{padding-inline-start:30px;position:relative;font-weight:700}
+.vcol li::before{position:absolute;inset-inline-start:0;top:1px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:900}
+.vcol.o li{color:var(--muted)}
+.vcol.o li::before{content:"–";background:rgba(255,255,255,.08);color:var(--faint)}
+.vcol.k li::before{content:"✓";background:rgba(61,220,132,.16);color:var(--emerald)}
+
+/* comment ça marche */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;counter-reset:s}
+.step{position:relative;background:var(--night-2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);padding:24px 22px;overflow:hidden}
+.step::before{counter-increment:s;content:counter(s);position:absolute;inset-inline-end:16px;top:4px;font-family:var(--display);font-size:70px;color:rgba(255,255,255,.05)}
+.step .ico{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;margin-bottom:14px;background:var(--g);box-shadow:0 0 24px color-mix(in srgb,var(--g) 50%,transparent)}
+.step .ico img{width:40px;height:40px;object-fit:contain}
+.step h3{font-size:20px;margin-bottom:8px}
+.step p{margin:0;color:var(--muted);font-size:15.5px}
+
+/* offre */
+.price{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;margin-top:40px}
+.offer{position:relative;border-radius:30px;padding:34px 30px;background:linear-gradient(170deg,#1f3558,#111f35);border:1.5px solid rgba(239,190,76,.55);box-shadow:0 0 0 7px rgba(239,190,76,.06),0 30px 70px rgba(0,0,0,.45);overflow:hidden}
+.offer::after{content:"";position:absolute;inset-inline-end:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(239,190,76,.28),transparent 70%)}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#3a2606;font-weight:900;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 13px}
+.amount{display:flex;align-items:baseline;gap:12px;margin:18px 0 4px;flex-wrap:wrap}
+.amount b{font-family:var(--display);font-weight:400;font-size:76px;line-height:1;color:var(--gold);text-shadow:0 3px 0 #5c3c07}
+.amount span{color:var(--muted);font-weight:800}
+.launch{color:var(--parchment);font-weight:800;margin:0 0 20px}
+.inc{list-style:none;padding:0;margin:0 0 26px;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.inc li{padding-inline-start:30px;position:relative;font-weight:800}
+.inc li::before{content:"✓";position:absolute;inset-inline-start:0;top:1px;width:22px;height:22px;border-radius:50%;background:rgba(61,220,132,.16);color:var(--emerald);display:grid;place-items:center;font-size:13px;font-weight:900}
+.pay{display:grid;gap:10px;position:relative;z-index:1}
+.pay .btn{width:100%}
+.pay small{color:var(--muted);text-align:center;font-weight:700}
+.soon{color:var(--muted);font-weight:800;text-align:center;padding:14px;border:1.5px dashed rgba(255,255,255,.18);border-radius:16px}
+.codebox{border-radius:30px;padding:28px 24px;background:var(--night-2);border:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:14px}
+.codebox p{margin:0;color:var(--muted)}
+.field{display:flex;gap:10px;flex-wrap:wrap}
+.field input{flex:1 1 200px;min-width:0;border-radius:16px;border:1.5px solid rgba(255,255,255,.16);background:rgba(0,0,0,.25);color:var(--parchment);font:800 18px var(--body);letter-spacing:.1em;text-transform:uppercase;padding:14px 16px}
+.field input::placeholder{letter-spacing:.06em;color:var(--faint)}
+.msg{min-height:22px;font-weight:800;font-size:15px}
+.msg.ok{color:var(--emerald)}.msg.err{color:#ff8f7a}
+.gift{margin-top:auto;padding:16px;border-radius:18px;background:rgba(255,111,216,.08);border:1px solid rgba(255,111,216,.25)}
+.gift b{display:block;margin-bottom:4px}
+
+/* faq */
+.faq{display:grid;gap:10px;margin-top:32px;max-width:860px}
+details{background:var(--night-2);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:0 20px}
+summary{cursor:pointer;list-style:none;padding:18px 0;font-weight:900;font-size:17px;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--display);font-size:26px;line-height:.8;color:var(--gold);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 18px;color:var(--muted)}
+
+.final .box{text-align:center;border-radius:32px;padding:56px 24px;background:radial-gradient(600px 300px at 50% 0,rgba(239,190,76,.22),transparent 70%),linear-gradient(180deg,#182b48,#101d33);border:1px solid rgba(239,190,76,.3)}
+.final h2{margin-bottom:12px}
+.final p{color:var(--muted);margin:0 auto 26px;max-width:560px}
+footer{padding:36px 0 calc(36px + var(--sab));color:var(--muted);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center}
+
+.dock{display:none}
+.sheet{position:fixed;inset:0;z-index:60;display:grid;align-items:end;background:rgba(4,8,16,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:fade .2s}
+.sheet .in{background:#14243b;border-radius:26px 26px 0 0;padding:22px 22px calc(24px + var(--sab));border-top:1px solid rgba(255,255,255,.12);max-width:560px;width:100%;margin:0 auto;animation:up .3s cubic-bezier(.2,1,.3,1)}
+.sheet .grab{width:44px;height:5px;border-radius:9px;background:rgba(255,255,255,.25);margin:-8px auto 16px}
+.sheet ol{padding:0;margin:16px 0 20px;list-style:none;display:grid;gap:12px;counter-reset:k}
+.sheet li{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:center;font-weight:800}
+.sheet li::before{counter-increment:k;content:counter(k);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(239,190,76,.16);color:var(--gold);font-family:var(--display)}
+.sheet .ios-ico{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:7px;background:rgba(54,214,255,.16);vertical-align:middle;margin:0 2px}
+@keyframes up{from{transform:translateY(100%)}}
+@keyframes fade{from{opacity:0}}
+
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.dcard{transition:none}}
+
+/* tablette */
+@media (max-width:980px){
+  .niv{grid-template-columns:1fr}
+  .hgrid,.demo{grid-template-columns:1fr;gap:34px}
+  .benefits{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .price,.vs{grid-template-columns:1fr}
+  .talks{grid-template-columns:1fr}
+  .top nav{display:none}
+  .top .acts{margin-inline-start:auto}
+  .demo-side{order:2}
+}
+/* téléphone */
+@media (max-width:720px){
+  body{font-size:16px}
+  section{padding:56px 0}
+  .lead{font-size:16.5px}
+  h2{font-size:30px}
+  .top .wrap{height:56px}
+  .logo img{width:34px;height:34px;border-radius:10px}
+  .logo b{font-size:23px}
+  .logo span,.top .acts [data-hide-acces],.top .acts [data-cta]{display:none}
+  .hero{padding:22px 0 6px}
+  .hero h1{font-size:32px;margin:12px 0 12px}
+  .hero .lead{font-size:16px}
+  .cta{margin:20px 0 16px}
+  .cta .btn{flex:1 1 100%}
+  .pill{font-size:12.5px;padding:7px 11px}
+  .board{margin:0 -16px}
+  .fl{font-size:12.5px;padding:8px 11px;border-radius:13px}
+  .fl i{font-size:18px}
+  .fl small{font-size:11px}
+  .fl.f3{display:none}
+  .signature{margin-top:18px;font-size:20px}
+  .m-rail{grid-auto-flow:column;grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-16px;padding:6px 16px 18px;scroll-padding-inline:16px;scrollbar-width:none;display:grid}
+  .m-rail::-webkit-scrollbar{display:none}
+  .m-rail>*{scroll-snap-align:start}
+  .benefits.m-rail{grid-auto-columns:80%;margin-top:26px}
+  .steps.m-rail{grid-auto-columns:78%;margin-top:26px}
+  .niv.m-rail{grid-auto-columns:84%;margin-top:26px}
+  .shots{grid-auto-columns:64%;justify-content:start}
+  .emotion{padding:70px 0}
+  .quote blockquote{font-size:30px}
+  .quote p{font-size:16.5px}
+  .talks{margin-top:26px}
+  .demo{margin-top:26px}
+  .score{gap:8px}
+  .sc{padding:10px 6px;border-radius:16px}
+  .sc b{font-size:24px}
+  .sc span{font-size:11.5px}
+  .stage3d{width:min(320px,86%)}
+  .install{grid-template-columns:60px 1fr;padding:18px;gap:14px;border-radius:22px}
+  .install img{width:60px;height:60px;border-radius:16px}
+  .install .btn{grid-column:1/-1}
+  .inc{grid-template-columns:1fr}
+  .amount b{font-size:62px}
+  .offer{padding:26px 20px;border-radius:26px}
+  .codebox{padding:22px 18px;border-radius:26px}
+  .field input{flex-basis:100%;font-size:17px;letter-spacing:.06em}
+  .field .btn{width:100%}
+  .final .box{padding:40px 20px;border-radius:26px}
+  footer{padding-bottom:calc(110px + var(--sab))}
+  .dock{display:flex;position:fixed;inset-inline:10px;bottom:calc(10px + var(--sab));z-index:40;align-items:center;gap:12px;padding:10px 10px 10px 12px;border-radius:22px;background:rgba(20,36,59,.84);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.12);box-shadow:0 14px 40px rgba(0,0,0,.5);transition:transform .35s cubic-bezier(.2,1,.3,1)}
+  .dock.hide{transform:translateY(150%)}
+  .dock img{width:42px;height:42px;border-radius:12px}
+  .dock .t{flex:1;min-width:0;line-height:1.2}
+  .dock .t b{display:block;font-size:15.5px}
+  .dock .t span{color:var(--muted);font-size:13px;font-weight:800}
+  .dock .btn{padding:13px 18px;font-size:15.5px}
+}
+@media (min-width:721px){ .m-only{display:none!important} }
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="Kounouzi, home"><img src="/img/app/icon-192.png" alt="" width="38" height="38"><b>Kounouzi</b><span lang="ar">كنوزي</span></a>
+    <nav aria-label="Sections"><a href="#benefices">Benefits</a><a href="#niveau">Every level</a><a href="#essayer">Try it</a><a href="#difference">Why Kounouzi</a><a href="#offre">Offer</a><a href="#faq">FAQ</a></nav>
+    <div class="acts">
+      <a class="langsw" href="/" hreflang="fr" lang="fr" data-lang="fr" title="Version française">FR</a>
+      <a class="btn btn-ghost btn-sm" href="#acceder" data-hide-acces>I have a code</a>
+      <button class="btn btn-ghost btn-sm" data-install hidden>📲 Install</button>
+      <a class="btn btn-gold btn-sm" href="#offre" data-cta>Get access</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- 1. HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hgrid">
+      <div>
+        <span class="kick">The family game · from age 5</span>
+        <h1>What if your family time also became time for <em>learning and passing on values?</em></h1>
+        <p class="lead">Discover Kounouzi, the family game that brings children and adults together around challenges, knowledge and Islamic values. Learn, think, manage your properties and grow generosity, all while having fun.</p>
+        <p class="enwip">🇬🇧 English version in progress: the game screens, cards and challenges are in English. The questions are being translated: until then, untranslated questions are shown in French.</p>
+        <div class="cta">
+          <a class="btn btn-gold btn-lg" href="#benefices">Discover Kounouzi</a>
+          <a class="btn btn-ghost btn-lg" href="#essayer">▶ Try it for free</a>
+        </div>
+        <div class="reassure" aria-label="Our commitments">
+          <span class="pill"><i>✓</i>One-time payment</span><span class="pill"><i>✓</i>Lifetime family access</span><span class="pill"><i>✓</i>No ads</span>
+        </div>
+      </div>
+      <div class="board">
+        <img src="/img/site/plateau.webp" alt="The Kounouzi 3D board, with its Knowledge, Challenge and Giving squares and its properties" width="1144" height="880" fetchpriority="high">
+        <div class="fl f1" aria-hidden="true"><i>🤲</i><div>Giving square<small>Give to the Masākīn Fund</small></div></div>
+        <div class="fl f2" aria-hidden="true"><i>👨‍👩‍👧‍👦</i><div>Family challenge<small>Everyone plays</small></div></div>
+        <div class="fl f3" aria-hidden="true"><i>📖</i><div>1,764 questions<small>suited to every age</small></div></div>
+      </div>
+    </div>
+    <p class="signature rv">Play together, <span>learn differently</span>, pass on what matters.</p>
+  </div>
+</section>
+
+<!-- 2. BÉNÉFICES -->
+<section id="benefices">
+  <div class="wrap">
+    <div class="center rv"><span class="kick">Much more than a game</span>
+      <h2 style="margin-top:12px">What Kounouzi brings to your family</h2>
+      <p class="lead" style="margin-top:12px">Every game mixes fun, knowledge and small decisions that make you think. Children learn without feeling like they are in class.</p></div>
+    <div class="benefits m-rail" id="railBen">
+      <article class="bcard rv" style="--g:#3ddc84"><div class="ic" aria-hidden="true">🤲</div><h3>Passing on Islamic values</h3><p>Giving to the Masākīn Fund, paying Zakat, sharing: generosity, sharing and responsibility are lived through the decisions of the game.</p></article>
+      <article class="bcard rv d1" style="--g:#36d6ff"><div class="ic"><img src="/img/icons/savoir.webp" alt=""></div><h3>Learning as a family</h3><p>Discover and revise the Qur'an, the Sira, science, maths, logic and history, with questions suited to each person's age.</p></article>
+      <article class="bcard rv d2" style="--g:#ffb84a"><div class="ic"><img src="/img/icons/tresor.webp" alt=""></div><h3>Money education</h3><p>Manage pretend properties, buy, save, make decisions, and understand that success is not only about wealth.</p></article>
+      <article class="bcard rv d3" style="--g:#ff6fd8"><div class="ic" aria-hidden="true">👨‍👩‍👧‍👦</div><h3>Family moments</h3><p>Bring parents and children together around a smart, playful and educational activity, on a single screen in the middle of the table.</p></article>
+    </div>
+    <div class="dots m-only" data-dots="railBen"></div>
+  </div>
+</section>
+
+<!-- 2 bis. CHACUN À SON NIVEAU -->
+<section id="niveau" style="padding-top:30px">
+  <div class="wrap">
+    <div class="center rv"><span class="kick">Everyone at their own level</span>
+      <h2 style="margin-top:12px">Same game, but a question made for each player</h2>
+      <p class="lead" style="margin-top:12px">A 6-year-old, a 13-year-old and a parent around the same board: each one gets questions suited to their real age, then to their answers.</p></div>
+    <div class="niv m-rail" id="railNiv">
+      <article class="bcard rv" style="--g:#36d6ff"><div class="ic" aria-hidden="true">🎂</div><h3>Based on real age</h3><p>Questions are sorted by age group. Religion has its own age groups, separate from the other subjects.</p>
+        <div class="agerow"><small>General subjects</small><div class="chips"><span>5–6</span><span>7–8</span><span>9–10</span><span>11–12</span><span>13+</span></div></div>
+        <div class="agerow"><small>Religion</small><div class="chips"><span>5–8</span><span>8–10</span><span>10–12</span><span>12–14</span><span>14+</span></div></div>
+        <div class="agerow"><small>Maths</small><div class="chips"><span>sums chosen by age</span></div></div></article>
+      <article class="bcard rv d1" style="--g:#3ddc84"><div class="ic" aria-hidden="true">📈</div><h3>A level that adapts</h3><p>Two right answers in a row: the questions go up a notch. A mistake: they become a little simpler again. Always within the child's age group.</p>
+        <div class="lvl" aria-hidden="true"><i style="height:30%"></i><i style="height:48%" class="on"></i><i style="height:66%" class="on"></i><i style="height:84%"></i><i style="height:100%"></i></div><div class="lvl-l" aria-hidden="true"><span>easier</span><span>harder</span></div></article>
+      <article class="bcard rv d2" style="--g:#ffb84a"><div class="ic" aria-hidden="true">🔁</div><h3>Questions that keep changing</h3><p>Kounouzi remembers the questions already asked to each player on the device, to avoid repeats from one game to the next. Adults get questions from the most advanced age groups.</p></article>
+    </div>
+    <div class="dots m-only" data-dots="railNiv"></div>
+  </div>
+</section>
+
+<!-- 3. ÉMOTION -->
+<section class="emotion" aria-labelledby="emoT">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="quote rv">
+      <blockquote id="emoT">Your children may forget who won the game…<span>But some lessons can stay with them for a long time.</span></blockquote>
+      <p>A question about the Sira, a gift to the Masākīn Fund, a failed challenge that makes everyone laugh: every moment of the game is a chance to pause, explain and tell a story. Kounouzi does not replace your role as a parent: it simply gives you good opportunities to talk about what matters.</p>
+    </div>
+    <div class="talks">
+      <div class="talk rv"><div class="when">After a religion question</div><div class="say">Do you know why we say Bismillah before eating?</div></div>
+      <div class="talk rv d1"><div class="when">On the Giving square</div><div class="say">You could have kept it all… Why did you choose to give?</div></div>
+      <div class="talk rv d2"><div class="when">At the end of the game</div><div class="say">He had less money, but he won. How is that possible?</div></div>
+    </div>
+    <div class="center" style="margin-top:34px"><a class="btn btn-gold" href="#offre" data-cta>Get my Kounouzi access</a></div>
+  </div>
+</section>
+
+<!-- 4. DÉMO -->
+<section id="essayer">
+  <div class="wrap">
+    <div class="center rv"><span class="kick">Try it now</span>
+      <h2 style="margin-top:12px">Play a mini-turn, for free</h2>
+      <p class="lead" style="margin-top:12px">A real question from the game, just like around the table: the card opens, you answer out loud, then the family validates the answer.</p></div>
+    <div class="demo">
+      <div class="demo-side">
+        <div class="score" aria-live="polite">
+          <div class="sc k" id="scK"><b id="vK">1 000</b><span>Kounouz</span></div>
+          <div class="sc h" id="scH"><b id="vH">0</b><span>Hassanāt</span></div>
+          <div class="sc t" id="scT"><b id="vT">1 000</b><span>Score</span></div>
+        </div>
+        <div class="dstep" id="dHelp"><b>1. Choose a theme</b>, the card opens with a real question from the game.</div>
+        <div class="tabs" role="group" aria-label="Question theme" id="dTabs"></div>
+        <p class="note">Score = Kounouz + properties + Hassanāt × 5. In Kounouzi, Hassanāt are game points: they help families talk about generosity; they are not spiritual rewards.</p>
+      </div>
+      <div>
+        <div class="stage3d"><div class="confetti" id="conf"></div><div id="dToast"></div>
+          <div class="dcard back" id="dCard"><div class="fc" id="dFace"><div class="win" id="dWin"></div></div><div class="bk"></div></div>
+        </div>
+        <div class="dacts" id="dActs"><button class="btn btn-gold" id="dStart">Open a card</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. L'APPLI -->
+<section id="appli" style="padding-top:30px">
+  <div class="wrap">
+    <div class="center rv"><span class="kick">The real game</span><h2 style="margin-top:12px">One screen, the whole family</h2>
+      <p class="lead" style="margin-top:12px">A 3D board, a warm voice that reads every question and announces every square, cards that flip open.</p></div>
+    <div class="rail shots m-rail" id="railShots" style="margin-top:28px">
+      <figure class="shot"><div class="ph"><img src="/img/site/en/ecran-setup.webp" alt="Game screen: choosing the players" loading="lazy" width="585" height="1266"></div><figcaption>Choose your players<span>Children and adults, 2 to 6</span></figcaption></figure>
+      <figure class="shot"><div class="ph"><img src="/img/site/en/ecran-plateau.webp" alt="Game screen: the 3D board" loading="lazy" width="585" height="1266"></div><figcaption>The board comes to life<span>No dice, no luck</span></figcaption></figure>
+      <figure class="shot"><div class="ph"><img src="/img/site/en/ecran-carte.webp" alt="Game screen: a property card" loading="lazy" width="585" height="1266"></div><figcaption>Manage your properties<span>Maktaba, hotels, Umrah agencies…</span></figcaption></figure>
+    </div>
+    <div class="dots m-only" data-dots="railShots"></div>
+    <div class="install rv" id="installBox">
+      <img src="/img/app/icon-192.png" alt="" width="72" height="72">
+      <div><h3>Installs like an app</h3><p>An icon on your home screen, full screen, without going through an app store.</p><p id="installNote" hidden style="font-size:14px">Open this site on your phone to install it.</p></div>
+      <button class="btn btn-gold" data-install hidden>📲 Install the app</button>
+    </div>
+  </div>
+</section>
+
+<!-- 6. DIFFÉRENCE -->
+<section id="difference">
+  <div class="wrap">
+    <div class="center rv"><span class="kick">Why Kounouzi</span>
+      <h2 style="margin-top:12px">Not just another quiz</h2>
+      <p class="lead" style="margin-top:12px">A quiz checks what you know. Kounouzi is a game where you learn, choose and think together.</p></div>
+    <div class="vs">
+      <div class="vcol o rv"><h3>A classic Islamic quiz</h3><ul>
+        <li>One question after another</li><li>Often the same questions for every age, without following progress</li><li>Everyone on their own screen</li><li>You win if you know the answer</li><li>Often with ads</li></ul></div>
+      <div class="vcol k rv d1"><h3><img src="/img/app/icon-192.png" alt="">Kounouzi</h3><ul>
+        <li>A real board game, with decisions to make</li><li>1,764 questions suited to each person's age and level (English translation in progress)</li><li>Parents and children around the same screen</li><li>Giving and sharing count in the final score</li><li>Family challenges, a voice that reads everything, Arabic for religion explanations</li><li>No ads, no luck, one-time payment</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. COMMENT ÇA SE JOUE -->
+<section id="tour" style="padding-top:20px">
+  <div class="wrap">
+    <div class="center rv"><span class="kick">How to play</span><h2 style="margin-top:12px">A game in 4 steps</h2></div>
+    <div class="steps m-rail" id="railSteps">
+      <div class="step rv" style="--g:#ffb84a"><div class="ico"><img src="/img/icons/depart.webp" alt=""></div><h3>The Path</h3><p>No dice: the number of squares comes from a fair sequence, the same for everyone.</p></div>
+      <div class="step rv d1" style="--g:#36d6ff"><div class="ico"><img src="/img/icons/savoir.webp" alt=""></div><h3>The question</h3><p>A question that fits each player. The family decides: right answer, partly right, or not this time.</p></div>
+      <div class="step rv d2" style="--g:#3ddc84"><div class="ico"><img src="/img/icons/maktaba.webp" alt=""></div><h3>Properties</h3><p>Buy a maktaba, a hotel in Madinah, an Umrah agency… The others use your services.</p></div>
+      <div class="step rv d3" style="--g:#ff6fd8"><div class="ico"><img src="/img/icons/defi.webp" alt=""></div><h3>Challenges and giving</h3><p>Family challenges, the Giving square, Zakat: generosity counts, right up to the final score.</p></div>
+    </div>
+    <div class="dots m-only" data-dots="railSteps"></div>
+  </div>
+</section>
+
+<!-- 8. OFFRE -->
+<section id="offre">
+  <div class="wrap">
+    <div class="center rv"><span class="kick">The offer</span><h2 style="margin-top:12px">One payment, for the whole family</h2></div>
+    <div class="price">
+      <div class="offer rv">
+        <span class="badge">🚀 Launch price</span>
+        <div class="amount"><b data-prix>€6.99</b><span>one time</span></div>
+        <p class="launch">Lifetime family access, on all your family's devices.</p>
+        <ul class="inc">
+          <li>English interface, cards and challenges</li><li>2 to 6 players</li><li>Lifetime family access</li><li>One-time payment</li><li>No subscription</li><li>No ads</li>
+        </ul>
+        <p class="enwip" style="margin:0 0 14px">The questions are being translated into English: until then, untranslated questions appear in French. Translations are added for free as they are ready.</p>
+        <div class="pay">
+          <a class="btn btn-gold btn-lg" href="/api/achat?moyen=stripe&amp;lang=en" data-moyen="stripe" hidden>Get my Kounouzi access — <span data-prix>€6.99</span></a>
+          <div class="soon" id="soon" hidden>Online payment opens very soon. In the meantime, Kounouzi is available with an access code.</div>
+          <small id="paynote" hidden>Secure card payment. Your access code appears right afterwards.</small>
+        </div>
+      </div>
+      <div class="codebox rv d1" id="acceder">
+        <h3>Do you have a code?</h3>
+        <p>Enter your access code (received after purchase, or as a gift) to open Kounouzi on this device.</p>
+        <form class="field" id="codeForm" autocomplete="off">
+          <input id="codeIn" name="code" placeholder="KZ-XXXX-XXXX-XXXX" aria-label="Access code" maxlength="20" spellcheck="false" autocapitalize="characters" autocorrect="off" required>
+          <button class="btn btn-gold" type="submit">Open</button>
+        </form>
+        <div class="msg" id="codeMsg" role="status"></div>
+        <a class="btn btn-gold" id="playBtn" href="/jouer" hidden>Play Kounouzi →</a>
+        <div class="gift"><b>🎁 The same code on all your devices</b><span style="color:var(--muted)">Phone, tablet or computer: keep it safe.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. FAQ -->
+<section id="faq" style="padding-top:20px">
+  <div class="wrap">
+    <div class="rv"><span class="kick">FAQ</span><h2 style="margin-top:12px">Frequently asked questions</h2></div>
+    <div class="faq">
+      <details><summary>Is Kounouzi available in English?</summary><p>Yes, the English version is in progress. The game screens, settings, cards, family challenges, Hassanāt cards and the voice guide are in English. The 1,764 questions are being translated and checked: until a question is translated and validated, it is shown in French. Religion explanations are also available in Arabic.</p></details>
+      <details><summary>From what age?</summary><p>From age 5. Questions are sorted by age group (5–6, 7–8, 9–10, 11–12 and 13+; for religion 5–8, 8–10, 10–12, 12–14 and 14+) and a voice reads them out loud: children who cannot read yet can play with the older ones.</p></details>
+      <details><summary>My children are different ages, how does it work?</summary><p>Each player gets their own questions, based on their real age. Then the level adapts to their answers: two right answers in a row and the questions go up a notch, a mistake and they become simpler again. Everyone plays together, each at their own level.</p></details>
+      <details><summary>Are the religion questions reliable?</summary><p>They come from recognised books, with their source, and are reviewed before publication. Nothing is made up.</p></details>
+      <details><summary>What are Hassanāt in the game?</summary><p>They are game points you earn by giving, sharing or completing a family challenge. They count in the score to show that generosity has value. They are not real spiritual rewards: they are a chance to talk about it with your children.</p></details>
+      <details><summary>Is it a subscription?</summary><p>No. You pay once and access is for life, for the whole family.</p></details>
+      <details><summary>How do I install it as an app?</summary><p>On Android, tap "Install the app". On iPhone, open the page in Safari, tap Share, then "Add to Home Screen".</p></details>
+      <details><summary>How many players, and how long?</summary><p>2 to 6 players around one screen. A game lasts 30, 45 or 60 minutes, or has no limit, and can be paused.</p></details>
+      <details><summary>Do I need the internet?</summary><p>Yes, a connection is needed to open the game and for the voice.</p></details>
+      <details><summary>I lost my code, what can I do?</summary><p>The code stays open on the devices where you have already entered it. Otherwise, <span id="contactTxt">write to us with the email address used for the payment</span> and we will send it to you again.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- 10. FINAL -->
+<section class="final">
+  <div class="wrap"><div class="box rv">
+    <h2>Family game night tonight?</h2>
+    <p>Play together, learn differently, pass on what matters.</p>
+    <a class="btn btn-gold btn-lg" href="#offre" data-cta>Get my Kounouzi access</a>
+  </div></div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <a class="logo" href="#"><img src="/img/app/icon-192.png" alt="" width="30" height="30" style="width:30px;height:30px;border-radius:9px"><b style="font-size:21px">Kounouzi</b></a>
+  <span>Play together, learn differently, pass on what matters — © <span id="yr">2026</span> · <a href="/" hreflang="fr" lang="fr" data-lang="fr" style="color:inherit">Version française</a></span>
+  <span id="contactFoot"></span>
+</div></footer>
+
+<div class="dock" id="dock">
+  <img src="/img/app/icon-192.png" alt="" width="42" height="42">
+  <div class="t"><b>Kounouzi</b><span id="dockSub">Launch price · <span data-prix>€6.99</span></span></div>
+  <a class="btn btn-gold" href="#offre" data-cta id="dockBtn">Get it</a>
+</div>
+
+<div class="sheet" id="iosSheet" hidden><div class="in" role="dialog" aria-label="Install on iPhone">
+  <div class="grab"></div>
+  <div style="display:flex;gap:14px;align-items:center"><img src="/img/app/icon-192.png" alt="" style="width:56px;height:56px;border-radius:15px"><div><h3>Install Kounouzi</h3><div style="color:var(--muted);font-weight:700">On iPhone or iPad, in 3 steps</div></div></div>
+  <ol>
+    <li><span>Open this page in <b>Safari</b></span></li>
+    <li><span>Touchez <span class="ios-ico" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#36d6ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></span> <b>Share</b></span></li>
+    <li><span>Choose <b>"Add to Home Screen"</b></span></li>
+  </ol>
+  <button class="btn btn-gold" style="width:100%" id="iosOk">Got it</button>
+</div></div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+$('#yr').textContent=new Date().getFullYear();
+// Langue choisie sur le site = langue du jeu (préférence gardée sur l'appareil).
+function garderLangue(l){ try{ localStorage.setItem('kounouzi_lang',l); }catch{} document.cookie=`kz_lang=${l}; path=/; max-age=31536000; samesite=lax`; }
+garderLangue('en'); $$('[data-lang]').forEach(a=>a.addEventListener('click',()=>garderLangue(a.dataset.lang)));
+const eur=c=>(c/100).toLocaleString('en-GB',{style:'currency',currency:'EUR'});
+const fmt=n=>n.toLocaleString('en-GB');
+const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Accès & paiement (parcours réel) ---------- */
+function ouvert(){
+  $$('[data-cta]').forEach(a=>{ a.href='/jouer'; a.textContent= a.id==='dockBtn'? 'Play' : 'Play Kounouzi →'; });
+  $$('[data-hide-acces]').forEach(a=>a.hidden=true);
+  $('#dockSub').textContent='Your access is open';
+  $('#playBtn').hidden=false; $('#codeMsg').className='msg ok'; $('#codeMsg').textContent='Kounouzi is open on this device.';
+}
+const sp=new URLSearchParams(location.search), vq=new URLSearchParams({v:'1',ref:document.referrer||''}); if(sp.get('utm_source')) vq.set('utm',sp.get('utm_source'));
+fetch('/api/code?'+vq).then(r=>r.json()).then(d=>{
+  if(d.prix) $$('[data-prix]').forEach(e=>e.textContent=eur(d.prix.eur));
+  const stripe=!!d.moyens?.stripe;
+  $$('[data-moyen=stripe]').forEach(a=>a.hidden=!stripe);
+  $('#soon').hidden=stripe; $('#paynote').hidden=!stripe;
+  if(d.contact){ const a=`<a href="mailto:${d.contact}">${d.contact}</a>`; $('#contactTxt').innerHTML=`write to us at ${a} with the email address used for the payment`; $('#contactFoot').innerHTML=a; }
+  if(d.acces){ ouvert(); if(standalone) location.replace('/jouer'); }
+}).catch(()=>{ $('#soon').hidden=false; });
+
+$('#codeForm').addEventListener('submit',async e=>{
+  e.preventDefault(); const msg=$('#codeMsg'); msg.className='msg'; msg.textContent='Checking…';
+  try{
+    const r=await fetch('/api/code',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({code:$('#codeIn').value,lang:'en'})});
+    const d=await r.json();
+    if(d.ok){ ouvert(); msg.textContent='Welcome! Kounouzi is open on this device.'; navigator.vibrate?.(30); setTimeout(()=>location.href='/jouer',900); }
+    else { msg.className='msg err'; msg.textContent=d.erreur||'This code does not work.'; }
+  }catch{ msg.className='msg err'; msg.textContent='Cannot connect, please try again.'; }
+});
+const pre=sp.get('code'); if(pre) $('#codeIn').value=pre;
+if(sp.get('essai')==='fini') setTimeout(()=>{ const m=$('#soon').hidden? $('#paynote') : $('#soon'); const n=document.createElement('div'); n.className='msg ok'; n.style.cssText='text-align:center;font-size:16px'; n.textContent="Your trial game is over, thank you for playing! Get full access to keep playing as a family."; $('.pay').prepend(n); },400);
+if(sp.get('acces')) setTimeout(()=>{ $('#codeMsg').className='msg'; $('#codeMsg').textContent='To play, enter your code or get your access.'; location.hash='#acceder'; },300);
+
+/* ---------- Installer comme une appli ---------- */
+let deferred=null;
+function showInstall(on){ $$('[data-install]').forEach(b=>b.hidden=!on); $('#installNote').hidden=on||standalone; if(standalone) $('#installBox').hidden=true; }
+showInstall(!standalone && isIOS);
+addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferred=e; if(!standalone) showInstall(true); });
+addEventListener('appinstalled',()=>{ deferred=null; showInstall(false); });
+$$('[data-install]').forEach(b=>b.addEventListener('click',async()=>{
+  if(deferred){ deferred.prompt(); const r=await deferred.userChoice.catch(()=>null); if(r?.outcome==='accepted') showInstall(false); deferred=null; return; }
+  $('#iosSheet').hidden=false;
+}));
+$('#iosOk').onclick=()=>$('#iosSheet').hidden=true;
+$('#iosSheet').onclick=e=>{ if(e.target.id==='iosSheet') $('#iosSheet').hidden=true; };
+
+/* ---------- Démo : un mini-tour avec de vraies questions du jeu ---------- */
+const DQ=[
+  {t:'Religion',face:'religion',q:'Who created you?',r:'Allah.',e:'Allah is the One who created us.',s:'Sharh Thalathat al-Usul — Shaykh Salih Al ash-Shaykh'},
+  {t:'Maths',face:'maths',q:'You have 19 Kounouz. You need 28 Kounouz. How many are you missing?',r:'9 Kounouz',e:'19 + 9 = 28.'},
+  {t:'History & Geo',face:'histoire-geo',q:'In which country is Machu Picchu, an ancient Inca city in the mountains?',r:'In Peru.',e:'Machu Picchu was built of stone, very high up in the Andes mountains.'},
+  {t:'Science',face:'sciences',q:'After being swallowed, which organ does food reach right after the oesophagus?',r:'The stomach.',e:'In the stomach, food is churned and mixed with juices that start to break it down.'},
+  {t:'Logic',face:'logique',q:'Which is the odd one out: 2, 4, 7, 8?',r:'7.',e:'2, 4 and 8 are even numbers; 7 is the only odd number.'},
+  {t:'Money Skills',face:'gestion',q:'Why keep some Kounouz instead of spending it all?',r:'To still have some if you need it later.',e:'Keeping a small reserve helps you face a future need.'},
+];
+const ST={k:1000,h:0}, card=$('#dCard'), face=$('#dFace'), win=$('#dWin'), acts=$('#dActs'), help=$('#dHelp');
+let cur=0, phase='start';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const wait=ms=>new Promise(r=>setTimeout(r,REDUCED?0:ms));
+function upd(which){ $('#vK').textContent=fmt(ST.k); $('#vH').textContent=fmt(ST.h); $('#vT').textContent=fmt(ST.k+ST.h*5);
+  (which||[]).forEach(id=>{ const el=$('#'+id); el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }); }
+function toast(t){ const el=$('#dToast'); el.innerHTML=`<div class="toastd">${esc(t)}</div>`; setTimeout(()=>{ if(el.textContent===t) el.innerHTML=''; },2200); }
+function confetti(){ if(REDUCED) return; const c=$('#conf'); const cols=['#efbe4c','#3ddc84','#36d6ff','#ff6fd8','#ff9a3a'];
+  c.innerHTML=Array.from({length:36},(_,i)=>`<i style="background:${cols[i%5]};--x:${(Math.random()*2-1)*190}px;--y:${-60-Math.random()*190}px;--r:${Math.random()*720}deg;animation-delay:${Math.random()*.12}s"></i>`).join('');
+  setTimeout(()=>c.innerHTML='',1300); }
+function tabs(){ $('#dTabs').innerHTML=DQ.map((q,i)=>`<button class="tab" aria-pressed="${i===cur}" data-i="${i}">${q.t}</button>`).join('');
+  $$('#dTabs .tab').forEach(b=>b.onclick=()=>{ cur=+b.dataset.i; tabs(); if(phase!=='start') openQ(); }); }
+async function flipTo(faceName,html){ card.classList.add('back'); await wait(450); face.style.backgroundImage=`url(/img/en/${faceName}-face.webp)`; win.innerHTML=html; card.classList.remove('back'); await wait(500); }
+function btns(list){ acts.innerHTML=''; list.forEach(([label,cls,fn])=>{ const b=document.createElement('button'); b.className='btn '+cls; b.innerHTML=label; b.onclick=fn; acts.appendChild(b); }); }
+async function openQ(){ phase='q'; const q=DQ[cur];
+  help.innerHTML='<b>2. Read the question out loud</b>, answer, then reveal the answer.';
+  btns([]); await flipTo(q.face,`<span class="tag">${esc(q.t)}</span><div class="q">${esc(q.q)}</div>`);
+  btns([['Show the answer','btn-gold',reveal]]); }
+function reveal(){ const q=DQ[cur]; phase='a';
+  win.innerHTML=`<span class="tag">${esc(q.t)}</span><div class="q" style="font-size:clamp(13px,5cqw,17px)">${esc(q.q)}</div><div class="ans">${esc(q.r)}</div><div class="ex">${esc(q.e)}</div>${q.s?`<div class="src">${esc(q.s)}</div>`:''}`;
+  help.innerHTML='<b>3. The family decides</b>: just like in the real game, the players choose.';
+  btns([['Right answer <small>+100</small>','b-good',()=>verdict(100)],['Partly right <small>+50</small>','b-mid',()=>verdict(50)],['Not this time','b-bad',()=>verdict(0)]]); }
+async function verdict(n){ if(n){ ST.k+=n; upd(['scK','scT']); toast(n===100?'Well done! +100 Kounouz':'Not bad! +50 Kounouz'); if(n===100) confetti(); navigator.vibrate?.(20); } else toast('Next time!');
+  await wait(900); don(); }
+async function don(){ phase='don';
+  help.innerHTML='<b>4. Giving square</b>: your pawn lands on the Giving square. It is your choice.';
+  btns([]); await flipTo('don',`<span class="tag">Giving square</span><div class="q">Do you want to give 30 Kounouz to the Masākīn Fund?</div><div class="ex">If you give, you earn 10 Hassanāt points. Each point is worth 5 in the final score.</div>`);
+  btns([['🤲 Give 30','btn-gold',()=>choix(true)],['Keep','b-bad',()=>choix(false)]]); }
+async function choix(donne){ if(donne){ ST.k-=30; ST.h+=10; upd(['scK','scH','scT']); toast('+10 Hassanāt'); confetti(); }
+  else toast('You keep your Kounouz');
+  await wait(700); phase='fin';
+  win.innerHTML= donne? `<span class="tag">Result</span><div class="q">You have fewer Kounouz…</div><div class="ans" style="color:#7a2a8a">but your score went up by ${10*5-30} points.</div><div class="ex">In Kounouzi, the richest player does not always win: giving and sharing count too.</div>`
+                      : `<span class="tag">Result</span><div class="q">You kept your 30 Kounouz.</div><div class="ex">If you had given, you would have earned 10 Hassanāt, worth 50 points: your score would have gone up by 20 points. Something to talk about as a family!</div>`;
+  help.innerHTML='<b>That was one turn of Kounouzi.</b> The real game has a 3D board, a voice, family challenges and 1,764 questions.';
+  btns([['Get my access','btn-gold',()=>location.hash='#offre'],['Play again','b-bad',()=>{ cur=(cur+1)%DQ.length; tabs(); openQ(); }]]); }
+$('#dStart').onclick=openQ; tabs(); upd();
+
+/* ---------- Barre du bas, carrousels, apparitions ---------- */
+const dock=$('#dock');
+new IntersectionObserver(es=>es.forEach(x=>dock.classList.toggle('hide',x.isIntersecting)),{threshold:.12}).observe($('#offre'));
+$$('[data-dots]').forEach(d=>{ const rail=document.getElementById(d.dataset.dots); const n=rail.children.length; d.innerHTML='<i></i>'.repeat(n);
+  const upd2=()=>{ const w=rail.children[0].getBoundingClientRect().width+16; const i=Math.min(n-1,Math.round(rail.scrollLeft/w)); d.querySelectorAll('i').forEach((el,k)=>el.classList.toggle('on',k===i)); };
+  rail.addEventListener('scroll',upd2,{passive:true}); upd2(); });
+const io=new IntersectionObserver(es=>es.forEach(x=>{ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target);} }),{threshold:.1});
+$$('.rv').forEach(el=>io.observe(el));
+</script>
+<script>if('serviceWorker' in navigator) addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));</script>
+</body>
+</html>

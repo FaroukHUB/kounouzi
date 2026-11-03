@@ -15,7 +15,10 @@ const json = (status, body) => new Response(JSON.stringify(body), { status, head
 export async function GET(request) {
   if (!aAcces(request)) return new Response('Accès réservé', { status: 401 });
   const url = new URL(request.url);
-  const key = process.env.ELEVENLABS_API_KEY, voice = process.env.ELEVENLABS_VOICE_ID;
+  // Langue de la phrase (fr par défaut). Une voix anglaise dédiée peut être choisie avec ELEVENLABS_VOICE_ID_EN ;
+  // sinon la voix multilingue habituelle lit aussi l'anglais. La langue fait partie de l'URL, donc du cache.
+  const lang = ['fr', 'en', 'ar'].includes(url.searchParams.get('lang')) ? url.searchParams.get('lang') : 'fr';
+  const key = process.env.ELEVENLABS_API_KEY, voice = (lang === 'en' && process.env.ELEVENLABS_VOICE_ID_EN) || process.env.ELEVENLABS_VOICE_ID;
   const missing = [!key && 'ELEVENLABS_API_KEY', !voice && 'ELEVENLABS_VOICE_ID'].filter(Boolean);
   if (url.searchParams.has('probe')) return missing.length ? json(503, { reason: 'unconfigured', missing }) : new Response(null, { status: 204, headers: { 'cache-control': 'no-store' } });
   if (missing.length) return json(503, { reason: 'unconfigured', missing });

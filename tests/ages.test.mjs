@@ -1,6 +1,8 @@
 // Tests des tranches d'âge et de la sélection des questions. Lancer : node --test tests/
 // Aucun accès réseau ni base : on utilise private/data.json (les 1 764 questions) et le vrai code du jeu.
 import { test } from 'node:test';
+import { creerT } from '../public/i18n.js';
+import { DICOS } from '../public/i18n/jeu.js';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
@@ -23,7 +25,7 @@ function moteur(data, { seen = {}, used = [] } = {}) {
   const store = { _s: { kounouzi_v2_seen: seen }, get(k) { return this._s[k]; }, set(k, v) { this._s[k] = v; } };
   const ctx = { DATA: data, S: { usedQ: used }, RG: {}, THEMES: ['religion', 'maths', 'geography', 'sciences', 'logic', 'management'],
     store, tranchesPourJoueur: A.tranchesPourJoueur, questionsEligibles: A.questionsEligibles, Math, Set, console,
-    toasts: [], THEME_INFO: {}, openCard() { throw new Error('ne doit pas ouvrir de carte sans question'); } };
+    toasts: [], THEME_INFO: {}, LANG: 'fr', t: creerT(DICOS, () => 'fr'), openCard() { throw new Error('ne doit pas ouvrir de carte sans question'); } };
   ctx.toast = (m) => ctx.toasts.push(m);
   vm.createContext(ctx);
   vm.runInContext([fn('startLevel'), ligne('const bandsFor'), ligne("const SEEN_KEY"), ligne('const SEEN ='), ligne('const seenOf'),

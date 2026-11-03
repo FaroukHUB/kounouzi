@@ -2,11 +2,16 @@
 // Les questions et réglages viennent de la base (modifiables dans le tableau de bord) ; le fichier private/data.json sert de secours.
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
-import { accesValide, appareil, db, dbActive, lieu, noter } from './_lib.js';
+import { accesValide, appareil, db, dbActive, langueDe, lieu, noter } from './_lib.js';
+import { questionsPourJeu } from '../public/trad.js';
 
 const DIR = path.join(process.cwd(), 'private');
 let CACHE = null; // { t, body }
 async function fichier() { return JSON.parse(await readFile(path.join(DIR, 'data.json'), 'utf8')); }
+// Textes anglais des défis, cartes Hassanāt et établissements (les questions anglaises, elles, viennent de la base).
+async function annexes() { try { return { en: JSON.parse(await readFile(path.join(DIR, 'contenu-en.json'), 'utf8')) }; } catch { return {}; } }
+// Ce que reçoit le jeu : arabe seulement en Religion, traductions validées seulement, français toujours présent.
+const pourJeu = (d, tr) => ({ ...d, questions: questionsPourJeu(d.questions, { relire: !!(d.reglages && d.reglages.tradRelire) }), traductions: tr });
 async function donnees() {
   if (CACHE && Date.now() - CACHE.t < 60000) return CACHE.body;
   let body = null;
@@ -15,11 +20,11 @@ async function donnees() {
       const c = await db('contenu', {}, { timeout: 6000 });
       if (c && Array.isArray(c.questions) && c.questions.length) {
         const f = (c.defis && c.cells) ? null : await fichier();
-        body = JSON.stringify({ questions: c.questions, defis: c.defis || f.defis, hassanat: c.hassanat || f.hassanat, sourates: c.sourates || f.sourates, cells: c.cells || f.cells, reglages: c.reglages || null });
+        body = JSON.stringify(pourJeu({ questions: c.questions, defis: c.defis || f.defis, hassanat: c.hassanat || f.hassanat, sourates: c.sourates || f.sourates, cells: c.cells || f.cells, reglages: c.reglages || null }, await annexes()));
       }
     } catch (e) { console.error('contenu', e.message); }
   }
-  if (!body) body = JSON.stringify(await fichier());
+  if (!body) body = JSON.stringify(pourJeu(await fichier(), await annexes()));
   CACHE = { t: Date.now(), body };
   return body;
 }
@@ -36,10 +41,11 @@ export async function GET(request) {
     return new Response(JSON.stringify({ jeu: ok[0], donnees: ok[1], base }), { headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
   }
   const code = await accesValide(request, { essaiFiniOk: f === 'data' });
+  const site = langueDe(request) === 'en' ? '/en/' : '/';
   if (!code) {
-    if (f !== 'data' && await accesValide(request, { essaiFiniOk: true })) return new Response(null, { status: 302, headers: { location: '/?essai=fini#offre', 'cache-control': 'no-store' } });
+    if (f !== 'data' && await accesValide(request, { essaiFiniOk: true })) return new Response(null, { status: 302, headers: { location: site + '?essai=fini#offre', 'cache-control': 'no-store' } });
     if (f === 'data') return new Response('Accès réservé', { status: 401 });
-    return new Response(null, { status: 302, headers: { location: '/?acces=1#acceder', 'cache-control': 'no-store' } });
+    return new Response(null, { status: 302, headers: { location: site + '?acces=1#acceder', 'cache-control': 'no-store' } });
   }
   if (f === 'data') return new Response(await donnees(), { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'private, no-cache' } });
   const dev = appareil(request);

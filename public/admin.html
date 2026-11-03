@@ -94,6 +94,7 @@ label.f small{font-weight:700;color:var(--faint)}
     <button role="tab" data-tab="vue" aria-selected="true">Vue d'ensemble</button>
     <button role="tab" data-tab="codes">Codes</button>
     <button role="tab" data-tab="questions">Questions</button>
+    <button role="tab" data-tab="traductions">Traductions</button>
     <button role="tab" data-tab="reglages">Réglages du jeu</button>
     <button role="tab" data-tab="outils">Outils</button>
   </nav>
@@ -162,15 +163,36 @@ label.f small{font-weight:700;color:var(--faint)}
         <select id="qt"><option value="">Tous les thèmes</option></select>
         <select id="qa"><option value="">Tous les âges</option></select>
         <select id="qs"><option value="">Tous les statuts</option><option value="publiee">Publiées</option><option value="brouillon">Brouillons</option><option value="archivee">Archivées</option></select>
+        <select id="qtr" aria-label="Traduction anglaise"><option value="">Anglais : tout</option><option value="a_faire">À traduire</option><option value="a_relire">À relire</option><option value="validee">Validée</option></select>
         <select id="qo"><option value="theme">Trier : thème</option><option value="taux">Les plus ratées</option><option value="n">Les plus posées</option><option value="recent">Modifiées récemment</option></select>
         <button class="btn" id="qnew">+ Nouvelle question</button></div>
       <p class="muted small" style="margin:0 0 10px">Les changements arrivent dans le jeu en moins d'une minute, pour les nouvelles parties. Les questions de religion ne peuvent être publiées qu'avec leur source et leur explication en français et en arabe.</p>
-      <div class="tscroll"><table><thead><tr><th>Question</th><th>Thème</th><th>Âge</th><th>Niv.</th><th>Posée</th><th>Réussite</th><th>Statut</th></tr></thead><tbody id="qBody"></tbody></table></div>
+      <div class="row small" id="trBar" style="gap:8px;margin:0 0 10px"></div>
+      <div class="tscroll"><table><thead><tr><th>Question</th><th>Thème</th><th>Âge</th><th>Niv.</th><th>Posée</th><th>Réussite</th><th>Statut</th><th>EN</th></tr></thead><tbody id="qBody"></tbody></table></div>
       <div class="row" style="justify-content:center;margin-top:12px"><button class="btn g" id="qmore" hidden>Afficher plus</button></div>
     </div>
   </section>
 
   <!-- RÉGLAGES -->
+  <section data-panel="traductions" hidden>
+    <div class="card"><h2 style="margin-top:0">Traduction anglaise des questions</h2>
+      <p class="muted small" style="margin-top:0">Le statut de traduction est indépendant de la publication. Dans le jeu, seules les traductions <b>validées</b> sont montrées (réglage modifiable dans « Réglages du jeu ») ; sinon la question reste en français. L'arabe n'est montré qu'en Religion ; il reste conservé en base pour les autres thèmes.</p>
+      <div id="trProg"></div></div>
+    <div class="grid two sec">
+      <div class="card"><h2 style="margin-top:0">1. Importer un fichier de traductions</h2>
+        <p class="muted small" style="margin-top:0">Format « kounouzi-traductions » (JSON). L'import se fait en deux temps : <b>simulation</b> (rien n'est écrit, rapport détaillé), puis <b>import</b> par lots. Seul l'anglais est écrit ; le français, l'arabe et les références ne sont jamais modifiés. Les lignes importées passent « à relire ». Un import interrompu se relance simplement : les lignes déjà importées sont reconnues.</p>
+        <div class="grid" style="gap:10px"><input type="file" id="trFile" accept=".json,application/json">
+          <label class="row small" style="gap:8px;justify-content:flex-start;flex-wrap:nowrap"><input type="checkbox" id="trForce"> Accepter aussi les lignes dont le français diffère de la base (déconseillé)</label>
+          <div class="row"><button class="btn" id="trSim" disabled>Simuler</button><button class="btn g" id="trGo" disabled>Importer</button></div>
+          <div id="trOut"></div></div></div>
+      <div class="card"><h2 style="margin-top:0">2. Exporter les questions à traduire</h2>
+        <p class="muted small" style="margin-top:0">Produit un fichier au même format, avec le français rempli et l'anglais vide, prêt à être traduit puis réimporté.</p>
+        <div class="grid" style="gap:10px"><select id="exTheme"><option value="">Tous les thèmes</option></select>
+          <select id="exSt"><option value="a_faire">Seulement les questions à traduire</option><option value="">Toutes les questions</option></select>
+          <button class="btn g" id="exGo">Télécharger le fichier</button></div></div>
+    </div>
+  </section>
+
   <section data-panel="reglages" hidden>
     <div class="grid two">
       <div class="card"><h2>Ordre des thèmes</h2><p class="muted small" style="margin-top:0">Chaque joueur reçoit les thèmes dans cet ordre, à tour de rôle. Décoche un thème pour le retirer du jeu.</p><ul class="order" id="thOrder"></ul></div>
@@ -180,6 +202,7 @@ label.f small{font-weight:700;color:var(--faint)}
     <div class="grid two sec">
       <div class="card"><h2>Temps et répétitions</h2><div class="grid" style="gap:12px" id="tpsF"></div></div>
       <div class="card"><h2>Durées des parties</h2><div class="grid" style="gap:12px" id="durF"></div></div>
+      <div class="card"><h2>Langues</h2><label class="row" style="gap:10px;justify-content:flex-start;flex-wrap:nowrap;font-weight:800"><input type="checkbox" id="rgTrRelire"> Montrer aussi dans le jeu les traductions « à relire »</label><p class="muted small">Décoché (conseillé) : seules les traductions validées apparaissent ; les autres questions restent en français.</p></div>
     </div>
     <div class="row sec"><button class="btn" id="rgSave">Enregistrer les réglages</button><button class="btn g" id="rgReset">Revenir aux valeurs d'origine</button><span class="msg" id="rgMsg"></span></div>
   </section>
@@ -203,12 +226,19 @@ label.f small{font-weight:700;color:var(--faint)}
   </div>
   <div class="f2">
     <label class="f">Question (français)<textarea name="q_fr" required></textarea></label>
-    <label class="f">Question (arabe) <small>facultatif</small><textarea name="q_ar" dir="rtl" class="ar"></textarea></label>
+    <label class="f">Question (anglais)<textarea name="q_en" lang="en"></textarea></label>
     <label class="f">Réponse (français)<textarea name="r_fr" required></textarea></label>
-    <label class="f">Réponse (arabe) <small>facultatif</small><textarea name="r_ar" dir="rtl" class="ar"></textarea></label>
+    <label class="f">Réponse (anglais)<textarea name="r_en" lang="en"></textarea></label>
     <label class="f">Explication (français)<textarea name="e_fr"></textarea></label>
-    <label class="f">Explication (arabe)<textarea name="e_ar" dir="rtl" class="ar"></textarea></label>
+    <label class="f">Explication (anglais)<textarea name="e_en" lang="en"></textarea></label>
   </div>
+  <label class="f">Traduction anglaise<select name="trad_en"><option value="a_faire">À traduire</option><option value="a_relire">À relire</option><option value="validee">Validée (montrée dans le jeu)</option></select></label>
+  <div class="f2" id="arBlock">
+    <label class="f">Question (arabe) <small>facultatif</small><textarea name="q_ar" dir="rtl" class="ar"></textarea></label>
+    <label class="f">Réponse (arabe) <small>facultatif</small><textarea name="r_ar" dir="rtl" class="ar"></textarea></label>
+    <label class="f">Explication (arabe) <small>obligatoire pour publier en religion</small><textarea name="e_ar" dir="rtl" class="ar"></textarea></label>
+  </div>
+  <p class="muted small" id="arNote" hidden style="margin:0">L'arabe n'est utilisé que pour la Religion. Le texte arabe déjà enregistré pour cette question est conservé en base, sans être montré dans le jeu.</p>
   <label class="f">Source <small>obligatoire pour la religion (livre, auteur)</small><input name="s"></label>
   <div class="f2">
     <label class="f">Statut<select name="statut"><option value="publiee">Publiée (dans le jeu)</option><option value="brouillon">Brouillon (pas dans le jeu)</option><option value="archivee">Archivée</option></select></label>
@@ -224,6 +254,7 @@ label.f small{font-weight:700;color:var(--faint)}
 </form></dialog>
 
 <script type="module">
+import { statutTrad, progression, analyserImport, lots, LIBELLE_STATUT_TRAD } from '/trad.js';
 import { optionsFiltreAge, filtreAgeCompatible, filtrerQuestions, tranchesDuTheme, trancheValidePour, systemeDe, libelleTranche } from '/ages.js';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -243,7 +274,8 @@ $('#lf').onsubmit=e=>{ e.preventDefault(); PW=$('#pw').value; enter(); };
 $('#logout').onclick=()=>{ sessionStorage.removeItem('kzpw'); location.reload(); };
 const loaded={};
 function show(tab){ if(!$(`[data-panel="${tab}"]`)) tab='vue'; $$('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==tab); $$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===tab)); history.replaceState(null,'','#'+tab);
-  if(!loaded[tab]){ loaded[tab]=true; ({vue:loadStats,codes:loadCodes,questions:loadQuestions,reglages:loadReglages,outils:loadOutils})[tab]?.(); } }
+  if(!loaded[tab]){ loaded[tab]=true; ({vue:loadStats,codes:loadCodes,questions:loadQuestions,reglages:loadReglages,outils:loadOutils,traductions:loadTrad})[tab]?.(); }
+  else if(tab==='traductions') loadTrad(); }
 $$('nav.tabs button').forEach(b=>b.onclick=()=>show(b.dataset.tab));
 if(PW) enter();
 
@@ -360,18 +392,25 @@ function majFiltreAge(){ const t=$('#qt').value, cur=$('#qa').value, groupes=opt
   $('#qa').innerHTML='<option value="">Tous les âges</option>'+groupes.map(g=>`<optgroup label="${esc(g.label)}">${g.options.map(o=>`<option value="${o.value}">${esc(o.label)}</option>`).join('')}</optgroup>`).join('');
   $('#qa').value= filtreAgeCompatible(t,cur)? cur : '';
   $('#qa').disabled= t==='maths'; $('#qa').title= t==='maths'? 'Les maths sont choisies selon le niveau, sans tranche d\'âge' : ''; }
-function qFiltres(){ const o=$('#qo').value;
+function qFiltres(){ const o=$('#qo').value, tr=$('#qtr').value;
   let L=filtrerQuestions(Q,{theme:$('#qt').value, age:$('#qa').value, statut:$('#qs').value, recherche:$('#qq').value});
+  if(tr) L=L.filter(q=>statutTrad(q,'en')===tr);
   if(o==='taux') L=L.filter(q=>q.n>0).sort((x,y)=>(x.taux??101)-(y.taux??101)||y.n-x.n);
   else if(o==='n') L=[...L].sort((x,y)=>y.n-x.n);
   else if(o==='recent') L=[...L].sort((x,y)=>String(y.updated_at).localeCompare(String(x.updated_at)));
   return L; }
-function renderQ(){ const L=qFiltres(); $('#qCount').textContent=`${fmt(L.length)} / ${fmt(Q.length)}`;
-  $('#qBody').innerHTML= L.length? L.slice(0,QLIM).map(q=>`<tr class="qrow" data-id="${esc(q.id)}"><td class="qtext">${esc(q.q?.fr)}<div class="muted small">→ ${esc(q.r?.fr)}</div></td><td>${esc(THEMES[q.t]||q.t)}</td><td>${esc(q.a||'—')}</td><td>${q.d}</td><td>${fmt(q.n)}</td><td>${q.n? `<span class="tag ${q.taux<40?'bad':q.taux<70?'warn':'good'}">${q.taux} %</span>`:'—'}</td><td><span class="tag ${ST[q.statut]?.[1]||''}">${ST[q.statut]?.[0]||q.statut}</span>${q.prio?' <span class="tag gold">prioritaire</span>':''}${q.poids===0?' <span class="tag">mise de côté</span>':q.poids>1?' <span class="tag">×'+q.poids+'</span>':''}</td></tr>`).join('') : '<tr><td colspan="7" class="empty">Aucune question.</td></tr>';
+const TRT={a_faire:['À traduire',''],a_relire:['À relire','warn'],validee:['Validée','good']};
+function trBar(L){ const p=progression(Q).total, pct=p.n? Math.round(p.validee/p.n*100):0, aRelire=L.filter(q=>statutTrad(q,'en')==='a_relire');
+  $('#trBar').innerHTML=`<span class="tag">Anglais : ${fmt(p.validee)} validées · ${fmt(p.a_relire)} à relire · ${fmt(p.a_faire)} à traduire (${pct} %)</span>`
+    +(aRelire.length? `<button class="btn g sm" id="trValAff">Valider les ${fmt(aRelire.length)} traductions « à relire » affichées</button>`:'');
+  const b=$('#trValAff'); if(b) b.onclick=async()=>{ if(b.dataset.sure!=='1'){ b.dataset.sure='1'; b.textContent=`Confirmer : valider ${fmt(aRelire.length)} traductions ?`; return; }
+    b.disabled=true; try{ for(const l of lots(aRelire.map(q=>q.id),1000)) await api('trad_statut',{ids:l,langue:'en',statut:'validee'}); aRelire.forEach(q=>{ q.trad={...(q.trad||{}),en:'validee'}; }); toast('Traductions validées'); renderQ(); }catch(e){ toast(e.message); b.disabled=false; } }; }
+function renderQ(){ const L=qFiltres(); $('#qCount').textContent=`${fmt(L.length)} / ${fmt(Q.length)}`; trBar(L);
+  $('#qBody').innerHTML= L.length? L.slice(0,QLIM).map(q=>`<tr class="qrow" data-id="${esc(q.id)}"><td class="qtext">${esc(q.q?.fr)}<div class="muted small">→ ${esc(q.r?.fr)}</div></td><td>${esc(THEMES[q.t]||q.t)}</td><td>${esc(q.a||'—')}</td><td>${q.d}</td><td>${fmt(q.n)}</td><td>${q.n? `<span class="tag ${q.taux<40?'bad':q.taux<70?'warn':'good'}">${q.taux} %</span>`:'—'}</td><td><span class="tag ${ST[q.statut]?.[1]||''}">${ST[q.statut]?.[0]||q.statut}</span>${q.prio?' <span class="tag gold">prioritaire</span>':''}${q.poids===0?' <span class="tag">mise de côté</span>':q.poids>1?' <span class="tag">×'+q.poids+'</span>':''}</td><td><span class="tag ${TRT[statutTrad(q,'en')][1]}" title="${esc(q.q?.en||'')}">${TRT[statutTrad(q,'en')][0]}</span></td></tr>`).join('') : '<tr><td colspan="8" class="empty">Aucune question.</td></tr>';
   $('#qmore').hidden=L.length<=QLIM;
   $$('#qBody .qrow').forEach(r=>r.onclick=()=>openQ(Q.find(x=>x.id===r.dataset.id))); }
 $('#qt').addEventListener('change',majFiltreAge);
-['#qq','#qt','#qa','#qs','#qo'].forEach(s=>$(s).addEventListener(s==='#qq'?'input':'change',()=>{ QLIM=100; renderQ(); }));
+['#qq','#qt','#qa','#qs','#qo','#qtr'].forEach(s=>$(s).addEventListener(s==='#qq'?'input':'change',()=>{ QLIM=100; renderQ(); }));
 $('#qmore').onclick=()=>{ QLIM+=200; renderQ(); };
 const dlg=$('#qdlg'), F=$('#qform'); let EDIT=null;
 $('#fT').innerHTML=Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
@@ -381,7 +420,9 @@ function fillBands(t,val){ const list=tranchesDuTheme(t), garde=list.includes(va
   $('#fA').innerHTML= t==='maths'? '<option value="">(selon le niveau)</option>'
     : (garde?'':'<option value="" selected disabled>— Choisir la tranche —</option>')+list.map(b=>`<option value="${b}" ${b===val?'selected':''}>${esc(libelleTranche(b))}</option>`).join('');
   $('#fA').disabled=t==='maths'; return garde||t==='maths'||!val; }
-$('#fT').onchange=()=>{ const avant=$('#fA').value || EDIT?.a || ''; const ok=fillBands($('#fT').value,avant);
+// Champs arabes : seulement pour la Religion (les données arabes des autres thèmes restent en base, non montrées).
+function majArabe(){ const rel=F.t.value==='religion'; $('#arBlock').hidden=!rel; $('#arNote').hidden= rel || !(EDIT&&(EDIT.q?.ar||EDIT.r?.ar||EDIT.e?.ar)); }
+$('#fT').onchange=()=>{ majArabe(); const avant=$('#fA').value || EDIT?.a || ''; const ok=fillBands($('#fT').value,avant);
   $('#qdMsg').className= ok?'msg':'msg err'; $('#qdMsg').textContent= ok? '' : `La tranche « ${avant} » n'existe pas pour ce thème : choisis une nouvelle tranche.`; };
 const poidsTxt=v=>v==0?'jamais posée':v<1?'moins souvent':v==1?'normale':v<=2?'plus souvent':'beaucoup plus souvent';
 F.poids.oninput=()=>$('#poidsLbl').textContent=poidsTxt(+F.poids.value);
@@ -389,6 +430,7 @@ function openQ(q){ EDIT=q||null; const x=q||{t:$('#qt').value||'logic',d:1,q:{},
   $('#qdTitle').textContent=q?'Modifier la question':'Nouvelle question'; $('#qdId').textContent=q?q.id:'nouvelle';
   F.t.value=x.t; fillBands(x.t,x.a); F.d.value=x.d||1;
   F.q_fr.value=x.q?.fr||''; F.q_ar.value=x.q?.ar||''; F.r_fr.value=x.r?.fr||''; F.r_ar.value=x.r?.ar||''; F.e_fr.value=x.e?.fr||''; F.e_ar.value=x.e?.ar||'';
+  F.q_en.value=x.q?.en||''; F.r_en.value=x.r?.en||''; F.e_en.value=x.e?.en||''; F.trad_en.value=statutTrad(x,'en'); majArabe();
   F.s.value=x.s||''; F.statut.value=x.statut||'brouillon'; F.poids.value=x.poids??1; F.prio.checked=!!x.prio; F.poids.oninput();
   $('#qdStats').textContent=q&&q.n? `Posée ${q.n} fois · réussite ${q.taux} %` : q? 'Pas encore posée en partie.' : '';
   $('#qdDel').hidden=!q; $('#qdDel').dataset.sure=''; $('#qdDel').textContent='Supprimer'; $('#qdMsg').textContent=''; $('#qdMsg').className='msg';
@@ -398,7 +440,11 @@ $('#qdCancel').onclick=()=>dlg.close();
 F.onsubmit=async e=>{ e.preventDefault(); const b=$('#qdSave'); b.disabled=true; $('#qdMsg').className='msg'; $('#qdMsg').textContent='Enregistrement…';
   if(F.t.value!=='maths' && !trancheValidePour(F.t.value,F.a.value)){ b.disabled=false; $('#qdMsg').className='msg err'; $('#qdMsg').textContent='Choisis une tranche d\'âge valable pour ce thème.'; return; }
   // Les autres langues déjà présentes (ex. anglais) sont conservées : on ne remplace que le français et l'arabe.
-  const question={id:EDIT?.id, t:F.t.value, a:F.t.value==='maths'?'':F.a.value, d:+F.d.value, q:{...(EDIT?.q||{}),fr:F.q_fr.value,ar:F.q_ar.value}, r:{...(EDIT?.r||{}),fr:F.r_fr.value,ar:F.r_ar.value}, e:{...(EDIT?.e||{}),fr:F.e_fr.value,ar:F.e_ar.value}, s:F.s.value, src:EDIT?.src, statut:F.statut.value, poids:+F.poids.value, prio:F.prio.checked};
+  // Toutes les langues sont conservées (y compris l'arabe masqué hors religion) ; seuls les champs du formulaire changent.
+  let trEn=F.trad_en.value; if(!F.q_en.value.trim()) trEn='a_faire'; else if(trEn==='a_faire') trEn='a_relire';
+  // Français modifié alors que l'anglais était validé : la traduction repasse « à relire ».
+  if(EDIT && trEn==='validee' && (F.q_fr.value!==(EDIT.q?.fr||'') || F.r_fr.value!==(EDIT.r?.fr||'')) && F.trad_en.value===statutTrad(EDIT,'en')) trEn='a_relire';
+  const question={id:EDIT?.id, t:F.t.value, a:F.t.value==='maths'?'':F.a.value, d:+F.d.value, q:{...(EDIT?.q||{}),fr:F.q_fr.value,ar:F.q_ar.value,en:F.q_en.value}, r:{...(EDIT?.r||{}),fr:F.r_fr.value,ar:F.r_ar.value,en:F.r_en.value}, e:{...(EDIT?.e||{}),fr:F.e_fr.value,ar:F.e_ar.value,en:F.e_en.value}, s:F.s.value, src:EDIT?.src, statut:F.statut.value, poids:+F.poids.value, prio:F.prio.checked, trad:{...(EDIT?.trad||{}),en:trEn}};
   try{ const d=await api('question_maj',{question}); const clean=o=>Object.fromEntries(Object.entries(o).filter(([,v])=>v&&String(v).trim()));
     const nq={...(EDIT||{n:0,taux:null}),...question,id:d.id,q:clean(question.q),r:clean(question.r),e:clean(question.e),a:question.t==='maths'?null:question.a,updated_at:new Date().toISOString()};
     if(EDIT) Object.assign(EDIT,nq); else Q.unshift(nq);
@@ -427,10 +473,39 @@ function renderRG(){
     <label class="f">Ne pas reposer les … dernières questions vues <small>quand un joueur a tout vu dans sa série</small><input type="number" min="0" max="100" data-k="eviter" value="${RG.eviter}"></label>`;
   $('#durF').innerHTML=['rapide','classique','grande'].map(k=>`<label class="f">Partie ${k} <small>minutes</small><input type="number" min="10" max="240" data-k="durees.${k}" value="${RG.durees[k]}"></label>`).join('');
   $$('[data-k]').forEach(i=>i.oninput=()=>{ const [a,b]=i.dataset.k.split('.'); if(b) RG[a][b]=+i.value; else RG[a]=+i.value; });
+  $('#rgTrRelire').checked=!!RG.tradRelire; $('#rgTrRelire').onchange=()=>{ RG.tradRelire=$('#rgTrRelire').checked; };
 }
 $('#dfAdd').onclick=()=>{ RG.defis.push('family'); renderRG(); };
 $('#rgSave').onclick=async()=>{ const m=$('#rgMsg'); m.className='msg'; m.textContent='Enregistrement…'; try{ const d=await api('reglages_maj',{reglages:RG}); RG=d.reglages; renderRG(); m.className='msg ok'; m.textContent='Enregistré. Les nouvelles parties utiliseront ces réglages (moins d\'une minute).'; }catch(e){ m.className='msg err'; m.textContent=e.message; } };
 $('#rgReset').onclick=()=>{ RG=structuredClone(RGD); renderRG(); $('#rgMsg').className='msg'; $('#rgMsg').textContent='Valeurs d\'origine remises : clique sur Enregistrer pour les appliquer.'; };
+
+/* ---------- Traductions ---------- */
+let TRF=null, TRR=null;
+async function loadTrad(){ await ensureQuestions().catch(()=>{}); const p=progression(Q);
+  $('#exTheme').innerHTML='<option value="">Tous les thèmes</option>'+Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
+  const ligne=(nom,x)=>{ const v=x.n?Math.round(x.validee/x.n*100):0, r=x.n?Math.round(x.a_relire/x.n*100):0; return `<tr><td><b>${esc(nom)}</b></td><td>${fmt(x.n)}</td><td>${fmt(x.validee)}</td><td>${fmt(x.a_relire)}</td><td>${fmt(x.a_faire)}</td><td style="min-width:140px"><div style="display:flex;height:10px;border-radius:6px;overflow:hidden;background:rgba(127,127,127,.2)"><i style="width:${v}%;background:#3fae6a"></i><i style="width:${r}%;background:#e8a33a"></i></div></td></tr>`; };
+  $('#trProg').innerHTML=`<div class="tscroll"><table><thead><tr><th>Thème</th><th>Questions</th><th>Validées</th><th>À relire</th><th>À traduire</th><th></th></tr></thead><tbody>${Object.entries(THEMES).filter(([k])=>p[k]).map(([k,v])=>ligne(v,p[k])).join('')}${ligne('Total',p.total)}</tbody></table></div>`; }
+const rapportHTML=(r,titre)=>{ const s=r.stats||{}, L=(a,cls)=>a.length? `<details style="margin-top:6px"><summary>${a.length} ${cls}</summary><div class="small" style="max-height:220px;overflow:auto">${a.slice(0,400).map(x=>`<div>${esc(x.message)}</div>`).join('')}${a.length>400?'<div>…</div>':''}</div></details>`:'';
+  return `<div class="card" style="padding:12px"><b>${titre}</b><div class="small" style="margin-top:6px">${fmt(s.total)} lignes · <b>${fmt(r.aEcrire?.length ?? r.aEcrireN ?? 0)}</b> à écrire (${fmt(s.nouvelles)} nouvelles, ${fmt(s.remplacees)} remplacées) · ${fmt(s.identiques)} déjà à jour · ${fmt(s.incompletes)} vides · ${fmt(s.inconnues)} identifiants inconnus · ${fmt(s.doublons)} doublons · ${fmt(s.frDifferent)} français différent</div>
+    ${r.manquantesApres!=null?`<div class="small">Après import, il restera ${fmt(r.manquantesApres)} questions sans anglais.</div>`:''}${L(r.erreurs||[],'erreurs')}${L(r.avertissements||[],'avertissements')}</div>`; };
+$('#trFile').onchange=async()=>{ TRF=null; TRR=null; $('#trGo').disabled=true; $('#trOut').innerHTML='';
+  const f=$('#trFile').files[0]; if(!f) return; try{ TRF=JSON.parse(await f.text()); $('#trSim').disabled=false; }catch{ $('#trOut').innerHTML='<div class="msg err">Fichier illisible : ce n’est pas du JSON valide.</div>'; $('#trSim').disabled=true; } };
+$('#trForce').onchange=()=>{ $('#trGo').disabled=true; TRR=null; };
+$('#trSim').onclick=async()=>{ QLOADING=null; Q=[]; await ensureQuestions(); TRR=analyserImport(TRF,Q,{ignorerFr:$('#trForce').checked});
+  if(!TRR.ok){ $('#trOut').innerHTML=`<div class="msg err">${TRR.erreurs.map(e=>esc(e.message)).join('<br>')}</div>`; return; }
+  $('#trOut').innerHTML=rapportHTML(TRR,'Simulation : rien n’a été écrit.'); $('#trGo').disabled=!TRR.aEcrire.length; };
+$('#trGo').onclick=async()=>{ if(!TRR?.ok) return; const b=$('#trGo'); b.disabled=true; $('#trSim').disabled=true;
+  // Envoi par lots de 100 lignes (le serveur revérifie chaque lot contre la base avant d'écrire).
+  const morceaux=lots(TRF.questions.filter(l=>TRR.aEcrire.some(x=>x.id===String(l?.id||'').trim())),100); let ecrites=0, k=0;
+  try{ for(const m of morceaux){ k++; $('#trOut').innerHTML=`<div class="msg">Import en cours : lot ${k} / ${morceaux.length}…</div>`;
+      const d=await api('trad_import',{fichier:{...TRF,questions:m},ignorerFr:$('#trForce').checked}); ecrites+=d.ecrites; }
+    $('#trOut').innerHTML=`<div class="msg ok">${fmt(ecrites)} traductions importées, statut « à relire ». Relis-les puis valide-les dans l’onglet Questions (filtre « À relire »).</div>`;
+    $('#trSim').disabled=false; QLOADING=null; Q=[]; await ensureQuestions(); loadTrad(); }
+  catch(e){ $('#trOut').innerHTML=`<div class="msg err">Arrêt au lot ${k} / ${morceaux.length} : ${esc(e.message)}. ${fmt(ecrites)} traductions déjà écrites. Relance la simulation puis l’import : la suite reprendra là où elle s’est arrêtée.</div>`; $('#trSim').disabled=false; } };
+$('#exGo').onclick=async()=>{ await ensureQuestions(); const th=$('#exTheme').value, st=$('#exSt').value;
+  const L=Q.filter(q=>(!th||q.t===th)&&(!st||statutTrad(q,'en')===st));
+  const out={format:'kounouzi-traductions',version:1,langue:'en',questions:L.map(q=>({id:q.id,theme:q.t,age:q.a||null,fr:{q:q.q?.fr||'',r:q.r?.fr||'',e:q.e?.fr||''},en:{q:q.q?.en||'',r:q.r?.en||'',e:q.e?.en||''}}))};
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'})); a.download=`kounouzi-en-${th||'tout'}-${new Date().toISOString().slice(0,10)}.json`; a.click(); toast(`${fmt(L.length)} questions exportées`); };
 
 /* ---------- Outils ---------- */
 function loadOutils(){ const m=INFO.moyens||{}, p=INFO.prix||{};

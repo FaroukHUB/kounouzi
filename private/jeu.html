@@ -51,8 +51,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 
 /* ---------- Écran de préparation ---------- */
 #setup{overflow-y:auto;background:radial-gradient(120% 70% at 50% 0%,#1d3557 0%,var(--night) 60%);z-index:20}
-.setup-inner{max-width:560px;margin:0 auto;width:100%;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 40px;display:flex;flex-direction:column;gap:18px}
+.setup-inner{box-sizing:border-box;max-width:560px;margin:0 auto;width:100%;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 40px;display:flex;flex-direction:column;gap:18px}
 .hero{border-radius:22px;overflow:hidden;aspect-ratio:1/0.62;background:url(img/plateau.webp) center 78%/cover;box-shadow:0 18px 40px rgba(0,0,0,.45),0 0 0 2px rgba(239,190,76,.5);max-width:100%}
+.langrow{display:flex;justify-content:center;gap:8px;align-items:center}.langnote{font-size:12px;color:var(--muted);font-weight:700;text-align:center;margin:0}.qfr{font-size:11px;font-weight:800;color:#ffd978;opacity:.9}
 .tagline{text-align:center;font-family:var(--display);font-size:22px;color:var(--gold);letter-spacing:.02em;margin:0}
 .panel{background:rgba(20,36,59,.85);border:1.5px solid rgba(239,190,76,.25);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:12px}
 .panel h2{margin:0;font-family:var(--display);font-weight:400;font-size:20px;color:var(--gold);letter-spacing:.02em}
@@ -225,26 +226,28 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 </style>
 
 <div id="loading">Kounouzi…</div>
-<canvas id="scene" aria-label="Plateau de jeu en 3D"></canvas>
+<canvas id="scene" aria-label="Plateau de jeu en 3D" data-i18n-aria="aria.plateau"></canvas>
 
 <section id="setup" class="screen" hidden>
   <div class="setup-inner">
-    <div class="hero" role="img" aria-label="Illustration Kounouzi"></div>
-    <p class="tagline">Joue. Apprends. Gère.</p>
+    <div class="hero" role="img" aria-label="Illustration Kounouzi" data-i18n-aria="aria.hero"></div>
+    <p class="tagline" data-i18n="setup.tagline">Joue. Apprends. Gère.</p>
+    <div class="langrow"><div class="seg" id="langSel" role="group" aria-label="Langue" data-i18n-aria="setup.langue"></div></div>
+    <p class="langnote" id="langNote" hidden></p>
     <div class="panel resume" id="resumeBox" hidden>
-      <div><b>Une partie est en cours.</b><div class="clock" id="resumeInfo"></div></div>
-      <button class="btn btn-gold" id="resumeBtn">Reprendre</button>
+      <div><b data-i18n="setup.encours">Une partie est en cours.</b><div class="clock" id="resumeInfo"></div></div>
+      <button class="btn btn-gold" id="resumeBtn" data-i18n="setup.reprendre">Reprendre</button>
     </div>
     <div class="panel">
-      <h2>Les joueurs</h2>
+      <h2 data-i18n="setup.joueurs">Les joueurs</h2>
       <div id="plist" style="display:flex;flex-direction:column;gap:10px"></div>
-      <button class="btn btn-ghost" id="addP">+ Ajouter un joueur</button>
+      <button class="btn btn-ghost" id="addP" data-i18n="setup.ajouter">+ Ajouter un joueur</button>
     </div>
     <div class="panel">
-      <h2>Durée de la partie</h2>
+      <h2 data-i18n="setup.duree">Durée de la partie</h2>
       <div class="durations" id="durs"></div>
     </div>
-    <div class="setup-actions"><button class="btn btn-ghost" id="setupSettings" style="min-height:60px" aria-label="Réglages">⚙️ Réglages</button><button class="btn btn-gold" id="startBtn" style="min-height:60px;font-size:20px">Commencer la partie</button></div>
+    <div class="setup-actions"><button class="btn btn-ghost" id="setupSettings" style="min-height:60px" aria-label="Réglages" data-i18n-aria="setup.reglagesAria" data-i18n="setup.reglages">⚙️ Réglages</button><button class="btn btn-gold" id="startBtn" style="min-height:60px;font-size:20px" data-i18n="setup.commencer">Commencer la partie</button></div>
   </div>
 </section>
 
@@ -253,9 +256,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
   <div class="bottom">
     <div class="turnline" id="turnline"></div>
     <div class="actions">
-      <button class="iconbtn" id="viewBtn" aria-label="Zoomer sur le joueur" title="Zoomer sur le joueur">🔍</button>
+      <button class="iconbtn" id="viewBtn" aria-label="Zoomer sur le joueur" title="Zoomer sur le joueur" data-i18n-aria="hud.zoom" data-i18n-title="hud.zoom">🔍</button>
       <button class="btn btn-gold main" id="mainBtn" disabled>…</button>
-      <button class="iconbtn" id="menuBtn" aria-label="Menu">☰</button>
+      <button class="iconbtn" id="menuBtn" aria-label="Menu" data-i18n-aria="hud.menu">☰</button>
     </div>
     <div class="clock" id="clock"></div>
   </div>
@@ -273,9 +276,15 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { tranchesPourJoueur, questionsEligibles } from '/ages.js';
+import { creerT, lireLangue, ecrireLangue, formatNombre, localeDe, traduirePage, LANGUES, NOM_LANGUE } from '/i18n.js';
+import { DICOS } from '/i18n/jeu.js';
+// Langue de l'interface (fr ou en). Changer de langue ne touche jamais à l'état de la partie (S) : seulement aux textes.
+let LANG = lireLangue();
+const t = creerT(DICOS, ()=>LANG);
+document.documentElement.lang = LANG;
 addEventListener('error',e=>showErr(e.message));
 addEventListener('unhandledrejection',e=>showErr(e.reason&&e.reason.message||String(e.reason)));
-function showErr(m){ try{ const d=document.createElement('div'); d.className='toast'; d.style.top='auto'; d.style.bottom='120px'; d.textContent='Erreur : '+m; document.body.appendChild(d); setTimeout(()=>d.remove(),8000);}catch{} }
+function showErr(m){ try{ const d=document.createElement('div'); d.className='toast'; d.style.top='auto'; d.style.bottom='120px'; d.textContent=t('err.prefixe',{m}); document.body.appendChild(d); setTimeout(()=>d.remove(),8000);}catch{} }
 
 /* =========================================================
    Données et constantes
@@ -284,15 +293,26 @@ const DATA = await fetch('data.json').then(r=>r.json());
 const CELLS = DATA.cells;
 const N = CELLS.length; // 28
 const COLORS = [
-  {id:'rouge',hex:'#d2443c',name:'Rouge'},{id:'bleu',hex:'#2f6fd6',name:'Bleu'},{id:'vert',hex:'#3e9b4f',name:'Vert'},
-  {id:'ambre',hex:'#e8a33a',name:'Ambre'},{id:'violet',hex:'#8a4fc9',name:'Violet'},{id:'blanc',hex:'#efe9dc',name:'Blanc'}];
+  {id:'rouge',hex:'#d2443c'},{id:'bleu',hex:'#2f6fd6'},{id:'vert',hex:'#3e9b4f'},
+  {id:'ambre',hex:'#e8a33a'},{id:'violet',hex:'#8a4fc9'},{id:'blanc',hex:'#efe9dc'}];
 // Réglages modifiables depuis le tableau de bord (DATA.reglages) ; sinon les valeurs par défaut.
 const RG = DATA.reglages || {};
 const ALL_THEMES = ['religion','maths','geography','sciences','logic','management'];
 const THEMES = (Array.isArray(RG.themes)? RG.themes.filter(t=>ALL_THEMES.includes(t)) : []).length ? RG.themes.filter(t=>ALL_THEMES.includes(t)) : ALL_THEMES;
 const THEME_INFO = {
-  religion:{fr:'Religion',card:'religion'}, maths:{fr:'Mathématiques',card:'maths'}, geography:{fr:'Histoire & Géographie',card:'histoire-geo'},
-  logic:{fr:'Logique',card:'logique'}, management:{fr:'Gestion',card:'gestion'}, sciences:{fr:'Sciences & Nature',card:'sciences'}};
+  religion:{card:'religion'}, maths:{card:'maths'}, geography:{card:'histoire-geo'},
+  logic:{card:'logique'}, management:{card:'gestion'}, sciences:{card:'sciences'}};
+const themeNom = th=>t('theme.'+th);
+// Textes anglais des défis, cartes Hassanāt et établissements (repli : le français).
+const TR = DATA.traductions || {};
+const enLangue = (k,id)=> (TR[LANG]&&TR[LANG][k]&&TR[LANG][k][id]) || null;
+const nomCase = c=> (enLangue('cells',String(c.p))||{}).nom || c.nom;
+function defiTxt(d){ const e=enLangue('defis',d.id); if(!e) return d; return {...d, ti:e.ti||d.ti, cl:e.cl||d.cl, tx:e.tx||d.tx, v:d.v.map((v,k)=>({...v, text:(e.v&&e.v[k])||v.text}))}; }
+function hasTxt(c){ const e=enLangue('hassanat',c.id); return e? {...c, title:e.title||c.title, text:e.text||c.text} : c; }
+// Cartes illustrées dans la langue choisie (img/en/…), sinon la carte d'origine.
+const CARTES_EN = new Set(['religion','maths','histoire-geo','sciences','logique','gestion','defi','don','halte','tresor','hassanat','maktaba-al-albani','maktaba-as-sunnah','hotel-sharif','hotel-kunuz','hotel-tawhid','hotel-ihsan','restaurant-algerien','restaurant-marocain','agence-omra-an-nour','agence-omra-al-huda','musee-dubai','parc-familial-halal']);
+const carteImg = face=> LANG==='en' && CARTES_EN.has(face) ? `img/en/${face}-face.webp` : `img/${face}-face.webp`;
+const dosImg = ()=> LANG==='en' ? 'img/en/kounouzi-dos.webp' : 'img/kounouzi-dos.webp';
 // Le Chemin : six blocs de cinq valeurs, chacun contient 1,2,3,4,5 une fois. Jamais deux fois la même valeur de suite.
 const CYCLE = [[1,3,5,2,4],[3,5,2,4,1],[5,2,4,1,3],[2,4,1,3,5],[4,1,3,5,2],[3,1,4,2,5]].flat();
 // Économie du jeu (relevée : les gains de la V1 étaient des valeurs de démonstration trop faibles).
@@ -301,9 +321,9 @@ const visitFee = c => Math.round(c.prix*ECO.visitRate/5)*5;   // 300 K → 45 K 
 const famReward = d => d.rw*ECO.familyX;
 // Rotation des cases Défi : le Défi famille revient une fois sur deux, les Hassanāt arrivent en 2e.
 const CHAL_ROT = Array.isArray(RG.defis)&&RG.defis.length? RG.defis : ['family','hassanat','family','duel','family','question'];
-const SERVICE = {maktaba:'un livre',madinah_hotel:'un séjour',makkah_hotel:'un séjour',maghreb_restaurant:'un repas',umrah_agency:'un voyage',museum:'un billet',park:'un billet'};
+const service = fam=>t('service.'+fam);
 const DUR_RG = RG.durees||{};
-const DURATIONS = [{id:'rapide',lbl:'Rapide',min:DUR_RG.rapide||30},{id:'classique',lbl:'Classique',min:DUR_RG.classique||45},{id:'grande',lbl:'Grande',min:DUR_RG.grande||60},{id:'libre',lbl:'Libre',min:null}];
+const DURATIONS = [{id:'rapide',min:DUR_RG.rapide||30},{id:'classique',min:DUR_RG.classique||45},{id:'grande',min:DUR_RG.grande||60},{id:'libre',min:null}];
 const $ = s=>document.querySelector(s);
 // Pause : tout le jeu s'arrête (attentes, animations, chronomètre, voix) tant que le menu est ouvert.
 let paused=false, pausedAt=0;
@@ -317,17 +337,17 @@ const store = {
 };
 const vibrate = ms=>{ if(!SET.haptics) return; try{navigator.vibrate&&navigator.vibrate(ms)}catch{}};
 const esc = s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const fmt = n=>Math.round(n).toLocaleString('fr-FR');
+const fmt = n=>formatNombre(n,LANG);
 
 /* =========================================================
    Réglages (gardés sur cet appareil)
    ========================================================= */
 const SETTINGS='kounouzi_v2_settings';
 const DEFIS_GROUPS = [
-  {id:'movement',lbl:'Mouvement',cats:['movement']},{id:'fun',lbl:'Animaux et fun',cats:['animals']},
-  {id:'family',lbl:'Famille et solidarité',cats:['family','solidarity']},{id:'contact',lbl:'Contact (bisou, high-five…)',contact:true},
-  {id:'ohNo',lbl:'Cartes « Oh non ! »',oh:true},{id:'memoryLogic',lbl:'Mémoire et logique',cats:['memory','reflection','logic','observation','language']},
-  {id:'arabic',lbl:'Arabe',cats:['arabic']},{id:'religion',lbl:'Religion (récitation)',cats:['religion']},{id:'boss',lbl:'Grands défis (boss)',boss:true}];
+  {id:'movement',cats:['movement']},{id:'fun',cats:['animals']},
+  {id:'family',cats:['family','solidarity']},{id:'contact',contact:true},
+  {id:'ohNo',oh:true},{id:'memoryLogic',cats:['memory','reflection','logic','observation','language']},
+  {id:'arabic',cats:['arabic']},{id:'religion',cats:['religion']},{id:'boss',boss:true}];
 const SET = Object.assign({sfx:true, voice:true, tone:'chaleureux', rate:'normal', haptics:true, reduced:'system', ecoute:false, defis:{}}, store.get(SETTINGS)||{});
 DEFIS_GROUPS.forEach(g=>{ if(SET.defis[g.id]===undefined) SET.defis[g.id]=true; });
 const saveSet=()=>store.set(SETTINGS,SET);
@@ -345,7 +365,7 @@ function defiAllowed(d){
 /* =========================================================
    Voix du guide : ElevenLabs via le serveur (/api/voix), sinon la voix de l'appareil
    ========================================================= */
-const TONES=[{id:'pose',lbl:'Posé'},{id:'chaleureux',lbl:'Chaleureux'},{id:'enjoue',lbl:'Enjoué'},{id:'petillant',lbl:'Pétillant'}];
+const TONES=['pose','chaleureux','enjoue','petillant'];
 const RATES={lente:.9,normal:1,rapide:1.15};
 const VOICE={mode:'checking', why:'', last:null, token:0};
 const audioEl = new Audio(); audioEl.preload='auto';
@@ -357,19 +377,19 @@ async function probeVoice(retry=2){
   try{ const r=await fetch('api/voix?probe',{cache:'no-store'});
     if(r.status===204){ VOICE.mode='cloud'; VOICE.why=''; ['bravo','presque','achat','tresor'].forEach(k=>loadSfx(k)); return; }
     const j=await r.json().catch(()=>null);
-    VOICE.why = j&&j.reason==='unconfigured' ? `Voix en ligne non configurée (${(j.missing||[]).join(', ')}).` : 'Voix en ligne indisponible pour l\'instant.';
+    VOICE.why = j&&j.reason==='unconfigured' ? t('voix.nonConfig',{m:(j.missing||[]).join(', ')}) : t('voix.indispo');
     if(r.status!==503 && retry>0){ await new Promise(z=>setTimeout(z,1500)); return probeVoice(retry-1); }
-  }catch{ VOICE.why='Voix en ligne indisponible ici.'; if(retry>0 && location.protocol==='https:'){ await new Promise(z=>setTimeout(z,1500)); return probeVoice(retry-1); } }
+  }catch{ VOICE.why=t('voix.indispoIci'); if(retry>0 && location.protocol==='https:'){ await new Promise(z=>setTimeout(z,1500)); return probeVoice(retry-1); } }
   VOICE.mode = 'speechSynthesis' in window ? 'device' : 'off';
 }
 function deviceVoice(lang){
   const vs=speechSynthesis.getVoices().filter(v=>v.lang&&v.lang.toLowerCase().startsWith(lang));
-  return vs.find(v=>/premium|enhanced|natural|neural|google/i.test(v.name)) || vs.find(v=>/amélie|thomas|audrey|marie|maged|laila/i.test(v.name)) || vs[0] || null;
+  return vs.find(v=>/premium|enhanced|natural|neural|google/i.test(v.name)) || vs.find(v=>/amélie|thomas|audrey|marie|maged|laila|daniel|serena|kate|samantha/i.test(v.name)) || vs[0] || null;
 }
 function stopVoice(){ VOICE.token++; try{audioEl.pause();}catch{} try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch{} }
 function playDevice(text,lang,tok){
   return new Promise(res=>{ if(!('speechSynthesis' in window)) return res();
-    const u=new SpeechSynthesisUtterance(text); u.lang= lang==='ar'?'ar-SA':'fr-FR'; const v=deviceVoice(lang); if(v) u.voice=v;
+    const u=new SpeechSynthesisUtterance(text); u.lang= lang==='ar'?'ar-SA': localeDe(lang); const v=deviceVoice(lang); if(v) u.voice=v;
     u.rate=RATES[SET.rate]||1; u.onend=u.onerror=()=>res(); if(tok!==VOICE.token) return res(); speechSynthesis.speak(u); wait(20000).then(res); });
 }
 // Les phrases sont téléchargées à l'avance (pendant que le pion avance) et gardées en mémoire :
@@ -377,9 +397,11 @@ function playDevice(text,lang,tok){
 const AUD=new Map();
 // La voix lit les mots arabes en arabe : on les écrit en lettres arabes dans le texte parlé (l'écran garde le français).
 const AR_WORDS = [
-  [/As-salāmu ʿalaykum/gi,'السلام عليكم'],[/Zakat al-Māl/gi,'زكاة المال'],[/Caisse Masākīn/gi,'صندوق المساكين'],[/Masākīn/gi,'المساكين'],
+  [/Masākīn Fund/gi,'صندوق المساكين'],[/As-salāmu ʿalaykum/gi,'السلام عليكم'],[/Zakat al-Māl/gi,'زكاة المال'],[/Caisse Masākīn/gi,'صندوق المساكين'],[/Masākīn/gi,'المساكين'],
   [/Hassanāt|Hassanat/gi,'حسنات'],[/ʿUmra|Omra/gi,'عمرة'],[/Zakat/gi,'الزكاة'],[/ḥawl/gi,'الحول'],
-  [/Maktaba Al-Albānī/gi,'مكتبة الألباني'],[/Maktaba As-Sunnah/gi,'مكتبة السنة'],[/Agence Omra An-Nour|Agence عمرة An-Nour/gi,'وكالة عمرة النور'],[/Agence Omra Al-Hudā|Agence عمرة Al-Hudā/gi,'وكالة عمرة الهدى'],[/Hôtel At-Tawḥīd/gi,'فندق التوحيد'],[/Hôtel Al-Iḥsān/gi,'فندق الإحسان'],[/Hôtel Al-Sharif/gi,'فندق الشريف'],[/Hôtel El Kunuz/gi,'فندق الكنوز']];
+  [/Maktaba Al-Albānī/gi,'مكتبة الألباني'],[/Maktaba As-Sunnah/gi,'مكتبة السنة'],[/Agence Omra An-Nour|Agence عمرة An-Nour/gi,'وكالة عمرة النور'],[/Agence Omra Al-Hudā|Agence عمرة Al-Hudā/gi,'وكالة عمرة الهدى'],[/Hôtel At-Tawḥīd/gi,'فندق التوحيد'],[/Hôtel Al-Iḥsān/gi,'فندق الإحسان'],[/Hôtel Al-Sharif/gi,'فندق الشريف'],[/Hôtel El Kunuz/gi,'فندق الكنوز'],
+  [/Umrah|ʿUmrah/gi,'عمرة'],[/An-Nour عمرة Agency/gi,'وكالة عمرة النور'],[/Al-Hudā عمرة Agency/gi,'وكالة عمرة الهدى'],
+  [/Hotel At-Tawḥīd/gi,'فندق التوحيد'],[/Hotel Al-Iḥsān/gi,'فندق الإحسان'],[/Hotel Al-Sharif/gi,'فندق الشريف'],[/Hotel El Kunuz/gi,'فندق الكنوز']];
 const toVoice=t=>{ AR_WORDS.forEach(([re,ar])=>{ t=t.replace(re,ar); }); return t; };
 const cleanText=t=>toVoice(String(t)).replace(/\s+/g,' ').trim().slice(0,680);
 // ElevenLabs limite le nombre de demandes simultanées : jamais plus de 2 à la fois, les phrases urgentes passent devant.
@@ -406,7 +428,7 @@ function fetchAudio(text,lang,urgent=false){
   }
   return AUD.get(key);
 }
-function prefetch(text,lang='fr'){ if(SET.voice && VOICE.mode==='cloud' && text) fetchAudio(cleanText(text),lang).catch(()=>{}); }
+function prefetch(text,lang=LANG){ if(SET.voice && VOICE.mode==='cloud' && text) fetchAudio(cleanText(text),lang).catch(()=>{}); }
 function playCloud(text,lang,tok){
   return new Promise(async res=>{ let done=false; const fin=ok=>{ if(done) return; done=true; res(ok); };
     let url; try{ url=await Promise.race([fetchAudio(text,lang,true), new Promise((_,rej)=>setTimeout(()=>rej(new Error('lent')),15000))]); }catch{ return fin(false); }
@@ -417,7 +439,7 @@ function playCloud(text,lang,tok){
 }
 // Dit une phrase. Par défaut elle coupe la précédente ; {queue:true} la met à la suite.
 let voiceChain=Promise.resolve();
-function say(text,{lang='fr',queue=false}={}){
+function say(text,{lang=LANG,queue=false}={}){
   if(!SET.voice || !text || VOICE.mode==='off') return Promise.resolve();
   text=cleanText(text); VOICE.last={text,lang};
   if(!queue){ stopVoice(); voiceChain=Promise.resolve(); }
@@ -440,16 +462,15 @@ function loadSfx(k){ if(VOICE.mode!=='cloud') return Promise.resolve(null);
 async function sfx(k){ if(!SET.voice || !SET.sfx) return; const url=await loadSfx(k); if(!url||paused) return; try{ const a=new Audio(url); a.volume=.55; a.play().catch(()=>{}); }catch{} }
 const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
 const pickBy = (n,arr)=>arr[((n%arr.length)+arr.length)%arr.length];
-const namesList = ns=> ns.length<2? ns.join('') : ns.slice(0,-1).join(', ')+' et '+ns[ns.length-1];
-const THEME_SPOKEN={religion:'religion',maths:'mathématiques',geography:'histoire et géographie',logic:'logique',management:'gestion',sciences:'sciences et nature'};
-const deTheme=t=>{ const w=THEME_SPOKEN[t]; return /^[aeiouhéè]/i.test(w)? "d'"+w : 'de '+w; };
+const themeDit = th=>t('themeDit.'+th);
+// Phrases du guide : le texte dépend de la langue choisie au moment où il est dit.
 const PH = {
-  start: names=>`As-salāmu ʿalaykum la famille ! Bienvenue dans Kounouzi ! Aujourd'hui, nous avons ${names}. Qu'Allah vous facilite cette partie… On joue, on apprend, on gère… allez, c'est parti !`,
-  turn: n=>pickBy(S.round+S.turn,[`Allez ${n}, c'est à toi !`,`À toi, ${n}… voyons ce que ce tour te réserve !`,`${n}, à toi de jouer… c'est parti !`]),
-  journey: (n,k)=> k===1? `Une petite case pour toi, ${n}… mais elle peut tout changer !` : pickBy(S.round,[`Allez ${n}… ${k} cases ! Voyons où ça t'emmène…`,`${k} cases pour toi, ${n}… en route !`,`${n}, tu avances de ${k} cases… c'est parti !`]),
-  good: n=>pickBy(S.usedQ.length,[`Bravo ${n} !`,`Excellent, ${n} !`,`Tu as tout bon, ${n} !`]),
-  partial: n=>pickBy(S.usedQ.length,[`Tu y es presque, ${n} !`,`C'est presque ça, ${n}. Continue !`,`Bien tenté, ${n}, tu te rapproches !`]),
-  wrong: n=>pickBy(S.usedQ.length,[`Ce n'est pas grave, ${n}. C'est comme ça qu'on apprend.`,`Pas de souci, ${n}. Tu la retiendras pour la prochaine fois.`,`Une de plus à apprendre, ${n}. Continue, tu progresses !`]),
+  start: noms=>t('ph.start',{noms}),
+  turn: n=>t('ph.turn',{n, i:S.round+S.turn}),
+  journey: (n,k)=> k===1? t('ph.journey1',{n}) : t('ph.journey',{n,k,i:S.round}),
+  good: n=>t('ph.good',{n,i:S.usedQ.length}),
+  partial: n=>t('ph.partial',{n,i:S.usedQ.length}),
+  wrong: n=>t('ph.wrong',{n,i:S.usedQ.length}),
 };
 
 // Les 8 avatars, au choix libre : un enfant peut prendre celui d'un adulte, c'est un jeu.
@@ -499,13 +520,13 @@ const scoreOf = p=> p.money + heritageOf(p) + p.hassanat*5;
 const canvas = $('#scene');
 let renderer;
 try{ renderer = new THREE.WebGLRenderer({canvas, antialias:true, powerPreference:'default'}); }
-catch(e){ $('#loading').textContent='Ton appareil ne prend pas en charge la 3D.'; throw e; }
+catch(e){ $('#loading').textContent=t('err.3d'); throw e; }
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.setClearColor('#0c1626',1);
 renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.08;
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-canvas.addEventListener('webglcontextlost',e=>{e.preventDefault(); showErr('la 3D a été interrompue, recharge la page');});
+canvas.addEventListener('webglcontextlost',e=>{e.preventDefault(); showErr(t('err.3dPerdue'));});
 const scene = new THREE.Scene();
 // Ciel de nuit : dégradé bleu profond et étoiles.
 scene.background = (()=>{ const c=document.createElement('canvas'); c.width=512; c.height=1024; const g=c.getContext('2d');
@@ -520,8 +541,8 @@ const sun = new THREE.DirectionalLight('#ffe2a8',2.1); sun.position.set(5,11,6);
 sun.castShadow=true; sun.shadow.mapSize.set(1024,1024); Object.assign(sun.shadow.camera,{left:-6,right:6,top:6,bottom:-6,near:1,far:30}); sun.shadow.bias=-0.0006; sun.shadow.radius=4;
 const rim = new THREE.DirectionalLight('#6fa8ff',0.45); rim.position.set(-6,4,-6); scene.add(rim);
 // Images chargées via fetch puis blob : même origine, aucun souci de CORS.
-function loadTex(url,cb){ const t=new THREE.Texture(); t.colorSpace=THREE.SRGBColorSpace;
-  fetch(url).then(r=>r.blob()).then(b=>createImageBitmap(b,{imageOrientation:'flipY'})).then(img=>{ t.image=img; t.flipY=false; t.needsUpdate=true; dirty=true; cb&&cb(); }).catch(e=>showErr('image '+url+' : '+e.message)); return t; }
+function loadTex(url,cb){ const tx=new THREE.Texture(); tx.colorSpace=THREE.SRGBColorSpace;
+  fetch(url).then(r=>r.blob()).then(b=>createImageBitmap(b,{imageOrientation:'flipY'})).then(img=>{ tx.image=img; tx.flipY=false; tx.needsUpdate=true; dirty=true; cb&&cb(); }).catch(e=>showErr(t('err.image',{u:url,m:e.message}))); return tx; }
 let dirty = true; const anims = [];
 function tween(dur, fn, ease=t=>t){ return new Promise(res=>{ if(REDUCED) dur=1; anims.push({t0:performance.now(),dur,fn,ease,res}); }); }
 const easeIO = t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
@@ -560,10 +581,11 @@ function inward(i){ const sd=sideOf(i), o=new THREE.Vector3();
   else { const v=cellXZ(i); o.set(-Math.sign(v.x),0,-Math.sign(v.z)).normalize(); } return o; }
 
 const TYPE_STYLE = {
-  start:{bg:'#2f8a57',band:'#1d5c39',ico:'⭐',lbl:'Départ'}, question:{bg:'#2b5aa8',band:'#173a73',ico:'💡',lbl:'Savoir'},
-  challenge:{bg:'#7a3fb8',band:'#4e2380',ico:'🎯',lbl:'Défi'}, halt:{bg:'#1f4f86',band:'#123457',ico:'🔒',lbl:'Prison'},
-  treasure:{bg:'#d6a536',band:'#94680f',ico:'💎',lbl:'Trésor'}, donation:{bg:'#b6463a',band:'#7a2a22',ico:'🤲',lbl:'Don'},
-  hassanat:{bg:'#b0408f',band:'#6e1f59',ico:'✨',lbl:'Hassanāt'}};
+  start:{bg:'#2f8a57',band:'#1d5c39',ico:'⭐'}, question:{bg:'#2b5aa8',band:'#173a73',ico:'💡'},
+  challenge:{bg:'#7a3fb8',band:'#4e2380',ico:'🎯'}, halt:{bg:'#1f4f86',band:'#123457',ico:'🔒'},
+  treasure:{bg:'#d6a536',band:'#94680f',ico:'💎'}, donation:{bg:'#b6463a',band:'#7a2a22',ico:'🤲'},
+  hassanat:{bg:'#b0408f',band:'#6e1f59',ico:'✨'}};
+const caseNom = type=>t('case.'+type);
 const FAM_COL = {maktaba:'#2f8c86',madinah_hotel:'#2c7a46',makkah_hotel:'#8a6a2e',maghreb_restaurant:'#b5462f',umrah_agency:'#3a5fb0',museum:'#1f8a8f',park:'#5f9a2f'};
 const EMOJI='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
 // Couleur néon de chaque case et icône illustrée (img/icons). Sans icône : émoji de secours.
@@ -594,7 +616,7 @@ function tileTexture(cell,i){
   if(img) g.drawImage(img,S/2-isz/2,iy-isz/2,isz,isz);
   else { g.font=`${Math.round(isz*.8)}px ${EMOJI}`; g.fillText(h? cell.ico : TYPE_STYLE[cell.type].ico,S/2,iy); }
   g.restore();
-  const name = h? cell.nom : TYPE_STYLE[cell.type].lbl, maxW=S-2*m-26;
+  const name = h? nomCase(cell) : caseNom(cell.type), maxW=S-2*m-26;
   let fs = h? 40 : 50; g.font=`900 ${fs}px Nunito, sans-serif`;
   const words=name.split(' '); let lines=[name];
   if(g.measureText(name).width>maxW && words.length>1){ const mid=Math.ceil(words.length/2); lines=[words.slice(0,mid).join(' '),words.slice(mid).join(' ')]; }
@@ -603,7 +625,7 @@ function tileTexture(cell,i){
   g.save(); g.shadowColor=col; g.shadowBlur=14; g.fillStyle='#fff';
   lines.forEach((l,k)=>g.fillText(l,S/2,y0+(k-(lines.length-1)/2)*(fs*1.04))); g.restore();
   g.fillStyle='#fff'; lines.forEach((l,k)=>g.fillText(l,S/2,y0+(k-(lines.length-1)/2)*(fs*1.04)));
-  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.anisotropy=8; return t;
+  const tx=new THREE.CanvasTexture(c); tx.colorSpace=THREE.SRGBColorSpace; tx.anisotropy=8; return tx;
 }
 const tiles=[]; const GAP=.045;
 const TILE_GEO = { corner:new RoundedBoxGeometry(CELL_D-GAP,TILE_H,CELL_D-GAP,3,.05), ns:new RoundedBoxGeometry(CELL_W-GAP,TILE_H,CELL_D-GAP,3,.05), ew:new RoundedBoxGeometry(CELL_D-GAP,TILE_H,CELL_W-GAP,3,.05) };
@@ -801,8 +823,8 @@ canvas.addEventListener('pointerup',e=>{
   if(!downAt||!S||Math.hypot(e.clientX-downAt[0],e.clientY-downAt[1])>8) return;
   const m=new THREE.Vector2(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1); ray.setFromCamera(m,camera);
   const hit=ray.intersectObjects(tiles)[0]; if(!hit) return; const i=hit.object.userData.cell, c=CELLS[i];
-  if(c.type==='heritage'){ const o=S.owners[i]; toast(`${c.ico} ${c.nom} · ${c.prix} K · ${o!==undefined? 'à '+S.players[o].name : 'libre'}`); }
-  else toast(`${TYPE_STYLE[c.type].ico} ${TYPE_STYLE[c.type].lbl} — case ${i}`);
+  if(c.type==='heritage'){ const o=S.owners[i]; toast(t('tap.heritage',{ico:c.ico,nom:nomCase(c),prix:c.prix,etat:o!==undefined? t('tap.a',{n:S.players[o].name}) : t('tap.libre')})); }
+  else toast(t('tap.case',{ico:TYPE_STYLE[c.type].ico,lbl:caseNom(c.type),i}));
 });
 
 /* =========================================================
@@ -812,9 +834,9 @@ function chipHTML(p){ return `<div class="chip${p.seat===S.turn?' active':''}" i
   <div class="av" style="background-image:url(${avatarFor(p)})"></div><div class="nm">${esc(p.name)}</div>
   <div class="mn"><span id="mn${p.seat}">${fmt(p.money)}</span><small>K</small>${p.hassanat?`<small>✦${p.hassanat}</small>`:''}</div></div>`; }
 function renderHUD(){
-  $('#chips').innerHTML = S.players.map(chipHTML).join('') + `<div class="chip caisse" id="chipCaisse"><div class="nm">Caisse Masākīn</div><div class="mn"><span>${fmt(S.caisse)}</span><small>K</small></div></div>`;
+  $('#chips').innerHTML = S.players.map(chipHTML).join('') + `<div class="chip caisse" id="chipCaisse"><div class="nm">${t('hud.caisse')}</div><div class="mn"><span>${fmt(S.caisse)}</span><small>K</small></div></div>`;
   const p=cur(); $('#turnline').style.setProperty('--c',p.hex);
-  $('#turnline').innerHTML=`<div class="av" style="background-image:url(${avatarFor(p)})"></div><div class="tl"><b>Au tour de ${esc(p.name)}</b><span class="st"><i>💰 ${fmt(p.money)} K</i><i>✨ ${p.hassanat} Hassanāt</i><i>🏛 ${fmt(heritageOf(p))} K</i></span></div>`;
+  $('#turnline').innerHTML=`<div class="av" style="background-image:url(${avatarFor(p)})"></div><div class="tl"><b>${t('hud.auTour',{n:esc(p.name)})}</b><span class="st"><i>💰 ${fmt(p.money)} K</i><i>✨ ${t('hud.hassanat',{n:p.hassanat})}</i><i>🏛 ${fmt(heritageOf(p))} K</i></span></div>`;
 }
 function toast(msg,ms=2600){ document.querySelectorAll('.toast').forEach(t=>t.remove()); const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),ms); }
 function anchorOf(who){
@@ -872,7 +894,7 @@ async function pay(from,to,amount){
    ========================================================= */
 function openCard({face,back,kind='scene',lang=false}){
   const ov=document.createElement('div'); ov.id='overlay';
-  ov.innerHTML=`<div class="card ${kind} hidden-face enter"><div class="flip"><div class="face" style="background-image:url(img/${face}-face.webp)"><div class="win"></div></div><div class="back" style="background-image:url(img/kounouzi-dos.webp)"></div></div></div><div class="cacts"></div>`;
+  ov.innerHTML=`<div class="card ${kind} hidden-face enter"><div class="flip"><div class="face" style="background-image:url(${carteImg(face)})"><div class="win"></div></div><div class="back" style="background-image:url(${dosImg()})"></div></div></div><div class="cacts"></div>`;
   document.body.appendChild(ov); const card=ov.querySelector('.card');
   // Suspense : la carte arrive de dos en tournoyant, puis se retourne dans un éclat de lumière.
   vibrate(15);
@@ -943,40 +965,58 @@ async function askQuestion(p, {theme, title, intro}={}){
   q = q || selectQuestion(p,theme);
   // Thème imposé (ex. duel) sans question adaptée à ce joueur : on prend son prochain thème adapté.
   if(!q){ theme=nextTheme(p); q=selectQuestion(p,theme); }
-  if(!q){ toast(`Pas de question adaptée à l'âge de ${p.name} pour le moment.`,3000); return 'skip'; }
+  if(!q){ toast(t('q.aucune',{n:p.name}),3000); return 'skip'; }
   const ti=THEME_INFO[theme];
   const C=openCard({face:ti.card, back:ti.card});
-  let lang='fr'; const hasAr=!!q.q.ar;
+  // Langue de la carte : celle du jeu si la question est traduite, sinon le français (signalé).
+  // Le bouton arabe n'existe que pour la Religion (question, réponse ou explication en arabe).
+  const L0 = LANG!=='fr' && q.q[LANG] && q.r[LANG] ? LANG : 'fr';
+  let lang=L0; const religion = theme==='religion';
+  const hasArQ = religion && !!q.q.ar, hasArAny = religion && !!(q.q.ar||q.r.ar||q.e.ar);
   const secs = p.child?(RG.minuteur?.enfant||60):(RG.minuteur?.adulte||45); let left=secs, timer=null, revealed=false;
   function draw(){
-    const L = lang==='ar'&&hasAr? 'ar':'fr'; const dir = L==='ar'?'rtl':'ltr';
-    C.win.innerHTML = `<div class="meta"><span class="tag">${title?esc(title):ti.fr}</span><span class="tag">Niveau ${q.d}</span><span class="tag">${esc(p.name)}</span></div>
-      <div class="qtext ${L==='ar'?'ar':''}" dir="${dir}">${esc(q.q[L]||q.q.fr)}</div>
-      ${revealed? `<div class="ans" dir="${dir}"><small>Réponse</small>${esc(q.r[L]||q.r.fr)}</div>
-        ${q.e.fr||q.e.ar? `<button class="linkbtn" id="explBtn">Voir l'explication</button><div class="expl" id="expl" hidden>${esc(q.e.fr||'')}${q.e.ar?`<span class="ar" dir="rtl">${esc(q.e.ar)}</span>`:''}</div>`:''}
+    const LQ = lang==='ar'&&q.q.ar? 'ar' : L0, LR = lang==='ar'&&q.r.ar? 'ar' : L0;
+    const LE = q.e[L0]? L0 : 'fr';   // explication : langue du jeu si traduite, sinon français
+    C.win.innerHTML = `<div class="meta"><span class="tag">${title?esc(title):themeNom(theme)}</span><span class="tag">${t('q.niveau',{d:q.d})}</span><span class="tag">${esc(p.name)}</span>${L0!==LANG?`<span class="tag qfr">${t('q.enFrancais')}</span>`:''}</div>
+      <div class="qtext ${LQ==='ar'?'ar':''}" dir="${LQ==='ar'?'rtl':'ltr'}" lang="${LQ}">${esc(q.q[LQ])}</div>
+      ${revealed? `<div class="ans" dir="${LR==='ar'?'rtl':'ltr'}" lang="${LR}"><small>${t('q.reponse')}</small>${esc(q.r[LR])}</div>
+        ${q.e.fr||(religion&&q.e.ar)? `<button class="linkbtn" id="explBtn">${t('q.voirExpl')}</button><div class="expl" id="expl" hidden><span lang="${LE}">${esc(q.e[LE]||'')}</span>${religion&&q.e.ar?`<span class="ar" dir="rtl" lang="ar">${esc(q.e.ar)}</span>`:''}</div>`:''}
         ${q.s?`<div class="src">${esc(q.s)}</div>`:''}`
-      : `<div class="timer" id="tm"><span id="tmv">${left} s</span><span class="bar"><i id="tmb" style="width:${left/secs*100}%"></i></span></div>`}`;
-    const eb=C.win.querySelector('#explBtn'); if(eb) eb.onclick=()=>{ C.win.querySelector('#expl').hidden=false; eb.remove(); if(q.e.fr) say(q.e.fr); if(q.e.ar) say(q.e.ar,{lang:'ar',queue:true}); };
+      : `<div class="timer" id="tm"><span id="tmv">${t('q.secondes',{n:left})}</span><span class="bar"><i id="tmb" style="width:${left/secs*100}%"></i></span></div>`}`;
+    const eb=C.win.querySelector('#explBtn'); if(eb) eb.onclick=()=>{ C.win.querySelector('#expl').hidden=false; eb.remove();
+      if(lang==='ar'&&religion&&q.e.ar) return say(q.e.ar,{lang:'ar'});
+      if(q.e[LE]) say(q.e[LE],{lang:LE}); if(religion&&q.e.ar) say(q.e.ar,{lang:'ar',queue:true}); };
+    syncAr();
   }
-  if(hasAr){ const lb=document.createElement('button'); lb.className='langbtn'; lb.textContent='ع'; lb.setAttribute('aria-label','Afficher en arabe');
-    lb.onclick=()=>{ lang= lang==='fr'?'ar':'fr'; lb.textContent= lang==='fr'?'ع':'Fr'; draw(); readQ(); }; C.face.appendChild(lb); }
-  const curL=()=> lang==='ar'&&hasAr? 'ar':'fr';
-  const readQ=()=>{ const L=curL(); if(!revealed) return say(qPhrase(q,L),{lang:L}); return say(aPhrase(q,L),{lang:L}); };
-  prefetch(aPhrase(q,curL()),curL());
+  // Bouton arabe (Religion uniquement) : avant la réponse, seulement si la question existe en arabe ;
+  // après la réponse, dès qu'il y a de l'arabe (question, réponse ou explication).
+  let lb=null;
+  function syncAr(){
+    const show = revealed? hasArAny : hasArQ;
+    if(show && !lb){ lb=document.createElement('button'); lb.className='langbtn';
+      lb.onclick=()=>{ lang= lang==='ar'? L0 : 'ar'; draw();
+        if(lang==='ar' && revealed && !q.q.ar && !q.r.ar && q.e.ar){ const x=C.win.querySelector('#explBtn'); if(x) x.click(); else say(q.e.ar,{lang:'ar'}); }
+        else readQ(); };
+      C.face.appendChild(lb); }
+    if(lb){ lb.hidden=!show; lb.textContent= lang==='ar'? t('q.retourLangue',{}) : 'ع'; lb.setAttribute('aria-label',t('q.arabe')); }
+  }
+  const qL=()=> lang==='ar'&&q.q.ar? 'ar' : L0, rL=()=> lang==='ar'&&q.r.ar? 'ar' : L0;
+  const readQ=()=>{ if(!revealed){ const L=qL(); return say(qPhrase(q,L),{lang:L}); } const L=rL(); return say(aPhrase(q,L),{lang:L}); };
+  prefetch(aPhrase(q,rL()),rL());
   const preVerdicts=()=>{ prefetch(PH.good(p.name)+gainText('good',1)); };
   draw(); if(intro) await sayWait(intro,5000); readQ();
-  timer=setInterval(()=>{ if(revealed||paused) return; left=Math.max(0,left-1); const v=C.win.querySelector('#tmv'), b=C.win.querySelector('#tmb'), t=C.win.querySelector('#tm');
-    if(v){ v.textContent= left>0? left+' s' : 'Temps écoulé, tu peux encore répondre'; b.style.width=(left/secs*100)+'%'; t.classList.toggle('alert',left<=10); if(left===10) vibrate(40); }
+  timer=setInterval(()=>{ if(revealed||paused) return; left=Math.max(0,left-1); const v=C.win.querySelector('#tmv'), b=C.win.querySelector('#tmb'), tm=C.win.querySelector('#tm');
+    if(v){ v.textContent= left>0? t('q.secondes',{n:left}) : t('q.tempsEcoule'); b.style.width=(left/secs*100)+'%'; tm.classList.toggle('alert',left<=10); if(left===10) vibrate(40); }
     if(left===0) clearInterval(timer); },1000);
-  await choose(C.acts,[{label:'Voir la réponse',value:1}]);
+  await choose(C.acts,[{label:t('q.voirReponse'),value:1}]);
   clearInterval(timer); const tm=C.win.querySelector('#tm'); if(tm){ tm.classList.remove('alert'); tm.innerHTML='<span style="font-size:22px;letter-spacing:6px">• • •</span>'; } await wait(900);
   revealed=true; clearInterval(timer); draw(); const revealVoice=readQ(); preVerdicts();
   C.acts.innerHTML='';
-  const chk=document.createElement('label'); chk.className='check'; chk.innerHTML='<input type="checkbox" id="mastery"> A aussi donné l\'explication (gain ×2)';
+  const chk=document.createElement('label'); chk.className='check'; chk.innerHTML='<input type="checkbox" id="mastery"> '+esc(t('q.maitrise'));
   const wrap=document.createElement('div'); wrap.className='cacts';
   C.el.appendChild(chk); C.el.appendChild(wrap);
   C.acts.remove(); C.acts=wrap;
-  const verdict = choose(wrap,[{label:`Bonne réponse <small>+${ECO.qGood}</small>`,cls:'btn-good',value:'good'},{label:`En partie <small>+${ECO.qPartial}</small>`,cls:'btn-mid',value:'partial'},{label:'Pas cette fois',cls:'btn-bad',value:'wrong'}]);
+  const verdict = choose(wrap,[{label:`${t('q.bonne')} <small>+${ECO.qGood}</small>`,cls:'btn-good',value:'good'},{label:`${t('q.partie')} <small>+${ECO.qPartial}</small>`,cls:'btn-mid',value:'partial'},{label:t('q.pasCetteFois'),cls:'btn-bad',value:'wrong'}]);
   const stopEar = listenVerdict(C.el, wrap, revealVoice);
   const res = await verdict; stopEar();
   const mult = chk.querySelector('input').checked && res!=='wrong' ? 2:1;
@@ -984,33 +1024,30 @@ async function askQuestion(p, {theme, title, intro}={}){
   const spoken = sayWait(PH[res](p.name)+gainText(res,mult),5000);
   if(res==='good') { vibrate([30,40,30]); fxParty(); sfx('bravo'); await pay('bank',p,ECO.qGood*mult); }
   else if(res==='partial') { fxParty(false); sfx('presque'); await pay('bank',p,ECO.qPartial*mult); }
-  else toast('Pas de souci, rien n\'est perdu.');
+  else toast(t('q.rienPerdu'));
   await spoken;
   return res;
 }
 
 /* ---------- Validation à la voix : « correct », « presque », « faux » ---------- */
-const EAR = {
-  correct:["correct","juste","c'est juste","c'est correct","exact","bonne réponse","bravo","gagné","c'est bon","oui"],
-  partial:["presque","presque juste","presque bon","à moitié","à peu près","pas tout à fait","partiellement","en partie"],
-  wrong:["faux","c'est faux","incorrect","raté","perdu","non","pas juste","pas correct","pas bon","mauvaise réponse"]};
+const EAR = ()=>{ const d=DICOS[LANG]||DICOS.fr; return {correct:d['ear.correct']||DICOS.fr['ear.correct'], partial:d['ear.partial']||DICOS.fr['ear.partial'], wrong:d['ear.wrong']||DICOS.fr['ear.wrong']}; };
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 const norm = t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z' ]/g,' ').replace(/\s+/g,' ').trim();
 function verdictOf(phrases){
   let best=null, len=0, tie=false;
   for(const ph of phrases){ const t=' '+norm(ph)+' ';
-    for(const [v,list] of Object.entries(EAR)) for(const w of list){ const n=norm(w); if(t.includes(' '+n+' ')){ if(n.length>len){best=v;len=n.length;tie=false;} else if(n.length===len && v!==best) tie=true; } } }
+    for(const [v,list] of Object.entries(EAR())) for(const w of list){ const n=norm(w); if(t.includes(' '+n+' ')){ if(n.length>len){best=v;len=n.length;tie=false;} else if(n.length===len && v!==best) tie=true; } } }
   return tie? null : best;
 }
 // Ouvre le micro une fois la réponse révélée (et lue). Appuie sur le bouton reconnu. Renvoie une fonction d'arrêt.
 function listenVerdict(overlay, acts, afterVoice){
   if(!SET.ecoute || !SR) return ()=>{};
-  let stopped=false, rec=null; const tag=document.createElement('div'); tag.className='mic'; tag.innerHTML='<i></i> J\'écoute : dites « correct », « presque » ou « faux »';
+  let stopped=false, rec=null; const tag=document.createElement('div'); tag.className='mic'; tag.innerHTML='<i></i> '+esc(t('ear.ecoute'));
   const idx={correct:0,partial:1,wrong:2};
-  const start=()=>{ if(stopped) return; try{ rec=new SR(); rec.lang='fr-FR'; rec.maxAlternatives=3; rec.interimResults=false; rec.continuous=false;
+  const start=()=>{ if(stopped) return; try{ rec=new SR(); rec.lang=localeDe(LANG); rec.maxAlternatives=3; rec.interimResults=false; rec.continuous=false;
       rec.onresult=e=>{ const alts=[...e.results[e.results.length-1]].map(a=>a.transcript); const v=verdictOf(alts);
         if(v){ const b=acts.querySelectorAll('button')[idx[v]]; if(b&&!b.disabled){ stopped=true; b.click(); } } };
-      rec.onerror=ev=>{ if(ev.error==='not-allowed'||ev.error==='service-not-allowed'){ stopped=true; tag.innerHTML='Micro refusé : autorise-le dans le navigateur, ou utilise les boutons.'; } };
+      rec.onerror=ev=>{ if(ev.error==='not-allowed'||ev.error==='service-not-allowed'){ stopped=true; tag.textContent=t('ear.refuse'); } };
       rec.onend=()=>{ if(!stopped) setTimeout(start,250); };
       rec.start(); }catch{ stopped=true; } };
   Promise.resolve(afterVoice).then(()=>{ if(!stopped){ overlay.appendChild(tag); start(); } });
@@ -1025,41 +1062,46 @@ function openSettings(fromMenu=false){
   const ov=document.createElement('div'); ov.id='overlay';
   const seg=(key,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button data-k="${key}" data-v="${v}" aria-pressed="${SET[key]===v}">${l}</button>`).join('')}</div>`;
   const sw=(key,lbl)=>`<div class="setrow">${lbl}<button class="sw2" role="switch" data-sw="${key}" aria-checked="${!!SET[key]}" aria-label="${lbl}"></button></div>`;
-  const vstate = ()=> VOICE.mode==='cloud'? `<span class="hint ok">Voix Kounouzi en ligne (ElevenLabs) : prénoms et montants sont dits.</span>${VOICE.err?`<br><span class="hint warn">Dernier refus d'ElevenLabs : ${esc(VOICE.err)}</span>`:''}`
-    : VOICE.mode==='device'? `<span class="hint warn">Voix de l'appareil en secours. ${esc(VOICE.why)}</span>` : VOICE.mode==='checking'? '<span class="hint">Vérification de la voix…</span>' : '<span class="hint warn">Aucune voix disponible sur cet appareil.</span>';
+  const vstate = ()=> VOICE.mode==='cloud'? `<span class="hint ok">${t('voix.cloud')}</span>${VOICE.err?`<br><span class="hint warn">${esc(t('voix.refus',{e:VOICE.err}))}</span>`:''}`
+    : VOICE.mode==='device'? `<span class="hint warn">${esc(t('voix.appareil',{w:VOICE.why}))}</span>` : VOICE.mode==='checking'? `<span class="hint">${t('voix.verif')}</span>` : `<span class="hint warn">${t('voix.aucune')}</span>`;
   function draw(){
-    ov.innerHTML=`<div class="sheet"><h2>Réglages</h2>
-     <div class="setgrp"><h3>Voix du guide</h3>${sw('voice','Narration vocale')}<div id="vstate">${vstate()}</div>
-       <div class="setrow">Ton ${seg('tone',TONES.map(t=>[t.id,t.lbl]))}</div>
-       <div class="setrow">Vitesse ${seg('rate',[['lente','Lente'],['normal','Normale'],['rapide','Rapide']])}</div>
-       <div class="setrow"><button class="btn btn-ghost" data-a="test">▶ Tester la voix</button><button class="btn btn-ghost" data-a="replay" ${VOICE.last?'':'disabled'}>↺ Réécouter la dernière annonce</button></div></div>
-     <div class="setgrp"><h3>Effets de fête</h3>${sw('sfx','Enfants qui applaudissent, confettis')}</div>
-     <div class="setgrp"><h3>Validation à la voix</h3>${sw('ecoute','Écouter « correct, presque, faux »')}
-       <span class="hint">${SR? 'Une fois la réponse révélée, le micro s\'ouvre : la table dit le verdict au lieu d\'appuyer. Les boutons marchent toujours.' : 'Ce navigateur ne sait pas écouter (Firefox notamment). Essaie Chrome, Edge ou Safari.'}</span></div>
-     <div class="setgrp"><h3>Confort</h3>${sw('haptics','Vibration')}
-       <div class="setrow">Animations réduites ${seg('reduced',[['system','Comme l\'appareil'],['on','Oui'],['off','Non']])}</div></div>
-     <div class="setgrp"><h3>Défis famille (parents)</h3><div class="chkgrid">${DEFIS_GROUPS.map(g=>`<label><input type="checkbox" data-defi="${g.id}" ${SET.defis[g.id]?'checked':''}> ${g.lbl}</label>`).join('')}</div>
-       <span class="hint">Une famille décochée ne sera plus proposée sur les cases Défi.</span></div>
-     <button class="btn btn-gold" data-a="close">Fermer</button></div>`;
+    const langSeg=`<div class="seg">${LANGUES.map(l=>`<button data-lang="${l}" aria-pressed="${LANG===l}" lang="${l}">${NOM_LANGUE[l]}</button>`).join('')}</div>`;
+    ov.innerHTML=`<div class="sheet"><h2>${t('set.titre')}</h2>
+     <div class="setgrp"><h3>${t('set.langue')}</h3><div class="setrow">${langSeg}</div>${t('set.langueNote')?`<span class="hint">${t('set.langueNote')}</span>`:''}</div>
+     <div class="setgrp"><h3>${t('set.voix')}</h3>${sw('voice',t('set.narration'))}<div id="vstate">${vstate()}</div>
+       <div class="setrow">${t('set.ton')} ${seg('tone',TONES.map(x=>[x,t('ton.'+x)]))}</div>
+       <div class="setrow">${t('set.vitesse')} ${seg('rate',[['lente',t('set.lente')],['normal',t('set.normale')],['rapide',t('set.rapide')]])}</div>
+       <div class="setrow"><button class="btn btn-ghost" data-a="test">${t('set.tester')}</button><button class="btn btn-ghost" data-a="replay" ${VOICE.last?'':'disabled'}>${t('set.reecouter')}</button></div></div>
+     <div class="setgrp"><h3>${t('set.fete')}</h3>${sw('sfx',t('set.feteTxt'))}</div>
+     <div class="setgrp"><h3>${t('set.validation')}</h3>${sw('ecoute',t('set.ecoute'))}
+       <span class="hint">${SR? t('set.ecouteOk') : t('set.ecouteNon')}</span></div>
+     <div class="setgrp"><h3>${t('set.confort')}</h3>${sw('haptics',t('set.vibration'))}
+       <div class="setrow">${t('set.animations')} ${seg('reduced',[['system',t('set.commeAppareil')],['on',t('set.oui')],['off',t('set.non')]])}</div></div>
+     <div class="setgrp"><h3>${t('set.defis')}</h3><div class="chkgrid">${DEFIS_GROUPS.map(g=>`<label><input type="checkbox" data-defi="${g.id}" ${SET.defis[g.id]?'checked':''}> ${t('groupe.'+g.id)}</label>`).join('')}</div>
+       <span class="hint">${t('set.defisNote')}</span></div>
+     <button class="btn btn-gold" data-a="close">${t('set.fermer')}</button></div>`;
   }
   draw(); document.body.appendChild(ov);
   ov.addEventListener('click',e=>{
-    const t=e.target.closest('button,input'); if(!t) return;
-    if(t.dataset.sw){ SET[t.dataset.sw]=!SET[t.dataset.sw]; if(t.dataset.sw==='voice'&&!SET.voice) stopVoice(); }
-    else if(t.dataset.k){ SET[t.dataset.k]=t.dataset.v; if(t.dataset.k==='reduced') applyReduced(); if(t.dataset.k==='tone') say('Bravo, tu avances bien !'); }
-    else if(t.dataset.defi){ SET.defis[t.dataset.defi]=t.checked; saveSet(); return; }
-    else if(t.dataset.a==='test'){ unlockAudio(); delete audioEl.dataset.resume; const was=SET.voice; SET.voice=true; say('Bravo, tu avances bien ! Je suis la voix de Kounouzi.'); SET.voice=was; return; }
-    else if(t.dataset.a==='replay'){ if(VOICE.last){ const was=SET.voice; SET.voice=true; say(VOICE.last.text,{lang:VOICE.last.lang}); SET.voice=was; } return; }
-    else if(t.dataset.a==='close'){ saveSet(); ov.remove(); setPaused(wasPaused && !fromMenu ? true : false); return; }
+    const el=e.target.closest('button,input'); if(!el) return;
+    if(el.dataset.lang){ setLang(el.dataset.lang); }
+    else if(el.dataset.sw){ SET[el.dataset.sw]=!SET[el.dataset.sw]; if(el.dataset.sw==='voice'&&!SET.voice) stopVoice(); }
+    else if(el.dataset.k){ SET[el.dataset.k]=el.dataset.v; if(el.dataset.k==='reduced') applyReduced(); if(el.dataset.k==='tone') say(t('ph.ton')); }
+    else if(el.dataset.defi){ SET.defis[el.dataset.defi]=el.checked; saveSet(); return; }
+    else if(el.dataset.a==='test'){ unlockAudio(); delete audioEl.dataset.resume; const was=SET.voice; SET.voice=true; say(t('ph.test')); SET.voice=was; return; }
+    else if(el.dataset.a==='replay'){ if(VOICE.last){ const was=SET.voice; SET.voice=true; say(VOICE.last.text,{lang:VOICE.last.lang}); SET.voice=was; } return; }
+    else if(el.dataset.a==='close'){ saveSet(); ov.remove(); setPaused(wasPaused && !fromMenu ? true : false); return; }
     else return;
     saveSet(); draw();
   });
 }
 $('#setupSettings').onclick=()=>{ unlockAudio(); openSettings(); };
 
-const qPhrase=(q,L)=> (L==='ar'?'سؤال : ':'Question : ')+(q.q[L]||q.q.fr);
-const aPhrase=(q,L)=> (L==='ar'?'الجواب : ':'La réponse est : ')+(q.r[L]||q.r.fr);
-const gainText=(res,m)=> res==='good'? ` Tu gagnes ${ECO.qGood*m} Kounouz.` : res==='partial'? ` Tu gagnes ${ECO.qPartial*m} Kounouz.` : '';
+// La phrase est dite dans la langue du texte affiché (L) : une question non traduite est lue en français.
+const tL=(L,k,p)=>{ const was=LANG; LANG=L; try{ return t(k,p); } finally{ LANG=was; } };
+const qPhrase=(q,L)=> L==='ar'? 'سؤال : '+q.q.ar : tL(q.q[L]?L:'fr','ph.question',{q:q.q[L]||q.q.fr});
+const aPhrase=(q,L)=> L==='ar'? 'الجواب : '+q.r.ar : tL(q.r[L]?L:'fr','ph.reponse',{r:q.r[L]||q.r.fr});
+const gainText=(res,m)=> res==='good'? t('ph.gain',{k:ECO.qGood*m}) : res==='partial'? t('ph.gain',{k:ECO.qPartial*m}) : '';
 
 /* =========================================================
    Cases
@@ -1067,44 +1109,45 @@ const gainText=(res,m)=> res==='good'? ` Tu gagnes ${ECO.qGood*m} Kounouz.` : re
 function heritageText(p,i){
   const c={...CELLS[i]}, o=S.owners[i];
   if(c.fam==='maktaba'||c.fam==='umrah_agency'||c.fam==='makkah_hotel'||c.fam==='madinah_hotel') c.nom=c.ar;
-  if(o===undefined) return p.money>=c.prix? `Case établissement : ${c.nom}. Il est libre, pour ${c.prix} Kounouz. Tu veux l'acheter, ${p.name} ?` : `Case établissement : ${c.nom}. Il coûte ${c.prix} Kounouz, il ne te reste pas assez cette fois.`;
-  if(o===p.seat) return `Case établissement : ${c.nom}. C'est chez toi, tu retrouves ton patrimoine.`;
-  return `Case établissement : ${c.nom}, chez ${S.players[o].name}. Tu profites de ${SERVICE[c.fam]} et tu lui verses ${visitFee(c)} Kounouz.`;
+  else c.nom=nomCase(c);
+  if(o===undefined) return p.money>=c.prix? t('etab.voixAchat',{nom:c.nom,prix:c.prix,n:p.name}) : t('etab.voixTropCher',{nom:c.nom,prix:c.prix});
+  if(o===p.seat) return t('etab.voixChezToi',{nom:c.nom});
+  return t('etab.voixVisite',{nom:c.nom,o:S.players[o].name,service:service(c.fam),k:visitFee(c)});
 }
 async function onHeritage(p,i){
   const c=CELLS[i]; const owner=S.owners[i];
   const nm=c.card.replace('-face.webp',''); const C=openCard({face:nm,back:nm,kind:'estab'});
   if(owner===undefined){
-    C.win.innerHTML=`<div class="meta"><span class="tag">${c.ico} Établissement libre</span></div><h3>${esc(c.nom)}</h3><div class="small ar" dir="rtl" style="font-size:16px">${esc(c.ar)}</div>
-      <div class="big">${c.prix} K</div><div class="small">Valeur de patrimoine : ${c.val} K<br>Chaque visiteur te paiera ${visitFee(c)} K pour ${SERVICE[c.fam]}.</div>
-      <div class="small">Tu as ${fmt(p.money)} K.</div>`;
+    C.win.innerHTML=`<div class="meta"><span class="tag">${c.ico} ${t('etab.libre')}</span></div><h3>${esc(nomCase(c))}</h3><div class="small ar" dir="rtl" lang="ar" style="font-size:16px">${esc(c.ar)}</div>
+      <div class="big">${c.prix} K</div><div class="small">${t('etab.valeur',{v:c.val})}<br>${t('etab.visiteur',{k:visitFee(c),service:service(c.fam)})}</div>
+      <div class="small">${t('etab.tuAs',{k:fmt(p.money)})}</div>`;
     say(heritageText(p,i));
-    const v=await choose(C.acts,[{label:`Acheter <small>−${c.prix}</small>`,value:'buy',disabled:p.money<c.prix},{label:'Ne pas acheter',cls:'btn-ghost',value:'no'}]);
+    const v=await choose(C.acts,[{label:`${t('etab.acheter')} <small>−${c.prix}</small>`,value:'buy',disabled:p.money<c.prix},{label:t('etab.pasAcheter'),cls:'btn-ghost',value:'no'}]);
     C.close();
-    if(v==='buy'){ await pay(p,'bank',c.prix); S.owners[i]=p.seat; await placeBuilding(i,true); vibrate([20,30,60]); toast(`${p.name} possède ${c.nom} !`); fxParty(false); sfx('achat'); say(`Bravo ${p.name} ! ${c.nom} rejoint ton patrimoine.`); }
+    if(v==='buy'){ await pay(p,'bank',c.prix); S.owners[i]=p.seat; await placeBuilding(i,true); vibrate([20,30,60]); toast(t('etab.possede',{n:p.name,nom:nomCase(c)})); fxParty(false); sfx('achat'); say(t('etab.voixAchete',{n:p.name,nom:nomCase(c)})); }
   } else if(owner===p.seat){
-    C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">C'est chez toi. Rien à payer.</div>`; say(heritageText(p,i));
-    await choose(C.acts,[{label:'Continuer',value:1}]); C.close();
+    C.win.innerHTML=`<h3>${esc(nomCase(c))}</h3><div class="small">${t('etab.chezToi')}</div>`; say(heritageText(p,i));
+    await choose(C.acts,[{label:t('etab.continuer'),value:1}]); C.close();
   } else {
     const o=S.players[owner];
-    C.win.innerHTML=`<h3>${esc(c.nom)}</h3><div class="small">Propriété de <b>${esc(o.name)}</b>.</div><div class="small">Tu profites de ${SERVICE[c.fam]} et tu règles le service.</div><div class="big">${visitFee(c)} K</div>`;
+    C.win.innerHTML=`<h3>${esc(nomCase(c))}</h3><div class="small">${t('etab.proprio',{o:esc(o.name)})}</div><div class="small">${t('etab.profite',{service:service(c.fam)})}</div><div class="big">${visitFee(c)} K</div>`;
     say(heritageText(p,i));
-    await choose(C.acts,[{label:`Payer ${esc(o.name)}`,value:1}]); C.close();
+    await choose(C.acts,[{label:t('etab.payer',{o:esc(o.name)}),value:1}]); C.close();
     await pay(p,o,visitFee(c));
   }
 }
-async function simpleCard(face,html,label='Continuer'){ const C=openCard({face,back:face}); C.win.innerHTML=html; await choose(C.acts,[{label,value:1}]); C.close(); }
-async function onTreasure(p){ say(cellIntro(p,p.pos)); sfx('tresor'); await simpleCard('tresor',`<h3>Trésor !</h3><div class="big">+${ECO.treasure} K</div><div class="small">Un coffre t'attendait au coin du plateau.</div>`,'Ramasser'); await pay('bank',p,ECO.treasure); }
-async function onHalt(p){ p.halted=true; say(cellIntro(p,p.pos)); await simpleCard('halte',`<h3>Prison</h3><div class="small">Tu vas en prison : ton voyage s'arrête ici.</div><div class="small">Au prochain tour, tu réponds d'abord à une question pour sortir de prison. Bonne ou en partie : tu sors aussitôt.</div>`); }
+async function simpleCard(face,html,label=t('etab.continuer')){ const C=openCard({face,back:face}); C.win.innerHTML=html; await choose(C.acts,[{label,value:1}]); C.close(); }
+async function onTreasure(p){ say(cellIntro(p,p.pos)); sfx('tresor'); await simpleCard('tresor',`<h3>${t('tresor.titre')}</h3><div class="big">+${ECO.treasure} K</div><div class="small">${t('tresor.texte')}</div>`,t('tresor.bouton')); await pay('bank',p,ECO.treasure); }
+async function onHalt(p){ p.halted=true; say(cellIntro(p,p.pos)); await simpleCard('halte',`<h3>${t('prison.titre')}</h3><div class="small">${t('prison.t1')}</div><div class="small">${t('prison.t2')}</div>`); }
 async function onDonation(p){
   const C=openCard({face:'don',back:'don'});
-  if(p.money<ECO.donation){ C.win.innerHTML=`<h3>Don</h3><div class="small">Il te faut ${ECO.donation} K pour donner. Cette fois, la case ne fait rien.</div>`; await choose(C.acts,[{label:'Continuer',value:1}]); C.close(); return; }
-  C.win.innerHTML=`<h3>Don</h3><div class="big">${ECO.donation} K → ✦ ${ECO.donationHassanat}</div><div class="small">Choisis qui reçoit ton don. Donner rapporte ${ECO.donationHassanat} Hassanāt.</div>`; say(cellIntro(p,p.pos));
+  if(p.money<ECO.donation){ C.win.innerHTML=`<h3>${t('don.titre')}</h3><div class="small">${t('don.pasAssez',{k:ECO.donation})}</div>`; await choose(C.acts,[{label:t('etab.continuer'),value:1}]); C.close(); return; }
+  C.win.innerHTML=`<h3>${t('don.titre')}</h3><div class="big">${ECO.donation} K → ✦ ${ECO.donationHassanat}</div><div class="small">${t('don.choisis',{h:ECO.donationHassanat})}</div>`; say(cellIntro(p,p.pos));
   const others=S.players.filter(q=>q!==p);
-  const v=await choose(C.acts,[{label:'Caisse Masākīn',value:'caisse'},...others.map(q=>({label:esc(q.name),cls:'btn-ghost',value:q.seat}))]);
+  const v=await choose(C.acts,[{label:t('hud.caisse'),value:'caisse'},...others.map(q=>({label:esc(q.name),cls:'btn-ghost',value:q.seat}))]);
   C.close(); await pay(p, v==='caisse'?'caisse':S.players[v], ECO.donation);
   p.hassanat+=ECO.donationHassanat; renderHUD(); floatNum(p,'✦ +'+ECO.donationHassanat,'#bfe8ff');
-  say(v==='caisse'? `${p.name} donne ${ECO.donation} Kounouz à la Caisse Masākīn. Belle générosité ! ${ECO.donationHassanat} Hassanāt.` : `${p.name} donne ${ECO.donation} Kounouz à ${S.players[v].name}. Quelle générosité ! ${ECO.donationHassanat} Hassanāt.`);
+  say(v==='caisse'? t('don.voixCaisse',{n:p.name,k:ECO.donation,h:ECO.donationHassanat}) : t('don.voixJoueur',{n:p.name,k:ECO.donation,o:S.players[v].name,h:ECO.donationHassanat}));
 }
 
 /* ---------- Défis ---------- */
@@ -1121,29 +1164,29 @@ function variantFor(d,age){ return d.v.find(v=>age>=v.ageMin && (v.ageMax===unde
 async function onFamily(p){
   const skip=new Set();
   while(true){
-    const d=nextFamily(p,skip); const age=ageOf(p); const v=variantFor(d,age);
+    const d0=nextFamily(p,skip), d=defiTxt(d0); const age=ageOf(p); const v=variantFor(d,age);
     const C=openCard({face:'defi',back:'defi'});
-    C.win.innerHTML=`<div class="meta"><span class="tag">Défi famille</span><span class="tag">${esc(d.cl)}</span>${d.boss?'<span class="tag">Grand défi</span>':''}</div>
-      <h3>${esc(d.ti)}</h3><div class="qtext">${esc(d.tx)}</div>${v?`<div class="ans"><small>Pour ${esc(p.name)}</small>${esc(v.text)}</div>`:''}
-      ${d.consent?'<div class="small">Chaque personne concernée doit être d\'accord.</div>':''}
-      <div class="small">${d.rw>0?`Réussi : +${famReward(d)} K`:'Un choix t\'attend si tu réussis.'} · Raté ou refusé : rien de perdu.</div>`;
-    say(`${d.oh?'Oh non ! ':''}${d.ti}. ${d.tx}${v?' Pour toi : '+v.text+'.':''}`);
-    const opts=[{label:'Réussi !',cls:'btn-good',value:'ok'},{label:'Pas cette fois',cls:'btn-bad',value:'no'}];
-    if(d.consent) opts.push({label:'Quelqu\'un refuse : autre défi',cls:'btn-ghost',value:'swap'});
+    C.win.innerHTML=`<div class="meta"><span class="tag">${t('defi.famille')}</span><span class="tag">${esc(d.cl)}</span>${d.boss?`<span class="tag">${t('defi.grand')}</span>`:''}</div>
+      <h3>${esc(d.ti)}</h3><div class="qtext">${esc(d.tx)}</div>${v?`<div class="ans"><small>${t('defi.pour',{n:esc(p.name)})}</small>${esc(v.text)}</div>`:''}
+      ${d.consent?`<div class="small">${t('defi.accord')}</div>`:''}
+      <div class="small">${d.rw>0? t('defi.recompense',{k:famReward(d)}) : t('defi.choixAttend')} · ${t('defi.rienPerdu')}</div>`;
+    say(t('defi.voix',{oh:d.oh,ti:d.ti,tx:d.tx,v:v?v.text:''}));
+    const opts=[{label:t('defi.reussi'),cls:'btn-good',value:'ok'},{label:t('q.pasCetteFois'),cls:'btn-bad',value:'no'}];
+    if(d.consent) opts.push({label:t('defi.refuse'),cls:'btn-ghost',value:'swap'});
     const r=await choose(C.acts,opts);
     if(r==='swap'){ C.close(); skip.add(d.id); await wait(250); continue; }
-    if(r==='no'){ C.close(); say(`Pas grave, ${p.name}. L'important, c'est d'avoir essayé.`); return; }
+    if(r==='no'){ C.close(); say(t('defi.pasGrave',{n:p.name})); return; }
     // Réussi : effets particuliers puis récompense
     const others=S.players.filter(q=>q!==p);
     for(const ef of (d.on||[])){
-      if(ef.kind==='transfer_choice'){ C.win.innerHTML=`<h3>${esc(d.ti)}</h3>`; const t=await pickPlayer(C.win,C.acts,others,`À qui donnes-tu ${ef.amount} K ?`); await pay(p,t,ef.amount); }
-      else if(ef.kind==='give_to_poorest'){ const t=[...others].sort((a,b)=>a.money-b.money||a.seat-b.seat)[0]; await pay(p,t,ef.amount); }
-      else if(ef.kind==='choice'){ C.win.innerHTML=`<h3>${esc(d.ti)}</h3><div class="small">Que choisis-tu ?</div>`;
-        const ch=await choose(C.acts,[{label:'Garder 10 K',cls:'btn-ghost',value:'keep'},{label:'Donner 5 K à deux joueurs, gagner 25 K',value:'share'}]);
+      if(ef.kind==='transfer_choice'){ C.win.innerHTML=`<h3>${esc(d.ti)}</h3>`; const cible=await pickPlayer(C.win,C.acts,others,t('defi.aQui',{k:ef.amount})); await pay(p,cible,ef.amount); }
+      else if(ef.kind==='give_to_poorest'){ const cible=[...others].sort((a,b)=>a.money-b.money||a.seat-b.seat)[0]; await pay(p,cible,ef.amount); }
+      else if(ef.kind==='choice'){ C.win.innerHTML=`<h3>${esc(d.ti)}</h3><div class="small">${t('defi.queChoisis')}</div>`;
+        const ch=await choose(C.acts,[{label:t('defi.garder'),cls:'btn-ghost',value:'keep'},{label:t('defi.partager'),value:'share'}]);
         if(ch==='keep') await pay('bank',p,10);
-        else { for(let k=0;k<2;k++){ C.win.innerHTML=`<h3>${esc(d.ti)}</h3>`; const t=await pickPlayer(C.win,C.acts,others,`Joueur ${k+1} sur 2 : qui reçoit 5 K ?`); await pay(p,t,5); } await pay('bank',p,25); } }
+        else { for(let k=0;k<2;k++){ C.win.innerHTML=`<h3>${esc(d.ti)}</h3>`; const cible=await pickPlayer(C.win,C.acts,others,t('defi.joueurSur2',{k:k+1})); await pay(p,cible,5); } await pay('bank',p,25); } }
     }
-    C.close(); fxParty(); sfx('bravo'); say(`Défi réussi, bravo ${p.name} !${d.rw>0?' Tu gagnes '+famReward(d)+' Kounouz.':''}`); if(d.rw>0){ vibrate([30,40,30]); await pay('bank',p,famReward(d)); }
+    C.close(); fxParty(); sfx('bravo'); say(t('defi.bravo',{n:p.name,k:d.rw>0?famReward(d):0})); if(d.rw>0){ vibrate([30,40,30]); await pay('bank',p,famReward(d)); }
     return;
   }
 }
@@ -1151,49 +1194,50 @@ async function onHassanat(p){
   const others=S.players.filter(q=>q!==p); const L=DATA.hassanat;
   let card=null; for(let k=0;k<L.length;k++){ const c=L[(S.hasIdx+k)%L.length]; if(p.money>=c.cost){ card=c; S.hasIdx=(S.hasIdx+k+1); break; } }
   if(!card||!others.length) return onFamily(p);
+  card=hasTxt(card);
   const C=openCard({face:'hassanat',back:'hassanat'});
-  C.win.innerHTML=`<div class="meta"><span class="tag">Occasion Hassanāt</span></div><h3>${esc(card.title)}</h3><div class="qtext">${esc(card.text)}</div>
-    <div class="big">${card.cost} K → ✦ ${card.hassanatReward}</div><div class="small">Chaque point Hassanāt vaut 5 au score final. Tu peux refuser sans rien perdre.</div>`;
-  say(`${card.title} : ${card.text} Cela coûte ${card.cost} Kounouz et rapporte ${card.hassanatReward} Hassanāt.`);
-  const v=await choose(C.acts,[{label:'J\'accepte',cls:'btn-good',value:'yes'},{label:'Pas cette fois',cls:'btn-ghost',value:'no'}]);
+  C.win.innerHTML=`<div class="meta"><span class="tag">${t('has.occasion')}</span></div><h3>${esc(card.title)}</h3><div class="qtext">${esc(card.text)}</div>
+    <div class="big">${card.cost} K → ✦ ${card.hassanatReward}</div><div class="small">${t('has.vaut')}</div>`;
+  say(t('has.voix',{ti:card.title,tx:card.text,k:card.cost,h:card.hassanatReward}));
+  const v=await choose(C.acts,[{label:t('has.accepte'),cls:'btn-good',value:'yes'},{label:t('q.pasCetteFois'),cls:'btn-ghost',value:'no'}]);
   if(v==='no'){ C.close(); return; }
   C.win.innerHTML=`<h3>${esc(card.title)}</h3>`;
-  const t=await pickPlayer(C.win,C.acts,others,'Pour qui ?'); C.close();
-  await pay(p, card.costDestination==='beneficiary'? t : 'bank', card.cost);
+  const cible=await pickPlayer(C.win,C.acts,others,t('has.pourQui')); C.close();
+  await pay(p, card.costDestination==='beneficiary'? cible : 'bank', card.cost);
   p.hassanat+=card.hassanatReward; renderHUD(); floatNum(p,'✦ +'+card.hassanatReward,'#bfe8ff'); vibrate([20,40,20]);
-  toast(`${p.name} offre à ${t.name}. ✦ +${card.hassanatReward} Hassanāt`); say(`Belle action, ${p.name} : ${card.hassanatReward} Hassanāt.`);
+  toast(t('has.toast',{n:p.name,o:cible.name,h:card.hassanatReward})); say(t('has.belle',{n:p.name,h:card.hassanatReward}));
 }
 async function onDuel(p){
   const others=S.players.filter(q=>q!==p); const theme=nextTheme(p);
   const C=openCard({face:'defi',back:'defi'});
-  C.win.innerHTML=`<div class="meta"><span class="tag">Duel</span><span class="tag">${THEME_INFO[theme].fr}</span></div><h3>Duel !</h3><div class="small">Chacun répond à une question du même thème. Le gagnant touche ${ECO.duelWin} K, en cas d'égalité chacun touche ${ECO.duelTie} K.</div>`;
-  const opp=await pickPlayer(C.win,C.acts,others,'Choisis ton adversaire'); C.close();
-  await sayWait(`${p.name} défie ${opp.name} ! Deux questions ${deTheme(theme)}.`,5000);
+  C.win.innerHTML=`<div class="meta"><span class="tag">${t('duel.tag')}</span><span class="tag">${themeNom(theme)}</span></div><h3>${t('duel.titre')}</h3><div class="small">${t('duel.regle',{w:ECO.duelWin,t:ECO.duelTie})}</div>`;
+  const opp=await pickPlayer(C.win,C.acts,others,t('duel.adversaire')); C.close();
+  await sayWait(t('duel.voix',{n:p.name,o:opp.name,theme:themeDit(theme)}),5000);
   const rank={good:2,partial:1,wrong:0,skip:0};
-  const r1=await askQuestion(p,{theme,title:'Duel · '+p.name,intro:`${p.name}, à toi !`}); await wait(300);
-  const r2=await askQuestion(opp,{theme,title:'Duel · '+opp.name,intro:`${opp.name}, à toi !`});
+  const r1=await askQuestion(p,{theme,title:t('duel.titreQ',{n:p.name}),intro:t('duel.aToi',{n:p.name})}); await wait(300);
+  const r2=await askQuestion(opp,{theme,title:t('duel.titreQ',{n:opp.name}),intro:t('duel.aToi',{n:opp.name})});
   const a=rank[r1], b=rank[r2];
   if(r1==='skip'&&r2==='skip') return;   // aucune question adaptée pour les deux : pas de duel, pas de gain
-  if(a===b){ say(`Match nul, vous êtes à égalité ! ${ECO.duelTie} Kounouz chacun.`); await simpleCard('defi',`<h3>Égalité</h3><div class="big">+${ECO.duelTie} K chacun</div>`); await pay('bank',p,ECO.duelTie); await pay('bank',opp,ECO.duelTie); }
-  else { const w=a>b?p:opp; say(`${w.name} remporte le Duel Kounouzi. Bravo !`); await simpleCard('defi',`<h3>${esc(w.name)} gagne le duel</h3><div class="big">+${ECO.duelWin} K</div>`); fxParty(); sfx('bravo'); await pay('bank',w,ECO.duelWin); }
+  if(a===b){ say(t('duel.nulVoix',{k:ECO.duelTie})); await simpleCard('defi',`<h3>${t('duel.egalite')}</h3><div class="big">${t('duel.chacun',{k:ECO.duelTie})}</div>`); await pay('bank',p,ECO.duelTie); await pay('bank',opp,ECO.duelTie); }
+  else { const w=a>b?p:opp; say(t('duel.gagneVoix',{n:w.name})); await simpleCard('defi',`<h3>${t('duel.gagne',{n:esc(w.name)})}</h3><div class="big">+${ECO.duelWin} K</div>`); fxParty(); sfx('bravo'); await pay('bank',w,ECO.duelWin); }
 }
 // Ce que la voix annonce en arrivant sur une case. Même texte au préchargement et au moment de parler.
 function cellIntro(p,i){
   const c=CELLS[i];
-  if(c.type==='question'){ const t=p._pre? p._pre.theme : THEMES[p.themeIdx%THEMES.length]; return `Case Savoir ! Une question ${deTheme(t)}.`; }
+  if(c.type==='question'){ const th=p._pre? p._pre.theme : THEMES[p.themeIdx%THEMES.length]; return t('intro.savoir',{theme:themeDit(th)}); }
   if(c.type==='challenge'){ const k=CHAL_ROT[S.chalIdx%CHAL_ROT.length];
-    if(k==='family') return `Case Défi ! C'est un défi famille pour ${p.name}.`;
-    if(k==='hassanat') return `Case Défi ! Une occasion Hassanāt pour ${p.name}.`;
-    if(k==='duel') return `Case Défi ! C'est un Duel ! ${p.name}, choisis ton adversaire.`;
-    const t=p._pre? p._pre.theme : THEMES[p.themeIdx%THEMES.length]; return `Case Défi ! Une question ${deTheme(t)}.`; }
+    if(k==='family') return t('intro.defiFamille',{n:p.name});
+    if(k==='hassanat') return t('intro.defiHassanat',{n:p.name});
+    if(k==='duel') return t('intro.defiDuel',{n:p.name});
+    const th=p._pre? p._pre.theme : THEMES[p.themeIdx%THEMES.length]; return t('intro.defiQuestion',{theme:themeDit(th)}); }
   if(c.type==='heritage') return heritageText(p,i);
-  if(c.type==='treasure') return `Case Trésor ! Tu remportes ${ECO.treasure} Kounouz. Bien joué !`;
-  if(c.type==='halt') return `Case Prison. ${p.name}, tu vas en prison ! Au prochain tour, une question pour en sortir.`;
-  if(c.type==='donation') return p.money>=ECO.donation? `Case Don. ${p.name}, choisis à qui donner ${ECO.donation} Kounouz. Donner rapporte ${ECO.donationHassanat} Hassanāt.` : `Case Don. Il te faut ${ECO.donation} Kounouz pour donner : cette fois, rien ne se passe.`;
-  if(c.type==='hassanat') return `Case Hassanāt ! Une occasion de générosité pour ${p.name}.`;
-  return 'Case Départ.';
+  if(c.type==='treasure') return t('intro.tresor',{k:ECO.treasure});
+  if(c.type==='halt') return t('intro.prison',{n:p.name});
+  if(c.type==='donation') return p.money>=ECO.donation? t('intro.don',{n:p.name,k:ECO.donation,h:ECO.donationHassanat}) : t('intro.donPauvre',{k:ECO.donation});
+  if(c.type==='hassanat') return t('intro.hassanat',{n:p.name});
+  return t('intro.depart');
 }
-const CELL_LABEL={hassanat:'Case Hassanāt',question:'Case Savoir',challenge:'Case Défi',heritage:'Établissement',treasure:'Case Trésor',halt:'Case Prison',donation:'Case Don',start:'Case Départ'};
+const cellLabel = type=>t('caseLabel.'+type);
 async function onChallenge(p){
   const kind=CHAL_ROT[S.chalIdx%CHAL_ROT.length]; S.chalIdx++;
   if(kind==='family') return onFamily(p);
@@ -1211,7 +1255,7 @@ function waitMain(label){ const b=$('#mainBtn'); b.textContent=label; b.disabled
 function idleMain(label='…'){ const b=$('#mainBtn'); b.textContent=label; b.disabled=true; }
 
 async function banner(p){
-  const b=$('#banner'); b.hidden=false; b.innerHTML=`<div class="in" style="--c:${p.hex}"><div class="av" style="background-image:url(${avatarFor(p)})"></div><div><small>Tour ${S.round}</small><b>Au tour de ${esc(p.name)}</b></div></div>`;
+  const b=$('#banner'); b.hidden=false; b.innerHTML=`<div class="in" style="--c:${p.hex}"><div class="av" style="background-image:url(${avatarFor(p)})"></div><div><small>${t('banner.tour',{r:S.round})}</small><b>${t('hud.auTour',{n:esc(p.name)})}</b></div></div>`;
   await wait(1800); b.hidden=true;
 }
 const LANTERN=`<svg viewBox="0 0 46 78" aria-hidden="true"><circle class="halo" cx="23" cy="44" r="24" fill="rgba(255,200,80,.35)" opacity="0"/><path d="M23 2v8" stroke="#c9952e" stroke-width="2.5"/><path d="M14 12h18l-3 8H17z" fill="#c9952e"/><path d="M15 20h16c3 10 3 34 0 44H15c-3-10-3-34 0-44z" class="glass" fill="#5a4a2a" stroke="#c9952e" stroke-width="2.5"/><path d="M23 20v44M15.5 32h15M15.5 52h15" stroke="#c9952e" stroke-width="1.6" opacity=".8"/><path d="M13 64h20l-3 8H16z" fill="#c9952e"/></svg>`;
@@ -1222,7 +1266,7 @@ async function revealChemin(n){
   // Les lanternes s'allument une à une, de plus en plus lentement… puis le nombre tombe.
   for(let k=0;k<n;k++){ L.children[k].classList.add('on'); vibrate(12); await wait(420+k*120); }
   await wait(450);
-  T.textContent = n===1? '1 case' : n+' cases'; T.classList.add('show'); vibrate([20,30,40]);
+  T.textContent = t('chemin.cases',{n}); T.classList.add('show'); vibrate([20,30,40]);
   await wait(1300); box.hidden=true;
 }
 function peekSteps(p){ const start=((p.seat+S.gameNo)%6)*5; return CYCLE[(start+p.journey)%CYCLE.length]; }
@@ -1241,11 +1285,11 @@ async function movePawn(p, steps){
     if(i===0 && path.length){ passed=true; }
   }
   following=false; await settlePawns(); fxRing(p.pos, p.hex); fxBurst(p.pos, '#ffe08a', 22); await moveCam(450);
-  if(passed){ toast(`Passage par le Départ : +${ECO.startPass} K`); await Promise.all([sayWait(`Tu repasses par le départ. Beau tour complet ! Plus ${ECO.startPass} Kounouz.`,5000), pay('bank',p,ECO.startPass)]); }
+  if(passed){ toast(t('depart.toast',{k:ECO.startPass})); await Promise.all([sayWait(t('ph.depart',{k:ECO.startPass}),5000), pay('bank',p,ECO.startPass)]); }
 }
 async function resolveCell(p){
   const c=CELLS[p.pos]; glow(p.pos,.6);
-  const label = CELL_LABEL[c.type] + (c.type==='question'&&p._pre? ' · '+THEME_INFO[p._pre.theme].fr : c.type==='heritage'? ' · '+c.nom : '');
+  const label = cellLabel(c.type) + (c.type==='question'&&p._pre? ' · '+themeNom(p._pre.theme) : c.type==='heritage'? ' · '+nomCase(c) : '');
   toast(label,1800);
   // Savoir et Défi : la voix annonce la case avant d'ouvrir la carte.
   if(c.type==='question'||c.type==='challenge'||c.type==='hassanat') await Promise.all([sayWait(cellIntro(p,p.pos),5000), wait(1100)]); else await wait(900);
@@ -1262,24 +1306,24 @@ async function playTurn(){
   if(S.over) return showEnd();
   save(); renderHUD(); highlightActive(); $('#chip'+S.turn)?.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
   const p=cur(); camMode= camMode==='overview'?'overview':'follow';
-  if(!S.lastRoundSaid && S.duration && (store.get(ELAPSED)||0)>=S.duration && S.turn===0){ S.lastRoundSaid=true; say('Dernier tour de table ! Donnez tout ce que vous avez.'); await wait(2500); }
+  if(!S.lastRoundSaid && S.duration && (store.get(ELAPSED)||0)>=S.duration && S.turn===0){ S.lastRoundSaid=true; say(t('ph.dernierTour')); await wait(2500); }
   const turnText=PH.turn(p.name);
   await Promise.all([moveCam(700), banner(p), sayWait(turnText,4500,{queue:true})]);
   if(p.halted){
-    toast('Prison : question pour sortir'); await wait(400);
-    const r=await askQuestion(p,{title:'Question pour sortir',intro:`${p.name}, une question pour sortir de prison.`}); p.halted=false;
-    if(r!=='wrong') await sayWait(`Tu reprends la route, ${p.name} !`,3500);
-    if(r==='wrong'){ camFocus=false; say('Tu restes en prison ce tour-ci, tu sortiras au prochain.'); toast(`${p.name} reste en prison ce tour-ci. Il sortira au prochain.`,3000); await wait(1200); return endTurn(); }
+    toast(t('prison.toast')); await wait(400);
+    const r=await askQuestion(p,{title:t('prison.titreQ'),intro:t('prison.intro',{n:p.name})}); p.halted=false;
+    if(r!=='wrong') await sayWait(t('prison.sort',{n:p.name}),3500);
+    if(r==='wrong'){ camFocus=false; say(t('prison.reste')); toast(t('prison.resteToast',{n:p.name}),3000); await wait(1200); return endTurn(); }
   }
   // Préchargement pendant que le joueur appuie : phrase du Chemin, annonce de la case d'arrivée, question.
   const steps=peekSteps(p), land=(p.pos+steps)%N, journeyText=PH.journey(p.name,steps);
   const lc=CELLS[land], ck=CHAL_ROT[S.chalIdx%CHAL_ROT.length];
-  if(lc.type==='question' || (lc.type==='challenge' && ck==='question')){ const t=nextTheme(p); p._pre={theme:t, q:selectQuestion(p,t)}; }
-  prefetch(journeyText); prefetch(cellIntro(p,land)); if(p._pre?.q) prefetch(qPhrase(p._pre.q,'fr'));
-  if(steps+p.pos>=N) prefetch(`Tu repasses par le départ. Beau tour complet ! Plus ${ECO.startPass} Kounouz.`);
-  await waitMain('Découvrir mon chemin');
+  if(lc.type==='question' || (lc.type==='challenge' && ck==='question')){ const th=nextTheme(p); p._pre={theme:th, q:selectQuestion(p,th)}; }
+  prefetch(journeyText); prefetch(cellIntro(p,land)); if(p._pre?.q){ const pq=p._pre.q, L=pq.q[LANG]?LANG:'fr'; prefetch(qPhrase(pq,L),L); }
+  if(steps+p.pos>=N) prefetch(t('ph.depart',{k:ECO.startPass}));
+  await waitMain(t('main.chemin'));
   const n=assignSteps(p); await Promise.all([revealChemin(n), sayWait(journeyText,5000)]);
-  idleMain('En route…'); await movePawn(p,n);
+  idleMain(t('main.enRoute')); await movePawn(p,n);
   await resolveCell(p);
   camFocus=false; moveCam(900);
   await voiceIdle(5000); await wait(250); endTurn();
@@ -1294,8 +1338,8 @@ async function endRound(){
   for(const p of S.players){
     if(p.money>=1000) p.zakat++; else p.zakat=0;
     if(p.zakat>=6){ const amt=Math.round(p.money*0.025); p.zakat=0;
-      say(`Une année s'achève pour ${p.name}. C'est le moment de la Zakat.`); await simpleCard('don',`<h3>Zakat al-Māl</h3><div class="small">${esc(p.name)} a gardé plus de 1 000 K pendant 6 tours de table : un ḥawl est passé.</div><div class="big">${amt} K</div><div class="small">2,5 % versés à la Caisse Masākīn.</div>`,'Verser');
-      say(`${p.name} verse sa Zakat : ${amt} Kounouz. Bravo !`); await pay(p,'caisse',amt); }
+      say(t('zakat.voix',{n:p.name})); await simpleCard('don',`<h3>Zakat al-Māl</h3><div class="small">${t('zakat.texte',{n:esc(p.name)})}</div><div class="big">${amt} K</div><div class="small">${t('zakat.verse')}</div>`,t('zakat.bouton'));
+      say(t('zakat.voixFin',{n:p.name,k:amt})); await pay(p,'caisse',amt); }
   }
   const elapsed=store.get(ELAPSED)||0;
   if(S.endRequested || (S.duration && elapsed>=S.duration)) S.over=true;
@@ -1311,8 +1355,8 @@ setInterval(()=>{
   const e=(store.get(ELAPSED)||0)+dt; store.set(ELAPSED,e); clockText(e);
 },1000);
 function clockText(e){ const el=$('#clock');
-  if(!S.duration){ el.textContent=`Partie libre · ${Math.floor(e/60000)} min · tour de table ${S.round}`; return; }
-  const left=Math.max(0,S.duration-e); el.textContent = left>0? `Il reste ${Math.ceil(left/60000)} min · tour de table ${S.round}${paused?' · en pause':''}` : `Dernier tour de table · ${S.round}`; }
+  if(!S.duration){ el.textContent=t('horloge.libre',{m:Math.floor(e/60000),r:S.round}); return; }
+  const left=Math.max(0,S.duration-e); el.textContent = left>0? t('horloge.reste',{m:Math.ceil(left/60000),r:S.round,pause:paused?t('horloge.pause'):''}) : t('horloge.dernier',{r:S.round}); }
 
 /* =========================================================
    Menu, fin de partie
@@ -1337,40 +1381,40 @@ function setPaused(v){
 $('#menuBtn').onclick=()=>{
   setPaused(true);
   const ov=document.createElement('div'); ov.id='overlay';
-  ov.innerHTML=`<div class="sheet"><h2>Pause</h2>
-   <p>Le temps de jeu est arrêté tant que ce menu est ouvert.</p>
-   <ul><li>Le Chemin donne 1 à 5 cases, sans hasard : tout le monde avance autant au total.</li>
-   <li>Bonne réponse +${ECO.qGood} K, en partie +${ECO.qPartial} K, ×2 si l'explication est donnée.</li>
-   <li>Établissement : achat à son prix, chaque visite rapporte 15 % du prix au propriétaire.</li>
-   <li>Zakat al-Māl : 6 tours de table de suite au-dessus de 1 000 K, et 2,5 % vont à la Caisse Masākīn. ${S.players.map(p=>`${esc(p.name)} ${p.zakat}/6`).join(' · ')}</li>
-   <li>Score final = Kounouz + patrimoine + Hassanāt × 5.</li></ul>
-   <button class="btn btn-gold" data-a="close">Reprendre la partie</button>
-   <button class="btn btn-ghost" data-a="settings">⚙️ Réglages (voix, défis, confort)</button>
-   <button class="btn btn-ghost" data-a="end">${S.endRequested?'Fin demandée à la fin du tour de table':'Terminer à la fin de ce tour de table'}</button>
-   <button class="btn btn-ghost" data-a="new">Nouvelle partie…</button></div>`;
+  ov.innerHTML=`<div class="sheet"><h2>${t('menu.pause')}</h2>
+   <p>${t('menu.arret')}</p>
+   <ul><li>${t('menu.r1')}</li>
+   <li>${t('menu.r2',{g:ECO.qGood,p:ECO.qPartial})}</li>
+   <li>${t('menu.r3')}</li>
+   <li>${t('menu.r4')} ${S.players.map(p=>`${esc(p.name)} ${p.zakat}/6`).join(' · ')}</li>
+   <li>${t('menu.r5')}</li></ul>
+   <button class="btn btn-gold" data-a="close">${t('menu.reprendre')}</button>
+   <button class="btn btn-ghost" data-a="settings">${t('menu.reglages')}</button>
+   <button class="btn btn-ghost" data-a="end">${S.endRequested? t('menu.finDemandee') : t('menu.terminer')}</button>
+   <button class="btn btn-ghost" data-a="new">${t('menu.nouvelle')}</button></div>`;
   document.body.appendChild(ov);
   ov.onclick=e=>{ const a=e.target.closest('[data-a]')?.dataset.a; if(!a) return;
     if(a==='close'){ ov.remove(); setPaused(false); }
     if(a==='settings'){ ov.remove(); openSettings(true); }
-    if(a==='end'){ S.endRequested=true; store.set(SAVE,{...store.get(SAVE),endRequested:true}); ov.remove(); setPaused(false); toast('La partie s\'arrêtera à la fin de ce tour de table.'); }
-    if(a==='new'){ const s=ov.querySelector('.sheet'); s.innerHTML=`<h2>Nouvelle partie ?</h2><p>La partie en cours sera perdue.</p><button class="btn btn-gold" data-a="confirm">Oui, recommencer</button><button class="btn btn-ghost" data-a="close">Non, continuer</button>`; }
+    if(a==='end'){ S.endRequested=true; store.set(SAVE,{...store.get(SAVE),endRequested:true}); ov.remove(); setPaused(false); toast(t('menu.finToast')); }
+    if(a==='new'){ const s=ov.querySelector('.sheet'); s.innerHTML=`<h2>${t('menu.nouvelleQ')}</h2><p>${t('menu.perdue')}</p><button class="btn btn-gold" data-a="confirm">${t('menu.oui')}</button><button class="btn btn-ghost" data-a="close">${t('menu.non')}</button>`; }
     if(a==='confirm'){ store.del(SAVE); location.reload(); }
   };
 };
 function showEnd(){
   flushAnswers(); if(!S.tracked){ S.tracked=true; save(); track('partie_fin',{data:{joueurs:S.players.length, tours:S.round, minutes:Math.round((store.get(ELAPSED)||0)/60000), partie:S.gameNo}}); }
-  idleMain('Partie terminée'); camMode='overview'; moveCam(900);
+  idleMain(t('main.fin')); camMode='overview'; moveCam(900);
   const ranked=[...S.players].sort((a,b)=>scoreOf(b)-scoreOf(a)||b.money-a.money||a.seat-b.seat);
   const max=Math.max(...ranked.map(scoreOf),1);
-  say(`La partie est terminée. Bravo à tous, et félicitations ${ranked[0].name} !`);
+  say(t('ph.fin',{n:ranked[0].name}));
   const ov=document.createElement('div'); ov.id='overlay';
-  ov.innerHTML=`<div class="sheet"><h2>Classement final</h2>
-   <div class="legend"><span style="--c:#efbe4c">Kounouz</span><span style="--c:#3fae6a">Patrimoine</span><span style="--c:#7cc4ff">Hassanāt × 5</span></div>
+  ov.innerHTML=`<div class="sheet"><h2>${t('fin.classement')}</h2>
+   <div class="legend"><span style="--c:#efbe4c">${t('fin.kounouz')}</span><span style="--c:#3fae6a">${t('fin.patrimoine')}</span><span style="--c:#7cc4ff">${t('fin.hassanat')}</span></div>
    ${ranked.map((p,k)=>{const h=heritageOf(p),hz=p.hassanat*5; return `<div class="rank ${k===0?'first':''}" style="--c:${p.hex}"><div class="pos">${k+1}</div><div class="av" style="background-image:url(${avatarFor(p)})"></div><div class="nm">${esc(p.name)}</div><div class="sc">${fmt(scoreOf(p))}</div>
      <div class="stack"><i style="width:${p.money/max*100}%;background:#efbe4c"></i><i style="width:${h/max*100}%;background:#3fae6a"></i><i style="width:${hz/max*100}%;background:#7cc4ff"></i></div>
-     <div class="dims">${fmt(p.money)} K · patrimoine ${fmt(h)} · ✦ ${p.hassanat}</div></div>`}).join('')}
-   <p>Caisse Masākīn : ${fmt(S.caisse)} K versés pendant la partie.</p>
-   ${S.essai? `<p style="font-weight:800">Tu as aimé ? Obtiens l'accès complet pour jouer sans limite.</p><a class="btn btn-gold" href="/?essai=fini#offre" style="text-decoration:none;display:flex;justify-content:center">Obtenir l'accès complet</a>${S.restantes>0?'<button class="btn btn-ghost" id="again" style="margin-top:10px">Nouvelle partie</button>':''}` : '<button class="btn btn-gold" id="again">Nouvelle partie</button>'}</div>`;
+     <div class="dims">${t('fin.dims',{k:fmt(p.money),h:fmt(h),s:p.hassanat})}</div></div>`}).join('')}
+   <p>${t('fin.caisse',{k:fmt(S.caisse)})}</p>
+   ${S.essai? `<p style="font-weight:800">${t('fin.aime')}</p><a class="btn btn-gold" href="${siteOffre()}" style="text-decoration:none;display:flex;justify-content:center">${t('fin.acces')}</a>${S.restantes>0?`<button class="btn btn-ghost" id="again" style="margin-top:10px">${t('fin.nouvelle')}</button>`:''}` : `<button class="btn btn-gold" id="again">${t('fin.nouvelle')}</button>`}</div>`;
   document.body.appendChild(ov);
   const ag=ov.querySelector('#again'); if(ag) ag.onclick=()=>{ store.del(SAVE); location.reload(); };
 }
@@ -1381,24 +1425,25 @@ function showEnd(){
 let defs = store.get(PLAYERS) || [
   {name:'Yacine',gender:'m',child:true,age:10,level:'standard',color:'bleu'},
   {name:'Maryam',gender:'f',child:true,age:8,level:'standard',color:'violet'},
-  {name:'Papa',gender:'m',child:false,age:10,level:'standard',color:'vert'}];
+  {name:t('joueur.papa'),gender:'m',child:false,age:10,level:'standard',color:'vert'}];
 let dur = 'classique';
 function renderSetup(){
   const used=defs.map(d=>d.color);
   $('#plist').innerHTML = defs.map((d,i)=>{ const hex=COLORS.find(c=>c.id===d.color).hex; return `<div class="prow" style="--c:${hex}">
-    <button class="av" data-i="${i}" data-a="pickav" style="background-image:url(${avatarFor(d)})" aria-label="Choisir l'avatar de ${esc(d.name)}" aria-expanded="${!!d._pick}"><span class="avedit">✎</span></button>
-    <input type="text" id="pname${i}" data-i="${i}" value="${esc(d.name)}" maxlength="14" aria-label="Prénom du joueur ${i+1}">
-    ${defs.length>2?`<button class="del" data-i="${i}" data-a="del" aria-label="Retirer">✕</button>`:'<span></span>'}
+    <button class="av" data-i="${i}" data-a="pickav" style="background-image:url(${avatarFor(d)})" aria-label="${esc(t('joueur.avatarDe',{n:d.name}))}" aria-expanded="${!!d._pick}"><span class="avedit">✎</span></button>
+    <input type="text" id="pname${i}" data-i="${i}" value="${esc(d.name)}" maxlength="14" aria-label="${esc(t('joueur.prenom',{n:i+1}))}">
+    ${defs.length>2?`<button class="del" data-i="${i}" data-a="del" aria-label="${t('joueur.retirer')}">✕</button>`:'<span></span>'}
     <div class="opts">
-      <div class="seg"><button data-i="${i}" data-a="child" aria-pressed="${d.child}">Enfant</button><button data-i="${i}" data-a="adult" aria-pressed="${!d.child}">Adulte</button></div>
-      ${d.child? `<select id="page${i}" data-i="${i}" aria-label="Âge">${Array.from({length:12},(_,k)=>k+5).map(a=>`<option value="${a}" ${a===d.age?'selected':''}>${a} ans</option>`).join('')}</select>`
-        : `<select id="plvl${i}" data-i="${i}" aria-label="Niveau">${[['decouverte','Découverte'],['standard','Standard'],['avance','Avancé']].map(([v,l])=>`<option value="${v}" ${v===d.level?'selected':''}>${l}</option>`).join('')}</select>`}
-      <div class="swatches">${COLORS.map(c=>`<button class="sw" style="--c:${c.hex}" data-i="${i}" data-a="color" data-c="${c.id}" aria-label="${c.name}" aria-pressed="${d.color===c.id}" ${used.includes(c.id)&&d.color!==c.id?'disabled':''}></button>`).join('')}</div>
+      <div class="seg"><button data-i="${i}" data-a="child" aria-pressed="${d.child}">${t('joueur.enfant')}</button><button data-i="${i}" data-a="adult" aria-pressed="${!d.child}">${t('joueur.adulte')}</button></div>
+      ${d.child? `<select id="page${i}" data-i="${i}" aria-label="${t('joueur.age')}">${Array.from({length:12},(_,k)=>k+5).map(a=>`<option value="${a}" ${a===d.age?'selected':''}>${t('joueur.ans',{a,n:a})}</option>`).join('')}</select>`
+        : `<select id="plvl${i}" data-i="${i}" aria-label="${t('joueur.niveau')}">${['decouverte','standard','avance'].map(v=>[v,t('niveau.'+v)]).map(([v,l])=>`<option value="${v}" ${v===d.level?'selected':''}>${l}</option>`).join('')}</select>`}
+      <div class="swatches">${COLORS.map(c=>`<button class="sw" style="--c:${c.hex}" data-i="${i}" data-a="color" data-c="${c.id}" aria-label="${t('couleur.'+c.id)}" aria-pressed="${d.color===c.id}" ${used.includes(c.id)&&d.color!==c.id?'disabled':''}></button>`).join('')}</div>
     </div>
-    ${d._pick? `<div class="avpick" role="listbox" aria-label="Avatars">${AVATARS.map(a=>`<button class="avb" role="option" data-i="${i}" data-a="setav" data-av="${a}" aria-selected="${avatarFor(d)===`img/${a}-portrait.webp`}" style="background-image:url(img/${a}-portrait.webp)" aria-label="Avatar ${a.replace(/-/g,' ')}"></button>`).join('')}</div>`:''}
+    ${d._pick? `<div class="avpick" role="listbox" aria-label="${t('joueur.avatars')}">${AVATARS.map(a=>`<button class="avb" role="option" data-i="${i}" data-a="setav" data-av="${a}" aria-selected="${avatarFor(d)===`img/${a}-portrait.webp`}" style="background-image:url(img/${a}-portrait.webp)" aria-label="${t('joueur.avatar',{a:a.replace(/-/g,' ')})}"></button>`).join('')}</div>`:''}
     </div>`; }).join('');
   $('#addP').hidden = defs.length>=6;
-  $('#durs').innerHTML = DURATIONS.map(x=>`<button data-d="${x.id}" aria-pressed="${dur===x.id}">${x.lbl}<span>${x.min?x.min+' min':'sans limite'}</span></button>`).join('');
+  $('#durs').innerHTML = DURATIONS.map(x=>`<button data-d="${x.id}" aria-pressed="${dur===x.id}">${t('duree.'+x.id)}<span>${x.min? t('duree.min',{n:x.min}) : t('duree.sansLimite')}</span></button>`).join('');
+  renderLangSel();
 }
 $('#plist').addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b) return; const i=+b.dataset.i, d=defs[i];
   if(b.dataset.a==='pickav'){ const open=!d._pick; defs.forEach(x=>delete x._pick); if(open) d._pick=true; }
@@ -1409,7 +1454,7 @@ $('#plist').addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); 
   renderSetup(); });
 $('#plist').addEventListener('input',e=>{ const i=+e.target.dataset.i; if(e.target.type==='text') defs[i].name=e.target.value; });
 $('#plist').addEventListener('change',e=>{ const i=+e.target.dataset.i; if(e.target.id.startsWith('page')) defs[i].age=+e.target.value; if(e.target.id.startsWith('plvl')) defs[i].level=e.target.value; renderSetup(); });
-$('#addP').onclick=()=>{ const free=COLORS.find(c=>!defs.some(d=>d.color===c.id)); defs.push({name:'Joueur '+(defs.length+1),gender:'m',child:true,age:9,level:'standard',color:free.id}); renderSetup(); };
+$('#addP').onclick=()=>{ const free=COLORS.find(c=>!defs.some(d=>d.color===c.id)); defs.push({name:t('joueur.defaut',{n:defs.length+1}),gender:'m',child:true,age:9,level:'standard',color:free.id}); renderSetup(); };
 $('#durs').onclick=e=>{ const b=e.target.closest('[data-d]'); if(b){ dur=b.dataset.d; renderSetup(); } };
 // Avant chaque nouvelle partie, le serveur donne son accord (un code d'essai n'a droit qu'à un nombre limité de parties).
 async function autoriserPartie(players, durMin){
@@ -1419,14 +1464,14 @@ async function autoriserPartie(players, durMin){
 }
 function finEssai(){
   const ov=document.createElement('div'); ov.id='overlay';
-  ov.innerHTML=`<div class="sheet" style="text-align:center"><h2>Ta partie d'essai est terminée</h2>
-    <p>Merci d'avoir essayé Kounouzi ! Pour continuer à jouer en famille, sans limite, obtiens l'accès complet.</p>
-    <a class="btn btn-gold" href="/?essai=fini#offre" style="text-decoration:none">Obtenir l'accès complet</a></div>`;
-  document.body.appendChild(ov); say("Ta partie d'essai est terminée. Merci d'avoir essayé Kounouzi !");
+  ov.innerHTML=`<div class="sheet" style="text-align:center"><h2>${t('essai.titre')}</h2>
+    <p>${t('essai.texte')}</p>
+    <a class="btn btn-gold" href="${siteOffre()}" style="text-decoration:none">${t('fin.acces')}</a></div>`;
+  document.body.appendChild(ov); say(t('ph.essaiFin'));
 }
 $('#startBtn').onclick=async()=>{
   const btn=$('#startBtn'); if(btn.disabled) return; btn.disabled=true;
-  defs.forEach((d,i)=>{ d.name=(d.name||'').trim()||('Joueur '+(i+1)); });
+  defs.forEach((d,i)=>{ d.name=(d.name||'').trim()||t('joueur.defaut',{n:i+1}); });
   defs.forEach(x=>delete x._pick); store.set(PLAYERS,defs);
   const durMin=DURATIONS.find(x=>x.id===dur).min;
   const ok=await autoriserPartie(defs,durMin); btn.disabled=false;
@@ -1443,16 +1488,39 @@ function enterGame(fresh){
   buildPawns(); rebuildBuildings(); renderHUD(); resize(); clockText(store.get(ELAPSED)||0);
   const intro = introCam();
   // Nouvelle partie : l'accueil est dit en entier avant le premier tour.
-  const hello = fresh? sayWait(PH.start(namesList(S.players.map(p=>p.name))),16000) : Promise.resolve();
+  const hello = fresh? sayWait(PH.start(S.players.map(p=>p.name)),16000) : Promise.resolve();
   if(fresh) prefetch(PH.turn(cur().name));
   Promise.all([hello,intro]).then(()=>playTurn());
 }
 
 // Accès de diagnostic (lecture de l'état depuis la console)
-window.__kounouzi={get state(){return S}};
+window.__kounouzi={get state(){return S}, get lang(){return LANG}, setLang:l=>setLang(l), ask:th=>askQuestion(cur(),{theme:th}), visite:i=>onHeritage(cur(),i)};
 // Démarrage
 const saved=store.get(SAVE);
-if(saved && saved.v===2 && !saved.over){ $('#resumeBox').hidden=false; $('#resumeInfo').textContent=`${saved.players.map(p=>p.name).join(', ')} · tour de table ${saved.round}`; }
+function renderResume(){ const sv=store.get(SAVE); if(sv && sv.v===2 && !sv.over){ $('#resumeBox').hidden=false; $('#resumeInfo').textContent=t('resume.info',{noms:sv.players.map(p=>p.name).join(', '),r:sv.round}); } }
+/* =========================================================
+   Langue : sélecteur et changement en cours de partie
+   ========================================================= */
+// Lien vers l'offre du site dans la langue du jeu.
+function siteOffre(){ return (LANG==='en'?'/en/':'/')+'?essai=fini#offre'; }
+function renderLangSel(){
+  const el=$('#langSel'); if(!el) return;
+  el.innerHTML=LANGUES.map(l=>`<button data-lang="${l}" aria-pressed="${LANG===l}" lang="${l}">${NOM_LANGUE[l]}</button>`).join('');
+  const n=$('#langNote'); const txt=t('setup.enCours'); n.textContent=txt; n.hidden=!txt;
+}
+$('#langSel').addEventListener('click',e=>{ const b=e.target.closest('[data-lang]'); if(b) setLang(b.dataset.lang); });
+// Changer de langue : seuls les textes changent. Plateau, scores, joueurs, Kounouz, établissements, questions déjà tirées,
+// historique et progression (S) restent strictement identiques. Une carte déjà ouverte garde sa langue jusqu'à sa fermeture.
+function setLang(l){
+  if(!LANGUES.includes(l) || l===LANG) return;
+  LANG=ecrireLangue(l); document.documentElement.lang=LANG;
+  traduirePage(t); renderLangSel();
+  if(!$('#setup').hidden){ renderSetup(); renderResume(); }
+  if(S && !$('#hud').hidden){ renderHUD(); clockText(store.get(ELAPSED)||0); if(mainResolver) $('#mainBtn').textContent=t('main.chemin'); }
+  buildTiles();
+}
+traduirePage(t);
+renderResume();
 renderSetup(); resize(); probeVoice();
 $('#loading').remove(); $('#setup').hidden=false;
 </script>

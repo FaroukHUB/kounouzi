@@ -111,3 +111,9 @@ export async function accesValide(request, opts = {}) {
   if (e.revoque || (e.epuise && !opts.essaiFiniOk)) return null;
   return formater(code);
 }
+
+// Langue de la réponse : ?lang=en, ou le choix gardé par le site et le jeu (cookie kz_lang). Français par défaut.
+export function langueDe(request, corps) {
+  const u = new URL(request.url); const l = (corps && corps.lang) || u.searchParams.get('lang') || (request.headers.get('cookie') || '').match(/(?:^|;\s*)kz_lang=([a-z]{2})/)?.[1];
+  return l === 'en' ? 'en' : 'fr';
+}
