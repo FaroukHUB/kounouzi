@@ -219,8 +219,6 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .chkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
 .chkgrid label{display:flex;gap:8px;align-items:center;font-size:13px;font-weight:800}
 .chkgrid input{width:20px;height:20px;accent-color:var(--gold)}
-.mic{display:flex;align-items:center;gap:8px;justify-content:center;font-weight:800;font-size:13px;color:var(--parchment)}
-.mic i{width:10px;height:10px;border-radius:50%;background:var(--bad);animation:pulse 1s infinite}
 .setup-actions{display:flex;gap:10px}.setup-actions #startBtn{flex:1}
 #loading{position:fixed;inset:0;display:grid;place-items:center;z-index:50;background:var(--night);font-family:var(--display);font-size:26px;color:var(--gold)}
 .reduce *{animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -349,8 +347,9 @@ const DEFIS_GROUPS = [
   {id:'family',cats:['family','solidarity']},{id:'contact',contact:true},
   {id:'ohNo',oh:true},{id:'memoryLogic',cats:['memory','reflection','logic','observation','language']},
   {id:'arabic',cats:['arabic']},{id:'religion',cats:['religion']},{id:'boss',boss:true}];
-const SET = Object.assign({sfx:true, voice:true, tone:'chaleureux', rate:'normal', haptics:true, reduced:'system', ecoute:false, defis:{}}, store.get(SETTINGS)||{});
+const SET = Object.assign({sfx:true, voice:true, tone:'chaleureux', rate:'normal', haptics:true, reduced:'system', defis:{}}, store.get(SETTINGS)||{});
 DEFIS_GROUPS.forEach(g=>{ if(SET.defis[g.id]===undefined) SET.defis[g.id]=true; });
+delete SET.ecoute; // l'ancienne validation à la voix n'existe plus
 const saveSet=()=>store.set(SETTINGS,SET);
 const MQ_REDUCE = matchMedia('(prefers-reduced-motion: reduce)');
 let REDUCED=false;
@@ -1018,15 +1017,14 @@ async function askQuestion(p, {theme, title, intro}={}){
     if(left===0) clearInterval(timer); },1000);
   await choose(C.acts,[{label:t('q.voirReponse'),value:1}]);
   clearInterval(timer); const tm=C.win.querySelector('#tm'); if(tm){ tm.classList.remove('alert'); tm.innerHTML='<span style="font-size:22px;letter-spacing:6px">• • •</span>'; } await wait(900);
-  revealed=true; clearInterval(timer); draw(); const revealVoice=readQ(); preVerdicts();
+  revealed=true; clearInterval(timer); draw(); readQ(); preVerdicts();
   C.acts.innerHTML='';
   const chk=document.createElement('label'); chk.className='check'; chk.innerHTML='<input type="checkbox" id="mastery"> '+esc(t('q.maitrise'));
   const wrap=document.createElement('div'); wrap.className='cacts';
   C.el.appendChild(chk); C.el.appendChild(wrap);
   C.acts.remove(); C.acts=wrap;
   const verdict = choose(wrap,[{label:`${t('q.bonne')} <small>+${ECO.qGood}</small>`,cls:'btn-good',value:'good'},{label:`${t('q.partie')} <small>+${ECO.qPartial}</small>`,cls:'btn-mid',value:'partial'},{label:t('q.pasCetteFois'),cls:'btn-bad',value:'wrong'}]);
-  const stopEar = listenVerdict(C.el, wrap, revealVoice);
-  const res = await verdict; stopEar();
+  const res = await verdict;
   const mult = chk.querySelector('input').checked && res!=='wrong' ? 2:1;
   C.close(); adapt(p,theme,res); trackAnswer(p,q,theme,res);
   const spoken = sayWait(PH[res](p.name)+gainText(res,mult),5000);
@@ -1037,30 +1035,6 @@ async function askQuestion(p, {theme, title, intro}={}){
   return res;
 }
 
-/* ---------- Validation à la voix : « correct », « presque », « faux » ---------- */
-const EAR = ()=>{ const d=DICOS[LANG]||DICOS.fr; return {correct:d['ear.correct']||DICOS.fr['ear.correct'], partial:d['ear.partial']||DICOS.fr['ear.partial'], wrong:d['ear.wrong']||DICOS.fr['ear.wrong']}; };
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-const norm = t=>t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z' ]/g,' ').replace(/\s+/g,' ').trim();
-function verdictOf(phrases){
-  let best=null, len=0, tie=false;
-  for(const ph of phrases){ const t=' '+norm(ph)+' ';
-    for(const [v,list] of Object.entries(EAR())) for(const w of list){ const n=norm(w); if(t.includes(' '+n+' ')){ if(n.length>len){best=v;len=n.length;tie=false;} else if(n.length===len && v!==best) tie=true; } } }
-  return tie? null : best;
-}
-// Ouvre le micro une fois la réponse révélée (et lue). Appuie sur le bouton reconnu. Renvoie une fonction d'arrêt.
-function listenVerdict(overlay, acts, afterVoice){
-  if(!SET.ecoute || !SR) return ()=>{};
-  let stopped=false, rec=null; const tag=document.createElement('div'); tag.className='mic'; tag.innerHTML='<i></i> '+esc(t('ear.ecoute'));
-  const idx={correct:0,partial:1,wrong:2};
-  const start=()=>{ if(stopped) return; try{ rec=new SR(); rec.lang=localeDe(LANG); rec.maxAlternatives=3; rec.interimResults=false; rec.continuous=false;
-      rec.onresult=e=>{ const alts=[...e.results[e.results.length-1]].map(a=>a.transcript); const v=verdictOf(alts);
-        if(v){ const b=acts.querySelectorAll('button')[idx[v]]; if(b&&!b.disabled){ stopped=true; b.click(); } } };
-      rec.onerror=ev=>{ if(ev.error==='not-allowed'||ev.error==='service-not-allowed'){ stopped=true; tag.textContent=t('ear.refuse'); } };
-      rec.onend=()=>{ if(!stopped) setTimeout(start,250); };
-      rec.start(); }catch{ stopped=true; } };
-  Promise.resolve(afterVoice).then(()=>{ if(!stopped){ overlay.appendChild(tag); start(); } });
-  return ()=>{ stopped=true; try{rec&&rec.abort();}catch{} tag.remove(); };
-}
 
 /* =========================================================
    Écran des réglages
@@ -1081,8 +1055,6 @@ function openSettings(fromMenu=false){
        <div class="setrow">${t('set.vitesse')} ${seg('rate',[['lente',t('set.lente')],['normal',t('set.normale')],['rapide',t('set.rapide')]])}</div>
        <div class="setrow"><button class="btn btn-ghost" data-a="test">${t('set.tester')}</button><button class="btn btn-ghost" data-a="replay" ${VOICE.last?'':'disabled'}>${t('set.reecouter')}</button></div></div>
      <div class="setgrp"><h3>${t('set.fete')}</h3>${sw('sfx',t('set.feteTxt'))}</div>
-     <div class="setgrp"><h3>${t('set.validation')}</h3>${sw('ecoute',t('set.ecoute'))}
-       <span class="hint">${SR? t('set.ecouteOk') : t('set.ecouteNon')}</span></div>
      <div class="setgrp"><h3>${t('set.confort')}</h3>${sw('haptics',t('set.vibration'))}
        <div class="setrow">${t('set.animations')} ${seg('reduced',[['system',t('set.commeAppareil')],['on',t('set.oui')],['off',t('set.non')]])}</div></div>
      <div class="setgrp"><h3>${t('set.defis')}</h3><div class="chkgrid">${DEFIS_GROUPS.map(g=>`<label><input type="checkbox" data-defi="${g.id}" ${SET.defis[g.id]?'checked':''}> ${t('groupe.'+g.id)}</label>`).join('')}</div>
