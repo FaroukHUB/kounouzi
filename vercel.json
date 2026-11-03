@@ -53,6 +53,17 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "kounouzi-taupe.vercel.app"
+        }
+      ],
+      "destination": "https://kounouzi.com/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
