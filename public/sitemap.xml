@@ -12,4 +12,76 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/"/>
   </url>
+  <url>
+    <loc>https://kounouzi.com/jeu-de-societe-halal/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/jeu-de-societe-halal/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/halal-board-game/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/jeu-de-societe-halal/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/en/halal-board-game/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/jeu-de-societe-halal/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/halal-board-game/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/jeu-de-societe-halal/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/jeu-educatif-islamique-enfant/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/jeu-educatif-islamique-enfant/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/islamic-educational-game-for-kids/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/jeu-educatif-islamique-enfant/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/en/islamic-educational-game-for-kids/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/jeu-educatif-islamique-enfant/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/islamic-educational-game-for-kids/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/jeu-educatif-islamique-enfant/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/quiz-islamique-famille/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/quiz-islamique-famille/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/islamic-quiz-for-families/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/quiz-islamique-famille/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/en/islamic-quiz-for-families/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/quiz-islamique-famille/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/islamic-quiz-for-families/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/quiz-islamique-famille/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/apprendre-zakat-enfants/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/apprendre-zakat-enfants/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/teach-kids-zakat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/apprendre-zakat-enfants/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/en/teach-kids-zakat/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/apprendre-zakat-enfants/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/teach-kids-zakat/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/apprendre-zakat-enfants/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/cadeau-ramadan-aid-enfant/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/cadeau-ramadan-aid-enfant/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/ramadan-eid-gift-for-kids/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/cadeau-ramadan-aid-enfant/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/en/ramadan-eid-gift-for-kids/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/cadeau-ramadan-aid-enfant/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/ramadan-eid-gift-for-kids/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/cadeau-ramadan-aid-enfant/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/regles-du-jeu/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/regles-du-jeu/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/how-to-play/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/regles-du-jeu/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/en/how-to-play/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/regles-du-jeu/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/how-to-play/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/regles-du-jeu/"/>
+  </url>
 </urlset>
