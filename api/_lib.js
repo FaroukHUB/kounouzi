@@ -92,19 +92,22 @@ export const lieu = (request) => {
 };
 export const resume = (ua = '') => /iPhone|iPad/.test(ua) ? 'iPhone/iPad' : /Android/.test(ua) ? 'Android' : /Macintosh/.test(ua) ? 'Mac' : /Windows/.test(ua) ? 'Windows' : 'Autre';
 
-// Code désactivé depuis le tableau de bord ? (mémoire de 60 s pour ne pas interroger la base à chaque fois)
+// Code désactivé depuis le tableau de bord, ou code d'essai qui a joué toutes ses parties ?
+// (mémoire de 60 s pour ne pas interroger la base à chaque fois)
 const REV = new Map();
 export const oublierRevocation = (code) => REV.delete(formater(code));
-export async function revoqueEnBase(code) {
-  if (!dbActive()) return false;
+export async function etatCode(code) {
+  if (!dbActive()) return { revoque: false, epuise: false };
   const c = formater(code), m = REV.get(c);
   if (m && Date.now() - m.t < 60000) return m.v;
-  try { const r = await db('revoque', { code: c }, { timeout: 2000 }); REV.set(c, { v: !!r?.revoque, t: Date.now() }); return !!r?.revoque; }
-  catch { return m ? m.v : false; }
+  try { const r = await db('revoque', { code: c }, { timeout: 2000 }); const v = { revoque: !!r?.revoque, epuise: !!r?.epuise }; REV.set(c, { v, t: Date.now() }); return v; }
+  catch { return m ? m.v : { revoque: false, epuise: false }; }
 }
-export async function accesValide(request) {
+export const revoqueEnBase = async (code) => (await etatCode(code)).revoque;
+export async function accesValide(request, opts = {}) {
   const code = lireCookie(request, 'kz');
   try { if (!codeValide(code)) return null; } catch { return null; }
-  if (await revoqueEnBase(code)) return null;
+  const e = await etatCode(code);
+  if (e.revoque || (e.epuise && !opts.essaiFiniOk)) return null;
   return formater(code);
 }

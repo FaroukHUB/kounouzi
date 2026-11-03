@@ -35,8 +35,9 @@ export async function GET(request) {
     if (dbActive()) { try { const r = await amorcer(); base = r?.deja ? 'prête' : `importée (${r?.questions} questions)`; } catch (e) { base = 'erreur : ' + e.message; } }
     return new Response(JSON.stringify({ jeu: ok[0], donnees: ok[1], base }), { headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
   }
-  const code = await accesValide(request);
+  const code = await accesValide(request, { essaiFiniOk: f === 'data' });
   if (!code) {
+    if (f !== 'data' && await accesValide(request, { essaiFiniOk: true })) return new Response(null, { status: 302, headers: { location: '/?essai=fini#offre', 'cache-control': 'no-store' } });
     if (f === 'data') return new Response('Accès réservé', { status: 401 });
     return new Response(null, { status: 302, headers: { location: '/?acces=1#acceder', 'cache-control': 'no-store' } });
   }

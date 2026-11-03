@@ -488,7 +488,6 @@ function newGame(defs, durMin){
   S.players.forEach(p=>THEMES.forEach(t=>{p.levels[t]=startLevel(p); p.streak[t]=0;}));
   store.set(ELAPSED,0);
   save();
-  track('partie_debut',{data:{joueurs:S.players.length, mode:(DURATIONS.find(x=>x.min===durMin)||{id:'libre'}).id, ages:S.players.map(ageBand), partie:gameNo}});
 }
 function heritageOf(p){ return Object.entries(S.owners).filter(([,o])=>o===p.seat).reduce((s,[pos])=>s+CELLS[pos].val,0); }
 const scoreOf = p=> p.money + heritageOf(p) + p.hassanat*5;
@@ -1369,9 +1368,9 @@ function showEnd(){
      <div class="stack"><i style="width:${p.money/max*100}%;background:#efbe4c"></i><i style="width:${h/max*100}%;background:#3fae6a"></i><i style="width:${hz/max*100}%;background:#7cc4ff"></i></div>
      <div class="dims">${fmt(p.money)} K · patrimoine ${fmt(h)} · ✦ ${p.hassanat}</div></div>`}).join('')}
    <p>Caisse Masākīn : ${fmt(S.caisse)} K versés pendant la partie.</p>
-   <button class="btn btn-gold" id="again">Nouvelle partie</button></div>`;
+   ${S.essai? `<p style="font-weight:800">Tu as aimé ? Obtiens l'accès complet pour jouer sans limite.</p><a class="btn btn-gold" href="/?essai=fini#offre" style="text-decoration:none;display:flex;justify-content:center">Obtenir l'accès complet</a>${S.restantes>0?'<button class="btn btn-ghost" id="again" style="margin-top:10px">Nouvelle partie</button>':''}` : '<button class="btn btn-gold" id="again">Nouvelle partie</button>'}</div>`;
   document.body.appendChild(ov);
-  ov.querySelector('#again').onclick=()=>{ store.del(SAVE); location.reload(); };
+  const ag=ov.querySelector('#again'); if(ag) ag.onclick=()=>{ store.del(SAVE); location.reload(); };
 }
 
 /* =========================================================
@@ -1410,10 +1409,28 @@ $('#plist').addEventListener('input',e=>{ const i=+e.target.dataset.i; if(e.targ
 $('#plist').addEventListener('change',e=>{ const i=+e.target.dataset.i; if(e.target.id.startsWith('page')) defs[i].age=+e.target.value; if(e.target.id.startsWith('plvl')) defs[i].level=e.target.value; renderSetup(); });
 $('#addP').onclick=()=>{ const free=COLORS.find(c=>!defs.some(d=>d.color===c.id)); defs.push({name:'Joueur '+(defs.length+1),gender:'m',child:true,age:9,level:'standard',color:free.id}); renderSetup(); };
 $('#durs').onclick=e=>{ const b=e.target.closest('[data-d]'); if(b){ dur=b.dataset.d; renderSetup(); } };
-$('#startBtn').onclick=()=>{
+// Avant chaque nouvelle partie, le serveur donne son accord (un code d'essai n'a droit qu'à un nombre limité de parties).
+async function autoriserPartie(players, durMin){
+  const data={joueurs:players.length, mode:(DURATIONS.find(x=>x.min===durMin)||{id:'libre'}).id, ages:players.map(ageBand), partie:(store.get(GAMENO)||0)+1};
+  try{ const r=await fetch('/api/partie',{method:'POST',body:JSON.stringify({data})}); if(r.status===401) return {ok:false,essai:true}; return await r.json(); }
+  catch{ return {ok:true}; } // hors ligne : on ne bloque pas la famille
+}
+function finEssai(){
+  const ov=document.createElement('div'); ov.id='overlay';
+  ov.innerHTML=`<div class="sheet" style="text-align:center"><h2>Ta partie d'essai est terminée</h2>
+    <p>Merci d'avoir essayé Kounouzi ! Pour continuer à jouer en famille, sans limite, obtiens l'accès complet.</p>
+    <a class="btn btn-gold" href="/?essai=fini#offre" style="text-decoration:none">Obtenir l'accès complet</a></div>`;
+  document.body.appendChild(ov); say("Ta partie d'essai est terminée. Merci d'avoir essayé Kounouzi !");
+}
+$('#startBtn').onclick=async()=>{
+  const btn=$('#startBtn'); if(btn.disabled) return; btn.disabled=true;
   defs.forEach((d,i)=>{ d.name=(d.name||'').trim()||('Joueur '+(i+1)); });
   defs.forEach(x=>delete x._pick); store.set(PLAYERS,defs);
-  newGame(defs.map(d=>({...d, hex:COLORS.find(c=>c.id===d.color).hex})), DURATIONS.find(x=>x.id===dur).min);
+  const durMin=DURATIONS.find(x=>x.id===dur).min;
+  const ok=await autoriserPartie(defs,durMin); btn.disabled=false;
+  if(!ok.ok){ finEssai(); return; }
+  newGame(defs.map(d=>({...d, hex:COLORS.find(c=>c.id===d.color).hex})), durMin);
+  if(ok.essai){ S.essai=true; S.restantes=ok.restantes??0; save(); }
   enterGame(true);
 };
 $('#resumeBtn').onclick=()=>{ S=store.get(SAVE); enterGame(); };

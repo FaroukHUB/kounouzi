@@ -70,7 +70,8 @@ export async function POST(request) {
       case 'cadeaux': {
         const n = Math.max(1, Math.min(50, Number(b.nombre) || 1));
         const codes = Array.from({ length: n }, codeCadeau);
-        if (base) await db('cadeaux', { codes, note: txt(b.note, 120) });
+        const essai = b.essai ? Math.max(1, Math.min(20, Number(b.essai) || 1)) : null;
+        if (base) await db('cadeaux', { codes, note: txt(b.note, 120), ...(essai ? { max_parties: essai } : {}) });
         return json(200, { codes });
       }
       case 'code_maj': {

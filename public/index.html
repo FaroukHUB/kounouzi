@@ -599,6 +599,7 @@ $('#codeForm').addEventListener('submit',async e=>{
   }catch{ msg.className='msg err'; msg.textContent='Connexion impossible, réessayez.'; }
 });
 const pre=sp.get('code'); if(pre) $('#codeIn').value=pre;
+if(sp.get('essai')==='fini') setTimeout(()=>{ const m=$('#soon').hidden? $('#paynote') : $('#soon'); const n=document.createElement('div'); n.className='msg ok'; n.style.cssText='text-align:center;font-size:16px'; n.textContent="Votre partie d'essai est terminée, merci d'avoir joué ! Obtenez l'accès complet pour continuer en famille."; $('.pay').prepend(n); },400);
 if(sp.get('acces')) setTimeout(()=>{ $('#codeMsg').className='msg'; $('#codeMsg').textContent='Pour jouer, entrez votre code ou obtenez votre accès.'; location.hash='#acceder'; },300);
 
 /* ---------- Installer comme une appli ---------- */

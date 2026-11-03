@@ -142,13 +142,13 @@ label.f small{font-weight:700;color:var(--faint)}
   <!-- CODES -->
   <section data-panel="codes" hidden>
     <div class="card"><h2>🎁 Offrir des codes</h2>
-      <div class="row"><input type="number" id="nb" value="1" min="1" max="50" style="flex:0 0 90px"><input id="nbNote" placeholder="Pour qui ? (ex. Famille Benali, École Al-Nour…)"><button class="btn" id="mk">Créer</button></div>
+      <div class="row"><input type="number" id="nb" value="1" min="1" max="50" style="flex:0 0 90px" aria-label="Nombre de codes"><select id="nbType" style="flex:0 1 230px" aria-label="Type de code"><option value="">Accès complet (illimité)</option><option value="1">Essai : 1 partie</option><option value="2">Essai : 2 parties</option><option value="3">Essai : 3 parties</option></select><input id="nbNote" placeholder="Pour qui ? (ex. Famille Benali, École Al-Nour…)"><button class="btn" id="mk">Créer</button></div>
       <div id="mkout" class="grid" style="gap:8px;margin-top:12px"></div>
     </div>
     <div class="card sec">
       <div class="toolbar"><h2 style="margin:0">Tous les codes</h2><span class="tag" id="codesCount"></span>
         <input type="search" id="cq" placeholder="Chercher un code, une note, un e-mail…">
-        <select id="cf"><option value="">Tous</option><option value="cadeau">Cadeaux</option><option value="achat">Achats</option><option value="actifs">Utilisés</option><option value="dormants">Jamais utilisés</option><option value="revoques">Désactivés</option></select>
+        <select id="cf"><option value="">Tous</option><option value="cadeau">Cadeaux</option><option value="essai">Essais</option><option value="achat">Achats</option><option value="actifs">Utilisés</option><option value="dormants">Jamais utilisés</option><option value="revoques">Désactivés</option></select>
         <button class="btn g sm" id="csv">Exporter (CSV)</button></div>
       <div class="tscroll"><table><thead><tr><th>Code</th><th>Type</th><th>Note</th><th>1re utilisation</th><th>Appareils</th><th>Parties</th><th>Dernière activité</th><th></th></tr></thead><tbody id="codesBody"></tbody></table></div>
     </div>
@@ -263,6 +263,7 @@ async function loadStats(){
     kpi('Ventes',fmt(s.ventes),`${fmt(s.ventes_30j)} ces 30 jours`,true),
     kpi('Revenus',money(s.revenus),'30 jours : '+money(s.revenus_30j)),
     kpi('Codes offerts',fmt(s.cadeaux),`${fmt(s.cadeaux_utilises)} utilisés (${pct(s.cadeaux_utilises,s.cadeaux)})`),
+    kpi('Codes d\'essai',fmt(s.essais??0),`${fmt(s.essais_joues??0)} ont joué leur partie`),
     kpi('Visiteurs',fmt(s.visiteurs_30j),`${fmt(s.visites_30j)} visites ces 30 jours`),
     kpi('Conversion',pct(s.activations_30j,s.visiteurs_30j),'visiteurs → nouveaux codes ouverts (30 j)'),
     kpi('Parties lancées',fmt(s.parties),`${fmt(s.parties_7j)} ces 7 jours`,true),
@@ -318,11 +319,11 @@ async function copier(c,btn){ try{ await navigator.clipboard.writeText(`Ton acc�
 async function loadCodes(){ $('#codesBody').innerHTML='<tr><td colspan="8" class="empty">Chargement…</td></tr>'; try{ CODES=(await api('codes')).codes||[]; }catch(e){ $('#codesBody').innerHTML=`<tr><td colspan="8" class="msg err">${esc(e.message)}</td></tr>`; return; } renderCodes(); }
 function codesFiltres(){ const q=$('#cq').value.trim().toLowerCase(), f=$('#cf').value;
   return CODES.filter(c=>(!q||[c.code,c.note,c.email].some(x=>(x||'').toLowerCase().includes(q)))
-    && (!f || (f==='cadeau'&&c.kind==='cadeau') || (f==='achat'&&c.kind==='achat') || (f==='actifs'&&c.appareils>0) || (f==='dormants'&&!c.appareils) || (f==='revoques'&&c.revoked))); }
+    && (!f || (f==='cadeau'&&c.kind==='cadeau') || (f==='essai'&&c.kind==='essai') || (f==='achat'&&c.kind==='achat') || (f==='actifs'&&c.appareils>0) || (f==='dormants'&&!c.appareils) || (f==='revoques'&&c.revoked))); }
 function renderCodes(){ const L=codesFiltres(); $('#codesCount').textContent=`${L.length} / ${CODES.length}`;
   $('#codesBody').innerHTML= L.length? L.map(c=>`<tr data-c="${esc(c.code)}">
     <td class="mono">${esc(c.code)}${c.revoked?' <span class="tag bad">désactivé</span>':''}</td>
-    <td>${c.kind==='achat'? `<span class="tag gold">Achat</span><div class="muted small">${esc(c.moyen||'')} ${c.montant? esc(c.devise==='DZD'? fmt(c.montant)+' DA' : (c.montant/100).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})):''}</div>${c.email?`<div class="muted small">${esc(c.email)}</div>`:''}` : '<span class="tag">Cadeau</span>'}</td>
+    <td>${c.kind==='achat'? `<span class="tag gold">Achat</span><div class="muted small">${esc(c.moyen||'')} ${c.montant? esc(c.devise==='DZD'? fmt(c.montant)+' DA' : (c.montant/100).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})):''}</div>${c.email?`<div class="muted small">${esc(c.email)}</div>`:''}` : c.kind==='essai'? `<span class="tag warn">Essai</span><div class="muted small">${fmt(c.parties)} / ${c.max_parties} partie${c.max_parties>1?'s':''}${c.parties>=c.max_parties?' · terminé':''}</div>` : '<span class="tag">Cadeau</span>'}</td>
     <td><input class="note-in" value="${esc(c.note||'')}" placeholder="Ajouter une note…" data-note></td>
     <td>${c.premiere? dt(c.premiere) : '<span class="tag warn">jamais utilisé</span>'}</td>
     <td>${fmt(c.appareils)}</td><td>${fmt(c.parties)}</td><td>${ago(c.derniere)}</td>
@@ -335,7 +336,7 @@ function renderCodes(){ const L=codesFiltres(); $('#codesCount').textContent=`${
     const ni=tr.querySelector('[data-note]'); ni.onchange=async()=>{ try{ await api('code_maj',{code,note:ni.value}); c.note=ni.value; toast('Note enregistrée'); }catch(err){ toast(err.message); } };
   }); }
 $('#cq').oninput=renderCodes; $('#cf').onchange=renderCodes;
-$('#mk').onclick=async()=>{ try{ const d=await api('cadeaux',{nombre:$('#nb').value,note:$('#nbNote').value});
+$('#mk').onclick=async()=>{ try{ const d=await api('cadeaux',{nombre:$('#nb').value,note:$('#nbNote').value,essai:$('#nbType').value||null});
   $('#mkout').innerHTML=d.codes.map(c=>`<div class="row card" style="padding:10px 14px;justify-content:space-between"><span class="mono">${esc(c)}</span><button class="btn g sm" data-c="${esc(c)}">Copier le lien</button></div>`).join('')+(d.codes.length>1?`<button class="btn g sm" id="cpall" style="justify-self:start">Copier tous les codes</button>`:'');
   $$('#mkout [data-c]').forEach(b=>b.onclick=()=>copier(b.dataset.c,b));
   const all=$('#cpall'); if(all) all.onclick=async()=>{ try{ await navigator.clipboard.writeText(d.codes.join('\n')); all.textContent='Copiés ✓'; }catch{} };
