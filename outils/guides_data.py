@@ -22,7 +22,7 @@ GUIDES = [
         "<b>Sans musique</b> : seulement une voix chaleureuse qui lit les questions et annonce les cases, et quelques petits effets (applaudissements, pièces) que l'on peut couper en un geste.",
         "<b>Sans riba</b> : on n'apprend jamais à prêter avec intérêt. On apprend à épargner, à acheter avec mesure, à donner à la Caisse Masākīn et à verser la Zakat.",
         "<b>Sans publicité, sans achat intégré</b>, sans discussion avec des inconnus : un seul paiement, et l'écran reste entre vous.",
-        "<b>Contenu religieux sourcé</b> : les questions de religion viennent de livres reconnus, avec leur source, et sont relues avant publication."])]),
+        "<b>Contenu religieux sourcé</b> : les questions de religion suivent le Coran et la Sunnah : elles viennent de livres de savants reconnus, avec leur source, et sont relues avant publication."])]),
     ("Un jeu qui valorise la générosité, pas la richesse", [
       "Dans Kounouzi, le score final additionne les Kounouz, le patrimoine et les points Hassanāt gagnés en donnant ou en aidant les autres. Un joueur généreux peut donc gagner même avec moins d'argent : c'est souvent le moment préféré des parents pour en parler avec leurs enfants.",
       "Les Hassanāt sont des points de jeu : ils servent à ouvrir la discussion sur la générosité, ce ne sont pas des récompenses spirituelles."]),
@@ -48,7 +48,7 @@ GUIDES = [
         "<b>No music</b>: only a warm voice that reads the questions and announces the squares, plus a few short effects (cheering, coins) you can switch off in one tap.",
         "<b>No riba</b>: children never learn to lend with interest. They learn to save, to buy wisely, to give to the Masākīn Fund and to pay Zakat.",
         "<b>No ads, no in-app purchases</b>, no chatting with strangers: one payment, and the screen stays within your family.",
-        "<b>Sourced religious content</b>: religion questions come from recognised books, with their source, and are reviewed before publication."])]),
+        "<b>Sourced religious content</b>: religion questions follow the Qur'an and the Sunnah: they come from recognised scholars' books, with their source, and are reviewed before publication."])]),
     ("A game that rewards generosity, not wealth", [
       "In Kounouzi, the final score adds up Kounouz, properties and Hassanāt points earned by giving or helping others. A generous player can win with less money, which is often the parents' favourite moment to talk about it with their children.",
       "Hassanāt are game points: they open the conversation about generosity; they are not spiritual rewards."]),
@@ -85,7 +85,7 @@ GUIDES = [
       "Kounouzi est un vrai jeu de plateau : on achète une maktaba ou un hôtel à Médine, on relève des défis en famille, on donne à la Caisse Masākīn. Les connaissances se mélangent aux décisions, et c'est ce qui donne envie de rejouer."]),
    ],
    'faq': [("À partir de quel âge ?", "Dès 5 ans. Les plus petits jouent avec une voix qui lit tout, les adolescents et les adultes reçoivent les questions des tranches les plus avancées."),
-           ("Les questions de religion sont-elles fiables ?", "Elles viennent de livres reconnus, avec leur source, et sont relues avant publication. Rien n'est inventé.")],
+           ("Les questions de religion sont-elles fiables ?", "Elles suivent le Coran et la Sunnah : elles viennent de livres de savants reconnus, avec leur source, et sont relues avant publication. Rien n'est inventé.")],
   },
   'en': {
    'slug': 'islamic-educational-game-for-kids',
@@ -112,7 +112,7 @@ GUIDES = [
       "Kounouzi is a real board game: you buy a maktaba or a hotel in Madinah, take on family challenges and give to the Masākīn Fund. Knowledge mixes with decisions, and that is what makes children want to play again."]),
    ],
    'faq': [("From what age?", "From age 5. The youngest play with a voice that reads everything; teenagers and adults get questions from the most advanced age groups."),
-           ("Are the religion questions reliable?", "They come from recognised books, with their source, and are reviewed before publication. Nothing is made up.")],
+           ("Are the religion questions reliable?", "They follow the Qur'an and the Sunnah: they come from recognised scholars' books, with their source, and are reviewed before publication. Nothing is made up.")],
   },
  },
  {
@@ -129,7 +129,7 @@ GUIDES = [
     ("Ce que change Kounouzi", [
       ("ul", [
         "<b>Chaque joueur sa question</b> : un enfant de 6 ans et un parent ne reçoivent jamais la même difficulté.",
-        "<b>Des questions sourcées</b> : chaque question de religion indique le livre d'où elle vient, et une explication en arabe accompagne la réponse.",
+        "<b>Des questions sourcées</b> : chaque question de religion suit le Coran et la Sunnah et indique le livre d'où elle vient, et une explication en arabe accompagne la réponse.",
         "<b>La famille valide</b> : bonne réponse, en partie, ou pas cette fois. Les parents gardent la main et expliquent.",
         "<b>Pas de répétition</b> : le jeu retient les questions déjà posées à chaque joueur.",
         "<b>Un plateau, des défis, des dons</b> : les questions s'intègrent à un vrai jeu de plateau."])]),
@@ -153,7 +153,7 @@ GUIDES = [
     ("What Kounouzi changes", [
       ("ul", [
         "<b>Each player gets their own question</b>: a 6-year-old and a parent never get the same difficulty.",
-        "<b>Sourced questions</b>: each religion question names the book it comes from, and an Arabic explanation comes with the answer.",
+        "<b>Sourced questions</b>: each religion question follows the Qur'an and the Sunnah and names the book it comes from, and an Arabic explanation comes with the answer.",
         "<b>The family decides</b>: right answer, partly right, or not this time. Parents stay in charge and explain.",
         "<b>No repeats</b>: the game remembers the questions already asked to each player.",
         "<b>A board, challenges, giving</b>: questions are part of a real board game."]),
