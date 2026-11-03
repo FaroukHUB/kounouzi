@@ -111,6 +111,15 @@ section{position:relative;padding:96px 0}
 .bcard h3{font-size:21px;margin-bottom:8px}
 .bcard p{margin:0;color:var(--muted);font-size:15.5px}
 
+.niv{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.agerow{margin-top:12px}
+.agerow small{display:block;font-weight:900;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.agerow .chips{display:flex;flex-wrap:wrap;gap:6px}
+.agerow .chips span{padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-weight:900;font-size:13px}
+.lvl{display:flex;align-items:flex-end;gap:6px;height:64px;margin-top:14px}
+.lvl i{flex:1;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--g),color-mix(in srgb,var(--g) 40%,transparent));opacity:.35}
+.lvl i.on{opacity:1;box-shadow:0 0 18px color-mix(in srgb,var(--g) 60%,transparent)}
+.lvl-l{display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:var(--muted);margin-top:6px}
 /* émotion */
 .emotion{padding:110px 0;overflow:hidden}
 .emotion .bg{position:absolute;inset:0;background:url(/img/site/plateau.webp) center/cover no-repeat;opacity:.12;filter:blur(3px) saturate(1.2);-webkit-mask-image:linear-gradient(180deg,transparent,#000 25%,#000 75%,transparent);mask-image:linear-gradient(180deg,transparent,#000 25%,#000 75%,transparent)}
@@ -260,6 +269,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
 
 /* tablette */
 @media (max-width:980px){
+  .niv{grid-template-columns:1fr}
   .hgrid,.demo{grid-template-columns:1fr;gap:34px}
   .benefits{grid-template-columns:repeat(2,1fr)}
   .steps{grid-template-columns:repeat(2,1fr)}
@@ -296,6 +306,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
   .m-rail>*{scroll-snap-align:start}
   .benefits.m-rail{grid-auto-columns:80%;margin-top:26px}
   .steps.m-rail{grid-auto-columns:78%;margin-top:26px}
+  .niv.m-rail{grid-auto-columns:84%;margin-top:26px}
   .shots{grid-auto-columns:64%;justify-content:start}
   .emotion{padding:70px 0}
   .quote blockquote{font-size:30px}
@@ -335,7 +346,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
 <header class="top">
   <div class="wrap">
     <a class="logo" href="#" aria-label="Kounouzi, accueil"><img src="/img/app/icon-192.png" alt="" width="38" height="38"><b>Kounouzi</b><span lang="ar">كنوزي</span></a>
-    <nav aria-label="Sections"><a href="#benefices">Bénéfices</a><a href="#essayer">Essayer</a><a href="#difference">Pourquoi Kounouzi</a><a href="#offre">Offre</a><a href="#faq">Questions</a></nav>
+    <nav aria-label="Sections"><a href="#benefices">Bénéfices</a><a href="#niveau">Chacun à son niveau</a><a href="#essayer">Essayer</a><a href="#difference">Pourquoi Kounouzi</a><a href="#offre">Offre</a><a href="#faq">Questions</a></nav>
     <div class="acts">
       <a class="btn btn-ghost btn-sm" href="#acceder" data-hide-acces>J'ai un code</a>
       <button class="btn btn-ghost btn-sm" data-install hidden>📲 Installer</button>
@@ -385,6 +396,25 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
       <article class="bcard rv d3" style="--g:#ff6fd8"><div class="ic" aria-hidden="true">👨‍👩‍👧‍👦</div><h3>Moments familiaux</h3><p>Réunir parents et enfants autour d'une activité intelligente, ludique et éducative, sur un seul écran posé au milieu de la table.</p></article>
     </div>
     <div class="dots m-only" data-dots="railBen"></div>
+  </div>
+</section>
+
+<!-- 2 bis. CHACUN À SON NIVEAU -->
+<section id="niveau" style="padding-top:30px">
+  <div class="wrap">
+    <div class="center rv"><span class="kick">Chacun à son niveau</span>
+      <h2 style="margin-top:12px">Même partie, mais une question faite pour chacun</h2>
+      <p class="lead" style="margin-top:12px">Un enfant de 6 ans, un ado de 13 ans et un parent autour du même plateau : chacun reçoit des questions adaptées à son âge réel, puis à ses réponses.</p></div>
+    <div class="niv m-rail" id="railNiv">
+      <article class="bcard rv" style="--g:#36d6ff"><div class="ic" aria-hidden="true">🎂</div><h3>Selon l'âge réel</h3><p>Les questions sont rangées par tranche d'âge. La religion a ses propres tranches, distinctes des autres matières.</p>
+        <div class="agerow"><small>Matières générales</small><div class="chips"><span>5–6</span><span>7–8</span><span>9–10</span><span>11–12</span><span>13+</span></div></div>
+        <div class="agerow"><small>Religion</small><div class="chips"><span>5–8</span><span>8–10</span><span>10–12</span><span>12–14</span><span>14+</span></div></div>
+        <div class="agerow"><small>Maths</small><div class="chips"><span>calculs choisis selon l'âge</span></div></div></article>
+      <article class="bcard rv d1" style="--g:#3ddc84"><div class="ic" aria-hidden="true">📈</div><h3>Un niveau qui s'ajuste</h3><p>Deux bonnes réponses de suite : les questions montent d'un cran. Une erreur : elles redeviennent un peu plus simples. Toujours dans la tranche de l'enfant.</p>
+        <div class="lvl" aria-hidden="true"><i style="height:30%"></i><i style="height:48%" class="on"></i><i style="height:66%" class="on"></i><i style="height:84%"></i><i style="height:100%"></i></div><div class="lvl-l" aria-hidden="true"><span>plus simple</span><span>plus difficile</span></div></article>
+      <article class="bcard rv d2" style="--g:#ffb84a"><div class="ic" aria-hidden="true">🔁</div><h3>Des questions qui se renouvellent</h3><p>Kounouzi retient les questions déjà posées à chaque joueur sur l'appareil, pour éviter les répétitions d'une partie à l'autre. Les adultes reçoivent les questions des tranches les plus avancées.</p></article>
+    </div>
+    <div class="dots m-only" data-dots="railNiv"></div>
   </div>
 </section>
 
@@ -459,9 +489,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
       <p class="lead" style="margin-top:12px">Un quiz vérifie ce qu'on sait. Kounouzi fait vivre une partie où l'on apprend, où l'on choisit et où l'on réfléchit ensemble.</p></div>
     <div class="vs">
       <div class="vcol o rv"><h3>Un quiz islamique classique</h3><ul>
-        <li>Des questions les unes après les autres</li><li>Souvent les mêmes questions pour tous les âges</li><li>Chacun sur son écran</li><li>On gagne si on connaît la réponse</li><li>Souvent avec de la publicité</li></ul></div>
+        <li>Des questions les unes après les autres</li><li>Souvent les mêmes questions pour tous les âges, sans suivre les progrès</li><li>Chacun sur son écran</li><li>On gagne si on connaît la réponse</li><li>Souvent avec de la publicité</li></ul></div>
       <div class="vcol k rv d1"><h3><img src="/img/app/icon-192.png" alt="">Kounouzi</h3><ul>
-        <li>Un vrai jeu de plateau, avec des décisions à prendre</li><li>1 764 questions rangées par tranche d'âge</li><li>Parents et enfants autour du même écran</li><li>Donner et partager comptent dans le score final</li><li>Défis en famille, voix qui lit tout, français et arabe</li><li>Sans publicité, sans hasard, paiement unique</li></ul></div>
+        <li>Un vrai jeu de plateau, avec des décisions à prendre</li><li>1 764 questions adaptées à l'âge et au niveau de chacun</li><li>Parents et enfants autour du même écran</li><li>Donner et partager comptent dans le score final</li><li>Défis en famille, voix qui lit tout, français et arabe</li><li>Sans publicité, sans hasard, paiement unique</li></ul></div>
     </div>
   </div>
 </section>
@@ -518,7 +548,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
   <div class="wrap">
     <div class="rv"><span class="kick">Questions</span><h2 style="margin-top:12px">Questions fréquentes</h2></div>
     <div class="faq">
-      <details><summary>À partir de quel âge ?</summary><p>Dès 5 ans. Les questions sont rangées par tranche d'âge et une voix les lit à voix haute : les enfants qui ne lisent pas encore peuvent jouer avec les grands.</p></details>
+      <details><summary>À partir de quel âge ?</summary><p>Dès 5 ans. Les questions sont rangées par tranche d'âge (5–6, 7–8, 9–10, 11–12 et 13 ans et plus ; en religion 5–8, 8–10, 10–12, 12–14 et 14 ans et plus) et une voix les lit à voix haute : les enfants qui ne lisent pas encore peuvent jouer avec les grands.</p></details>
+      <details><summary>Mes enfants n'ont pas le même âge, comment ça se passe ?</summary><p>Chaque joueur reçoit ses propres questions, selon son âge réel. Ensuite le niveau s'ajuste à ses réponses : deux bonnes réponses de suite et les questions montent d'un cran, une erreur et elles redeviennent plus simples. Tout le monde joue ensemble, chacun à son niveau.</p></details>
       <details><summary>Les questions de religion sont-elles fiables ?</summary><p>Elles viennent de livres reconnus, avec leur source, et sont relues avant publication. Rien n'est inventé.</p></details>
       <details><summary>Que sont les Hassanāt dans le jeu ?</summary><p>Ce sont des points de jeu que l'on gagne en donnant, en partageant ou en réussissant un défi en famille. Ils comptent dans le score pour montrer que la générosité a de la valeur. Ce ne sont pas de vraies récompenses spirituelles : c'est une occasion d'en parler avec vos enfants.</p></details>
       <details><summary>Est-ce un abonnement ?</summary><p>Non. Vous payez une seule fois et l'accès est à vie, pour toute la famille.</p></details>
