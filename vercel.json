@@ -64,12 +64,22 @@
       "permanent": true
     },
     {
-      "source": "/jeu-de-societe-halal/:p*",
+      "source": "/jeu-de-societe-halal",
       "destination": "/jeu-de-societe-valeurs-islamiques/",
       "permanent": true
     },
     {
-      "source": "/en/halal-board-game/:p*",
+      "source": "/jeu-de-societe-halal/",
+      "destination": "/jeu-de-societe-valeurs-islamiques/",
+      "permanent": true
+    },
+    {
+      "source": "/en/halal-board-game",
+      "destination": "/en/board-game-islamic-values/",
+      "permanent": true
+    },
+    {
+      "source": "/en/halal-board-game/",
       "destination": "/en/board-game-islamic-values/",
       "permanent": true
     }
