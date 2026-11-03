@@ -403,7 +403,12 @@ const AR_WORDS = [
   [/Maktaba Al-Albānī/gi,'مكتبة الألباني'],[/Maktaba As-Sunnah/gi,'مكتبة السنة'],[/Agence Omra An-Nour|Agence عمرة An-Nour/gi,'وكالة عمرة النور'],[/Agence Omra Al-Hudā|Agence عمرة Al-Hudā/gi,'وكالة عمرة الهدى'],[/Hôtel At-Tawḥīd/gi,'فندق التوحيد'],[/Hôtel Al-Iḥsān/gi,'فندق الإحسان'],[/Hôtel Al-Sharif/gi,'فندق الشريف'],[/Hôtel El Kunuz/gi,'فندق الكنوز'],
   [/Umrah|ʿUmrah/gi,'عمرة'],[/An-Nour عمرة Agency/gi,'وكالة عمرة النور'],[/Al-Hudā عمرة Agency/gi,'وكالة عمرة الهدى'],
   [/Hotel At-Tawḥīd/gi,'فندق التوحيد'],[/Hotel Al-Iḥsān/gi,'فندق الإحسان'],[/Hotel Al-Sharif/gi,'فندق الشريف'],[/Hotel El Kunuz/gi,'فندق الكنوز']];
-const toVoice=t=>{ AR_WORDS.forEach(([re,ar])=>{ t=t.replace(re,ar); }); return t; };
+// Dictionnaire de prononciation réglé dans le tableau de bord : « écrit » → « dit » (mot entier, sans tenir compte des majuscules).
+// Seule la voix change, l'écran garde l'écriture d'origine. Le texte parlé change donc l'adresse audio : pas d'ancien cache.
+const echapRe=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const PRONON=(Array.isArray(RG.prononciation)?RG.prononciation:[]).filter(p=>p&&p.e&&p.d)
+  .sort((a,b)=>b.e.length-a.e.length).map(p=>[new RegExp('(^|[^\\p{L}\\p{M}])('+echapRe(p.e)+')(?=$|[^\\p{L}\\p{M}])','giu'),p.d]);
+const toVoice=t=>{ PRONON.forEach(([re,d])=>{ t=t.replace(re,(m,a)=>a+d); }); AR_WORDS.forEach(([re,ar])=>{ t=t.replace(re,ar); }); return t; };
 const cleanText=t=>toVoice(String(t)).replace(/\s+/g,' ').trim().slice(0,680);
 // ElevenLabs limite le nombre de demandes simultanées : jamais plus de 2 à la fois, les phrases urgentes passent devant.
 const FQ={active:0, queue:[]};
@@ -1424,15 +1429,15 @@ function showEnd(){
    Préparation
    ========================================================= */
 let defs = store.get(PLAYERS) || [
-  {name:'Yacine',gender:'m',child:true,age:10,level:'standard',color:'bleu'},
-  {name:'Maryam',gender:'f',child:true,age:8,level:'standard',color:'violet'},
-  {name:t('joueur.papa'),gender:'m',child:false,age:10,level:'standard',color:'vert'}];
+  {name:'',gender:'m',child:true,age:10,level:'standard',color:'bleu'},
+  {name:'',gender:'f',child:true,age:8,level:'standard',color:'violet'},
+  {name:'',gender:'m',child:false,age:10,level:'standard',color:'vert'}];
 let dur = 'classique';
 function renderSetup(){
   const used=defs.map(d=>d.color);
   $('#plist').innerHTML = defs.map((d,i)=>{ const hex=COLORS.find(c=>c.id===d.color).hex; return `<div class="prow" style="--c:${hex}">
-    <button class="av" data-i="${i}" data-a="pickav" style="background-image:url(${avatarFor(d)})" aria-label="${esc(t('joueur.avatarDe',{n:d.name}))}" aria-expanded="${!!d._pick}"><span class="avedit">✎</span></button>
-    <input type="text" id="pname${i}" data-i="${i}" value="${esc(d.name)}" maxlength="14" aria-label="${esc(t('joueur.prenom',{n:i+1}))}">
+    <button class="av" data-i="${i}" data-a="pickav" style="background-image:url(${avatarFor(d)})" aria-label="${esc(t('joueur.avatarDe',{n:d.name||t('joueur.defaut',{n:i+1})}))}" aria-expanded="${!!d._pick}"><span class="avedit">✎</span></button>
+    <input type="text" id="pname${i}" data-i="${i}" value="${esc(d.name)}" placeholder="${esc(t('joueur.defaut',{n:i+1}))}" maxlength="14" aria-label="${esc(t('joueur.prenom',{n:i+1}))}">
     ${defs.length>2?`<button class="del" data-i="${i}" data-a="del" aria-label="${t('joueur.retirer')}">✕</button>`:'<span></span>'}
     <div class="opts">
       <div class="seg"><button data-i="${i}" data-a="child" aria-pressed="${d.child}">${t('joueur.enfant')}</button><button data-i="${i}" data-a="adult" aria-pressed="${!d.child}">${t('joueur.adulte')}</button></div>
@@ -1455,7 +1460,7 @@ $('#plist').addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); 
   renderSetup(); });
 $('#plist').addEventListener('input',e=>{ const i=+e.target.dataset.i; if(e.target.type==='text') defs[i].name=e.target.value; });
 $('#plist').addEventListener('change',e=>{ const i=+e.target.dataset.i; if(e.target.id.startsWith('page')) defs[i].age=+e.target.value; if(e.target.id.startsWith('plvl')) defs[i].level=e.target.value; renderSetup(); });
-$('#addP').onclick=()=>{ const free=COLORS.find(c=>!defs.some(d=>d.color===c.id)); defs.push({name:t('joueur.defaut',{n:defs.length+1}),gender:'m',child:true,age:9,level:'standard',color:free.id}); renderSetup(); };
+$('#addP').onclick=()=>{ const free=COLORS.find(c=>!defs.some(d=>d.color===c.id)); defs.push({name:'',gender:'m',child:true,age:9,level:'standard',color:free.id}); renderSetup(); };
 $('#durs').onclick=e=>{ const b=e.target.closest('[data-d]'); if(b){ dur=b.dataset.d; renderSetup(); } };
 // Avant chaque nouvelle partie, le serveur donne son accord (un code d'essai n'a droit qu'à un nombre limité de parties).
 async function autoriserPartie(players, durMin){

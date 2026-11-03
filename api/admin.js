@@ -14,8 +14,21 @@ export const REGLAGES_DEFAUT = {
   minuteur: { enfant: 60, adulte: 45 },
   eviter: 15,
   durees: { rapide: 30, classique: 45, grande: 60 },
+  prononciation: [], // [{ e: 'Ishaaq', d: 'إسحاق' }] : comment la voix doit dire certains mots (prénoms arabes…)
   tradRelire: false, // true : les traductions « à relire » sont déjà montrées dans le jeu (sinon seulement les validées)
 };
+
+// Dictionnaire de prononciation : 400 entrées au plus, 60 caractères par mot, sans caractère de contrôle ni doublon.
+function lirePrononciation(liste) {
+  const vus = new Set(), out = [];
+  for (const p of Array.isArray(liste) ? liste : []) {
+    const e = String(p?.e ?? '').replace(/\s+/g, ' ').trim(), d = String(p?.d ?? '').replace(/\s+/g, ' ').trim();
+    if (!e || !d || e.length > 60 || d.length > 60 || /[\u0000-\u001f<>]/.test(e + d) || vus.has(e.toLowerCase())) continue;
+    vus.add(e.toLowerCase()); out.push({ e, d });
+    if (out.length >= 400) break;
+  }
+  return out;
+}
 
 function autorise(request) {
   const pw = process.env.KZ_ADMIN || '', got = request.headers.get('x-admin') || '';
@@ -64,6 +77,7 @@ function verifierReglages(b) {
     eviter: num(b.eviter, 0, 100, 15),
     durees: { rapide: num(b.durees?.rapide, 10, 120, 30), classique: num(b.durees?.classique, 10, 180, 45), grande: num(b.durees?.grande, 10, 240, 60) },
     tradRelire: !!b.tradRelire,
+    prononciation: lirePrononciation(b.prononciation),
   } };
 }
 

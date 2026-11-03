@@ -202,6 +202,10 @@ label.f small{font-weight:700;color:var(--faint)}
     <div class="grid two sec">
       <div class="card"><h2>Temps et répétitions</h2><div class="grid" style="gap:12px" id="tpsF"></div></div>
       <div class="card"><h2>Durées des parties</h2><div class="grid" style="gap:12px" id="durF"></div></div>
+      <div class="card"><h2>Prononciation de la voix</h2><p class="muted small">Pour les mots que la voix dit mal (prénoms arabes, noms propres…). Une ligne par mot : <b>écrit = dit</b>. Astuce : écrire le mot en lettres arabes donne en général la prononciation arabe. L'écran garde l'écriture d'origine, seule la voix change.</p>
+        <textarea id="rgPron" rows="8" spellcheck="false" style="width:100%;font:600 15px/1.5 ui-monospace,monospace" placeholder="Ishaaq = إسحاق"></textarea>
+        <div class="row" style="gap:10px;margin-top:8px;flex-wrap:wrap"><input id="rgPronTest" placeholder="Phrase à écouter, ex. : C'est au tour d'Ishaaq !" style="flex:1 1 260px"><button class="btn g" id="rgPronEcoute" type="button">▶ Écouter</button><span class="msg" id="rgPronMsg"></span></div>
+        <p class="muted small">« Écouter » applique les lignes ci-dessus sans les enregistrer. Il faut avoir ouvert le jeu avec un code sur cet appareil.</p></div>
       <div class="card"><h2>Langues</h2><label class="row" style="gap:10px;justify-content:flex-start;flex-wrap:nowrap;font-weight:800"><input type="checkbox" id="rgTrRelire"> Montrer aussi dans le jeu les traductions « à relire »</label><p class="muted small">Décoché (conseillé) : seules les traductions validées apparaissent ; les autres questions restent en français.</p></div>
     </div>
     <div class="row sec"><button class="btn" id="rgSave">Enregistrer les réglages</button><button class="btn g" id="rgReset">Revenir aux valeurs d'origine</button><span class="msg" id="rgMsg"></span></div>
@@ -455,6 +459,19 @@ $('#qdDel').onclick=async()=>{ const b=$('#qdDel'); if(b.dataset.sure!=='1'){ b.
 
 /* ---------- Réglages ---------- */
 let RG=null, RGD=null;
+function lirePron(txt){ return txt.split('\n').map(l=>l.split('=')).filter(x=>x.length>=2).map(([e,...d])=>({e:e.trim(),d:d.join('=').trim()})).filter(p=>p.e&&p.d); }
+function appliquerPron(t,liste){ const esc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  [...liste].sort((a,b)=>b.e.length-a.e.length).forEach(p=>{ t=t.replace(new RegExp('(^|[^\\p{L}\\p{M}])('+esc(p.e)+')(?=$|[^\\p{L}\\p{M}])','giu'),(m,a)=>a+p.d); }); return t; }
+let pronAudio=null;
+async function ecouterPron(){ const m=$('#rgPronMsg'), liste=lirePron($('#rgPron').value);
+  const phrase=($('#rgPronTest').value||'').trim() || liste.map(p=>p.e).join(', ');
+  if(!phrase){ m.className='msg err'; m.textContent='Écris une phrase ou un mot.'; return; }
+  const dit=appliquerPron(phrase,liste); m.className='msg'; m.textContent='Voix : '+dit;
+  try{ const r=await fetch('/api/voix?lang=fr&ton=chaleureux&text='+encodeURIComponent(dit));
+    if(r.status===401){ m.className='msg err'; m.textContent="Ouvre d'abord le jeu avec ton code sur cet appareil."; return; }
+    if(!r.ok){ m.className='msg err'; m.textContent='La voix ne répond pas ('+r.status+').'; return; }
+    if(pronAudio) pronAudio.pause(); pronAudio=new Audio(URL.createObjectURL(await r.blob())); pronAudio.play(); }
+  catch{ m.className='msg err'; m.textContent='Connexion impossible.'; } }
 async function loadReglages(){ try{ const d=await api('reglages'); RG=structuredClone(d.reglages); RGD=d.defaut; renderRG(); }catch(e){ $('#rgMsg').className='msg err'; $('#rgMsg').textContent=e.message; } }
 function renderRG(){
   const all=[...RG.themes,...Object.keys(THEMES).filter(t=>!RG.themes.includes(t))];
@@ -473,9 +490,12 @@ function renderRG(){
     <label class="f">Ne pas reposer les … dernières questions vues <small>quand un joueur a tout vu dans sa série</small><input type="number" min="0" max="100" data-k="eviter" value="${RG.eviter}"></label>`;
   $('#durF').innerHTML=['rapide','classique','grande'].map(k=>`<label class="f">Partie ${k} <small>minutes</small><input type="number" min="10" max="240" data-k="durees.${k}" value="${RG.durees[k]}"></label>`).join('');
   $$('[data-k]').forEach(i=>i.oninput=()=>{ const [a,b]=i.dataset.k.split('.'); if(b) RG[a][b]=+i.value; else RG[a]=+i.value; });
+  $('#rgPron').value=(RG.prononciation||[]).map(p=>p.e+' = '+p.d).join('\n');
+  $('#rgPron').oninput=()=>{ RG.prononciation=lirePron($('#rgPron').value); };
   $('#rgTrRelire').checked=!!RG.tradRelire; $('#rgTrRelire').onchange=()=>{ RG.tradRelire=$('#rgTrRelire').checked; };
 }
 $('#dfAdd').onclick=()=>{ RG.defis.push('family'); renderRG(); };
+$('#rgPronEcoute').onclick=ecouterPron;
 $('#rgSave').onclick=async()=>{ const m=$('#rgMsg'); m.className='msg'; m.textContent='Enregistrement…'; try{ const d=await api('reglages_maj',{reglages:RG}); RG=d.reglages; renderRG(); m.className='msg ok'; m.textContent='Enregistré. Les nouvelles parties utiliseront ces réglages (moins d\'une minute).'; }catch(e){ m.className='msg err'; m.textContent=e.message; } };
 $('#rgReset').onclick=()=>{ RG=structuredClone(RGD); renderRG(); $('#rgMsg').className='msg'; $('#rgMsg').textContent='Valeurs d\'origine remises : clique sur Enregistrer pour les appliquer.'; };
 
