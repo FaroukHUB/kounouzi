@@ -44,3 +44,14 @@ Une seule appli, une seule base, une seule banque de questions. Le français est
 
 - Code : redéployer l'ancien déploiement de production dans Vercel (« Promote » / « Instant Rollback »), ou revenir au commit `529de04`.
 - Base : la migration est uniquement additive (colonne `trad`, actions `trad_import` et `trad_statut`). Copie des questions avant la mission : `kounouzi.questions_sauvegarde_20261103`. L'ancien code ignore la colonne `trad`.
+
+## E-mail du code après achat (Brevo)
+
+Après un paiement Stripe, `api/merci.js` envoie le code d'accès à l'adresse saisie chez Stripe, **une seule fois par paiement**
+(repère `kz_mail` dans les métadonnées du paiement Stripe). Inactif tant que ces variables ne sont pas définies dans Vercel :
+
+- `BREVO_API_KEY` : clé API Brevo (SMTP & API → Clés API), jamais dans le code ;
+- `KZ_MAIL_FROM` : expéditeur validé dans Brevo (ex. `bonjour@kounouzi.com`, domaine authentifié) ;
+- `KZ_MAIL_NOM` (facultatif, défaut « Kounouzi ») ; `KZ_CONTACT` sert d'adresse de réponse.
+
+Un échec d'envoi ne bloque jamais l'accès : la page Merci affiche toujours le code.
