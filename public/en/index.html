@@ -17,7 +17,7 @@
 <meta property="og:title" content="Kounouzi — Play together, learn differently, pass on what matters">
 <meta property="og:description" content="The family game that brings children and adults together around challenges, knowledge and Islamic values.">
 <meta property="og:image" content="https://kounouzi-taupe.vercel.app/img/site/en/plateau.webp">
-<link rel="icon" href="/img/app/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/logo/favicon-32.png"><link rel="icon" type="image/png" sizes="48x48" href="/img/logo/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/img/logo/favicon-192.png">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -351,6 +351,11 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
   .dock .btn{padding:13px 18px;font-size:15.5px}
 }
 @media (min-width:721px){ .m-only{display:none!important} }
+
+.top .wrap{height:76px}
+.logo img.brand{width:auto;height:66px;border-radius:0;box-shadow:none;filter:drop-shadow(0 0 10px rgba(255,214,120,.18)) drop-shadow(0 3px 8px rgba(0,0,0,.45))}
+footer .logo img.brand{height:72px}
+@media (max-width:720px){.top .wrap{height:62px}.logo img.brand{height:54px}}
 </style>
 </head>
 <body>
@@ -358,7 +363,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
 
 <header class="top">
   <div class="wrap">
-    <a class="logo" href="#" aria-label="Kounouzi, home"><img src="/img/app/icon-192.png" alt="" width="38" height="38"><b>Kounouzi</b><span lang="ar">كنوزي</span></a>
+    <a class="logo" href="#" aria-label="Kounouzi, home"><img class="brand" src="/img/logo/kounouzi.webp" alt="Kounouzi" width="86" height="66"></a>
     <nav aria-label="Sections"><a href="#benefices">Benefits</a><a href="#niveau">Every level</a><a href="#essayer">Try it</a><a href="#difference">Why Kounouzi</a><a href="#offre">Offer</a><a href="#faq">FAQ</a></nav>
     <div class="acts">
       <a class="langsw" href="/" hreflang="fr" lang="fr" data-lang="fr" title="Version française" aria-label="Version française"><img src="/img/flags/fr.svg" alt="" width="24" height="16"></a>
@@ -589,7 +594,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-bet
 </main>
 
 <footer><div class="wrap">
-  <a class="logo" href="#"><img src="/img/app/icon-192.png" alt="" width="30" height="30" style="width:30px;height:30px;border-radius:9px"><b style="font-size:21px">Kounouzi</b></a>
+  <a class="logo" href="#" aria-label="Kounouzi"><img class="brand" src="/img/logo/kounouzi.webp" alt="Kounouzi" width="94" height="72" loading="lazy"></a>
   <span>Play together, learn differently, pass on what matters — © <span id="yr">2026</span> · <a href="/" hreflang="fr" lang="fr" data-lang="fr" style="color:inherit">Version française</a></span>
   <span id="contactFoot"></span>
 </div></footer>
