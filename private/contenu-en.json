@@ -1,18 +1,18 @@
 {
  "defis": {
   "CH-001": {
-   "ti": "5 little jumps",
+   "ti": "Kangaroo jumps",
    "cl": "Move",
-   "tx": "Do 5 little jumps on the spot.",
+   "tx": "Jump on the spot, crossing your feet on every jump, with your hands up like kangaroo paws.",
    "v": [
     "5 jumps",
     "8 jumps"
    ]
   },
   "CH-002": {
-   "ti": "Lightning balance",
+   "ti": "The flamingo",
    "cl": "Move",
-   "tx": "Stand on one foot without putting the other one down.",
+   "tx": "Stand on one leg like a flamingo, arms out like wings, without putting the other foot down.",
    "v": [
     "5 s",
     "10 s",
@@ -20,223 +20,228 @@
    ]
   },
   "CH-004": {
-   "ti": "Mystery nose",
+   "ti": "Nose, ear, chin",
    "cl": "Move",
-   "tx": "Close your eyes and touch your nose with your index finger.",
+   "tx": "Close your eyes and touch your nose, then your ear, then your chin, without a mistake and without opening your eyes.",
    "v": []
   },
   "CH-005": {
-   "ti": "Statue",
+   "ti": "Museum statue",
    "cl": "Move",
-   "tx": "Stay completely still.",
+   "tx": "Strike a hero pose and freeze, even if the others pull funny faces at you (without touching you).",
    "v": [
     "15 s",
     "25 s"
    ]
   },
   "CH-006": {
-   "ti": "On tiptoe",
+   "ti": "Catch a star",
    "cl": "Move",
-   "tx": "Stand on tiptoe without moving.",
+   "tx": "On tiptoe, pretend to catch a star high above you, without dropping back onto your heels.",
    "v": [
     "5 s",
     "10 s"
    ]
   },
   "CH-007": {
-   "ti": "The invisible line",
+   "ti": "Tightrope over crocodiles",
    "cl": "Move",
-   "tx": "Walk 6 steps, placing your heel right in front of the toes of your other foot.",
+   "tx": "Walk 6 steps placing your heel right in front of your toes, as if on a rope above a river full of crocodiles.",
    "v": []
   },
   "CH-008": {
-   "ti": "The royal cushion",
+   "ti": "The royal crown",
    "cl": "Move",
-   "tx": "Keep a small, light cushion on your head without dropping it.",
+   "tx": "Put a small cushion on your head like a crown and walk like a king or a queen, without dropping it.",
    "v": [
-    "5 s",
-    "10 s"
+    "5 steps",
+    "10 steps"
    ]
   },
   "CH-009": {
-   "ti": "Crossed hands",
+   "ti": "Tangled hands",
    "cl": "Move",
-   "tx": "Touch your right ear with your left hand, then your left ear with your right hand, 4 times.",
+   "tx": "Hold your right ear with your left hand and your nose with your right hand, then swap as fast as you can, 4 times in a row.",
    "v": []
   },
   "CH-010": {
-   "ti": "Knee up",
+   "ti": "The one-legged pirate",
    "cl": "Move",
-   "tx": "Lift one knee and count to 10 without putting your foot down.",
+   "tx": "Lift one knee and count to 10 in a pirate voice, without putting your foot down. \"One, matey! Two…\"",
    "v": [
-    "count to 5"
+    "up to 5",
+    "up to 10"
    ]
   },
   "CH-012": {
-   "ti": "Walking robot",
+   "ti": "Robot running out of battery",
    "cl": "Move",
-   "tx": "Take 8 steps walking like a robot.",
+   "tx": "Take 8 steps like a robot whose batteries are nearly flat: slower and slower… until it breaks down!",
    "v": []
   },
   "CH-014": {
-   "ti": "Arms out",
+   "ti": "The aeroplane",
    "cl": "Move",
-   "tx": "Keep your arms stretched out to the sides.",
+   "tx": "Arms out like the wings of a plane, make the engine noise and lean into the turns without falling.",
    "v": [
     "8 s",
     "15 s"
    ]
   },
   "CH-016": {
-   "ti": "Pass the cushion",
+   "ti": "Cushion under the leg",
    "cl": "Move",
-   "tx": "Pass a small cushion from one hand to the other 10 times without dropping it.",
-   "v": []
+   "tx": "Pass a small cushion from one hand to the other under your raised leg, without dropping it.",
+   "v": [
+    "5 times",
+    "10 times"
+   ]
   },
   "CH-017": {
-   "ti": "The giant walk",
+   "ti": "The hungry giant",
    "cl": "Move",
-   "tx": "Take 5 big, very slow steps as if you were a giant.",
+   "tx": "Take 5 slow-motion giant steps, saying in a deep voice: \"I am the giant… and I am hungry!\"",
    "v": []
   },
   "CH-018": {
-   "ti": "The tiny walk",
+   "ti": "The busy ant",
    "cl": "Move",
-   "tx": "Take 10 tiny steps, each no longer than your foot.",
+   "tx": "Take 10 busy-ant steps, tiny and very fast, whispering \"sorry, sorry, I am late!\".",
    "v": []
   },
   "CH-019": {
-   "ti": "Mirror pose",
+   "ti": "The mirror",
    "cl": "Move",
-   "tx": "The game shows a very simple pose. Copy it for 5 seconds.",
+   "tx": "A player of your choice makes 3 slow moves: copy them at the same time, like their reflection in a mirror.",
    "v": []
   },
   "CH-020": {
-   "ti": "BOSS coordination",
+   "ti": "BOSS acrobat",
    "cl": "Move",
-   "tx": "Do it all: balance + 5 little jumps + touch your nose with your eyes closed.",
+   "tx": "Do it all without stopping: flamingo for 5 seconds, 5 crossed-feet jumps, then touch your nose with your eyes closed.",
    "v": []
   },
   "CH-021": {
-   "ti": "The lion",
+   "ti": "The lion with a cold",
    "cl": "Animals",
-   "tx": "Roar like a lion.",
+   "tx": "Roar like a lion trying to be very scary… but who sneezes every time!",
    "v": []
   },
   "CH-022": {
-   "ti": "The cow",
+   "ti": "The sleepy cow",
    "cl": "Animals",
-   "tx": "Moo like a cow.",
+   "tx": "Moo like a cow, louder and louder… then softer and softer, until you fall asleep snoring.",
    "v": []
   },
   "CH-023": {
-   "ti": "The cat",
+   "ti": "The cuddly cat",
    "cl": "Animals",
-   "tx": "Act like a cat for 5 seconds.",
+   "tx": "Be a cat begging for cuddles: meow very softly and purr for 5 seconds.",
    "v": []
   },
   "CH-024": {
-   "ti": "The elephant",
+   "ti": "The spraying elephant",
    "cl": "Animals",
-   "tx": "Imitate an elephant's call or trunk.",
+   "tx": "Make a trunk with your arm, trumpet like an elephant and pretend to spray the whole family.",
    "v": []
   },
   "CH-025": {
-   "ti": "The hen",
+   "ti": "The hen and the giant egg",
    "cl": "Animals",
-   "tx": "Act like a hen until a player guesses the animal.",
+   "tx": "Be a hen that has just laid a giant egg, until a player guesses the animal.",
    "v": []
   },
   "CH-026": {
-   "ti": "The frog",
+   "ti": "The greedy frog",
    "cl": "Animals",
-   "tx": "Get the others to guess a frog using only gestures.",
+   "tx": "Get the others to guess a frog without talking: little crouching jumps and a tongue catching flies.",
    "v": []
   },
   "CH-027": {
-   "ti": "The penguin",
+   "ti": "Penguin on the ice",
    "cl": "Animals",
-   "tx": "Walk 5 steps like a penguin.",
+   "tx": "Walk 5 steps like a penguin sliding on ice, arms tight against your body.",
    "v": []
   },
   "CH-028": {
    "ti": "The silent fish",
    "cl": "Animals",
-   "tx": "Get the others to guess a fish without making a sound.",
+   "tx": "Get the others to guess a fish without a sound: mouth opening and closing, fins wiggling.",
    "v": []
   },
   "CH-029": {
-   "ti": "The rabbit",
+   "ti": "The scared rabbit",
    "cl": "Animals",
-   "tx": "Get the others to guess a rabbit using gestures.",
+   "tx": "Get the others to guess a rabbit that is very scared of a fox, using gestures only.",
    "v": []
   },
   "CH-030": {
-   "ti": "The giraffe",
+   "ti": "The hungry giraffe",
    "cl": "Animals",
-   "tx": "Get the others to guess a giraffe without speaking.",
+   "tx": "Get the others to guess a giraffe trying to reach the leaves at the top of the tree, without talking.",
    "v": []
   },
   "CH-031": {
-   "ti": "Three calls",
+   "ti": "Farmyard chorus",
    "cl": "Animals",
-   "tx": "Make the calls of 3 animals chosen by the card, one after another.",
+   "tx": "Do the dog, the sheep and the donkey sounds one after the other, as fast as you can and without laughing.",
    "v": []
   },
   "CH-032": {
    "ti": "Mystery animal",
    "cl": "Animals",
-   "tx": "The game gives you 3 clues. Guess the animal.",
+   "tx": "Think of an animal. The others have 5 yes-or-no questions to find it. If they fail, you win!",
    "v": []
   },
   "CH-033": {
    "ti": "Surprise mime",
    "cl": "Animals",
-   "tx": "The game shows an animal: get the family to guess it without speaking.",
+   "tx": "The player on your right whispers an animal in your ear. Get the others to guess it without talking, in under 30 seconds.",
    "v": []
   },
   "CH-034": {
-   "ti": "No gestures",
+   "ti": "Hands behind your back",
    "cl": "Animals",
-   "tx": "Get the others to guess an animal using only its call, with no gestures.",
+   "tx": "Get the others to guess an animal of your choice using only its sound, with your hands behind your back.",
    "v": []
   },
   "CH-035": {
-   "ti": "No sounds",
+   "ti": "Not a sound!",
    "cl": "Animals",
-   "tx": "Get the others to guess an animal using only gestures, with no sound.",
+   "tx": "Get the others to guess an animal of your choice with gestures only, without a sound… not even a giggle!",
    "v": []
   },
   "CH-036": {
-   "ti": "Express zoo",
+   "ti": "The mouse’s zoo",
    "cl": "Animals",
-   "tx": "Name 5 animals in 10 seconds.",
+   "tx": "Name 5 animals in 10 seconds… in a tiny mouse voice.",
    "v": [
-    "4 animals"
+    "4 animals",
+    "5 animals"
    ]
   },
   "CH-037": {
-   "ti": "Animal letter",
+   "ti": "Your name zoo",
    "cl": "Animals",
-   "tx": "Name an animal whose name starts with the letter shown.",
+   "tx": "Name an animal for each letter of your first name.",
    "v": []
   },
   "CH-038": {
-   "ti": "Who lives where?",
+   "ti": "Water, sky, desert",
    "cl": "Animals",
-   "tx": "The game gives an animal. Say whether it lives mostly in water, on land or in the air.",
+   "tx": "Name an animal that lives in water, one that flies in the sky and one that lives in the desert, in 15 seconds.",
    "v": []
   },
   "CH-039": {
    "ti": "BOSS zoo",
    "cl": "Animals",
-   "tx": "Get the others to guess 3 different animals in under 40 seconds.",
+   "tx": "Get the others to guess 3 animals in under 40 seconds: one with gestures, one with its sound, one with both.",
    "v": []
   },
   "CH-040": {
-   "ti": "The fake animal",
+   "ti": "The made-up animal",
    "cl": "Animals",
-   "tx": "Among 3 names shown, find the one that is not an animal.",
+   "tx": "Invent an animal by mixing two animals (an \"elephenguin\"!), give it a name and show what it can do.",
    "v": []
   },
   "CH-041": {
@@ -246,15 +251,15 @@
    "v": []
   },
   "CH-042": {
-   "ti": "Round of compliments",
+   "ti": "Breaking news compliments",
    "cl": "Family",
-   "tx": "Give each player a sincere compliment.",
+   "tx": "Give each player a sincere compliment, in the voice of a news presenter announcing big news.",
    "v": []
   },
   "CH-043": {
-   "ti": "One good quality",
+   "ti": "The golden quality",
    "cl": "Family",
-   "tx": "Name a good quality of the player on your left.",
+   "tx": "Name a quality of the player on your left, as if you were giving them a gold medal.",
    "v": []
   },
   "CH-044": {
@@ -264,9 +269,9 @@
    "v": []
   },
   "CH-045": {
-   "ti": "Family high five",
+   "ti": "The secret high-five",
    "cl": "Family",
-   "tx": "High-five each player who agrees.",
+   "tx": "Invent a special high-five (up, down, to the side…) and do it with every player who agrees.",
    "v": []
   },
   "CH-046": {
@@ -276,15 +281,15 @@
    "v": []
   },
   "CH-048": {
-   "ti": "Applause",
+   "ti": "Step-by-step applause",
    "cl": "Family",
-   "tx": "Get the whole table clapping in under 15 seconds.",
+   "tx": "Get the whole table clapping: first with one finger, then two, then whole hands, louder and louder!",
    "v": []
   },
   "CH-049": {
-   "ti": "Kind wish",
+   "ti": "The kind spell",
    "cl": "Family",
-   "tx": "Choose a player and wish them something good.",
+   "tx": "Choose a player and wish them something good, like a wizard casting a kind spell.",
    "v": []
   },
   "CH-050": {
@@ -324,25 +329,27 @@
    "v": []
   },
   "CH-056": {
-   "ti": "No yes or no",
+   "ti": "No yes, no no",
    "cl": "Oh no!",
-   "tx": "Until your next turn, you are not allowed to say \"yes\" or \"no\".",
+   "tx": "Until your next turn, you may not say \"yes\" or \"no\". The others will try to trick you!",
    "v": [
-    "limited to 30 seconds"
+    "for 30 seconds",
+    "until your next turn"
    ]
   },
   "CH-057": {
-   "ti": "Silence!",
+   "ti": "Gestures only",
    "cl": "Oh no!",
-   "tx": "Stay silent until your next turn.",
+   "tx": "Until your next turn, you cannot talk: you can only communicate with gestures.",
    "v": [
-    "20 seconds only"
+    "for 20 seconds",
+    "until your next turn"
    ]
   },
   "CH-058": {
-   "ti": "Whisper only",
+   "ti": "The spy",
    "cl": "Oh no!",
-   "tx": "Until your next turn, speak only in a whisper.",
+   "tx": "Until your next turn, only speak in a whisper, like a spy on a secret mission.",
    "v": []
   },
   "CH-059": {
@@ -360,9 +367,9 @@
    ]
   },
   "CH-061": {
-   "ti": "Don't smile!",
+   "ti": "Stone face",
    "cl": "Oh no!",
-   "tx": "Stay serious for 20 seconds.",
+   "tx": "Keep the most serious face in the world while each player says a funny word to you.",
    "v": []
   },
   "CH-062": {
@@ -380,9 +387,9 @@
    "v": []
   },
   "CH-064": {
-   "ti": "Full answer",
+   "ti": "O noble family",
    "cl": "Oh no!",
-   "tx": "Until your next turn, every time you answer, you must use a full sentence.",
+   "tx": "Until your next turn, start every sentence with \"O noble family…\".",
    "v": []
   },
   "CH-065": {
@@ -392,23 +399,24 @@
    "v": []
   },
   "CH-066": {
-   "ti": "Hand on head",
+   "ti": "The flying hat",
    "cl": "Oh no!",
-   "tx": "Keep one hand on your head until your next turn.",
+   "tx": "Until your next turn, keep one hand on your head as if you were holding a hat in the wind.",
    "v": []
   },
   "CH-067": {
-   "ti": "Arms crossed",
+   "ti": "Mouse voice",
    "cl": "Oh no!",
-   "tx": "Keep your arms crossed until your next turn.",
+   "tx": "Until your next turn, speak in a tiny mouse voice.",
    "v": [
-    "20 seconds"
+    "for 20 seconds",
+    "until your next turn"
    ]
   },
   "CH-068": {
-   "ti": "The secret word",
+   "ti": "The trap word",
    "cl": "Oh no!",
-   "tx": "The game shows an everyday word. You must avoid saying it until your next turn.",
+   "tx": "The player on your left picks an everyday word (\"water\", \"turn\"…). Avoid saying it until your next turn.",
    "v": []
   },
   "CH-069": {
@@ -424,87 +432,90 @@
    "v": []
   },
   "CH-071": {
-   "ti": "Memory: 5 pictures",
+   "ti": "Speed memory",
    "cl": "Memory",
-   "tx": "Look at 5 pictures for 10 seconds, then name at least 4 of them.",
+   "tx": "Look around you for 10 seconds, close your eyes and name objects in the room.",
    "v": [
-    "4 pictures, find 3"
+    "3 objects",
+    "5 objects"
    ]
   },
   "CH-072": {
-   "ti": "Number sequence",
+   "ti": "The secret code",
    "cl": "Memory",
-   "tx": "Memorise, then repeat the sequence of numbers shown.",
+   "tx": "The player on your right slowly says a sequence of numbers. Repeat it without a mistake.",
    "v": [
     "3 numbers",
-    "4",
-    "5-6"
+    "4 numbers",
+    "5 numbers, backwards!"
    ]
   },
   "CH-073": {
-   "ti": "Word sequence",
+   "ti": "At the market",
    "cl": "Memory",
-   "tx": "Memorise, then repeat the words in the right order.",
+   "tx": "The player on your right says: \"At the market I bought…\" and a list of things. Repeat them in the right order.",
    "v": [
-    "3 words",
-    "4-5"
+    "3 things",
+    "5 things"
    ]
   },
   "CH-074": {
-   "ti": "Colours in order",
+   "ti": "The rainbow",
    "cl": "Memory",
-   "tx": "Memorise the order of the colours, then repeat it.",
+   "tx": "Point, in order, to something red, something blue and something yellow around you, as fast as you can.",
    "v": []
   },
   "CH-075": {
-   "ti": "What's missing?",
+   "ti": "What is missing?",
    "cl": "Memory",
-   "tx": "Look at 5 objects. The game hides one. Find which one.",
+   "tx": "A player puts some objects in front of you. Close your eyes: they hide one. Find which!",
    "v": [
-    "4 objects"
+    "4 objects",
+    "6 objects"
    ]
   },
   "CH-076": {
-   "ti": "5 fruits",
+   "ti": "Crunchy fruits",
    "cl": "Thinking",
-   "tx": "Name 5 fruits in 15 seconds.",
+   "tx": "Name fruits in 15 seconds, pretending to bite into each one.",
    "v": [
-    "4 fruits"
+    "4 fruits",
+    "6 fruits"
    ]
   },
   "CH-079": {
-   "ti": "Same colour",
+   "ti": "Your pawn’s colour",
    "cl": "Observation",
-   "tx": "Find 3 objects around you that are the colour shown.",
+   "tx": "Find 3 things around you the same colour as your pawn, in 15 seconds.",
    "v": []
   },
   "CH-080": {
-   "ti": "Lightning letter",
+   "ti": "Your first letter",
    "cl": "Language",
-   "tx": "Find 5 words starting with the letter shown.",
+   "tx": "Find words that start with the first letter of your first name.",
    "v": [
-    "3 words; easier letter"
+    "3 words",
+    "5 words"
    ]
   },
   "CH-081": {
-   "ti": "Set sentence",
+   "ti": "The silly sentence",
    "cl": "Language",
-   "tx": "Make a correct sentence with the 3 words shown.",
+   "tx": "Make a sentence with these 3 words: camel, umbrella and couscous.",
    "v": []
   },
   "CH-084": {
-   "ti": "Lightning riddle",
+   "ti": "The riddle",
    "cl": "Logic",
-   "tx": "Solve a little riddle suited to your age.",
+   "tx": "Make up a riddle and ask the family. If someone solves it, you win!",
    "v": []
   },
   "CH-085": {
    "ti": "BOSS memory",
    "cl": "Memory",
-   "tx": "Memorise 5 items, answer a sum, then recall the 5 items.",
+   "tx": "The player on your right names some objects. Work out 7 + 5, then repeat all the objects in order.",
    "v": [
-    "4 items",
-    "3 items + a very simple sum"
+    "5 objects"
    ]
   },
   "CH-086": {
@@ -558,6 +569,72 @@
    "ti": "GRAND BOSS KOUNOUZI",
    "cl": "Big challenge",
    "tx": "Complete 3 trials: a fun trial, a memory or logic trial, then a knowledge trial.",
+   "v": []
+  },
+  "CH-101": {
+   "ti": "The busy crab",
+   "cl": "Move",
+   "tx": "Cross the room walking sideways like a crab, snapping your claws.",
+   "v": []
+  },
+  "CH-102": {
+   "ti": "Slow-motion goal",
+   "cl": "Move",
+   "tx": "Pretend to score a goal in slow motion… and celebrate in slow motion too!",
+   "v": []
+  },
+  "CH-103": {
+   "ti": "Magnet hands",
+   "cl": "Move",
+   "tx": "Press your hands together: they are magnetic! Try to pull them apart for 10 seconds, pulling big effort faces.",
+   "v": []
+  },
+  "CH-104": {
+   "ti": "The cheeky monkey",
+   "cl": "Animals",
+   "tx": "Be a monkey scratching its head, finding a banana, peeling it and eating it with a big grin, without talking.",
+   "v": []
+  },
+  "CH-105": {
+   "ti": "The thirsty camel",
+   "cl": "Animals",
+   "tx": "Walk like a very tired camel looking for water, then drink from an imaginary oasis with a big \"aaah!\".",
+   "v": []
+  },
+  "CH-106": {
+   "ti": "The parrot",
+   "cl": "Oh no!",
+   "tx": "Until your next turn, repeat the last sentence said by the player before you, like a parrot.",
+   "v": []
+  },
+  "CH-107": {
+   "ti": "The weather report",
+   "cl": "Oh no!",
+   "tx": "Until your next turn, talk like a weather presenter: \"Bright sunshine over the board, a few clouds over the Maktaba…\"",
+   "v": []
+  },
+  "CH-108": {
+   "ti": "The very polite waiter",
+   "cl": "Family",
+   "tx": "Be the waiter in a fancy restaurant: take every player’s imaginary order, with lots of fancy manners.",
+   "v": []
+  },
+  "CH-109": {
+   "ti": "The funny memory",
+   "cl": "Family",
+   "tx": "In 20 seconds, tell a funny memory the family shared.",
+   "v": []
+  },
+  "CH-110": {
+   "ti": "Tongue twister",
+   "cl": "Language",
+   "tx": "Say it 3 times, very fast and without a slip: \"Six slick camels seek six shiny scarves.\"",
+   "v": []
+  },
+  "CH-111": {
+   "ti": "The inventor",
+   "cl": "Thinking",
+   "tx": "Invent a funny machine to help at home and explain in 20 seconds how it works.",
    "v": []
   }
  },

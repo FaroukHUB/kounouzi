@@ -14,6 +14,7 @@ export const REGLAGES_DEFAUT = {
   minuteur: { enfant: 60, adulte: 45 },
   eviter: 15,
   durees: { rapide: 30, classique: 45, grande: 60 },
+  explications: ['religion'], // thèmes dont l'explication est proposée après la réponse
   prononciation: [], // [{ e: 'Ishaaq', d: 'إسحاق' }] : comment la voix doit dire certains mots (prénoms arabes…)
   tradRelire: false, // true : les traductions « à relire » sont déjà montrées dans le jeu (sinon seulement les validées)
 };
@@ -77,6 +78,7 @@ function verifierReglages(b) {
     eviter: num(b.eviter, 0, 100, 15),
     durees: { rapide: num(b.durees?.rapide, 10, 120, 30), classique: num(b.durees?.classique, 10, 180, 45), grande: num(b.durees?.grande, 10, 240, 60) },
     tradRelire: !!b.tradRelire,
+    explications: (Array.isArray(b.explications) ? b.explications : D.explications).filter((t, i, a) => THEMES.includes(t) && a.indexOf(t) === i),
     prononciation: lirePrononciation(b.prononciation),
   } };
 }

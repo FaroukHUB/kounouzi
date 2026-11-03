@@ -978,7 +978,9 @@ async function askQuestion(p, {theme, title, intro}={}){
   // Le bouton arabe n'existe que pour la Religion (question, réponse ou explication en arabe).
   const L0 = LANG!=='fr' && q.q[LANG] && q.r[LANG] ? LANG : 'fr';
   let lang=L0; const religion = theme==='religion';
-  const hasArQ = religion && !!q.q.ar, hasArAny = religion && !!(q.q.ar||q.r.ar||q.e.ar);
+  // Explication proposée seulement pour les thèmes choisis dans le tableau de bord (par défaut : la Religion).
+  const avecExpl = (Array.isArray(RG.explications)? RG.explications : ['religion']).includes(theme);
+  const hasArQ = religion && !!q.q.ar, hasArAny = religion && !!(q.q.ar||q.r.ar||(avecExpl&&q.e.ar));
   const secs = p.child?(RG.minuteur?.enfant||60):(RG.minuteur?.adulte||45); let left=secs, timer=null, revealed=false;
   function draw(){
     const LQ = lang==='ar'&&q.q.ar? 'ar' : L0, LR = lang==='ar'&&q.r.ar? 'ar' : L0;
@@ -986,7 +988,7 @@ async function askQuestion(p, {theme, title, intro}={}){
     C.win.innerHTML = `<div class="meta"><span class="tag">${title?esc(title):themeNom(theme)}</span><span class="tag">${t('q.niveau',{d:q.d})}</span><span class="tag">${esc(p.name)}</span>${L0!==LANG?`<span class="tag qfr">${t('q.enFrancais')}</span>`:''}</div>
       <div class="qtext ${LQ==='ar'?'ar':''}" dir="${LQ==='ar'?'rtl':'ltr'}" lang="${LQ}">${esc(q.q[LQ])}</div>
       ${revealed? `<div class="ans" dir="${LR==='ar'?'rtl':'ltr'}" lang="${LR}"><small>${t('q.reponse')}</small>${esc(q.r[LR])}</div>
-        ${q.e.fr||(religion&&q.e.ar)? `<button class="linkbtn" id="explBtn">${t('q.voirExpl')}</button><div class="expl" id="expl" hidden><span lang="${LE}">${esc(q.e[LE]||'')}</span>${religion&&q.e.ar?`<span class="ar" dir="rtl" lang="ar">${esc(q.e.ar)}</span>`:''}</div>`:''}
+        ${avecExpl&&(q.e.fr||(religion&&q.e.ar))? `<button class="linkbtn" id="explBtn">${t('q.voirExpl')}</button><div class="expl" id="expl" hidden><span lang="${LE}">${esc(q.e[LE]||'')}</span>${religion&&q.e.ar?`<span class="ar" dir="rtl" lang="ar">${esc(q.e.ar)}</span>`:''}</div>`:''}
         ${q.s?`<div class="src">${esc(q.s)}</div>`:''}`
       : `<div class="timer" id="tm"><span id="tmv">${t('q.secondes',{n:left})}</span><span class="bar"><i id="tmb" style="width:${left/secs*100}%"></i></span></div>`}`;
     const eb=C.win.querySelector('#explBtn'); if(eb) eb.onclick=()=>{ C.win.querySelector('#expl').hidden=false; eb.remove();
@@ -1001,7 +1003,7 @@ async function askQuestion(p, {theme, title, intro}={}){
     const show = revealed? hasArAny : hasArQ;
     if(show && !lb){ lb=document.createElement('button'); lb.className='langbtn';
       lb.onclick=()=>{ lang= lang==='ar'? L0 : 'ar'; draw();
-        if(lang==='ar' && revealed && !q.q.ar && !q.r.ar && q.e.ar){ const x=C.win.querySelector('#explBtn'); if(x) x.click(); else say(q.e.ar,{lang:'ar'}); }
+        if(lang==='ar' && revealed && !q.q.ar && !q.r.ar && q.e.ar && avecExpl){ const x=C.win.querySelector('#explBtn'); if(x) x.click(); else say(q.e.ar,{lang:'ar'}); }
         else readQ(); };
       C.face.appendChild(lb); }
     if(lb){ lb.hidden=!show; lb.textContent= lang==='ar'? t('q.retourLangue',{}) : 'ع'; lb.setAttribute('aria-label',t('q.arabe')); }

@@ -737,7 +737,7 @@ async function openQ(){ phase='q'; const q=DQ[cur];
   btns([]); await flipTo(q.face,`<span class="tag">${esc(q.t)}</span><div class="q">${esc(q.q)}</div>`);
   btns([['Voir la réponse','btn-gold',reveal]]); }
 function reveal(){ const q=DQ[cur]; phase='a';
-  win.innerHTML=`<span class="tag">${esc(q.t)}</span><div class="q" style="font-size:clamp(13px,5cqw,17px)">${esc(q.q)}</div><div class="ans">${esc(q.r)}</div><div class="ex">${esc(q.e)}</div>${q.s?`<div class="src">${esc(q.s)}</div>`:''}`;
+  win.innerHTML=`<span class="tag">${esc(q.t)}</span><div class="q" style="font-size:clamp(13px,5cqw,17px)">${esc(q.q)}</div><div class="ans">${esc(q.r)}</div>${q.face==='religion'?`<div class="ex">${esc(q.e)}</div>`:''}${q.s?`<div class="src">${esc(q.s)}</div>`:''}`;
   help.innerHTML='<b>3. La famille valide</b> : comme dans le vrai jeu, ce sont les joueurs qui décident.';
   btns([['Bonne réponse <small>+100</small>','b-good',()=>verdict(100)],['En partie <small>+50</small>','b-mid',()=>verdict(50)],['Pas cette fois','b-bad',()=>verdict(0)]]); }
 async function verdict(n){ if(n){ ST.k+=n; upd(['scK','scT']); toast(n===100?'Bravo ! +100 Kounouz':'Pas mal ! +50 Kounouz'); if(n===100) confetti(); navigator.vibrate?.(20); } else toast('Ce sera pour la prochaine !');
