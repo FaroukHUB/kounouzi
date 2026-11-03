@@ -37,7 +37,7 @@ const q=new URLSearchParams(location.search), box=document.getElementById('box')
 // Langue : celle du parcours d'achat (?lang=en), sinon le choix gardé sur l'appareil.
 let L=q.get('lang'); if(!L){ try{ L=localStorage.getItem('kounouzi_lang'); }catch{} } L= L==='en'?'en':'fr';
 if(L==='en'){ try{ localStorage.setItem('kounouzi_lang','en'); }catch{} document.cookie='kz_lang=en; path=/; max-age=31536000; samesite=lax'; q.set('lang','en'); }
-const T={fr:{titre:'Merci — Kounouzi',verif:'Vérification…',attente:'On confirme ton paiement, un instant.',merci:'Merci, bienvenue !',ouvert:"Kounouzi est ouvert sur cet appareil. Voici ton code d'accès : garde-le pour ouvrir le jeu sur les autres appareils de la famille.",copier:'Copier le code',jouer:'Jouer à Kounouzi →',astuce:"Astuce : fais une capture d'écran de cette page.",copie:'Code copié ✓',selection:'Sélectionne le code et copie-le',oups:'Oups',introuvable:'Paiement introuvable.',retour:'Retour',accueil:'/#acheter',connexion:"Connexion impossible. Recharge la page dans un instant : ton paiement n'est pas perdu."},
+const T={fr:{titre:'Merci — Kounouzi',verif:'Vérification…',attente:'On confirme ton paiement, un instant.',merci:'Merci, bienvenue !',ouvert:"Kounouzi est ouvert sur cet appareil. Voici ton code d'accès : garde-le pour ouvrir le jeu sur les autres appareils de la famille.",copier:'Copier le code',jouer:'Jouer à Kounouzi →',astuce:"Astuce : fais une capture d'écran de cette page.",copie:'Code copié ✓',selection:'Sélectionne le code et copie-le',oups:'Oups',introuvable:'Paiement introuvable.',retour:'Retour',accueil:'/#offre',connexion:"Connexion impossible. Recharge la page dans un instant : ton paiement n'est pas perdu."},
  en:{titre:'Thank you — Kounouzi',verif:'Checking…',attente:'We are confirming your payment, one moment.',merci:'Thank you, welcome!',ouvert:'Kounouzi is open on this device. Here is your access code: keep it to open the game on your family\'s other devices.',copier:'Copy the code',jouer:'Play Kounouzi →',astuce:'Tip: take a screenshot of this page.',copie:'Code copied ✓',selection:'Select the code and copy it',oups:'Oops',introuvable:'Payment not found.',retour:'Back',accueil:'/en/#offre',connexion:'Cannot connect. Reload the page in a moment: your payment is not lost.'}}[L];
 document.documentElement.lang=L; document.title=T.titre; document.getElementById('h').textContent=T.verif; document.getElementById('p').textContent=T.attente;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -45,6 +45,7 @@ async function go(n=0){
   try{
     const r=await fetch('/api/merci?'+q.toString()); const d=await r.json();
     if(d.ok){
+      if(d.achat) try{ gtag('event','purchase',{transaction_id:d.achat.ref,currency:d.achat.devise,value:d.achat.valeur,items:[{item_id:'kounouzi',item_name:'Kounouzi',price:d.achat.valeur,quantity:1}]}); }catch(e){}
       box.innerHTML=`<img class="c" src="/img/tresor-face.webp" alt=""><h1>${T.merci}</h1>
       <p>${T.ouvert}</p>
       <div class="code" id="code">${esc(d.code)}</div>
@@ -68,5 +69,16 @@ go();
   b.lang=L; b.querySelector('span').textContent=t[0]; b.querySelector('[data-c=oui]').textContent=t[1]; b.querySelector('[data-c=non]').textContent=t[2];
   if(kzConsent===null) b.hidden=false;
   b.addEventListener('click',function(e){ var v=e.target.getAttribute('data-c'); if(!v) return; try{ localStorage.setItem('kz_consent',v); }catch(x){}
-    if(v==='oui') gtag('consent','update',{analytics_storage:'granted'}); b.remove(); }); })();</script>
+    if(v==='oui') gtag('consent','update',{analytics_storage:'granted'}); b.remove(); }); })();
+/* Mesure d'audience : quelques événements utiles (envoyés seulement selon le consentement choisi). */
+(function(){ function ev(n,p){ try{ gtag('event',n,p||{}); }catch(e){} }
+  var L=document.documentElement.lang==='en'?'en':'fr';
+  document.addEventListener('click',function(e){ var a=e.target&&e.target.closest?e.target.closest('a,button'):null; if(!a) return;
+    var h=a.getAttribute('href')||'', s=a.closest('section[id],header,footer,.dock,.gcta'), zone=a.getAttribute('data-zone')||(s?(s.id||s.className||s.tagName).toString().split(' ')[0].toLowerCase():'page');
+    if(a.hasAttribute('data-lang')) ev('changement_langue',{langue:a.getAttribute('data-lang'),depuis:L});
+    else if(h.indexOf('/api/achat')===0){ var v=window.kzPrix||6.99; ev('begin_checkout',{currency:'EUR',value:v,emplacement:zone,langue:L,items:[{item_id:'kounouzi',item_name:'Kounouzi',price:v,quantity:1}]}); }
+    else if(h.indexOf('/jouer')===0) ev('lancement_jeu',{emplacement:zone,langue:L});
+    else if(/#offre$/.test(h)||a.hasAttribute('data-cta')) ev('clic_cta',{emplacement:zone,langue:L});
+    else if(a.id==='dStart') ev('tutorial_begin',{langue:L});
+  },true); })();</script>
 </body></html>

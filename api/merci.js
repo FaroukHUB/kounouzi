@@ -37,6 +37,6 @@ export async function GET(request) {
     await noter('activation', { code, kind: 'achat', device: dev.id, ua: resume(request.headers.get('user-agent') || ''), pays: l.pays, ville: l.ville });
     const headers = new Headers({ 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
     headers.append('set-cookie', cookieAcces(code)); if (dev.cookie) headers.append('set-cookie', dev.cookie);
-    return new Response(JSON.stringify({ ok: true, code, email }), { status: 200, headers });
+    return new Response(JSON.stringify({ ok: true, code, email, achat: { ref: ref.split(':')[1], valeur: devise === 'DZD' ? montant : montant / 100, devise } }), { status: 200, headers });
   } catch (e) { console.error(e); return json(500, { ok: false, erreur: tx('Vérification impossible pour le moment. Réessaie dans un instant.') }); }
 }

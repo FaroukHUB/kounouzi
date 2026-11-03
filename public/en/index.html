@@ -40,7 +40,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/img/logo/favicon-32.png"><link rel="icon" type="image/png" sizes="48x48" href="/img/logo/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/img/logo/favicon-192.png">
 <link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
 <link rel="preload" as="image" href="/img/site/en/plateau.webp" fetchpriority="high">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800;900&family=Noto+Naskh+Arabic:wght@500;700&display=swap">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://kounouzi.com/#org", "name": "Kounouzi", "url": "https://kounouzi.com/", "logo": "https://kounouzi.com/img/logo/favicon-192.png"}, {"@type": "WebSite", "@id": "https://kounouzi.com/en/#site", "url": "https://kounouzi.com/en/", "name": "Kounouzi", "inLanguage": "en", "publisher": {"@id": "https://kounouzi.com/#org"}}, {"@type": "Product", "name": "Kounouzi", "description": "The family board game true to our values: no dice, no luck, no music. Age-appropriate questions, family challenges and Islamic values. From age 5.", "image": ["https://kounouzi.com/img/site/og-en.jpg"], "brand": {"@type": "Brand", "name": "Kounouzi"}, "inLanguage": "en", "offers": {"@type": "Offer", "url": "https://kounouzi.com/en/#offre", "price": "6.99", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}}, {"@type": "FAQPage", "inLanguage": "en", "mainEntity": [{"@type": "Question", "name": "Is Kounouzi in line with our values?", "acceptedAnswer": {"@type": "Answer", "text": "Kounouzi was designed with respect for Islamic principles: you move without dice or luck, there is no music (only a voice and a few effects you can switch off), children never learn riba but saving, giving and Zakat, and there are no ads or in-app purchases. It has no certification: each family remains the judge of what suits them."}}, {"@type": "Question", "name": "Is Kounouzi available in English?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, the English version is in progress. The game screens, settings, cards, family challenges, Hassanāt cards and the voice guide are in English. The 1,764 questions are being translated and checked: until a question is translated and validated, it is shown in French. Religion explanations are also available in Arabic."}}, {"@type": "Question", "name": "From what age?", "acceptedAnswer": {"@type": "Answer", "text": "From age 5. Questions are sorted by age group (5–6, 7–8, 9–10, 11–12 and 13+; for religion 5–8, 8–10, 10–12, 12–14 and 14+) and a voice reads them out loud: children who cannot read yet can play with the older ones."}}, {"@type": "Question", "name": "My children are different ages, how does it work?", "acceptedAnswer": {"@type": "Answer", "text": "Each player gets their own questions, based on their real age. Then the level adapts to their answers: two right answers in a row and the questions go up a notch, a mistake and they become simpler again. Everyone plays together, each at their own level."}}, {"@type": "Question", "name": "Are the religion questions reliable?", "acceptedAnswer": {"@type": "Answer", "text": "They come from recognised books, with their source, and are reviewed before publication. Nothing is made up."}}, {"@type": "Question", "name": "What are Hassanāt in the game?", "acceptedAnswer": {"@type": "Answer", "text": "They are game points you earn by giving, sharing or completing a family challenge. They count in the score to show that generosity has value. They are not real spiritual rewards: they are a chance to talk about it with your children."}}, {"@type": "Question", "name": "Is it a subscription?", "acceptedAnswer": {"@type": "Answer", "text": "No. You pay once and access is for life, for the whole family."}}, {"@type": "Question", "name": "How many players, and how long?", "acceptedAnswer": {"@type": "Answer", "text": "2 to 6 players around one screen. A game lasts 30, 45 or 60 minutes, or has no limit, and can be paused."}}, {"@type": "Question", "name": "Do I need the internet?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, a connection is needed to open the game and for the voice."}}, {"@type": "Question", "name": "I lost my code, what can I do?", "acceptedAnswer": {"@type": "Answer", "text": "The code stays open on the devices where you have already entered it. Otherwise, write to us with the email address used for the payment and we will send it to you again."}}]}]}</script>
 <style>
@@ -373,6 +373,15 @@ footer .logo img.brand{height:72px}
 .benefits.six{grid-template-columns:repeat(3,1fr)}
 @media (max-width:980px){.benefits.six{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:600px){.benefits.six{grid-template-columns:1fr}.benefits.six .bcard{padding:20px 18px}}
+
+/* entonnoir : bandeaux d'appel à l'action entre les sections */
+.cband{margin:34px auto 0;max-width:820px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 22px;padding:18px 22px;border-radius:22px;background:linear-gradient(160deg,rgba(239,190,76,.13),rgba(20,36,59,.75));border:1px solid rgba(239,190,76,.35);text-align:start}
+.cband p{margin:0;font-weight:900;font-size:17.5px;flex:1 1 300px;color:var(--parchment)}
+.cband p small{display:block;font-weight:700;color:var(--muted);font-size:14px;margin-top:3px}
+.hnote{margin:-6px 0 16px;color:var(--muted);font-weight:800;font-size:14px}
+.trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:4px;font-weight:800;font-size:13.5px;color:var(--muted)}
+.valeur{color:var(--muted);font-weight:700;margin:-12px 0 20px}
+@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}}
 </style>
 </head>
 <body>
@@ -401,9 +410,10 @@ footer .logo img.brand{height:72px}
         <p class="lead">No dice, no luck, no music. Just questions suited to every age, challenges that make everyone laugh and values that stay: Qur'an, Sira, generosity, Zakat. Children learn, parents pass on, and everyone wants to play again.</p>
         <p class="enwip">🇬🇧 English version in progress: the game screens, cards and challenges are in English. The questions are being translated: until then, untranslated questions are shown in French.</p>
         <div class="cta">
-          <a class="btn btn-gold btn-lg" href="#benefices">Discover Kounouzi</a>
+          <a class="btn btn-gold btn-lg" href="#offre" data-cta data-buy data-zone="hero">Get Kounouzi — <span data-prix>€6.99</span></a>
           <a class="btn btn-ghost btn-lg" href="#essayer">▶ Try it for free</a>
         </div>
+        <p class="hnote">One-time payment · lifetime access for the whole family · code delivered instantly</p>
         <div class="reassure" aria-label="Our commitments">
           <span class="pill"><i>✓</i>No dice, no luck</span><span class="pill"><i>✓</i>No music</span><span class="pill"><i>✓</i>No ads</span><span class="pill"><i>✓</i>One-time payment</span>
         </div>
@@ -468,6 +478,8 @@ footer .logo img.brand{height:72px}
       <article class="bcard rv d2" style="--g:#ffb84a"><div class="ic" aria-hidden="true">🔁</div><h3>Questions that keep changing</h3><p>Kounouzi remembers the questions already asked to each player on the device, to avoid repeats from one game to the next. Adults get questions from the most advanced age groups.</p></article>
     </div>
     <div class="dots m-only" data-dots="railNiv"></div>
+  
+    <div class="cband rv"><p>One game for all your children, from the youngest to the eldest.<small>No more games too easy for the big ones and too hard for the little ones.</small></p><a class="btn btn-gold" href="#offre" data-cta data-buy data-zone="niveau">Get Kounouzi for my family</a></div>
   </div>
 </section>
 
@@ -484,7 +496,7 @@ footer .logo img.brand{height:72px}
       <div class="talk rv d1"><div class="when">On the Giving square</div><div class="say">You could have kept it all… Why did you choose to give?</div></div>
       <div class="talk rv d2"><div class="when">At the end of the game</div><div class="say">He had less money, but he won. How is that possible?</div></div>
     </div>
-    <div class="center" style="margin-top:34px"><a class="btn btn-gold" href="#offre" data-cta>Get my Kounouzi access</a></div>
+    <div class="center" style="margin-top:34px"><a class="btn btn-gold" href="#offre" data-cta data-buy data-zone="emotion">Get my Kounouzi access</a></div>
   </div>
 </section>
 
@@ -526,6 +538,8 @@ footer .logo img.brand{height:72px}
       <figure class="shot"><div class="ph"><img src="/img/site/en/ecran-carte.webp" alt="Game screen: a property card" loading="lazy" width="585" height="1266"></div><figcaption>Manage your properties<span>Maktaba, hotels, Umrah agencies…</span></figcaption></figure>
     </div>
     <div class="dots m-only" data-dots="railShots"></div>
+  
+    <div class="cband rv"><p>Ready in a minute: you pay, you get your code, you play.<small>On phone, tablet or computer, nothing to install.</small></p><a class="btn btn-gold" href="#offre" data-cta data-buy data-zone="appli">I am starting tonight</a></div>
   </div>
 </section>
 
@@ -541,6 +555,8 @@ footer .logo img.brand{height:72px}
       <div class="vcol k rv d1"><h3><img src="/img/app/icon-192.png" alt="">Kounouzi</h3><ul>
         <li>A real board game, with decisions to make</li><li>1,764 questions suited to each person's age and level (English translation in progress)</li><li>Parents and children around the same screen</li><li>Giving and sharing count in the final score</li><li>Family challenges, a voice that reads everything, Arabic for religion explanations</li><li>No ads, no luck, one-time payment</li></ul></div>
     </div>
+  
+    <div class="cband rv"><p><span data-prix>€6.99</span> once, for the whole family and for good.<small>No subscription, no ads, no bad surprises.</small></p><a class="btn btn-gold" href="#offre" data-cta data-buy data-zone="difference">Get my access</a></div>
   </div>
 </section>
 
@@ -555,6 +571,8 @@ footer .logo img.brand{height:72px}
       <div class="step rv d3" style="--g:#ff6fd8"><div class="ico"><img src="/img/icons/defi.webp" alt=""></div><h3>Challenges and giving</h3><p>Family challenges, the Giving square, Zakat: generosity counts, right up to the final score.</p></div>
     </div>
     <div class="dots m-only" data-dots="railSteps"></div>
+  
+    <div class="cband rv"><p>The hardest part will be choosing who goes first.<small>The voice explains everything: no rules to read before you play.</small></p><a class="btn btn-gold" href="#offre" data-cta data-buy data-zone="tour">Start our first game</a></div>
   </div>
 </section>
 
@@ -567,6 +585,7 @@ footer .logo img.brand{height:72px}
         <span class="badge">🚀 Launch price</span>
         <div class="amount"><b data-prix>€6.99</b><span>one time</span></div>
         <p class="launch">Lifetime family access, on all your family's devices.</p>
+        <p class="valeur">The price of a snack, for family evenings all year round.</p>
         <ul class="inc">
           <li>English interface, cards and challenges</li><li>2 to 6 players</li><li>Lifetime family access</li><li>One-time payment</li><li>No subscription</li><li>No ads</li>
         </ul>
@@ -575,6 +594,7 @@ footer .logo img.brand{height:72px}
           <a class="btn btn-gold btn-lg" href="/api/achat?moyen=stripe&amp;lang=en" data-moyen="stripe" hidden>Get my Kounouzi access — <span data-prix>€6.99</span></a>
           <div class="soon" id="soon" hidden>Online payment opens very soon. In the meantime, Kounouzi is available with an access code.</div>
           <small id="paynote" hidden>Secure card payment. Your access code appears right afterwards.</small>
+          <div class="trust" id="trust" hidden><span>🔒 Secure payment</span><span>⚡ Instant access code</span><span>📱 All your devices</span></div>
         </div>
       </div>
       <div class="codebox rv d1" id="acceder">
@@ -615,6 +635,8 @@ footer .logo img.brand{height:72px}
       <details><summary>Do I need the internet?</summary><p>Yes, a connection is needed to open the game and for the voice.</p></details>
       <details><summary>I lost my code, what can I do?</summary><p>The code stays open on the devices where you have already entered it. Otherwise, <span id="contactTxt">write to us with the email address used for the payment</span> and we will send it to you again.</p></details>
     </div>
+  
+    <div class="cband rv"><p>Still hesitating? The best answer is a game night together.<small>One payment, and Kounouzi is there every evening you want it.</small></p><a class="btn btn-gold" href="#offre" data-cta data-buy data-zone="faq">Get Kounouzi</a></div>
   </div>
 </section>
 
@@ -623,7 +645,7 @@ footer .logo img.brand{height:72px}
   <div class="wrap"><div class="box rv">
     <h2>Family game night tonight?</h2>
     <p>Play together, learn differently, pass on what matters.</p>
-    <a class="btn btn-gold btn-lg" href="#offre" data-cta>Get my Kounouzi access</a>
+    <a class="btn btn-gold btn-lg" href="#offre" data-cta data-buy data-zone="final">Get my Kounouzi access</a>
   </div></div>
 </section>
 </main>
@@ -666,7 +688,8 @@ fetch('/api/code?'+vq).then(r=>r.json()).then(d=>{
   if(d.prix) $$('[data-prix]').forEach(e=>e.textContent=eur(d.prix.eur));
   const stripe=!!d.moyens?.stripe;
   $$('[data-moyen=stripe]').forEach(a=>a.hidden=!stripe);
-  $('#soon').hidden=stripe; $('#paynote').hidden=!stripe;
+  $('#soon').hidden=stripe; $('#paynote').hidden=!stripe; $('#trust').hidden=!stripe; if(d.prix) window.kzPrix=d.prix.eur/100;
+  if(stripe) $$('[data-buy]').forEach(a=>a.href='/api/achat?moyen=stripe&lang=en');
   if(d.contact){ const a=`<a href="mailto:${d.contact}">${d.contact}</a>`; $('#contactTxt').innerHTML=`write to us at ${a} with the email address used for the payment`; $('#contactFoot').innerHTML=a; }
   if(d.acces){ ouvert(); if(standalone) location.replace('/jouer'); }
 }).catch(()=>{ $('#soon').hidden=false; });
@@ -728,6 +751,7 @@ async function choix(donne){ if(donne){ ST.k-=30; ST.h+=10; upd(['scK','scH','sc
   win.innerHTML= donne? `<span class="tag">Result</span><div class="q">You have fewer Kounouz…</div><div class="ans" style="color:#7a2a8a">but your score went up by ${10*5-30} points.</div><div class="ex">In Kounouzi, the richest player does not always win: giving and sharing count too.</div>`
                       : `<span class="tag">Result</span><div class="q">You kept your 30 Kounouz.</div><div class="ex">If you had given, you would have earned 10 Hassanāt, worth 50 points: your score would have gone up by 20 points. Something to talk about as a family!</div>`;
   help.innerHTML='<b>That was one turn of Kounouzi.</b> The real game has a 3D board, a voice, family challenges and 1,764 questions.';
+  try{gtag('event','fin_demo',{don:donne})}catch{}
   btns([['Get my access','btn-gold',()=>location.hash='#offre'],['Play again','b-bad',()=>{ cur=(cur+1)%DQ.length; tabs(); openQ(); }]]); }
 $('#dStart').onclick=openQ; tabs(); upd();
 
@@ -751,6 +775,17 @@ $$('.rv').forEach(el=>io.observe(el));
   b.lang=L; b.querySelector('span').textContent=t[0]; b.querySelector('[data-c=oui]').textContent=t[1]; b.querySelector('[data-c=non]').textContent=t[2];
   if(kzConsent===null) b.hidden=false;
   b.addEventListener('click',function(e){ var v=e.target.getAttribute('data-c'); if(!v) return; try{ localStorage.setItem('kz_consent',v); }catch(x){}
-    if(v==='oui') gtag('consent','update',{analytics_storage:'granted'}); b.remove(); }); })();</script>
+    if(v==='oui') gtag('consent','update',{analytics_storage:'granted'}); b.remove(); }); })();
+/* Mesure d'audience : quelques événements utiles (envoyés seulement selon le consentement choisi). */
+(function(){ function ev(n,p){ try{ gtag('event',n,p||{}); }catch(e){} }
+  var L=document.documentElement.lang==='en'?'en':'fr';
+  document.addEventListener('click',function(e){ var a=e.target&&e.target.closest?e.target.closest('a,button'):null; if(!a) return;
+    var h=a.getAttribute('href')||'', s=a.closest('section[id],header,footer,.dock,.gcta'), zone=a.getAttribute('data-zone')||(s?(s.id||s.className||s.tagName).toString().split(' ')[0].toLowerCase():'page');
+    if(a.hasAttribute('data-lang')) ev('changement_langue',{langue:a.getAttribute('data-lang'),depuis:L});
+    else if(h.indexOf('/api/achat')===0){ var v=window.kzPrix||6.99; ev('begin_checkout',{currency:'EUR',value:v,emplacement:zone,langue:L,items:[{item_id:'kounouzi',item_name:'Kounouzi',price:v,quantity:1}]}); }
+    else if(h.indexOf('/jouer')===0) ev('lancement_jeu',{emplacement:zone,langue:L});
+    else if(/#offre$/.test(h)||a.hasAttribute('data-cta')) ev('clic_cta',{emplacement:zone,langue:L});
+    else if(a.id==='dStart') ev('tutorial_begin',{langue:L});
+  },true); })();</script>
 </body>
 </html>
