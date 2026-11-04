@@ -1,6 +1,6 @@
 // Kounouzi : petite mise en cache pour que l'appli s'ouvre vite (images, polices, moteur 3D).
 // Les pages et les questions passent d'abord par le réseau ; l'API n'est jamais mise en cache.
-const V = 'kz-v1';
+const V = 'kz-v2'; // v2 : nouveau logo et nouvelles icônes
 self.addEventListener('install', e => { self.skipWaiting(); });
 self.addEventListener('activate', e => e.waitUntil((async () => {
   for (const k of await caches.keys()) if (k !== V) await caches.delete(k);

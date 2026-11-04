@@ -87,7 +87,7 @@ def page(g, lang):
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="/img/logo/favicon-32.png?v=2"><link rel="icon" type="image/png" sizes="48x48" href="/img/logo/favicon-48.png?v=2"><link rel="icon" type="image/png" sizes="192x192" href="/img/logo/favicon-192.png?v=2">
-<link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
+<link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800;900&family=Noto+Naskh+Arabic:wght@500;700&display=swap">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False).replace('</', '<\\/')}</script>
