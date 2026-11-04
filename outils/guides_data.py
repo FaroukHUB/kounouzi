@@ -1,5 +1,5 @@
 # Contenu des guides Kounouzi (FR / EN). Chaque guide cible une recherche précise.
-# Faits vérifiés dans le jeu : 1 799 questions (religion 375, histoire des prophètes 375 = 75 récits × 5 niveaux, maths et logique 587, gestion 250, sciences 212),
+# Faits vérifiés dans le jeu : 2 013 questions (religion 375, invocations 214, histoire des prophètes 375 = 75 récits × 5 niveaux, maths et logique 587, gestion 250, sciences 212),
 # 84 défis famille, 28 cases, 12 établissements, 2 à 6 joueurs, parties de 30/45/60 min ou libres, déplacement par « le Chemin »
 # (suite fixe, la même pour tous), voix + 4 courts effets désactivables, Zakat 2,5 % après 6 tours au-dessus de 1 000 K.
 
@@ -22,7 +22,7 @@ GUIDES = [
         "<b>Sans musique</b> : seulement une voix chaleureuse qui lit les questions et annonce les cases, et quelques petits effets (applaudissements, pièces) que l'on peut couper en un geste.",
         "<b>Sans riba</b> : on n'apprend jamais à prêter avec intérêt. On apprend à épargner, à acheter avec mesure, à donner à la Caisse Masākīn et à verser la Zakat.",
         "<b>Sans publicité, sans achat intégré</b>, sans discussion avec des inconnus : un seul paiement, et l'écran reste entre vous.",
-        "<b>Contenu religieux sourcé</b> : les questions de religion suivent le Coran et la Sunnah, et sont tirées uniquement de <a href='/sources-religion/'>nos 6 livres de référence</a>, sans rien y ajouter. Tout est relu avant publication."])]),
+        "<b>Contenu religieux sourcé</b> : les questions de religion suivent le Coran et la Sunnah, et sont tirées uniquement de <a href='/sources-religion/'>nos 7 livres de référence</a>, sans rien y ajouter. Tout est relu avant publication."])]),
     ("Un jeu qui valorise la générosité, pas la richesse", [
       "Dans Kounouzi, le score final additionne les Kounouz, le patrimoine et les points Hassanāt gagnés en donnant ou en aidant les autres. Un joueur généreux peut donc gagner même avec moins d'argent : c'est souvent le moment préféré des parents pour en parler avec leurs enfants.",
       "Les Hassanāt sont des points de jeu : ils servent à ouvrir la discussion sur la générosité, ce ne sont pas des récompenses spirituelles."]),
@@ -48,7 +48,7 @@ GUIDES = [
         "<b>No music</b>: only a warm voice that reads the questions and announces the squares, plus a few short effects (cheering, coins) you can switch off in one tap.",
         "<b>No riba</b>: children never learn to lend with interest. They learn to save, to buy wisely, to give to the Masākīn Fund and to pay Zakat.",
         "<b>No ads, no in-app purchases</b>, no chatting with strangers: one payment, and the screen stays within your family.",
-        "<b>Sourced religious content</b>: religion questions follow the Qur'an and the Sunnah, and are taken only from <a href='/en/religion-sources/'>our 6 reference books</a>, with nothing added. Everything is reviewed before publication."])]),
+        "<b>Sourced religious content</b>: religion questions follow the Qur'an and the Sunnah, and are taken only from <a href='/en/religion-sources/'>our 7 reference books</a>, with nothing added. Everything is reviewed before publication."])]),
     ("A game that rewards generosity, not wealth", [
       "In Kounouzi, the final score adds up Kounouz, properties and Hassanāt points earned by giving or helping others. A generous player can win with less money, which is often the parents' favourite moment to talk about it with their children.",
       "Hassanāt are game points: they open the conversation about generosity; they are not spiritual rewards."]),
@@ -71,13 +71,14 @@ GUIDES = [
     ("Apprendre sans avoir l'impression d'être en classe", [
       "Les enfants retiennent mieux ce qu'ils vivent. Dans Kounouzi, une question arrive au bon moment, au milieu d'une partie, avec du suspense, un défi qui fait rire et des Kounouz à gagner. La bonne réponse devient une petite victoire, la mauvaise une occasion d'apprendre, sans jamais rien perdre.",
       "La famille valide elle-même les réponses : les parents expliquent, les enfants débattent, et la partie devient une vraie conversation."]),
-    ("Plus de 1 700 questions, six matières", [
+    ("Plus de 2 000 questions, six matières", [
       ("ul", [
-        "<b>Religion</b> (375 questions) : piliers, prophètes, Sira, adab, vocabulaire du Coran, tirées uniquement de <a href='/sources-religion/'>nos 6 livres de référence</a>, avec la source de chaque réponse et une explication en arabe.",
+        "<b>Religion</b> (375 questions) : piliers, prophètes, Sira, adab, vocabulaire du Coran, tirées uniquement de <a href='/sources-religion/'>nos 7 livres de référence</a>, avec la source de chaque réponse et une explication en arabe.",
         "<b>Histoire des prophètes</b> (375 questions, 75 récits sur 5 niveaux) : les prophètes cités dans le Coran, avec la référence du verset.",
         "<b>Mathématiques et logique</b> (587) : calcul mental, suites, intrus et petits raisonnements, choisis selon l'âge.",
         "<b>Gestion</b> (250) : épargne, dépenses, partage, Zakat.",
-        "<b>Sciences et nature</b> (212)."])]),
+        "<b>Sciences et nature</b> (212).",
+        "<b>Invocations</b> (214) : les invocations et rappels du quotidien (sommeil, prière, repas, voyage…), tirés uniquement de <a href='/sources-religion/'>Sahîh Al-Adhkâr</a>, avec la référence de chaque réponse."])]),
     ("Des questions adaptées à l'âge réel de chaque enfant", [
       "Les questions sont rangées par tranche d'âge : 5–6, 7–8, 9–10, 11–12 et 13 ans et plus, et pour la religion 5–8, 8–10, 10–12, 12–14 et 14 ans et plus. Ensuite, le niveau s'ajuste : deux bonnes réponses de suite et les questions montent d'un cran, une erreur et elles redeviennent plus simples.",
       "Une voix lit chaque question à voix haute : un enfant qui ne sait pas encore lire peut jouer à égalité avec les plus grands."]),
@@ -85,7 +86,7 @@ GUIDES = [
       "Kounouzi est un vrai jeu de plateau : on achète une maktaba ou un hôtel à Médine, on relève des défis en famille, on donne à la Caisse Masākīn. Les connaissances se mélangent aux décisions, et c'est ce qui donne envie de rejouer."]),
    ],
    'faq': [("À partir de quel âge ?", "Dès 5 ans. Les plus petits jouent avec une voix qui lit tout, les adolescents et les adultes reçoivent les questions des tranches les plus avancées."),
-           ("Les questions de religion sont-elles fiables ?", "Elles suivent le Coran et la Sunnah, et sont tirées uniquement de nos 6 livres de référence (liste sur kounouzi.com/sources-religion), sans rien y ajouter. Tout est relu avant publication.")],
+           ("Les questions de religion sont-elles fiables ?", "Elles suivent le Coran et la Sunnah, et sont tirées uniquement de nos 7 livres de référence (liste sur kounouzi.com/sources-religion), sans rien y ajouter. Tout est relu avant publication.")],
   },
   'en': {
    'slug': 'islamic-educational-game-for-kids',
@@ -97,13 +98,14 @@ GUIDES = [
     ("Learning without feeling like being in class", [
       "Children remember what they experience. In Kounouzi, a question comes at the right moment, in the middle of a game, with suspense, a challenge that makes everyone laugh and Kounouz to win. A right answer is a small victory, a wrong one a chance to learn, without ever losing anything.",
       "The family validates the answers: parents explain, children discuss, and the game becomes a real conversation."]),
-    ("Over 1,700 questions, six subjects", [
+    ("Over 2,000 questions, six subjects", [
       ("ul", [
-        "<b>Religion</b> (375 questions): pillars, prophets, Sira, adab, Qur'an vocabulary, taken only from <a href='/en/religion-sources/'>our 6 reference books</a>, with the source of each answer and an explanation in Arabic.",
+        "<b>Religion</b> (375 questions): pillars, prophets, Sira, adab, Qur'an vocabulary, taken only from <a href='/en/religion-sources/'>our 7 reference books</a>, with the source of each answer and an explanation in Arabic.",
         "<b>Stories of the Prophets</b> (375 questions, 75 stories on 5 levels): the prophets mentioned in the Qur'an, with the verse reference.",
         "<b>Maths and logic</b> (587): mental arithmetic, sequences, odd-one-out and small reasoning puzzles, chosen by age.",
         "<b>Money skills</b> (250): saving, spending, sharing, Zakat.",
-        "<b>Science and nature</b> (212)."]),
+        "<b>Science and nature</b> (212).",
+        "<b>Invocations</b> (214): everyday supplications and remembrances (sleep, prayer, meals, travel…), taken only from <a href='/en/religion-sources/'>Sahih Al-Adhkar</a>, with the reference of each answer."]),
       "The English translation of the questions is in progress: until a question is translated and checked, it appears in French."]),
     ("Questions suited to each child's real age", [
       "Questions are sorted by age group: 5–6, 7–8, 9–10, 11–12 and 13+, and for religion 5–8, 8–10, 10–12, 12–14 and 14+. Then the level adapts: two right answers in a row and the questions go up a notch, a mistake and they become simpler again.",
@@ -112,7 +114,7 @@ GUIDES = [
       "Kounouzi is a real board game: you buy a maktaba or a hotel in Madinah, take on family challenges and give to the Masākīn Fund. Knowledge mixes with decisions, and that is what makes children want to play again."]),
    ],
    'faq': [("From what age?", "From age 5. The youngest play with a voice that reads everything; teenagers and adults get questions from the most advanced age groups."),
-           ("Are the religion questions reliable?", "They follow the Qur'an and the Sunnah, and are taken only from our 6 reference books (list at kounouzi.com/en/religion-sources), with nothing added. Everything is reviewed before publication.")],
+           ("Are the religion questions reliable?", "They follow the Qur'an and the Sunnah, and are taken only from our 7 reference books (list at kounouzi.com/en/religion-sources), with nothing added. Everything is reviewed before publication.")],
   },
  },
  {
@@ -129,16 +131,16 @@ GUIDES = [
     ("Ce que change Kounouzi", [
       ("ul", [
         "<b>Chaque joueur sa question</b> : un enfant de 6 ans et un parent ne reçoivent jamais la même difficulté.",
-        "<b>Des questions sourcées</b> : chaque question de religion suit le Coran et la Sunnah, vient uniquement de <a href='/sources-religion/'>nos 6 livres de référence</a> et indique sa source, et une explication en arabe accompagne la réponse.",
+        "<b>Des questions sourcées</b> : chaque question de religion suit le Coran et la Sunnah, vient uniquement de <a href='/sources-religion/'>nos 7 livres de référence</a> et indique sa source, et une explication en arabe accompagne la réponse.",
         "<b>La famille valide</b> : bonne réponse, en partie, ou pas cette fois. Les parents gardent la main et expliquent.",
         "<b>Pas de répétition</b> : le jeu retient les questions déjà posées à chaque joueur.",
         "<b>Un plateau, des défis, des dons</b> : les questions s'intègrent à un vrai jeu de plateau."])]),
     ("Exemples de thèmes abordés en religion", [
-      "Les piliers de l'islam et de la foi, les prophètes, la Sira du Prophète ﷺ, le Ramadan, les bonnes manières (adab), le vocabulaire du Coran, d'après <a href='/sources-religion/'>nos 6 livres de référence</a>. Les questions vont des plus simples pour les 5–8 ans aux plus approfondies pour les adolescents et les adultes."]),
+      "Les piliers de l'islam et de la foi, les prophètes, la Sira du Prophète ﷺ, le Ramadan, les bonnes manières (adab), le vocabulaire du Coran, d'après <a href='/sources-religion/'>nos 7 livres de référence</a>. Les questions vont des plus simples pour les 5–8 ans aux plus approfondies pour les adolescents et les adultes."]),
     ("Essayez avant d'acheter", [
       "Demandez une vraie partie d'essai de 10 minutes, gratuite, depuis <a href='/#essai-gratuit'>la page d'accueil</a> : le code arrive par e-mail et la partie s'ouvre tout de suite."]),
    ],
-   'faq': [("Combien de questions de religion ?", "375 questions de religion, sur un total de plus de 1 700 questions."),
+   'faq': [("Combien de questions de religion ?", "375 questions de religion, sur un total de plus de 2 000 questions."),
            ("Faut-il savoir lire ?", "Non : une voix lit chaque question et chaque réponse.")],
   },
   'en': {
@@ -153,17 +155,17 @@ GUIDES = [
     ("What Kounouzi changes", [
       ("ul", [
         "<b>Each player gets their own question</b>: a 6-year-old and a parent never get the same difficulty.",
-        "<b>Sourced questions</b>: each religion question follows the Qur'an and the Sunnah, comes only from <a href='/en/religion-sources/'>our 6 reference books</a> and shows its source, and an Arabic explanation comes with the answer.",
+        "<b>Sourced questions</b>: each religion question follows the Qur'an and the Sunnah, comes only from <a href='/en/religion-sources/'>our 7 reference books</a> and shows its source, and an Arabic explanation comes with the answer.",
         "<b>The family decides</b>: right answer, partly right, or not this time. Parents stay in charge and explain.",
         "<b>No repeats</b>: the game remembers the questions already asked to each player.",
         "<b>A board, challenges, giving</b>: questions are part of a real board game."]),
       "The English translation of the questions is in progress: untranslated questions appear in French for now."]),
     ("Examples of religion topics", [
-      "The pillars of Islam and of faith, the prophets, the Sira of the Prophet ﷺ, Ramadan, good manners (adab), Qur'an vocabulary, based on <a href='/en/religion-sources/'>our 6 reference books</a>. Questions range from the simplest for ages 5–8 to the deepest for teenagers and adults."]),
+      "The pillars of Islam and of faith, the prophets, the Sira of the Prophet ﷺ, Ramadan, good manners (adab), Qur'an vocabulary, based on <a href='/en/religion-sources/'>our 7 reference books</a>. Questions range from the simplest for ages 5–8 to the deepest for teenagers and adults."]),
     ("Try before you buy", [
       "Request a real 10-minute trial game, free, from <a href=\"/en/#essai-gratuit\">the home page</a>: the code arrives by e-mail and the game opens straight away."]),
    ],
-   'faq': [("How many religion questions?", "375 religion questions, out of over 1,700 questions in total."),
+   'faq': [("How many religion questions?", "375 religion questions, out of over 2,000 questions in total."),
            ("Do players need to read?", "No: a voice reads every question and every answer.")],
   },
  },
@@ -231,7 +233,7 @@ GUIDES = [
       ("ul", [
         "<b>Pour toute la famille</b> : de 2 à 6 joueurs, dès 5 ans, petits et grands autour du même écran.",
         "<b>Fidèle à nos valeurs</b> : sans dés ni hasard pour avancer, sans musique, sans publicité.",
-        "<b>Éducatif</b> : plus de 1 700 questions (religion, sciences, maths et logique, histoire des prophètes, gestion) adaptées à l'âge de chacun.",
+        "<b>Éducatif</b> : plus de 2 000 questions (religion, invocations, sciences, maths et logique, histoire des prophètes, gestion) adaptées à l'âge de chacun.",
         "<b>Paiement unique, sans abonnement</b> : un seul paiement pour toute la famille, sur tous vos appareils, mises à jour incluses."])]),
     ("Parfait pour les soirées de Ramadan", [
       "Après l'iftar, une partie de 30, 45 ou 60 minutes réunit toute la famille. Les questions sur le Ramadan, le Coran et la générosité tombent à point, et la case Don rappelle l'esprit de partage du mois."]),
@@ -257,7 +259,7 @@ GUIDES = [
       ("ul", [
         "<b>For the whole family</b>: 2 to 6 players, from age 5, young and old around the same screen.",
         "<b>True to our values</b>: no dice or luck to move, no music, no ads.",
-        "<b>Educational</b>: over 1,700 questions (religion, science, maths and logic, prophets' stories, money skills) suited to each age; the English translation of the questions is in progress.",
+        "<b>Educational</b>: over 2,000 questions (religion, invocations, science, maths and logic, prophets' stories, money skills) suited to each age; the English translation of the questions is in progress.",
         "<b>One-time payment, no subscription</b>: one payment for the whole family, on all your devices, updates included."])]),
     ("Perfect for Ramadan evenings", [
       "After iftar, a 30, 45 or 60-minute game brings the whole family together. Questions about Ramadan, the Qur'an and generosity come at the right time, and the Giving square recalls the sharing spirit of the month."]),
@@ -332,7 +334,7 @@ GUIDES = [
  },
 ]
 
-# Les 6 livres d'où viennent les 375 questions de religion (champ « source » de chaque question). Pas de lien PDF.
+# Les 7 livres d'où viennent les questions de religion (375) et d'invocations (214) (champ « source »). Pas de lien PDF.
 LIVRES = [
  dict(ar="شرح ثلاثة الأصول", tr="Sharḥ Thalāthat al-Uṣūl", fr="Explication des Trois fondements", en="Explanation of the Three Fundamental Principles",
       aar="الشيخ صالح بن عبد العزيز آل الشيخ", a="Shaykh Ṣāliḥ Āl ash-Shaykh", n=100, ic="🕋",
@@ -352,25 +354,30 @@ LIVRES = [
  dict(ar="كلمة التوحيد لا إله إلا الله: فضائلها ومعناها وشروطها ونواقضها", tr="Kalimat at-Tawḥīd : Lā ilāha illā Allāh", fr="La parole de l'unicité : « Lā ilāha illā Allāh », ses mérites, son sens, ses conditions et ses annulatifs", en="The word of Tawḥīd: “Lā ilāha illā Allāh”, its merits, meaning, conditions and nullifiers",
       aar="الشيخ عبد الرزاق بن عبد المحسن البدر", a="Shaykh ʿAbd ar-Razzāq al-Badr", n=25, ic="☝️",
       tfr="Le sens de « Lā ilāha illā Allāh »", ten="The meaning of “Lā ilāha illā Allāh”"),
+ dict(ar="صحيح الأذكار", tr="Ṣaḥīḥ al-Adhkār", fr="Le Rappel authentique : invocations et formules de rappel tirées des ouvrages de l'imam al-Albānī", en="The Authentic Remembrance: supplications and remembrances taken from the works of Imam al-Albānī",
+      aar="الشيخ محمد ناصر الدين الألباني", a="Shaykh Muḥammad Nāṣir ad-Dīn al-Albānī", n=214, ic="🤲",
+      tfr="Les invocations du quotidien : sommeil, prière, repas, voyage… (catégorie Invocations)", ten="Everyday supplications: sleep, prayer, meals, travel… (Invocations category)"),
 ]
 
 GUIDES.append({
  'id': 'sources', 'custom': 'sources',
  'fr': {'slug': 'sources-religion', 'title': "Nos sources en religion : les livres du jeu | Kounouzi",
-  'desc': "Les questions de religion de Kounouzi suivent le Coran et la Sunnah et sont tirées uniquement de six livres, sans rien y ajouter. Découvrez-les.",
-  'kick': "Nos sources", 'h1': "Le Coran, la Sunnah… <em>et six livres, rien d'autre</em>",
-  'lead': "Toutes les questions de religion de Kounouzi suivent le Coran et la Sunnah, et sont tirées uniquement des six livres présentés ici. Nous n'avons rien ajouté : la source est indiquée sous chaque réponse, et tout est relu avant publication.",
-  'faq': [("D'où viennent les questions de religion ?", "Elles suivent le Coran et la Sunnah et sont tirées uniquement des six livres présentés sur cette page, sans rien y ajouter. La source est affichée sous chaque réponse dans le jeu."),
-          ("Avez-vous ajouté des questions d'autres sources ?", "Non. Toutes les questions de religion viennent de ces six livres, et seulement d'eux."),
+  'desc': "Les questions de religion de Kounouzi suivent le Coran et la Sunnah et sont tirées uniquement de sept livres, sans rien y ajouter. Découvrez-les.",
+  'kick': "Nos sources", 'h1': "Le Coran, la Sunnah… <em>et sept livres, rien d'autre</em>",
+  'lead': "Toutes les questions de religion de Kounouzi suivent le Coran et la Sunnah, et sont tirées uniquement des sept livres présentés ici. Nous n'avons rien ajouté : la source est indiquée sous chaque réponse, et tout est relu avant publication.",
+  'faq': [("D'où viennent les questions de religion ?", "Elles suivent le Coran et la Sunnah et sont tirées uniquement des sept livres présentés sur cette page, sans rien y ajouter. La source est affichée sous chaque réponse dans le jeu."),
+          ("Avez-vous ajouté des questions d'autres sources ?", "Non. Toutes les questions de religion viennent de ces sept livres, et seulement d'eux."),
           ("Et les questions d'Histoire des prophètes ?", "Elles portent sur les récits des prophètes cités dans le Coran : la référence du verset est indiquée sous chaque réponse."),
-          ("Combien de questions de religion y a-t-il ?", "375 questions de religion, sur plus de 1 700 questions au total, rangées en cinq tranches d'âge.")]},
+          ("Et les questions d'Invocations ?", "Elles sont tirées uniquement de Sahîh Al-Adhkâr (Le Rappel authentique), recueil des invocations authentifiées par le shaykh al-Albānī. La référence est indiquée sous chaque réponse."),
+          ("Combien de questions de religion y a-t-il ?", "375 questions de religion et 214 questions d'invocations, sur plus de 2 000 questions au total, toutes rangées par tranche d'âge.")]},
  'en': {'slug': 'religion-sources', 'title': "Our religion sources: the books in the game | Kounouzi",
-  'desc': "Kounouzi's religion questions follow the Qur'an and the Sunnah and are taken only from six books, with nothing added. Discover them.",
-  'kick': "Our sources", 'h1': "The Qur'an, the Sunnah… <em>and six books, nothing else</em>",
-  'lead': "All of Kounouzi's religion questions follow the Qur'an and the Sunnah, and are taken only from the six books presented here. We added nothing: the source is shown under each answer, and everything is reviewed before publication.",
-  'faq': [("Where do the religion questions come from?", "They follow the Qur'an and the Sunnah and are taken only from the six books presented on this page, with nothing added. The source is shown under each answer in the game."),
-          ("Did you add questions from other sources?", "No. All religion questions come from these six books, and only from them."),
+  'desc': "Kounouzi's religion questions follow the Qur'an and the Sunnah and are taken only from seven books, with nothing added. Discover them.",
+  'kick': "Our sources", 'h1': "The Qur'an, the Sunnah… <em>and seven books, nothing else</em>",
+  'lead': "All of Kounouzi's religion questions follow the Qur'an and the Sunnah, and are taken only from the seven books presented here. We added nothing: the source is shown under each answer, and everything is reviewed before publication.",
+  'faq': [("Where do the religion questions come from?", "They follow the Qur'an and the Sunnah and are taken only from the seven books presented on this page, with nothing added. The source is shown under each answer in the game."),
+          ("Did you add questions from other sources?", "No. All religion questions come from these seven books, and only from them."),
           ("And the Stories of the Prophets questions?", "They cover the stories of the prophets mentioned in the Qur'an: the verse reference is shown under each answer."),
-          ("How many religion questions are there?", "375 religion questions, out of over 1,700 questions in total, sorted into five age groups.")]},
+          ("And the Invocations questions?", "They are taken only from Sahih Al-Adhkar (The Authentic Remembrance), a collection of supplications authenticated by Shaykh al-Albani. The reference is shown under each answer."),
+          ("How many religion questions are there?", "375 religion questions and 214 invocation questions, out of over 2,000 questions in total, all sorted by age group.")]},
 })
 

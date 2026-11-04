@@ -1,6 +1,6 @@
 // Kounouzi — tranches d'âge : source unique, utilisée par le jeu, le tableau de bord et le serveur.
 // Deux classifications distinctes (décision définitive) :
-//   « générale » : Histoire & Géo, Sciences, Logique, Gestion  → 5-6, 7-8, 9-10, 11-12, 13+
+//   « générale » : Histoire des prophètes, Sciences, Gestion, Invocations  → 5-6, 7-8, 9-10, 11-12, 13+
 //   « religion » : Religion                                      → 5-8, 8-10, 10-12, 12-14, 14+
 // Les Mathématiques n'ont pas de tranche : elles sont choisies par niveau de difficulté selon l'âge (niveauxMaths).
 // Aucun accès au DOM ni au réseau ici : ce fichier se teste tel quel avec node.
@@ -16,7 +16,7 @@ export const TRANCHES = Object.freeze({
   ]),
 });
 export const LIBELLE_SYSTEME = { generale: 'Âges généraux', religion: 'Âges religion' };
-const SYSTEME_DU_THEME = { religion: 'religion', geography: 'generale', sciences: 'generale', logic: 'generale', management: 'generale', maths: null };
+const SYSTEME_DU_THEME = { religion: 'religion', geography: 'generale', sciences: 'generale', logic: 'generale', management: 'generale', invocations: 'generale', maths: null };
 export const THEMES = Object.keys(SYSTEME_DU_THEME);
 
 /** Classification d'un thème : 'religion', 'generale', ou null (maths, thème inconnu). */

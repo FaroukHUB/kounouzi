@@ -5,7 +5,7 @@ import { normaliserTranche, systemeDe, tranchesDuTheme } from '../public/ages.js
 import { analyserImport, lots, STATUTS_TRAD } from '../public/trad.js';
 import { contacts, moyens, codeCadeau, codePourPaiement, codeValide, db, dbActive, formater, json, oublierRevocation, PRIX } from './_lib.js';
 
-const THEMES = ['religion', 'maths', 'geography', 'sciences', 'logic', 'management'];
+const THEMES = ['religion', 'maths', 'geography', 'sciences', 'logic', 'management', 'invocations'];
 const ROTATION = ['family', 'hassanat', 'duel', 'question'];
 export const REGLAGES_DEFAUT = {
   themes: THEMES,
@@ -15,7 +15,7 @@ export const REGLAGES_DEFAUT = {
   eviter: 15,
   durees: { rapide: 30, classique: 45, grande: 60 },
   essaiMinutes: 10, // durée d'une partie jouée avec un code d'essai
-  explications: ['religion'], // thèmes dont l'explication est proposée après la réponse
+  explications: ['religion', 'invocations'], // thèmes dont l'explication est proposée après la réponse
   prononciation: [], // [{ e: 'Ishaaq', d: 'إسحاق' }] : comment la voix doit dire certains mots (prénoms arabes…)
   tradRelire: false, // true : les traductions « à relire » sont déjà montrées dans le jeu (sinon seulement les validées)
 };
