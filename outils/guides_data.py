@@ -1,5 +1,5 @@
 # Contenu des guides Kounouzi (FR / EN). Chaque guide cible une recherche précise.
-# Faits vérifiés dans le jeu : 1 799 questions (religion 375, histoire des prophètes 375 = 75 récits × 5 niveaux, maths 338, gestion 250, logique 249, sciences 212),
+# Faits vérifiés dans le jeu : 1 799 questions (religion 375, histoire des prophètes 375 = 75 récits × 5 niveaux, maths et logique 587, gestion 250, sciences 212),
 # 84 défis famille, 28 cases, 12 établissements, 2 à 6 joueurs, parties de 30/45/60 min ou libres, déplacement par « le Chemin »
 # (suite fixe, la même pour tous), voix + 4 courts effets désactivables, Zakat 2,5 % après 6 tours au-dessus de 1 000 K.
 
@@ -75,9 +75,9 @@ GUIDES = [
       ("ul", [
         "<b>Religion</b> (375 questions) : piliers, prophètes, Sira, adab, vocabulaire du Coran, tirées uniquement de <a href='/sources-religion/'>nos 6 livres de référence</a>, avec la source de chaque réponse et une explication en arabe.",
         "<b>Histoire des prophètes</b> (375 questions, 75 récits sur 5 niveaux) : les prophètes cités dans le Coran, avec la référence du verset.",
-        "<b>Mathématiques</b> (338) : calcul mental choisi selon l'âge.",
+        "<b>Mathématiques et logique</b> (587) : calcul mental, suites, intrus et petits raisonnements, choisis selon l'âge.",
         "<b>Gestion</b> (250) : épargne, dépenses, partage, Zakat.",
-        "<b>Logique</b> (249) et <b>sciences et nature</b> (212)."])]),
+        "<b>Sciences et nature</b> (212)."])]),
     ("Des questions adaptées à l'âge réel de chaque enfant", [
       "Les questions sont rangées par tranche d'âge : 5–6, 7–8, 9–10, 11–12 et 13 ans et plus, et pour la religion 5–8, 8–10, 10–12, 12–14 et 14 ans et plus. Ensuite, le niveau s'ajuste : deux bonnes réponses de suite et les questions montent d'un cran, une erreur et elles redeviennent plus simples.",
       "Une voix lit chaque question à voix haute : un enfant qui ne sait pas encore lire peut jouer à égalité avec les plus grands."]),
@@ -101,9 +101,9 @@ GUIDES = [
       ("ul", [
         "<b>Religion</b> (375 questions): pillars, prophets, Sira, adab, Qur'an vocabulary, taken only from <a href='/en/religion-sources/'>our 6 reference books</a>, with the source of each answer and an explanation in Arabic.",
         "<b>Stories of the Prophets</b> (375 questions, 75 stories on 5 levels): the prophets mentioned in the Qur'an, with the verse reference.",
-        "<b>Maths</b> (338): mental arithmetic chosen by age.",
+        "<b>Maths and logic</b> (587): mental arithmetic, sequences, odd-one-out and small reasoning puzzles, chosen by age.",
         "<b>Money skills</b> (250): saving, spending, sharing, Zakat.",
-        "<b>Logic</b> (249) and <b>science and nature</b> (212)."]),
+        "<b>Science and nature</b> (212)."]),
       "The English translation of the questions is in progress: until a question is translated and checked, it appears in French."]),
     ("Questions suited to each child's real age", [
       "Questions are sorted by age group: 5–6, 7–8, 9–10, 11–12 and 13+, and for religion 5–8, 8–10, 10–12, 12–14 and 14+. Then the level adapts: two right answers in a row and the questions go up a notch, a mistake and they become simpler again.",
@@ -231,7 +231,7 @@ GUIDES = [
       ("ul", [
         "<b>Pour toute la famille</b> : de 2 à 6 joueurs, dès 5 ans, petits et grands autour du même écran.",
         "<b>Fidèle à nos valeurs</b> : sans dés ni hasard pour avancer, sans musique, sans publicité.",
-        "<b>Éducatif</b> : plus de 1 700 questions (religion, sciences, maths, histoire des prophètes, logique, gestion) adaptées à l'âge de chacun.",
+        "<b>Éducatif</b> : plus de 1 700 questions (religion, sciences, maths et logique, histoire des prophètes, gestion) adaptées à l'âge de chacun.",
         "<b>Paiement unique, sans abonnement</b> : un seul paiement pour toute la famille, sur tous vos appareils, mises à jour incluses."])]),
     ("Parfait pour les soirées de Ramadan", [
       "Après l'iftar, une partie de 30, 45 ou 60 minutes réunit toute la famille. Les questions sur le Ramadan, le Coran et la générosité tombent à point, et la case Don rappelle l'esprit de partage du mois."]),
@@ -257,7 +257,7 @@ GUIDES = [
       ("ul", [
         "<b>For the whole family</b>: 2 to 6 players, from age 5, young and old around the same screen.",
         "<b>True to our values</b>: no dice or luck to move, no music, no ads.",
-        "<b>Educational</b>: over 1,700 questions (religion, science, maths, prophets' stories, logic, money skills) suited to each age; the English translation of the questions is in progress.",
+        "<b>Educational</b>: over 1,700 questions (religion, science, maths and logic, prophets' stories, money skills) suited to each age; the English translation of the questions is in progress.",
         "<b>One-time payment, no subscription</b>: one payment for the whole family, on all your devices, updates included."])]),
     ("Perfect for Ramadan evenings", [
       "After iftar, a 30, 45 or 60-minute game brings the whole family together. Questions about Ramadan, the Qur'an and generosity come at the right time, and the Giving square recalls the sharing spirit of the month."]),
