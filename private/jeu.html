@@ -962,8 +962,8 @@ function selectQuestion(p, theme){
   // Poids 0 = question mise de côté ; « prioritaire » = posée avant les autres tant qu'elle n'a pas été vue.
   const usable=cands.filter(q=>(q.w??1)>0); if(usable.length) cands=usable;
   const prio=cands.filter(q=>q.prio); if(prio.length) cands=prio;
-  // 2) toutes vues : on recommence le cycle de cette série, en évitant les 15 dernières
-  if(!cands.length){ const ids=new Set(pool.map(q=>q.id)); SEEN[p.name.toLowerCase()] = seen.filter(id=>!ids.has(id)); const recent=new Set(RG.eviter===0?[]:seen.slice(-(RG.eviter||15))); cands=pool.filter(q=>!table.has(q.id)&&!recent.has(q.id)); if(!cands.length) cands=pool; }
+  // 2) toutes vues : on recommence le cycle de cette série, en évitant les plus récentes (au moins 60 % de la série)
+  if(!cands.length){ const ids=new Set(pool.map(q=>q.id)); SEEN[p.name.toLowerCase()] = seen.filter(id=>!ids.has(id)); const nEviter=RG.eviter===0?0:Math.max(RG.eviter||15, Math.floor(pool.length*0.6)); const recent=new Set(nEviter?seen.filter(id=>ids.has(id)).slice(-nEviter):[]); cands=pool.filter(q=>!table.has(q.id)&&!recent.has(q.id)); if(!cands.length) cands=pool; }
   // Le niveau du joueur oriente le tirage (questions proches de son niveau plus probables) sans enfermer dans 5 questions.
   if(p.levels[theme]===undefined){ p.levels[theme]=startLevel(p); p.streak[theme]=0; }
   const lvl=p.levels[theme]; const w=cands.map(q=>(q.w??1)/(1+Math.abs(q.d-lvl)*1.5)+1e-9); let r=Math.random()*w.reduce((x,y)=>x+y,0), i=0; while(r>w[i]){ r-=w[i]; i++; }
