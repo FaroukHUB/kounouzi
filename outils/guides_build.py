@@ -90,6 +90,7 @@ EXTRA = """
 .crumb{font-size:13px;font-weight:800;color:var(--muted);margin-bottom:18px}.crumb a{color:var(--muted)}
 .prose{max-width:780px}.prose h2{font-size:clamp(24px,3vw,32px);margin:42px 0 12px}.prose p,.prose li{color:var(--muted);font-size:17px;line-height:1.7}
 .prose li{margin:8px 0}.prose b{color:var(--parchment)}.prose a{color:var(--gold)}
+.prose a.btn{text-decoration:none}.prose a.btn-gold{color:#3a2606}.prose a.btn-ghost{color:var(--parchment)} /* les boutons gardent leurs couleurs dans le texte */
 .gcta{margin:46px 0 10px;padding:26px;border-radius:24px;background:linear-gradient(160deg,#1c3050,#111f35);border:1.5px solid rgba(239,190,76,.4);display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
 .gcta p{margin:0;font-weight:800;color:var(--parchment);font-size:18px;flex:1 1 320px}
 .gfaq details{border-bottom:1px solid rgba(255,255,255,.08);padding:14px 0}.gfaq summary{font-weight:900;cursor:pointer}.gfaq p{margin:8px 0 0}
