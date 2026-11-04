@@ -299,7 +299,7 @@ const RG = DATA.reglages || {};
 const ALL_THEMES = ['religion','maths','geography','sciences','logic','management'];
 const THEMES = (Array.isArray(RG.themes)? RG.themes.filter(t=>ALL_THEMES.includes(t)) : []).length ? RG.themes.filter(t=>ALL_THEMES.includes(t)) : ALL_THEMES;
 const THEME_INFO = {
-  religion:{card:'religion'}, maths:{card:'maths'}, geography:{card:'histoire-geo'},
+  religion:{card:'religion'}, maths:{card:'maths'}, geography:{card:'histoire'},
   logic:{card:'logique'}, management:{card:'gestion'}, sciences:{card:'sciences'}};
 const themeNom = th=>t('theme.'+th);
 // Textes anglais des défis, cartes Hassanāt et établissements (repli : le français).
@@ -309,7 +309,7 @@ const nomCase = c=> (enLangue('cells',String(c.p))||{}).nom || c.nom;
 function defiTxt(d){ const e=enLangue('defis',d.id); if(!e) return d; return {...d, ti:e.ti||d.ti, cl:e.cl||d.cl, tx:e.tx||d.tx, v:d.v.map((v,k)=>({...v, text:(e.v&&e.v[k])||v.text}))}; }
 function hasTxt(c){ const e=enLangue('hassanat',c.id); return e? {...c, title:e.title||c.title, text:e.text||c.text} : c; }
 // Cartes illustrées dans la langue choisie (img/en/…), sinon la carte d'origine.
-const CARTES_EN = new Set(['religion','maths','histoire-geo','sciences','logique','gestion','defi','don','halte','tresor','hassanat','maktaba-al-albani','maktaba-as-sunnah','hotel-sharif','hotel-kunuz','hotel-tawhid','hotel-ihsan','restaurant-algerien','restaurant-marocain','agence-omra-an-nour','agence-omra-al-huda','musee-dubai','parc-familial-halal']);
+const CARTES_EN = new Set(['religion','maths','histoire','sciences','logique','gestion','defi','don','halte','tresor','hassanat','maktaba-al-albani','maktaba-as-sunnah','hotel-sharif','hotel-kunuz','hotel-tawhid','hotel-ihsan','restaurant-algerien','restaurant-marocain','agence-omra-an-nour','agence-omra-al-huda','musee-dubai','parc-familial-halal']);
 const carteImg = face=> LANG==='en' && CARTES_EN.has(face) ? `img/en/${face}-face.webp` : `img/${face}-face.webp`;
 const dosImg = ()=> LANG==='en' ? 'img/en/kounouzi-dos.webp' : 'img/kounouzi-dos.webp';
 // Le Chemin : six blocs de cinq valeurs, chacun contient 1,2,3,4,5 une fois. Jamais deux fois la même valeur de suite.
