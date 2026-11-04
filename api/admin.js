@@ -3,7 +3,7 @@
 import { timingSafeEqual } from 'node:crypto';
 import { normaliserTranche, systemeDe, tranchesDuTheme } from '../public/ages.js';
 import { analyserImport, lots, STATUTS_TRAD } from '../public/trad.js';
-import { moyens, codeCadeau, codePourPaiement, codeValide, db, dbActive, formater, json, oublierRevocation, PRIX } from './_lib.js';
+import { contacts, moyens, codeCadeau, codePourPaiement, codeValide, db, dbActive, formater, json, oublierRevocation, PRIX } from './_lib.js';
 
 const THEMES = ['religion', 'maths', 'geography', 'sciences', 'logic', 'management'];
 const ROTATION = ['family', 'hassanat', 'duel', 'question'];
@@ -94,6 +94,7 @@ export async function POST(request) {
       case 'entrer': return json(200, { ok: true, base, prix: PRIX, moyens: moyens() });
       case 'stats': return json(200, base ? await db('stats') : {});
       case 'codes': return json(200, { codes: base ? await db('codes_liste') : [] });
+      case 'contacts': return json(200, { contacts: base ? await contacts('liste', {}, { timeout: 8000 }) : [] });
       case 'cadeaux': {
         const n = Math.max(1, Math.min(50, Number(b.nombre) || 1));
         const codes = Array.from({ length: n }, codeCadeau);

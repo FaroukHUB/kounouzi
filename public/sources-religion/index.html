@@ -402,6 +402,7 @@ footer .logo img.brand{height:72px}
 .essai form{display:grid;gap:10px}.essai input[type=email]{border-radius:16px;border:1.5px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:var(--parchment);font:800 17px var(--body);padding:15px 16px;width:100%}
 .essai .hp{position:absolute;inset-inline-start:-9999px;width:1px;height:1px;opacity:0}
 .essai small{color:var(--muted);font-weight:700}
+.essai .opt{display:flex;gap:10px;align-items:flex-start;font-weight:700;font-size:14px;color:var(--parchment);cursor:pointer}.essai .opt input{width:18px;height:18px;margin-top:2px;accent-color:var(--gold);flex:0 0 auto}.essai small a{color:var(--gold)}
 @media (max-width:980px){.fam,.essai{grid-template-columns:1fr}.whys{grid-template-columns:1fr}}
 @media (max-width:720px){.essai{padding:22px 18px;border-radius:24px}.timeline li{grid-template-columns:46px 1fr;gap:12px}.timeline .n{width:46px;height:46px}.timeline::before{inset-inline-start:21px}.timeline .n img{width:28px;height:28px}}
 
@@ -422,6 +423,8 @@ footer .logo img.brand{height:72px}
 @media (max-width:1100px){.turn{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:720px){.turn,.ages{grid-template-columns:1fr}}
 
+.flegal{display:flex;flex-wrap:wrap;gap:6px 16px;width:100%;padding-top:14px;margin-top:6px;border-top:1px solid rgba(255,255,255,.07);font-size:13px}.flegal a{color:var(--faint)}.flegal a:hover{color:var(--parchment)}
+
 .ghero{padding:56px 0 30px}.ghero h1{font-size:clamp(32px,5vw,52px);max-width:900px}.ghero .lead{max-width:760px}
 .crumb{font-size:13px;font-weight:800;color:var(--muted);margin-bottom:18px}.crumb a{color:var(--muted)}
 .prose{max-width:780px}.prose h2{font-size:clamp(24px,3vw,32px);margin:42px 0 12px}.prose p,.prose li{color:var(--muted);font-size:17px;line-height:1.7}
@@ -434,6 +437,7 @@ footer .logo img.brand{height:72px}
 .glinks a{display:block;padding:18px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);text-decoration:none;color:var(--parchment);font-weight:900}
 .glinks a span{display:block;font-weight:700;color:var(--muted);font-size:14px;margin-top:6px}.glinks a:hover{border-color:var(--gold)}
 .fguides{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;margin-top:10px}.fguides a{color:var(--muted)}
+.flegal{display:flex;flex-wrap:wrap;gap:6px 16px;width:100%;padding-top:14px;margin-top:6px;border-top:1px solid rgba(255,255,255,.07);font-size:13px}.flegal a{color:var(--faint)}.flegal a:hover{color:var(--parchment)}
 
 .src-pills{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
 .src-pill{position:relative;padding:24px 22px;border-radius:24px;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden}
@@ -530,6 +534,7 @@ footer .logo img.brand{height:72px}
   <a class="logo" href="/" aria-label="Kounouzi"><img class="brand" src="/img/logo/kounouzi.webp?v=2" alt="Kounouzi" width="92" height="72" loading="lazy"></a>
   <span>Jouez ensemble, apprenez autrement, transmettez l'essentiel — © 2026 · <a href="/en/religion-sources/" style="color:inherit" data-lang="en">English version</a></span>
   <nav class="fguides" aria-label="Guides"><a href="/jeu-de-societe-valeurs-islamiques/">Fidèle à nos valeurs</a><a href="/jeu-educatif-islamique-enfant/">Jeu éducatif islamique</a><a href="/quiz-islamique-famille/">Quiz islamique</a><a href="/apprendre-zakat-enfants/">Éducation financière</a><a href="/cadeau-ramadan-aid-enfant/">Idée cadeau</a><a href="/regles-du-jeu/">Règles du jeu</a><a href="/sources-religion/">Nos sources</a></nav>
+  <nav class="flegal" aria-label="Informations légales"><a href="/mentions-legales/">Mentions légales</a><a href="/confidentialite/">Confidentialité</a><a href="/cgv/">Conditions de vente</a><a href="/sources-religion/">Nos sources</a><a href="#" data-cookies>Gérer les cookies</a><a href="mailto:contact@kounouzi.com">Contact</a></nav>
 </div></footer>
 <script>document.querySelectorAll('[data-lang]').forEach(function(a){a.addEventListener('click',function(){try{localStorage.setItem('kounouzi_lang',a.dataset.lang)}catch(e){} document.cookie='kz_lang='+a.dataset.lang+'; path=/; max-age=31536000; samesite=lax';});});</script>
 <div id="kzCookies" role="region" aria-label="Cookies" hidden style="position:fixed;inset-inline:12px;bottom:calc(96px + env(safe-area-inset-bottom,0px));z-index:70;max-width:520px;margin-inline:auto;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-end;padding:12px 14px;border-radius:16px;background:#1c3050;border:1.5px solid rgba(239,190,76,.45);box-shadow:0 10px 30px rgba(0,0,0,.45);font:700 13px/1.45 Nunito,system-ui,sans-serif;color:#f7ecd4">
@@ -553,6 +558,8 @@ footer .logo img.brand{height:72px}
     else if(h.indexOf('/jouer')===0) ev('lancement_jeu',{emplacement:zone,langue:L});
     else if(/#offre$/.test(h)||a.hasAttribute('data-cta')) ev('clic_cta',{emplacement:zone,langue:L});
     else if(a.id==='dStart') ev('tutorial_begin',{langue:L});
-  },true); })();</script>
+  },true); })();
+/* Lien « Gérer les cookies » : on oublie le choix et le bandeau revient. */
+document.querySelectorAll('[data-cookies]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); try{ localStorage.removeItem('kz_consent'); }catch(x){} location.reload(); }); });</script>
 </body>
 </html>

@@ -1,8 +1,8 @@
 // Demande d'une partie d'essai depuis le site : un code d'essai (1 partie, durée réglée dans le tableau de bord,
 // 10 minutes par défaut) est créé, ouvert sur cet appareil et envoyé par e-mail.
 // Une seule demande par adresse e-mail et par appareil. Un appareil qui a déjà un accès complet n'en a pas besoin.
-import { envoyerCode } from './_courriel.js';
-import { accesValide, codeCadeau, cookieAcces, db, dbActive, json, langueDe, lireCookie, origine, signer, verifier } from './_lib.js';
+import { ajouterListe, envoyerCode } from './_courriel.js';
+import { accesValide, codeCadeau, contacts, cookieAcces, db, dbActive, json, langueDe, lireCookie, origine, signer, verifier } from './_lib.js';
 
 const EMAIL = /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]{2,}$/;
 
@@ -23,6 +23,7 @@ export async function POST(request) {
     const code = codeCadeau();
     await db('cadeaux', { codes: [code], note, max_parties: 1 }, { timeout: 8000 });
     const envoye = await envoyerCode({ email, code, lang: en ? 'en' : 'fr', base: origine(request), essai: true });
+    await enregistrerContact({ email, code, lang: en ? 'en' : 'fr', news: !!b.news });
     const headers = new Headers({ 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
     headers.append('set-cookie', cookieAcces(code));
     headers.append('set-cookie', `kz_essai=${encodeURIComponent(signer(Date.now().toString(36)))}; Path=/; Max-Age=${60 * 60 * 24 * 365}; HttpOnly; Secure; SameSite=Lax`);
@@ -31,4 +32,12 @@ export async function POST(request) {
     console.error('essai', e.message);
     return json(500, { ok: false, erreur: tx('Impossible de créer l’essai pour le moment. Réessayez dans un instant.', 'Cannot create the trial right now. Please try again in a moment.') });
   }
+}
+
+// Le contact est gardé (pour renvoyer le code au besoin) ; il ne reçoit les nouveautés que s'il a coché la case.
+async function enregistrerContact({ email, code, lang, news }) {
+  try {
+    await contacts('maj', { email, origine: 'essai', code, lang, ...(news ? { consent: true, source: 'formulaire essai' } : {}) }, { timeout: 4000 });
+    if (news && await ajouterListe(email)) await contacts('brevo_ok', { email }, { timeout: 3000 });
+  } catch (e) { console.error('contact', e.message); }
 }

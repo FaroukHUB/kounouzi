@@ -61,3 +61,14 @@ Un échec d'envoi ne bloque jamais l'accès : la page Merci affiche toujours le 
 `POST /api/essai` (formulaire « Essai gratuit » de l'accueil) crée un code d'essai d'une partie (durée : réglage `essaiMinutes`,
 10 min par défaut), l'ouvre sur l'appareil et l'envoie par e-mail (Brevo). Une seule demande par adresse (note « Essai site · e-mail »
 dans les codes) et par appareil (cookie signé `kz_essai`). Un appareil qui a déjà un accès n'obtient rien de plus.
+
+## Contacts et nouveautés
+
+Table `kounouzi.contacts` et fonction `kz_contacts` (même jeton que `kz_api`). Les acheteurs et les demandes d'essai deviennent des
+contacts ; seuls ceux qui ont coché « recevoir les nouveautés » (formulaire d'essai, page Merci) ont `consent = true` et sont ajoutés
+à la liste Brevo `BREVO_LIST_ID`. Onglet « Contacts » de l'admin : liste, filtres, export CSV.
+
+## Pages légales
+
+`outils/legal_data.py` → mentions légales, confidentialité, CGV (FR/EN), générées par `outils/guides_build.py`. L'identité de
+l'éditeur se complète dans `EDITEUR` (un champ vide n'est pas affiché).

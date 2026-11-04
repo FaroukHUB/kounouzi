@@ -93,6 +93,7 @@ label.f small{font-weight:700;color:var(--faint)}
   <nav class="tabs" role="tablist">
     <button role="tab" data-tab="vue" aria-selected="true">Vue d'ensemble</button>
     <button role="tab" data-tab="codes">Codes</button>
+    <button role="tab" data-tab="contacts">Contacts</button>
     <button role="tab" data-tab="questions">Questions</button>
     <button role="tab" data-tab="traductions">Traductions</button>
     <button role="tab" data-tab="reglages">Réglages du jeu</button>
@@ -152,6 +153,18 @@ label.f small{font-weight:700;color:var(--faint)}
         <select id="cf"><option value="">Tous</option><option value="cadeau">Cadeaux</option><option value="essai">Essais</option><option value="achat">Achats</option><option value="actifs">Utilisés</option><option value="dormants">Jamais utilisés</option><option value="revoques">Désactivés</option></select>
         <button class="btn g sm" id="csv">Exporter (CSV)</button></div>
       <div class="tscroll"><table><thead><tr><th>Code</th><th>Type</th><th>Note</th><th>1re utilisation</th><th>Appareils</th><th>Parties</th><th>Dernière activité</th><th></th></tr></thead><tbody id="codesBody"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- CONTACTS -->
+  <section data-panel="contacts" hidden>
+    <div class="card">
+      <div class="toolbar"><h2 style="margin:0">📬 Contacts</h2><span class="tag" id="ctCount"></span>
+        <input type="search" id="ctq" placeholder="Chercher un e-mail…">
+        <select id="ctf"><option value="">Tous</option><option value="oui">Acceptent les nouveautés</option><option value="non">N'ont pas accepté</option><option value="achat">Acheteurs</option><option value="essai">Essais</option></select>
+        <button class="btn g sm" id="ctCsv">Exporter (CSV)</button></div>
+      <p class="muted small">Acheteurs et demandes d'essai. Seules les personnes qui ont <b>accepté</b> peuvent recevoir des e-mails de promotion (nouveautés, offres) ; les autres, uniquement des messages liés à leur code. Les personnes qui acceptent sont ajoutées automatiquement à la liste Brevo (si <code>BREVO_LIST_ID</code> est réglé).</p>
+      <div class="tscroll"><table><thead><tr><th>E-mail</th><th>Origine</th><th>Première fois</th><th>Nouveautés</th><th>Langue</th><th>Brevo</th></tr></thead><tbody id="ctBody"></tbody></table></div>
     </div>
   </section>
 
@@ -279,7 +292,7 @@ $('#lf').onsubmit=e=>{ e.preventDefault(); PW=$('#pw').value; enter(); };
 $('#logout').onclick=()=>{ sessionStorage.removeItem('kzpw'); location.reload(); };
 const loaded={};
 function show(tab){ if(!$(`[data-panel="${tab}"]`)) tab='vue'; $$('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==tab); $$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===tab)); history.replaceState(null,'','#'+tab);
-  if(!loaded[tab]){ loaded[tab]=true; ({vue:loadStats,codes:loadCodes,questions:loadQuestions,reglages:loadReglages,outils:loadOutils,traductions:loadTrad})[tab]?.(); }
+  if(!loaded[tab]){ loaded[tab]=true; ({vue:loadStats,codes:loadCodes,contacts:loadContacts,questions:loadQuestions,reglages:loadReglages,outils:loadOutils,traductions:loadTrad})[tab]?.(); }
   else if(tab==='traductions') loadTrad(); }
 $$('nav.tabs button').forEach(b=>b.onclick=()=>show(b.dataset.tab));
 if(PW) enter();
@@ -378,6 +391,17 @@ $('#mk').onclick=async()=>{ try{ const d=await api('cadeaux',{nombre:$('#nb').va
   $$('#mkout [data-c]').forEach(b=>b.onclick=()=>copier(b.dataset.c,b));
   const all=$('#cpall'); if(all) all.onclick=async()=>{ try{ await navigator.clipboard.writeText(d.codes.join('\n')); all.textContent='Copiés ✓'; }catch{} };
   loaded.codes && loadCodes(); }catch(e){ toast(e.message); } };
+let CT=[];
+async function loadContacts(){ $('#ctBody').innerHTML='<tr><td colspan="6" class="empty">Chargement…</td></tr>'; try{ CT=(await api('contacts')).contacts||[]; }catch(e){ $('#ctBody').innerHTML=`<tr><td colspan="6" class="msg err">${esc(e.message)}</td></tr>`; return; } renderContacts(); }
+function contactsFiltres(){ const q=($('#ctq').value||'').toLowerCase(), f=$('#ctf').value;
+  return CT.filter(c=>(!q||c.email.includes(q)) && (!f || (f==='oui'&&c.consent) || (f==='non'&&!c.consent) || ((f==='achat'||f==='essai')&&String(c.origine||'').includes(f)))); }
+function renderContacts(){ const L=contactsFiltres(); $('#ctCount').textContent=`${fmt(L.length)} · ${fmt(CT.filter(c=>c.consent).length)} acceptent`;
+  $('#ctBody').innerHTML= L.length? L.map(c=>`<tr><td><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></td><td>${[...new Set(String(c.origine||'').split(','))].filter(Boolean).map(o=>`<span class="tag ${o==='achat'?'gold':'warn'}">${o==='achat'?'Achat':'Essai'}</span>`).join(' ')}</td><td>${dt(c.created_at)}</td><td>${c.consent?`<span class="tag" style="background:rgba(61,220,132,.18);color:#3ddc84">Oui</span> <span class="muted small">${dt(c.consent_at)} · ${esc(c.consent_source||'')}</span>`:'<span class="muted">Non</span>'}</td><td>${esc((c.lang||'').toUpperCase())}</td><td>${c.brevo_at?'✓':''}</td></tr>`).join('') : '<tr><td colspan="6" class="empty">Aucun contact pour le moment.</td></tr>'; }
+$('#ctq').oninput=renderContacts; $('#ctf').onchange=renderContacts;
+$('#ctCsv').onclick=()=>{ const L=contactsFiltres(), H=['email','origine','premiere_fois','nouveautes','date_accord','source_accord','langue','brevo'];
+  const rows=L.map(c=>[c.email,[...new Set(String(c.origine||'').split(','))].filter(Boolean).join('+'),c.created_at,c.consent?'oui':'non',c.consent_at,c.consent_source,c.lang,c.brevo_at?'oui':'']);
+  const csv=[H,...rows].map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(';')).join('\n');
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'})); a.download=`kounouzi-contacts-${new Date().toISOString().slice(0,10)}.csv`; a.click(); };
 $('#csv').onclick=()=>{ const L=codesFiltres(), H=['code','type','note','moyen','montant','devise','email','cree_le','premiere_utilisation','appareils','parties','derniere_activite','desactive'];
   const rows=L.map(c=>[c.code,c.kind,c.note,c.moyen,c.devise==='EUR'&&c.montant?c.montant/100:c.montant,c.devise,c.email,c.created_at,c.premiere,c.appareils,c.parties,c.derniere,c.revoked?'oui':'non']);
   const csv=[H,...rows].map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(';')).join('\n');

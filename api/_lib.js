@@ -62,11 +62,11 @@ export const chargilyBase = () => (process.env.CHARGILY_SECRET_KEY || '').starts
 
 // ---------- Base de données (Supabase, schéma kounouzi, via la fonction kz_api) ----------
 export const dbActive = () => !!(process.env.KZ_DB_URL && process.env.KZ_DB_KEY && process.env.KZ_DB_TOKEN);
-export async function db(action, data = {}, { timeout = 5000 } = {}) {
+export async function db(action, data = {}, { timeout = 5000, fn = 'kz_api' } = {}) {
   if (!dbActive()) throw new Error('base non configurée');
   const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), timeout);
   try {
-    const r = await fetch(`${process.env.KZ_DB_URL}/rest/v1/rpc/kz_api`, {
+    const r = await fetch(`${process.env.KZ_DB_URL}/rest/v1/rpc/${fn}`, {
       method: 'POST', signal: ctl.signal,
       headers: { apikey: process.env.KZ_DB_KEY, 'content-type': 'application/json' },
       body: JSON.stringify({ p_token: process.env.KZ_DB_TOKEN, p_action: action, p_data: data }),
@@ -77,6 +77,8 @@ export async function db(action, data = {}, { timeout = 5000 } = {}) {
   } finally { clearTimeout(t); }
 }
 // Enregistrement « au mieux » : ne bloque jamais le joueur si la base est lente ou absente.
+// Contacts (e-mails et consentement aux nouveautés) : fonction séparée kz_contacts, même jeton.
+export const contacts = (action, data, opts = {}) => db(action, data, { ...opts, fn: 'kz_contacts' });
 export async function noter(action, data) { try { if (dbActive()) await db(action, data, { timeout: 1500 }); } catch (e) { console.error('noter', action, e.message); } }
 
 // Appareil : un identifiant au hasard, gardé dans un cookie (aucune donnée personnelle).

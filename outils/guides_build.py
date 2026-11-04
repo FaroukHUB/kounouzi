@@ -3,6 +3,7 @@
 import re, json, html, sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from guides_data import GUIDES, LIVRES
+from legal_data import LEGAL
 
 D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'public') + '/'
 U = 'https://kounouzi.com'
@@ -98,6 +99,7 @@ EXTRA = """
 .glinks a{display:block;padding:18px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);text-decoration:none;color:var(--parchment);font-weight:900}
 .glinks a span{display:block;font-weight:700;color:var(--muted);font-size:14px;margin-top:6px}.glinks a:hover{border-color:var(--gold)}
 .fguides{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;margin-top:10px}.fguides a{color:var(--muted)}
+.flegal{display:flex;flex-wrap:wrap;gap:6px 16px;width:100%;padding-top:14px;margin-top:6px;border-top:1px solid rgba(255,255,255,.07);font-size:13px}.flegal a{color:var(--faint)}.flegal a:hover{color:var(--parchment)}
 """
 
 T = {
@@ -113,6 +115,14 @@ T = {
 
 def url(lang, slug): return (U + '/' if lang == 'fr' else U + '/en/') + slug + '/'
 def path(lang, slug): return ('/' if lang == 'fr' else '/en/') + slug + '/'
+
+LEGAL_NAV = {
+ 'fr': [('/mentions-legales/', 'Mentions légales'), ('/confidentialite/', 'Confidentialité'), ('/cgv/', 'Conditions de vente'), ('/sources-religion/', 'Nos sources')],
+ 'en': [('/en/legal-notice/', 'Legal notice'), ('/en/privacy/', 'Privacy'), ('/en/terms/', 'Terms of sale'), ('/en/religion-sources/', 'Our sources')]}
+def legal_nav(lang):
+    cookies = 'Gérer les cookies' if lang == 'fr' else 'Manage cookies'
+    return ('<nav class="flegal" aria-label="' + ('Informations légales' if lang == 'fr' else 'Legal') + '">' + ''.join(f'<a href="{h}">{l}</a>' for h, l in LEGAL_NAV[lang])
+            + f'<a href="#" data-cookies>{cookies}</a><a href="mailto:contact@kounouzi.com">Contact</a></nav>')
 
 def footer_guides(lang):
     return '<nav class="fguides" aria-label="' + T[lang]['foot_g'] + '">' + ''.join(f'<a href="{path(lang, g[lang]["slug"])}">{html.escape(g[lang]["kick"])}</a>' for g in GUIDES) + '</nav>'
@@ -202,12 +212,30 @@ def page(g, lang):
   <a class="logo" href="{t['home']}" aria-label="Kounouzi"><img class="brand" src="/img/logo/kounouzi.webp?v=2" alt="Kounouzi" width="92" height="72" loading="lazy"></a>
   <span>{t['foot']} — © 2026 · <a href="{other_url}" style="color:inherit" data-lang="{'en' if lang == 'fr' else 'fr'}">{t['flag_l']}</a></span>
   {footer_guides(lang)}
+  {legal_nav(lang)}
 </div></footer>
 <script>document.querySelectorAll('[data-lang]').forEach(function(a){{a.addEventListener('click',function(){{try{{localStorage.setItem('kounouzi_lang',a.dataset.lang)}}catch(e){{}} document.cookie='kz_lang='+a.dataset.lang+'; path=/; max-age=31536000; samesite=lax';}});}});</script>
 {BAN}
 </body>
 </html>
 """
+
+def page_legale(g, lang):
+    h = page({**g, lang: {**g[lang], 'faq': []}}, lang)
+    h = h.replace('<meta name="robots" content="index,follow,max-image-preview:large">', '<meta name="robots" content="noindex,follow">')
+    h = re.sub(r'<div class="cta" style="margin-top:22px">.*?</div>\n', '', h, count=1)
+    h = re.sub(r'<div class="gcta">.*?</div>\n<h2>[^<]*</h2><div class="gfaq"></div>\n', '', h, count=1, flags=re.S)
+    h = re.sub(r'<h2 style="margin-top:56px">[^<]*</h2>\n<div class="glinks">.*?</div>\n', '', h, count=1, flags=re.S)
+    h = re.sub(r', \{"@type": "FAQPage", "inLanguage": "\w+", "mainEntity": \[\]\}', '', h)
+    h = re.sub(r'› <a href="[^"]*#guides">[^<]*</a> › ', '› ', h, count=1)
+    return h
+
+for g in LEGAL:
+    for lang in ('fr', 'en'):
+        p = D + ('' if lang == 'fr' else 'en/') + g[lang]['slug'] + '/index.html'
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        open(p, 'w').write(page_legale(g, lang))
+        print(p.replace(D, ''), 'légal')
 
 for g in GUIDES:
     for lang in ('fr', 'en'):

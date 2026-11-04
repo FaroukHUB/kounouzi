@@ -73,3 +73,18 @@ export async function envoyerCode({ email, code, lang, base, essai = false }) {
     return true;
   } catch (e) { console.error('brevo', e?.message); return false; }
 }
+
+// Ajoute à la liste Brevo des nouveautés une personne qui l'a accepté (BREVO_LIST_ID). Ne lève jamais d'erreur.
+export const listeActive = () => !!(process.env.BREVO_API_KEY && Number(process.env.BREVO_LIST_ID));
+export async function ajouterListe(email) {
+  if (!listeActive() || !email) return false;
+  try {
+    const r = await fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: { 'api-key': process.env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify({ email, listIds: [Number(process.env.BREVO_LIST_ID)], updateEnabled: true }),
+    });
+    if (!r.ok && r.status !== 204) { console.error('brevo liste', r.status, (await r.text()).slice(0, 200)); return false; }
+    return true;
+  } catch (e) { console.error('brevo liste', e?.message); return false; }
+}

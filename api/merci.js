@@ -1,6 +1,6 @@
 // Après paiement : vérifie auprès de Stripe ou Chargily que c'est bien payé, puis donne le code et ouvre l'accès.
 import { envoyerCode } from './_courriel.js';
-import { appareil, chargilyBase, origine, codePourPaiement, cookieAcces, json, langueDe, lieu, lireCookie, noter, resume, verifier } from './_lib.js';
+import { appareil, chargilyBase, contacts, origine, codePourPaiement, cookieAcces, json, langueDe, lieu, lireCookie, noter, resume, verifier } from './_lib.js';
 
 // Messages en anglais quand l'acheteur vient de la version anglaise (le français reste la référence).
 const EN = {
@@ -35,6 +35,7 @@ export async function GET(request) {
     const code = codePourPaiement(ref), dev = appareil(request), l = lieu(request);
     // montant : centimes pour l'euro, dinars entiers pour le DA
     await noter('achat', { code, moyen, ref, montant, devise, email, device: dev.id, pays: l.pays });
+    if (email) try { await contacts('maj', { email, origine: 'achat', code, lang: en ? 'en' : 'fr' }, { timeout: 3000 }); } catch (e) { console.error('contact', e.message); }
     await noter('activation', { code, kind: 'achat', device: dev.id, ua: resume(request.headers.get('user-agent') || ''), pays: l.pays, ville: l.ville });
     // Code envoyé par e-mail une seule fois par paiement (repère gardé dans les métadonnées du paiement Stripe).
     if (moyen === 'stripe' && email && intention) await envoyerUneFois({ intention, email, code, lang: en ? 'en' : 'fr', base: origine(request) });
