@@ -1,4 +1,10 @@
+import { timingSafeEqual } from 'node:crypto';
 import { aAcces } from './_lib.js';
+// Le tableau de bord (mot de passe administrateur) peut aussi faire parler la voix, pour tester la prononciation.
+function admin(request) {
+  const pw = process.env.KZ_ADMIN || '', got = request.headers.get('x-admin') || '';
+  return pw.length >= 8 && got.length === pw.length && timingSafeEqual(Buffer.from(got), Buffer.from(pw));
+}
 // Voix en ligne Kounouzi : le navigateur envoie une phrase, le serveur la fait dire par ElevenLabs.
 // La clé reste sur le serveur (variables ELEVENLABS_API_KEY et ELEVENLABS_VOICE_ID dans Vercel).
 // Le texte voyage dans l'URL : chaque phrase est mise en cache par le CDN et n'est payée qu'une fois.
@@ -13,7 +19,7 @@ const TONES = {
 const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' } });
 
 export async function GET(request) {
-  if (!aAcces(request)) return new Response('Accès réservé', { status: 401 });
+  if (!aAcces(request) && !admin(request)) return new Response('Accès réservé', { status: 401 });
   const url = new URL(request.url);
   // Langue de la phrase (fr par défaut). Une voix anglaise dédiée peut être choisie avec ELEVENLABS_VOICE_ID_EN ;
   // sinon la voix multilingue habituelle lit aussi l'anglais. La langue fait partie de l'URL, donc du cache.
