@@ -36,8 +36,7 @@ async function amorcer() { // première fois : copie les questions du fichier da
 }
 export async function GET(request) {
   const f = new URL(request.url).searchParams.get('f');
-  // ---- Import ponctuel des questions « Histoire des prophètes » (porte temporaire, retirée juste après) ----
-    if (f === 'ping') { // vérification technique (sans rien montrer du contenu) + amorçage de la base si elle est vide
+  if (f === 'ping') { // vérification technique (sans rien montrer du contenu) + amorçage de la base si elle est vide
     const ok = await Promise.all(['jeu.html', 'data.json'].map(n => stat(path.join(DIR, n)).then(() => true, () => false)));
     let base = dbActive() ? 'configurée' : 'absente';
     if (dbActive()) { try { const r = await amorcer(); base = r?.deja ? 'prête' : `importée (${r?.questions} questions)`; } catch (e) { base = 'erreur : ' + e.message; } }
