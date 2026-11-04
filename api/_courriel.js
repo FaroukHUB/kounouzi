@@ -29,8 +29,14 @@ const TXT = {
   },
 };
 
-export function messageCode({ code, lang, base }) {
-  const t = TXT[lang === 'en' ? 'en' : 'fr'], lien = t.lien(base, code);
+// Variante pour une partie d'essai demandée sur le site.
+const ESSAI = {
+  fr: { sujet: 'Ta partie d\'essai Kounouzi', titre: 'Ta partie d\'essai est prête !', intro: 'Voici ton code d\'essai : il ouvre une partie de 10 minutes, à jouer en famille sur un seul écran. Réunissez-vous autour de la table !', bouton: 'Lancer ma partie d\'essai', garde: 'Ta partie te plaît ? L\'accès complet, à vie, est disponible sur kounouzi.com.' },
+  en: { sujet: 'Your Kounouzi trial game', titre: 'Your trial game is ready!', intro: 'Here is your trial code: it opens a 10-minute game, to play as a family on a single screen. Gather around the table!', bouton: 'Start my trial game', garde: 'Enjoying it? Full lifetime access is available on kounouzi.com.' },
+};
+
+export function messageCode({ code, lang, base, essai = false }) {
+  const t0 = TXT[lang === 'en' ? 'en' : 'fr'], t = essai ? { ...t0, ...ESSAI[lang === 'en' ? 'en' : 'fr'] } : t0, lien = t.lien(base, code);
   const html = `<!doctype html><html lang="${lang === 'en' ? 'en' : 'fr'}"><body style="margin:0;background:#0c1626;font-family:Arial,Helvetica,sans-serif;color:#f7ecd4">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0c1626;padding:28px 12px"><tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#14243b;border:1px solid #6b5420;border-radius:18px;padding:28px 24px">
@@ -48,10 +54,10 @@ export function messageCode({ code, lang, base }) {
 }
 
 /** Envoie le code. Renvoie true si Brevo a accepté l'e-mail. Ne lève jamais d'erreur (le paiement ne doit pas en dépendre). */
-export async function envoyerCode({ email, code, lang, base }) {
+export async function envoyerCode({ email, code, lang, base, essai = false }) {
   if (!courrielActif() || !email || !code) return false;
   try {
-    const m = messageCode({ code, lang, base });
+    const m = messageCode({ code, lang, base, essai });
     const r = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: { 'api-key': process.env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },
@@ -60,7 +66,7 @@ export async function envoyerCode({ email, code, lang, base }) {
         to: [{ email }],
         ...(process.env.KZ_CONTACT ? { replyTo: { email: process.env.KZ_CONTACT } } : {}),
         subject: m.sujet, htmlContent: m.html, textContent: m.texte,
-        tags: ['code-acces'],
+        tags: [essai ? 'code-essai' : 'code-acces'],
       }),
     });
     if (!r.ok) { console.error('brevo', r.status, (await r.text()).slice(0, 300)); return false; }

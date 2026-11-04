@@ -55,3 +55,9 @@ Après un paiement Stripe, `api/merci.js` envoie le code d'accès à l'adresse s
 - `KZ_MAIL_NOM` (facultatif, défaut « Kounouzi ») ; `KZ_CONTACT` sert d'adresse de réponse.
 
 Un échec d'envoi ne bloque jamais l'accès : la page Merci affiche toujours le code.
+
+## Partie d'essai demandée sur le site
+
+`POST /api/essai` (formulaire « Essai gratuit » de l'accueil) crée un code d'essai d'une partie (durée : réglage `essaiMinutes`,
+10 min par défaut), l'ouvre sur l'appareil et l'envoie par e-mail (Brevo). Une seule demande par adresse (note « Essai site · e-mail »
+dans les codes) et par appareil (cookie signé `kz_essai`). Un appareil qui a déjà un accès n'obtient rien de plus.
