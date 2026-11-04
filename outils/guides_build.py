@@ -86,7 +86,7 @@ def page(g, lang):
 <meta property="og:image" content="{U}/img/site/og-{lang}.jpg">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" type="image/png" sizes="32x32" href="/img/logo/favicon-32.png"><link rel="icon" type="image/png" sizes="48x48" href="/img/logo/favicon-48.png"><link rel="icon" type="image/png" sizes="192x192" href="/img/logo/favicon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/logo/favicon-32.png?v=2"><link rel="icon" type="image/png" sizes="48x48" href="/img/logo/favicon-48.png?v=2"><link rel="icon" type="image/png" sizes="192x192" href="/img/logo/favicon-192.png?v=2">
 <link rel="apple-touch-icon" href="/img/app/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800;900&family=Noto+Naskh+Arabic:wght@500;700&display=swap">
@@ -97,7 +97,7 @@ def page(g, lang):
 <div class="sky" aria-hidden="true"></div>
 <header class="top">
   <div class="wrap">
-    <a class="logo" href="{t['home']}" aria-label="{t['aria']}"><img class="brand" src="/img/logo/kounouzi.webp" alt="Kounouzi" width="81" height="62"></a>
+    <a class="logo" href="{t['home']}" aria-label="{t['aria']}"><img class="brand" src="/img/logo/kounouzi.webp?v=2" alt="Kounouzi" width="79" height="62"></a>
     <nav aria-label="Sections">{nav}</nav>
     <div class="acts">
       <a class="langsw" href="{other_url}" hreflang="{'en' if lang == 'fr' else 'fr'}" lang="{'en' if lang == 'fr' else 'fr'}" data-lang="{'en' if lang == 'fr' else 'fr'}" title="{t['flag_l']}" aria-label="{t['flag_l']}"><img src="/img/flags/{t['flag']}.svg" alt="" width="24" height="16"></a>
@@ -124,7 +124,7 @@ def page(g, lang):
 </div></section>
 </main>
 <footer><div class="wrap">
-  <a class="logo" href="{t['home']}" aria-label="Kounouzi"><img class="brand" src="/img/logo/kounouzi.webp" alt="Kounouzi" width="94" height="72" loading="lazy"></a>
+  <a class="logo" href="{t['home']}" aria-label="Kounouzi"><img class="brand" src="/img/logo/kounouzi.webp?v=2" alt="Kounouzi" width="92" height="72" loading="lazy"></a>
   <span>{t['foot']} — © 2026 · <a href="{other_url}" style="color:inherit" data-lang="{'en' if lang == 'fr' else 'fr'}">{t['flag_l']}</a></span>
   {footer_guides(lang)}
 </div></footer>
