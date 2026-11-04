@@ -1310,6 +1310,7 @@ async function playTurn(){
 }
 async function endTurn(){
   idleMain(); S.turn++;
+  if(S.essai && S.duration && (store.get(ELAPSED)||0)>=S.duration){ S.over=true; save(); return showEnd(); }
   if(S.turn>=S.players.length){ S.turn=0; await endRound(); S.round++; if(S.over) { save(); return showEnd(); } }
   prefetch(PH.turn(cur().name)); playTurn();
 }
@@ -1457,8 +1458,10 @@ $('#startBtn').onclick=async()=>{
   const ok=await autoriserPartie(defs,durMin); btn.disabled=false;
   if(!ok.ok){ finEssai(); return; }
   newGame(defs.map(d=>({...d, hex:COLORS.find(c=>c.id===d.color).hex})), durMin);
-  if(ok.essai){ S.essai=true; S.restantes=ok.restantes??0; save(); }
+  // Code d'essai : la partie dure le temps réglé dans le tableau de bord (10 minutes par défaut), quelle que soit la durée choisie.
+  if(ok.essai){ S.essai=true; S.restantes=ok.restantes??0; S.duration=Math.max(3,Math.min(60,+RG.essaiMinutes||10))*60000; save(); }
   enterGame(true);
+  if(S.essai) setTimeout(()=>toast(t('essai.duree',{m:Math.round(S.duration/60000)}),4500),1200);
 };
 $('#resumeBtn').onclick=()=>{ S=store.get(SAVE); enterGame(); };
 function enterGame(fresh){

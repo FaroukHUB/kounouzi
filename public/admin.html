@@ -488,7 +488,8 @@ function renderRG(){
   $$('[data-eco]').forEach(i=>i.oninput=()=>RG.eco[i.dataset.eco]=+i.value);
   $('#tpsF').innerHTML=`<label class="f">Temps pour répondre, enfant <small>secondes</small><input type="number" min="15" max="180" data-k="minuteur.enfant" value="${RG.minuteur.enfant}"></label>
     <label class="f">Temps pour répondre, adulte <small>secondes</small><input type="number" min="15" max="180" data-k="minuteur.adulte" value="${RG.minuteur.adulte}"></label>
-    <label class="f">Ne pas reposer les … dernières questions vues <small>quand un joueur a tout vu dans sa série</small><input type="number" min="0" max="100" data-k="eviter" value="${RG.eviter}"></label>`;
+    <label class="f">Ne pas reposer les … dernières questions vues <small>quand un joueur a tout vu dans sa série</small><input type="number" min="0" max="100" data-k="eviter" value="${RG.eviter}"></label>
+    <label class="f">Durée d'une partie d'essai <small>minutes · codes d'essai uniquement</small><input type="number" min="3" max="60" data-k="essaiMinutes" value="${RG.essaiMinutes??10}"></label>`;
   $('#durF').innerHTML=['rapide','classique','grande'].map(k=>`<label class="f">Partie ${k} <small>minutes</small><input type="number" min="10" max="240" data-k="durees.${k}" value="${RG.durees[k]}"></label>`).join('');
   $$('[data-k]').forEach(i=>i.oninput=()=>{ const [a,b]=i.dataset.k.split('.'); if(b) RG[a][b]=+i.value; else RG[a]=+i.value; });
   const EX=RG.explications||['religion'];

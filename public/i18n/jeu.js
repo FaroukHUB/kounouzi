@@ -229,6 +229,7 @@ export const fr = {
   'fin.acces': "Obtenir l'accès complet",
   'fin.nouvelle': 'Nouvelle partie',
   'essai.titre': "Ta partie d'essai est terminée",
+  'essai.duree': "Partie d'essai : {m} minutes de jeu. Profitez-en bien !",
   'essai.texte': "Merci d'avoir essayé Kounouzi ! Pour continuer à jouer en famille, sans limite, obtiens l'accès complet.",
   // ----- Réglages
   'set.titre': 'Réglages',
@@ -467,6 +468,7 @@ export const en = {
   'fin.acces': 'Get full access',
   'fin.nouvelle': 'New game',
   'essai.titre': 'Your trial game is over',
+  'essai.duree': 'Trial game: {m} minutes of play. Enjoy!',
   'essai.texte': 'Thank you for trying Kounouzi! To keep playing as a family, without limits, get full access.',
   'set.titre': 'Settings',
   'set.langue': 'Game language',
