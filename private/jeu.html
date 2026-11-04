@@ -954,16 +954,23 @@ const seenOf = p => (SEEN[p.name.toLowerCase()] ||= []);
 // Questions adaptées à ce joueur dans ce thème. Jamais de question d'une autre tranche « pour combler » :
 // si un thème n'a rien d'adapté, nextTheme passe au thème suivant.
 function poolFor(p,theme){ return questionsEligibles(DATA.questions,theme,p); }
+// Questions d'un même « groupe » (src = 'groupe:…') : le même fait formulé pour plusieurs âges. Il n'est jamais reposé
+// à la table pendant la partie, ni au même joueur tant qu'il n'a pas fait le tour de sa série.
 function selectQuestion(p, theme){
+  if(selectQuestion.base!==DATA.questions){ selectQuestion.base=DATA.questions; selectQuestion.idx=new Map(DATA.questions.map(q=>[q.id,q])); }
+  const groupeDe=q=> q && typeof q.src==='string' && q.src.startsWith('groupe:') ? q.src : null;
+  const groupesDe=ids=>{ const g=new Set(); for(const id of ids){ const x=groupeDe(selectQuestion.idx.get(id)); if(x) g.add(x); } return g; };
   const pool=poolFor(p,theme), table=new Set(S.usedQ), seen=seenOf(p), seenSet=new Set(seen);
   if(!pool.length) return null;   // aucune question adaptée : l'appelant choisit un autre thème
-  // 1) jamais vue par ce joueur et pas encore posée à la table
-  let cands=pool.filter(q=>!seenSet.has(q.id) && !table.has(q.id));
+  const gTable=groupesDe(S.usedQ), gVus=groupesDe(seen);
+  const libre=q=>{ const g=groupeDe(q); return !g || !gTable.has(g); };
+  // 1) jamais vue par ce joueur (ni sous une autre formulation) et pas encore posée à la table
+  let cands=pool.filter(q=>!seenSet.has(q.id) && !table.has(q.id) && libre(q) && !(groupeDe(q)&&gVus.has(groupeDe(q))));
   // Poids 0 = question mise de côté ; « prioritaire » = posée avant les autres tant qu'elle n'a pas été vue.
   const usable=cands.filter(q=>(q.w??1)>0); if(usable.length) cands=usable;
   const prio=cands.filter(q=>q.prio); if(prio.length) cands=prio;
   // 2) toutes vues : on recommence le cycle de cette série, en évitant les plus récentes (au moins 60 % de la série)
-  if(!cands.length){ const ids=new Set(pool.map(q=>q.id)); SEEN[p.name.toLowerCase()] = seen.filter(id=>!ids.has(id)); const nEviter=RG.eviter===0?0:Math.max(RG.eviter||15, Math.floor(pool.length*0.6)); const recent=new Set(nEviter?seen.filter(id=>ids.has(id)).slice(-nEviter):[]); cands=pool.filter(q=>!table.has(q.id)&&!recent.has(q.id)); if(!cands.length) cands=pool; }
+  if(!cands.length){ const ids=new Set(pool.map(q=>q.id)); SEEN[p.name.toLowerCase()] = seen.filter(id=>!ids.has(id)); const nEviter=RG.eviter===0?0:Math.max(RG.eviter||15, Math.floor(pool.length*0.6)); const recent=new Set(nEviter?seen.filter(id=>ids.has(id)).slice(-nEviter):[]); const gRecent=groupesDe(recent); cands=pool.filter(q=>!table.has(q.id)&&!recent.has(q.id)&&libre(q)&&!(groupeDe(q)&&gRecent.has(groupeDe(q)))); if(!cands.length) cands=pool.filter(q=>!table.has(q.id)&&libre(q)); if(!cands.length) cands=pool; }
   // Le niveau du joueur oriente le tirage (questions proches de son niveau plus probables) sans enfermer dans 5 questions.
   if(p.levels[theme]===undefined){ p.levels[theme]=startLevel(p); p.streak[theme]=0; }
   const lvl=p.levels[theme]; const w=cands.map(q=>(q.w??1)/(1+Math.abs(q.d-lvl)*1.5)+1e-9); let r=Math.random()*w.reduce((x,y)=>x+y,0), i=0; while(r>w[i]){ r-=w[i]; i++; }
@@ -1007,7 +1014,7 @@ async function askQuestion(p, {theme, title, intro}={}){
       <div class="qtext ${LQ==='ar'?'ar':''}" dir="${LQ==='ar'?'rtl':'ltr'}" lang="${LQ}">${esc(q.q[LQ])}</div>
       ${revealed? `<div class="ans" dir="${LR==='ar'?'rtl':'ltr'}" lang="${LR}"><small>${t('q.reponse')}</small>${esc(q.r[LR])}</div>
         ${avecExpl&&(q.e.fr||(religion&&q.e.ar))? `<button class="linkbtn" id="explBtn">${t('q.voirExpl')}</button><div class="expl" id="expl" hidden><span lang="${LE}">${esc(q.e[LE]||'')}</span>${religion&&q.e.ar?`<span class="ar" dir="rtl" lang="ar">${esc(q.e.ar)}</span>`:''}</div>`:''}
-        ${q.s?`<div class="src">${esc(q.s)}</div>`:''}`
+        ${q.s?`<div class="src">${esc(LANG==='en'? q.s.replace(/^Coran\b/,'Qur\'an') : q.s)}</div>`:''}`
       : `<div class="timer" id="tm"><span id="tmv">${t('q.secondes',{n:left})}</span><span class="bar"><i id="tmb" style="width:${left/secs*100}%"></i></span></div>`}`;
     const eb=C.win.querySelector('#explBtn'); if(eb) eb.onclick=()=>{ C.win.querySelector('#expl').hidden=false; eb.remove();
       if(lang==='ar'&&religion&&q.e.ar) return say(q.e.ar,{lang:'ar'});

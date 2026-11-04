@@ -36,6 +36,16 @@ async function amorcer() { // première fois : copie les questions du fichier da
 }
 export async function GET(request) {
   const f = new URL(request.url).searchParams.get('f');
+  // ---- Import ponctuel des questions « Histoire des prophètes » (porte temporaire, retirée juste après) ----
+  if (f === 'import_proph') {
+    const u = new URL(request.url);
+    if (u.searchParams.get('t') !== '86d28d0ed553b3a28fa196e6fcf4bb41' || !dbActive()) return new Response('non', { status: 404 });
+    const { verifierQuestion } = await import('./admin.js');
+    const L = JSON.parse(await readFile(path.join(DIR, 'import-prophetes.json'), 'utf8'));
+    const lot = Math.max(0, Math.min(9, Number(u.searchParams.get('lot')) || 0)), part = L.slice(lot * 40, lot * 40 + 40);
+    const res = await Promise.all(part.map(q => { const v = verifierQuestion(q); return v.erreur ? Promise.resolve('erreur ' + q.id + ' ' + v.erreur) : db('question_maj', v.question, { timeout: 20000 }).then(() => 'ok', e => 'echec ' + q.id + ' ' + e.message); }));
+    return new Response(JSON.stringify({ lot, envoyees: part.length, ok: res.filter(x => x === 'ok').length, erreurs: res.filter(x => x !== 'ok') }), { headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
+  }
   if (f === 'ping') { // vérification technique (sans rien montrer du contenu) + amorçage de la base si elle est vide
     const ok = await Promise.all(['jeu.html', 'data.json'].map(n => stat(path.join(DIR, n)).then(() => true, () => false)));
     let base = dbActive() ? 'configurée' : 'absente';

@@ -265,3 +265,14 @@ test('traductions : l’anglais (et toute langue déjà présente parmi fr/ar/en
   assert.equal(A.questionsEligibles([{ ...enBase, q: { fr: 'x', en: 'y' } }], 'geography', enfant(8)).length, 1);
   assert.equal(A.filtrerQuestions([{ ...enBase, statut: 'publiee' }], { recherche: 'q en' }).length, 1);
 });
+
+test('même fait formulé pour plusieurs âges (groupe) : jamais reposé à la table ni au même joueur avant la fin de sa série', () => {
+  const mk = (id, a, g) => ({ id, t: 'geography', d: 3, a, q: { fr: id }, r: { fr: 'x' }, e: {}, src: 'groupe:' + g });
+  const qs = [];
+  for (let g = 1; g <= 6; g++) { qs.push(mk(`G${g}-11`, '11-12', g)); qs.push(mk(`G${g}-13`, '13+', g)); }
+  const data = { ...DATA, questions: [...DATA.questions.filter(q => q.t !== 'geography'), ...qs] };
+  const M = moteur(data), p = adulte();
+  const tires = Array.from({ length: 6 }, () => M.selectQuestion(p, 'geography'));
+  const groupes = tires.map(q => q.src);
+  assert.equal(new Set(groupes).size, 6, 'un adulte (deux tranches) voit 6 faits différents avant de revoir un fait : ' + groupes.join(','));
+});
