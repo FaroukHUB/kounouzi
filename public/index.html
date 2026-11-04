@@ -410,6 +410,23 @@ footer .logo img.brand{height:72px}
 .essai small{color:var(--muted);font-weight:700}
 @media (max-width:980px){.fam,.essai{grid-template-columns:1fr}.whys{grid-template-columns:1fr}}
 @media (max-width:720px){.essai{padding:22px 18px;border-radius:24px}.timeline li{grid-template-columns:46px 1fr;gap:12px}.timeline .n{width:46px;height:46px}.timeline::before{inset-inline-start:21px}.timeline .n img{width:28px;height:28px}}
+
+/* un tour de jeu */
+.unTour{margin-top:46px}
+.unTour h3.tt{font-size:clamp(24px,3vw,32px);text-align:center;margin-bottom:6px}
+.unTour .sub{text-align:center;color:var(--muted);max-width:720px;margin:0 auto}
+.turn{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:22px;counter-reset:tn}
+.turn .tc{position:relative;padding:18px 16px 16px;border-radius:22px;background:linear-gradient(170deg,color-mix(in srgb,var(--g) 18%,#14243b),#101d32 70%);border:1px solid color-mix(in srgb,var(--g) 40%,transparent)}
+.turn .tc::before{counter-increment:tn;content:counter(tn);position:absolute;inset-inline-end:12px;top:4px;font-family:var(--display);font-size:46px;color:rgba(255,255,255,.07)}
+.turn .ui{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 12px;border-radius:999px;font-weight:900;font-size:13px;margin-bottom:12px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.14)}
+.turn .ui.gold{background:linear-gradient(180deg,var(--gold-soft),var(--gold));color:#3a2606;border:0;box-shadow:0 3px 0 #7d540c}
+.turn h4{font-family:var(--display);font-weight:400;font-size:19px;margin:0 0 6px}
+.turn p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.5}
+.ages{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.ages div{padding:16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09)}
+.ages b{display:block;margin-bottom:4px}.ages p{margin:0;color:var(--muted);font-size:14.5px}
+@media (max-width:1100px){.turn{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:720px){.turn,.ages{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -493,6 +510,41 @@ footer .logo img.brand{height:72px}
         <p class="pasreseau">📱 Une tablette, un téléphone ou un ordinateur posé au milieu de la table suffit : Kounouzi devient le plateau autour duquel toute la famille se retrouve.</p>
       </div>
     </div>
+  
+    <div class="unTour">
+      <h3 class="tt">Un tour de jeu, concrètement</h3>
+      <p class="sub">Sans dés et sans hasard : chacun joue à son tour, et l'écran guide toute la table, pas à pas.</p>
+      <div class="turn">
+        <div class="tc rv" style="--g:#36d6ff"><span class="ui">🔊 « À toi, Yacine ! »</span><h4>La voix annonce le joueur</h4><p>Le pion du joueur s'illumine sur le plateau et la voix l'appelle par son prénom.</p></div>
+        <div class="tc rv d1" style="--g:#ffb84a"><span class="ui gold">Découvrir mon chemin</span><h4>On découvre son Chemin</h4><p>Le joueur touche le bouton : un nombre de 1 à 5 s'affiche. Pas de dés ni de hasard : sur chaque série de 5 tours, chacun reçoit une fois le 1, le 2, le 3, le 4 et le 5.</p></div>
+        <div class="tc rv d2" style="--g:#3ddc84"><span class="ui">♟️ 3 cases</span><h4>Le pion avance</h4><p>Le pion avance case par case sur le plateau en 3D. En passant par le Départ, le joueur gagne 200 Kounouz.</p></div>
+        <div class="tc rv d3" style="--g:#ff6fd8"><span class="ui">🎯 Savoir · Défi · Don…</span><h4>La case décide</h4><p>Savoir : une question. Établissement : l'acheter ou payer le propriétaire. Défi : un défi en famille. Don, Trésor, Prison… chaque case a sa surprise.</p></div>
+        <div class="tc rv" style="--g:#efbe4c"><span class="ui">⏱️ 60 s · ✅ Bonne réponse</span><h4>La famille valide</h4><p>La voix lit la question, le joueur répond à voix haute avant la fin du temps, on révèle la réponse, et la table choisit : bonne réponse, en partie ou pas cette fois.</p></div>
+      </div>
+      <h3 class="tt" style="margin-top:34px">Une difficulté adaptée à chacun</h3>
+      <div class="ages">
+        <div class="rv"><b>🧒 Les enfants, selon leur âge</b><p>On indique l'âge de chaque enfant (dès 5 ans) : ses questions viennent de sa tranche d'âge. En religion : 5–8, 8–10, 10–12, 12–14 et 14 ans et plus.</p></div>
+        <div class="rv d1"><b>🧑 Les adultes, selon leur niveau</b><p>Chaque adulte choisit son niveau : Découverte, Standard ou Avancé. Les parents jouent pour de vrai, avec des questions à leur mesure.</p></div>
+        <div class="rv d2"><b>📈 Un niveau qui s'ajuste</b><p>Deux bonnes réponses de suite : les questions montent d'un cran. Une erreur : elles redeviennent plus simples. Et le jeu évite de reposer les mêmes questions.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tour" style="padding-top:20px">
+  <div class="wrap">
+    <div class="center rv"><span class="kick">Comment ça se joue</span><h2 style="margin-top:12px">Le déroulement d'une partie, du début à la fin</h2>
+      <p class="lead" style="margin-top:12px">Pas de livret de règles : la voix explique tout au fil du jeu. Voici ce qui vous attend.</p></div>
+    <ol class="timeline">
+      <li class="rv" style="--g:#36d6ff"><div class="n"><span>👨‍👩‍👧‍👦</span></div><div class="c"><h3><small>ÉTAPE 1</small>On prépare la partie</h3><p>De 2 à 6 joueurs : pour chacun, enfant (avec son âge) ou adulte, un avatar et une couleur. On choisit la durée : 30, 45 ou 60 minutes, ou une partie libre. Chacun commence avec 1 000 Kounouz.</p></div></li>
+      <li class="rv" style="--g:#ffb84a"><div class="n"><img src="/img/icons/depart.webp" alt=""></div><div class="c"><h3><small>ÉTAPE 2</small>Le Chemin fait avancer les pions</h3><p>À son tour, le joueur découvre son Chemin : de 1 à 5 cases. Pas de dés, pas de hasard : la même suite équitable pour tout le monde.</p></div></li>
+      <li class="rv" style="--g:#36d6ff"><div class="n"><img src="/img/icons/savoir.webp" alt=""></div><div class="c"><h3><small>ÉTAPE 3</small>La question, à la mesure de chacun</h3><p>Sur une case Savoir, la voix lit une question adaptée à l'âge du joueur : religion, maths, sciences, histoire-géo, logique ou gestion. Bonne réponse +100 Kounouz, en partie +50. En religion, une explication et sa source accompagnent la réponse.</p></div></li>
+      <li class="rv" style="--g:#3ddc84"><div class="n"><img src="/img/icons/maktaba.webp" alt=""></div><div class="c"><h3><small>ÉTAPE 4</small>On achète des établissements</h3><p>Maktaba, hôtels, restaurants, agences Omra… 12 établissements à acheter. Chaque joueur qui s'y arrête paie 15 % du prix au propriétaire.</p></div></li>
+      <li class="rv" style="--g:#ff6fd8"><div class="n"><img src="/img/icons/defi.webp" alt=""></div><div class="c"><h3><small>ÉTAPE 5</small>Les défis en famille</h3><p>Plus de 90 défis : bouger, mimer un animal, faire un compliment, ne pas rire… Mais aussi un duel entre deux joueurs, une occasion Hassanāt ou une question bonus.</p></div></li>
+      <li class="rv" style="--g:#3ddc84"><div class="n"><span>🤲</span></div><div class="c"><h3><small>ÉTAPE 6</small>Le Don et la Zakat</h3><p>Sur la case Don, on peut donner 30 Kounouz à la Caisse Masākīn ou à un joueur, et gagner 10 Hassanāt. Celui qui garde plus de 1 000 Kounouz pendant 6 tours de table verse la Zakat (2,5 %).</p></div></li>
+      <li class="rv" style="--g:#efbe4c"><div class="n"><span>🏆</span></div><div class="c"><h3><small>ÉTAPE 7</small>La fin et le score</h3><p>Score final = Kounouz + patrimoine + Hassanāt × 5. Le plus riche ne gagne pas forcément : celui qui a donné peut passer devant. Le meilleur moment pour en parler avec les enfants.</p></div></li>
+    </ol>
+    <div class="cband rv"><p>Le plus dur, ce sera de choisir qui commence.<small>La voix explique tout : aucune règle à lire avant de jouer.</small></p><a class="btn btn-gold" href="#offre" data-cta data-buy data-zone="tour">Lancer notre première partie</a></div>
   </div>
 </section>
 
@@ -610,22 +662,6 @@ footer .logo img.brand{height:72px}
 </section>
 
 <!-- 7. COMMENT ÇA SE JOUE -->
-<section id="tour" style="padding-top:20px">
-  <div class="wrap">
-    <div class="center rv"><span class="kick">Comment ça se joue</span><h2 style="margin-top:12px">Le déroulement d'une partie, du début à la fin</h2>
-      <p class="lead" style="margin-top:12px">Pas de livret de règles : la voix explique tout au fil du jeu. Voici ce qui vous attend.</p></div>
-    <ol class="timeline">
-      <li class="rv" style="--g:#36d6ff"><div class="n"><span>👨‍👩‍👧‍👦</span></div><div class="c"><h3><small>ÉTAPE 1</small>On prépare la partie</h3><p>De 2 à 6 joueurs : pour chacun, enfant (avec son âge) ou adulte, un avatar et une couleur. On choisit la durée : 30, 45 ou 60 minutes, ou une partie libre. Chacun commence avec 1 000 Kounouz.</p></div></li>
-      <li class="rv" style="--g:#ffb84a"><div class="n"><img src="/img/icons/depart.webp" alt=""></div><div class="c"><h3><small>ÉTAPE 2</small>Le Chemin fait avancer les pions</h3><p>À son tour, le joueur découvre son Chemin : de 1 à 5 cases. Pas de dés, pas de hasard : la même suite équitable pour tout le monde.</p></div></li>
-      <li class="rv" style="--g:#36d6ff"><div class="n"><img src="/img/icons/savoir.webp" alt=""></div><div class="c"><h3><small>ÉTAPE 3</small>La question, à la mesure de chacun</h3><p>Sur une case Savoir, la voix lit une question adaptée à l'âge du joueur : religion, maths, sciences, histoire-géo, logique ou gestion. Bonne réponse +100 Kounouz, en partie +50. En religion, une explication et sa source accompagnent la réponse.</p></div></li>
-      <li class="rv" style="--g:#3ddc84"><div class="n"><img src="/img/icons/maktaba.webp" alt=""></div><div class="c"><h3><small>ÉTAPE 4</small>On achète des établissements</h3><p>Maktaba, hôtels, restaurants, agences Omra… 12 établissements à acheter. Chaque joueur qui s'y arrête paie 15 % du prix au propriétaire.</p></div></li>
-      <li class="rv" style="--g:#ff6fd8"><div class="n"><img src="/img/icons/defi.webp" alt=""></div><div class="c"><h3><small>ÉTAPE 5</small>Les défis en famille</h3><p>Plus de 90 défis : bouger, mimer un animal, faire un compliment, ne pas rire… Mais aussi un duel entre deux joueurs, une occasion Hassanāt ou une question bonus.</p></div></li>
-      <li class="rv" style="--g:#3ddc84"><div class="n"><span>🤲</span></div><div class="c"><h3><small>ÉTAPE 6</small>Le Don et la Zakat</h3><p>Sur la case Don, on peut donner 30 Kounouz à la Caisse Masākīn ou à un joueur, et gagner 10 Hassanāt. Celui qui garde plus de 1 000 Kounouz pendant 6 tours de table verse la Zakat (2,5 %).</p></div></li>
-      <li class="rv" style="--g:#efbe4c"><div class="n"><span>🏆</span></div><div class="c"><h3><small>ÉTAPE 7</small>La fin et le score</h3><p>Score final = Kounouz + patrimoine + Hassanāt × 5. Le plus riche ne gagne pas forcément : celui qui a donné peut passer devant. Le meilleur moment pour en parler avec les enfants.</p></div></li>
-    </ol>
-    <div class="cband rv"><p>Le plus dur, ce sera de choisir qui commence.<small>La voix explique tout : aucune règle à lire avant de jouer.</small></p><a class="btn btn-gold" href="#offre" data-cta data-buy data-zone="tour">Lancer notre première partie</a></div>
-  </div>
-</section>
 
 <!-- 7 bis. ESSAI GRATUIT -->
 <section id="essai-gratuit" style="padding-top:20px">

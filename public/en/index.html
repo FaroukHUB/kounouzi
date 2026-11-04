@@ -411,6 +411,23 @@ footer .logo img.brand{height:72px}
 .essai small{color:var(--muted);font-weight:700}
 @media (max-width:980px){.fam,.essai{grid-template-columns:1fr}.whys{grid-template-columns:1fr}}
 @media (max-width:720px){.essai{padding:22px 18px;border-radius:24px}.timeline li{grid-template-columns:46px 1fr;gap:12px}.timeline .n{width:46px;height:46px}.timeline::before{inset-inline-start:21px}.timeline .n img{width:28px;height:28px}}
+
+/* un tour de jeu */
+.unTour{margin-top:46px}
+.unTour h3.tt{font-size:clamp(24px,3vw,32px);text-align:center;margin-bottom:6px}
+.unTour .sub{text-align:center;color:var(--muted);max-width:720px;margin:0 auto}
+.turn{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:22px;counter-reset:tn}
+.turn .tc{position:relative;padding:18px 16px 16px;border-radius:22px;background:linear-gradient(170deg,color-mix(in srgb,var(--g) 18%,#14243b),#101d32 70%);border:1px solid color-mix(in srgb,var(--g) 40%,transparent)}
+.turn .tc::before{counter-increment:tn;content:counter(tn);position:absolute;inset-inline-end:12px;top:4px;font-family:var(--display);font-size:46px;color:rgba(255,255,255,.07)}
+.turn .ui{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 12px;border-radius:999px;font-weight:900;font-size:13px;margin-bottom:12px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.14)}
+.turn .ui.gold{background:linear-gradient(180deg,var(--gold-soft),var(--gold));color:#3a2606;border:0;box-shadow:0 3px 0 #7d540c}
+.turn h4{font-family:var(--display);font-weight:400;font-size:19px;margin:0 0 6px}
+.turn p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.5}
+.ages{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.ages div{padding:16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09)}
+.ages b{display:block;margin-bottom:4px}.ages p{margin:0;color:var(--muted);font-size:14.5px}
+@media (max-width:1100px){.turn{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:720px){.turn,.ages{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -495,6 +512,41 @@ footer .logo img.brand{height:72px}
         <p class="pasreseau">📱 A tablet, a phone or a computer placed in the middle of the table is all you need: Kounouzi becomes the board the whole family gathers around.</p>
       </div>
     </div>
+  
+    <div class="unTour">
+      <h3 class="tt">One turn, step by step</h3>
+      <p class="sub">No dice and no luck: everyone plays in turn, and the screen guides the whole table, step by step.</p>
+      <div class="turn">
+        <div class="tc rv" style="--g:#36d6ff"><span class="ui">🔊 "Your turn, Yusuf!"</span><h4>The voice calls the player</h4><p>The player's pawn lights up on the board and the voice calls them by name.</p></div>
+        <div class="tc rv d1" style="--g:#ffb84a"><span class="ui gold">Reveal my path</span><h4>Reveal your Path</h4><p>The player taps the button: a number from 1 to 5 appears. No dice and no luck: in every run of 5 turns, each player gets 1, 2, 3, 4 and 5 once.</p></div>
+        <div class="tc rv d2" style="--g:#3ddc84"><span class="ui">♟️ 3 squares</span><h4>The pawn moves</h4><p>The pawn moves square by square on the 3D board. Passing Start earns the player 200 Kounouz.</p></div>
+        <div class="tc rv d3" style="--g:#ff6fd8"><span class="ui">🎯 Knowledge · Challenge · Giving…</span><h4>The square decides</h4><p>Knowledge: a question. Property: buy it or pay the owner. Challenge: a family challenge. Giving, Treasure, Prison… every square has its surprise.</p></div>
+        <div class="tc rv" style="--g:#efbe4c"><span class="ui">⏱️ 60 s · ✅ Right answer</span><h4>The family decides</h4><p>The voice reads the question, the player answers out loud before time runs out, the answer is revealed, and the table chooses: right, partly right or not this time.</p></div>
+      </div>
+      <h3 class="tt" style="margin-top:34px">Difficulty suited to everyone</h3>
+      <div class="ages">
+        <div class="rv"><b>🧒 Children, by age</b><p>You enter each child's age (from 5): their questions come from their age group. In religion: 5–8, 8–10, 10–12, 12–14 and 14+.</p></div>
+        <div class="rv d1"><b>🧑 Adults, by level</b><p>Each adult picks a level: Beginner, Standard or Advanced. Parents really play, with questions that fit them.</p></div>
+        <div class="rv d2"><b>📈 A level that adapts</b><p>Two right answers in a row: questions go up a notch. A mistake: they become simpler again. And the game avoids repeating questions.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tour" style="padding-top:20px">
+  <div class="wrap">
+    <div class="center rv"><span class="kick">How to play</span><h2 style="margin-top:12px">How a game unfolds, from start to finish</h2>
+      <p class="lead" style="margin-top:12px">No rule booklet: the voice explains everything as you play. Here is what awaits you.</p></div>
+    <ol class="timeline">
+      <li class="rv" style="--g:#36d6ff"><div class="n"><span>👨‍👩‍👧‍👦</span></div><div class="c"><h3><small>STEP 1</small>Setting up the game</h3><p>2 to 6 players: for each, child (with their age) or adult, an avatar and a colour. Choose the length: 30, 45 or 60 minutes, or an open game. Everyone starts with 1,000 Kounouz.</p></div></li>
+      <li class="rv" style="--g:#ffb84a"><div class="n"><img src="/img/icons/depart.webp" alt=""></div><div class="c"><h3><small>STEP 2</small>The Path moves the pawns</h3><p>On their turn, the player reveals their Path: 1 to 5 squares. No dice, no luck: the same fair sequence for everyone.</p></div></li>
+      <li class="rv" style="--g:#36d6ff"><div class="n"><img src="/img/icons/savoir.webp" alt=""></div><div class="c"><h3><small>STEP 3</small>A question that fits each player</h3><p>On a Knowledge square, the voice reads a question suited to the player's age: religion, maths, science, history-geography, logic or money skills. Right answer +100 Kounouz, partly right +50. In religion, an explanation and its source come with the answer.</p></div></li>
+      <li class="rv" style="--g:#3ddc84"><div class="n"><img src="/img/icons/maktaba.webp" alt=""></div><div class="c"><h3><small>STEP 4</small>Buying properties</h3><p>Maktaba, hotels, restaurants, Umrah agencies… 12 properties to buy. Every player who stops there pays the owner 15% of the price.</p></div></li>
+      <li class="rv" style="--g:#ff6fd8"><div class="n"><img src="/img/icons/defi.webp" alt=""></div><div class="c"><h3><small>STEP 5</small>Family challenges</h3><p>Over 90 challenges: move, mime an animal, give a compliment, don't laugh… Plus a duel between two players, a Hassanāt opportunity or a bonus question.</p></div></li>
+      <li class="rv" style="--g:#3ddc84"><div class="n"><span>🤲</span></div><div class="c"><h3><small>STEP 6</small>Giving and Zakat</h3><p>On the Giving square, you can give 30 Kounouz to the Masākīn Fund or to a player, and earn 10 Hassanāt. Whoever keeps more than 1,000 Kounouz for 6 rounds pays Zakat (2.5%).</p></div></li>
+      <li class="rv" style="--g:#efbe4c"><div class="n"><span>🏆</span></div><div class="c"><h3><small>STEP 7</small>The end and the score</h3><p>Final score = Kounouz + properties + Hassanāt × 5. The richest does not always win: someone who gave can come out ahead. The perfect moment to talk about it with the children.</p></div></li>
+    </ol>
+    <div class="cband rv"><p>The hardest part will be choosing who goes first.<small>The voice explains everything: no rules to read before you play.</small></p><a class="btn btn-gold" href="#offre" data-cta data-buy data-zone="tour">Start our first game</a></div>
   </div>
 </section>
 
@@ -612,22 +664,6 @@ footer .logo img.brand{height:72px}
 </section>
 
 <!-- 7. COMMENT ÇA SE JOUE -->
-<section id="tour" style="padding-top:20px">
-  <div class="wrap">
-    <div class="center rv"><span class="kick">How to play</span><h2 style="margin-top:12px">How a game unfolds, from start to finish</h2>
-      <p class="lead" style="margin-top:12px">No rule booklet: the voice explains everything as you play. Here is what awaits you.</p></div>
-    <ol class="timeline">
-      <li class="rv" style="--g:#36d6ff"><div class="n"><span>👨‍👩‍👧‍👦</span></div><div class="c"><h3><small>STEP 1</small>Setting up the game</h3><p>2 to 6 players: for each, child (with their age) or adult, an avatar and a colour. Choose the length: 30, 45 or 60 minutes, or an open game. Everyone starts with 1,000 Kounouz.</p></div></li>
-      <li class="rv" style="--g:#ffb84a"><div class="n"><img src="/img/icons/depart.webp" alt=""></div><div class="c"><h3><small>STEP 2</small>The Path moves the pawns</h3><p>On their turn, the player reveals their Path: 1 to 5 squares. No dice, no luck: the same fair sequence for everyone.</p></div></li>
-      <li class="rv" style="--g:#36d6ff"><div class="n"><img src="/img/icons/savoir.webp" alt=""></div><div class="c"><h3><small>STEP 3</small>A question that fits each player</h3><p>On a Knowledge square, the voice reads a question suited to the player's age: religion, maths, science, history-geography, logic or money skills. Right answer +100 Kounouz, partly right +50. In religion, an explanation and its source come with the answer.</p></div></li>
-      <li class="rv" style="--g:#3ddc84"><div class="n"><img src="/img/icons/maktaba.webp" alt=""></div><div class="c"><h3><small>STEP 4</small>Buying properties</h3><p>Maktaba, hotels, restaurants, Umrah agencies… 12 properties to buy. Every player who stops there pays the owner 15% of the price.</p></div></li>
-      <li class="rv" style="--g:#ff6fd8"><div class="n"><img src="/img/icons/defi.webp" alt=""></div><div class="c"><h3><small>STEP 5</small>Family challenges</h3><p>Over 90 challenges: move, mime an animal, give a compliment, don't laugh… Plus a duel between two players, a Hassanāt opportunity or a bonus question.</p></div></li>
-      <li class="rv" style="--g:#3ddc84"><div class="n"><span>🤲</span></div><div class="c"><h3><small>STEP 6</small>Giving and Zakat</h3><p>On the Giving square, you can give 30 Kounouz to the Masākīn Fund or to a player, and earn 10 Hassanāt. Whoever keeps more than 1,000 Kounouz for 6 rounds pays Zakat (2.5%).</p></div></li>
-      <li class="rv" style="--g:#efbe4c"><div class="n"><span>🏆</span></div><div class="c"><h3><small>STEP 7</small>The end and the score</h3><p>Final score = Kounouz + properties + Hassanāt × 5. The richest does not always win: someone who gave can come out ahead. The perfect moment to talk about it with the children.</p></div></li>
-    </ol>
-    <div class="cband rv"><p>The hardest part will be choosing who goes first.<small>The voice explains everything: no rules to read before you play.</small></p><a class="btn btn-gold" href="#offre" data-cta data-buy data-zone="tour">Start our first game</a></div>
-  </div>
-</section>
 
 <!-- 7 bis. FREE TRIAL -->
 <section id="essai-gratuit" style="padding-top:20px">

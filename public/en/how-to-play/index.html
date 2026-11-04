@@ -403,6 +403,23 @@ footer .logo img.brand{height:72px}
 @media (max-width:980px){.fam,.essai{grid-template-columns:1fr}.whys{grid-template-columns:1fr}}
 @media (max-width:720px){.essai{padding:22px 18px;border-radius:24px}.timeline li{grid-template-columns:46px 1fr;gap:12px}.timeline .n{width:46px;height:46px}.timeline::before{inset-inline-start:21px}.timeline .n img{width:28px;height:28px}}
 
+/* un tour de jeu */
+.unTour{margin-top:46px}
+.unTour h3.tt{font-size:clamp(24px,3vw,32px);text-align:center;margin-bottom:6px}
+.unTour .sub{text-align:center;color:var(--muted);max-width:720px;margin:0 auto}
+.turn{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:22px;counter-reset:tn}
+.turn .tc{position:relative;padding:18px 16px 16px;border-radius:22px;background:linear-gradient(170deg,color-mix(in srgb,var(--g) 18%,#14243b),#101d32 70%);border:1px solid color-mix(in srgb,var(--g) 40%,transparent)}
+.turn .tc::before{counter-increment:tn;content:counter(tn);position:absolute;inset-inline-end:12px;top:4px;font-family:var(--display);font-size:46px;color:rgba(255,255,255,.07)}
+.turn .ui{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 12px;border-radius:999px;font-weight:900;font-size:13px;margin-bottom:12px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.14)}
+.turn .ui.gold{background:linear-gradient(180deg,var(--gold-soft),var(--gold));color:#3a2606;border:0;box-shadow:0 3px 0 #7d540c}
+.turn h4{font-family:var(--display);font-weight:400;font-size:19px;margin:0 0 6px}
+.turn p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.5}
+.ages{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.ages div{padding:16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09)}
+.ages b{display:block;margin-bottom:4px}.ages p{margin:0;color:var(--muted);font-size:14.5px}
+@media (max-width:1100px){.turn{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:720px){.turn,.ages{grid-template-columns:1fr}}
+
 .ghero{padding:56px 0 30px}.ghero h1{font-size:clamp(32px,5vw,52px);max-width:900px}.ghero .lead{max-width:760px}
 .crumb{font-size:13px;font-weight:800;color:var(--muted);margin-bottom:18px}.crumb a{color:var(--muted)}
 .prose{max-width:780px}.prose h2{font-size:clamp(24px,3vw,32px);margin:42px 0 12px}.prose p,.prose li{color:var(--muted);font-size:17px;line-height:1.7}
