@@ -6,7 +6,8 @@ import { createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 const ALPHA = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // sans O/0, I/1, L : pas de confusion à la lecture
 export const PRIX = {
   eur: Number(process.env.KZ_PRIX_EUR_CENTIMES || 699),   // 6,99 € (prix de lancement)
-  dzd: Number(process.env.KZ_PRIX_DZD || 1000),           // 1 000 DA
+  dzd: Number(process.env.KZ_PRIX_DZD || 1000),
+  normal: Number(process.env.KZ_PRIX_NORMAL_EUR_CENTIMES || 1299), // prix normal après le lancement (affiché barré tant qu'il est plus élevé)           // 1 000 DA
 };
 
 function secret() {

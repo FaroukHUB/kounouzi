@@ -232,7 +232,7 @@ GUIDES = [
         "<b>Pour toute la famille</b> : de 2 à 6 joueurs, dès 5 ans, petits et grands autour du même écran.",
         "<b>Fidèle à nos valeurs</b> : sans dés ni hasard pour avancer, sans musique, sans publicité.",
         "<b>Éducatif</b> : 1 764 questions (religion, sciences, maths, histoire, logique, gestion) adaptées à l'âge de chacun.",
-        "<b>Accès familial à vie</b> : un seul paiement, aucun abonnement, sur tous les appareils de la famille."])]),
+        "<b>Paiement unique, sans abonnement</b> : un seul paiement pour toute la famille, sur tous vos appareils, mises à jour incluses."])]),
     ("Parfait pour les soirées de Ramadan", [
       "Après l'iftar, une partie de 30, 45 ou 60 minutes réunit toute la famille. Les questions sur le Ramadan, le Coran et la générosité tombent à point, et la case Don rappelle l'esprit de partage du mois."]),
     ("Comment l'offrir", [
@@ -243,7 +243,7 @@ GUIDES = [
     ("Aussi pour les écoles et les associations", [
       "Kounouzi s'utilise aussi en classe ou en atelier : un seul écran projeté, des équipes, et des questions adaptées à chaque tranche d'âge."]),
    ],
-   'faq': [("Le code expire-t-il ?", "Non, l'accès est à vie."),
+   'faq': [("Faut-il payer chaque année ?", "Non : paiement unique, sans abonnement, et les mises à jour (nouvelles questions, nouveaux défis) sont incluses."),
            ("Peut-on l'offrir à une famille à l'étranger ?", "Oui, le jeu fonctionne dans le navigateur, partout dans le monde.")],
   },
   'en': {
@@ -258,7 +258,7 @@ GUIDES = [
         "<b>For the whole family</b>: 2 to 6 players, from age 5, young and old around the same screen.",
         "<b>True to our values</b>: no dice or luck to move, no music, no ads.",
         "<b>Educational</b>: 1,764 questions (religion, science, maths, history, logic, money skills) suited to each age; the English translation of the questions is in progress.",
-        "<b>Lifetime family access</b>: one payment, no subscription, on all the family's devices."])]),
+        "<b>One-time payment, no subscription</b>: one payment for the whole family, on all your devices, updates included."])]),
     ("Perfect for Ramadan evenings", [
       "After iftar, a 30, 45 or 60-minute game brings the whole family together. Questions about Ramadan, the Qur'an and generosity come at the right time, and the Giving square recalls the sharing spirit of the month."]),
     ("How to give it", [
@@ -269,7 +269,7 @@ GUIDES = [
     ("Also for schools and community groups", [
       "Kounouzi also works in class or in workshops: one projected screen, teams, and questions suited to each age group."]),
    ],
-   'faq': [("Does the code expire?", "No, access is for life."),
+   'faq': [("Do I have to pay every year?", "No: one-time payment, no subscription, and updates (new questions, new challenges) are included."),
            ("Can I give it to a family abroad?", "Yes, the game runs in the browser, anywhere in the world.")],
   },
  },

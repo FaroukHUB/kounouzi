@@ -1,11 +1,11 @@
 // /api/achat?moyen=stripe|chargily : crée la page de paiement et y envoie l'acheteur.
 import { chargilyBase, dinarsActifs, json, langueDe, origine, PRIX, signer } from './_lib.js';
 
-const PRODUIT = 'Kounouzi — accès famille à vie';
+const PRODUIT = 'Kounouzi — accès famille';
 // Page de paiement dans la langue du visiteur. Prix, devise et produit restent identiques.
 const TXT = {
-  fr: { produit: PRODUIT, desc: 'Le jeu complet pour toute la famille, sans abonnement.', retour: '/#acheter', indispo: 'Paiement indisponible pour le moment.', ferme: 'Ce moyen de paiement n’est pas encore ouvert.' },
-  en: { produit: 'Kounouzi — lifetime family access', desc: 'The full game for the whole family, no subscription.', retour: '/en/#offre', indispo: 'Payment unavailable for now.', ferme: 'This payment method is not open yet.' },
+  fr: { produit: PRODUIT, desc: 'Le jeu complet pour toute la famille. Paiement unique, sans abonnement, mises à jour incluses.', retour: '/#offre', indispo: 'Paiement indisponible pour le moment.', ferme: 'Ce moyen de paiement n’est pas encore ouvert.' },
+  en: { produit: 'Kounouzi — family access', desc: 'The full game for the whole family. One-time payment, no subscription, updates included.', retour: '/en/#offre', indispo: 'Payment unavailable for now.', ferme: 'This payment method is not open yet.' },
 };
 export async function GET(request) {
   const moyen = new URL(request.url).searchParams.get('moyen');

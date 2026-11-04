@@ -102,11 +102,11 @@ EXTRA = """
 
 T = {
  'fr': dict(home='/', other='/en/', home_l='Accueil', guides_l='Guides', nav=[('/#valeurs', 'Nos valeurs'), ('/#benefices', 'Bénéfices'), ('/#essayer', 'Essayer'), ('/#offre', 'Offre'), ('/#guides', 'Guides')],
-   code="J'ai un code", cta='Obtenir mon accès', flag='gb', flag_l='English version', cta_box="Prêt à jouer en famille ? Accès à vie pour 6,99 €, paiement unique, sans abonnement.",
+   code="J'ai un code", cta='Obtenir mon accès', flag='gb', flag_l='English version', cta_box="Prêt à jouer en famille ? Prix de lancement : 6,99 €. Paiement unique, sans abonnement, mises à jour incluses.",
    cta_btn='Obtenir mon accès', try_btn='▶ Essai gratuit de 10 min', faq_t='Questions fréquentes', more_t='À lire aussi', foot='Jouez ensemble, apprenez autrement, transmettez l\'essentiel', foot_g='Guides',
    loc='fr_FR', aria='Kounouzi, accueil'),
  'en': dict(home='/en/', other='/', home_l='Home', guides_l='Guides', nav=[('/en/#valeurs', 'Our values'), ('/en/#benefices', 'Benefits'), ('/en/#essayer', 'Try it'), ('/en/#offre', 'Offer'), ('/en/#guides', 'Guides')],
-   code='I have a code', cta='Get access', flag='fr', flag_l='Version française', cta_box="Ready to play as a family? Lifetime access for €6.99, one-time payment, no subscription.",
+   code='I have a code', cta='Get access', flag='fr', flag_l='Version française', cta_box="Ready to play as a family? Launch price: €6.99. One-time payment, no subscription, updates included.",
    cta_btn='Get my access', try_btn='▶ Free 10-min trial', faq_t='Frequently asked questions', more_t='Read also', foot='Play together, learn differently, pass on what matters', foot_g='Guides',
    loc='en_GB', aria='Kounouzi, home'),
 }

@@ -31,8 +31,8 @@ const TXT = {
 
 // Variante pour une partie d'essai demandée sur le site.
 const ESSAI = {
-  fr: { sujet: 'Ta partie d\'essai Kounouzi', titre: 'Ta partie d\'essai est prête !', intro: 'Voici ton code d\'essai : il ouvre une partie de 10 minutes, à jouer en famille sur un seul écran. Réunissez-vous autour de la table !', bouton: 'Lancer ma partie d\'essai', garde: 'Ta partie te plaît ? L\'accès complet, à vie, est disponible sur kounouzi.com.' },
-  en: { sujet: 'Your Kounouzi trial game', titre: 'Your trial game is ready!', intro: 'Here is your trial code: it opens a 10-minute game, to play as a family on a single screen. Gather around the table!', bouton: 'Start my trial game', garde: 'Enjoying it? Full lifetime access is available on kounouzi.com.' },
+  fr: { sujet: 'Ta partie d\'essai Kounouzi', titre: 'Ta partie d\'essai est prête !', intro: 'Voici ton code d\'essai : il ouvre une partie de 10 minutes, à jouer en famille sur un seul écran. Réunissez-vous autour de la table !', bouton: 'Lancer ma partie d\'essai', garde: 'Ta partie te plaît ? L\'accès complet est sur kounouzi.com : paiement unique, sans abonnement, mises à jour incluses.' },
+  en: { sujet: 'Your Kounouzi trial game', titre: 'Your trial game is ready!', intro: 'Here is your trial code: it opens a 10-minute game, to play as a family on a single screen. Gather around the table!', bouton: 'Start my trial game', garde: 'Enjoying it? Full access is on kounouzi.com: one-time payment, no subscription, updates included.' },
 };
 
 export function messageCode({ code, lang, base, essai = false }) {
