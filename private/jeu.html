@@ -195,6 +195,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .timer .bar i{display:block;height:100%;background:var(--gold-deep);transition:width 1s linear}
 .timer.alert{color:var(--bad)} .timer.alert .bar i{background:var(--bad)}
 .linkbtn{align-self:center;font-weight:900;font-size:13px;color:#7a5512;text-decoration:underline;text-underline-offset:3px;padding:4px 8px}
+.ecoutebtn{position:absolute;top:4.5%;inset-inline-start:6.5%;width:44px;height:44px;border-radius:50%;background:rgba(12,22,38,.75);color:var(--gold);font-size:17px;z-index:2;border:1.5px solid var(--gold);display:grid;place-items:center;font-size:19px}
+.ecoutebtn:active{transform:scale(.92)}
 .langbtn{position:absolute;top:5%;right:7%;width:38px;height:38px;border-radius:50%;background:rgba(12,22,38,.75);color:var(--gold);font:700 16px var(--arabic);z-index:2;border:1.5px solid var(--gold)}
 .cacts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:min(520px,100%)}
 .cacts .btn{flex:1 1 140px}
@@ -1108,6 +1110,9 @@ async function askQuestion(p, {theme, title, intro}={}){
   prefetch(aPhrase(q,rL()),rL());
   const humV=res=> RELIGIEUX.has(theme)? '' : blague(res==='good'?'bonne':res==='partial'?'partiel':'rate', cleTour('v'+S.usedQ.length+res));
   const preVerdicts=()=>{ prefetch(PH.good(p.name)+gainText('good',1)+humV('good')); };
+  // Bouton « réécouter » sur la carte : redit la question (ou la réponse, une fois révélée).
+  if(SET.voice && VOICE.mode!=='off'){ const rb=document.createElement('button'); rb.type='button'; rb.className='ecoutebtn'; rb.textContent='🔊';
+    rb.setAttribute('aria-label',t('q.reecouter')); rb.title=t('q.reecouter'); rb.onclick=()=>readQ(); C.face.appendChild(rb); }
   draw(); if(intro) await sayWait(intro,5000); readQ();
   timer=setInterval(()=>{ if(revealed||paused) return; left=Math.max(0,left-1); const v=C.win.querySelector('#tmv'), b=C.win.querySelector('#tmb'), tm=C.win.querySelector('#tm');
     if(v){ v.textContent= left>0? t('q.secondes',{n:left}) : t('q.tempsEcoule'); b.style.width=(left/secs*100)+'%'; tm.classList.toggle('alert',left<=10); if(left===10) vibrate(40); }

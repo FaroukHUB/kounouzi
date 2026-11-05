@@ -167,7 +167,7 @@ export const fr = {
   'q.partie': 'En partie',
   'q.pasCetteFois': 'Pas cette fois',
   'q.rienPerdu': "Pas de souci, rien n'est perdu.",
-  'q.arabe': 'Afficher en arabe',
+  'q.arabe': 'Afficher en arabe', 'q.reecouter': 'Réécouter',
   'q.retourLangue': 'Fr',
   'q.enFrancais': '',
   // ----- Validation à la voix
@@ -465,7 +465,7 @@ export const en = {
   'q.partie': 'Partly right',
   'q.pasCetteFois': 'Not this time',
   'q.rienPerdu': 'No problem, nothing is lost.',
-  'q.arabe': 'Show in Arabic',
+  'q.arabe': 'Show in Arabic', 'q.reecouter': 'Listen again',
   'q.retourLangue': 'En',
   'q.enFrancais': 'Not translated yet: shown in French',
   'defi.famille': 'Family challenge',
