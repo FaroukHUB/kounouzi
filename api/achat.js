@@ -1,15 +1,19 @@
-// /api/achat?moyen=stripe|chargily : crée la page de paiement et y envoie l'acheteur.
+// /api/achat?moyen=stripe|chargily&renonce=1 : crée la page de paiement et y envoie l'acheteur.
+// renonce=1 : l'acheteur a coché, sur le site, la demande d'accès immédiat avec renonciation au droit de rétractation
+// (contenu numérique). Sans cet accord, il est renvoyé vers la fenêtre de confirmation du site.
 import { chargilyBase, dinarsActifs, json, langueDe, origine, PRIX, signer } from './_lib.js';
 
 const PRODUIT = 'Kounouzi — accès famille';
 // Page de paiement dans la langue du visiteur. Prix, devise et produit restent identiques.
 const TXT = {
-  fr: { produit: PRODUIT, desc: 'Le jeu complet pour toute la famille. Paiement unique, sans abonnement, mises à jour incluses.', retour: '/#offre', indispo: 'Paiement indisponible pour le moment.', ferme: 'Ce moyen de paiement n’est pas encore ouvert.' },
-  en: { produit: 'Kounouzi — family access', desc: 'The full game for the whole family. One-time payment, no subscription, updates included.', retour: '/en/#offre', indispo: 'Payment unavailable for now.', ferme: 'This payment method is not open yet.' },
+  fr: { produit: PRODUIT, desc: 'Le jeu complet pour toute la famille. Paiement unique, sans abonnement, mises à jour incluses.', retour: '/#offre', indispo: 'Paiement indisponible pour le moment.', ferme: 'Ce moyen de paiement n’est pas encore ouvert.', rappel: 'Accès immédiat au jeu : vous avez demandé à jouer tout de suite et reconnu perdre votre droit de rétractation de 14 jours.' },
+  en: { produit: 'Kounouzi — family access', desc: 'The full game for the whole family. One-time payment, no subscription, updates included.', retour: '/en/#offre', indispo: 'Payment unavailable for now.', ferme: 'This payment method is not open yet.', rappel: 'Immediate access to the game: you asked to play right away and acknowledged losing your 14-day right of withdrawal.' },
 };
 export async function GET(request) {
-  const moyen = new URL(request.url).searchParams.get('moyen');
+  const q = new URL(request.url).searchParams, moyen = q.get('moyen');
   const base = origine(request), lang = langueDe(request), T = TXT[lang];
+  if (q.get('renonce') !== '1') return new Response(null, { status: 303, headers: { location: `${base}${lang === 'en' ? '/en/' : '/'}#acheter`, 'cache-control': 'no-store' } });
+  const accord = new Date().toISOString();
   try {
     if (moyen === 'stripe' && process.env.STRIPE_SECRET_KEY) {
       const f = new URLSearchParams({
@@ -22,6 +26,10 @@ export async function GET(request) {
         success_url: `${base}/merci.html?moyen=stripe${lang === 'en' ? '&lang=en' : ''}&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${base}${T.retour}`,
         'payment_intent_data[description]': T.produit,
+        // preuve de l'accord donné sur le site (accès immédiat et renonciation au droit de rétractation)
+        'payment_intent_data[metadata][renonciation_retractation]': `oui ${accord} v1`,
+        'metadata[renonciation_retractation]': `oui ${accord} v1`,
+        'custom_text[submit][message]': T.rappel,
       });
       const r = await fetch('https://api.stripe.com/v1/checkout/sessions', { method: 'POST', headers: { authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}`, 'content-type': 'application/x-www-form-urlencoded' }, body: f });
       const s = await r.json();

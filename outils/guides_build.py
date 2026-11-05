@@ -117,8 +117,8 @@ def url(lang, slug): return (U + '/' if lang == 'fr' else U + '/en/') + slug + '
 def path(lang, slug): return ('/' if lang == 'fr' else '/en/') + slug + '/'
 
 LEGAL_NAV = {
- 'fr': [('/mentions-legales/', 'Mentions légales'), ('/confidentialite/', 'Confidentialité'), ('/cgv/', 'Conditions de vente'), ('/sources-religion/', 'Nos sources')],
- 'en': [('/en/legal-notice/', 'Legal notice'), ('/en/privacy/', 'Privacy'), ('/en/terms/', 'Terms of sale'), ('/en/religion-sources/', 'Our sources')]}
+ 'fr': [('/mentions-legales/', 'Mentions légales'), ('/confidentialite/', 'Confidentialité'), ('/cgv/', 'Conditions de vente'), ('/retractation/', 'Se rétracter du contrat ici'), ('/sources-religion/', 'Nos sources')],
+ 'en': [('/en/legal-notice/', 'Legal notice'), ('/en/privacy/', 'Privacy'), ('/en/terms/', 'Terms of sale'), ('/en/withdrawal/', 'Withdraw from the contract here'), ('/en/religion-sources/', 'Our sources')]}
 def legal_nav(lang):
     cookies = 'Gérer les cookies' if lang == 'fr' else 'Manage cookies'
     return ('<nav class="flegal" aria-label="' + ('Informations légales' if lang == 'fr' else 'Legal') + '">' + ''.join(f'<a href="{h}">{l}</a>' for h, l in LEGAL_NAV[lang])
@@ -222,6 +222,8 @@ def page(g, lang):
 
 def page_legale(g, lang):
     h = page({**g, lang: {**g[lang], 'faq': []}}, lang)
+    if g.get('custom') == 'retractation':
+        h = h.replace('</article>', RETRACT_FORM[lang] + '</article>', 1).replace('</body>', RETRACT_JS[lang] + '\n</body>', 1).replace('</style>', RETRACT_CSS + '</style>', 1)
     h = h.replace('<meta name="robots" content="index,follow,max-image-preview:large">', '<meta name="robots" content="noindex,follow">')
     h = re.sub(r'<div class="cta" style="margin-top:22px">.*?</div>\n', '', h, count=1)
     h = re.sub(r'<div class="gcta">.*?</div>\n<h2>[^<]*</h2><div class="gfaq"></div>\n', '', h, count=1, flags=re.S)
@@ -229,6 +231,45 @@ def page_legale(g, lang):
     h = re.sub(r', \{"@type": "FAQPage", "inLanguage": "\w+", "mainEntity": \[\]\}', '', h)
     h = re.sub(r'› <a href="[^"]*#guides">[^<]*</a> › ', '› ', h, count=1)
     return h
+
+RETRACT_CSS = """
+.rform{display:grid;gap:12px;margin-top:22px;padding:24px;border-radius:24px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.rform label{font-weight:900}.rform small{color:var(--muted);font-weight:700}
+.rform input[type=text],.rform input[type=email],.rform textarea{border-radius:14px;border:1.5px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:var(--parchment);font:700 16px var(--body);padding:13px 15px;width:100%}
+.rform textarea{min-height:100px;resize:vertical}.rform .hp{position:absolute;inset-inline-start:-9999px;width:1px;height:1px;opacity:0}
+.rform .etape2{display:grid;gap:12px;padding:16px;border-radius:16px;background:rgba(239,190,76,.08);border:1px solid rgba(239,190,76,.35)}
+.rmsg{margin-top:12px;font-weight:800}.rmsg.ok{color:#3ddc84}.rmsg.err{color:#ff8a7a}
+"""
+def _rform(t):
+    return f"""<h2>{t['h']}</h2>
+<form class="rform" id="rForm" novalidate>
+  <label for="rNom">{t['nom']}</label><input type="text" id="rNom" name="nom" maxlength="120" autocomplete="name" required>
+  <label for="rMail">{t['mail']}</label><input type="email" id="rMail" name="email" maxlength="160" autocomplete="email" required>
+  <label for="rRef">{t['ref']} <small>{t['refopt']}</small></label><input type="text" id="rRef" name="reference" maxlength="120" placeholder="KZ-XXXX-XXXX">
+  <label for="rMotif">{t['motif']} <small>{t['opt']}</small></label><textarea id="rMotif" name="motif" maxlength="2000"></textarea>
+  <input class="hp" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <button class="btn btn-gold btn-lg" type="button" id="rEtape">{t['b1']}</button>
+  <div class="etape2" id="rConf" hidden><p style="margin:0">{t['conf']}</p><button class="btn btn-gold btn-lg" type="submit" id="rBtn">{t['b2']}</button></div>
+</form>
+<div class="rmsg" id="rMsg" role="status"></div>
+"""
+RETRACT_FORM = {
+ 'fr': _rform(dict(h="Votre demande", nom="Nom et prénom", mail="Adresse e-mail utilisée pour l'achat", ref="Code d'accès ou référence de paiement", refopt="(si vous l'avez)", motif="Précisions", opt="(facultatif)",
+   b1="Se rétracter du contrat", conf="Vous allez envoyer une demande de rétractation de votre achat Kounouzi. Confirmez-vous ?", b2="Confirmer la rétractation")),
+ 'en': _rform(dict(h="Your request", nom="Full name", mail="E-mail address used for the purchase", ref="Access code or payment reference", refopt="(if you have it)", motif="Details", opt="(optional)",
+   b1="Withdraw from the contract", conf="You are about to send a request to withdraw from your Kounouzi purchase. Do you confirm?", b2="Confirm the withdrawal")),
+}
+def _rjs(t, lang):
+    return """<script>(function(){ var f=document.getElementById('rForm'), m=document.getElementById('rMsg');
+document.getElementById('rEtape').onclick=function(){ if(f.nom.value.trim().length<2||!/^\\S+@\\S+\\.\\S+$/.test(f.email.value.trim())){ m.className='rmsg err'; m.textContent='""" + t['manque'] + """'; return; } m.textContent=''; document.getElementById('rConf').hidden=false; document.getElementById('rBtn').focus(); };
+f.addEventListener('submit',function(e){ e.preventDefault(); var b=document.getElementById('rBtn'); b.disabled=true; m.className='rmsg'; m.textContent='""" + t['envoi'] + """';
+ fetch('/api/retractation',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({nom:f.nom.value,email:f.email.value,reference:f.reference.value,motif:f.motif.value,site:f.site.value,confirme:true,lang:'""" + lang + """'})}).then(function(r){return r.json()}).then(function(d){
+  if(d.ok){ m.className='rmsg ok'; m.textContent='""" + t['ok'] + """'+(d.accuse?'""" + t['okmail'] + """':''); f.hidden=true; } else { m.className='rmsg err'; m.textContent=d.erreur||'""" + t['err'] + """'; b.disabled=false; } }).catch(function(){ m.className='rmsg err'; m.textContent='""" + t['err'] + """'; b.disabled=false; }); });
+})();</script>"""
+RETRACT_JS = {
+ 'fr': _rjs(dict(manque="Indiquez votre nom et l\\'adresse e-mail utilisée pour l\\'achat.", envoi="Envoi…", ok="Votre demande de rétractation a bien été enregistrée.", okmail=" Un accusé de réception vient de vous être envoyé par e-mail.", err="Envoi impossible pour le moment. Écrivez-nous à contact@kounouzi.com."), 'fr'),
+ 'en': _rjs(dict(manque="Please give your name and the e-mail address used for the purchase.", envoi="Sending…", ok="Your withdrawal request has been recorded.", okmail=" An acknowledgement has just been sent to you by e-mail.", err="Cannot send right now. Please write to contact@kounouzi.com."), 'en'),
+}
 
 for g in LEGAL:
     for lang in ('fr', 'en'):

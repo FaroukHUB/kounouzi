@@ -14,6 +14,7 @@ const TXT = {
     bouton: 'Ouvrir Kounouzi',
     etapes: 'Sur un nouvel appareil : va sur kounouzi.com, touche « J\'ai un code » et entre ce code. C\'est tout.',
     garde: 'Garde cet e-mail précieusement : il te permettra de retrouver ton code à tout moment.',
+    renonce: 'Confirmation : avant le paiement, tu as demandé l’accès immédiat au jeu et reconnu perdre ton droit de rétractation de 14 jours (contenu numérique fourni tout de suite, article L221-28 13° du Code de la consommation).',
     fin: 'Belles parties en famille,\nL\'équipe Kounouzi',
     lien: (b, c) => `${b}/?code=${encodeURIComponent(c)}#acceder`,
   },
@@ -24,6 +25,7 @@ const TXT = {
     bouton: 'Open Kounouzi',
     etapes: 'On a new device: go to kounouzi.com/en, tap "I have a code" and enter this code. That\'s all.',
     garde: 'Keep this e-mail safe: it lets you find your code at any time.',
+    renonce: 'Confirmation: before paying, you asked for immediate access to the game and acknowledged losing your 14-day right of withdrawal (digital content supplied right away).',
     fin: 'Happy family game nights,\nThe Kounouzi team',
     lien: (b, c) => `${b}/en/?code=${encodeURIComponent(c)}#acceder`,
   },
@@ -47,9 +49,10 @@ export function messageCode({ code, lang, base, essai = false }) {
 <tr><td align="center" style="padding-bottom:18px"><a href="${esc(lien)}" style="display:inline-block;background:#efbe4c;color:#3a2606;font-weight:bold;font-size:16px;text-decoration:none;padding:14px 26px;border-radius:999px">${esc(t.bouton)}</a></td></tr>
 <tr><td style="font-size:14px;line-height:1.5;color:#a4b4ca;padding-bottom:10px">${esc(t.etapes)}</td></tr>
 <tr><td style="font-size:14px;line-height:1.5;color:#a4b4ca;padding-bottom:16px">${esc(t.garde)}</td></tr>
+${essai ? '' : `<tr><td style="font-size:12px;line-height:1.5;color:#8796ab;padding-bottom:16px">${esc(t.renonce)}</td></tr>`}
 <tr><td style="font-size:14px;line-height:1.5;color:#d9cfb8;white-space:pre-line">${esc(t.fin)}</td></tr>
 </table></td></tr></table></body></html>`;
-  const texte = `${t.titre}\n\n${t.intro}\n\n${code}\n\n${t.bouton} : ${lien}\n\n${t.etapes}\n${t.garde}\n\n${t.fin}`;
+  const texte = `${t.titre}\n\n${t.intro}\n\n${code}\n\n${t.bouton} : ${lien}\n\n${t.etapes}\n${t.garde}${essai ? '' : '\n\n' + t.renonce}\n\n${t.fin}`;
   return { sujet: t.sujet, html, texte };
 }
 
@@ -90,7 +93,7 @@ export async function ajouterListe(email) {
 }
 
 // Alerte envoyée à l'équipe quand un message arrive par le formulaire « Votre avis » (KZ_CONTACT, sinon l'expéditeur).
-const LIBELLE_AVIS = { bug: '🐞 Bug', avis: '💬 Avis', suggestion: '💡 Suggestion', partenariat: '🤝 Partenariat', autre: '✉️ Autre' };
+const LIBELLE_AVIS = { retractation: '↩️ Rétractation', bug: '🐞 Bug', avis: '💬 Avis', suggestion: '💡 Suggestion', partenariat: '🤝 Partenariat', autre: '✉️ Autre' };
 export async function envoyerAvis({ type, message, nom, email, page, appareil }) {
   const dest = process.env.KZ_CONTACT || process.env.KZ_MAIL_FROM;
   if (!courrielActif() || !dest) return false;
@@ -111,4 +114,27 @@ export async function envoyerAvis({ type, message, nom, email, page, appareil })
     if (!r.ok) { console.error('brevo avis', r.status, (await r.text()).slice(0, 200)); return false; }
     return true;
   } catch (e) { console.error('brevo avis', e?.message); return false; }
+}
+
+// Accusé de réception d'une rétractation, envoyé au client (support durable), avec la date et l'heure de la demande.
+export async function envoyerAccuseRetractation({ email, nom, reference, quand, lang }) {
+  if (!courrielActif() || !email) return false;
+  const en = lang === 'en';
+  const date = quand.toLocaleString(en ? 'en-GB' : 'fr-FR', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Paris' }) + (en ? ' (Paris time)' : ' (heure de Paris)');
+  const sujet = en ? 'Kounouzi: acknowledgement of your withdrawal request' : 'Kounouzi : accusé de réception de votre rétractation';
+  const corps = en
+    ? [`Hello ${nom},`, `We have received your request to withdraw from your Kounouzi purchase on ${date}.`, `Purchase reference given: ${reference || 'not given'}.`, 'We will check your purchase and reply to you by e-mail as soon as possible. If the withdrawal applies, you will be refunded with the payment method used, within 14 days.', 'The Kounouzi team']
+    : [`Bonjour ${nom},`, `Nous avons bien reçu votre demande de rétractation de votre achat Kounouzi, le ${date}.`, `Référence d’achat indiquée : ${reference || 'non indiquée'}.`, 'Nous vérifions votre achat et vous répondons par e-mail au plus vite. Si la rétractation s’applique, vous serez remboursé avec le moyen de paiement utilisé, sous 14 jours.', 'L’équipe Kounouzi'];
+  try {
+    const r = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': process.env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify({ sender: { name: process.env.KZ_MAIL_NOM || 'Kounouzi', email: process.env.KZ_MAIL_FROM }, to: [{ email }],
+        ...(process.env.KZ_CONTACT ? { replyTo: { email: process.env.KZ_CONTACT } } : {}), subject: sujet,
+        htmlContent: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.5;color:#222">${corps.map(l => `<p>${esc(l)}</p>`).join('')}</div>`,
+        textContent: corps.join('\n\n'), tags: ['retractation'] }),
+    });
+    if (!r.ok) { console.error('brevo retractation', r.status, (await r.text()).slice(0, 200)); return false; }
+    return true;
+  } catch (e) { console.error('brevo retractation', e?.message); return false; }
 }
