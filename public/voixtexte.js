@@ -10,11 +10,11 @@ export const AR_WORDS = [
   [/Hotel At-Tawḥīd/gi,'فُنْدُقُ التَّوْحِيد'],[/Hotel Al-Iḥsān/gi,'فُنْدُقُ الْإِحْسَان'],[/Hotel Al-Sharif/gi,'فُنْدُقُ الشَّرِيف'],[/Hotel El Kunuz/gi,'فُنْدُقُ الْكُنُوز']];
 
 // En français, certains mots sont parfois lus à l'anglaise : la voix reçoit une écriture qui se lit pareil en français
-// (case → caze, don → dont, prison → prizon), et les unités abrégées sont dites en entier (15 s → 15 secondes). L'écran ne change pas.
+// (case → caze, don → dont, prison → prizon, nez → né), et les unités abrégées sont dites en entier (15 s → 15 secondes). L'écran ne change pas.
 const MOT=(re,f)=>t=>t.replace(new RegExp('(^|[^\\p{L}])'+re+'(?![\\p{L}])','gu'),f);
 const UNITE=(un,plur)=>(m,a,n)=>a+n+' '+(Number(n)<2? un : plur);
 export const FR_SON=t=>[
-  MOT('([Cc])ase(s?)',(m,a,c,s)=>a+c+'aze'+s), MOT('([Dd])ons?',(m,a,d)=>a+d+'ont'), MOT('([Pp])rison(s?)',(m,a,p,s)=>a+p+'rizon'+s),
+  MOT('([Cc])ase(s?)',(m,a,c,s)=>a+c+'aze'+s), MOT('([Dd])ons?',(m,a,d)=>a+d+'ont'), MOT('([Pp])rison(s?)',(m,a,p,s)=>a+p+'rizon'+s), MOT('([Nn])ez',(m,a,n)=>a+n+'é'),
   MOT('(\\d+) ?(?:s|sec)',UNITE('seconde','secondes')), MOT('(\\d+) ?min',UNITE('minute','minutes')),
 ].reduce((x,f)=>f(x),t);
 export const EN_SON=t=>[MOT('(\\d+) ?(?:s|sec)',UNITE('second','seconds')), MOT('(\\d+) ?min',UNITE('minute','minutes'))].reduce((x,f)=>f(x),t);
