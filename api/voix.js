@@ -30,7 +30,10 @@ export async function GET(request) {
   if (missing.length) return json(503, { reason: 'unconfigured', missing });
   const text = (url.searchParams.get('text') || '').replace(/\s+/g, ' ').trim();
   if (!text || text.length > MAX_TEXT || /[\u0000-\u001f]/.test(text)) return json(400, { reason: 'invalid' });
-  const tone = TONES[url.searchParams.get('ton')] || TONES.chaleureux;
+  let tone = TONES[url.searchParams.get('ton')] || TONES.chaleureux;
+  // Phrase avec des mots en lettres arabes (Hassanāt, prénoms, noms des cases…) : voix plus stable, pour que la prononciation
+  // arabe ne dérive pas d'une phrase à l'autre (un réglage trop expressif fait parfois sauter des sons, comme le « ḥ »).
+  if (/[\u0600-\u06ff]/.test(text)) tone = { ...tone, stability: Math.max(tone.stability, 0.55), style: Math.min(tone.style, 0.35) };
   try {
     const up = await fetch(`${ELEVENLABS_URL}/${encodeURIComponent(voice)}?output_format=mp3_44100_128`, {
       method: 'POST',
