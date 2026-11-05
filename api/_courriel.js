@@ -88,3 +88,27 @@ export async function ajouterListe(email) {
     return true;
   } catch (e) { console.error('brevo liste', e?.message); return false; }
 }
+
+// Alerte envoyée à l'équipe quand un message arrive par le formulaire « Votre avis » (KZ_CONTACT, sinon l'expéditeur).
+const LIBELLE_AVIS = { bug: '🐞 Bug', avis: '💬 Avis', suggestion: '💡 Suggestion', partenariat: '🤝 Partenariat', autre: '✉️ Autre' };
+export async function envoyerAvis({ type, message, nom, email, page, appareil }) {
+  const dest = process.env.KZ_CONTACT || process.env.KZ_MAIL_FROM;
+  if (!courrielActif() || !dest) return false;
+  try {
+    const titre = `${LIBELLE_AVIS[type] || 'Message'} — nouveau message sur kounouzi.com`;
+    const lignes = [['Type', LIBELLE_AVIS[type] || type], ['Nom', nom || '—'], ['E-mail', email || '—'], ['Page', page || '—'], ['Appareil', appareil || '—']];
+    const html = `<div style="font-family:Arial,sans-serif;font-size:15px;color:#222"><h2 style="margin:0 0 12px">${esc(titre)}</h2>
+<table cellpadding="4">${lignes.map(([k, v]) => `<tr><td style="color:#777">${esc(k)}</td><td><b>${esc(v)}</b></td></tr>`).join('')}</table>
+<p style="white-space:pre-wrap;background:#f5f2ea;border-radius:10px;padding:14px">${esc(message)}</p>
+<p style="color:#777;font-size:13px">Tous les messages sont aussi dans le tableau de bord, onglet Avis.</p></div>`;
+    const r = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': process.env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify({ sender: { name: process.env.KZ_MAIL_NOM || 'Kounouzi', email: process.env.KZ_MAIL_FROM }, to: [{ email: dest }],
+        ...(email ? { replyTo: { email } } : {}), subject: titre, htmlContent: html,
+        textContent: `${titre}\n\n${lignes.map(([k, v]) => `${k} : ${v}`).join('\n')}\n\n${message}`, tags: ['avis-site'] }),
+    });
+    if (!r.ok) { console.error('brevo avis', r.status, (await r.text()).slice(0, 200)); return false; }
+    return true;
+  } catch (e) { console.error('brevo avis', e?.message); return false; }
+}

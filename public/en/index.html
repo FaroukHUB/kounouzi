@@ -433,6 +433,28 @@ footer .logo img.brand{height:72px}
 @media (max-width:720px){.turn,.ages{grid-template-columns:1fr}}
 
 .flegal{display:flex;flex-wrap:wrap;gap:6px 16px;width:100%;padding-top:14px;margin-top:6px;border-top:1px solid rgba(255,255,255,.07);font-size:13px}.flegal a{color:var(--faint)}.flegal a:hover{color:var(--parchment)}
+
+/* votre avis */
+.avisw{display:grid;grid-template-columns:.9fr 1.1fr;gap:28px;align-items:start;padding:32px;border-radius:30px;background:radial-gradient(520px 280px at 100% 0,rgba(54,214,255,.13),transparent 70%),rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1)}
+.avisw h2{font-size:clamp(28px,3.6vw,42px)}
+.avtypes{display:grid;gap:10px;margin-top:18px}
+.avtypes div{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:16px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.07)}
+.avtypes b{display:block}.avtypes span{font-size:22px;line-height:1}.avtypes p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.avisw form{display:grid;gap:12px}
+.avisw fieldset{border:0;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px}
+.avisw legend{font-weight:900;margin-bottom:8px}
+.avisw .ch input{position:absolute;opacity:0;pointer-events:none}
+.avisw .ch span{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:9px 14px;border-radius:999px;border:1.5px solid rgba(255,255,255,.16);background:rgba(0,0,0,.22);font-weight:800;font-size:14.5px;cursor:pointer;transition:.15s}
+.avisw .ch input:checked+span{border-color:var(--gold);background:rgba(239,190,76,.16);color:var(--parchment)}
+.avisw .ch input:focus-visible+span{outline:2px solid var(--gold);outline-offset:2px}
+.avisw label.l{font-weight:900}
+.avisw textarea,.avisw input[type=text],.avisw input[type=email]{border-radius:16px;border:1.5px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:var(--parchment);font:700 16px var(--body);padding:14px 16px;width:100%}
+.avisw textarea{min-height:140px;resize:vertical}
+.avisw .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.avisw .hp{position:absolute;inset-inline-start:-9999px;width:1px;height:1px;opacity:0}
+.avisw small{color:var(--muted);font-weight:700}
+@media (max-width:980px){.avisw{grid-template-columns:1fr}}
+@media (max-width:720px){.avtypes{display:none}.avisw{padding:22px 18px;border-radius:24px}.avisw .row2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -758,6 +780,42 @@ footer .logo img.brand{height:72px}
   </div>
 </section>
 
+<!-- 9 bis. FEEDBACK -->
+<section id="avis">
+  <div class="wrap">
+    <div class="avisw rv">
+      <div><span class="kick">Your feedback</span><h2 style="margin-top:12px">Help us make Kounouzi even better</h2>
+        <p class="lead" style="margin-top:12px;font-size:17px">A comment after your trial or your purchase, an idea for the game, a problem to report? Write to us: every message is read.</p>
+        <div class="avtypes">
+          <div><span>🐞</span><p><b>A bug</b>Something not working as expected? Tell us what happened.</p></div>
+          <div><span>💡</span><p><b>A suggestion</b>A question, a challenge, an idea to add to the game.</p></div>
+          <div><span>🤝</span><p><b>A partnership</b>School, association, content creator: let's talk.</p></div>
+        </div></div>
+      <div>
+        <form id="avisForm" novalidate>
+          <fieldset><legend>It's about…</legend>
+            <label class="ch"><input type="radio" name="type" value="bug"><span>🐞 A bug</span></label>
+            <label class="ch"><input type="radio" name="type" value="avis" checked><span>💬 Feedback</span></label>
+            <label class="ch"><input type="radio" name="type" value="suggestion"><span>💡 A suggestion</span></label>
+            <label class="ch"><input type="radio" name="type" value="partenariat"><span>🤝 A partnership</span></label>
+            <label class="ch"><input type="radio" name="type" value="autre"><span>✉️ Other</span></label>
+          </fieldset>
+          <label class="l" for="avisMsg">Your message</label>
+          <textarea id="avisMsg" name="message" maxlength="4000" required placeholder="Tell us…"></textarea>
+          <div class="row2">
+            <div><label class="l" for="avisNom">First name <small>(optional)</small></label><input type="text" id="avisNom" name="nom" maxlength="80" autocomplete="given-name"></div>
+            <div><label class="l" for="avisMail">E-mail <small id="avisMailOpt">(optional)</small></label><input type="email" id="avisMail" name="email" maxlength="160" autocomplete="email" placeholder="you@example.com"></div>
+          </div>
+          <input class="hp" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn btn-gold btn-lg" type="submit" id="avisBtn">Send my message</button>
+          <small>Leave your e-mail if you would like a reply: it is only used to answer you. <a href="/en/privacy/">Privacy</a></small>
+        </form>
+        <div class="msg" id="avisMsgEtat" role="status" style="margin-top:10px"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- 10. FINAL -->
 <section class="final">
   <div class="wrap"><div class="box rv">
@@ -773,7 +831,7 @@ footer .logo img.brand{height:72px}
   <span>Play together, learn differently, pass on what matters — © <span id="yr">2026</span> · <a href="/" hreflang="fr" lang="fr" data-lang="fr" style="color:inherit">Version française</a></span>
   <span id="contactFoot"></span>
   <nav class="fguides" aria-label="Guides"><a href="/en/board-game-islamic-values/">True to our values</a><a href="/en/islamic-educational-game-for-kids/">Islamic educational game</a><a href="/en/islamic-quiz-for-families/">Islamic quiz</a><a href="/en/teach-kids-zakat/">Money skills</a><a href="/en/ramadan-eid-gift-for-kids/">Gift idea</a><a href="/en/how-to-play/">How to play</a><a href="/en/religion-sources/">Our sources</a></nav>
-  <nav class="flegal" aria-label="Legal"><a href="/en/legal-notice/">Legal notice</a><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms of sale</a><a href="/en/religion-sources/">Our sources</a><a href="#" data-cookies>Manage cookies</a><a href="mailto:contact@kounouzi.com">Contact</a></nav>
+  <nav class="flegal" aria-label="Legal"><a href="/en/legal-notice/">Legal notice</a><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms of sale</a><a href="/en/religion-sources/">Our sources</a><a href="#" data-cookies>Manage cookies</a><a href="#avis">Feedback</a><a href="mailto:contact@kounouzi.com">Contact</a></nav>
 </div></footer>
 
 <div class="dock" id="dock">
@@ -830,6 +888,14 @@ if(sp.get('acces')) setTimeout(()=>{ $('#codeMsg').className='msg'; $('#codeMsg'
 
 
 /* ---------- Free trial request ---------- */
+$('#avisForm').addEventListener('change',e=>{ if(e.target.name!=='type') return; const t=e.target.value, ph={bug:'What happened? On which device (phone, tablet, computer)?',avis:'Tell us…',suggestion:'Your idea for Kounouzi…',partenariat:'Introduce yourself in a few words: who you are, what you suggest…',autre:'Your message…'};
+  $('#avisMsg').placeholder=ph[t]||''; $('#avisMailOpt').textContent= t==='partenariat'?'(so we can reply)':'(optional)'; });
+$('#avisForm').addEventListener('submit',async e=>{ e.preventDefault(); const f=e.target, m=$('#avisMsgEtat'), b=$('#avisBtn'); m.className='msg'; m.textContent='Sending…'; b.disabled=true;
+  try{ const r=await fetch('/api/avis',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:f.type.value,message:f.message.value,nom:f.nom.value,email:f.email.value,site:f.site.value,lang:'en',page:location.pathname,ecran:innerWidth+'x'+innerHeight})}); const d=await r.json().catch(()=>({}));
+    if(d.ok){ m.className='msg ok'; m.textContent='Thank you! Your message has reached us'+(f.email.value?'; we will reply to the address you gave.':'.'); f.reset(); }
+    else { m.className='msg err'; m.textContent=d.erreur||'Cannot send right now.'; } }
+  catch{ m.className='msg err'; m.textContent='Connection failed. Please try again in a moment.'; }
+  b.disabled=false; });
 $('#essaiForm').addEventListener('submit',async e=>{ e.preventDefault(); const m=$('#essaiMsg'), b=$('#essaiBtn'); m.className='msg'; m.textContent='Creating your trial…'; b.disabled=true;
   try{ const r=await fetch('/api/essai',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:$('#essaiMail').value,site:e.target.site.value,news:e.target.news.checked,lang:'en'})}); const d=await r.json();
     if(d.ok&&d.deja){ m.className='msg ok'; m.textContent='You already have access to Kounouzi on this device.'; $('#essaiGo').textContent='Play Kounouzi →'; $('#essaiGo').hidden=false; }

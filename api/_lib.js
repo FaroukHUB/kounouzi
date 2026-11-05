@@ -79,6 +79,7 @@ export async function db(action, data = {}, { timeout = 5000, fn = 'kz_api' } = 
 // Enregistrement « au mieux » : ne bloque jamais le joueur si la base est lente ou absente.
 // Contacts (e-mails et consentement aux nouveautés) : fonction séparée kz_contacts, même jeton.
 export const contacts = (action, data, opts = {}) => db(action, data, { ...opts, fn: 'kz_contacts' });
+export const avis = (action, data, opts = {}) => db(action, data, { ...opts, fn: 'kz_avis' });
 export async function noter(action, data) { try { if (dbActive()) await db(action, data, { timeout: 1500 }); } catch (e) { console.error('noter', action, e.message); } }
 
 // Appareil : un identifiant au hasard, gardé dans un cookie (aucune donnée personnelle).

@@ -79,6 +79,9 @@ label.f small{font-weight:700;color:var(--faint)}
 .eco{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
 .banner{padding:12px 16px;border-radius:14px;background:rgba(255,184,74,.1);border:1px solid rgba(255,184,74,.3);color:var(--warn);font-weight:800}
 .login{max-width:420px;margin:12vh auto 0}
+.avis{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);margin-top:10px}
+.avis.nouveau{border-color:rgba(239,190,76,.5);background:rgba(239,190,76,.07)}.avis.traite{opacity:.6}
+.avh{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.avis p{white-space:pre-wrap;margin:10px 0 0}
 </style></head><body>
 
 <section id="login" class="wrap login">
@@ -94,6 +97,7 @@ label.f small{font-weight:700;color:var(--faint)}
     <button role="tab" data-tab="vue" aria-selected="true">Vue d'ensemble</button>
     <button role="tab" data-tab="codes">Codes</button>
     <button role="tab" data-tab="contacts">Contacts</button>
+    <button role="tab" data-tab="avis">Avis <span class="tag gold" id="avNew" hidden></span></button>
     <button role="tab" data-tab="questions">Questions</button>
     <button role="tab" data-tab="traductions">Traductions</button>
     <button role="tab" data-tab="reglages">Réglages du jeu</button>
@@ -165,6 +169,16 @@ label.f small{font-weight:700;color:var(--faint)}
         <button class="btn g sm" id="ctCsv">Exporter (CSV)</button></div>
       <p class="muted small">Acheteurs et demandes d'essai. Seules les personnes qui ont <b>accepté</b> peuvent recevoir des e-mails de promotion (nouveautés, offres) ; les autres, uniquement des messages liés à leur code. Les personnes qui acceptent sont ajoutées automatiquement à la liste Brevo (si <code>BREVO_LIST_ID</code> est réglé).</p>
       <div class="tscroll"><table><thead><tr><th>E-mail</th><th>Origine</th><th>Première fois</th><th>Nouveautés</th><th>Langue</th><th>Brevo</th></tr></thead><tbody id="ctBody"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- AVIS -->
+  <section data-panel="avis" hidden>
+    <div class="card">
+      <div class="toolbar"><h2 style="margin:0">💬 Avis et messages</h2><span class="tag" id="avCount"></span>
+        <select id="avf"><option value="">Tous</option><option value="nouveau">Nouveaux</option><option value="bug">Bugs</option><option value="avis">Avis</option><option value="suggestion">Suggestions</option><option value="partenariat">Partenariats</option><option value="autre">Autres</option></select></div>
+      <p class="muted small">Les messages envoyés depuis le formulaire « Votre avis » du site. Une alerte part aussi par e-mail à l'adresse de contact. Pour répondre, cliquez sur l'e-mail de la personne.</p>
+      <div id="avList"></div>
     </div>
   </section>
 
@@ -287,12 +301,12 @@ function toast(t){ const d=document.createElement('div'); d.className='toast'; d
 async function api(action,body={}){ const r=await fetch('/api/admin',{method:'POST',headers:{'content-type':'application/json','x-admin':PW},body:JSON.stringify({action,...body})}); const d=await r.json().catch(()=>({erreur:'Réponse illisible'})); if(r.status===401){ sessionStorage.removeItem('kzpw'); } if(!r.ok) throw new Error(d.erreur||'Erreur'); return d; }
 
 /* ---------- Connexion & onglets ---------- */
-async function enter(){ try{ INFO=await api('entrer'); sessionStorage.setItem('kzpw',PW); $('#login').hidden=true; $('#app').hidden=false; $('#nobase').hidden=!!INFO.base; show(location.hash.slice(1)||'vue'); }catch(e){ $('#lerr').textContent=e.message; } }
+async function enter(){ try{ INFO=await api('entrer'); sessionStorage.setItem('kzpw',PW); $('#login').hidden=true; $('#app').hidden=false; $('#nobase').hidden=!!INFO.base; show(location.hash.slice(1)||'vue'); api('avis').then(d=>{ AV=d.avis||[]; loaded.avis=true; renderAvis(); }).catch(()=>{}); }catch(e){ $('#lerr').textContent=e.message; } }
 $('#lf').onsubmit=e=>{ e.preventDefault(); PW=$('#pw').value; enter(); };
 $('#logout').onclick=()=>{ sessionStorage.removeItem('kzpw'); location.reload(); };
 const loaded={};
 function show(tab){ if(!$(`[data-panel="${tab}"]`)) tab='vue'; $$('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==tab); $$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===tab)); history.replaceState(null,'','#'+tab);
-  if(!loaded[tab]){ loaded[tab]=true; ({vue:loadStats,codes:loadCodes,contacts:loadContacts,questions:loadQuestions,reglages:loadReglages,outils:loadOutils,traductions:loadTrad})[tab]?.(); }
+  if(!loaded[tab]){ loaded[tab]=true; ({vue:loadStats,codes:loadCodes,contacts:loadContacts,avis:loadAvis,questions:loadQuestions,reglages:loadReglages,outils:loadOutils,traductions:loadTrad})[tab]?.(); }
   else if(tab==='traductions') loadTrad(); }
 $$('nav.tabs button').forEach(b=>b.onclick=()=>show(b.dataset.tab));
 if(PW) enter();
@@ -392,6 +406,16 @@ $('#mk').onclick=async()=>{ try{ const d=await api('cadeaux',{nombre:$('#nb').va
   const all=$('#cpall'); if(all) all.onclick=async()=>{ try{ await navigator.clipboard.writeText(d.codes.join('\n')); all.textContent='Copiés ✓'; }catch{} };
   loaded.codes && loadCodes(); }catch(e){ toast(e.message); } };
 let CT=[];
+let AV=[]; const AVT={bug:'🐞 Bug',avis:'💬 Avis',suggestion:'💡 Suggestion',partenariat:'🤝 Partenariat',autre:'✉️ Autre'};
+async function loadAvis(){ $('#avList').innerHTML='<p class="empty">Chargement…</p>'; try{ AV=(await api('avis')).avis||[]; }catch(e){ $('#avList').innerHTML=`<p class="msg err">${esc(e.message)}</p>`; return; } renderAvis(); }
+function renderAvis(){ const f=$('#avf').value, L=AV.filter(a=>!f||(f==='nouveau'?a.statut==='nouveau':a.type===f)), nv=AV.filter(a=>a.statut==='nouveau').length;
+  $('#avCount').textContent=`${fmt(AV.length)} · ${fmt(nv)} nouveau${nv>1?'x':''}`; const t=$('#avNew'); t.hidden=!nv; t.textContent=nv;
+  $('#avList').innerHTML= L.length? L.map(a=>`<div class="avis ${a.statut}"><div class="avh"><span class="tag ${a.type==='bug'?'warn':'gold'}">${AVT[a.type]||esc(a.type)}</span> <b>${esc(a.nom||'Anonyme')}</b> ${a.email?`<a href="mailto:${esc(a.email)}">${esc(a.email)}</a>`:''} <span class="muted small">${dt(a.created_at)} · ${esc((a.lang||'').toUpperCase())} · ${esc(String(a.appareil||'').split(' · ')[0])}${a.page?' · '+esc(a.page):''}</span>
+    <span style="margin-inline-start:auto">${['nouveau','lu','traite'].map(s=>`<button class="btn sm ${a.statut===s?'':'g'}" data-avs="${s}" data-id="${a.id}">${{nouveau:'Nouveau',lu:'Lu',traite:'Traité'}[s]}</button>`).join(' ')}</span></div>
+    <p>${esc(a.message)}</p></div>`).join('') : '<p class="empty">Aucun message pour le moment.</p>'; }
+$('#avf').onchange=renderAvis;
+$('#avList').addEventListener('click',async e=>{ const b=e.target.closest('[data-avs]'); if(!b) return; const a=AV.find(x=>String(x.id)===b.dataset.id); if(!a) return;
+  a.statut=b.dataset.avs; renderAvis(); try{ await api('avis_statut',{id:a.id,statut:a.statut}); }catch(err){ alert(err.message); } });
 async function loadContacts(){ $('#ctBody').innerHTML='<tr><td colspan="6" class="empty">Chargement…</td></tr>'; try{ CT=(await api('contacts')).contacts||[]; }catch(e){ $('#ctBody').innerHTML=`<tr><td colspan="6" class="msg err">${esc(e.message)}</td></tr>`; return; } renderContacts(); }
 function contactsFiltres(){ const q=($('#ctq').value||'').toLowerCase(), f=$('#ctf').value;
   return CT.filter(c=>(!q||c.email.includes(q)) && (!f || (f==='oui'&&c.consent) || (f==='non'&&!c.consent) || ((f==='achat'||f==='essai')&&String(c.origine||'').includes(f)))); }

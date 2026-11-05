@@ -53,6 +53,7 @@ LEGAL = [
     ("Les données que nous gardons", [("ul", [
       "<b>Lors d'un achat</b> : votre adresse e-mail, le montant, la date et la référence du paiement, et votre code d'accès. Vos données bancaires sont saisies chez Stripe : nous ne les voyons jamais.",
       "<b>Lors d'une demande d'essai</b> : votre adresse e-mail et votre code d'essai.",
+      "<b>Quand vous nous écrivez avec le formulaire « Votre avis »</b> : votre message, et votre prénom et votre adresse e-mail si vous les donnez, ainsi que le type d'appareil (pour comprendre un éventuel bug).",
       "<b>Si vous acceptez de recevoir nos nouveautés</b> : votre accord et sa date. Vous pouvez le retirer à tout moment (lien de désinscription dans chaque e-mail, ou par simple message).",
       "<b>Pendant le jeu</b> : un identifiant d'appareil tiré au hasard, votre code d'accès, le pays et la ville approximatifs déduits de l'adresse IP, et des statistiques de parties (nombre de joueurs, tranches d'âge, durée, réponses aux questions). Les prénoms saisis dans le jeu restent sur votre appareil et ne sont pas enregistrés chez nous.",
       "<b>La voix du jeu</b> : les phrases lues à voix haute, y compris les prénoms des joueurs, sont envoyées à notre prestataire de synthèse vocale pour créer l'audio.",
@@ -63,13 +64,14 @@ LEGAL = [
       "Améliorer le jeu à partir de statistiques globales.",
       "Vous envoyer nos nouveautés, seulement si vous l'avez accepté."])]),
     ("Nos prestataires", [("ul", [
-      "<b>Vercel</b> : hébergement du site et du jeu.", "<b>Supabase</b> : base de données (codes, statistiques, contacts).",
+      "<b>Vercel</b> : hébergement du site et du jeu.", "<b>Supabase</b> : base de données (codes, statistiques, contacts, messages).",
       "<b>Stripe</b> : paiement par carte.", "<b>Brevo</b> : envoi des e-mails (codes, nouveautés).",
       "<b>ElevenLabs</b> : voix du jeu.", "<b>Google Analytics</b> : mesure d'audience du site, avec votre accord."]),
       "Certains de ces prestataires sont situés hors de l'Union européenne, notamment aux États-Unis ; ils s'engagent contractuellement à protéger les données."]),
     ("Combien de temps ?", [("ul", [
       "Données d'achat : le temps nécessaire à nos obligations comptables et légales.",
       "Codes d'accès et d'essai : tant que le code peut être utilisé.",
+      "Messages du formulaire « Votre avis » : 2 ans au plus.",
       "Contacts pour les nouveautés : jusqu'à votre désinscription, ou 3 ans sans échange avec nous.",
       "Statistiques de jeu : sous forme globale, sans lien avec votre identité."])]),
     ("Cookies et stockage sur l'appareil", ["Le jeu utilise des cookies indispensables : votre code d'accès (<i>kz</i>), un identifiant d'appareil (<i>kz_dev</i>), la langue choisie (<i>kz_lang</i>) et, après une demande d'essai, un repère qui évite plusieurs essais sur le même appareil (<i>kz_essai</i>). Le site utilise Google Analytics seulement avec votre accord, que vous pouvez changer avec le lien « Gérer les cookies » en bas de page."]),
@@ -82,6 +84,7 @@ LEGAL = [
     ("The data we keep", [("ul", [
       "<b>When you buy</b>: your e-mail address, the amount, date and payment reference, and your access code. Your card details are entered with Stripe: we never see them.",
       "<b>When you request a trial</b>: your e-mail address and your trial code.",
+      "<b>When you write to us with the feedback form</b>: your message, your first name and e-mail address if you give them, and the type of device (to understand a possible bug).",
       "<b>If you agree to receive our news</b>: your consent and its date. You can withdraw it at any time (unsubscribe link in every e-mail, or simply by message).",
       "<b>While playing</b>: a random device identifier, your access code, the approximate country and city derived from the IP address, and game statistics (number of players, age groups, length, answers to questions). The first names entered in the game stay on your device and are not stored by us.",
       "<b>The game's voice</b>: the sentences read aloud, including players' first names, are sent to our speech provider to create the audio.",
@@ -92,13 +95,14 @@ LEGAL = [
       "To improve the game using overall statistics.",
       "To send you our news, only if you agreed."])]),
     ("Our providers", [("ul", [
-      "<b>Vercel</b>: hosting of the site and the game.", "<b>Supabase</b>: database (codes, statistics, contacts).",
+      "<b>Vercel</b>: hosting of the site and the game.", "<b>Supabase</b>: database (codes, statistics, contacts, messages).",
       "<b>Stripe</b>: card payment.", "<b>Brevo</b>: sending e-mails (codes, news).",
       "<b>ElevenLabs</b>: the game's voice.", "<b>Google Analytics</b>: site analytics, with your consent."]),
       "Some of these providers are located outside the European Union, in particular in the United States; they are contractually committed to protecting data."]),
     ("For how long?", [("ul", [
       "Purchase data: as long as needed for our accounting and legal obligations.",
       "Access and trial codes: as long as the code can be used.",
+      "Feedback form messages: 2 years at most.",
       "News contacts: until you unsubscribe, or 3 years without contact with us.",
       "Game statistics: in aggregate form, not linked to your identity."])]),
     ("Cookies and on-device storage", ["The game uses essential cookies: your access code (<i>kz</i>), a device identifier (<i>kz_dev</i>), the chosen language (<i>kz_lang</i>) and, after a trial request, a marker that prevents several trials on the same device (<i>kz_essai</i>). The site uses Google Analytics only with your consent, which you can change with the “Manage cookies” link at the bottom of the page."]),
