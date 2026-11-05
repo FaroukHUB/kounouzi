@@ -12,7 +12,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Kounouzi">
 
-<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}.ptlist{display:grid;gap:6px;margin-top:8px;text-align:start}
+.ptrow{display:grid;grid-template-columns:20px 34px 1fr;align-items:center;column-gap:8px;padding:6px 8px;border-radius:12px;background:rgba(0,0,0,.28)}
+.ptk{font-weight:900;color:var(--gold);grid-row:span 2}.ptav{width:34px;height:34px;border-radius:50%;background:#222 center/cover;grid-row:span 2}
+.ptrow b{font-size:15px;line-height:1.1}.ptst{grid-column:3;font-size:12.5px;font-weight:800;opacity:.85}
+</style>
 </head>
 <body>
 <title>Kounouzi</title>
@@ -356,7 +360,7 @@ const DEFIS_GROUPS = [
   {id:'family',cats:['family','solidarity']},{id:'contact',contact:true},
   {id:'ohNo',oh:true},{id:'memoryLogic',cats:['memory','reflection','logic','observation','language']},
   {id:'arabic',cats:['arabic']},{id:'religion',cats:['religion']},{id:'boss',boss:true}];
-const SET = Object.assign({sfx:true, voice:true, tone:'chaleureux', rate:'normal', humour:'leger', haptics:true, reduced:'system', defis:{}}, store.get(SETTINGS)||{});
+const SET = Object.assign({sfx:true, voice:true, tone:'chaleureux', rate:'normal', humour:'leger', pointTable:true, haptics:true, reduced:'system', defis:{}}, store.get(SETTINGS)||{});
 DEFIS_GROUPS.forEach(g=>{ if(SET.defis[g.id]===undefined) SET.defis[g.id]=true; });
 delete SET.ecoute; // l'ancienne validation à la voix n'existe plus
 const saveSet=()=>store.set(SETTINGS,SET);
@@ -1101,7 +1105,7 @@ async function askQuestion(p, {theme, title, intro}={}){
   const mult = chk.querySelector('input').checked && res!=='wrong' ? 2:1;
   C.close(); adapt(p,theme,res); trackAnswer(p,q,theme,res);
   const spoken = sayWait(PH[res](p.name)+gainText(res,mult)+humV(res),5000);
-  if(res==='good') { vibrate([30,40,30]); fxParty(); sfx('bravo'); await pay('bank',p,ECO.qGood*mult); }
+  if(res==='good') { p.bonnes=(p.bonnes||0)+1; vibrate([30,40,30]); fxParty(); sfx('bravo'); await pay('bank',p,ECO.qGood*mult); }
   else if(res==='partial') { fxParty(false); sfx('presque'); await pay('bank',p,ECO.qPartial*mult); }
   else toast(t('q.rienPerdu'));
   await spoken;
@@ -1125,6 +1129,7 @@ function openSettings(fromMenu=false){
      <div class="setgrp"><h3>${t('set.langue')}</h3><div class="setrow">${langSeg}</div>${t('set.langueNote')?`<span class="hint">${t('set.langueNote')}</span>`:''}</div>
      <div class="setgrp"><h3>${t('set.voix')}</h3>${sw('voice',t('set.narration'))}<div id="vstate">${vstate()}</div>
        <div class="setrow">${t('set.ton')} ${seg('tone',TONES.map(x=>[x,t('ton.'+x)]))}</div>
+       ${sw('pointTable',t('set.pointTable'))}
        <div class="setrow">${t('set.humour')} ${seg('humour',[['aucun',t('humour.aucun')],['leger',t('humour.leger')],['beaucoup',t('humour.beaucoup')]])}</div>
        <div class="setrow">${t('set.vitesse')} ${seg('rate',[['lente',t('set.lente')],['normal',t('set.normale')],['rapide',t('set.rapide')]])}</div>
        <div class="setrow"><button class="btn btn-ghost" data-a="test">${t('set.tester')}</button><button class="btn btn-ghost" data-a="replay" ${VOICE.last?'':'disabled'}>${t('set.reecouter')}</button></div></div>
@@ -1201,7 +1206,7 @@ async function onDonation(p){
   const others=S.players.filter(q=>q!==p);
   const v=await choose(C.acts,[{label:t('hud.caisse'),value:'caisse'},...others.map(q=>({label:esc(q.name),cls:'btn-ghost',value:q.seat}))]);
   C.close(); await pay(p, v==='caisse'?'caisse':S.players[v], ECO.donation);
-  p.hassanat+=ECO.donationHassanat; renderHUD(); floatNum(p,'✦ +'+ECO.donationHassanat,'#bfe8ff');
+  p.hassanat+=ECO.donationHassanat; p.dons=(p.dons||0)+1; renderHUD(); floatNum(p,'✦ +'+ECO.donationHassanat,'#bfe8ff');
   say(v==='caisse'? t('don.voixCaisse',{n:p.name,k:ECO.donation,h:ECO.donationHassanat}) : t('don.voixJoueur',{n:p.name,k:ECO.donation,o:S.players[v].name,h:ECO.donationHassanat}));
 }
 
@@ -1386,8 +1391,45 @@ async function playTurn(){
 async function endTurn(){
   idleMain(); S.turn++;
   if(S.essai && S.duration && (store.get(ELAPSED)||0)>=S.duration){ S.over=true; save(); return showEnd(); }
-  if(S.turn>=S.players.length){ S.turn=0; await endRound(); S.round++; if(S.over) { save(); return showEnd(); } }
+  if(S.turn>=S.players.length){ S.turn=0; await endRound(); S.round++; if(S.over) { save(); return showEnd(); }
+    if(pointDu()){ save(); await pointTable(); } }
   prefetch(PH.turn(cur().name)); playTurn();
+}
+/* Point de la table : deux fois par partie (au tiers et aux deux tiers du temps), toutes les 15 min sans limite,
+   une fois à mi-parcours pour l'essai. Toujours au début d'un tour de table. La voix félicite chacun, encourage le dernier. */
+function pointDu(){
+  if(SET.pointTable===false || S.players.length<2) return false;
+  const e=store.get(ELAPSED)||0, fait=S.points||0;
+  const marques= !S.duration? null : S.essai? [S.duration/2] : [S.duration/3, 2*S.duration/3];
+  if(!marques){ const n=Math.floor(e/(15*60000)); if(n>fait){ S.points=n; return true; } return false; }
+  if(e>=S.duration) return false;
+  const n=marques.filter(m=>e>=m).length; if(n>fait){ S.points=n; return true; } return false;
+}
+async function pointTable(){
+  const ps=S.players, nbBiens=p=>Object.values(S.owners).filter(o=>o===p.seat).length, patri=p=>p.money+heritageOf(p);
+  const ranked=[...ps].sort((a,b)=>scoreOf(b)-scoreOf(a)||b.money-a.money||a.seat-b.seat), tete=ranked[0], dernier=ranked[ranked.length-1];
+  const base=Math.floor(Math.random()*1000), vus={}, tir=k=>base+(vus[k]=(vus[k]??-1)+1), phrases=[t('pt.intro',{i:tir('intro')})];
+  phrases.push(t('pt.tete',{i:tir('tete'), n:tete.name, k:patri(tete)}));
+  if(ranked.length>2 && scoreOf(ranked[1])>=scoreOf(tete)*0.9) phrases.push(t('pt.serre',{i:tir('serre')}));
+  const maxi=f=>Math.max(...ps.map(f)), deja=new Set();
+  const forts=[['hassanat',p=>p.hassanat||0],['bonnes',p=>p.bonnes||0],['dons',p=>p.dons||0],['biens',nbBiens]];
+  for(const p of ranked.slice(1)){
+    let cat=null;
+    for(const [c,f] of forts){ const v=f(p); if(v>0 && v===maxi(f) && !deja.has(c)){ cat=[c,v]; break; } }
+    if(!cat && nbBiens(p)>0 && !deja.has('biens')) cat=['biens',nbBiens(p)];
+    if(!cat && (p.bonnes||0)>0 && !deja.has('bonnes')) cat=['bonnes',p.bonnes];
+    if(cat){ deja.add(cat[0]); const [c,v]=cat; { const cle=c==='biens'&&v===1?'pt.bien1':'pt.'+c; phrases.push(t(cle,{i:tir(cle), n:p.name, h:v, r:v, d:v, b:v})); } }
+    else if(p!==dernier) phrases.push(t('pt.bravo',{i:tir('bravo'), n:p.name, k:patri(p)}));
+    if(p===dernier){ phrases.push(t('pt.encourage',{i:tir('enc'), n:p.name}));
+      if(ps.length<=4){ if(!(p.dons||0)) phrases.push(t('pt.conseilDon')); else if(!nbBiens(p)) phrases.push(t('pt.conseilBien')); } }
+  }
+  phrases.push(t('pt.fin',{i:tir('fin')}));
+  const lignes=ranked.map((p,k)=>`<div class="ptrow"><span class="ptk">${k+1}</span><span class="ptav" style="background-image:url(${avatarFor(p)})"></span><b>${esc(p.name)}</b>
+    <span class="ptst">${patri(p)} K · ✦ ${p.hassanat||0} · 🏛 ${nbBiens(p)} · ✅ ${p.bonnes||0}</span></div>`).join('');
+  const C=openCard({face:'point',back:'tresor'});
+  C.win.innerHTML=`<h3>${t('pt.titre')}</h3><div class="ptlist">${lignes}</div>`;
+  say(phrases.join(' ')); fxParty(false);
+  await choose(C.acts,[{label:t('pt.continuer'),value:1}]); C.close();
 }
 async function endRound(){
   // Zakat al-Māl : 6 tours de table de suite au-dessus du nissab (1 000 K) → 2,5 % à la Caisse Masākīn.
@@ -1514,7 +1556,8 @@ $('#plist').addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); 
 $('#plist').addEventListener('input',e=>{ const i=+e.target.dataset.i; if(e.target.type==='text') defs[i].name=e.target.value; });
 $('#plist').addEventListener('change',e=>{ const i=+e.target.dataset.i;
   if(e.target.type==='text'){ const m=(store.get(TENUES_KEY)||{})[cleNom(e.target.value)];   // prénom connu : on retrouve son avatar et sa tenue
-    if(m){ if(m.avatar&&AVATARS.includes(m.avatar)){ defs[i].avatar=m.avatar; defs[i].gender=m.avatar.startsWith('fille')?'f':'m'; } defs[i].tenue=m.tenue||undefined; } } if(e.target.id.startsWith('page')) defs[i].age=+e.target.value; if(e.target.id.startsWith('plvl')) defs[i].level=e.target.value; renderSetup(); });
+    if(!m) return;
+    if(m.avatar&&AVATARS.includes(m.avatar)){ defs[i].avatar=m.avatar; defs[i].gender=m.avatar.startsWith('fille')?'f':'m'; } defs[i].tenue=m.tenue||undefined; } if(e.target.id.startsWith('page')) defs[i].age=+e.target.value; if(e.target.id.startsWith('plvl')) defs[i].level=e.target.value; renderSetup(); });
 $('#addP').onclick=()=>{ const free=COLORS.find(c=>!defs.some(d=>d.color===c.id)); defs.push({name:'',gender:'m',child:true,age:9,level:'standard',color:free.id}); renderSetup(); };
 $('#durs').onclick=e=>{ const b=e.target.closest('[data-d]'); if(b){ dur=b.dataset.d; renderSetup(); } };
 // Avant chaque nouvelle partie, le serveur donne son accord (un code d'essai n'a droit qu'à un nombre limité de parties).
