@@ -176,7 +176,7 @@ label.f small{font-weight:700;color:var(--faint)}
   <section data-panel="avis" hidden>
     <div class="card">
       <div class="toolbar"><h2 style="margin:0">💬 Avis et messages</h2><span class="tag" id="avCount"></span>
-        <select id="avf"><option value="">Tous</option><option value="nouveau">Nouveaux</option><option value="retractation">Rétractations</option><option value="bug">Bugs</option><option value="avis">Avis</option><option value="suggestion">Suggestions</option><option value="partenariat">Partenariats</option><option value="autre">Autres</option></select></div>
+        <select id="avf"><option value="">Tous</option><option value="nouveau">Nouveaux</option><option value="retractation">Rétractations</option><option value="bug">Bugs</option><option value="avis">Avis</option><option value="suggestion">Suggestions</option><option value="partenariat">Partenariats</option><option value="autre">Autres</option><option value="aide">Questions au chatbot</option></select></div>
       <p class="muted small">Les messages envoyés depuis le formulaire « Votre avis » du site. Une alerte part aussi par e-mail à l'adresse de contact. Pour répondre, cliquez sur l'e-mail de la personne.</p>
       <div id="avList"></div>
     </div>
@@ -406,7 +406,7 @@ $('#mk').onclick=async()=>{ try{ const d=await api('cadeaux',{nombre:$('#nb').va
   const all=$('#cpall'); if(all) all.onclick=async()=>{ try{ await navigator.clipboard.writeText(d.codes.join('\n')); all.textContent='Copiés ✓'; }catch{} };
   loaded.codes && loadCodes(); }catch(e){ toast(e.message); } };
 let CT=[];
-let AV=[]; const AVT={retractation:'↩️ Rétractation',bug:'🐞 Bug',avis:'💬 Avis',suggestion:'💡 Suggestion',partenariat:'🤝 Partenariat',autre:'✉️ Autre'};
+let AV=[]; const AVT={retractation:'↩️ Rétractation',bug:'🐞 Bug',avis:'💬 Avis',suggestion:'💡 Suggestion',partenariat:'🤝 Partenariat',autre:'✉️ Autre',aide:'❓ Question au chatbot'};
 async function loadAvis(){ $('#avList').innerHTML='<p class="empty">Chargement…</p>'; try{ AV=(await api('avis')).avis||[]; }catch(e){ $('#avList').innerHTML=`<p class="msg err">${esc(e.message)}</p>`; return; } renderAvis(); }
 function renderAvis(){ const f=$('#avf').value, L=AV.filter(a=>!f||(f==='nouveau'?a.statut==='nouveau':a.type===f)), nv=AV.filter(a=>a.statut==='nouveau').length;
   $('#avCount').textContent=`${fmt(AV.length)} · ${fmt(nv)} nouveau${nv>1?'x':''}`; const t=$('#avNew'); t.hidden=!nv; t.textContent=nv;

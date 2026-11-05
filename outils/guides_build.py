@@ -216,6 +216,7 @@ def page(g, lang):
 </div></footer>
 <script>document.querySelectorAll('[data-lang]').forEach(function(a){{a.addEventListener('click',function(){{try{{localStorage.setItem('kounouzi_lang',a.dataset.lang)}}catch(e){{}} document.cookie='kz_lang='+a.dataset.lang+'; path=/; max-age=31536000; samesite=lax';}});}});</script>
 {BAN}
+<script src="/aide.js?v=1" defer></script>
 </body>
 </html>
 """

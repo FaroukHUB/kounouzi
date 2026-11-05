@@ -1016,5 +1016,6 @@ $$('.rv').forEach(el=>io.observe(el));
   },true); })();
 /* Lien « Gérer les cookies » : on oublie le choix et le bandeau revient. */
 document.querySelectorAll('[data-cookies]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); try{ localStorage.removeItem('kz_consent'); }catch(x){} location.reload(); }); });</script>
+<script src="/aide.js?v=1" defer></script>
 </body>
 </html>
