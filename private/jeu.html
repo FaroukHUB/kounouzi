@@ -78,6 +78,9 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .tenues div{display:flex;flex-wrap:wrap;gap:8px}
 .tn{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.2);background:var(--c) center/cover;transition:transform .15s}
 .tn.orig{background-size:140%}
+.tenueBtn{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:6px 14px 6px 6px;border-radius:99px;background:rgba(0,0,0,.25);border:1.5px solid rgba(239,190,76,.5);color:inherit;font-weight:800;font-size:14px}
+.tenueBtn i{width:28px;height:28px;border-radius:50%;background:center/140% no-repeat;border:2px solid rgba(255,255,255,.3)}
+.tenueOk{grid-column:1/-1;justify-self:center;min-height:44px}
 .tn:active{transform:scale(.92)}
 .tn[aria-pressed=true]{border-color:var(--gold);box-shadow:0 0 0 3px rgba(239,190,76,.35)}
 .prow input[type=text]{width:100%;min-width:0;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;color:var(--parchment);font:800 16px var(--body);padding:9px 10px}
@@ -1586,9 +1589,10 @@ function renderSetup(){
       ${d.child? `<select id="page${i}" data-i="${i}" aria-label="${t('joueur.age')}">${Array.from({length:12},(_,k)=>k+5).map(a=>`<option value="${a}" ${a===d.age?'selected':''}>${t('joueur.ans',{a,n:a})}</option>`).join('')}</select>`
         : `<select id="plvl${i}" data-i="${i}" aria-label="${t('joueur.niveau')}">${['decouverte','standard','avance'].map(v=>[v,t('niveau.'+v)]).map(([v,l])=>`<option value="${v}" ${v===d.level?'selected':''}>${l}</option>`).join('')}</select>`}
       <div class="swatches">${COLORS.map(c=>`<button class="sw" style="--c:${c.hex}" data-i="${i}" data-a="color" data-c="${c.id}" aria-label="${t('couleur.'+c.id)}" aria-pressed="${d.color===c.id}" ${used.includes(c.id)&&d.color!==c.id?'disabled':''}></button>`).join('')}</div>
+      <button class="tenueBtn" type="button" data-i="${i}" data-a="pickav" aria-expanded="${!!d._pick}"><i style="${(()=>{ const c=TENUES.find(x=>x.id===d.tenue); return c&&c.hex? `background:${c.hex}` : `background-image:url(${avatarFor(d)})`; })()}"></i>${t('tenue.bouton')}</button>
     </div>
-    ${d._pick? `<div class="avpick" role="listbox" aria-label="${t('joueur.avatars')}">${AVATARS.map(a=>`<button class="avb" role="option" data-i="${i}" data-a="setav" data-av="${a}" aria-selected="${avatarFor(d)===`img/${a}-portrait.webp`}" style="background-image:url(img/${a}-portrait.webp)" aria-label="${t('joueur.avatar',{a:a.replace(/-/g,' ')})}"></button>`).join('')}
-      <div class="tenues"><small>${t('tenue.titre')}</small><div>${TENUES.map(c=>`<button class="tn ${c.hex?'':'orig'}" style="${c.hex?`--c:${c.hex}`:`background-image:url(img/${avatarId(d)}-portrait.webp)`}" data-i="${i}" data-a="tenue" data-t="${c.id}" aria-label="${t('tenue.'+c.id)}" aria-pressed="${(d.tenue||'origine')===c.id}"></button>`).join('')}</div></div></div>`:''}
+    ${d._pick? `<div class="avpick" role="listbox" aria-label="${t('joueur.avatars')}">${AVATARS.map(a=>`<button class="avb" role="option" data-i="${i}" data-a="setav" data-av="${a}" aria-selected="${avatarId(d)===a}" style="background-image:url(img/${a}-portrait.webp)" aria-label="${t('joueur.avatar',{a:a.replace(/-/g,' ')})}"></button>`).join('')}
+      <div class="tenues"><small>${t('tenue.titre')}</small><div>${TENUES.map(c=>`<button class="tn ${c.hex?'':'orig'}" style="${c.hex?`--c:${c.hex}`:`background-image:url(img/${avatarId(d)}-portrait.webp)`}" data-i="${i}" data-a="tenue" data-t="${c.id}" aria-label="${t('tenue.'+c.id)}" aria-pressed="${(d.tenue||'origine')===c.id}"></button>`).join('')}</div></div><button class="btn tenueOk" type="button" data-i="${i}" data-a="pickav">${t('tenue.ok')}</button></div>`:''}
     </div>`; }).join('');
   $('#addP').hidden = defs.length>=6;
   $('#durs').innerHTML = DURATIONS.map(x=>`<button data-d="${x.id}" aria-pressed="${dur===x.id}">${t('duree.'+x.id)}<span>${x.min? t('duree.min',{n:x.min}) : t('duree.sansLimite')}</span></button>`).join('');
@@ -1596,7 +1600,7 @@ function renderSetup(){
 }
 $('#plist').addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b) return; const i=+b.dataset.i, d=defs[i];
   if(b.dataset.a==='pickav'){ const open=!d._pick; defs.forEach(x=>delete x._pick); if(open) d._pick=true; }
-  if(b.dataset.a==='setav'){ d.avatar=b.dataset.av; d.gender= b.dataset.av.startsWith('fille')?'f':'m'; delete d._pick; }
+  if(b.dataset.a==='setav'){ d.avatar=b.dataset.av; d.gender= b.dataset.av.startsWith('fille')?'f':'m'; } // la fenêtre reste ouverte : on choisit ensuite la couleur de la tenue
   if(b.dataset.a==='child') d.child=true; if(b.dataset.a==='adult') d.child=false;
   if(b.dataset.a==='color') d.color=b.dataset.c;
   if(b.dataset.a==='tenue'){ d.tenue= b.dataset.t==='origine'? undefined : b.dataset.t; renderSetup(); return; }
