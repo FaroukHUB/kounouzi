@@ -378,7 +378,7 @@ function bars(sel,data,unit,color){
 
 /* ---------- Codes ---------- */
 let CODES=[];
-const lien=c=>`${location.origin}/?code=${encodeURIComponent(c)}#acceder`;
+const lien=c=>`${location.origin}/j/${encodeURIComponent(c)}`;
 async function copier(c,btn){ try{ await navigator.clipboard.writeText(`Ton accès Kounouzi 🎁\nCode : ${c}\n${lien(c)}`); if(btn){ btn.textContent='Copié ✓'; setTimeout(()=>btn.textContent='Copier le lien',1500);} }catch{ toast('Copie impossible'); } }
 async function loadCodes(){ $('#codesBody').innerHTML='<tr><td colspan="8" class="empty">Chargement…</td></tr>'; try{ CODES=(await api('codes')).codes||[]; }catch(e){ $('#codesBody').innerHTML=`<tr><td colspan="8" class="msg err">${esc(e.message)}</td></tr>`; return; } renderCodes(); }
 function codesFiltres(){ const q=$('#cq').value.trim().toLowerCase(), f=$('#cf').value;

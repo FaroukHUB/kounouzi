@@ -16,6 +16,10 @@
 .ptrow{display:grid;grid-template-columns:20px 34px 1fr;align-items:center;column-gap:8px;padding:6px 8px;border-radius:12px;background:rgba(0,0,0,.28)}
 .ptk{font-weight:900;color:var(--gold);grid-row:span 2}.ptav{width:34px;height:34px;border-radius:50%;background:#222 center/cover;grid-row:span 2}
 .ptrow b{font-size:15px;line-height:1.1}.ptst{grid-column:3;font-size:12.5px;font-weight:800;opacity:.85}
+.inst{flex-direction:column;align-items:stretch;text-align:start}
+.inst .small{color:var(--parchment);opacity:.75;margin-top:4px;font-size:14px;line-height:1.4}
+.instacts{display:flex;gap:8px}.instacts .btn{flex:1 1 auto}.instacts #installNon{flex:0 0 auto;min-width:48px;padding-inline:14px}
+.instetapes{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:8px}
 </style>
 </head>
 <body>
@@ -244,6 +248,10 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
     <p class="tagline" data-i18n="setup.tagline">Joue. Apprends. Gère.</p>
     <div class="langrow"><div class="seg" id="langSel" role="group" aria-label="Langue" data-i18n-aria="setup.langue"></div></div>
     <p class="langnote" id="langNote" hidden></p>
+    <div class="panel inst" id="installBox" hidden>
+      <div><b data-i18n="inst.titre">📲 Installe Kounouzi sur cet écran</b><div class="small" data-i18n="inst.texte">Une icône sur l'écran d'accueil, et le jeu s'ouvre d'un seul geste, sans retaper ton code.</div></div>
+      <div class="instacts"><button class="btn btn-gold" id="installBtn" data-i18n="inst.bouton">Installer</button><button class="btn btn-ghost" id="lienBtn" data-i18n="inst.lien">Copier mon lien</button><button class="btn btn-ghost" id="installNon" aria-label="Plus tard" data-i18n-aria="inst.plusTard">✕</button></div>
+    </div>
     <div class="panel resume" id="resumeBox" hidden>
       <div><b data-i18n="setup.encours">Une partie est en cours.</b><div class="clock" id="resumeInfo"></div></div>
       <button class="btn btn-gold" id="resumeBtn" data-i18n="setup.reprendre">Reprendre</button>
@@ -1155,6 +1163,29 @@ function openSettings(fromMenu=false){
   });
 }
 $('#setupSettings').onclick=()=>{ unlockAudio(); openSettings(); };
+// Installer le jeu sur l'écran d'accueil : l'application s'ouvre sur le lien personnel de la famille (/j/CODE).
+(function(){
+  const box=$('#installBox'), lien=document.documentElement.dataset.lien||'', MASQUE='kounouzi_v2_install_masque';
+  const appli=matchMedia('(display-mode: standalone)').matches || navigator.standalone===true;
+  const ios=/iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+  const android=/Android/.test(navigator.userAgent);
+  let invite=null;
+  if(appli || (+store.get(MASQUE)||0)>Date.now()) return;
+  box.hidden=false;
+  window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); invite=e; });
+  window.addEventListener('appinstalled',()=>{ box.hidden=true; toast(t('inst.fait')); });
+  $('#installNon').onclick=()=>{ box.hidden=true; store.set(MASQUE, Date.now()+30*864e5); };
+  $('#lienBtn').onclick=async e=>{ const u=location.origin+lien; try{ await navigator.clipboard.writeText(u); toast(t('inst.copie')); }catch{ toast(u,6000); } };
+  if(!lien) $('#lienBtn').hidden=true;
+  $('#installBtn').onclick=async()=>{
+    if(invite){ invite.prompt(); const r=await invite.userChoice.catch(()=>null); invite=null; if(r?.outcome==='accepted') box.hidden=true; return; }
+    const etapes= ios? [t('inst.ios1'),t('inst.ios2'),t('inst.ios3')] : android? [t('inst.and1'),t('inst.and2')] : [t('inst.pc1'),t('inst.pc2')];
+    const ov=document.createElement('div'); ov.id='overlay';
+    ov.innerHTML=`<div class="sheet"><h2>${t('inst.titreAide')}</h2><ol class="instetapes">${etapes.map(x=>`<li>${x}</li>`).join('')}</ol>
+      ${ios? `<p class="small">${t('inst.iosSafari')}</p>`:''}<button class="btn btn-gold" data-a="ok">${t('inst.compris')}</button></div>`;
+    document.body.appendChild(ov); ov.querySelector('[data-a=ok]').onclick=()=>ov.remove(); ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
+  };
+})();
 
 // La phrase est dite dans la langue du texte affiché (L) : une question non traduite est lue en français.
 const tL=(L,k,p)=>{ const was=LANG; LANG=L; try{ return t(k,p); } finally{ LANG=was; } };

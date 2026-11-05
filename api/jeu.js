@@ -56,5 +56,7 @@ export async function GET(request) {
   if (dev.cookie) headers['set-cookie'] = dev.cookie;
   // Pays de connexion transmis au jeu : il choisit la langue de départ tant que la famille n'en a pas choisi une.
   const pays = /^[A-Z]{2}$/.test(lieu(request).pays || '') ? lieu(request).pays : '';
-  return new Response((await readFile(path.join(DIR, 'jeu.html'), 'utf8')).replace('<html lang="fr">', `<html lang="fr" data-pays="${pays}">`), { headers });
+  // Manifeste personnalisé : l'application installée s'ouvrira sur le lien de la famille (/j/CODE).
+  return new Response((await readFile(path.join(DIR, 'jeu.html'), 'utf8')).replace('<html lang="fr">', `<html lang="fr" data-pays="${pays}" data-lien="/j/${code}">`)
+    .replace('<link rel="manifest" href="/manifest.webmanifest">', `<link rel="manifest" href="/api/manifest?c=${encodeURIComponent(code)}">`), { headers });
 }

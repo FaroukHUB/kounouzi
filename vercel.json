@@ -10,6 +10,10 @@
   },
   "rewrites": [
     {
+      "source": "/j/:code",
+      "destination": "/api/ouvrir?code=:code"
+    },
+    {
       "source": "/jouer",
       "destination": "/api/jeu"
     },

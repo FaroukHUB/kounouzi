@@ -12,29 +12,29 @@ const TXT = {
     titre: 'Merci et bienvenue dans Kounouzi !',
     intro: 'Voici ton code d\'accès. Il ouvre le jeu sur tous les appareils de la famille : téléphone, tablette ou ordinateur.',
     bouton: 'Ouvrir Kounouzi',
-    etapes: 'Sur un nouvel appareil : va sur kounouzi.com, touche « J\'ai un code » et entre ce code. C\'est tout.',
+    etapes: 'Le bouton ci-dessus est ton lien personnel : il ouvre directement le jeu, sur n\'importe quel appareil de la famille. Astuce : une fois le jeu ouvert, touche « Installer » pour ajouter Kounouzi à l\'écran d\'accueil, comme une application.',
     garde: 'Garde cet e-mail précieusement : il te permettra de retrouver ton code à tout moment.',
     renonce: 'Confirmation : avant le paiement, tu as demandé l’accès immédiat au jeu et reconnu perdre ton droit de rétractation de 14 jours (contenu numérique fourni tout de suite, article L221-28 13° du Code de la consommation).',
     fin: 'Belles parties en famille,\nL\'équipe Kounouzi',
-    lien: (b, c) => `${b}/?code=${encodeURIComponent(c)}#acceder`,
+    lien: (b, c) => `${b}/j/${encodeURIComponent(c)}`,
   },
   en: {
     sujet: 'Your Kounouzi access code',
     titre: 'Thank you and welcome to Kounouzi!',
     intro: 'Here is your access code. It opens the game on all your family\'s devices: phone, tablet or computer.',
     bouton: 'Open Kounouzi',
-    etapes: 'On a new device: go to kounouzi.com/en, tap "I have a code" and enter this code. That\'s all.',
+    etapes: 'The button above is your personal link: it opens the game directly, on any of your family\'s devices. Tip: once the game is open, tap "Install" to add Kounouzi to your home screen, like an app.',
     garde: 'Keep this e-mail safe: it lets you find your code at any time.',
     renonce: 'Confirmation: before paying, you asked for immediate access to the game and acknowledged losing your 14-day right of withdrawal (digital content supplied right away).',
     fin: 'Happy family game nights,\nThe Kounouzi team',
-    lien: (b, c) => `${b}/en/?code=${encodeURIComponent(c)}#acceder`,
+    lien: (b, c) => `${b}/j/${encodeURIComponent(c)}?lang=en`,
   },
 };
 
 // Variante pour une partie d'essai demandée sur le site.
 const ESSAI = {
-  fr: { sujet: 'Ta partie d\'essai Kounouzi', titre: 'Ta partie d\'essai est prête !', intro: 'Voici ton code d\'essai : il ouvre une partie de 10 minutes, à jouer en famille sur un seul écran. Réunissez-vous autour de la table !', bouton: 'Lancer ma partie d\'essai', garde: 'Ta partie te plaît ? L\'accès complet est sur kounouzi.com : paiement unique, sans abonnement, mises à jour incluses.' },
-  en: { sujet: 'Your Kounouzi trial game', titre: 'Your trial game is ready!', intro: 'Here is your trial code: it opens a 10-minute game, to play as a family on a single screen. Gather around the table!', bouton: 'Start my trial game', garde: 'Enjoying it? Full access is on kounouzi.com: one-time payment, no subscription, updates included.' },
+  fr: { sujet: 'Ta partie d\'essai Kounouzi', titre: 'Ta partie d\'essai est prête !', intro: 'Voici ton code d\'essai : il ouvre une partie de 10 minutes, à jouer en famille sur un seul écran. Réunissez-vous autour de la table !', bouton: 'Lancer ma partie d\'essai', etapes: 'Le bouton ci-dessus ouvre directement ta partie d\'essai, sans rien retaper.', garde: 'Ta partie te plaît ? L\'accès complet est sur kounouzi.com : paiement unique, sans abonnement, mises à jour incluses.' },
+  en: { sujet: 'Your Kounouzi trial game', titre: 'Your trial game is ready!', intro: 'Here is your trial code: it opens a 10-minute game, to play as a family on a single screen. Gather around the table!', bouton: 'Start my trial game', etapes: 'The button above opens your trial game directly, without typing anything.', garde: 'Enjoying it? Full access is on kounouzi.com: one-time payment, no subscription, updates included.' },
 };
 
 export function messageCode({ code, lang, base, essai = false }) {
