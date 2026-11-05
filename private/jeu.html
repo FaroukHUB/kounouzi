@@ -450,8 +450,12 @@ function runFQ(){ while(FQ.active<2 && FQ.queue.length){ const job=FQ.queue.shif
 function queued(fn,urgent){ return new Promise((res,rej)=>{ const job=()=>fn().then(res,rej); if(urgent) FQ.queue.unshift(job); else FQ.queue.push(job); runFQ(); }); }
 async function getVoice(url){
   for(let attempt=0; attempt<3; attempt++){
-    const r=await fetch(url);
-    if(r.ok){ VOICE.err=''; return URL.createObjectURL(await r.blob()); }
+    // Jamais d'attente infinie : une demande trop lente est abandonnée au bout de 12 s, sinon elle bloquerait la file
+    // et la voix se tairait pendant plusieurs tours.
+    const ac=new AbortController(), to=setTimeout(()=>ac.abort(),12000);
+    let r; try{ r=await fetch(url,{signal:ac.signal}); if(r.ok){ const bl=await r.blob(); clearTimeout(to); VOICE.err=''; return URL.createObjectURL(bl); } }
+    catch(e){ clearTimeout(to); VOICE.err='lent'; if(attempt>=1) break; await new Promise(z=>setTimeout(z, 500)); continue; }
+    clearTimeout(to);
     const j=await r.json().catch(()=>({})); VOICE.err = j.detail || (j.status? 'erreur '+j.status : 'erreur '+r.status);
     if(r.status===400) break;
     await new Promise(z=>setTimeout(z, 700*(attempt+1)));
@@ -589,10 +593,10 @@ const ageOf = p=> p.child? p.age : 30;
    ========================================================= */
 let S = null;           // état sauvegardé au début de chaque tour
 const SAVE='kounouzi_v2_game', PLAYERS='kounouzi_v2_players', GAMENO='kounouzi_v2_gameno', ELAPSED='kounouzi_v2_elapsed';
-// Suite des défis et des cartes Hassanāt, gardée d'une partie à l'autre sur cet appareil : une nouvelle partie reprend
+// Suite des cartes Hassanāt et des types de défi, gardée d'une partie à l'autre sur cet appareil : une nouvelle partie reprend
 // là où la précédente s'est arrêtée, au lieu de reproposer les mêmes défis dans le même ordre.
 const SUITE='kounouzi_v2_suite';
-const save = ()=>{ if(S){ store.set(SAVE,S); store.set(SUITE,{famIdx:S.famIdx,hasIdx:S.hasIdx,chalIdx:S.chalIdx,usedFam:S.usedFam}); } };
+const save = ()=>{ if(S){ store.set(SAVE,S); store.set(SUITE,{hasIdx:S.hasIdx,chalIdx:S.chalIdx}); } };
 const cur = ()=>S.players[S.turn];
 // Statistiques anonymes pour le tableau de bord (jamais de prénom) : début et fin de partie, réponses.
 const ageBand = p=> !p.child? 'adulte' : (p.age<=6?'5-6': p.age<=8?'7-8': p.age<=10?'9-10': p.age<=12?'11-12':'13+');
@@ -605,7 +609,7 @@ addEventListener('pagehide',flushAnswers); document.addEventListener('visibility
 function newGame(defs, durMin){
   const gameNo = (store.get(GAMENO)||0)+1; store.set(GAMENO,gameNo);
   const su=store.get(SUITE)||{}, n0=x=>Number.isFinite(x)&&x>=0? x : 0;
-  S = {v:2, gameNo, turn:0, round:1, owners:{}, usedQ:[], usedFam:Array.isArray(su.usedFam)? su.usedFam.slice(-200) : [], famIdx:n0(su.famIdx), chalIdx:n0(su.chalIdx), hasIdx:n0(su.hasIdx), caisse:0,
+  S = {v:2, gameNo, turn:0, round:1, owners:{}, usedQ:[], usedFam:[], famIdx:0, chalIdx:n0(su.chalIdx), hasIdx:n0(su.hasIdx), caisse:0,
        duration: durMin? durMin*60000 : null, endRequested:false, over:false,
        players: defs.map((d,i)=>({...d, seat:i, money:1000, pos:0, journey:0, themeIdx:i%THEMES.length, levels:{}, streak:{}, halted:false, hassanat:0, zakat:0}))};
   S.players.forEach(p=>THEMES.forEach(t=>{p.levels[t]=startLevel(p); p.streak[t]=0;}));
@@ -1033,6 +1037,8 @@ const seenOf = p => (SEEN[p.name.toLowerCase()] ||= []);
 function poolFor(p,theme){ return questionsEligibles(DATA.questions,theme,p); }
 // Questions d'un même « groupe » (src = 'groupe:…') : le même fait formulé pour plusieurs âges. Il n'est jamais reposé
 // à la table pendant la partie, ni au même joueur tant qu'il n'a pas fait le tour de sa série.
+const MODELES=new Map();
+const modeleQ=q=>{ if(!q) return ''; let m=MODELES.get(q.id); if(m===undefined){ m=String((q.q&&q.q.fr)||'').replace(/\d+(?:[.,]\d+)?/g,'#').replace(/\s+/g,' ').trim().slice(0,70); MODELES.set(q.id,m); } return m; };
 function selectQuestion(p, theme){
   if(selectQuestion.base!==DATA.questions){ selectQuestion.base=DATA.questions; selectQuestion.idx=new Map(DATA.questions.map(q=>[q.id,q])); }
   const groupeDe=q=> q && typeof q.src==='string' && q.src.startsWith('groupe:') ? q.src : null;
@@ -1048,6 +1054,11 @@ function selectQuestion(p, theme){
   const prio=cands.filter(q=>q.prio); if(prio.length) cands=prio;
   // 2) toutes vues : on recommence le cycle de cette série, en évitant les plus récentes (au moins 60 % de la série)
   if(!cands.length){ const ids=new Set(pool.map(q=>q.id)); SEEN[p.name.toLowerCase()] = seen.filter(id=>!ids.has(id)); const nEviter=RG.eviter===0?0:Math.max(RG.eviter||15, Math.floor(pool.length*0.6)); const recent=new Set(nEviter?seen.filter(id=>ids.has(id)).slice(-nEviter):[]); const gRecent=groupesDe(recent); cands=pool.filter(q=>!table.has(q.id)&&!recent.has(q.id)&&libre(q)&&!(groupeDe(q)&&gRecent.has(groupeDe(q)))); if(!cands.length) cands=pool.filter(q=>!table.has(q.id)&&libre(q)); if(!cands.length) cands=pool; }
+  // Variété : les questions bâties sur le même modèle (même phrase, seuls les nombres changent) ne reviennent pas
+  // deux fois dans la même partie à la table, ni chez un joueur qui l'a eu récemment, tant qu'il reste d'autres choix.
+  { const tMod=new Set(S.usedQ.map(id=>modeleQ(selectQuestion.idx.get(id)))), rMod=new Set(seen.slice(-40).map(id=>modeleQ(selectQuestion.idx.get(id))));
+    const v1=cands.filter(q=>!tMod.has(modeleQ(q))&&!rMod.has(modeleQ(q))), v2=cands.filter(q=>!tMod.has(modeleQ(q)));
+    if(v1.length) cands=v1; else if(v2.length) cands=v2; }
   // Le niveau du joueur oriente le tirage (questions proches de son niveau plus probables) sans enfermer dans 5 questions.
   if(p.levels[theme]===undefined){ p.levels[theme]=startLevel(p); p.streak[theme]=0; }
   const lvl=p.levels[theme]; const w=cands.map(q=>(q.w??1)/(1+Math.abs(q.d-lvl)*1.5)+1e-9); let r=Math.random()*w.reduce((x,y)=>x+y,0), i=0; while(r>w[i]){ r-=w[i]; i++; }
@@ -1261,14 +1272,21 @@ async function onDonation(p){
 }
 
 /* ---------- Défis ---------- */
+// Défis en famille : tirés au hasard parmi ceux que cet appareil n'a pas encore vus (mémoire gardée d'une partie à l'autre).
+// Quand tous ont été vus, on repioche dans la moitié la plus ancienne. Jamais deux fois de suite la même catégorie.
+const DEFI_VUS='kounouzi_v2_defis_vus';
 function nextFamily(p, skip=new Set()){
-  const age=ageOf(p); const L=DATA.defis; let tries=0;
-  while(tries<L.length*2){
-    const d=L[S.famIdx%L.length]; S.famIdx++; tries++;
-    if(d.min<=age && defiAllowed(d) && !S.usedFam.includes(d.id) && !skip.has(d.id)){ S.usedFam.push(d.id); return d; }
-    if(tries===L.length){ S.usedFam=[]; }
-  }
-  return L.find(d=>d.min<=ageOf(p)&&defiAllowed(d)) || L[0];
+  const age=ageOf(p), L=DATA.defis.filter(d=>d.min<=age && defiAllowed(d) && !skip.has(d.id));
+  if(!L.length) return DATA.defis.find(d=>d.min<=age&&defiAllowed(d)) || DATA.defis[0];
+  const vus=store.get(DEFI_VUS)||[], rang=new Map(vus.map((id,k)=>[id,k]));
+  const libres=L.filter(d=>!S.usedFam.includes(d.id)), base=libres.length? libres : L;
+  let cands=base.filter(d=>!rang.has(d.id));
+  if(!cands.length){ const tri=[...base].sort((a,b)=>rang.get(a.id)-rang.get(b.id)); cands=tri.slice(0,Math.max(1,Math.ceil(tri.length/2))); }
+  const autre=cands.filter(d=>d.cl!==S.lastCat); if(autre.length) cands=autre;
+  const d=cands[Math.floor(Math.random()*cands.length)];
+  S.usedFam.push(d.id); S.lastCat=d.cl;
+  store.set(DEFI_VUS,[...vus.filter(x=>x!==d.id),d.id].slice(-400));
+  return d;
 }
 function variantFor(d,age){ return d.v.find(v=>age>=v.ageMin && (v.ageMax===undefined||age<v.ageMax)) || (d.v.length? d.v[d.v.length-1]:null); }
 async function onFamily(p){
