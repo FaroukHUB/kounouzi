@@ -276,3 +276,9 @@ test('même fait formulé pour plusieurs âges (groupe) : jamais reposé à la t
   const groupes = tires.map(q => q.src);
   assert.equal(new Set(groupes).size, 6, 'un adulte (deux tranches) voit 6 faits différents avant de revoir un fait : ' + groupes.join(','));
 });
+
+test('variété : une même partie ne repose pas deux fois le même modèle de question (seuls les nombres changent)', () => {
+  const api = moteur(DATA); const p = enfant(11); const mod = (q) => q.q.fr.replace(/\d+(?:[.,]\d+)?/g, '#').replace(/\s+/g, ' ').trim().slice(0, 70);
+  const vus = []; for (let k = 0; k < 12; k++) { const q = api.selectQuestion(p, 'maths'); assert.ok(q); vus.push(mod(q)); }
+  assert.equal(new Set(vus).size, vus.length, 'modèle répété : ' + vus.join(' | '));
+});

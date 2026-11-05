@@ -1037,9 +1037,10 @@ const seenOf = p => (SEEN[p.name.toLowerCase()] ||= []);
 function poolFor(p,theme){ return questionsEligibles(DATA.questions,theme,p); }
 // Questions d'un même « groupe » (src = 'groupe:…') : le même fait formulé pour plusieurs âges. Il n'est jamais reposé
 // à la table pendant la partie, ni au même joueur tant qu'il n'a pas fait le tour de sa série.
-const MODELES=new Map();
-const modeleQ=q=>{ if(!q) return ''; let m=MODELES.get(q.id); if(m===undefined){ m=String((q.q&&q.q.fr)||'').replace(/\d+(?:[.,]\d+)?/g,'#').replace(/\s+/g,' ').trim().slice(0,70); MODELES.set(q.id,m); } return m; };
 function selectQuestion(p, theme){
+  // Modèle d'une question : son texte français, nombres remplacés par #, sert à repérer les questions « jumelles ».
+  const MODELES=selectQuestion.mod||(selectQuestion.mod=new Map());
+  const modeleQ=q=>{ if(!q) return ''; let m=MODELES.get(q.id); if(m===undefined){ m=String((q.q&&q.q.fr)||'').replace(/\d+(?:[.,]\d+)?/g,'#').replace(/\s+/g,' ').trim().slice(0,70); MODELES.set(q.id,m); } return m; };
   if(selectQuestion.base!==DATA.questions){ selectQuestion.base=DATA.questions; selectQuestion.idx=new Map(DATA.questions.map(q=>[q.id,q])); }
   const groupeDe=q=> q && typeof q.src==='string' && q.src.startsWith('groupe:') ? q.src : null;
   const groupesDe=ids=>{ const g=new Set(); for(const id of ids){ const x=groupeDe(selectQuestion.idx.get(id)); if(x) g.add(x); } return g; };
