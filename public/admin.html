@@ -195,6 +195,7 @@ label.f small{font-weight:700;color:var(--faint)}
         <select id="qs"><option value="">Tous les statuts</option><option value="publiee">Publiées</option><option value="brouillon">Brouillons</option><option value="archivee">Archivées</option></select>
         <select id="qtr" aria-label="Traduction anglaise"><option value="">Anglais : tout</option><option value="a_faire">À traduire</option><option value="a_relire">À relire</option><option value="validee">Validée</option></select>
         <select id="qo"><option value="theme">Trier : thème</option><option value="taux">Les plus ratées</option><option value="n">Les plus posées</option><option value="recent">Modifiées récemment</option></select>
+        <button class="btn g" id="qExport" type="button" title="Télécharge en JSON les questions affichées avec les filtres actuels">⬇ Exporter (JSON)</button>
         <button class="btn g" id="qListen" type="button" title="Lit à voix haute chaque question de la liste, puis sa réponse">🔊 Écouter la liste</button>
         <button class="btn" id="qnew">+ Nouvelle question</button></div>
       <p class="muted small" id="qVoixMsg" style="margin:0 0 6px" hidden></p>
@@ -489,6 +490,13 @@ async function dire(champ,lang,txt,j=voixJeton){
   voixAudio=new Audio(url); await new Promise(res=>{ voixAudio.onended=res; voixAudio.onerror=res; voixAudio.onpause=res; voixAudio.play().catch(res); });
 }
 async function direQuestion(q,j){ if(!q) return; await dire('q','fr',q.q?.fr,j); await dire('r','fr',q.r?.fr,j); }
+// Export JSON des questions filtrées, depuis la base en direct (relecture, correction hors ligne).
+$('#qExport').onclick=()=>{ const L=qFiltres(); if(!L.length) return;
+  const out={format:'kounouzi-questions', exporte_le:new Date().toISOString(), filtres:{theme:$('#qt').value||'tous', age:$('#qa').value||'tous', statut:$('#qs').value||'tous'}, total:L.length,
+    questions:L.map(q=>({id:q.id, theme:THEMES[q.t]||q.t, tranche_age:q.a||null, niveau:q.d, statut:q.statut, question:q.q?.fr||'', reponse:q.r?.fr||'',
+      ...(q.e?.fr?{explication:q.e.fr}:{}), ...(q.s?{source:q.s}:{}), ...(q.q?.en?{question_en:q.q.en, reponse_en:q.r?.en||''}:{}), ...(q.n?{posee:q.n, reussite:q.taux}:{})}))};
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));
+  a.download=`kounouzi-questions-${$('#qt').value||'tout'}-${new Date().toISOString().slice(0,10)}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),5000); };
 let LECTURE=false;
 $('#qListen').onclick=async()=>{ const b=$('#qListen');
   if(LECTURE){ LECTURE=false; stopVoix(); b.textContent='🔊 Écouter la liste'; voixMsg(''); $$('#qBody .qrow.lit').forEach(r=>r.classList.remove('lit')); return; }
