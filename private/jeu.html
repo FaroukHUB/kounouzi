@@ -431,9 +431,16 @@ const PRONON=(Array.isArray(RG.prononciation)?RG.prononciation:[]).filter(p=>p&&
 // Noms arabes des cases, avec leurs harakat pour la voix (même écriture que AR_WORDS, voyelles en plus).
 const AR_VOC=Object.fromEntries(AR_WORDS.map(([,ar])=>[ar.replace(/[\u064B-\u0652]/g,''),ar]));
 const toVoice=t=>{ PRONON.forEach(([re,d])=>{ t=t.replace(re,(m,a)=>a+d); }); AR_WORDS.forEach(([re,ar])=>{ t=t.replace(re,ar); }); return t; };
-// En français, « case » est parfois lu à l'anglaise : la voix reçoit « caze » (même son en français), l'écran ne change pas.
-const FR_SON=t=>t.replace(/(^|[^\p{L}])([Cc])ase(s?)(?![\p{L}])/gu,'$1$2aze$3');
-const cleanText=(t,lang=LANG)=>{ t=toVoice(String(t)); if(lang==='fr') t=FR_SON(t); return t.replace(/\s+/g,' ').trim().slice(0,680); };
+// En français, certains mots sont parfois lus à l'anglaise : la voix reçoit une écriture qui se lit pareil en français
+// (case → caze, don → dont, prison → prizon), et les unités abrégées sont dites en entier (15 s → 15 secondes). L'écran ne change pas.
+const MOT=(re,f)=>t=>t.replace(new RegExp('(^|[^\\p{L}])'+re+'(?![\\p{L}])','gu'),f);
+const UNITE=(un,plur)=>(m,a,n)=>a+n+' '+(Number(n)<2? un : plur);
+const FR_SON=t=>[
+  MOT('([Cc])ase(s?)',(m,a,c,s)=>a+c+'aze'+s), MOT('([Dd])ons?',(m,a,d)=>a+d+'ont'), MOT('([Pp])rison(s?)',(m,a,p,s)=>a+p+'rizon'+s),
+  MOT('(\\d+) ?(?:s|sec)',UNITE('seconde','secondes')), MOT('(\\d+) ?min',UNITE('minute','minutes')),
+].reduce((x,f)=>f(x),t);
+const EN_SON=t=>[MOT('(\\d+) ?(?:s|sec)',UNITE('second','seconds')), MOT('(\\d+) ?min',UNITE('minute','minutes'))].reduce((x,f)=>f(x),t);
+const cleanText=(t,lang=LANG)=>{ t=toVoice(String(t)); if(lang==='fr') t=FR_SON(t); else if(lang==='en') t=EN_SON(t); return t.replace(/\s+/g,' ').trim().slice(0,680); };
 // ElevenLabs limite le nombre de demandes simultanées : jamais plus de 2 à la fois, les phrases urgentes passent devant.
 const FQ={active:0, queue:[]};
 function runFQ(){ while(FQ.active<2 && FQ.queue.length){ const job=FQ.queue.shift(); FQ.active++; job().finally(()=>{ FQ.active--; runFQ(); }); } }
@@ -481,7 +488,8 @@ function say(text,{lang=LANG,queue=false}={}){
   return voiceChain;
 }
 // Attendre la fin d'une phrase, sans jamais bloquer le jeu plus de `max` ms.
-const sayWait=(text,max=6000,opts)=> Promise.race([say(text,opts), wait(max)]);
+// Le délai maximal s'allonge avec la longueur de la phrase (environ 80 ms par lettre), pour ne jamais couper une fin de phrase (petite blague comprise).
+const sayWait=(text,max=6000,opts)=> Promise.race([say(text,opts), wait(Math.max(max, Math.min(14000, String(text||'').length*80)))]);
 const voiceIdle=(max=5000)=> Promise.race([voiceChain, wait(max)]);
 // Effets sonores (enfants qui applaudissent, étincelles) : générés une fois par ElevenLabs côté serveur, puis gardés en cache.
 const sfxEl = new Audio(); sfxEl.preload='auto';
@@ -491,19 +499,21 @@ function loadSfx(k){ if(VOICE.mode!=='cloud') return Promise.resolve(null);
   return SFX[k]; }
 async function sfx(k){ if(!SET.voice || !SET.sfx) return; const url=await loadSfx(k); if(!url||paused) return; try{ const a=new Audio(url); a.volume=.55; a.play().catch(()=>{}); }catch{} }
 const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
-// Humour de la voix : une petite phrase de temps en temps (réglage Aucun / Léger / Beaucoup), jamais deux fois de suite,
+// Humour de la voix : une petite phrase régulièrement (réglage Aucun / Léger / Beaucoup),
 // sans répéter la dernière phrase du même moment. Le choix est gardé par tour (même texte pour le préchargement et la voix).
-const HUM={memo:{}, dernier:{}, pause:0};
-// toujours=true : une phrase à chaque fois (Prison), sauf si l'humour est coupé dans les réglages.
+const HUM={memo:{}, dernier:{}, tour:''};
+// Fréquence : « léger » (par défaut) = environ une chance sur deux à chaque occasion, au plus une blague par tour de joueur ;
+// « beaucoup » = presque à chaque occasion. Prison et sortie de prison : toujours (sauf humour coupé).
 function blague(moment, cle, toujours=false){
   if(cle && HUM.memo[cle]!==undefined) return HUM.memo[cle];
   let out='';
-  const taux = SET.humour==='beaucoup'? .6 : SET.humour==='aucun'? 0 : .33;
+  const taux = SET.humour==='beaucoup'? .9 : SET.humour==='aucun'? 0 : .6;
   const liste=(DICOS[LANG]||DICOS.fr)['hum.'+moment];
+  const tour = S? S.round+'.'+S.turn : '';
   if(Array.isArray(liste) && liste.length && taux>0){
-    if(HUM.pause>0 && !toujours) HUM.pause--;
-    else if(toujours || Math.random()<taux){ let i=Math.floor(Math.random()*liste.length); if(liste.length>1 && i===HUM.dernier[moment]) i=(i+1)%liste.length;
-      HUM.dernier[moment]=i; HUM.pause=1; out=' '+liste[i]; }
+    const dejaCeTour = SET.humour!=='beaucoup' && tour && HUM.tour===tour;
+    if(toujours || (!dejaCeTour && Math.random()<taux)){ let i=Math.floor(Math.random()*liste.length); if(liste.length>1 && i===HUM.dernier[moment]) i=(i+1)%liste.length;
+      HUM.dernier[moment]=i; HUM.tour=tour; out=' '+liste[i]; }
   }
   if(cle){ HUM.memo[cle]=out; const ks=Object.keys(HUM.memo); if(ks.length>60) delete HUM.memo[ks[0]]; }
   return out;
@@ -1230,8 +1240,8 @@ async function onHeritage(p,i){
   }
 }
 async function simpleCard(face,html,label=t('etab.continuer')){ const C=openCard({face,back:face}); C.win.innerHTML=html; await choose(C.acts,[{label,value:1}]); C.close(); }
-async function onTreasure(p){ say(cellIntro(p,p.pos)); sfx('tresor'); await simpleCard('tresor',`<h3>${t('tresor.titre')}</h3><div class="big">+${ECO.treasure} K</div><div class="small">${t('tresor.texte')}</div>`,t('tresor.bouton')); await pay('bank',p,ECO.treasure); }
-async function onHalt(p){ p.halted=true; say(cellIntro(p,p.pos)); await simpleCard('halte',`<h3>${t('prison.titre')}</h3><div class="small">${t('prison.t1')}</div><div class="small">${t('prison.t2')}</div>`); }
+async function onTreasure(p){ const v=sayWait(cellIntro(p,p.pos),4000); sfx('tresor'); await simpleCard('tresor',`<h3>${t('tresor.titre')}</h3><div class="big">+${ECO.treasure} K</div><div class="small">${t('tresor.texte')}</div>`,t('tresor.bouton')); await Promise.all([pay('bank',p,ECO.treasure), v]); }
+async function onHalt(p){ p.halted=true; const v=sayWait(cellIntro(p,p.pos),4000); await simpleCard('halte',`<h3>${t('prison.titre')}</h3><div class="small">${t('prison.t1')}</div><div class="small">${t('prison.t2')}</div>`); await v; }
 async function onDonation(p){
   const C=openCard({face:'don',back:'don'});
   if(p.money<ECO.donation){ C.win.innerHTML=`<h3>${t('don.titre')}</h3><div class="small">${t('don.pasAssez',{k:ECO.donation})}</div>`; await choose(C.acts,[{label:t('etab.continuer'),value:1}]); C.close(); return; }
