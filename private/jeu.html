@@ -1504,7 +1504,9 @@ function showEnd(){
   idleMain(t('main.fin')); camMode='overview'; moveCam(900);
   const ranked=[...S.players].sort((a,b)=>scoreOf(b)-scoreOf(a)||b.money-a.money||a.seat-b.seat);
   const max=Math.max(...ranked.map(scoreOf),1);
-  say(t('ph.fin',{n:ranked[0].name})+blague('fin'));
+  if(S.essai){   // fin d'essai : le gagnant, puis le vote à main levée (pause pour laisser lever les mains)
+    (async()=>{ await sayWait(t('ph.fin',{n:ranked[0].name}),9000); await sayWait(t('ph.essaiVote1'),8000); await wait(2600); say(t('ph.essaiVote2')); })();
+  } else say(t('ph.fin',{n:ranked[0].name})+blague('fin'));
   const ov=document.createElement('div'); ov.id='overlay';
   ov.innerHTML=`<div class="sheet"><h2>${t('fin.classement')}</h2>
    <div class="legend"><span style="--c:#efbe4c">${t('fin.kounouz')}</span><span style="--c:#3fae6a">${t('fin.patrimoine')}</span><span style="--c:#7cc4ff">${t('fin.hassanat')}</span></div>
