@@ -480,14 +480,15 @@ const pick = arr=>arr[Math.floor(Math.random()*arr.length)];
 // Humour de la voix : une petite phrase de temps en temps (réglage Aucun / Léger / Beaucoup), jamais deux fois de suite,
 // sans répéter la dernière phrase du même moment. Le choix est gardé par tour (même texte pour le préchargement et la voix).
 const HUM={memo:{}, dernier:{}, pause:0};
-function blague(moment, cle){
+// toujours=true : une phrase à chaque fois (Prison), sauf si l'humour est coupé dans les réglages.
+function blague(moment, cle, toujours=false){
   if(cle && HUM.memo[cle]!==undefined) return HUM.memo[cle];
   let out='';
   const taux = SET.humour==='beaucoup'? .6 : SET.humour==='aucun'? 0 : .33;
   const liste=(DICOS[LANG]||DICOS.fr)['hum.'+moment];
   if(Array.isArray(liste) && liste.length && taux>0){
-    if(HUM.pause>0) HUM.pause--;
-    else if(Math.random()<taux){ let i=Math.floor(Math.random()*liste.length); if(liste.length>1 && i===HUM.dernier[moment]) i=(i+1)%liste.length;
+    if(HUM.pause>0 && !toujours) HUM.pause--;
+    else if(toujours || Math.random()<taux){ let i=Math.floor(Math.random()*liste.length); if(liste.length>1 && i===HUM.dernier[moment]) i=(i+1)%liste.length;
       HUM.dernier[moment]=i; HUM.pause=1; out=' '+liste[i]; }
   }
   if(cle){ HUM.memo[cle]=out; const ks=Object.keys(HUM.memo); if(ks.length>60) delete HUM.memo[ks[0]]; }
@@ -1286,7 +1287,7 @@ function cellIntro(p,i){
     const th=p._pre? p._pre.theme : THEMES[p.themeIdx%THEMES.length]; return t('intro.defiQuestion',{theme:themeDit(th)}); }
   if(c.type==='heritage') return heritageText(p,i);
   if(c.type==='treasure') return t('intro.tresor',{k:ECO.treasure})+blague('tresor',cleTour('case'));
-  if(c.type==='halt') return t('intro.prison',{n:p.name})+blague('prison',cleTour('case'));
+  if(c.type==='halt') return t('intro.prison',{n:p.name})+blague('prison',cleTour('case'),true);
   if(c.type==='donation') return p.money>=ECO.donation? t('intro.don',{n:p.name,k:ECO.donation,h:ECO.donationHassanat}) : t('intro.donPauvre',{k:ECO.donation});
   if(c.type==='hassanat') return t('intro.hassanat',{n:p.name});
   return t('intro.depart');
@@ -1366,7 +1367,7 @@ async function playTurn(){
   if(p.halted){
     toast(t('prison.toast')); await wait(400);
     const r=await askQuestion(p,{title:t('prison.titreQ'),intro:t('prison.intro',{n:p.name})}); p.halted=false;
-    if(r!=='wrong') await sayWait(t('prison.sort',{n:p.name})+blague('libere'),4500);
+    if(r!=='wrong') await sayWait(t('prison.sort',{n:p.name})+blague('libere',null,true),4500);
     if(r==='wrong'){ camFocus=false; say(t('prison.reste')); toast(t('prison.resteToast',{n:p.name}),3000); await wait(1200); return endTurn(); }
   }
   // Préchargement pendant que le joueur appuie : phrase du Chemin, annonce de la case d'arrivée, question.
