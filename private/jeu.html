@@ -373,6 +373,7 @@ const DEFIS_GROUPS = [
   {id:'ohNo',oh:true},{id:'memoryLogic',cats:['memory','reflection','logic','observation','language']},
   {id:'arabic',cats:['arabic']},{id:'religion',cats:['religion']},{id:'boss',boss:true}];
 const SET = Object.assign({sfx:true, voice:true, tone:'chaleureux', rate:'normal', humour:'leger', pointTable:true, haptics:true, reduced:'system', defis:{}}, store.get(SETTINGS)||{});
+SET.tone='chaleureux'; // ton unique (le réglage a été retiré) : même voix et même cache audio que le tableau de bord
 DEFIS_GROUPS.forEach(g=>{ if(SET.defis[g.id]===undefined) SET.defis[g.id]=true; });
 delete SET.ecoute; // l'ancienne validation à la voix n'existe plus
 const saveSet=()=>store.set(SETTINGS,SET);
@@ -390,7 +391,6 @@ function defiAllowed(d){
 /* =========================================================
    Voix du guide : ElevenLabs via le serveur (/api/voix), sinon la voix de l'appareil
    ========================================================= */
-const TONES=['pose','chaleureux','enjoue','petillant'];
 const RATES={lente:.9,normal:1,rapide:1.15};
 const VOICE={mode:'checking', why:'', last:null, token:0};
 const audioEl = new Audio(); audioEl.preload='auto';
@@ -1148,7 +1148,6 @@ function openSettings(fromMenu=false){
     ov.innerHTML=`<div class="sheet"><h2>${t('set.titre')}</h2>
      <div class="setgrp"><h3>${t('set.langue')}</h3><div class="setrow">${langSeg}</div>${t('set.langueNote')?`<span class="hint">${t('set.langueNote')}</span>`:''}</div>
      <div class="setgrp"><h3>${t('set.voix')}</h3>${sw('voice',t('set.narration'))}<div id="vstate">${vstate()}</div>
-       <div class="setrow">${t('set.ton')} ${seg('tone',TONES.map(x=>[x,t('ton.'+x)]))}</div>
        ${sw('pointTable',t('set.pointTable'))}
        <div class="setrow">${t('set.humour')} ${seg('humour',[['aucun',t('humour.aucun')],['leger',t('humour.leger')],['beaucoup',t('humour.beaucoup')]])}</div>
        <div class="setrow">${t('set.vitesse')} ${seg('rate',[['lente',t('set.lente')],['normal',t('set.normale')],['rapide',t('set.rapide')]])}</div>
