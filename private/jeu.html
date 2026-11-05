@@ -299,6 +299,7 @@ import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.j
 import { tranchesPourJoueur, questionsEligibles } from '/ages.js';
 import { creerT, lireLangue, ecrireLangue, formatNombre, localeDe, traduirePage, LANGUES, NOM_LANGUE, DRAPEAU } from '/i18n.js';
 import { DICOS } from '/i18n/jeu.js';
+import { AR_WORDS, compilerPron, texteVoix } from '/voixtexte.js';
 // Langue de l'interface (fr ou en). Changer de langue ne touche jamais à l'état de la partie (S) : seulement aux textes.
 let LANG = lireLangue();
 const t = creerT(DICOS, ()=>LANG);
@@ -419,31 +420,11 @@ function playDevice(text,lang,tok){
 // Les phrases sont téléchargées à l'avance (pendant que le pion avance) et gardées en mémoire :
 // au moment de parler, l'audio est déjà là, la voix colle au plateau.
 const AUD=new Map();
-// La voix lit les mots arabes en arabe : on les écrit en lettres arabes avec les harakat (voyelles) pour une prononciation juste dans le texte parlé (l'écran garde le français).
-const AR_WORDS = [
-  [/Masākīn Fund/gi,'صُنْدُوقُ الْمَسَاكِين'],[/As-salāmu ʿalaykum/gi,'السَّلَامُ عَلَيْكُم'],[/Zakat al-Māl/gi,'زَكَاةُ الْمَال'],[/Caisse Masākīn/gi,'صُنْدُوقُ الْمَسَاكِين'],[/Masākīn/gi,'الْمَسَاكِين'],
-  [/Hassanāt|Hassanat/gi,'حَسَنَاتْ'],[/ʿUmra|Omra/gi,'عُمْرَة'],[/Zakat/gi,'الزَّكَاة'],[/ḥawl/gi,'الْحَوْل'],
-  [/Maktaba Al-Albānī/gi,'مَكْتَبَةُ الْأَلْبَانِي'],[/Maktaba As-Sunnah/gi,'مَكْتَبَةُ السُّنَّة'],[/Agence Omra An-Nour|Agence عمرة An-Nour/gi,'وَكَالَةُ عُمْرَةِ النُّور'],[/Agence Omra Al-Hudā|Agence عمرة Al-Hudā/gi,'وَكَالَةُ عُمْرَةِ الْهُدَى'],[/Hôtel At-Tawḥīd/gi,'فُنْدُقُ التَّوْحِيد'],[/Hôtel Al-Iḥsān/gi,'فُنْدُقُ الْإِحْسَان'],[/Hôtel Al-Sharif/gi,'فُنْدُقُ الشَّرِيف'],[/Hôtel El Kunuz/gi,'فُنْدُقُ الْكُنُوز'],
-  [/Umrah|ʿUmrah/gi,'عُمْرَة'],[/An-Nour عمرة Agency/gi,'وَكَالَةُ عُمْرَةِ النُّور'],[/Al-Hudā عمرة Agency/gi,'وَكَالَةُ عُمْرَةِ الْهُدَى'],
-  [/Hotel At-Tawḥīd/gi,'فُنْدُقُ التَّوْحِيد'],[/Hotel Al-Iḥsān/gi,'فُنْدُقُ الْإِحْسَان'],[/Hotel Al-Sharif/gi,'فُنْدُقُ الشَّرِيف'],[/Hotel El Kunuz/gi,'فُنْدُقُ الْكُنُوز']];
-// Dictionnaire de prononciation réglé dans le tableau de bord : « écrit » → « dit » (mot entier, sans tenir compte des majuscules).
-// Seule la voix change, l'écran garde l'écriture d'origine. Le texte parlé change donc l'adresse audio : pas d'ancien cache.
-const echapRe=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-const PRONON=(Array.isArray(RG.prononciation)?RG.prononciation:[]).filter(p=>p&&p.e&&p.d)
-  .sort((a,b)=>b.e.length-a.e.length).map(p=>[new RegExp('(^|[^\\p{L}\\p{M}])('+echapRe(p.e)+')(?=$|[^\\p{L}\\p{M}])','giu'),p.d]);
+// Texte dit par la voix (mots arabes, dictionnaire du tableau de bord, mots lus à l'anglaise) : /voixtexte.js, partagé avec le tableau de bord.
+const PRONON=compilerPron(RG.prononciation);
 // Noms arabes des cases, avec leurs harakat pour la voix (même écriture que AR_WORDS, voyelles en plus).
 const AR_VOC=Object.fromEntries(AR_WORDS.map(([,ar])=>[ar.replace(/[\u064B-\u0652]/g,''),ar]));
-const toVoice=t=>{ PRONON.forEach(([re,d])=>{ t=t.replace(re,(m,a)=>a+d); }); AR_WORDS.forEach(([re,ar])=>{ t=t.replace(re,ar); }); return t; };
-// En français, certains mots sont parfois lus à l'anglaise : la voix reçoit une écriture qui se lit pareil en français
-// (case → caze, don → dont, prison → prizon), et les unités abrégées sont dites en entier (15 s → 15 secondes). L'écran ne change pas.
-const MOT=(re,f)=>t=>t.replace(new RegExp('(^|[^\\p{L}])'+re+'(?![\\p{L}])','gu'),f);
-const UNITE=(un,plur)=>(m,a,n)=>a+n+' '+(Number(n)<2? un : plur);
-const FR_SON=t=>[
-  MOT('([Cc])ase(s?)',(m,a,c,s)=>a+c+'aze'+s), MOT('([Dd])ons?',(m,a,d)=>a+d+'ont'), MOT('([Pp])rison(s?)',(m,a,p,s)=>a+p+'rizon'+s),
-  MOT('(\\d+) ?(?:s|sec)',UNITE('seconde','secondes')), MOT('(\\d+) ?min',UNITE('minute','minutes')),
-].reduce((x,f)=>f(x),t);
-const EN_SON=t=>[MOT('(\\d+) ?(?:s|sec)',UNITE('second','seconds')), MOT('(\\d+) ?min',UNITE('minute','minutes'))].reduce((x,f)=>f(x),t);
-const cleanText=(t,lang=LANG)=>{ t=toVoice(String(t)); if(lang==='fr') t=FR_SON(t); else if(lang==='en') t=EN_SON(t); return t.replace(/\s+/g,' ').trim().slice(0,680); };
+const cleanText=(t,lang=LANG)=>texteVoix(t,lang,PRONON);
 // ElevenLabs limite le nombre de demandes simultanées : jamais plus de 2 à la fois, les phrases urgentes passent devant.
 const FQ={active:0, queue:[]};
 function runFQ(){ while(FQ.active<2 && FQ.queue.length){ const job=FQ.queue.shift(); FQ.active++; job().finally(()=>{ FQ.active--; runFQ(); }); } }

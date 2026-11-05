@@ -70,6 +70,9 @@ dialog::backdrop{background:rgba(4,8,16,.7)}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media (max-width:640px){.f2{grid-template-columns:1fr}}
 label.f{display:grid;gap:5px;font-size:13px;font-weight:900;color:var(--muted)}
+.ecoute{min-height:28px;padding:2px 9px;font-size:13px;justify-self:start}
+.lh{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qrow.lit td{background:rgba(239,190,76,.14)}
 label.f small{font-weight:700;color:var(--faint)}
 .msg{font-weight:800;min-height:20px}.msg.ok{color:var(--good)}.msg.err{color:var(--bad)}
 .toast{position:fixed;inset-inline:0;bottom:22px;margin:auto;width:max-content;max-width:90vw;background:#0b1424;border:1.5px solid var(--gold);border-radius:14px;padding:10px 16px;font-weight:800;z-index:50}
@@ -192,7 +195,9 @@ label.f small{font-weight:700;color:var(--faint)}
         <select id="qs"><option value="">Tous les statuts</option><option value="publiee">Publiées</option><option value="brouillon">Brouillons</option><option value="archivee">Archivées</option></select>
         <select id="qtr" aria-label="Traduction anglaise"><option value="">Anglais : tout</option><option value="a_faire">À traduire</option><option value="a_relire">À relire</option><option value="validee">Validée</option></select>
         <select id="qo"><option value="theme">Trier : thème</option><option value="taux">Les plus ratées</option><option value="n">Les plus posées</option><option value="recent">Modifiées récemment</option></select>
+        <button class="btn g" id="qListen" type="button" title="Lit à voix haute chaque question de la liste, puis sa réponse">🔊 Écouter la liste</button>
         <button class="btn" id="qnew">+ Nouvelle question</button></div>
+      <p class="muted small" id="qVoixMsg" style="margin:0 0 6px" hidden></p>
       <p class="muted small" style="margin:0 0 10px">Les changements arrivent dans le jeu en moins d'une minute, pour les nouvelles parties. Les questions de religion ne peuvent être publiées qu'avec leur source et leur explication en français et en arabe.</p>
       <div class="row small" id="trBar" style="gap:8px;margin:0 0 10px"></div>
       <div class="tscroll"><table><thead><tr><th>Question</th><th>Thème</th><th>Âge</th><th>Niv.</th><th>Posée</th><th>Réussite</th><th>Statut</th><th>EN</th></tr></thead><tbody id="qBody"></tbody></table></div>
@@ -287,6 +292,8 @@ label.f small{font-weight:700;color:var(--faint)}
 
 <script type="module">
 import { statutTrad, progression, analyserImport, lots, LIBELLE_STATUT_TRAD } from '/trad.js';
+import { texteVoix, compilerPron } from '/voixtexte.js';
+import { DICOS } from '/i18n/jeu.js';
 import { optionsFiltreAge, filtreAgeCompatible, filtrerQuestions, tranchesDuTheme, trancheValidePour, systemeDe, libelleTranche } from '/ages.js';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -459,9 +466,39 @@ function trBar(L){ const p=progression(Q).total, pct=p.n? Math.round(p.validee/p
   const b=$('#trValAff'); if(b) b.onclick=async()=>{ if(b.dataset.sure!=='1'){ b.dataset.sure='1'; b.textContent=`Confirmer : valider ${fmt(aRelire.length)} traductions ?`; return; }
     b.disabled=true; try{ for(const l of lots(aRelire.map(q=>q.id),1000)) await api('trad_statut',{ids:l,langue:'en',statut:'validee'}); aRelire.forEach(q=>{ q.trad={...(q.trad||{}),en:'validee'}; }); toast('Traductions validées'); renderQ(); }catch(e){ toast(e.message); b.disabled=false; } }; }
 function renderQ(){ const L=qFiltres(); $('#qCount').textContent=`${fmt(L.length)} / ${fmt(Q.length)}`; trBar(L);
-  $('#qBody').innerHTML= L.length? L.slice(0,QLIM).map(q=>`<tr class="qrow" data-id="${esc(q.id)}"><td class="qtext">${esc(q.q?.fr)}<div class="muted small">→ ${esc(q.r?.fr)}</div></td><td>${esc(THEMES[q.t]||q.t)}</td><td>${esc(q.a||'—')}</td><td>${q.d}</td><td>${fmt(q.n)}</td><td>${q.n? `<span class="tag ${q.taux<40?'bad':q.taux<70?'warn':'good'}">${q.taux} %</span>`:'—'}</td><td><span class="tag ${ST[q.statut]?.[1]||''}">${ST[q.statut]?.[0]||q.statut}</span>${q.prio?' <span class="tag gold">prioritaire</span>':''}${q.poids===0?' <span class="tag">mise de côté</span>':q.poids>1?' <span class="tag">×'+q.poids+'</span>':''}</td><td><span class="tag ${TRT[statutTrad(q,'en')][1]}" title="${esc(q.q?.en||'')}">${TRT[statutTrad(q,'en')][0]}</span></td></tr>`).join('') : '<tr><td colspan="8" class="empty">Aucune question.</td></tr>';
+  $('#qBody').innerHTML= L.length? L.slice(0,QLIM).map(q=>`<tr class="qrow" data-id="${esc(q.id)}"><td class="qtext"><button class="btn g sm ecoute" type="button" data-ec="${esc(q.id)}" aria-label="Écouter la question et la réponse">🔊</button> ${esc(q.q?.fr)}<div class="muted small">→ ${esc(q.r?.fr)}</div></td><td>${esc(THEMES[q.t]||q.t)}</td><td>${esc(q.a||'—')}</td><td>${q.d}</td><td>${fmt(q.n)}</td><td>${q.n? `<span class="tag ${q.taux<40?'bad':q.taux<70?'warn':'good'}">${q.taux} %</span>`:'—'}</td><td><span class="tag ${ST[q.statut]?.[1]||''}">${ST[q.statut]?.[0]||q.statut}</span>${q.prio?' <span class="tag gold">prioritaire</span>':''}${q.poids===0?' <span class="tag">mise de côté</span>':q.poids>1?' <span class="tag">×'+q.poids+'</span>':''}</td><td><span class="tag ${TRT[statutTrad(q,'en')][1]}" title="${esc(q.q?.en||'')}">${TRT[statutTrad(q,'en')][0]}</span></td></tr>`).join('') : '<tr><td colspan="8" class="empty">Aucune question.</td></tr>';
   $('#qmore').hidden=L.length<=QLIM;
-  $$('#qBody .qrow').forEach(r=>r.onclick=()=>openQ(Q.find(x=>x.id===r.dataset.id))); }
+  $$('#qBody .qrow').forEach(r=>r.onclick=()=>openQ(Q.find(x=>x.id===r.dataset.id)));
+  $$('#qBody .ecoute').forEach(b=>b.onclick=e=>{ e.stopPropagation(); const q=Q.find(x=>x.id===b.dataset.ec); stopVoix(); const j=voixJeton; direQuestion(q,j).catch(err=>voixMsg(err.message,true)); }); }
+/* ---------- Écouter les questions (même texte et même voix que dans le jeu) ---------- */
+// Le texte passe par /voixtexte.js, comme dans le jeu (dictionnaire de prononciation, mots arabes…), avec le ton par défaut du jeu :
+// une phrase écoutée ici est mise en cache et ne sera pas payée une seconde fois en partie.
+let voixAudio=null, voixJeton=0, PRON_CACHE=null;
+async function pronActuelle(){ if(RG) return compilerPron(RG.prononciation); if(!PRON_CACHE){ try{ PRON_CACHE=compilerPron((await api('reglages')).reglages.prononciation); }catch{ PRON_CACHE=[]; } } return PRON_CACHE; }
+const phraseVoix=(champ,lang,txt)=> lang==='ar'? (champ==='q'?'سؤال : ':champ==='r'?'الجواب : ':'')+txt
+  : champ==='q'? String(DICOS[lang]['ph.question']).replace('{q}',txt) : champ==='r'? String(DICOS[lang]['ph.reponse']).replace('{r}',txt) : txt;
+function voixMsg(t,err){ const m=$('#qVoixMsg'); m.hidden=!t; m.className='small '+(err?'msg err':'muted'); m.textContent=t||''; }
+function stopVoix(){ voixJeton++; if(voixAudio){ voixAudio.pause(); voixAudio=null; } }
+async function dire(champ,lang,txt,j=voixJeton){
+  txt=String(txt||'').trim(); if(!txt || j!==voixJeton) return;
+  const dit=texteVoix(phraseVoix(champ,lang,txt),lang,await pronActuelle());
+  const r=await fetch(`/api/voix?lang=${lang}&ton=chaleureux&text=${encodeURIComponent(dit)}`,{headers:{'x-admin':PW}});
+  if(r.status===401) throw new Error('Session expirée : reconnecte-toi au tableau de bord.');
+  if(!r.ok) throw new Error('La voix ne répond pas ('+r.status+').');
+  const url=URL.createObjectURL(await r.blob()); if(j!==voixJeton) return;
+  voixAudio=new Audio(url); await new Promise(res=>{ voixAudio.onended=res; voixAudio.onerror=res; voixAudio.onpause=res; voixAudio.play().catch(res); });
+}
+async function direQuestion(q,j){ if(!q) return; await dire('q','fr',q.q?.fr,j); await dire('r','fr',q.r?.fr,j); }
+let LECTURE=false;
+$('#qListen').onclick=async()=>{ const b=$('#qListen');
+  if(LECTURE){ LECTURE=false; stopVoix(); b.textContent='🔊 Écouter la liste'; voixMsg(''); $$('#qBody .qrow.lit').forEach(r=>r.classList.remove('lit')); return; }
+  const L=qFiltres(); if(!L.length) return; stopVoix(); LECTURE=true; const j=voixJeton; b.textContent='⏹ Arrêter la lecture';
+  for(let k=0;k<L.length && LECTURE && j===voixJeton;k++){ const q=L[k];
+    voixMsg(`Lecture ${k+1} / ${L.length} · ${q.id} — clique sur la ligne pour la modifier.`);
+    $$('#qBody .qrow.lit').forEach(r=>r.classList.remove('lit')); const row=$(`#qBody .qrow[data-id="${CSS.escape(q.id)}"]`); if(row){ row.classList.add('lit'); row.scrollIntoView({block:'center',behavior:'smooth'}); }
+    try{ await direQuestion(q,j); }catch(err){ voixMsg(err.message,true); break; }
+    await new Promise(z=>setTimeout(z,700)); }
+  if(j===voixJeton){ LECTURE=false; b.textContent='🔊 Écouter la liste'; } };
 $('#qt').addEventListener('change',majFiltreAge);
 ['#qq','#qt','#qa','#qs','#qo','#qtr'].forEach(s=>$(s).addEventListener(s==='#qq'?'input':'change',()=>{ QLIM=100; renderQ(); }));
 $('#qmore').onclick=()=>{ QLIM+=200; renderQ(); };
@@ -488,6 +525,12 @@ function openQ(q){ EDIT=q||null; const x=q||{t:$('#qt').value||'logic',d:1,q:{},
   $('#qdStats').textContent=q&&q.n? `Posée ${q.n} fois · réussite ${q.taux} %` : q? 'Pas encore posée en partie.' : '';
   $('#qdDel').hidden=!q; $('#qdDel').dataset.sure=''; $('#qdDel').textContent='Supprimer'; $('#qdMsg').textContent=''; $('#qdMsg').className='msg';
   dlg.showModal(); }
+// Dans la fiche : un bouton 🔊 à côté de chaque texte, qui lit ce qui est écrit (même avant d'enregistrer).
+[['q_fr','q','fr'],['r_fr','r','fr'],['e_fr','e','fr'],['q_en','q','en'],['r_en','r','en'],['e_en','e','en'],['q_ar','q','ar'],['r_ar','r','ar'],['e_ar','e','ar']].forEach(([nom,champ,lang])=>{
+  const ta=F.elements[nom]; if(!ta) return; const b=document.createElement('button'); b.type='button'; b.className='btn g sm ecoute'; b.textContent='🔊'; b.setAttribute('aria-label','Écouter ce texte');
+  b.onclick=e=>{ e.preventDefault(); stopVoix(); dire(champ,lang,ta.value).catch(err=>{ $('#qdMsg').className='msg err'; $('#qdMsg').textContent=err.message; }); };
+  const lab=ta.closest('label'), head=document.createElement('span'); head.className='lh'; while(lab.firstChild!==ta) head.appendChild(lab.firstChild); head.appendChild(b); lab.insertBefore(head,ta); });
+dlg.addEventListener('close',()=>{ if(!LECTURE) stopVoix(); });
 $('#qnew').onclick=()=>openQ(null);
 $('#qdCancel').onclick=()=>dlg.close();
 F.onsubmit=async e=>{ e.preventDefault(); const b=$('#qdSave'); b.disabled=true; $('#qdMsg').className='msg'; $('#qdMsg').textContent='Enregistrement…';
