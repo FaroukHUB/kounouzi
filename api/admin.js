@@ -10,14 +10,13 @@ const THEMES = ['religion', 'maths', 'geography', 'sciences', 'logic', 'manageme
 const ROTATION = ['family', 'hassanat', 'duel', 'question'];
 export const REGLAGES_DEFAUT = {
   themes: THEMES,
-  eco: { qGood: 100, qPartial: 50, startPass: 200, treasure: 200, duelWin: 150, duelTie: 50, familyX: 2, donation: 30, donationHassanat: 10, visitRate: 0.15,
-    // Cartes Hassanāt : coût en Kounouz et Hassanāt gagnées pour chaque carte
-    hsRepasCout: 20, hsRepasGain: 10, hsUmraCout: 150, hsUmraGain: 50, hsAideCout: 50, hsAideGain: 20 },
+  eco: { qGood: 100, qPartial: 50, startPass: 200, treasure: 200, duelWin: 150, duelTie: 50, familyX: 2, donation: 30, donationHassanat: 10, visitRate: 0.15 },
   defis: ['family', 'hassanat', 'family', 'duel', 'family', 'question'],
   minuteur: { enfant: 60, adulte: 45 },
   eviter: 15,
   durees: { rapide: 30, classique: 45, grande: 60 },
   essaiMinutes: 10, // durée d'une partie jouée avec un code d'essai
+  zakat: { tours: 1.5, nissab: 1000 }, // Zakat al-Māl du jeu : tours de table au-dessus du nissab avant de verser 2,5 %
   explications: ['religion', 'invocations'], // thèmes dont l'explication est proposée après la réponse
   prononciation: [], // [{ e: 'Ishaaq', d: 'إسحاق' }] : comment la voix doit dire certains mots (prénoms arabes…)
   tradRelire: false, // true : les traductions « à relire » sont déjà montrées dans le jeu (sinon seulement les validées)
@@ -81,11 +80,27 @@ function verifierReglages(b) {
     minuteur: { enfant: num(b.minuteur?.enfant, 15, 180, 60), adulte: num(b.minuteur?.adulte, 15, 180, 45) },
     eviter: num(b.eviter, 0, 100, 15),
     essaiMinutes: num(b.essaiMinutes, 3, 60, 10),
+    zakat: { tours: Math.min(12, Math.max(0.5, Math.round((Number(b.zakat?.tours) || 1.5) * 2) / 2)), nissab: num(b.zakat?.nissab, 100, 100000, 1000) },
     durees: { rapide: num(b.durees?.rapide, 10, 120, 30), classique: num(b.durees?.classique, 10, 180, 45), grande: num(b.durees?.grande, 10, 240, 60) },
     tradRelire: !!b.tradRelire,
     explications: (Array.isArray(b.explications) ? b.explications : D.explications).filter((t, i, a) => THEMES.includes(t) && a.indexOf(t) === i),
     prononciation: lirePrononciation(b.prononciation),
   } };
+}
+
+// Carte Hassanāt (tableau de bord) : texte FR obligatoire, EN facultatif ; le coût va à la banque ou au joueur aidé.
+export function verifierCartesHassanat(liste) {
+  const L = Array.isArray(liste) ? liste.slice(0, 60) : [], out = [], ids = new Set();
+  for (const [i, c] of L.entries()) {
+    const title = txt(c?.title, 60), text = txt(c?.text, 200);
+    if (!title || !text) return { erreur: `Carte ${i + 1} : le titre et le texte en français sont obligatoires.` };
+    let id = txt(c?.id, 30) || `HS-${String(i + 1).padStart(3, '0')}`; while (ids.has(id)) id += 'b'; ids.add(id);
+    out.push({ id, kind: txt(c?.kind, 30) || 'perso', title, text, title_en: txt(c?.title_en, 60), text_en: txt(c?.text_en, 200),
+      cost: Math.round(num(c?.cost, 0, 5000, 20)), hassanatReward: Math.round(num(c?.hassanatReward, 0, 1000, 10)), costDestination: c?.costDestination === 'beneficiary' ? 'beneficiary' : 'none',
+      animationKey: txt(c?.animationKey, 30) || 'hassanat_meal' });
+  }
+  if (!out.length) return { erreur: 'Il faut au moins une carte Hassanāt.' };
+  return { cartes: out };
 }
 
 export async function POST(request) {
@@ -153,6 +168,12 @@ export async function POST(request) {
         if (!STATUTS_TRAD.includes(b.statut) || ['fr', 'ar'].includes(langue)) return json(400, { erreur: 'Statut de traduction invalide.' });
         const r = await db('trad_statut', { ids, langue, statut: b.statut }, { timeout: 15000 });
         return json(200, { ok: true, modifiees: r?.modifiees ?? 0 });
+      }
+      /* ---------- Cartes Hassanāt ---------- */
+      case 'hassanat': return json(200, { cartes: base ? await evdb('hassanat_liste', {}, { timeout: 8000 }) : [] });
+      case 'hassanat_maj': {
+        const v = verifierCartesHassanat(b.cartes); if (v.erreur) return json(400, v);
+        await evdb('hassanat_maj', { liste: v.cartes }, { timeout: 8000 }); return json(200, { ok: true, cartes: v.cartes });
       }
       /* ---------- Événements ---------- */
       case 'evenements': {

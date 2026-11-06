@@ -282,6 +282,10 @@ label.f small{font-weight:700;color:var(--faint)}
       <div class="card"><h2>Cases Défi</h2><p class="muted small" style="margin-top:0">Ce qui se passe sur une case Défi, dans l'ordre, puis ça recommence.</p><ul class="order" id="dfOrder"></ul><button class="btn g sm" id="dfAdd">+ Ajouter une étape</button></div>
     </div>
     <div class="card sec"><h2>Gains et économie</h2><div class="eco" id="ecoF"></div></div>
+    <div class="card sec"><h2>Cartes Hassanāt</h2><p class="muted small" style="margin-top:0">Tirées sur la case Hassanāt et dans la rotation des cases Défi, à tour de rôle. Le joueur paie le coût (à la banque, ou au joueur aidé) et gagne des Hassanāt. Une carte trop chère pour le joueur est passée.</p>
+      <div id="hsListe" class="grid" style="gap:12px"></div>
+      <div class="row sec" style="justify-content:space-between"><button class="btn g" id="hsAdd" type="button">+ Ajouter une carte</button><button class="btn" id="hsSave" type="button">Enregistrer les cartes</button></div>
+      <div class="msg" id="hsMsg"></div></div>
     <div class="grid two sec">
       <div class="card"><h2>Temps et répétitions</h2><div class="grid" style="gap:12px" id="tpsF"></div></div>
       <div class="card"><h2>Durées des parties</h2><div class="grid" style="gap:12px" id="durF"></div></div>
@@ -357,9 +361,8 @@ const DEFIS={family:'Défi famille',hassanat:'Carte Hassanāt',duel:'Duel',quest
 const ECO_L={qGood:['Bonne réponse','Kounouz'],qPartial:['Réponse en partie','Kounouz'],startPass:['Passage par Départ','Kounouz'],treasure:['Case Trésor','Kounouz'],visitRate:['Frais de visite d\'un établissement','part du prix (0,15 = 15 %)'],
   duelWin:['Duel : le gagnant reçoit','Kounouz'],duelTie:['Duel : égalité, chacun reçoit','Kounouz'],
   donation:['Case Don : montant donné','Kounouz'],donationHassanat:['Case Don : Hassanāt gagnées','Hassanāt'],
-  hsRepasCout:['« Offrir un repas » : coût','Kounouz'],hsRepasGain:['« Offrir un repas » : gain','Hassanāt'],hsUmraCout:['« Offrir une ʿUmra » : coût','Kounouz'],hsUmraGain:['« Offrir une ʿUmra » : gain','Hassanāt'],hsAideCout:['« Aider un joueur » : coût (donné au joueur aidé)','Kounouz'],hsAideGain:['« Aider un joueur » : gain','Hassanāt'],
   familyX:['Défi en famille : multiplicateur de la récompense','×']};
-const ECO_G=[['Questions et plateau',['qGood','qPartial','startPass','treasure','visitRate']],['Duel',['duelWin','duelTie']],['Case Don',['donation','donationHassanat']],['Cartes Hassanāt',['hsRepasCout','hsRepasGain','hsUmraCout','hsUmraGain','hsAideCout','hsAideGain']],['Défi en famille',['familyX']]];
+const ECO_G=[['Questions et plateau',['qGood','qPartial','startPass','treasure','visitRate']],['Duel',['duelWin','duelTie']],['Case Don',['donation','donationHassanat']],['Défi en famille',['familyX']]];
 let PW=sessionStorage.getItem('kzpw')||'', INFO={};
 function toast(t){ const d=document.createElement('div'); d.className='toast'; d.textContent=t; document.body.appendChild(d); setTimeout(()=>d.remove(),2600); }
 async function api(action,body={}){ const r=await fetch('/api/admin',{method:'POST',headers:{'content-type':'application/json','x-admin':PW},body:JSON.stringify({action,...body})}); const d=await r.json().catch(()=>({erreur:'Réponse illisible'})); if(r.status===401){ sessionStorage.removeItem('kzpw'); } if(!r.ok) throw new Error(d.erreur||'Erreur'); return d; }
@@ -719,7 +722,21 @@ async function ecouterPron(){ const m=$('#rgPronMsg'), liste=lirePron($('#rgPron
     if(!r.ok){ m.className='msg err'; m.textContent='La voix ne répond pas ('+r.status+').'; return; }
     if(pronAudio) pronAudio.pause(); pronAudio=new Audio(URL.createObjectURL(await r.blob())); pronAudio.play(); }
   catch{ m.className='msg err'; m.textContent='Connexion impossible.'; } }
-async function loadReglages(){ try{ const d=await api('reglages'); RG=structuredClone(d.reglages); RGD=d.defaut; renderRG(); }catch(e){ $('#rgMsg').className='msg err'; $('#rgMsg').textContent=e.message; } }
+/* ---------- Cartes Hassanāt ---------- */
+let HS=[];
+function renderHS(){ $('#hsListe').innerHTML=HS.map((c,i)=>`<div class="hsc" data-i="${i}" style="border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px;display:grid;gap:10px">
+  <div class="f2"><label class="f">Titre <small>français</small><input data-h="title" maxlength="60" value="${esc(c.title)}"></label><label class="f">Titre <small>anglais (facultatif)</small><input data-h="title_en" maxlength="60" value="${esc(c.title_en||'')}"></label></div>
+  <div class="f2"><label class="f">Texte <small>français</small><input data-h="text" maxlength="200" value="${esc(c.text)}"></label><label class="f">Texte <small>anglais (facultatif)</small><input data-h="text_en" maxlength="200" value="${esc(c.text_en||'')}"></label></div>
+  <div class="f2"><label class="f">Coût <small>Kounouz</small><input type="number" min="0" max="5000" data-h="cost" value="${c.cost}"></label><label class="f">Gain <small>Hassanāt</small><input type="number" min="0" max="1000" data-h="hassanatReward" value="${c.hassanatReward}"></label></div>
+  <div class="row" style="justify-content:space-between"><label class="f" style="flex:1">Le coût va… <select data-h="costDestination"><option value="none" ${c.costDestination!=='beneficiary'?'selected':''}>à la banque (offrir quelque chose)</option><option value="beneficiary" ${c.costDestination==='beneficiary'?'selected':''}>au joueur aidé</option></select></label>
+    <button class="btn r sm" type="button" data-hrm="${i}" ${HS.length<2?'disabled':''}>Supprimer</button></div></div>`).join('');
+  $$('#hsListe [data-h]').forEach(x=>x.oninput=x.onchange=()=>{ const c=HS[+x.closest('.hsc').dataset.i], k=x.dataset.h; c[k]= x.type==='number'? +x.value : x.value; });
+  $$('#hsListe [data-hrm]').forEach(b=>b.onclick=()=>{ if(!b.dataset.sure){ b.dataset.sure='1'; b.textContent='Confirmer'; return; } HS.splice(+b.dataset.hrm,1); renderHS(); $('#hsMsg').className='msg'; $('#hsMsg').textContent='Carte retirée : pense à enregistrer.'; }); }
+async function loadHS(){ try{ HS=(await api('hassanat')).cartes||[]; renderHS(); }catch(e){ $('#hsMsg').className='msg err'; $('#hsMsg').textContent=e.message; } }
+$('#hsAdd').onclick=()=>{ HS.push({title:'',text:'',title_en:'',text_en:'',cost:30,hassanatReward:10,costDestination:'none'}); renderHS(); $$('#hsListe .hsc').at(-1).querySelector('input').focus(); };
+$('#hsSave').onclick=async()=>{ const m=$('#hsMsg'); m.className='msg'; m.textContent='Enregistrement…';
+  try{ const d=await api('hassanat_maj',{cartes:HS}); HS=d.cartes; renderHS(); m.className='msg ok'; m.textContent=`${HS.length} cartes enregistrées. Le jeu en tient compte en moins d'une minute.`; }catch(e){ m.className='msg err'; m.textContent=e.message; } };
+async function loadReglages(){ loadHS(); try{ const d=await api('reglages'); RG=structuredClone(d.reglages); RGD=d.defaut; renderRG(); }catch(e){ $('#rgMsg').className='msg err'; $('#rgMsg').textContent=e.message; } }
 function renderRG(){
   const all=[...RG.themes,...Object.keys(THEMES).filter(t=>!RG.themes.includes(t))];
   $('#thOrder').innerHTML=all.map((t,i)=>`<li data-t="${t}"><input type="checkbox" ${RG.themes.includes(t)?'checked':''} aria-label="Actif"><b>${THEMES[t]}</b><button class="btn g sm" data-up ${i===0?'disabled':''}>↑</button><button class="btn g sm" data-down ${i===all.length-1?'disabled':''}>↓</button></li>`).join('');
@@ -735,9 +752,11 @@ function renderRG(){
   $('#tpsF').innerHTML=`<label class="f">Temps pour répondre, enfant <small>secondes</small><input type="number" min="15" max="180" data-k="minuteur.enfant" value="${RG.minuteur.enfant}"></label>
     <label class="f">Temps pour répondre, adulte <small>secondes</small><input type="number" min="15" max="180" data-k="minuteur.adulte" value="${RG.minuteur.adulte}"></label>
     <label class="f">Ne pas reposer les … dernières questions vues <small>quand un joueur a tout vu dans sa série</small><input type="number" min="0" max="100" data-k="eviter" value="${RG.eviter}"></label>
-    <label class="f">Durée d'une partie d'essai <small>minutes · codes d'essai uniquement</small><input type="number" min="3" max="60" data-k="essaiMinutes" value="${RG.essaiMinutes??10}"></label>`;
+    <label class="f">Durée d'une partie d'essai <small>minutes · codes d'essai uniquement</small><input type="number" min="3" max="60" data-k="essaiMinutes" value="${RG.essaiMinutes??10}"></label>
+    <label class="f">Zakat al-Māl : au bout de <small>tours de table de suite au-dessus du nissab</small><select data-k="zakat.tours">${[0.5,1,1.5,2,2.5,3,4,5,6].map(v=>`<option value="${v}" ${(RG.zakat?.tours??1.5)==v?'selected':''}>${String(v).replace('.',',')} tour${v>1?'s':''}</option>`).join('')}</select></label>
+    <label class="f">Zakat al-Māl : nissab <small>Kounouz à garder pour devoir la Zakat (2,5 %)</small><input type="number" min="100" max="100000" step="50" data-k="zakat.nissab" value="${RG.zakat?.nissab??1000}"></label>`;
   $('#durF').innerHTML=['rapide','classique','grande'].map(k=>`<label class="f">Partie ${k} <small>minutes</small><input type="number" min="10" max="240" data-k="durees.${k}" value="${RG.durees[k]}"></label>`).join('');
-  $$('[data-k]').forEach(i=>i.oninput=()=>{ const [a,b]=i.dataset.k.split('.'); if(b) RG[a][b]=+i.value; else RG[a]=+i.value; });
+  $$('[data-k]').forEach(i=>i.oninput=i.onchange=()=>{ const [a,b]=i.dataset.k.split('.'); if(b){ RG[a]=RG[a]||{}; RG[a][b]=+i.value; } else RG[a]=+i.value; });
   const EX=RG.explications||['religion'];
   $('#rgExpl').innerHTML=Object.entries(THEMES).map(([k,v])=>`<label class="row" style="gap:10px;justify-content:flex-start;flex-wrap:nowrap;font-weight:800"><input type="checkbox" data-ex="${k}" ${EX.includes(k)?'checked':''}> ${v}</label>`).join('');
   $$('#rgExpl [data-ex]').forEach(c=>c.onchange=()=>{ RG.explications=[...$$('#rgExpl [data-ex]')].filter(x=>x.checked).map(x=>x.dataset.ex); });

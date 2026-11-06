@@ -352,7 +352,7 @@ const TR = DATA.traductions || {};
 const enLangue = (k,id)=> (TR[LANG]&&TR[LANG][k]&&TR[LANG][k][id]) || null;
 const nomCase = c=> (enLangue('cells',String(c.p))||{}).nom || c.nom;
 function defiTxt(d){ const e=enLangue('defis',d.id); if(!e) return d; return {...d, ti:e.ti||d.ti, cl:e.cl||d.cl, tx:e.tx||d.tx, v:d.v.map((v,k)=>({...v, text:(e.v&&e.v[k])||v.text}))}; }
-function hasTxt(c){ const e=enLangue('hassanat',c.id); return e? {...c, title:e.title||c.title, text:e.text||c.text} : c; }
+function hasTxt(c){ if(LANG==='en' && c.title_en) return {...c, title:c.title_en, text:c.text_en||c.text}; const e=enLangue('hassanat',c.id); return e? {...c, title:e.title||c.title, text:e.text||c.text} : c; }
 // Cartes illustrées dans la langue choisie (img/en/…), sinon la carte d'origine.
 const CARTES_EN = new Set(['religion','maths','maths-logique','invocations','histoire','sciences','logique','gestion','defi','don','halte','tresor','hassanat','maktaba-al-albani','maktaba-as-sunnah','hotel-sharif','hotel-kunuz','hotel-tawhid','hotel-ihsan','restaurant-algerien','restaurant-marocain','agence-omra-an-nour','agence-omra-al-huda','musee-dubai','parc-familial-halal']);
 const carteImg = face=> LANG==='en' && CARTES_EN.has(face) ? `img/en/${face}-face.webp` : `img/${face}-face.webp`;
@@ -360,11 +360,11 @@ const dosImg = ()=> LANG==='en' ? 'img/en/kounouzi-dos.webp' : 'img/kounouzi-dos
 // Le Chemin : six blocs de cinq valeurs, chacun contient 1,2,3,4,5 une fois. Jamais deux fois la même valeur de suite.
 const CYCLE = [[1,3,5,2,4],[3,5,2,4,1],[5,2,4,1,3],[2,4,1,3,5],[4,1,3,5,2],[3,1,4,2,5]].flat();
 // Économie du jeu (relevée : les gains de la V1 étaient des valeurs de démonstration trop faibles).
-const ECO = { qGood:100, qPartial:50, startPass:200, treasure:200, duelWin:150, duelTie:50, familyX:2, donation:30, donationHassanat:10, visitRate:.15,
-  hsRepasCout:20, hsRepasGain:10, hsUmraCout:150, hsUmraGain:50, hsAideCout:50, hsAideGain:20, ...(RG.eco||{}) };
-// Cartes Hassanāt : coût et gain réglables dans le tableau de bord (Réglages du jeu → Gains et économie).
-const HS_ECO={offer_meal:['hsRepasCout','hsRepasGain'], offer_umrah:['hsUmraCout','hsUmraGain'], help_player:['hsAideCout','hsAideGain']};
-const hasEco=c=>{ const k=HS_ECO[c.kind]; return k? {...c, cost:ECO[k[0]], hassanatReward:ECO[k[1]]} : c; };
+const ECO = { qGood:100, qPartial:50, startPass:200, treasure:200, duelWin:150, duelTie:50, familyX:2, donation:30, donationHassanat:10, visitRate:.15, ...(RG.eco||{}) };
+// Zakat al-Māl du jeu (réglable) : nombre de tours de table au-dessus du nissab, compté par demi-tours.
+const ZAKAT={ tours:Math.max(.5,Math.round((+RG.zakat?.tours||1.5)*2)/2), nissab:+RG.zakat?.nissab||1000 };
+const ZAKAT_DEMI=Math.round(ZAKAT.tours*2);
+const toursTxt=()=>t('zakat.tours'+(ZAKAT.tours===1?'1':ZAKAT.tours===1.5?'15':ZAKAT.tours<1?'05':''),{t:String(ZAKAT.tours).replace('.',LANG==='fr'?',':'.')});
 const visitFee = c => Math.round(c.prix*ECO.visitRate/5)*5;   // 300 K → 45 K … 850 K → 130 K
 const famReward = d => d.rw*ECO.familyX;
 // Rotation des cases Défi : le Défi famille revient une fois sur deux, les Hassanāt arrivent en 2e.
@@ -1337,7 +1337,7 @@ async function onFamily(p){
   }
 }
 async function onHassanat(p){
-  const others=S.players.filter(q=>q!==p); const L=DATA.hassanat.map(hasEco);
+  const others=S.players.filter(q=>q!==p); const L=DATA.hassanat;
   let card=null; for(let k=0;k<L.length;k++){ const c=L[(S.hasIdx+k)%L.length]; if(p.money>=c.cost){ card=c; S.hasIdx=(S.hasIdx+k+1); break; } }
   if(!card||!others.length) return onFamily(p);
   card=hasTxt(card);
@@ -1476,6 +1476,7 @@ async function playTurn(){
 }
 async function endTurn(){
   idleMain(); S.turn++;
+  if(S.players.length>1 && S.turn===Math.ceil(S.players.length/2) && S.turn<S.players.length) await verifierZakat(); // mi-tour de table
   if(S.essai && S.duration && (store.get(ELAPSED)||0)>=S.duration){ S.over=true; save(); return showEnd(); }
   if(S.turn>=S.players.length){ S.turn=0; await endRound(); S.round++; if(S.over) { save(); return showEnd(); }
     if(pointDu()){ save(); await pointTable(); } }
@@ -1517,14 +1518,17 @@ async function pointTable(){
   say(phrases.join(' ')); fxParty(false);
   await choose(C.acts,[{label:t('pt.continuer'),value:1}]); C.close();
 }
-async function endRound(){
-  // Zakat al-Māl : 6 tours de table de suite au-dessus du nissab (1 000 K) → 2,5 % à la Caisse Masākīn.
+// Zakat al-Māl : assez de demi-tours de table de suite au-dessus du nissab → 2,5 % à la Caisse Masākīn.
+async function verifierZakat(){
   for(const p of S.players){
-    if(p.money>=1000) p.zakat++; else p.zakat=0;
-    if(p.zakat>=6){ const amt=Math.round(p.money*0.025); p.zakat=0;
-      say(t('zakat.voix',{n:p.name})); await simpleCard('don',`<h3>Zakat al-Māl</h3><div class="small">${t('zakat.texte',{n:esc(p.name)})}</div><div class="big">${amt} K</div><div class="small">${t('zakat.verse')}</div>`,t('zakat.bouton'));
+    if(p.money>=ZAKAT.nissab) p.zakat++; else p.zakat=0;
+    if(p.zakat>=ZAKAT_DEMI){ const amt=Math.round(p.money*0.025); p.zakat=0;
+      say(t('zakat.voix',{n:p.name})); await simpleCard('don',`<h3>Zakat al-Māl</h3><div class="small">${t('zakat.texte',{n:esc(p.name),t:toursTxt(),k:ZAKAT.nissab})}</div><div class="big">${amt} K</div><div class="small">${t('zakat.verse')}</div>`,t('zakat.bouton'));
       say(t('zakat.voixFin',{n:p.name,k:amt})); await pay(p,'caisse',amt); }
   }
+}
+async function endRound(){
+  await verifierZakat();
   const elapsed=store.get(ELAPSED)||0;
   if(S.endRequested || (S.duration && elapsed>=S.duration)) S.over=true;
 }
@@ -1570,7 +1574,7 @@ $('#menuBtn').onclick=()=>{
    <ul><li>${t('menu.r1')}</li>
    <li>${t('menu.r2',{g:ECO.qGood,p:ECO.qPartial})}</li>
    <li>${t('menu.r3')}</li>
-   <li>${t('menu.r4')} ${S.players.map(p=>`${esc(p.name)} ${p.zakat}/6`).join(' · ')}</li>
+   <li>${t('menu.r4',{t:toursTxt(),k:ZAKAT.nissab})} ${S.players.map(p=>`${esc(p.name)} ${p.zakat}/${ZAKAT_DEMI} ${t('zakat.demi')}`).join(' · ')}</li>
    <li>${t('menu.r5')}</li></ul>
    <button class="btn btn-gold" data-a="close">${t('menu.reprendre')}</button>
    <button class="btn btn-ghost" data-a="settings">${t('menu.reglages')}</button>

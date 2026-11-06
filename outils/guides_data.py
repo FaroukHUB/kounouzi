@@ -1,7 +1,7 @@
 # Contenu des guides Kounouzi (FR / EN). Chaque guide cible une recherche précise.
 # Faits vérifiés dans le jeu : 2 013 questions (religion 375, invocations 214, histoire des prophètes 375 = 75 récits × 5 niveaux, maths et logique 587, gestion 250, sciences 212),
 # 84 défis famille, 28 cases, 12 établissements, 2 à 6 joueurs, parties de 30/45/60 min ou libres, déplacement par « le Chemin »
-# (suite fixe, la même pour tous), voix + 4 courts effets désactivables, Zakat 2,5 % après 6 tours au-dessus de 1 000 K.
+# (suite fixe, la même pour tous), voix + 4 courts effets désactivables, Zakat 2,5 % après un tour de table et demi au-dessus de 1 000 K.
 
 GUIDES = [
  {
@@ -185,7 +185,7 @@ GUIDES = [
         "<b>Les Kounouz</b> : la monnaie du jeu, gagnée en répondant aux questions et en relevant des défis.",
         "<b>Le patrimoine</b> : maktaba, hôtels à La Mecque et à Médine, restaurants, agences Omra, musée, parc. Les autres joueurs qui s'y arrêtent paient le service.",
         "<b>La case Don</b> : on choisit de donner à la Caisse Masākīn ou à un autre joueur, et l'on gagne des points Hassanāt.",
-        "<b>La Zakat al-Māl</b> : un joueur qui garde plus de 1 000 Kounouz pendant 6 tours de table de suite (le ḥawl du jeu) verse 2,5 % à la Caisse Masākīn. Une version simplifiée pour ouvrir la discussion.",
+        "<b>La Zakat al-Māl</b> : un joueur qui garde plus de 1 000 Kounouz pendant un tour de table et demi de suite (le ḥawl du jeu, réglable) verse 2,5 % à la Caisse Masākīn. Une version simplifiée pour ouvrir la discussion.",
         "<b>Jamais de riba</b> : aucun prêt avec intérêt, aucune spéculation."])]),
     ("Le plus riche ne gagne pas forcément", [
       "Le score final additionne Kounouz, patrimoine et Hassanāt × 5. Un enfant qui a beaucoup donné peut finir devant celui qui a tout gardé. C'est souvent la question qui lance la discussion : « Il avait moins d'argent, mais il a gagné. Comment c'est possible ? »"]),
@@ -209,7 +209,7 @@ GUIDES = [
         "<b>Kounouz</b>: the game currency, earned by answering questions and completing challenges.",
         "<b>Properties</b>: maktaba, hotels in Makkah and Madinah, restaurants, Umrah agencies, a museum, a park. Other players who land there pay for the service.",
         "<b>The Giving square</b>: you choose to give to the Masākīn Fund or to another player, and earn Hassanāt points.",
-        "<b>Zakat al-Māl</b>: a player who keeps more than 1,000 Kounouz for 6 rounds in a row (the game's ḥawl) pays 2.5% to the Masākīn Fund. A simplified version to start the conversation.",
+        "<b>Zakat al-Māl</b>: a player who keeps more than 1,000 Kounouz for one and a half rounds in a row (the game's ḥawl, adjustable) pays 2.5% to the Masākīn Fund. A simplified version to start the conversation.",
         "<b>Never any riba</b>: no lending with interest, no speculation."])]),
     ("The richest player does not always win", [
       "The final score adds up Kounouz, properties and Hassanāt × 5. A child who gave a lot can finish ahead of one who kept everything. That is often the question that starts the conversation: \"He had less money, but he won. How is that possible?\""]),
@@ -297,7 +297,7 @@ GUIDES = [
         "<b>Trésor</b> : +200 Kounouz. <b>Prison</b> : au tour suivant, une question pour sortir.",
         "<b>Départ</b> : chaque tour complet rapporte +200 Kounouz."])]),
     ("3. La Zakat", [
-      "Un joueur qui garde plus de 1 000 Kounouz pendant 6 tours de table de suite verse 2,5 % à la Caisse Masākīn : c'est la Zakat al-Māl du jeu."]),
+      "Un joueur qui garde plus de 1 000 Kounouz pendant un tour de table et demi de suite verse 2,5 % à la Caisse Masākīn : c'est la Zakat al-Māl du jeu."]),
     ("4. La fin de partie et le score", [
       "À la fin du temps choisi, le dernier tour de table se termine et le classement s'affiche. Score final = Kounouz + valeur du patrimoine + Hassanāt × 5. Donner compte : le plus riche ne gagne pas forcément."]),
    ],
@@ -324,7 +324,7 @@ GUIDES = [
         "<b>Treasure</b>: +200 Kounouz. <b>Prison</b>: next turn, one question to get out.",
         "<b>Start</b>: each full lap earns +200 Kounouz."])]),
     ("3. Zakat", [
-      "A player who keeps more than 1,000 Kounouz for 6 rounds in a row pays 2.5% to the Masākīn Fund: this is the game's Zakat al-Māl."]),
+      "A player who keeps more than 1,000 Kounouz for one and a half rounds in a row pays 2.5% to the Masākīn Fund: this is the game's Zakat al-Māl."]),
     ("4. End of the game and score", [
       "When the chosen time is up, the last round finishes and the ranking appears. Final score = Kounouz + property value + Hassanāt × 5. Giving counts: the richest player does not always win."]),
    ],
