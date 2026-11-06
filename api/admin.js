@@ -9,7 +9,9 @@ const THEMES = ['religion', 'maths', 'geography', 'sciences', 'logic', 'manageme
 const ROTATION = ['family', 'hassanat', 'duel', 'question'];
 export const REGLAGES_DEFAUT = {
   themes: THEMES,
-  eco: { qGood: 100, qPartial: 50, startPass: 200, treasure: 200, duelWin: 150, duelTie: 50, familyX: 2, donation: 30, donationHassanat: 10, visitRate: 0.15 },
+  eco: { qGood: 100, qPartial: 50, startPass: 200, treasure: 200, duelWin: 150, duelTie: 50, familyX: 2, donation: 30, donationHassanat: 10, visitRate: 0.15,
+    // Cartes Hassanāt : coût en Kounouz et Hassanāt gagnées pour chaque carte
+    hsRepasCout: 20, hsRepasGain: 10, hsUmraCout: 150, hsUmraGain: 50, hsAideCout: 50, hsAideGain: 20 },
   defis: ['family', 'hassanat', 'family', 'duel', 'family', 'question'],
   minuteur: { enfant: 60, adulte: 45 },
   eviter: 15,
@@ -154,7 +156,8 @@ export async function POST(request) {
       case 'question_suppr': await db('question_suppr', { id: txt(b.id, 60) }); return json(200, { ok: true });
       case 'reglages': {
         const c = base ? await db('contenu', {}, { timeout: 15000 }) : null;
-        return json(200, { reglages: { ...REGLAGES_DEFAUT, ...(c?.reglages || {}) }, defaut: REGLAGES_DEFAUT });
+        const lu = c?.reglages || {};
+        return json(200, { reglages: { ...REGLAGES_DEFAUT, ...lu, eco: { ...REGLAGES_DEFAUT.eco, ...(lu.eco || {}) } }, defaut: REGLAGES_DEFAUT });
       }
       case 'reglages_maj': {
         const v = verifierReglages(b.reglages || {}); if (v.erreur) return json(400, v);
