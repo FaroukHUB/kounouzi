@@ -12,7 +12,7 @@ And it was during one of those very moments that the idea of **Kounouzi** was bo
 
 ### A game, bursts of laughter… and a small idea taking root.
 
-One afternoon, during the holidays, we sat down as a family around a game on a tablet.
+One afternoon, during the holidays, we sat down as a family around a game.
 
 The children were hooked straight away! They laughed, had fun, challenged each other… In short, we were having a great time.
 

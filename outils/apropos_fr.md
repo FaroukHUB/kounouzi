@@ -12,7 +12,7 @@ Et c'est justement pendant l'un de ces moments qu'est née l'idée de **Kounouzi
 
 ### Un jeu, des éclats de rire… et une petite idée qui germe.
 
-Un après-midi, pendant les vacances, nous nous sommes installés en famille autour d'un jeu sur tablette.
+Un après-midi, pendant les vacances, nous nous sommes installés en famille autour d'un jeu.
 
 Les enfants ont tout de suite accroché ! Ils riaient, s'amusaient, se lançaient des défis… Bref, on passait un excellent moment.
 
