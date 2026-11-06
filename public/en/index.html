@@ -478,7 +478,23 @@ footer .logo img.brand{height:72px}
 .kzbuy .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.kzbuy .acts .btn{flex:1 1 auto}
 .kzbuy .btn[disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(.4)}
 .kzbuy small{display:block;margin-top:12px;color:var(--faint);font-weight:700}
-</style>
+.ctband{display:flex;flex-wrap:wrap;gap:18px 28px;align-items:center;justify-content:space-between;padding:28px 30px;border-radius:28px;background:radial-gradient(520px 260px at 100% 0,rgba(54,214,255,.13),transparent 70%),rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.1)}
+.ctband>div{flex:1 1 420px}.ctband h2{font-size:clamp(26px,3.2vw,36px);margin-top:10px}.ctband p{margin:10px 0 0;color:var(--muted);font-size:16.5px}
+.ctband .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.ctband .chips span{padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.12);font-weight:800;font-size:13.5px}
+@media (max-width:720px){.ctband{padding:22px 18px;border-radius:24px}.ctband .btn{width:100%;justify-content:center}}
+/* pied:debut */
+footer.sfoot{padding:54px 0 calc(30px + var(--sab));margin-top:30px;border-top:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.22));color:var(--muted);font-size:14.5px}
+footer.sfoot .wrap{display:block}
+.fgrid{display:grid;grid-template-columns:1.5fr repeat(4,1fr);gap:30px 26px}
+.fbrand p{margin:12px 0 0;color:var(--muted);font-size:14.5px;line-height:1.6;max-width:300px}.fbrand .ftag{color:var(--parchment);font-weight:800}
+.fbrand .fmail{display:inline-block;margin-top:12px;color:var(--gold);font-weight:800}
+.fcol .fh{margin:0 0 12px;color:var(--parchment);font-weight:900;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.fcol ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}.fcol a{color:var(--muted);text-decoration:none}.fcol a:hover,.fbas a:hover{color:var(--parchment)}
+.fbas{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between;align-items:center;margin-top:36px;padding-top:18px;border-top:1px solid rgba(255,255,255,.07);font-size:13px;color:var(--faint)}
+.fbas a{color:var(--muted);display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+@media (max-width:980px){.fgrid{grid-template-columns:repeat(2,1fr)}.fbrand{grid-column:1/-1}}
+@media (max-width:720px){footer.sfoot{padding-bottom:calc(110px + var(--sab))}.fgrid{gap:26px 18px}.fcol a{display:inline-block;padding:3px 0}}
+/* pied:fin */</style>
 </head>
 <body>
 <div class="sky" aria-hidden="true"></div>
@@ -807,35 +823,9 @@ footer .logo img.brand{height:72px}
 <!-- 9 bis. FEEDBACK -->
 <section id="avis">
   <div class="wrap">
-    <div class="avisw rv">
-      <div><span class="kick">Your feedback</span><h2 style="margin-top:12px">Help us make Kounouzi even better</h2>
-        <p class="lead" style="margin-top:12px;font-size:17px">A comment after your trial or your purchase, an idea for the game, a problem to report? Write to us: every message is read.</p>
-        <div class="avtypes">
-          <div><span>🐞</span><p><b>A bug</b>Something not working as expected? Tell us what happened.</p></div>
-          <div><span>💡</span><p><b>A suggestion</b>A question, a challenge, an idea to add to the game.</p></div>
-          <div><span>🤝</span><p><b>A partnership</b>School, association, content creator: let's talk.</p></div>
-        </div></div>
-      <div>
-        <form id="avisForm" novalidate>
-          <fieldset><legend>It's about…</legend>
-            <label class="ch"><input type="radio" name="type" value="bug"><span>🐞 A bug</span></label>
-            <label class="ch"><input type="radio" name="type" value="avis" checked><span>💬 Feedback</span></label>
-            <label class="ch"><input type="radio" name="type" value="suggestion"><span>💡 A suggestion</span></label>
-            <label class="ch"><input type="radio" name="type" value="partenariat"><span>🤝 A partnership</span></label>
-            <label class="ch"><input type="radio" name="type" value="autre"><span>✉️ Other</span></label>
-          </fieldset>
-          <label class="l" for="avisMsg">Your message</label>
-          <textarea id="avisMsg" name="message" maxlength="4000" required placeholder="Tell us…"></textarea>
-          <div class="row2">
-            <div><label class="l" for="avisNom">First name <small>(optional)</small></label><input type="text" id="avisNom" name="nom" maxlength="80" autocomplete="given-name"></div>
-            <div><label class="l" for="avisMail">E-mail <small id="avisMailOpt">(optional)</small></label><input type="email" id="avisMail" name="email" maxlength="160" autocomplete="email" placeholder="you@example.com"></div>
-          </div>
-          <input class="hp" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button class="btn btn-gold btn-lg" type="submit" id="avisBtn">Send my message</button>
-          <small>Leave your e-mail if you would like a reply: it is only used to answer you. <a href="/en/privacy/">Privacy</a></small>
-        </form>
-        <div class="msg" id="avisMsgEtat" role="status" style="margin-top:10px"></div>
-      </div>
+    <div class="ctband rv">
+      <div><span class="kick">Contact</span><h2>A question, a bug, a partnership?</h2><p>A comment after your trial or purchase, an idea for a question or a challenge, a problem to report, a school or association keen to work with us: write to us, every message is read.</p><div class="chips" aria-hidden="true"><span>🐞 A bug</span><span>💡 A suggestion</span><span>🤝 A partnership</span><span>💬 Feedback</span></div></div>
+      <a class="btn btn-gold btn-lg" href="/en/contact/">Contact us →</a>
     </div>
   </div>
 </section>
@@ -857,12 +847,13 @@ footer .logo img.brand{height:72px}
   <div class="acts"><button class="btn btn-gold btn-lg" type="button" id="kzBuyGo" disabled>Continue to payment</button><button class="btn btn-ghost btn-lg" type="button" id="kzBuyNo">Cancel</button></div>
   <small>Secure payment by Stripe. See the <a href="/en/terms/">terms of sale</a>.</small>
 </div></div>
-<footer><div class="wrap">
-  <a class="logo" href="#" aria-label="Kounouzi"><img class="brand" src="/img/logo/kounouzi.webp?v=2" alt="Kounouzi" width="92" height="72" loading="lazy"></a>
-  <span>Play together, learn differently, pass on what matters — © <span id="yr">2026</span> · <a href="/" hreflang="fr" lang="fr" data-lang="fr" style="color:inherit">Version française</a></span>
-  <span id="contactFoot"></span>
-  <nav class="fguides" aria-label="Guides"><a href="/en/board-game-islamic-values/">True to our values</a><a href="/en/islamic-educational-game-for-kids/">Islamic educational game</a><a href="/en/islamic-quiz-for-families/">Islamic quiz</a><a href="/en/teach-kids-zakat/">Money skills</a><a href="/en/ramadan-eid-gift-for-kids/">Gift idea</a><a href="/en/how-to-play/">How to play</a><a href="/en/religion-sources/">Our sources</a></nav>
-  <nav class="flegal" aria-label="Legal"><a href="/en/legal-notice/">Legal notice</a><a href="/en/privacy/">Privacy</a><a href="/en/terms/">Terms of sale</a><a href="/en/religion-sources/">Our sources</a><a href="/en/withdrawal/">Withdraw from the contract here</a><a href="#" data-cookies>Manage cookies</a><a href="#avis">Feedback</a><a href="mailto:contact@kounouzi.com">Contact</a></nav>
+<footer class="sfoot"><div class="wrap">
+  <div class="fgrid">
+    <div class="fbrand"><a class="logo" href="/en/" aria-label="Kounouzi"><img class="brand" src="/img/logo/kounouzi.webp?v=2" alt="Kounouzi" width="92" height="72" loading="lazy"></a>
+      <p class="ftag">Play together, learn differently, pass on what matters.</p><p>The family board game played on a single screen: questions suited to every age, family challenges and good values.</p><a class="fmail" href="mailto:contact@kounouzi.com">contact@kounouzi.com</a></div>
+    <nav class="fcol" aria-label="The game"><p class="fh">The game</p><ul><li><a href="/en/#essayer">Free trial</a></li><li><a href="/en/#offre">Price and access</a></li><li><a href="/en/how-to-play/">How to play</a></li><li><a href="/en/#nouveautes">What&#x27;s new</a></li><li><a href="/en/#faq">FAQ</a></li><li><a href="/en/#acceder">I have a code</a></li></ul></nav><nav class="fcol" aria-label="Guides"><p class="fh">Guides</p><ul><li><a href="/en/board-game-islamic-values/">True to our values</a></li><li><a href="/en/islamic-educational-game-for-kids/">Islamic educational game</a></li><li><a href="/en/islamic-quiz-for-families/">Islamic quiz</a></li><li><a href="/en/teach-kids-zakat/">Money skills</a></li><li><a href="/en/ramadan-eid-gift-for-kids/">Gift idea</a></li></ul></nav><nav class="fcol" aria-label="Kounouzi"><p class="fh">Kounouzi</p><ul><li><a href="/en/contact/">Contact</a></li><li><a href="/en/religion-sources/">Our sources</a></li><li><a href="/en/site-map/">Site map</a></li></ul></nav><nav class="fcol" aria-label="Legal"><p class="fh">Legal</p><ul><li><a href="/en/legal-notice/">Legal notice</a></li><li><a href="/en/privacy/">Privacy</a></li><li><a href="/en/terms/">Terms of sale</a></li><li><a href="/en/withdrawal/">Withdraw from the contract here</a></li><li><a href="#" data-cookies>Manage cookies</a></li></ul></nav>
+  </div>
+  <div class="fbas"><span>© <span id="yr">2026</span> Kounouzi</span><a href="/" hreflang="fr" lang="fr" data-lang="fr"><img src="/img/flags/fr.svg" alt="" width="20" height="14" loading="lazy">Version française</a></div>
 </div></footer>
 
 <div class="dock" id="dock">
@@ -907,7 +898,7 @@ fetch('/api/code?'+vq).then(r=>r.json()).then(d=>{
   $$('[data-moyen=stripe]').forEach(a=>a.hidden=!stripe);
   $('#soon').hidden=stripe; $('#paynote').hidden=!stripe; $('#trust').hidden=!stripe; if(d.prix) window.kzPrix=d.prix.eur/100;
   if(stripe) $$('[data-buy]').forEach(a=>a.href='/api/achat?moyen=stripe&lang=en');
-  if(d.contact){ const a=`<a href="mailto:${d.contact}">${d.contact}</a>`; $('#contactTxt').innerHTML=`write to us at ${a} with the email address used for the payment`; $('#contactFoot').innerHTML=a; }
+  if(d.contact){ const a=`<a href="mailto:${d.contact}">${d.contact}</a>`; $('#contactTxt').innerHTML=`write to us at ${a} with the email address used for the payment`; }
   if(d.acces){ ouvert(); if(standalone) location.replace('/jouer'); }
 }).catch(()=>{ $('#soon').hidden=false; });
 
@@ -938,14 +929,6 @@ if(sp.get('acces')) setTimeout(()=>{ $('#codeMsg').className='msg'; $('#codeMsg'
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!box.hidden) fermer(); });
   if(location.hash==='#acheter'){ history.replaceState(null,'',location.pathname+location.search+'#offre'); var o=document.getElementById('offre'); if(o) o.scrollIntoView(); ouvrir(); }
 })();
-$('#avisForm').addEventListener('change',e=>{ if(e.target.name!=='type') return; const t=e.target.value, ph={bug:'What happened? On which device (phone, tablet, computer)?',avis:'Tell us…',suggestion:'Your idea for Kounouzi…',partenariat:'Introduce yourself in a few words: who you are, what you suggest…',autre:'Your message…'};
-  $('#avisMsg').placeholder=ph[t]||''; $('#avisMailOpt').textContent= t==='partenariat'?'(so we can reply)':'(optional)'; });
-$('#avisForm').addEventListener('submit',async e=>{ e.preventDefault(); const f=e.target, m=$('#avisMsgEtat'), b=$('#avisBtn'); m.className='msg'; m.textContent='Sending…'; b.disabled=true;
-  try{ const r=await fetch('/api/avis',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:f.type.value,message:f.message.value,nom:f.nom.value,email:f.email.value,site:f.site.value,lang:'en',page:location.pathname,ecran:innerWidth+'x'+innerHeight})}); const d=await r.json().catch(()=>({}));
-    if(d.ok){ m.className='msg ok'; m.textContent='Thank you! Your message has reached us'+(f.email.value?'; we will reply to the address you gave.':'.'); f.reset(); }
-    else { m.className='msg err'; m.textContent=d.erreur||'Cannot send right now.'; } }
-  catch{ m.className='msg err'; m.textContent='Connection failed. Please try again in a moment.'; }
-  b.disabled=false; });
 $('#essaiForm').addEventListener('submit',async e=>{ e.preventDefault(); const m=$('#essaiMsg'), b=$('#essaiBtn'); m.className='msg'; m.textContent='Creating your trial…'; b.disabled=true;
   try{ const r=await fetch('/api/essai',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email:$('#essaiMail').value,site:e.target.site.value,news:e.target.news.checked,lang:'en'})}); const d=await r.json();
     if(d.ok&&d.deja){ m.className='msg ok'; m.textContent='You already have access to Kounouzi on this device.'; $('#essaiGo').textContent='Play Kounouzi →'; $('#essaiGo').hidden=false; }
@@ -1034,6 +1017,6 @@ $$('.rv').forEach(el=>io.observe(el));
   },true); })();
 /* Lien « Gérer les cookies » : on oublie le choix et le bandeau revient. */
 document.querySelectorAll('[data-cookies]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); try{ localStorage.removeItem('kz_consent'); }catch(x){} location.reload(); }); });</script>
-<script src="/aide.js?v=1" defer></script>
+<script src="/aide.js?v=2" defer></script>
 </body>
 </html>

@@ -96,4 +96,28 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/religion-sources/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/sources-religion/"/>
   </url>
+  <url>
+    <loc>https://kounouzi.com/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/contact/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/contact/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/en/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/contact/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/contact/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/contact/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/plan-du-site/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/plan-du-site/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/site-map/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/plan-du-site/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/en/site-map/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/plan-du-site/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/site-map/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/plan-du-site/"/>
+  </url>
 </urlset>

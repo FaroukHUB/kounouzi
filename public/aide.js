@@ -83,8 +83,8 @@
       r: () => EN ? 'With pleasure! Introduce yourself in a few words (who you are, what you suggest) and we will get back to you by e-mail.'
                   : 'Avec plaisir ! Présentez-vous en quelques mots (qui vous êtes, ce que vous proposez) et nous vous répondrons par e-mail.', a: ['partenariat'] },
     { id: 'contact', k: ['contact', 'contacter', 'email', 'e mail', 'mail', 'humain', 'quelqu un', 'equipe', 'telephone de', 'whatsapp', 'human', 'someone', 'team', 'reach'],
-      r: () => EN ? 'You can write to us with the form at the bottom of the home page, or at contact@kounouzi.com. We answer as quickly as possible.'
-                  : "Vous pouvez nous écrire avec le formulaire en bas de la page d'accueil, ou à contact@kounouzi.com. Nous répondons au plus vite.", a: ['ecrire'] },
+      r: () => EN ? 'You can write to us with the form on the Contact page, or at contact@kounouzi.com. We answer as quickly as possible.'
+                  : "Vous pouvez nous écrire avec le formulaire de la page Contact, ou à contact@kounouzi.com. Nous répondons au plus vite.", a: ['ecrire'] },
     { id: 'langues', k: ['langue', 'langues', 'anglais', 'francais', 'arabe', 'traduction', 'language', 'english', 'french', 'arabic'],
       r: () => EN ? 'The site and the game are available in French and English: you can switch language in the game settings, and the voice follows.'
                   : 'Le site et le jeu existent en français et en anglais : on change de langue dans les réglages du jeu, et la voix suit.', a: [] },
@@ -195,8 +195,8 @@
   function action(c) {
     if (c.startsWith('form:')) {
       const type = c.slice(5), f = document.getElementById('avisForm');
-      if (f) { const r = f.querySelector(`input[name=type][value=${type}]`); if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); } fermer(); document.getElementById('avis').scrollIntoView({ behavior: 'smooth' }); setTimeout(() => f.querySelector('textarea')?.focus(), 600); }
-      else location.href = BASE + '#avis';
+      if (f) { const r = f.querySelector(`input[name=type][value=${type}]`); if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); } fermer(); f.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => f.querySelector('textarea')?.focus(), 600); }
+      else location.href = (EN ? '/en/contact/' : '/contact/') + '?type=' + type;
       return;
     }
     const q = c.slice(5);

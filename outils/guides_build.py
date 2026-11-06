@@ -4,9 +4,20 @@ import re, json, html, sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from guides_data import GUIDES, LIVRES
 from legal_data import LEGAL
+import pages_site as PS
 
 D = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'public') + '/'
 U = 'https://kounouzi.com'
+
+def guides_pied(lang): return [(g['id'], ('/' if lang == 'fr' else '/en/') + g[lang]['slug'] + '/', g[lang]['kick']) for g in GUIDES]
+
+# Pied de page et styles communs : d'abord sur les deux pages d'accueil (écrites à la main), d'où les autres pages reprennent les styles.
+for _f, _l in (('index.html', 'fr'), ('en/index.html', 'en')):
+    _s = open(D + _f).read()
+    _s = re.sub(r'<footer[ >].*?</footer>', lambda m: PS.footer(_l, guides_pied(_l)), _s, count=1, flags=re.S)
+    _s = re.sub(r'/\* pied:debut \*/.*?/\* pied:fin \*/', '', _s, flags=re.S).replace('</style>', '/* pied:debut */' + PS.FOOT_CSS + '/* pied:fin */</style>', 1)
+    open(D + _f, 'w').write(_s)
+
 INDEX = open(D + 'index.html').read()
 CSS = re.search(r'<style>(.*?)</style>', INDEX, re.S).group(1)
 GA = re.search(r'(<!-- Google tag.*?googletagmanager\.com/gtag/js\?id=G-QT8SX98GY7"></script>)', INDEX, re.S).group(1)
@@ -208,16 +219,11 @@ def page(g, lang):
 <div class="glinks">{liens}</div>
 </div></section>
 </main>
-<footer><div class="wrap">
-  <a class="logo" href="{t['home']}" aria-label="Kounouzi"><img class="brand" src="/img/logo/kounouzi.webp?v=2" alt="Kounouzi" width="92" height="72" loading="lazy"></a>
-  <span>{t['foot']} — © 2026 · <a href="{other_url}" style="color:inherit" data-lang="{'en' if lang == 'fr' else 'fr'}">{t['flag_l']}</a></span>
-  {footer_guides(lang)}
-  {legal_nav(lang)}
-</div></footer>
+{PS.footer(lang, guides_pied(lang)).replace(f'href="{PS.FOOT[lang]["other"][1]}"', f'href="{other_url}"', 1)}
 <script>document.querySelectorAll('[data-lang]').forEach(function(a){{a.addEventListener('click',function(){{try{{localStorage.setItem('kounouzi_lang',a.dataset.lang)}}catch(e){{}} document.cookie='kz_lang='+a.dataset.lang+'; path=/; max-age=31536000; samesite=lax';}});}});</script>
 {BAN}
 <script>fetch('/api/code').then(function(r){{return r.json()}}).then(function(d){{if(d.essaiMinutes)document.querySelectorAll('[data-essai]').forEach(function(e){{e.textContent=d.essaiMinutes}})}}).catch(function(){{}});</script>
-<script src="/aide.js?v=1" defer></script>
+<script src="/aide.js?v=2" defer></script>
 </body>
 </html>
 """
@@ -287,12 +293,48 @@ for g in GUIDES:
         open(p, 'w').write(page(g, lang))
         print(p.replace(D, ''), len(g[lang]['title']), len(g[lang]['desc']))
 
+def premiere_phrase(t):
+    t = re.sub(r'\s+', ' ', html.unescape(re.sub('<[^>]+>', '', t))).strip()
+    m = re.match(r'(.{20,}?[.!?])(\s|$)', t)
+    return m.group(1) if m else t
+
+def page_site(kind, lang):
+    d = (PS.CONTACT if kind == 'contact' else PS.PLAN)[lang]
+    autre_lang = 'en' if lang == 'fr' else 'fr'
+    autre = (PS.CONTACT if kind == 'contact' else PS.PLAN)[autre_lang]
+    g = {'id': kind, lang: {**d, 'sections': [], 'faq': d.get('faq', [])}, autre_lang: {**autre, 'sections': [], 'faq': []}}
+    h = page(g, lang)
+    corps = PS.contact_corps(lang) if kind == 'contact' else PS.plan_corps(lang, [(gid, hr, k, premiere_phrase(next(x for x in GUIDES if x['id'] == gid)[lang]['lead'])) for gid, hr, k in guides_pied(lang)])
+    h = h.replace('<article class="prose">\n', corps + '\n<article class="prose">\n', 1)
+    h = re.sub(r'<div class="cta" style="margin-top:22px">.*?</div>\n', '', h, count=1)
+    h = re.sub(r'› <a href="[^"]*#guides">[^<]*</a> › ', '› ', h, count=1)
+    h = re.sub(r'\{"@type": "ListItem", "position": 2, "name": "[^"]*", "item": "[^"]*#guides"\}, \{"@type": "ListItem", "position": 3,', '{"@type": "ListItem", "position": 2,', h, count=1)
+    h = h.replace('"@type": "Article", "headline"', '"@type": "' + ('ContactPage' if kind == 'contact' else 'WebPage') + '", "headline"', 1).replace('<meta property="og:type" content="article">', '<meta property="og:type" content="website">')
+    if kind == 'plan':
+        h = re.sub(r'<div class="gcta">.*?</div>\n<h2>[^<]*</h2><div class="gfaq"></div>\n', '', h, count=1, flags=re.S)
+        h = re.sub(r'<h2 style="margin-top:56px">[^<]*</h2>\n<div class="glinks">.*?</div>\n', '', h, count=1, flags=re.S)
+        h = re.sub(r', \{"@type": "FAQPage", "inLanguage": "\w+", "mainEntity": \[\]\}', '', h)
+        h = h.replace('<article class="prose">\n\n</article>\n', '').replace('<article class="prose">\n</article>\n', '')
+    else:
+        h = h.replace('</body>', PS.contact_js(lang) + '\n</body>', 1)
+        h = h.replace('"publisher": {"@type": "Organization", "name": "Kounouzi"', '"publisher": {"@type": "Organization", "name": "Kounouzi", "email": "' + PS.MAIL + '", "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "' + PS.MAIL + '", "availableLanguage": ["French", "English"]}', 1)
+    return h
+
+PAGES_SITE = [('contact', PS.CONTACT), ('plan', PS.PLAN)]
+for kind, dd in PAGES_SITE:
+    for lang in ('fr', 'en'):
+        p = D + ('' if lang == 'fr' else 'en/') + dd[lang]['slug'] + '/index.html'
+        os.makedirs(os.path.dirname(p), exist_ok=True)
+        open(p, 'w').write(page_site(kind, lang))
+        print(p.replace(D, ''), kind)
+
 # Plan du site : accueil + guides, avec leurs versions FR/EN
 def entree(fr, en):
     alt = f'    <xhtml:link rel="alternate" hreflang="fr" href="{fr}"/>\n    <xhtml:link rel="alternate" hreflang="en" href="{en}"/>\n    <xhtml:link rel="alternate" hreflang="x-default" href="{fr}"/>\n'
     return f'  <url>\n    <loc>{fr}</loc>\n{alt}  </url>\n  <url>\n    <loc>{en}</loc>\n{alt}  </url>\n'
 sm = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
-sm += entree(U + '/', U + '/en/') + ''.join(entree(url('fr', g['fr']['slug']), url('en', g['en']['slug'])) for g in GUIDES) + '</urlset>\n'
+sm += entree(U + '/', U + '/en/') + ''.join(entree(url('fr', g['fr']['slug']), url('en', g['en']['slug'])) for g in GUIDES)
+sm += ''.join(entree(url('fr', dd['fr']['slug']), url('en', dd['en']['slug'])) for _, dd in PAGES_SITE) + '</urlset>\n'
 open(D + 'sitemap.xml', 'w').write(sm)
 print('sitemap', sm.count('<loc>'))
 
