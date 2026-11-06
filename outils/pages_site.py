@@ -13,7 +13,7 @@ FOOT = {
    cols=[
      ('Le jeu', [('/#essayer', 'Essai gratuit'), ('/#offre', 'Prix et accès'), ('/regles-du-jeu/', 'Règles du jeu'), ('/#nouveautes', 'Nouveautés'), ('/#faq', 'Questions fréquentes'), ('/#acceder', "J'ai un code")]),
      ('Guides', None),
-     ('Kounouzi', [('/contact/', 'Contact'), ('/sources-religion/', 'Nos sources'), ('/plan-du-site/', 'Plan du site')]),
+     ('Kounouzi', [('/a-propos/', 'À propos'), ('/contact/', 'Contact'), ('/sources-religion/', 'Nos sources'), ('/plan-du-site/', 'Plan du site')]),
      ('Informations légales', [('/mentions-legales/', 'Mentions légales'), ('/confidentialite/', 'Confidentialité'), ('/cgv/', 'Conditions de vente'), ('/retractation/', 'Se rétracter du contrat ici'), ('#', 'Gérer les cookies')]),
    ]),
  'en': dict(home='/en/', tag='Play together, learn differently, pass on what matters.',
@@ -22,7 +22,7 @@ FOOT = {
    cols=[
      ('The game', [('/en/#essayer', 'Free trial'), ('/en/#offre', 'Price and access'), ('/en/how-to-play/', 'How to play'), ('/en/#nouveautes', "What's new"), ('/en/#faq', 'FAQ'), ('/en/#acceder', 'I have a code')]),
      ('Guides', None),
-     ('Kounouzi', [('/en/contact/', 'Contact'), ('/en/religion-sources/', 'Our sources'), ('/en/site-map/', 'Site map')]),
+     ('Kounouzi', [('/en/about/', 'About'), ('/en/contact/', 'Contact'), ('/en/religion-sources/', 'Our sources'), ('/en/site-map/', 'Site map')]),
      ('Legal', [('/en/legal-notice/', 'Legal notice'), ('/en/privacy/', 'Privacy'), ('/en/terms/', 'Terms of sale'), ('/en/withdrawal/', 'Withdraw from the contract here'), ('#', 'Manage cookies')]),
    ]),
 }
@@ -152,7 +152,7 @@ PLAN = {
    sections=[('Le jeu', [('/', 'Accueil', 'Le jeu de société familial à jouer sur un seul écran.'), ('/#essayer', 'Essai gratuit', 'Jouer gratuitement avant de choisir.'), ('/#offre', 'Prix et accès', 'Paiement unique, sans abonnement, mises à jour incluses.'),
        ('/regles-du-jeu/', 'Règles du jeu', 'Comment se déroule une partie.'), ('/#nouveautes', 'Nouveautés', 'Questions, défis et bonus ajoutés régulièrement.'), ('/#faq', 'Questions fréquentes', 'Les réponses aux questions des familles.'), ('/#acceder', "J'ai un code", "Ouvrir le jeu avec son code d'accès.")]),
      ('Guides pour les parents', None),
-     ('Kounouzi', [('/contact/', 'Contact', 'Une question, un bug, un partenariat.'), ('/sources-religion/', 'Nos sources', "D'où viennent les questions de religion.")]),
+     ('Kounouzi', [('/a-propos/', 'À propos', "L'histoire de Kounouzi, racontée par son créateur."), ('/contact/', 'Contact', 'Une question, un bug, un partenariat.'), ('/sources-religion/', 'Nos sources', "D'où viennent les questions de religion.")]),
      ('Informations légales', [('/mentions-legales/', 'Mentions légales', ''), ('/confidentialite/', 'Confidentialité', ''), ('/cgv/', 'Conditions de vente', ''), ('/retractation/', 'Se rétracter du contrat', '')])]),
  'en': dict(slug='site-map', autre='/plan-du-site/', kick='Site map', title='Kounouzi site map',
    desc='All the pages of the Kounouzi website: the game, guides for parents, our sources, contact and legal information.',
@@ -160,7 +160,7 @@ PLAN = {
    sections=[('The game', [('/en/', 'Home', 'The family board game played on a single screen.'), ('/en/#essayer', 'Free trial', 'Play for free before you choose.'), ('/en/#offre', 'Price and access', 'One-time payment, no subscription, updates included.'),
        ('/en/how-to-play/', 'How to play', 'How a game goes.'), ('/en/#nouveautes', "What's new", 'Questions, challenges and bonuses added regularly.'), ('/en/#faq', 'FAQ', 'Answers to families’ questions.'), ('/en/#acceder', 'I have a code', 'Open the game with your access code.')]),
      ('Guides for parents', None),
-     ('Kounouzi', [('/en/contact/', 'Contact', 'A question, a bug, a partnership.'), ('/en/religion-sources/', 'Our sources', 'Where the religion questions come from.')]),
+     ('Kounouzi', [('/en/about/', 'About', 'The story of Kounouzi, told by its creator.'), ('/en/contact/', 'Contact', 'A question, a bug, a partnership.'), ('/en/religion-sources/', 'Our sources', 'Where the religion questions come from.')]),
      ('Legal', [('/en/legal-notice/', 'Legal notice', ''), ('/en/privacy/', 'Privacy', ''), ('/en/terms/', 'Terms of sale', ''), ('/en/withdrawal/', 'Withdraw from the contract', '')])]),
 }
 
@@ -171,3 +171,62 @@ def plan_corps(lang, guides_det):
         items = ''.join(f'<li><a href="{h}">{E(k)}</a>' + (f' — {E(d)}' if d else '') + '</li>' for h, k, d in liens)
         out += f'<h2>{E(titre)}</h2><ul>{items}</ul>'
     return f'<article class="prose">{out}</article>'
+
+# ---------- À propos : l'histoire racontée par Abou Salmaan (texte dans apropos_fr.md / apropos_en.md, écrit par lui)
+import os, re
+ICI = os.path.dirname(os.path.abspath(__file__))
+APROPOS = {
+ 'fr': dict(slug='a-propos', autre='/en/about/', kick='À propos', md='apropos_fr.md',
+   title="À propos de Kounouzi : l'histoire d'un papa et de ses enfants",
+   desc="Kounouzi est né d'un après-midi de vacances en famille. Abou Salmaan, papa de quatre enfants et développeur web, raconte comment il a créé ce jeu pour ses enfants.",
+   lead="L'histoire de Kounouzi, racontée par son créateur, Abou Salmaan, papa de quatre enfants.",
+   ecouter="Écouter l'histoire", ecouter_s="Racontée par Abou Salmaan", audio_l="Lecture audio de l'histoire de Kounouzi"),
+ 'en': dict(slug='about', autre='/a-propos/', kick='About', md='apropos_en.md',
+   title='About Kounouzi: the story of a dad and his children',
+   desc='Kounouzi was born on a family holiday afternoon. Abou Salmaan, dad of four and web developer, tells how he created this game for his children.',
+   lead='The story of Kounouzi, told by its creator, Abou Salmaan, dad of four.',
+   ecouter='Listen to the story', ecouter_s='Told by Abou Salmaan (in French)', audio_l='Audio of the Kounouzi story'),
+}
+STORY_CSS = """
+.story{max-width:760px}.story h2{font-size:clamp(24px,3vw,32px);margin:46px 0 14px;color:var(--gold-soft,var(--gold))}
+.story p{color:var(--muted);font-size:18px;line-height:1.75;margin:0 0 14px}.story p b{color:var(--parchment)}
+.story p.salam{font-family:var(--display);font-size:clamp(26px,3.4vw,34px);color:var(--parchment);margin-top:6px}
+.story p.fort{color:var(--parchment);font-size:19.5px;font-weight:800}
+.story blockquote{margin:20px 0;padding:16px 22px;border-inline-start:4px solid var(--gold);border-radius:6px 18px 18px 6px;background:rgba(239,190,76,.08);color:var(--parchment);font-size:19px;font-style:italic;line-height:1.6}
+.story .sign{margin-top:36px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1)}.story .sign b{display:block;font-family:var(--display);font-weight:400;font-size:28px;color:var(--gold)}.story .sign i{color:var(--muted)}
+.ecoute{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;max-width:760px;margin:0 0 10px;padding:18px 20px;border-radius:22px;background:linear-gradient(160deg,#1c3050,#111f35);border:1.5px solid rgba(239,190,76,.4)}
+.ecoute .t{flex:1 1 220px}.ecoute .t b{display:block;color:var(--parchment);font-size:18px}.ecoute .t span{color:var(--muted);font-size:14px;font-weight:700}.ecoute audio{flex:1 1 300px;width:100%}
+@media (max-width:720px){.story p{font-size:17px}.story blockquote{padding:14px 16px;font-size:17.5px}}
+"""
+def _inline(t):
+    t = E(t, quote=False)
+    t = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', t)
+    return re.sub(r'\*(.+?)\*', r'<em>\1</em>', t)
+
+def apropos_md(lang):
+    """Le texte en Markdown simple → (h1, corps HTML). Titres ###, gras, italique ; une ligne entièrement en italique devient une citation."""
+    lignes = [l.strip() for l in open(os.path.join(ICI, APROPOS[lang]['md'])).read().split('\n') if l.strip()]
+    h1 = lignes[0].lstrip('# ').strip(); corps = ''; sign = []
+    reste = lignes[1:]
+    # Signature : les deux dernières lignes (nom en gras, puis rôle en italique)
+    if len(reste) >= 2 and reste[-2].startswith('**') and reste[-1].startswith('*') and not reste[-1].startswith('**'):
+        sign, reste = reste[-2:], reste[:-2]
+    for i, l in enumerate(reste):
+        if l.startswith('### '): corps += f'<h2>{_inline(l[4:])}</h2>'
+        elif re.fullmatch(r'\*[^*].*[^*]\*', l): corps += f'<blockquote>{_inline(l[1:-1])}</blockquote>'
+        elif re.fullmatch(r'\*\*.+\*\*', l): corps += f'<p class="{"salam" if i <= 2 else "fort"}">{_inline(l[2:-2])}</p>'
+        else: corps += f'<p>{_inline(l)}</p>'
+    if sign: corps += f'<div class="sign"><b>{_inline(sign[0][2:-2])}</b><i>{_inline(sign[1][1:-1])}</i></div>'
+    return h1, corps
+
+def apropos_audio(lang):
+    """Le lecteur n'apparaît que si le fichier public/audio/a-propos-<lang>.mp3 existe (sinon, celui en français)."""
+    for l in (lang, 'fr'):
+        if os.path.exists(os.path.join(ICI, '..', 'public', 'audio', f'a-propos-{l}.mp3')): return f'/audio/a-propos-{l}.mp3'
+    return None
+
+def apropos_corps(lang):
+    a = APROPOS[lang]; h1, corps = apropos_md(lang); src = apropos_audio(lang)
+    lecteur = (f'<div class="ecoute"><div class="t"><b>🎧 {E(a["ecouter"])}</b><span>{E(a["ecouter_s"])}</span></div>'
+               f'<audio controls preload="none" src="{src}" aria-label="{E(a["audio_l"])}"></audio></div>') if src else ''
+    return lecteur + f'<article class="story">{corps}</article>'

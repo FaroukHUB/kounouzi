@@ -299,28 +299,35 @@ def premiere_phrase(t):
     return m.group(1) if m else t
 
 def page_site(kind, lang):
-    d = (PS.CONTACT if kind == 'contact' else PS.PLAN)[lang]
+    DD = {'contact': PS.CONTACT, 'plan': PS.PLAN, 'apropos': PS.APROPOS}[kind]
+    d = DD[lang]
     autre_lang = 'en' if lang == 'fr' else 'fr'
-    autre = (PS.CONTACT if kind == 'contact' else PS.PLAN)[autre_lang]
+    autre = DD[autre_lang]
+    if kind == 'apropos': d = {**d, 'h1': PS.apropos_md(lang)[0]}; autre = {**autre, 'h1': ''}
     g = {'id': kind, lang: {**d, 'sections': [], 'faq': d.get('faq', [])}, autre_lang: {**autre, 'sections': [], 'faq': []}}
     h = page(g, lang)
-    corps = PS.contact_corps(lang) if kind == 'contact' else PS.plan_corps(lang, [(gid, hr, k, premiere_phrase(next(x for x in GUIDES if x['id'] == gid)[lang]['lead'])) for gid, hr, k in guides_pied(lang)])
+    corps = PS.contact_corps(lang) if kind == 'contact' else PS.apropos_corps(lang) if kind == 'apropos' else PS.plan_corps(lang, [(gid, hr, k, premiere_phrase(next(x for x in GUIDES if x['id'] == gid)[lang]['lead'])) for gid, hr, k in guides_pied(lang)])
     h = h.replace('<article class="prose">\n', corps + '\n<article class="prose">\n', 1)
     h = re.sub(r'<div class="cta" style="margin-top:22px">.*?</div>\n', '', h, count=1)
     h = re.sub(r'› <a href="[^"]*#guides">[^<]*</a> › ', '› ', h, count=1)
     h = re.sub(r'\{"@type": "ListItem", "position": 2, "name": "[^"]*", "item": "[^"]*#guides"\}, \{"@type": "ListItem", "position": 3,', '{"@type": "ListItem", "position": 2,', h, count=1)
-    h = h.replace('"@type": "Article", "headline"', '"@type": "' + ('ContactPage' if kind == 'contact' else 'WebPage') + '", "headline"', 1).replace('<meta property="og:type" content="article">', '<meta property="og:type" content="website">')
+    h = h.replace('"@type": "Article", "headline"', '"@type": "' + {'contact': 'ContactPage', 'apropos': 'AboutPage'}.get(kind, 'WebPage') + '", "headline"', 1).replace('<meta property="og:type" content="article">', '<meta property="og:type" content="website">')
+    if kind == 'apropos':
+        h = h.replace('</style>', PS.STORY_CSS + '</style>', 1)
+        h = re.sub(r'(<div class="gcta">.*?</div>\n)<h2>[^<]*</h2><div class="gfaq"></div>\n', r'\1', h, count=1, flags=re.S)
+        h = re.sub(r', \{"@type": "FAQPage", "inLanguage": "\w+", "mainEntity": \[\]\}', '', h)
+        h = h.replace('"author": {"@type": "Organization", "name": "Kounouzi", "url": "' + U + '/"}', '"author": {"@type": "Person", "name": "Abou Salmaan", "jobTitle": "' + ('Créateur de Kounouzi' if lang == 'fr' else 'Creator of Kounouzi') + '"}', 1)
     if kind == 'plan':
         h = re.sub(r'<div class="gcta">.*?</div>\n<h2>[^<]*</h2><div class="gfaq"></div>\n', '', h, count=1, flags=re.S)
         h = re.sub(r'<h2 style="margin-top:56px">[^<]*</h2>\n<div class="glinks">.*?</div>\n', '', h, count=1, flags=re.S)
         h = re.sub(r', \{"@type": "FAQPage", "inLanguage": "\w+", "mainEntity": \[\]\}', '', h)
         h = h.replace('<article class="prose">\n\n</article>\n', '').replace('<article class="prose">\n</article>\n', '')
-    else:
+    elif kind == 'contact':
         h = h.replace('</body>', PS.contact_js(lang) + '\n</body>', 1)
         h = h.replace('"publisher": {"@type": "Organization", "name": "Kounouzi"', '"publisher": {"@type": "Organization", "name": "Kounouzi", "email": "' + PS.MAIL + '", "contactPoint": {"@type": "ContactPoint", "contactType": "customer support", "email": "' + PS.MAIL + '", "availableLanguage": ["French", "English"]}', 1)
     return h
 
-PAGES_SITE = [('contact', PS.CONTACT), ('plan', PS.PLAN)]
+PAGES_SITE = [('apropos', PS.APROPOS), ('contact', PS.CONTACT), ('plan', PS.PLAN)]
 for kind, dd in PAGES_SITE:
     for lang in ('fr', 'en'):
         p = D + ('' if lang == 'fr' else 'en/') + dd[lang]['slug'] + '/index.html'

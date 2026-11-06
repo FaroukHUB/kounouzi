@@ -97,6 +97,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/sources-religion/"/>
   </url>
   <url>
+    <loc>https://kounouzi.com/a-propos/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/a-propos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/a-propos/"/>
+  </url>
+  <url>
+    <loc>https://kounouzi.com/en/about/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/a-propos/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/about/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kounouzi.com/a-propos/"/>
+  </url>
+  <url>
     <loc>https://kounouzi.com/contact/</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://kounouzi.com/contact/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://kounouzi.com/en/contact/"/>
