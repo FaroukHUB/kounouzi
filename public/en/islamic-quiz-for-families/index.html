@@ -227,6 +227,17 @@ section{position:relative;padding:96px 0}
 .offer{position:relative;border-radius:30px;padding:34px 30px;background:linear-gradient(170deg,#1f3558,#111f35);border:1.5px solid rgba(239,190,76,.55);box-shadow:0 0 0 7px rgba(239,190,76,.06),0 30px 70px rgba(0,0,0,.45);overflow:hidden}
 .offer::after{content:"";position:absolute;inset-inline-end:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(239,190,76,.28),transparent 70%)}
 .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#3a2606;font-weight:900;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 13px}
+.evban{position:relative;z-index:5;text-align:center;padding:10px 16px;font-weight:900;font-size:15px;color:#3a2606;background:linear-gradient(90deg,#f7d27a,#efbe4c,#f7d27a);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.evban[hidden]{display:none}
+.promo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px;font-weight:800;color:var(--parchment,#f7ecd4)}
+.promo[hidden]{display:none}
+.promo b{color:var(--gold);font-size:1.25em}
+.promo s{opacity:.7;text-decoration-thickness:2px}
+.pbadge{background:rgba(239,190,76,.16);border:1.5px solid rgba(239,190,76,.55);color:var(--gold);border-radius:999px;padding:4px 10px;font-size:14px}
+.rem{background:#e2483d;color:#fff;border-radius:999px;padding:3px 9px;font-weight:900;font-size:14px;letter-spacing:.02em}
+.rem[hidden]{display:none}
+.amount .rem{align-self:center;font-family:inherit;font-size:16px;color:#fff}
+.dks{opacity:.65;margin-inline-end:2px}
 .amount{display:flex;align-items:baseline;gap:12px;margin:18px 0 4px;flex-wrap:wrap}
 .amount b{font-family:var(--display);font-weight:400;font-size:76px;line-height:1;color:var(--gold);text-shadow:0 3px 0 #5c3c07}
 .amount span{color:var(--muted);font-weight:800}
@@ -374,7 +385,7 @@ footer .logo img.brand{height:72px}
 .hnote{margin:-6px 0 16px;color:var(--muted);font-weight:800;font-size:14px}
 .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:4px;font-weight:800;font-size:13.5px;color:var(--muted)}
 .valeur{color:var(--muted);font-weight:700;margin:-12px 0 20px}
-@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}}
+@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}.promo{justify-content:center}}
 
 /* section famille */
 .fam{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;margin-top:40px}
@@ -493,10 +504,10 @@ footer .logo img.brand{height:72px}
   <span class="kick">Islamic quiz</span>
   <h1 style="margin-top:12px">An Islamic family quiz… <em>that becomes a real game</em></h1>
   <p class="lead" style="margin-top:14px">Questions about Islam for children and adults, sorted by age, with their source. All inside a game where you laugh, choose and share.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/en/#offre">Get my access</a><a class="btn btn-ghost btn-lg" href="/en/#essai-gratuit">▶ Free 10-min trial</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/en/#offre">Get my access</a><a class="btn btn-ghost btn-lg" href="/en/#essai-gratuit">▶ Free 30-min trial</a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><article class="prose">
-<h2>The problem with classic Islamic quizzes</h2><p>Questions follow one another, often the same for every age. The eldest wins, the youngest gives up, and everyone ends up on their own screen. You learn little, and nobody wants to play again.</p><h2>What Kounouzi changes</h2><ul><li><b>Each player gets their own question</b>: a 6-year-old and a parent never get the same difficulty.</li><li><b>Sourced questions</b>: each religion question follows the Qur'an and the Sunnah, comes only from <a href='/en/religion-sources/'>our 7 reference books</a> and shows its source, and an Arabic explanation comes with the answer.</li><li><b>The family decides</b>: right answer, partly right, or not this time. Parents stay in charge and explain.</li><li><b>No repeats</b>: the game remembers the questions already asked to each player.</li><li><b>A board, challenges, giving</b>: questions are part of a real board game.</li></ul><p>The English translation of the questions is in progress: untranslated questions appear in French for now.</p><h2>Examples of religion topics</h2><p>The pillars of Islam and of faith, the prophets, the Sira of the Prophet ﷺ, Ramadan, good manners (adab), Qur'an vocabulary, based on <a href='/en/religion-sources/'>our 7 reference books</a>. Questions range from the simplest for ages 5–8 to the deepest for teenagers and adults.</p><h2>Try before you buy</h2><p>Request a real 10-minute trial game, free, from <a href="/en/#essai-gratuit">the home page</a>: the code arrives by e-mail and the game opens straight away.</p>
+<h2>The problem with classic Islamic quizzes</h2><p>Questions follow one another, often the same for every age. The eldest wins, the youngest gives up, and everyone ends up on their own screen. You learn little, and nobody wants to play again.</p><h2>What Kounouzi changes</h2><ul><li><b>Each player gets their own question</b>: a 6-year-old and a parent never get the same difficulty.</li><li><b>Sourced questions</b>: each religion question follows the Qur'an and the Sunnah, comes only from <a href='/en/religion-sources/'>our 7 reference books</a> and shows its source, and an Arabic explanation comes with the answer.</li><li><b>The family decides</b>: right answer, partly right, or not this time. Parents stay in charge and explain.</li><li><b>No repeats</b>: the game remembers the questions already asked to each player.</li><li><b>A board, challenges, giving</b>: questions are part of a real board game.</li></ul><p>The English translation of the questions is in progress: untranslated questions appear in French for now.</p><h2>Examples of religion topics</h2><p>The pillars of Islam and of faith, the prophets, the Sira of the Prophet ﷺ, Ramadan, good manners (adab), Qur'an vocabulary, based on <a href='/en/religion-sources/'>our 7 reference books</a>. Questions range from the simplest for ages 5–8 to the deepest for teenagers and adults.</p><h2>Try before you buy</h2><p>Request a real 30-minute trial game, free, from <a href="/en/#essai-gratuit">the home page</a>: the code arrives by e-mail and the game opens straight away.</p>
 <div class="gcta"><p>Ready to play as a family? Launch price: €6.99. One-time payment, no subscription, updates included.</p><a class="btn btn-gold" href="/en/#offre">Get my access</a></div>
 <h2>Frequently asked questions</h2><div class="gfaq"><details><summary>How many religion questions?</summary><p>375 religion questions, out of over 2,000 questions in total.</p></details><details><summary>Do players need to read?</summary><p>No: a voice reads every question and every answer.</p></details></div>
 </article>

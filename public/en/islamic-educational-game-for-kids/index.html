@@ -227,6 +227,17 @@ section{position:relative;padding:96px 0}
 .offer{position:relative;border-radius:30px;padding:34px 30px;background:linear-gradient(170deg,#1f3558,#111f35);border:1.5px solid rgba(239,190,76,.55);box-shadow:0 0 0 7px rgba(239,190,76,.06),0 30px 70px rgba(0,0,0,.45);overflow:hidden}
 .offer::after{content:"";position:absolute;inset-inline-end:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(239,190,76,.28),transparent 70%)}
 .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#3a2606;font-weight:900;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 13px}
+.evban{position:relative;z-index:5;text-align:center;padding:10px 16px;font-weight:900;font-size:15px;color:#3a2606;background:linear-gradient(90deg,#f7d27a,#efbe4c,#f7d27a);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.evban[hidden]{display:none}
+.promo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px;font-weight:800;color:var(--parchment,#f7ecd4)}
+.promo[hidden]{display:none}
+.promo b{color:var(--gold);font-size:1.25em}
+.promo s{opacity:.7;text-decoration-thickness:2px}
+.pbadge{background:rgba(239,190,76,.16);border:1.5px solid rgba(239,190,76,.55);color:var(--gold);border-radius:999px;padding:4px 10px;font-size:14px}
+.rem{background:#e2483d;color:#fff;border-radius:999px;padding:3px 9px;font-weight:900;font-size:14px;letter-spacing:.02em}
+.rem[hidden]{display:none}
+.amount .rem{align-self:center;font-family:inherit;font-size:16px;color:#fff}
+.dks{opacity:.65;margin-inline-end:2px}
 .amount{display:flex;align-items:baseline;gap:12px;margin:18px 0 4px;flex-wrap:wrap}
 .amount b{font-family:var(--display);font-weight:400;font-size:76px;line-height:1;color:var(--gold);text-shadow:0 3px 0 #5c3c07}
 .amount span{color:var(--muted);font-weight:800}
@@ -374,7 +385,7 @@ footer .logo img.brand{height:72px}
 .hnote{margin:-6px 0 16px;color:var(--muted);font-weight:800;font-size:14px}
 .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:4px;font-weight:800;font-size:13.5px;color:var(--muted)}
 .valeur{color:var(--muted);font-weight:700;margin:-12px 0 20px}
-@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}}
+@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}.promo{justify-content:center}}
 
 /* section famille */
 .fam{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;margin-top:40px}
@@ -493,7 +504,7 @@ footer .logo img.brand{height:72px}
   <span class="kick">Islamic educational game</span>
   <h1 style="margin-top:12px">The Islamic educational game that makes kids <em>want to learn</em></h1>
   <p class="lead" style="margin-top:14px">Your children revise the Qur'an, the Sira, science and maths without even noticing. Each one gets questions at their own level, and the whole family plays together.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/en/#offre">Get my access</a><a class="btn btn-ghost btn-lg" href="/en/#essai-gratuit">▶ Free 10-min trial</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/en/#offre">Get my access</a><a class="btn btn-ghost btn-lg" href="/en/#essai-gratuit">▶ Free 30-min trial</a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><article class="prose">
 <h2>Learning without feeling like being in class</h2><p>Children remember what they experience. In Kounouzi, a question comes at the right moment, in the middle of a game, with suspense, a challenge that makes everyone laugh and Kounouz to win. A right answer is a small victory, a wrong one a chance to learn, without ever losing anything.</p><p>The family validates the answers: parents explain, children discuss, and the game becomes a real conversation.</p><h2>Over 2,000 questions, six subjects</h2><ul><li><b>Religion</b> (375 questions): pillars, prophets, Sira, adab, Qur'an vocabulary, taken only from <a href='/en/religion-sources/'>our 7 reference books</a>, with the source of each answer and an explanation in Arabic.</li><li><b>Stories of the Prophets</b> (375 questions, 75 stories on 5 levels): the prophets mentioned in the Qur'an, with the verse reference.</li><li><b>Maths and logic</b> (587): mental arithmetic, sequences, odd-one-out and small reasoning puzzles, chosen by age.</li><li><b>Money skills</b> (250): saving, spending, sharing, Zakat.</li><li><b>Science and nature</b> (212).</li><li><b>Invocations</b> (214): everyday supplications and remembrances (sleep, prayer, meals, travel…), taken only from <a href='/en/religion-sources/'>Sahih Al-Adhkar</a>, with the reference of each answer.</li></ul><p>The English translation of the questions is in progress: until a question is translated and checked, it appears in French.</p><h2>Questions suited to each child's real age</h2><p>Questions are sorted by age group: 5–6, 7–8, 9–10, 11–12 and 13+, and for religion 5–8, 8–10, 10–12, 12–14 and 14+. Then the level adapts: two right answers in a row and the questions go up a notch, a mistake and they become simpler again.</p><p>A voice reads every question out loud: a child who cannot read yet can play on equal terms with older ones.</p><h2>Much more than a quiz</h2><p>Kounouzi is a real board game: you buy a maktaba or a hotel in Madinah, take on family challenges and give to the Masākīn Fund. Knowledge mixes with decisions, and that is what makes children want to play again.</p>

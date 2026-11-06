@@ -138,7 +138,7 @@ GUIDES = [
     ("Exemples de thèmes abordés en religion", [
       "Les piliers de l'islam et de la foi, les prophètes, la Sira du Prophète ﷺ, le Ramadan, les bonnes manières (adab), le vocabulaire du Coran, d'après <a href='/sources-religion/'>nos 7 livres de référence</a>. Les questions vont des plus simples pour les 5–8 ans aux plus approfondies pour les adolescents et les adultes."]),
     ("Essayez avant d'acheter", [
-      "Demandez une vraie partie d'essai de 10 minutes, gratuite, depuis <a href='/#essai-gratuit'>la page d'accueil</a> : le code arrive par e-mail et la partie s'ouvre tout de suite."]),
+      "Demandez une vraie partie d'essai de 30 minutes, gratuite, depuis <a href='/#essai-gratuit'>la page d'accueil</a> : le code arrive par e-mail et la partie s'ouvre tout de suite."]),
    ],
    'faq': [("Combien de questions de religion ?", "375 questions de religion, sur un total de plus de 2 000 questions."),
            ("Faut-il savoir lire ?", "Non : une voix lit chaque question et chaque réponse.")],
@@ -163,7 +163,7 @@ GUIDES = [
     ("Examples of religion topics", [
       "The pillars of Islam and of faith, the prophets, the Sira of the Prophet ﷺ, Ramadan, good manners (adab), Qur'an vocabulary, based on <a href='/en/religion-sources/'>our 7 reference books</a>. Questions range from the simplest for ages 5–8 to the deepest for teenagers and adults."]),
     ("Try before you buy", [
-      "Request a real 10-minute trial game, free, from <a href=\"/en/#essai-gratuit\">the home page</a>: the code arrives by e-mail and the game opens straight away."]),
+      "Request a real 30-minute trial game, free, from <a href=\"/en/#essai-gratuit\">the home page</a>: the code arrives by e-mail and the game opens straight away."]),
    ],
    'faq': [("How many religion questions?", "375 religion questions, out of over 2,000 questions in total."),
            ("Do players need to read?", "No: a voice reads every question and every answer.")],

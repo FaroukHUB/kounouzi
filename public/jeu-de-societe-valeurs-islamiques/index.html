@@ -227,6 +227,17 @@ section{position:relative;padding:96px 0}
 .offer{position:relative;border-radius:30px;padding:34px 30px;background:linear-gradient(170deg,#1f3558,#111f35);border:1.5px solid rgba(239,190,76,.55);box-shadow:0 0 0 7px rgba(239,190,76,.06),0 30px 70px rgba(0,0,0,.45);overflow:hidden}
 .offer::after{content:"";position:absolute;inset-inline-end:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(239,190,76,.28),transparent 70%)}
 .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#3a2606;font-weight:900;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 13px}
+.evban{position:relative;z-index:5;text-align:center;padding:10px 16px;font-weight:900;font-size:15px;color:#3a2606;background:linear-gradient(90deg,#f7d27a,#efbe4c,#f7d27a);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.evban[hidden]{display:none}
+.promo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px;font-weight:800;color:var(--parchment,#f7ecd4)}
+.promo[hidden]{display:none}
+.promo b{color:var(--gold);font-size:1.25em}
+.promo s{opacity:.7;text-decoration-thickness:2px}
+.pbadge{background:rgba(239,190,76,.16);border:1.5px solid rgba(239,190,76,.55);color:var(--gold);border-radius:999px;padding:4px 10px;font-size:14px}
+.rem{background:#e2483d;color:#fff;border-radius:999px;padding:3px 9px;font-weight:900;font-size:14px;letter-spacing:.02em}
+.rem[hidden]{display:none}
+.amount .rem{align-self:center;font-family:inherit;font-size:16px;color:#fff}
+.dks{opacity:.65;margin-inline-end:2px}
 .amount{display:flex;align-items:baseline;gap:12px;margin:18px 0 4px;flex-wrap:wrap}
 .amount b{font-family:var(--display);font-weight:400;font-size:76px;line-height:1;color:var(--gold);text-shadow:0 3px 0 #5c3c07}
 .amount span{color:var(--muted);font-weight:800}
@@ -374,7 +385,7 @@ footer .logo img.brand{height:72px}
 .hnote{margin:-6px 0 16px;color:var(--muted);font-weight:800;font-size:14px}
 .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:4px;font-weight:800;font-size:13.5px;color:var(--muted)}
 .valeur{color:var(--muted);font-weight:700;margin:-12px 0 20px}
-@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}}
+@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}.promo{justify-content:center}}
 
 /* section famille */
 .fam{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;margin-top:40px}
@@ -493,7 +504,7 @@ footer .logo img.brand{height:72px}
   <span class="kick">Fidèle à nos valeurs</span>
   <h1 style="margin-top:12px">Enfin un jeu de société <em>fidèle à nos valeurs</em>, pour toute la famille</h1>
   <p class="lead" style="margin-top:14px">Pas de dés, pas de hasard, pas de musique, pas de publicité. Kounouzi a été pensé dès le départ en accord avec nos principes, pour que chaque famille puisse jouer l'esprit tranquille et apprendre en s'amusant.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit">▶ Essai gratuit de 10 min</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit">▶ Essai gratuit de 30 min</a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><article class="prose">
 <h2>Pourquoi tant de parents cherchent un jeu fidèle à leurs valeurs</h2><p>Beaucoup de jeux de plateau classiques reposent sur les dés et la chance, mettent en avant la spéculation ou l'argent gagné sans effort, et s'accompagnent de musique ou de publicités. Pour une famille musulmane, ce n'est pas toujours l'ambiance que l'on veut installer autour de la table.</p><p>Kounouzi part de l'idée inverse : un vrai jeu de plateau, avec du suspense et des décisions, mais où chaque mécanique a été choisie dans le respect des principes islamiques.</p><h2>Ce qui rend Kounouzi fidèle à nos valeurs, concrètement</h2><ul><li><b>Sans dés et sans hasard pour avancer</b> : le nombre de cases est donné par le Chemin, une suite équitable et identique pour tous les joueurs. Personne ne gagne grâce à la chance.</li><li><b>Sans musique</b> : seulement une voix chaleureuse qui lit les questions et annonce les cases, et quelques petits effets (applaudissements, pièces) que l'on peut couper en un geste.</li><li><b>Sans riba</b> : on n'apprend jamais à prêter avec intérêt. On apprend à épargner, à acheter avec mesure, à donner à la Caisse Masākīn et à verser la Zakat.</li><li><b>Sans publicité, sans achat intégré</b>, sans discussion avec des inconnus : un seul paiement, et l'écran reste entre vous.</li><li><b>Contenu religieux sourcé</b> : les questions de religion suivent le Coran et la Sunnah, et sont tirées uniquement de <a href='/sources-religion/'>nos 7 livres de référence</a>, sans rien y ajouter. Tout est relu avant publication.</li></ul><h2>Un jeu qui valorise la générosité, pas la richesse</h2><p>Dans Kounouzi, le score final additionne les Kounouz, le patrimoine et les points Hassanāt gagnés en donnant ou en aidant les autres. Un joueur généreux peut donc gagner même avec moins d'argent : c'est souvent le moment préféré des parents pour en parler avec leurs enfants.</p><p>Les Hassanāt sont des points de jeu : ils servent à ouvrir la discussion sur la générosité, ce ne sont pas des récompenses spirituelles.</p><h2>Pour qui ?</h2><p>Pour les familles avec des enfants dès 5 ans, les grands-parents, les écoles coraniques et les associations. De 2 à 6 joueurs sur un seul écran : téléphone, tablette ou ordinateur.</p>

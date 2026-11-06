@@ -227,6 +227,17 @@ section{position:relative;padding:96px 0}
 .offer{position:relative;border-radius:30px;padding:34px 30px;background:linear-gradient(170deg,#1f3558,#111f35);border:1.5px solid rgba(239,190,76,.55);box-shadow:0 0 0 7px rgba(239,190,76,.06),0 30px 70px rgba(0,0,0,.45);overflow:hidden}
 .offer::after{content:"";position:absolute;inset-inline-end:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(239,190,76,.28),transparent 70%)}
 .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#3a2606;font-weight:900;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 13px}
+.evban{position:relative;z-index:5;text-align:center;padding:10px 16px;font-weight:900;font-size:15px;color:#3a2606;background:linear-gradient(90deg,#f7d27a,#efbe4c,#f7d27a);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.evban[hidden]{display:none}
+.promo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px;font-weight:800;color:var(--parchment,#f7ecd4)}
+.promo[hidden]{display:none}
+.promo b{color:var(--gold);font-size:1.25em}
+.promo s{opacity:.7;text-decoration-thickness:2px}
+.pbadge{background:rgba(239,190,76,.16);border:1.5px solid rgba(239,190,76,.55);color:var(--gold);border-radius:999px;padding:4px 10px;font-size:14px}
+.rem{background:#e2483d;color:#fff;border-radius:999px;padding:3px 9px;font-weight:900;font-size:14px;letter-spacing:.02em}
+.rem[hidden]{display:none}
+.amount .rem{align-self:center;font-family:inherit;font-size:16px;color:#fff}
+.dks{opacity:.65;margin-inline-end:2px}
 .amount{display:flex;align-items:baseline;gap:12px;margin:18px 0 4px;flex-wrap:wrap}
 .amount b{font-family:var(--display);font-weight:400;font-size:76px;line-height:1;color:var(--gold);text-shadow:0 3px 0 #5c3c07}
 .amount span{color:var(--muted);font-weight:800}
@@ -374,7 +385,7 @@ footer .logo img.brand{height:72px}
 .hnote{margin:-6px 0 16px;color:var(--muted);font-weight:800;font-size:14px}
 .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:4px;font-weight:800;font-size:13.5px;color:var(--muted)}
 .valeur{color:var(--muted);font-weight:700;margin:-12px 0 20px}
-@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}}
+@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}.promo{justify-content:center}}
 
 /* section famille */
 .fam{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;margin-top:40px}
@@ -493,7 +504,7 @@ footer .logo img.brand{height:72px}
   <span class="kick">Idée cadeau</span>
   <h1 style="margin-top:12px">Le cadeau de Ramadan et d'Aïd <em>qui rassemble toute la famille</em></h1>
   <p class="lead" style="margin-top:14px">Un cadeau qui ne finit pas au fond d'un placard : Kounouzi se joue ensemble, s'adapte à chaque âge et transmet des valeurs. Et il s'offre en quelques secondes, avec un simple code.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit">▶ Essai gratuit de 10 min</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit">▶ Essai gratuit de 30 min</a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><article class="prose">
 <h2>Pourquoi offrir Kounouzi</h2><ul><li><b>Pour toute la famille</b> : de 2 à 6 joueurs, dès 5 ans, petits et grands autour du même écran.</li><li><b>Fidèle à nos valeurs</b> : sans dés ni hasard pour avancer, sans musique, sans publicité.</li><li><b>Éducatif</b> : plus de 2 000 questions (religion, invocations, sciences, maths et logique, histoire des prophètes, gestion) adaptées à l'âge de chacun.</li><li><b>Paiement unique, sans abonnement</b> : un seul paiement pour toute la famille, sur tous vos appareils, mises à jour incluses.</li></ul><h2>Parfait pour les soirées de Ramadan</h2><p>Après l'iftar, une partie de 30, 45 ou 60 minutes réunit toute la famille. Les questions sur le Ramadan, le Coran et la générosité tombent à point, et la case Don rappelle l'esprit de partage du mois.</p><h2>Comment l'offrir</h2><ol><li>Achetez l'accès sur kounouzi.com : vous recevez un code d'accès juste après le paiement.</li><li>Envoyez ce code à la famille de votre choix, par message ou glissé dans une carte.</li><li>Elle l'entre sur kounouzi.com et le jeu s'ouvre sur tous ses appareils.</li></ol><h2>Aussi pour les écoles et les associations</h2><p>Kounouzi s'utilise aussi en classe ou en atelier : un seul écran projeté, des équipes, et des questions adaptées à chaque tranche d'âge.</p>

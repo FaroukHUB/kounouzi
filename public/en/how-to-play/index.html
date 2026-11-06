@@ -227,6 +227,17 @@ section{position:relative;padding:96px 0}
 .offer{position:relative;border-radius:30px;padding:34px 30px;background:linear-gradient(170deg,#1f3558,#111f35);border:1.5px solid rgba(239,190,76,.55);box-shadow:0 0 0 7px rgba(239,190,76,.06),0 30px 70px rgba(0,0,0,.45);overflow:hidden}
 .offer::after{content:"";position:absolute;inset-inline-end:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(239,190,76,.28),transparent 70%)}
 .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#3a2606;font-weight:900;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 13px}
+.evban{position:relative;z-index:5;text-align:center;padding:10px 16px;font-weight:900;font-size:15px;color:#3a2606;background:linear-gradient(90deg,#f7d27a,#efbe4c,#f7d27a);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.evban[hidden]{display:none}
+.promo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px;font-weight:800;color:var(--parchment,#f7ecd4)}
+.promo[hidden]{display:none}
+.promo b{color:var(--gold);font-size:1.25em}
+.promo s{opacity:.7;text-decoration-thickness:2px}
+.pbadge{background:rgba(239,190,76,.16);border:1.5px solid rgba(239,190,76,.55);color:var(--gold);border-radius:999px;padding:4px 10px;font-size:14px}
+.rem{background:#e2483d;color:#fff;border-radius:999px;padding:3px 9px;font-weight:900;font-size:14px;letter-spacing:.02em}
+.rem[hidden]{display:none}
+.amount .rem{align-self:center;font-family:inherit;font-size:16px;color:#fff}
+.dks{opacity:.65;margin-inline-end:2px}
 .amount{display:flex;align-items:baseline;gap:12px;margin:18px 0 4px;flex-wrap:wrap}
 .amount b{font-family:var(--display);font-weight:400;font-size:76px;line-height:1;color:var(--gold);text-shadow:0 3px 0 #5c3c07}
 .amount span{color:var(--muted);font-weight:800}
@@ -374,7 +385,7 @@ footer .logo img.brand{height:72px}
 .hnote{margin:-6px 0 16px;color:var(--muted);font-weight:800;font-size:14px}
 .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:4px;font-weight:800;font-size:13.5px;color:var(--muted)}
 .valeur{color:var(--muted);font-weight:700;margin:-12px 0 20px}
-@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}}
+@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}.promo{justify-content:center}}
 
 /* section famille */
 .fam{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;margin-top:40px}
@@ -493,7 +504,7 @@ footer .logo img.brand{height:72px}
   <span class="kick">How to play</span>
   <h1 style="margin-top:12px">How to play Kounouzi: <em>the rules in 5 minutes</em></h1>
   <p class="lead" style="margin-top:14px">No 20-page booklet: the game explains everything out loud. Here is what to know before your first game.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/en/#offre">Get my access</a><a class="btn btn-ghost btn-lg" href="/en/#essai-gratuit">▶ Free 10-min trial</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/en/#offre">Get my access</a><a class="btn btn-ghost btn-lg" href="/en/#essai-gratuit">▶ Free 30-min trial</a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><article class="prose">
 <h2>Setting up</h2><p>Add 2 to 6 players, say for each whether they are a child (with their age) or an adult, choose an avatar, a colour and the length: 30, 45 or 60 minutes, or an open game. Each player starts with 1,000 Kounouz.</p><h2>1. The Path: moving without dice</h2><p>On their turn, the player reveals their Path: 1 to 5 squares, given by a fair sequence. Over the whole game, everyone moves the same distance: nobody is favoured by luck.</p><h2>2. The board squares</h2><ul><li><b>Knowledge</b>: a question suited to the player's age. Right answer +100 Kounouz, partly right +50, doubled if the explanation is given.</li><li><b>Challenge</b>: in turn, a family challenge (move, imitate an animal, give a compliment…), a Hassanāt opportunity, a duel or a bonus question.</li><li><b>Property</b>: 12 places to buy (maktaba, hotels, restaurants, Umrah agencies…). Each visitor pays the owner 15% of the price.</li><li><b>Giving</b>: give 30 Kounouz to the Masākīn Fund or to a player, to earn 10 Hassanāt.</li><li><b>Treasure</b>: +200 Kounouz. <b>Prison</b>: next turn, one question to get out.</li><li><b>Start</b>: each full lap earns +200 Kounouz.</li></ul><h2>3. Zakat</h2><p>A player who keeps more than 1,000 Kounouz for 6 rounds in a row pays 2.5% to the Masākīn Fund: this is the game's Zakat al-Māl.</p><h2>4. End of the game and score</h2><p>When the chosen time is up, the last round finishes and the ranking appears. Final score = Kounouz + property value + Hassanāt × 5. Giving counts: the richest player does not always win.</p>

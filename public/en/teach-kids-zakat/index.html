@@ -227,6 +227,17 @@ section{position:relative;padding:96px 0}
 .offer{position:relative;border-radius:30px;padding:34px 30px;background:linear-gradient(170deg,#1f3558,#111f35);border:1.5px solid rgba(239,190,76,.55);box-shadow:0 0 0 7px rgba(239,190,76,.06),0 30px 70px rgba(0,0,0,.45);overflow:hidden}
 .offer::after{content:"";position:absolute;inset-inline-end:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(239,190,76,.28),transparent 70%)}
 .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#3a2606;font-weight:900;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 13px}
+.evban{position:relative;z-index:5;text-align:center;padding:10px 16px;font-weight:900;font-size:15px;color:#3a2606;background:linear-gradient(90deg,#f7d27a,#efbe4c,#f7d27a);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.evban[hidden]{display:none}
+.promo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px;font-weight:800;color:var(--parchment,#f7ecd4)}
+.promo[hidden]{display:none}
+.promo b{color:var(--gold);font-size:1.25em}
+.promo s{opacity:.7;text-decoration-thickness:2px}
+.pbadge{background:rgba(239,190,76,.16);border:1.5px solid rgba(239,190,76,.55);color:var(--gold);border-radius:999px;padding:4px 10px;font-size:14px}
+.rem{background:#e2483d;color:#fff;border-radius:999px;padding:3px 9px;font-weight:900;font-size:14px;letter-spacing:.02em}
+.rem[hidden]{display:none}
+.amount .rem{align-self:center;font-family:inherit;font-size:16px;color:#fff}
+.dks{opacity:.65;margin-inline-end:2px}
 .amount{display:flex;align-items:baseline;gap:12px;margin:18px 0 4px;flex-wrap:wrap}
 .amount b{font-family:var(--display);font-weight:400;font-size:76px;line-height:1;color:var(--gold);text-shadow:0 3px 0 #5c3c07}
 .amount span{color:var(--muted);font-weight:800}
@@ -374,7 +385,7 @@ footer .logo img.brand{height:72px}
 .hnote{margin:-6px 0 16px;color:var(--muted);font-weight:800;font-size:14px}
 .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:4px;font-weight:800;font-size:13.5px;color:var(--muted)}
 .valeur{color:var(--muted);font-weight:700;margin:-12px 0 20px}
-@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}}
+@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}.promo{justify-content:center}}
 
 /* section famille */
 .fam{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;margin-top:40px}
@@ -493,7 +504,7 @@ footer .logo img.brand{height:72px}
   <span class="kick">Money skills</span>
   <h1 style="margin-top:12px">Teach kids Zakat and the value of money <em>through play</em></h1>
   <p class="lead" style="margin-top:14px">Saving, buying wisely, giving, paying Zakat: in Kounouzi, children handle pretend wealth and understand for real.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/en/#offre">Get my access</a><a class="btn btn-ghost btn-lg" href="/en/#essai-gratuit">▶ Free 10-min trial</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/en/#offre">Get my access</a><a class="btn btn-ghost btn-lg" href="/en/#essai-gratuit">▶ Free 30-min trial</a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><article class="prose">
 <h2>Talking about money with children, without lecturing</h2><p>Explaining saving or Zakat with words is abstract. Living it in a game is concrete: you hesitate before buying a property, keep a reserve, choose to give or to keep. Children see the consequences of their choices, and parents just have to talk about it.</p><h2>How money works in the game</h2><ul><li><b>Kounouz</b>: the game currency, earned by answering questions and completing challenges.</li><li><b>Properties</b>: maktaba, hotels in Makkah and Madinah, restaurants, Umrah agencies, a museum, a park. Other players who land there pay for the service.</li><li><b>The Giving square</b>: you choose to give to the Masākīn Fund or to another player, and earn Hassanāt points.</li><li><b>Zakat al-Māl</b>: a player who keeps more than 1,000 Kounouz for 6 rounds in a row (the game's ḥawl) pays 2.5% to the Masākīn Fund. A simplified version to start the conversation.</li><li><b>Never any riba</b>: no lending with interest, no speculation.</li></ul><h2>The richest player does not always win</h2><p>The final score adds up Kounouz, properties and Hassanāt × 5. A child who gave a lot can finish ahead of one who kept everything. That is often the question that starts the conversation: "He had less money, but he won. How is that possible?"</p><h2>Money skills questions</h2><p>250 money skills questions suited to each age: why keep a reserve, compare two prices, avoid waste, why buying on credit can cause trouble.</p>
