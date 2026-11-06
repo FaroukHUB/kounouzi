@@ -313,7 +313,8 @@ def page_site(kind, lang):
     h = re.sub(r'\{"@type": "ListItem", "position": 2, "name": "[^"]*", "item": "[^"]*#guides"\}, \{"@type": "ListItem", "position": 3,', '{"@type": "ListItem", "position": 2,', h, count=1)
     h = h.replace('"@type": "Article", "headline"', '"@type": "' + {'contact': 'ContactPage', 'apropos': 'AboutPage'}.get(kind, 'WebPage') + '", "headline"', 1).replace('<meta property="og:type" content="article">', '<meta property="og:type" content="website">')
     if kind == 'apropos':
-        h = h.replace('</style>', PS.STORY_CSS + '</style>', 1)
+        h = h.replace('</style>', PS.STORY_CSS + PS.LISEUSE_CSS + '</style>', 1)
+        if 'class="story liseuse"' in h: h = h.replace('</body>', PS.LISEUSE_JS + '\n</body>', 1)
         h = re.sub(r'(<div class="gcta">.*?</div>\n)<h2>[^<]*</h2><div class="gfaq"></div>\n', r'\1', h, count=1, flags=re.S)
         h = re.sub(r', \{"@type": "FAQPage", "inLanguage": "\w+", "mainEntity": \[\]\}', '', h)
         h = h.replace('"author": {"@type": "Organization", "name": "Kounouzi", "url": "' + U + '/"}', '"author": {"@type": "Person", "name": "Abou Salmaan", "jobTitle": "' + ('Créateur de Kounouzi' if lang == 'fr' else 'Creator of Kounouzi') + '"}', 1)

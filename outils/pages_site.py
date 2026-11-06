@@ -225,8 +225,67 @@ def apropos_audio(lang):
         if os.path.exists(os.path.join(ICI, '..', 'public', 'audio', f'a-propos-{l}.mp3')): return f'/audio/a-propos-{l}.mp3'
     return None
 
+def apropos_timing(lang):
+    """Début de chaque paragraphe lu (en secondes), calculé en alignant l'audio sur le texte. Seulement pour la langue de l'audio."""
+    f = os.path.join(ICI, f'apropos_{lang}_timing.json')
+    if not os.path.exists(f) or not os.path.exists(os.path.join(ICI, '..', 'public', 'audio', f'a-propos-{lang}.mp3')): return None
+    import json
+    return json.load(open(f))
+
 def apropos_corps(lang):
-    a = APROPOS[lang]; h1, corps = apropos_md(lang); src = apropos_audio(lang)
-    lecteur = (f'<div class="ecoute"><div class="t"><b>🎧 {E(a["ecouter"])}</b><span>{E(a["ecouter_s"])}</span></div>'
-               f'<audio controls preload="none" src="{src}" aria-label="{E(a["audio_l"])}"></audio></div>') if src else ''
-    return lecteur + f'<article class="story">{corps}</article>'
+    a = APROPOS[lang]; h1, corps = apropos_md(lang); src = apropos_audio(lang); tm = apropos_timing(lang)
+    liseuse = False
+    if tm:
+        blocs = re.findall(r'<(?:p|blockquote)[ >]', corps)
+        if len(blocs) == len(tm['t']):  # le texte n'a pas changé depuis l'alignement
+            it = iter(tm['t'])
+            corps = re.sub(r'<(p|blockquote)([ >])', lambda m: f'<{m.group(1)} data-t="{next(it)}"{m.group(2)}', corps)
+            liseuse = True
+    lecteur = (f'<div class="ecoute" id="ecoute"><div class="t"><b>🎧 {E(a["ecouter"])}</b><span>{E(a["ecouter_s"])}</span></div>'
+               f'<audio id="histoire" controls preload="metadata" src="{src}?v=1" aria-label="{E(a["audio_l"])}"></audio></div>') if src else ''
+    fin = f' data-fin="{tm["fin"]}"' if liseuse else ''
+    return lecteur + f'<article class="story{" liseuse" if liseuse else ""}" id="histoireTexte"{fin}>{corps}</article>'
+
+# Effet liseuse : pendant l'écoute, le paragraphe lu est mis en avant et ses mots s'éclairent au fil de la voix ;
+# un clic sur un paragraphe reprend l'écoute à cet endroit. Le texte reste du HTML normal (référencement) : les mots sont découpés à l'affichage.
+LISEUSE_CSS = """
+.ecoute{position:sticky;top:72px;z-index:20;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.story.liseuse.joue [data-t]{opacity:.42;transition:opacity .35s,background-color .35s,box-shadow .35s;cursor:pointer;border-radius:12px}
+.story.liseuse.joue [data-t]:hover{opacity:.7}
+.story.liseuse.joue [data-t].lu{opacity:.75}
+.story.liseuse.joue p[data-t].on{opacity:1;background:rgba(239,190,76,.07);box-shadow:0 0 0 10px rgba(239,190,76,.07)}
+.story.liseuse.joue blockquote[data-t].on{opacity:1}
+.story.liseuse.joue .on .w{color:var(--muted);transition:color .18s}
+.story.liseuse.joue .on .w.dit{color:var(--parchment)}
+.story.liseuse.joue .on .w.ici{color:var(--gold)}
+@media (max-width:720px){.ecoute{top:62px;padding:12px 14px;gap:8px}.ecoute .t span{display:none}}
+@media (prefers-reduced-motion:reduce){.story.liseuse.joue [data-t]{transition:none}}
+"""
+LISEUSE_JS = """<script>(function(){
+var A=document.getElementById('histoire'), S=document.getElementById('histoireTexte'); if(!A||!S||!S.classList.contains('liseuse')) return;
+var P=[].slice.call(S.querySelectorAll('[data-t]')), T=P.map(function(e){return parseFloat(e.dataset.t)}), FIN=parseFloat(S.dataset.fin)||0, W=[];
+// Découpe des mots (sans toucher au HTML d'origine pour les moteurs de recherche)
+P.forEach(function(el){ var mots=[], total=0, tw=document.createTreeWalker(el,NodeFilter.SHOW_TEXT), n, noeuds=[];
+  while(n=tw.nextNode()) noeuds.push(n);
+  noeuds.forEach(function(t){ var f=document.createDocumentFragment(); t.nodeValue.split(/(\\s+)/).forEach(function(m){
+    if(!m) return; if(/^\\s+$/.test(m)){ f.appendChild(document.createTextNode(m)); return; }
+    var s=document.createElement('span'); s.className='w'; s.textContent=m; f.appendChild(s); mots.push([s,total]); total+=m.length+1; });
+    t.parentNode.replaceChild(f,t); });
+  W.push({m:mots,n:total}); });
+var cur=-1, dernierDefil=0, manuel=0;
+window.addEventListener('wheel',function(){manuel=Date.now()},{passive:true}); window.addEventListener('touchmove',function(){manuel=Date.now()},{passive:true});
+function indice(t){ var i=0; while(i+1<T.length&&T[i+1]<=t+0.05) i++; return i; }
+function maj(){ var t=A.currentTime, i=indice(t);
+  if(i!==cur){ P.forEach(function(e,k){ e.classList.toggle('on',k===i); e.classList.toggle('lu',k<i); });
+    if(cur>=0) W[cur].m.forEach(function(x){x[0].classList.remove('dit','ici')});
+    cur=i; if(!A.paused&&Date.now()-manuel>4000){ var r=P[i].getBoundingClientRect(); if(r.top<130||r.bottom>innerHeight-40) P[i].scrollIntoView({behavior:'smooth',block:'center'}); } }
+  var debut=T[i], fin=i+1<T.length?T[i+1]:(FIN||A.duration||debut+5), part=Math.max(0,Math.min(1,(t-debut)/Math.max(0.3,fin-debut-0.25))), pos=part*W[i].n;
+  W[i].m.forEach(function(x,k){ var suivant=k+1<W[i].m.length?W[i].m[k+1][1]:W[i].n; x[0].classList.toggle('dit',x[1]<pos); x[0].classList.toggle('ici',x[1]<pos&&suivant>=pos); });
+}
+var raf=0; function boucle(){ maj(); if(!A.paused) raf=requestAnimationFrame(boucle); }
+A.addEventListener('play',function(){ S.classList.add('joue'); cancelAnimationFrame(raf); boucle(); });
+A.addEventListener('pause',function(){ cancelAnimationFrame(raf); maj(); });
+A.addEventListener('seeked',maj);
+A.addEventListener('ended',function(){ S.classList.remove('joue'); P.forEach(function(e){e.classList.remove('on','lu')}); cur=-1; });
+P.forEach(function(e,k){ e.addEventListener('click',function(){ if(!S.classList.contains('joue')) return; A.currentTime=T[k]+0.01; manuel=0; A.play(); }); });
+})();</script>"""
