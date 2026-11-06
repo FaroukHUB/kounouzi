@@ -35,16 +35,13 @@ async function donnees() {
   CACHE = { t: Date.now(), body };
   return body;
 }
-async function amorcer() { // première fois : copie les questions du fichier dans la base
-  const f = await fichier();
-  return db('import', f, { timeout: 25000 });
-}
+
 export async function GET(request) {
   const f = new URL(request.url).searchParams.get('f');
-  if (f === 'ping') { // vérification technique (sans rien montrer du contenu) + amorçage de la base si elle est vide
+  if (f === 'ping') { // vérification technique (sans rien montrer du contenu). La base n'est plus jamais remplie
+    // automatiquement depuis le fichier : les questions s'importent uniquement depuis le tableau de bord.
     const ok = await Promise.all(['jeu.html', 'data.json'].map(n => stat(path.join(DIR, n)).then(() => true, () => false)));
-    let base = dbActive() ? 'configurée' : 'absente';
-    if (dbActive()) { try { const r = await amorcer(); base = r?.deja ? 'prête' : `importée (${r?.questions} questions)`; } catch (e) { base = 'erreur : ' + e.message; } }
+    const base = dbActive() ? 'configurée' : 'absente';
     return new Response(JSON.stringify({ jeu: ok[0], donnees: ok[1], base }), { headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
   }
   const code = await accesValide(request, { essaiFiniOk: f === 'data' });
