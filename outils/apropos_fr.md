@@ -64,7 +64,7 @@ Régulièrement, j'entendais :
 
 *« Papa, c'est quand qu'on rejoue à Kounouzi ? »*
 
-Et croyez-moi, quand vos enfants vous réclament régulièrement un jeu que vous avez vous-même créé, ça donne une sacrée motivation pour le terminer !
+Et croyez-moi, quand vos enfants vous réclament régulièrement un jeu que vous avez vous-même développé, ça donne une sacrée motivation pour le terminer !
 
 ### Des écrans, oui… mais pas n'importe comment.
 

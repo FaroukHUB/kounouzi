@@ -64,7 +64,7 @@ Regularly, I would hear:
 
 *“Dad, when are we playing Kounouzi again?”*
 
-And believe me, when your children keep asking for a game you made yourself, it gives you quite a boost to finish it!
+And believe me, when your children keep asking for a game you developed yourself, it gives you quite a boost to finish it!
 
 ### Screens, yes… but not just any way.
 
