@@ -11,7 +11,7 @@ const ROTATION = ['family', 'hassanat', 'duel', 'question'];
 export const REGLAGES_DEFAUT = {
   themes: THEMES,
   eco: { qGood: 100, qPartial: 50, startPass: 200, treasure: 200, duelWin: 150, duelTie: 50, familyX: 2, donation: 30, donationHassanat: 10, visitRate: 0.15 },
-  defis: ['family', 'hassanat', 'family', 'duel', 'family', 'question'],
+  defis: ['family', 'duel', 'family', 'family'],
   minuteur: { enfant: 60, adulte: 45 },
   eviter: 15,
   durees: { rapide: 30, classique: 45, grande: 60 },

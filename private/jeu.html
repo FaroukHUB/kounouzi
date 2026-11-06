@@ -368,7 +368,7 @@ const toursTxt=()=>t('zakat.tours'+(ZAKAT.tours===1?'1':ZAKAT.tours===1.5?'15':Z
 const visitFee = c => Math.round(c.prix*ECO.visitRate/5)*5;   // 300 K → 45 K … 850 K → 130 K
 const famReward = d => d.rw*ECO.familyX;
 // Rotation des cases Défi : le Défi famille revient une fois sur deux, les Hassanāt arrivent en 2e.
-const CHAL_ROT = Array.isArray(RG.defis)&&RG.defis.length? RG.defis : ['family','hassanat','family','duel','family','question'];
+const CHAL_ROT = Array.isArray(RG.defis)&&RG.defis.length? RG.defis : ['family','duel','family','family'];
 const service = fam=>t('service.'+fam);
 const DUR_RG = RG.durees||{};
 const DURATIONS = [{id:'rapide',min:DUR_RG.rapide||30},{id:'classique',min:DUR_RG.classique||45},{id:'grande',min:DUR_RG.grande||60},{id:'libre',min:null}];
