@@ -165,6 +165,10 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .card.hidden-face .flip{transform:rotateY(180deg)}
 .card .face,.card .back{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:8% / 5.4%;background:center/100% 100% no-repeat;overflow:hidden}
 .card .back{transform:rotateY(180deg)}
+/* Tant que la carte montre son dos, le contenu de la face (texte, boutons) est masqué : certains navigateurs le laissent
+   apparaître en transparence pendant le retournement. Il réapparaît à mi-retournement. */
+.card .face>*{transition:visibility 0s linear .3s}
+.card.hidden-face .face>*{visibility:hidden;transition-delay:0s}
 /* Ouverture : la carte arrive en tournoyant depuis le plateau, se retourne dans un éclat de lumière, puis un reflet la traverse. */
 .card.enter{animation:cardIn .8s cubic-bezier(.2,1.25,.4,1) both}
 @keyframes cardIn{0%{transform:translateY(60vh) scale(.2) rotate(-32deg);opacity:0}45%{opacity:1}100%{transform:none}}
@@ -200,7 +204,10 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .langbtn{position:absolute;top:5%;right:7%;width:38px;height:38px;border-radius:50%;background:rgba(12,22,38,.75);color:var(--gold);font:700 16px var(--arabic);z-index:2;border:1.5px solid var(--gold)}
 .cacts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:min(520px,100%)}
 .cacts .btn{flex:1 1 140px}
-.check{display:flex;align-items:center;gap:8px;justify-content:center;color:var(--parchment);font-weight:800;font-size:14px;width:100%}
+.check{display:flex;align-items:center;gap:8px;justify-content:center;color:var(--parchment);font-weight:800;font-size:14px;width:100%;flex-wrap:wrap}
+.check label{display:flex;align-items:center;gap:8px}
+.aidebtn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--gold);background:rgba(12,22,38,.6);color:var(--gold);font-weight:900;font-size:16px;line-height:1;flex:0 0 auto}
+.aidetxt{flex-basis:100%;max-width:440px;margin:2px auto 0;padding:10px 12px;border-radius:14px;background:rgba(12,22,38,.72);border:1px solid rgba(239,190,76,.35);font-weight:700;font-size:13.5px;line-height:1.45;text-align:start}
 .check input{width:22px;height:22px;accent-color:var(--gold)}
 .pick{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .pick button{display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:999px;background:rgba(43,31,16,.08);border:2px solid rgba(43,31,16,.15);font-weight:900;color:var(--ink)}
@@ -1121,7 +1128,12 @@ async function askQuestion(p, {theme, title, intro}={}){
   clearInterval(timer); const tm=C.win.querySelector('#tm'); if(tm){ tm.classList.remove('alert'); tm.innerHTML='<span style="font-size:22px;letter-spacing:6px">• • •</span>'; } await wait(900);
   revealed=true; clearInterval(timer); draw(); readQ(); preVerdicts();
   C.acts.innerHTML='';
-  const chk=document.createElement('label'); chk.className='check'; chk.innerHTML='<input type="checkbox" id="mastery"> '+esc(t('q.maitrise'));
+  // Case « explication » + bouton « ? » qui explique ce qu'on attend (texte affiché et lu par la voix).
+  const chk=document.createElement('div'); chk.className='check';
+  const aide=t('q.maitriseAide',{g:ECO.qGood, g2:ECO.qGood*2, p:ECO.qPartial, p2:ECO.qPartial*2});
+  chk.innerHTML=`<label><input type="checkbox" id="mastery"> ${esc(t('q.maitrise'))}</label><button type="button" class="aidebtn" aria-expanded="false" aria-label="${esc(t('q.maitriseQ'))}">?</button><div class="aidetxt" hidden>${esc(aide)}</div>`;
+  { const ab=chk.querySelector('.aidebtn'), at=chk.querySelector('.aidetxt');
+    ab.onclick=()=>{ at.hidden=!at.hidden; ab.setAttribute('aria-expanded',String(!at.hidden)); if(!at.hidden) say(aide); }; }
   const wrap=document.createElement('div'); wrap.className='cacts';
   C.el.appendChild(chk); C.el.appendChild(wrap);
   C.acts.remove(); C.acts=wrap;
