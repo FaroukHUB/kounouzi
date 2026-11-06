@@ -32,8 +32,8 @@
       r: () => EN ? `Kounouzi costs ${P()}${PN()}. It is a one-time payment, with no subscription, for the whole family and on all your devices. Updates are included.`
                   : `Kounouzi coûte ${P()}${PN()}. C'est un paiement unique, sans abonnement, pour toute la famille et sur tous vos appareils. Les mises à jour sont incluses.`, a: ['offre', 'essai'] },
     { id: 'abonnement', k: ['abonnement', 'abonne', 'mensuel', 'chaque mois', 'par mois', 'renouvel', 'resilier', 'subscription', 'monthly', 'every month', 'mise a jour', 'mises a jour', 'updates', 'update'],
-      r: () => EN ? 'No subscription. You pay once for the whole family, on all your devices, and updates (new questions, new challenges) are included.'
-                  : "Aucun abonnement. Vous payez une seule fois pour toute la famille, sur tous vos appareils, et les mises à jour (nouvelles questions, nouveaux défis) sont incluses.", a: ['offre'] },
+      r: () => EN ? 'No subscription. You pay once for the whole family, on all your devices, and frequent updates are included: new questions, new challenges, special editions (Ramadan, Eid…) and bonuses.'
+                  : "Aucun abonnement. Vous payez une seule fois pour toute la famille, sur tous vos appareils, et les mises à jour fréquentes sont incluses : nouvelles questions, nouveaux défis, éditions spéciales (Ramadan, Aïd…) et bonus.", a: ['offre'] },
     { id: 'essai', k: ['essai', 'gratuit', 'gratuite', 'tester', 'essayer', 'demo', 'decouvrir', 'trial', 'free', 'try'],
       r: () => EN ? 'Yes! You can try a real 10-minute game for free, with no card needed. Your trial code arrives by e-mail and opens the game on your device.'
                   : "Oui ! Vous pouvez essayer une vraie partie de 10 minutes, gratuitement et sans carte bancaire. Votre code d'essai arrive par e-mail et ouvre le jeu sur votre appareil.", a: ['essai'] },
