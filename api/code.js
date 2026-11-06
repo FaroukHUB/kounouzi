@@ -1,6 +1,6 @@
 // GET : cet appareil a-t-il accès ? + prix et moyens de paiement (et compte la visite de la page).
 // POST {code} : active un code (cadeau ou achat) sur cet appareil.
-import { accesValide, appareil, codeValide, cookieAcces, formater, json, langueDe, lieu, moyens, noter, PRIX, resume, revoqueEnBase } from './_lib.js';
+import { accesValide, appareil, codeValide, cookieAcces, evenementsContenu, formater, jourA, json, langueDe, lieu, moyens, noter, PRIX, resume, revoqueEnBase } from './_lib.js';
 
 const MSG = {
   fr: { indispo: 'Service indisponible.', desactive: 'Ce code a été désactivé.', faux: 'Ce code ne marche pas. Vérifie les lettres et les chiffres.' },
@@ -16,7 +16,11 @@ export async function GET(request) {
   const u = new URL(request.url), dev = appareil(request), code = await accesValide(request);
   if (u.searchParams.has('v')) await noter('event', { kind: 'visite', code, device: dev.id, pays: lieu(request).pays, data: { source: source(u) } });
   const h = dev.cookie ? { 'set-cookie': dev.cookie } : {};
-  return json(200, { acces: !!code, prix: PRIX, moyens: moyens(), contact: process.env.KZ_CONTACT || null, pays: lieu(request).pays || null }, h);
+  // Bandeau du site pendant un événement (date du jour à Paris ; le jeu, lui, suit la date de l'appareil).
+  let evenement = null;
+  try { const j = jourA(), e = ((await evenementsContenu()).evenements || []).find(x => x.actif && x.debut <= j && j <= x.fin && (x.bandeau?.fr || x.bandeau?.en));
+    if (e) evenement = { id: e.id, nom: e.nom, bandeau: e.bandeau }; } catch {}
+  return json(200, { acces: !!code, prix: PRIX, moyens: moyens(), contact: process.env.KZ_CONTACT || null, pays: lieu(request).pays || null, evenement }, h);
 }
 export async function POST(request) {
   let code = '', corps = {};

@@ -235,6 +235,8 @@ section{position:relative;padding:96px 0}
 .offer{position:relative;border-radius:30px;padding:34px 30px;background:linear-gradient(170deg,#1f3558,#111f35);border:1.5px solid rgba(239,190,76,.55);box-shadow:0 0 0 7px rgba(239,190,76,.06),0 30px 70px rgba(0,0,0,.45);overflow:hidden}
 .offer::after{content:"";position:absolute;inset-inline-end:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(239,190,76,.28),transparent 70%)}
 .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#3a2606;font-weight:900;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 13px}
+.evban{position:relative;z-index:5;text-align:center;padding:10px 16px;font-weight:900;font-size:15px;color:#3a2606;background:linear-gradient(90deg,#f7d27a,#efbe4c,#f7d27a);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.evban[hidden]{display:none}
 .promo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px;font-weight:800;color:var(--parchment,#f7ecd4)}
 .promo[hidden]{display:none}
 .promo b{color:var(--gold);font-size:1.25em}
@@ -479,6 +481,7 @@ footer .logo img.brand{height:72px}
 </head>
 <body>
 <div class="sky" aria-hidden="true"></div>
+<div class="evban" id="evBan" role="status" hidden></div>
 
 <header class="top">
   <div class="wrap">
@@ -895,6 +898,8 @@ fetch('/api/code?'+vq).then(r=>r.json()).then(async d=>{ await i18nPret; langueS
   if(d.prix) $$('[data-prix]').forEach(e=>e.textContent=eur(d.prix.eur));
   // prix barré (prix normal après le lancement), affiché seulement s'il est plus élevé que le prix actuel
   $$('[data-prix-normal]').forEach(e=>{ const n=d.prix&&d.prix.normal; e.hidden=!(n>d.prix.eur); if(n) e.textContent=eur(n); });
+  // Bandeau d'événement (Ramadan, Aïd…) réglé dans le tableau de bord, pendant ses dates.
+  { const e=d.evenement, txt=e&&e.bandeau&&(e.bandeau.fr||e.bandeau.fr); if(txt){ const b=$('#evBan'); b.textContent=txt; b.hidden=false; } }
   // Prix de lancement mis en avant : bandeau sous le héros et pourcentage de remise, seulement si le prix normal est plus élevé.
   { const n=d.prix&&d.prix.normal, p=d.prix&&d.prix.eur, ok=n>p; $$('[data-promo]').forEach(e=>e.hidden=!ok);
     $$('[data-remise]').forEach(e=>{ e.hidden=!ok; if(ok) e.textContent='−'+Math.round((1-p/n)*100)+' %'; }); }

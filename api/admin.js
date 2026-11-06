@@ -1,9 +1,10 @@
 // Tableau de bord de Farouk : chiffres, codes, questions, réglages du jeu.
 // Protégé par le mot de passe KZ_ADMIN (variable Vercel).
-import { timingSafeEqual } from 'node:crypto';
+import { createHash, timingSafeEqual } from 'node:crypto';
 import { normaliserTranche, systemeDe, tranchesDuTheme } from '../public/ages.js';
 import { analyserImport, lots, STATUTS_TRAD } from '../public/trad.js';
-import { avis, contacts, moyens, codeCadeau, codePourPaiement, codeValide, db, dbActive, formater, json, oublierRevocation, PRIX } from './_lib.js';
+import { chevauchements, ID_EV, lignesQuestions, verifierDefi, verifierEvenement } from './_evenements.js';
+import { avis, contacts, evdb, viderCacheEvenements, moyens, codeCadeau, codePourPaiement, codeValide, db, dbActive, formater, json, oublierRevocation, PRIX } from './_lib.js';
 
 const THEMES = ['religion', 'maths', 'geography', 'sciences', 'logic', 'management', 'invocations'];
 const ROTATION = ['family', 'hassanat', 'duel', 'question'];
@@ -152,6 +153,64 @@ export async function POST(request) {
         if (!STATUTS_TRAD.includes(b.statut) || ['fr', 'ar'].includes(langue)) return json(400, { erreur: 'Statut de traduction invalide.' });
         const r = await db('trad_statut', { ids, langue, statut: b.statut }, { timeout: 15000 });
         return json(200, { ok: true, modifiees: r?.modifiees ?? 0 });
+      }
+      /* ---------- Événements ---------- */
+      case 'evenements': {
+        const c = base ? await evdb('contenu', {}, { timeout: 10000 }) : { evenements: [], tags: {}, defis: [] };
+        return json(200, { ...c, chevauchements: chevauchements(c.evenements) });
+      }
+      case 'ev_maj': {
+        const v = verifierEvenement(b.evenement || {}); if (v.erreur) return json(400, v);
+        await evdb('ev_maj', v.evenement); viderCacheEvenements(); return json(200, { ok: true, evenement: v.evenement });
+      }
+      case 'ev_suppr': {
+        const id = txt(b.id, 40); if (!ID_EV.test(id)) return json(400, { erreur: 'Événement inconnu.' });
+        await evdb('ev_suppr', { id }); viderCacheEvenements(); return json(200, { ok: true });
+      }
+      case 'ev_tag': { // étiquette d'événement sur des questions (ev vide = retirer)
+        const ids = (Array.isArray(b.ids) ? b.ids : []).map(x => txt(x, 60)).filter(Boolean).slice(0, 2000);
+        const ev = txt(b.ev, 40); if (ev && !ID_EV.test(ev)) return json(400, { erreur: 'Événement inconnu.' });
+        const r = await evdb('tag', { ids, ev: ev || null }, { timeout: 15000 }); viderCacheEvenements(); return json(200, r);
+      }
+      case 'media_ajout': { // image envoyée depuis le tableau de bord (base64), nommée par son empreinte
+        const mime = txt(b.mime, 20), data = String(b.data || '');
+        if (!['image/webp', 'image/png', 'image/jpeg'].includes(mime)) return json(400, { erreur: 'Image en WebP, PNG ou JPEG uniquement.' });
+        if (!/^[A-Za-z0-9+/=]+$/.test(data) || data.length * 3 / 4 > 2.5e6) return json(400, { erreur: 'Image trop lourde (2,5 Mo au plus). Réduis-la et réessaie.' });
+        const id = createHash('sha256').update(data).digest('hex').slice(0, 24);
+        await evdb('media_ajout', { id, mime, data }, { timeout: 20000 }); return json(200, { ok: true, id, url: `/api/media?id=${id}` });
+      }
+      case 'questions_import': { // simulation (rien n'est écrit) puis import, par lots de 200
+        const ev = txt(b.ev, 40); if (ev && !ID_EV.test(ev)) return json(400, { erreur: 'Événement inconnu.' });
+        const statut = b.statut === 'publiee' ? 'publiee' : 'brouillon';
+        const existants = new Map((base ? await db('questions_liste', {}, { timeout: 15000 }) : []).map(q => [q.id, q]));
+        const rapport = [], aEcrire = [];
+        for (const l of lignesQuestions(b.lignes, { ev, statut }).slice(0, 200)) {
+          if (!l.question.t) { rapport.push({ ligne: l.ligne, id: l.question.id, etat: 'erreur', message: `Thème inconnu : « ${l.theme_lu} ».` }); continue; }
+          let v = verifierQuestion(l.question), note = '';
+          // Religion sans source ou sans explication FR + AR : jamais publiée, gardée en brouillon pour relecture.
+          if (v.erreur && l.question.statut === 'publiee' && /religion/i.test(v.erreur)) { v = verifierQuestion({ ...l.question, statut: 'brouillon' }); note = 'Religion sans source ou sans explication FR + AR : importée en brouillon.'; }
+          if (v.erreur) { rapport.push({ ligne: l.ligne, id: l.question.id, etat: 'erreur', message: v.erreur }); continue; }
+          const ex = existants.get(v.question.id);
+          rapport.push({ ligne: l.ligne, id: v.question.id, etat: ex ? 'modifiee' : 'nouvelle', statut: v.question.statut, question: v.question.q.fr.slice(0, 120), ...(note ? { message: note } : {}) });
+          aEcrire.push(v.question);
+        }
+        if (!b.importer) return json(200, { simulation: true, rapport });
+        for (const q of aEcrire) await db('question_maj', q, { timeout: 8000 });
+        if (ev && aEcrire.length) await evdb('tag', { ids: aEcrire.map(q => q.id), ev }, { timeout: 15000 });
+        viderCacheEvenements(); return json(200, { ok: true, ecrites: aEcrire.length, rapport });
+      }
+      case 'defis_import': {
+        const ev = txt(b.ev, 40); if (!ID_EV.test(ev)) return json(400, { erreur: 'Choisis l’événement des défis.' });
+        const rapport = [], liste = [];
+        (Array.isArray(b.liste) ? b.liste : []).slice(0, 300).forEach((l, i) => { const v = verifierDefi(l || {}, { ev, index: i });
+          if (v.erreur) rapport.push({ ligne: i + 1, etat: 'erreur', message: v.erreur }); else { liste.push(v.defi); rapport.push({ ligne: i + 1, id: v.defi.id, etat: 'ok', titre: v.defi.defi.ti }); } });
+        if (!b.importer) return json(200, { simulation: true, rapport });
+        if (liste.length) await evdb('defis_import', { liste }, { timeout: 15000 });
+        viderCacheEvenements(); return json(200, { ok: true, ecrits: liste.length, rapport });
+      }
+      case 'defis_suppr': {
+        const ids = (Array.isArray(b.ids) ? b.ids : []).map(x => txt(x, 40)).filter(Boolean).slice(0, 300);
+        await evdb('defis_suppr', { ids }); viderCacheEvenements(); return json(200, { ok: true });
       }
       case 'question_suppr': await db('question_suppr', { id: txt(b.id, 60) }); return json(200, { ok: true });
       case 'reglages': {

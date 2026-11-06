@@ -2,7 +2,7 @@
 // Les questions et réglages viennent de la base (modifiables dans le tableau de bord) ; le fichier private/data.json sert de secours.
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
-import { accesValide, appareil, db, dbActive, langueDe, lieu, noter } from './_lib.js';
+import { accesValide, appareil, db, dbActive, evenementsContenu, langueDe, lieu, noter } from './_lib.js';
 import { questionsPourJeu } from '../public/trad.js';
 
 const DIR = path.join(process.cwd(), 'private');
@@ -22,7 +22,12 @@ async function donnees() {
         // Les défis viennent toujours du fichier déployé (ils ne se modifient pas dans le tableau de bord) : une nouvelle version
         // des défis arrive donc avec le déploiement, sans toucher à la base.
         const f = await fichier();
-        body = JSON.stringify(pourJeu({ questions: c.questions, defis: f.defis, hassanat: c.hassanat || f.hassanat, sourates: c.sourates || f.sourates, cells: c.cells || f.cells, reglages: c.reglages || null }, await annexes()));
+        // Événements : le jeu décide lui-même (date de l'appareil) si l'un d'eux est en cours. Les questions et défis d'un
+        // événement ne sortent que pendant ses dates ; en dehors, ils restent de côté.
+        const E = await evenementsContenu();
+        const evenements = (E.evenements || []).filter(e => e.actif).map(e => ({ id: e.id, nom: e.nom, debut: e.debut, fin: e.fin, accueil: e.accueil || {}, plateau: e.plateau ? `/api/media?id=${e.plateau}` : null }));
+        body = JSON.stringify(pourJeu({ questions: c.questions, defis: [...f.defis, ...(E.defis || [])], hassanat: c.hassanat || f.hassanat, sourates: c.sourates || f.sourates, cells: c.cells || f.cells, reglages: c.reglages || null,
+          evenements, evq: E.tags || {} }, await annexes()));
       }
     } catch (e) { console.error('contenu', e.message); }
   }

@@ -80,6 +80,18 @@ export async function db(action, data = {}, { timeout = 5000, fn = 'kz_api' } = 
 // Contacts (e-mails et consentement aux nouveautés) : fonction séparée kz_contacts, même jeton.
 export const contacts = (action, data, opts = {}) => db(action, data, { ...opts, fn: 'kz_contacts' });
 export const avis = (action, data, opts = {}) => db(action, data, { ...opts, fn: 'kz_avis' });
+export const evdb = (action, data, opts = {}) => db(action, data, { ...opts, fn: 'kz_ev' });
+// Événements (Ramadan, Aïd…) : liste, étiquettes des questions, défis propres. Mis en cache une minute par instance.
+let EV_CACHE = null;
+export async function evenementsContenu() {
+  if (EV_CACHE && Date.now() - EV_CACHE.t < 60000) return EV_CACHE.v;
+  let v = { evenements: [], tags: {}, defis: [] };
+  if (dbActive()) { try { v = await evdb('contenu', {}, { timeout: 5000 }) || v; } catch (e) { console.error('evenements', e.message); if (EV_CACHE) return EV_CACHE.v; } }
+  EV_CACHE = { t: Date.now(), v }; return v;
+}
+export const viderCacheEvenements = () => { EV_CACHE = null; };
+/** Date du jour (AAAA-MM-JJ) dans un fuseau donné. */
+export const jourA = (tz = 'Europe/Paris') => new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
 export async function noter(action, data) { try { if (dbActive()) await db(action, data, { timeout: 1500 }); } catch (e) { console.error('noter', action, e.message); } }
 
 // Appareil : un identifiant au hasard, gardé dans un cookie (aucune donnée personnelle).

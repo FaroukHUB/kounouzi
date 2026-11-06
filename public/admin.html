@@ -104,6 +104,7 @@ label.f small{font-weight:700;color:var(--faint)}
     <button role="tab" data-tab="avis">Avis <span class="tag gold" id="avNew" hidden></span></button>
     <button role="tab" data-tab="questions">Questions</button>
     <button role="tab" data-tab="traductions">Traductions</button>
+    <button role="tab" data-tab="evenements">Événements</button>
     <button role="tab" data-tab="reglages">Réglages du jeu</button>
     <button role="tab" data-tab="outils">Outils</button>
   </nav>
@@ -194,6 +195,7 @@ label.f small{font-weight:700;color:var(--faint)}
         <select id="qt"><option value="">Tous les thèmes</option></select>
         <select id="qa"><option value="">Tous les âges</option></select>
         <select id="qs"><option value="">Tous les statuts</option><option value="publiee">Publiées</option><option value="brouillon">Brouillons</option><option value="archivee">Archivées</option></select>
+        <select id="qev" aria-label="Événement"><option value="">Toutes (avec et sans événement)</option><option value="_aucun">Sans événement</option></select>
         <select id="qtr" aria-label="Traduction anglaise"><option value="">Anglais : tout</option><option value="a_faire">À traduire</option><option value="a_relire">À relire</option><option value="validee">Validée</option></select>
         <select id="qo"><option value="theme">Trier : thème</option><option value="taux">Les plus ratées</option><option value="n">Les plus posées</option><option value="recent">Modifiées récemment</option></select>
         <button class="btn g" id="qExport" type="button" title="Télécharge en JSON les questions affichées avec les filtres actuels">⬇ Exporter (JSON)</button>
@@ -204,6 +206,53 @@ label.f small{font-weight:700;color:var(--faint)}
       <div class="row small" id="trBar" style="gap:8px;margin:0 0 10px"></div>
       <div class="tscroll"><table><thead><tr><th>Question</th><th>Thème</th><th>Âge</th><th>Niv.</th><th>Posée</th><th>Réussite</th><th>Statut</th><th>EN</th></tr></thead><tbody id="qBody"></tbody></table></div>
       <div class="row" style="justify-content:center;margin-top:12px"><button class="btn g" id="qmore" hidden>Afficher plus</button></div>
+    </div>
+  </section>
+
+  <!-- ÉVÉNEMENTS -->
+  <section data-panel="evenements" hidden>
+    <div class="card"><h2 style="margin-top:0">Événements (Ramadan, Aïd…)</h2>
+      <p class="muted small" style="margin-top:0">Pendant ses dates (date du téléphone de chaque famille), un événement change le décor du plateau, ajoute une phrase d'accueil, et le jeu ne pose <b>que ses questions</b> et ses défis. Un joueur qui n'a aucune question de l'événement à son âge reçoit les questions habituelles. Avant et après les dates, tout redevient normal, et les questions de l'événement restent de côté.</p>
+      <div id="evWarn"></div>
+      <div class="tscroll"><table><thead><tr><th>Événement</th><th>Dates</th><th>État</th><th>Questions publiées</th><th>Défis</th><th></th></tr></thead><tbody id="evBody"></tbody></table></div>
+      <div class="row sec" style="justify-content:flex-start"><button class="btn" id="evNew" type="button">+ Nouvel événement</button></div></div>
+
+    <div class="card sec" id="evFormCard" hidden><h2 style="margin-top:0" id="evFormTitle">Nouvel événement</h2>
+      <form id="evForm" class="grid" style="gap:12px">
+        <div class="f2"><label class="f">Nom <small>affiché dans le jeu</small><input name="nom" maxlength="80" required placeholder="Ramadan 2027"></label>
+          <label class="f">Identifiant <small>lettres, chiffres, tirets ; ne change plus ensuite</small><input name="evid" maxlength="40" required pattern="[a-z0-9][a-z0-9-]{1,39}" placeholder="ramadan-2027"></label></div>
+        <div class="f2"><label class="f">Début <small>premier jour inclus</small><input type="date" name="debut" required></label><label class="f">Fin <small>dernier jour inclus</small><input type="date" name="fin" required></label></div>
+        <div class="f2"><label class="f">Phrase d'accueil de la voix (français) <small>dite en début de partie</small><textarea name="acc_fr" maxlength="300" rows="2" placeholder="Ramadan Moubarak à toute la famille !"></textarea></label>
+          <label class="f">Phrase d'accueil (anglais)<textarea name="acc_en" maxlength="300" rows="2" placeholder="Ramadan Mubarak to the whole family!"></textarea></label></div>
+        <div class="f2"><label class="f">Bandeau du site (français) <small>en haut de la page d'accueil, pendant les dates</small><input name="ban_fr" maxlength="200" placeholder="🌙 Ramadan Moubarak ! Des questions spéciales Ramadan tout le mois."></label>
+          <label class="f">Bandeau du site (anglais)<input name="ban_en" maxlength="200"></label></div>
+        <div class="grid" style="gap:8px"><span class="muted small" style="font-weight:900">Image du plateau <small>carrée, 1024 à 2048 pixels (WebP, PNG ou JPEG). Elle remplace le centre du plateau pendant l'événement.</small></span>
+          <div class="row" style="justify-content:flex-start;gap:12px"><img id="evImg" alt="" style="width:120px;height:120px;object-fit:cover;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:#0c1626" hidden>
+            <input type="file" id="evFile" accept="image/webp,image/png,image/jpeg"><button class="btn g sm" type="button" id="evImgRm" hidden>Retirer l'image</button></div><div class="msg" id="evImgMsg"></div></div>
+        <label class="row" style="gap:10px;font-weight:800;justify-content:flex-start;flex-wrap:nowrap"><input type="checkbox" name="actif" checked> Activé (décoché : l'événement ne se déclenche pas, même pendant ses dates)</label>
+        <div class="row" style="justify-content:space-between"><button class="btn r" type="button" id="evDel" hidden>Supprimer l'événement</button>
+          <span><button class="btn g" type="button" id="evCancel">Annuler</button> <button class="btn" id="evSave">Enregistrer</button></span></div>
+        <div class="msg" id="evMsg"></div>
+      </form></div>
+
+    <div class="grid two sec">
+      <div class="card"><h2 style="margin-top:0">Questions de l'événement</h2>
+        <p class="muted small" style="margin-top:0">Importe un fichier JSON au format de l'export de l'onglet Questions (<a href="#" id="evModeleQ">télécharger un modèle</a>). Les questions sont rattachées à l'événement choisi. Une question de religion sans source ou sans explication en français et en arabe est toujours importée en brouillon.</p>
+        <div class="grid" style="gap:10px">
+          <select id="eqEv"></select>
+          <select id="eqStatut"><option value="brouillon">Importer en brouillon (à relire avant publication)</option><option value="publiee">Importer publiées</option></select>
+          <input type="file" id="eqFile" accept=".json,application/json">
+          <div class="row"><button class="btn" id="eqSim" type="button" disabled>Simuler</button><button class="btn g" id="eqGo" type="button" disabled>Importer</button></div>
+          <div id="eqOut"></div>
+          <div id="eqCompte"></div></div></div>
+      <div class="card"><h2 style="margin-top:0">Défis de l'événement</h2>
+        <p class="muted small" style="margin-top:0">Pendant l'événement, ses défis en famille remplacent les défis habituels (sauf s'il n'en a aucun pour l'âge du joueur). Fichier JSON (<a href="#" id="evModeleD">télécharger un modèle</a>).</p>
+        <div class="grid" style="gap:10px">
+          <select id="edEv"></select>
+          <input type="file" id="edFile" accept=".json,application/json">
+          <div class="row"><button class="btn" id="edSim" type="button" disabled>Simuler</button><button class="btn g" id="edGo" type="button" disabled>Importer</button><button class="btn g" id="edExp" type="button">⬇ Exporter</button></div>
+          <div id="edOut"></div>
+          <div id="edListe"></div></div></div>
     </div>
   </section>
 
@@ -283,6 +332,7 @@ label.f small{font-weight:700;color:var(--faint)}
     <label class="f">Statut<select name="statut"><option value="publiee">Publiée (dans le jeu)</option><option value="brouillon">Brouillon (pas dans le jeu)</option><option value="archivee">Archivée</option></select></label>
     <label class="f">Fréquence <small id="poidsLbl"></small><input type="range" name="poids" min="0" max="5" step="0.5"></label>
   </div>
+  <label class="f">Événement <small>une question d'événement ne sort que pendant ses dates</small><select name="ev" id="fEv"><option value="">Aucun (question habituelle)</option></select></label>
   <label class="row" style="gap:10px;font-weight:800;justify-content:flex-start;flex-wrap:nowrap"><input type="checkbox" name="prio"> Prioritaire : posée avant les autres de sa série, tant que le joueur ne l'a pas vue</label>
   <div id="qdStats" class="muted small"></div>
   <div class="msg" id="qdMsg"></div>
@@ -320,7 +370,7 @@ $('#lf').onsubmit=e=>{ e.preventDefault(); PW=$('#pw').value; enter(); };
 $('#logout').onclick=()=>{ sessionStorage.removeItem('kzpw'); location.reload(); };
 const loaded={};
 function show(tab){ if(!$(`[data-panel="${tab}"]`)) tab='vue'; $$('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==tab); $$('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===tab)); history.replaceState(null,'','#'+tab);
-  if(!loaded[tab]){ loaded[tab]=true; ({vue:loadStats,codes:loadCodes,contacts:loadContacts,avis:loadAvis,questions:loadQuestions,reglages:loadReglages,outils:loadOutils,traductions:loadTrad})[tab]?.(); }
+  if(!loaded[tab]){ loaded[tab]=true; ({vue:loadStats,codes:loadCodes,contacts:loadContacts,avis:loadAvis,questions:loadQuestions,evenements:loadEvenements,reglages:loadReglages,outils:loadOutils,traductions:loadTrad})[tab]?.(); }
   else if(tab==='traductions') loadTrad(); }
 $$('nav.tabs button').forEach(b=>b.onclick=()=>show(b.dataset.tab));
 if(PW) enter();
@@ -447,8 +497,98 @@ $('#csv').onclick=()=>{ const L=codesFiltres(), H=['code','type','note','moyen',
 
 /* ---------- Questions ---------- */
 let Q=[], QLIM=100, QLOADING=null;
+/* ---------- Événements ---------- */
+let EVD={evenements:[],tags:{},defis:[],chevauchements:[]}, EVL=null, EVEDIT=null, EVIMG=null;
+async function chargerEv(force){ if(EVL&&!force) return EVL; EVL=api('evenements').then(d=>{ EVD={evenements:[],tags:{},defis:[],chevauchements:[],...d}; return EVD; }); return EVL; }
+function remplirEvSelect(sel,vide,filtre){ if(!sel) return; const v=sel.value;
+  const base= filtre? '<option value="">Toutes (avec et sans événement)</option><option value="_aucun">Sans événement</option>' : vide? `<option value="">${esc(vide)}</option>` : '';
+  sel.innerHTML=base+EVD.evenements.map(e=>`<option value="${esc(e.id)}">${filtre?'Événement : ':''}${esc(e.nom)}</option>`).join(''); if([...sel.options].some(o=>o.value===v)) sel.value=v; }
+const jourIci=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const dateFr=s=>s? new Date(s+'T12:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}) : '';
+function etatEv(e){ const j=jourIci(); if(!e.actif) return '<span class="tag">Désactivé</span>'; if(j<e.debut) return '<span class="tag warn">À venir</span>'; if(j>e.fin) return '<span class="tag">Terminé</span>'; return '<span class="tag good">En cours</span>'; }
+async function loadEvenements(){ $('#evBody').innerHTML='<tr><td colspan="6" class="empty">Chargement…</td></tr>';
+  try{ await Promise.all([chargerEv(true), ensureQuestions()]); }catch(e){ $('#evBody').innerHTML=`<tr><td colspan="6" class="msg err">${esc(e.message)}</td></tr>`; return; } renderEv(); }
+function questionsEv(id){ return Q.filter(q=>EVD.tags[q.id]===id); }
+function renderEv(){
+  $('#evWarn').innerHTML=(EVD.chevauchements||[]).map(([a,b])=>`<div class="msg err">« ${esc(a)} » et « ${esc(b)} » se chevauchent : pendant les jours communs, c'est celui qui commence le premier qui s'applique.</div>`).join('');
+  $('#evBody').innerHTML=EVD.evenements.length? EVD.evenements.map(e=>{ const qs=questionsEv(e.id), pub=qs.filter(q=>q.statut==='publiee').length, nd=EVD.defis.filter(d=>d.ev===e.id).length;
+    return `<tr><td><b>${esc(e.nom)}</b><br><small class="muted">${esc(e.id)}</small></td><td>${dateFr(e.debut)}<br><small class="muted">au ${dateFr(e.fin)}</small></td><td>${etatEv(e)}</td>
+      <td>${pub}${qs.length>pub?` <small class="muted">(+${qs.length-pub} en brouillon)</small>`:''}</td><td>${nd}</td><td><button class="btn g sm" data-evedit="${esc(e.id)}" type="button">Modifier</button></td></tr>`; }).join('')
+    : '<tr><td colspan="6" class="empty">Aucun événement pour le moment.</td></tr>';
+  $$('[data-evedit]').forEach(b=>b.onclick=()=>ouvrirEv(EVD.evenements.find(e=>e.id===b.dataset.evedit)));
+  ['#eqEv','#edEv'].forEach(x=>remplirEvSelect($(x),EVD.evenements.length?null:'Crée d\'abord un événement')); majImportBtns(); renderCompte(); renderDefisEv(); }
+function ouvrirEv(e){ EVEDIT=e||null; const F2=$('#evForm'); F2.reset(); $('#evFormCard').hidden=false; $('#evFormTitle').textContent=e?'Modifier : '+e.nom:'Nouvel événement';
+  F2.evid.value=e?.id||''; F2.evid.readOnly=!!e; F2.nom.value=e?.nom||''; F2.debut.value=e?.debut||''; F2.fin.value=e?.fin||'';
+  F2.acc_fr.value=e?.accueil?.fr||''; F2.acc_en.value=e?.accueil?.en||''; F2.ban_fr.value=e?.bandeau?.fr||''; F2.ban_en.value=e?.bandeau?.en||''; F2.actif.checked=e? e.actif!==false : true;
+  EVIMG=e?.plateau||null; majImgEv(); $('#evDel').hidden=!e; $('#evDel').dataset.sure=''; $('#evDel').textContent='Supprimer l\'événement'; $('#evMsg').textContent=''; $('#evMsg').className='msg';
+  $('#evFormCard').scrollIntoView({behavior:'smooth',block:'start'}); }
+function majImgEv(){ const i=$('#evImg'); i.hidden=!EVIMG; if(EVIMG) i.src='/api/media?id='+EVIMG; $('#evImgRm').hidden=!EVIMG; }
+$('#evNew').onclick=()=>ouvrirEv(null);
+$('#evCancel').onclick=()=>{ $('#evFormCard').hidden=true; };
+$('#evForm').nom.addEventListener('input',e=>{ const F2=$('#evForm'); if(EVEDIT||F2.evid.dataset.touche) return;
+  F2.evid.value=e.target.value.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40); });
+$('#evForm').evid.addEventListener('input',e=>{ e.target.dataset.touche='1'; });
+$('#evImgRm').onclick=()=>{ EVIMG=null; majImgEv(); };
+// Image : réduite dans le navigateur si besoin (2048 px au plus, WebP), puis envoyée ; elle est nommée par son empreinte.
+$('#evFile').onchange=async()=>{ const f=$('#evFile').files[0], m=$('#evImgMsg'); if(!f) return; m.className='msg'; m.textContent='Préparation de l\'image…';
+  try{ const bmp=await createImageBitmap(f); const k=Math.min(1,2048/Math.max(bmp.width,bmp.height)); const c=document.createElement('canvas'); c.width=Math.round(bmp.width*k); c.height=Math.round(bmp.height*k);
+    c.getContext('2d').drawImage(bmp,0,0,c.width,c.height); const blob=await new Promise(r=>c.toBlob(r,'image/webp',.88));
+    const data=await new Promise((r,j)=>{ const fr=new FileReader(); fr.onload=()=>r(String(fr.result).split(',')[1]); fr.onerror=j; fr.readAsDataURL(blob); });
+    m.textContent='Envoi…'; const d=await api('media_ajout',{mime:'image/webp',data}); EVIMG=d.id; majImgEv();
+    m.className='msg ok'; m.textContent=`Image prête (${c.width} × ${c.height} px${Math.abs(c.width-c.height)>4?' : attention, elle n\'est pas carrée, elle sera étirée sur le plateau':''}). Pense à enregistrer l'événement.`;
+  }catch(e){ m.className='msg err'; m.textContent=e.message||'Image illisible.'; } finally{ $('#evFile').value=''; } };
+$('#evForm').onsubmit=async e=>{ e.preventDefault(); const F2=$('#evForm'), m=$('#evMsg'); m.className='msg'; m.textContent='Enregistrement…';
+  const evenement={id:F2.evid.value.trim(), nom:F2.nom.value.trim(), debut:F2.debut.value, fin:F2.fin.value, accueil:{fr:F2.acc_fr.value,en:F2.acc_en.value}, bandeau:{fr:F2.ban_fr.value,en:F2.ban_en.value}, plateau:EVIMG, actif:F2.actif.checked};
+  if(!EVEDIT && EVD.evenements.some(x=>x.id===evenement.id)){ m.className='msg err'; m.textContent='Cet identifiant existe déjà.'; return; }
+  try{ await api('ev_maj',{evenement}); await chargerEv(true); m.className='msg ok'; m.textContent='Enregistré. Le jeu en tient compte en moins d\'une minute.'; EVEDIT=EVD.evenements.find(x=>x.id===evenement.id)||null; $('#evForm').evid.readOnly=true; $('#evFormTitle').textContent='Modifier : '+evenement.nom; $('#evDel').hidden=false; renderEv(); }
+  catch(err){ m.className='msg err'; m.textContent=err.message; } };
+$('#evDel').onclick=async()=>{ const b=$('#evDel'); if(!b.dataset.sure){ b.dataset.sure='1'; b.textContent='Confirmer : ses défis sont supprimés, ses questions redeviennent habituelles'; return; }
+  try{ await api('ev_suppr',{id:EVEDIT.id}); Object.keys(EVD.tags).forEach(k=>{ if(EVD.tags[k]===EVEDIT.id) delete EVD.tags[k]; }); await chargerEv(true); $('#evFormCard').hidden=true; renderEv(); }catch(err){ $('#evMsg').className='msg err'; $('#evMsg').textContent=err.message; } };
+// Compteur : questions publiées de l'événement par thème et tranche d'âge (il en faut assez pour chaque âge).
+function renderCompte(){ const id=$('#eqEv').value, out=$('#eqCompte'); if(!id){ out.innerHTML=''; return; }
+  const qs=questionsEv(id).filter(q=>q.statut==='publiee'); if(!qs.length){ out.innerHTML='<p class="muted small">Aucune question publiée pour cet événement.</p>'; return; }
+  const parT={}; qs.forEach(q=>{ const k=q.t==='maths'? 'niveau '+q.d : libelleTranche(q.a||''); (parT[q.t] ||= {})[k]=((parT[q.t]||{})[k]||0)+1; });
+  out.innerHTML=`<h3 style="margin:8px 0 4px;font-size:15px">Questions publiées : ${qs.length}</h3>`+Object.entries(parT).map(([t,o])=>`<div class="small"><b>${esc(THEMES[t]||t)}</b> : ${Object.entries(o).map(([k,n])=>`${esc(k)} <span class="tag ${n<15?'warn':'good'}">${n}</span>`).join(' ')}</div>`).join('')
+    +'<p class="muted small">Conseil : environ 15 à 20 questions par tranche d\'âge. En orange, moins de 15.</p>'; }
+$('#eqEv').onchange=()=>{ renderCompte(); majImportBtns(); };
+$('#edEv').onchange=()=>{ renderDefisEv(); majImportBtns(); };
+let EQF=null, EDF=null;
+function majImportBtns(){ $('#eqSim').disabled=!(EQF&&$('#eqEv').value); $('#eqGo').disabled=true; $('#edSim').disabled=!(EDF&&$('#edEv').value); $('#edGo').disabled=true; }
+const lireJson=async f=>{ const j=JSON.parse(await f.text()); return Array.isArray(j)? j : (j.questions||j.defis||j.liste||[]); };
+$('#eqFile').onchange=async()=>{ try{ EQF=await lireJson($('#eqFile').files[0]); $('#eqOut').innerHTML=`<p class="muted small">${EQF.length} lignes lues.</p>`; }catch{ EQF=null; $('#eqOut').innerHTML='<div class="msg err">Fichier JSON illisible.</div>'; } majImportBtns(); };
+$('#edFile').onchange=async()=>{ try{ EDF=await lireJson($('#edFile').files[0]); $('#edOut').innerHTML=`<p class="muted small">${EDF.length} défis lus.</p>`; }catch{ EDF=null; $('#edOut').innerHTML='<div class="msg err">Fichier JSON illisible.</div>'; } majImportBtns(); };
+const ETATS={nouvelle:'<span class="tag good">Nouvelle</span>',modifiee:'<span class="tag warn">Existe déjà : modifiée</span>',erreur:'<span class="tag bad">Erreur</span>',ok:'<span class="tag good">OK</span>'};
+function rapportHtml(R,{simulation,questions}){ const n=k=>R.filter(x=>x.etat===k).length;
+  const resume= questions? `${n('nouvelle')} nouvelles · ${n('modifiee')} déjà existantes (seront modifiées) · ${n('erreur')} en erreur` : `${n('ok')} défis valables · ${n('erreur')} en erreur`;
+  const alerte= questions&&n('modifiee')? '<div class="msg err">Attention : les questions « déjà existantes » seront modifiées et deviendront des questions de l\'événement (elles ne sortiront plus en dehors de ses dates).</div>' : '';
+  return `<div class="msg ${simulation?'':'ok'}">${simulation?'Simulation (rien n\'est écrit) : ':'Import terminé : '}${resume}</div>${alerte}<div class="tscroll" style="max-height:260px"><table><tbody>${R.map(x=>`<tr><td>${x.ligne}</td><td>${ETATS[x.etat]||''}</td><td><small>${esc(x.id||'')}</small></td><td>${esc(x.question||x.titre||'')}${x.message?`<br><small class="${x.etat==='erreur'?'msg err':'muted'}">${esc(x.message)}</small>`:''}</td></tr>`).join('')}</tbody></table></div>`; }
+async function importerQuestions(importer){ const out=$('#eqOut'), L=EQF||[], R=[]; out.innerHTML='<p class="muted small">Traitement…</p>';
+  try{ for(let i=0;i<L.length;i+=200){ const d=await api('questions_import',{ev:$('#eqEv').value, statut:$('#eqStatut').value, lignes:L.slice(i,i+200), importer});
+      R.push(...d.rapport.map(x=>({...x,ligne:x.ligne+i}))); out.innerHTML=`<p class="muted small">${Math.min(i+200,L.length)} / ${L.length}…</p>`; }
+    out.innerHTML=rapportHtml(R,{simulation:!importer,questions:true}); $('#eqGo').disabled=importer || !R.some(x=>x.etat!=='erreur');
+    if(importer){ QLOADING=null; Q=[]; await Promise.all([ensureQuestions(), chargerEv(true)]); renderEv(); }
+  }catch(e){ out.innerHTML=`<div class="msg err">${esc(e.message)}</div>`; } }
+$('#eqSim').onclick=()=>importerQuestions(false);
+$('#eqGo').onclick=()=>importerQuestions(true);
+async function importerDefis(importer){ const out=$('#edOut'); out.innerHTML='<p class="muted small">Traitement…</p>';
+  try{ const d=await api('defis_import',{ev:$('#edEv').value, liste:EDF||[], importer}); out.innerHTML=rapportHtml(d.rapport,{simulation:!importer});
+    $('#edGo').disabled=importer || !d.rapport.some(x=>x.etat==='ok'); if(importer){ await chargerEv(true); renderEv(); } }catch(e){ out.innerHTML=`<div class="msg err">${esc(e.message)}</div>`; } }
+$('#edSim').onclick=()=>importerDefis(false);
+$('#edGo').onclick=()=>importerDefis(true);
+function renderDefisEv(){ const id=$('#edEv').value, L=EVD.defis.filter(d=>d.ev===id); const out=$('#edListe');
+  out.innerHTML= !id? '' : L.length? `<h3 style="margin:8px 0 4px;font-size:15px">${L.length} défi${L.length>1?'s':''}</h3>`+L.map(d=>`<div class="row small" style="justify-content:space-between;gap:8px;border-top:1px solid rgba(255,255,255,.06);padding:6px 0"><span><b>${esc(d.ti)}</b> <span class="tag">dès ${d.min} ans</span><br><span class="muted">${esc(d.tx)}</span></span><button class="btn r sm" type="button" data-dsuppr="${esc(d.id)}">Supprimer</button></div>`).join('') : '<p class="muted small">Aucun défi pour cet événement : les défis habituels seront utilisés.</p>';
+  $$('[data-dsuppr]').forEach(b=>b.onclick=async()=>{ if(!b.dataset.sure){ b.dataset.sure='1'; b.textContent='Confirmer'; return; } await api('defis_suppr',{ids:[b.dataset.dsuppr]}); await chargerEv(true); renderDefisEv(); renderEv(); }); }
+const telecharger=(nom,obj)=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(obj,null,1)],{type:'application/json'})); a.download=nom; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),5000); };
+$('#edExp').onclick=()=>{ const id=$('#edEv').value; telecharger(`kounouzi-defis-${id||'evenement'}.json`,{format:'kounouzi-defis',evenement:id,defis:EVD.defis.filter(d=>d.ev===id).map(({ev,cat,boss,oh,on,...d})=>d)}); };
+$('#evModeleQ').onclick=e=>{ e.preventDefault(); telecharger('kounouzi-modele-questions-evenement.json',{format:'kounouzi-questions',note:'Une ligne par question. Thèmes : Religion, Invocations, Histoire des prophètes, Maths & logique, Sciences, Gestion. Tranches : 5-6, 7-8, 9-10, 11-12, 13+ (religion : 5-8, 8-10, 10-12, 12-14, 14+). Maths : pas de tranche, seulement un niveau de 1 à 5. Sans id, un identifiant est créé automatiquement.',
+  questions:[{theme:'Religion',tranche_age:'8-10',niveau:2,question:'Que fait-on pour rompre le jeûne au coucher du soleil ? A. On attend minuit B. On le rompt sans tarder C. On attend le lendemain',reponse:'B. On le rompt sans tarder',explication:'… (avec la référence du livre)',explication_ar:'…',source:'Livre, chapitre, page'},
+    {theme:'Maths & logique',niveau:2,question:'Il y a 30 dattes et 5 personnes. Combien de dattes chacun ?',reponse:'6 dattes'}]}); };
+$('#evModeleD').onclick=e=>{ e.preventDefault(); telecharger('kounouzi-modele-defis-evenement.json',{format:'kounouzi-defis',note:'ti = titre, tx = consigne, cl = catégorie affichée, min = âge minimum, rw = récompense (Kounouz, multipliée par le réglage du défi en famille), v = variantes selon l\'âge (facultatif).',
+  defis:[{ti:'Le plateau du ftour',tx:'Mime la préparation de la table du ftour, les autres devinent les plats.',cl:'Ramadan',min:5,rw:5,v:[{ageMin:5,ageMax:9,text:'3 plats à faire deviner'},{ageMin:9,text:'5 plats à faire deviner'}]}]}); };
+
 async function ensureQuestions(){ if(Q.length) return; if(!QLOADING) QLOADING=api('questions').then(d=>{ Q=d.questions||[]; }); await QLOADING; }
-async function loadQuestions(){ $('#qBody').innerHTML='<tr><td colspan="7" class="empty">Chargement des questions…</td></tr>';
+async function loadQuestions(){ chargerEv().then(()=>remplirEvSelect($('#qev'),null,true)).catch(()=>{});
+  $('#qBody').innerHTML='<tr><td colspan="7" class="empty">Chargement des questions…</td></tr>';
   $('#qt').innerHTML='<option value="">Tous les thèmes</option>'+Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
   majFiltreAge();
   try{ QLOADING=null; Q=[]; await ensureQuestions(); }catch(e){ $('#qBody').innerHTML=`<tr><td colspan="7" class="msg err">${esc(e.message)}</td></tr>`; return; } renderQ(); }
@@ -459,9 +599,10 @@ function majFiltreAge(){ const t=$('#qt').value, cur=$('#qa').value, groupes=opt
   $('#qa').innerHTML='<option value="">Tous les âges</option>'+groupes.map(g=>`<optgroup label="${esc(g.label)}">${g.options.map(o=>`<option value="${o.value}">${esc(o.label)}</option>`).join('')}</optgroup>`).join('');
   $('#qa').value= filtreAgeCompatible(t,cur)? cur : '';
   $('#qa').disabled= t==='maths'; $('#qa').title= t==='maths'? 'Les maths sont choisies selon le niveau, sans tranche d\'âge' : ''; }
-function qFiltres(){ const o=$('#qo').value, tr=$('#qtr').value;
+function qFiltres(){ const o=$('#qo').value, tr=$('#qtr').value, ev=$('#qev').value;
   let L=filtrerQuestions(Q,{theme:$('#qt').value, age:$('#qa').value, statut:$('#qs').value, recherche:$('#qq').value});
   if(tr) L=L.filter(q=>statutTrad(q,'en')===tr);
+  if(ev) L=L.filter(q=> ev==='_aucun'? !EVD.tags[q.id] : EVD.tags[q.id]===ev);
   if(o==='taux') L=L.filter(q=>q.n>0).sort((x,y)=>(x.taux??101)-(y.taux??101)||y.n-x.n);
   else if(o==='n') L=[...L].sort((x,y)=>y.n-x.n);
   else if(o==='recent') L=[...L].sort((x,y)=>String(y.updated_at).localeCompare(String(x.updated_at)));
@@ -499,7 +640,7 @@ async function direQuestion(q,j){ if(!q) return; await dire('q','fr',q.q?.fr,j);
 // Export JSON des questions filtrées, depuis la base en direct (relecture, correction hors ligne).
 $('#qExport').onclick=()=>{ const L=qFiltres(); if(!L.length) return;
   const out={format:'kounouzi-questions', exporte_le:new Date().toISOString(), filtres:{theme:$('#qt').value||'tous', age:$('#qa').value||'tous', statut:$('#qs').value||'tous'}, total:L.length,
-    questions:L.map(q=>({id:q.id, theme:THEMES[q.t]||q.t, tranche_age:q.a||null, niveau:q.d, statut:q.statut, question:q.q?.fr||'', reponse:q.r?.fr||'',
+    questions:L.map(q=>({id:q.id, ...(EVD.tags[q.id]?{evenement:EVD.tags[q.id]}:{}), theme:THEMES[q.t]||q.t, tranche_age:q.a||null, niveau:q.d, statut:q.statut, question:q.q?.fr||'', reponse:q.r?.fr||'',
       ...(q.e?.fr?{explication:q.e.fr}:{}), ...(q.s?{source:q.s}:{}), ...(q.q?.en?{question_en:q.q.en, reponse_en:q.r?.en||''}:{}), ...(q.n?{posee:q.n, reussite:q.taux}:{})}))};
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(out,null,1)],{type:'application/json'}));
   a.download=`kounouzi-questions-${$('#qt').value||'tout'}-${new Date().toISOString().slice(0,10)}.json`; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),5000); };
@@ -514,7 +655,7 @@ $('#qListen').onclick=async()=>{ const b=$('#qListen');
     await new Promise(z=>setTimeout(z,700)); }
   if(j===voixJeton){ LECTURE=false; b.textContent='🔊 Écouter la liste'; } };
 $('#qt').addEventListener('change',majFiltreAge);
-['#qq','#qt','#qa','#qs','#qo','#qtr'].forEach(s=>$(s).addEventListener(s==='#qq'?'input':'change',()=>{ QLIM=100; renderQ(); }));
+['#qq','#qt','#qa','#qs','#qo','#qtr','#qev'].forEach(s=>$(s).addEventListener(s==='#qq'?'input':'change',()=>{ QLIM=100; renderQ(); }));
 $('#qmore').onclick=()=>{ QLIM+=200; renderQ(); };
 const dlg=$('#qdlg'), F=$('#qform'); let EDIT=null;
 $('#fT').innerHTML=Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');
@@ -535,6 +676,7 @@ function openQ(q){ EDIT=q||null; const x=q||{t:$('#qt').value||'logic',d:1,q:{},
   F.t.value=x.t; fillBands(x.t,x.a); F.d.value=x.d||1;
   F.q_fr.value=x.q?.fr||''; F.q_ar.value=x.q?.ar||''; F.r_fr.value=x.r?.fr||''; F.r_ar.value=x.r?.ar||''; F.e_fr.value=x.e?.fr||''; F.e_ar.value=x.e?.ar||'';
   F.q_en.value=x.q?.en||''; F.r_en.value=x.r?.en||''; F.e_en.value=x.e?.en||''; F.trad_en.value=statutTrad(x,'en'); majArabe();
+  remplirEvSelect($('#fEv'),'Aucun (question habituelle)'); F.ev.value=(q&&EVD.tags[q.id])||'';
   F.s.value=x.s||''; F.statut.value=x.statut||'brouillon'; F.poids.value=x.poids??1; F.prio.checked=!!x.prio; F.poids.oninput();
   $('#qdStats').textContent=q&&q.n? `Posée ${q.n} fois · réussite ${q.taux} %` : q? 'Pas encore posée en partie.' : '';
   $('#qdDel').hidden=!q; $('#qdDel').dataset.sure=''; $('#qdDel').textContent='Supprimer'; $('#qdMsg').textContent=''; $('#qdMsg').className='msg';
@@ -555,7 +697,8 @@ F.onsubmit=async e=>{ e.preventDefault(); const b=$('#qdSave'); b.disabled=true;
   // Français modifié alors que l'anglais était validé : la traduction repasse « à relire ».
   if(EDIT && trEn==='validee' && (F.q_fr.value!==(EDIT.q?.fr||'') || F.r_fr.value!==(EDIT.r?.fr||'')) && F.trad_en.value===statutTrad(EDIT,'en')) trEn='a_relire';
   const question={id:EDIT?.id, t:F.t.value, a:F.t.value==='maths'?'':F.a.value, d:+F.d.value, q:{...(EDIT?.q||{}),fr:F.q_fr.value,ar:F.q_ar.value,en:F.q_en.value}, r:{...(EDIT?.r||{}),fr:F.r_fr.value,ar:F.r_ar.value,en:F.r_en.value}, e:{...(EDIT?.e||{}),fr:F.e_fr.value,ar:F.e_ar.value,en:F.e_en.value}, s:F.s.value, src:EDIT?.src, statut:F.statut.value, poids:+F.poids.value, prio:F.prio.checked, trad:{...(EDIT?.trad||{}),en:trEn}};
-  try{ const d=await api('question_maj',{question}); const clean=o=>Object.fromEntries(Object.entries(o).filter(([,v])=>v&&String(v).trim()));
+  try{ const d=await api('question_maj',{question}); const evAvant=(EDIT&&EVD.tags[EDIT.id])||'', evApres=F.ev.value;
+    if(evAvant!==evApres){ await api('ev_tag',{ids:[d.id],ev:evApres}); if(evApres) EVD.tags[d.id]=evApres; else delete EVD.tags[d.id]; } const clean=o=>Object.fromEntries(Object.entries(o).filter(([,v])=>v&&String(v).trim()));
     const nq={...(EDIT||{n:0,taux:null}),...question,id:d.id,q:clean(question.q),r:clean(question.r),e:clean(question.e),a:question.t==='maths'?null:question.a,updated_at:new Date().toISOString()};
     if(EDIT) Object.assign(EDIT,nq); else Q.unshift(nq);
     dlg.close(); toast('Question enregistrée'); renderQ(); }

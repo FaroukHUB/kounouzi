@@ -23,12 +23,13 @@ function moteur(data, { seen = {}, used = [] } = {}) {
     const m = html.match(new RegExp(`((?:async )?function ${nom}\\([\\s\\S]*?\\n})\\n`)); return m[1]; };
   const ligne = (debut) => { const l = html.split('\n').find(x => x.startsWith(debut)); assert.ok(l, debut); return l; };
   const store = { _s: { kounouzi_v2_seen: seen }, get(k) { return this._s[k]; }, set(k, v) { this._s[k] = v; } };
-  const ctx = { DATA: data, S: { usedQ: used }, RG: {}, THEMES: ['religion', 'maths', 'geography', 'sciences', 'logic', 'management'],
+  const ctx = { DATA: data, EV: data.EV || null, S: { usedQ: used }, RG: {}, THEMES: ['religion', 'maths', 'geography', 'sciences', 'logic', 'management'],
     store, tranchesPourJoueur: A.tranchesPourJoueur, questionsEligibles: A.questionsEligibles, Math, Set, console,
     toasts: [], THEME_INFO: {}, LANG: 'fr', t: creerT(DICOS, () => 'fr'), openCard() { throw new Error('ne doit pas ouvrir de carte sans question'); } };
   ctx.toast = (m) => ctx.toasts.push(m);
   vm.createContext(ctx);
   vm.runInContext([fn('startLevel'), ligne('const bandsFor'), ligne("const SEEN_KEY"), ligne('const SEEN ='), ligne('const seenOf'),
+    ligne('const EVQ'), ligne('const Q_NORMALES'), ligne('const Q_EV'), ligne('const aDesQuestionsEv'),
     fn('poolFor'), fn('selectQuestion'), fn('nextTheme'), fn('levelRange'), fn('adapt'), fn('askQuestion'),
     'this.api={startLevel,bandsFor,poolFor,selectQuestion,nextTheme,levelRange,adapt,askQuestion,toasts:this.toasts}'].join('\n'), ctx);
   return ctx.api;
@@ -281,4 +282,14 @@ test('variété : une même partie ne repose pas deux fois le même modèle de q
   const api = moteur(DATA); const p = enfant(11); const mod = (q) => q.q.fr.replace(/\d+(?:[.,]\d+)?/g, '#').replace(/\s+/g, ' ').trim().slice(0, 70);
   const vus = []; for (let k = 0; k < 12; k++) { const q = api.selectQuestion(p, 'maths'); assert.ok(q); vus.push(mod(q)); }
   assert.equal(new Set(vus).size, vus.length, 'modèle répété : ' + vus.join(' | '));
+});
+
+test('événement en cours : seules ses questions sortent ; joueur sans question d’événement à son âge → questions habituelles ; hors événement, jamais', () => {
+  const evq = {}; const rel = DATA.questions.filter(q => q.t === 'religion' && (q.a === '8-10' || q.a === '10-12')).slice(0, 12); rel.forEach(q => { evq[q.id] = 'ramadan'; });
+  const data = { ...DATA, evq, EV: { id: 'ramadan', nom: 'Ramadan' } };
+  const api = moteur(data), p8 = enfant(9);
+  for (let k = 0; k < 20; k++) { const th = api.nextTheme(p8); const q = api.selectQuestion(p8, th); assert.ok(q && evq[q.id] === 'ramadan', 'question hors événement'); }
+  const p5 = enfant(5); const q5 = api.selectQuestion(p5, api.nextTheme(p5)); assert.ok(q5 && !evq[q5.id]);
+  const hors = moteur({ ...DATA, evq });
+  for (let k = 0; k < 60; k++) { const q = hors.selectQuestion(p8, 'religion'); if (q) assert.ok(!evq[q.id], 'question d’événement hors de ses dates'); }
 });
