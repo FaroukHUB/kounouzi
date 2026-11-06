@@ -33,12 +33,13 @@ const TXT = {
 
 // Variante pour une partie d'essai demandée sur le site.
 const ESSAI = {
-  fr: { sujet: 'Ta partie d\'essai Kounouzi', titre: 'Ta partie d\'essai est prête !', intro: 'Voici ton code d\'essai : il ouvre une partie de 30 minutes, à jouer en famille sur un seul écran. Réunissez-vous autour de la table !', bouton: 'Lancer ma partie d\'essai', etapes: 'Le bouton ci-dessus ouvre directement ta partie d\'essai, sans rien retaper.', garde: 'Ta partie te plaît ? L\'accès complet est sur kounouzi.com : paiement unique, sans abonnement, mises à jour incluses.' },
-  en: { sujet: 'Your Kounouzi trial game', titre: 'Your trial game is ready!', intro: 'Here is your trial code: it opens a 30-minute game, to play as a family on a single screen. Gather around the table!', bouton: 'Start my trial game', etapes: 'The button above opens your trial game directly, without typing anything.', garde: 'Enjoying it? Full access is on kounouzi.com: one-time payment, no subscription, updates included.' },
+  fr: { sujet: 'Ta partie d\'essai Kounouzi', titre: 'Ta partie d\'essai est prête !', intro: 'Voici ton code d\'essai : il ouvre une partie de {min} minutes, à jouer en famille sur un seul écran. Réunissez-vous autour de la table !', bouton: 'Lancer ma partie d\'essai', etapes: 'Le bouton ci-dessus ouvre directement ta partie d\'essai, sans rien retaper.', garde: 'Ta partie te plaît ? L\'accès complet est sur kounouzi.com : paiement unique, sans abonnement, mises à jour incluses.' },
+  en: { sujet: 'Your Kounouzi trial game', titre: 'Your trial game is ready!', intro: 'Here is your trial code: it opens a {min}-minute game, to play as a family on a single screen. Gather around the table!', bouton: 'Start my trial game', etapes: 'The button above opens your trial game directly, without typing anything.', garde: 'Enjoying it? Full access is on kounouzi.com: one-time payment, no subscription, updates included.' },
 };
 
-export function messageCode({ code, lang, base, essai = false }) {
-  const t0 = TXT[lang === 'en' ? 'en' : 'fr'], t = essai ? { ...t0, ...ESSAI[lang === 'en' ? 'en' : 'fr'] } : t0, lien = t.lien(base, code);
+export function messageCode({ code, lang, base, essai = false, minutes = 10 }) {
+  const t0 = TXT[lang === 'en' ? 'en' : 'fr'], t1 = essai ? { ...t0, ...ESSAI[lang === 'en' ? 'en' : 'fr'] } : t0, lien = t1.lien(base, code);
+  const t = { ...t1, intro: String(t1.intro).replace('{min}', minutes) };
   const html = `<!doctype html><html lang="${lang === 'en' ? 'en' : 'fr'}"><body style="margin:0;background:#0c1626;font-family:Arial,Helvetica,sans-serif;color:#f7ecd4">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0c1626;padding:28px 12px"><tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#14243b;border:1px solid #6b5420;border-radius:18px;padding:28px 24px">
@@ -57,10 +58,10 @@ ${essai ? '' : `<tr><td style="font-size:12px;line-height:1.5;color:#8796ab;padd
 }
 
 /** Envoie le code. Renvoie true si Brevo a accepté l'e-mail. Ne lève jamais d'erreur (le paiement ne doit pas en dépendre). */
-export async function envoyerCode({ email, code, lang, base, essai = false }) {
+export async function envoyerCode({ email, code, lang, base, essai = false, minutes }) {
   if (!courrielActif() || !email || !code) return false;
   try {
-    const m = messageCode({ code, lang, base, essai });
+    const m = messageCode({ code, lang, base, essai, minutes });
     const r = await fetch('https://api.brevo.com/v3/smtp/email', {
       method: 'POST',
       headers: { 'api-key': process.env.BREVO_API_KEY, 'content-type': 'application/json', accept: 'application/json' },

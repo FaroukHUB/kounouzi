@@ -508,7 +508,7 @@ footer .logo img.brand{height:72px}
         <p class="enwip">🇬🇧 English version in progress: the game screens, cards and challenges are in English. The questions are being translated: until then, untranslated questions are shown in French.</p>
         <div class="cta">
           <a class="btn btn-gold btn-lg" href="#offre" data-cta data-buy data-zone="hero">Get Kounouzi — <span data-prix>€6.99</span></a>
-          <a class="btn btn-ghost btn-lg" href="#essai-gratuit">▶ Free 30-min trial</a>
+          <a class="btn btn-ghost btn-lg" href="#essai-gratuit"><span>▶ Free <span data-essai>30</span>-min trial</span></a>
         </div>
         <p class="promo" data-promo hidden><span class="pbadge">🚀 Launch price</span> <b data-prix>€6.99</b> instead of <s data-prix-normal>€19.90</s> <span class="rem" data-remise></span></p>
         <p class="hnote">One-time payment, no subscription · frequent updates included · code delivered instantly</p>
@@ -721,9 +721,9 @@ footer .logo img.brand{height:72px}
 <section id="essai-gratuit" style="padding-top:20px">
   <div class="wrap">
     <div class="essai rv">
-      <div><span class="kick">Free trial</span><h2 style="margin-top:12px">Try a real 30-minute game before you buy</h2>
+      <div><span class="kick">Free trial</span><h2 style="margin-top:12px">Try a real <span data-essai>30</span>-minute game before you buy</h2>
         <p class="lead" style="margin-top:12px;font-size:17px">The real game, as a family, on one screen: 3D board, voice, questions and challenges. Gather round, start the game, and see for yourselves.</p>
-        <div class="chips"><span class="pill"><i>✓</i>No card needed</span><span class="pill"><i>✓</i>One 30-min game</span><span class="pill"><i>✓</i>Code sent by e-mail</span></div></div>
+        <div class="chips"><span class="pill"><i>✓</i>No card needed</span><span class="pill"><i>✓</i><span>One <span data-essai>30</span>-min game</span></span><span class="pill"><i>✓</i>Code sent by e-mail</span></div></div>
       <div>
         <form id="essaiForm" novalidate>
           <label for="essaiMail" style="font-weight:900">Your e-mail address</label>
@@ -913,6 +913,8 @@ fetch('/api/code?'+vq).then(r=>r.json()).then(d=>{
   if(d.prix) $$('[data-prix]').forEach(e=>e.textContent=eur(d.prix.eur));
   // crossed-out regular price (after the launch), shown only when higher than the current price
   $$('[data-prix-normal]').forEach(e=>{ const n=d.prix&&d.prix.normal; e.hidden=!(n>d.prix.eur); if(n) e.textContent=eur(n); });
+  // Trial length set in the dashboard.
+  if(d.essaiMinutes) $$('[data-essai]').forEach(e=>e.textContent=d.essaiMinutes);
   // Bandeau d'événement (Ramadan, Aïd…) réglé dans le tableau de bord, pendant ses dates.
   { const e=d.evenement, txt=e&&e.bandeau&&(e.bandeau.en||e.bandeau.fr); if(txt){ const b=$('#evBan'); b.textContent=txt; b.hidden=false; } }
   // Prix de lancement mis en avant : bandeau sous le héros et pourcentage de remise, seulement si le prix normal est plus élevé.

@@ -538,7 +538,7 @@ footer .logo img.brand{height:72px}
   <span class="kick">Nos sources</span>
   <h1 style="margin-top:12px">Le Coran, la Sunnah… <em>et sept livres, rien d'autre</em></h1>
   <p class="lead" style="margin-top:14px">Toutes les questions de religion de Kounouzi suivent le Coran et la Sunnah, et sont tirées uniquement des sept livres présentés ici. Nous n'avons rien ajouté : la source est indiquée sous chaque réponse, et tout est relu avant publication.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit">▶ Essai gratuit de 30 min</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit"><span>▶ Essai gratuit de <span data-essai>30</span> min</span></a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><div class="src-sec"><div class="src-pills"><div class="src-pill" style="--g:#3ddc84"><div class="ic">📖</div><h3>Le Coran et la Sunnah</h3><p>Toutes les questions de religion suivent le Coran et la Sunnah.</p></div><div class="src-pill" style="--g:#efbe4c"><div class="ic">📚</div><h3>Sept livres, rien d&#x27;autre</h3><p>Les questions de religion et d&#x27;invocations sont tirées uniquement des sept livres ci-dessous. Nous n&#x27;avons rien ajouté.</p></div><div class="src-pill" style="--g:#36d6ff"><div class="ic">✅</div><h3>Relu avant publication</h3><p>Chaque question est relue. Sa source s&#x27;affiche sous la réponse, avec une explication en français et en arabe.</p></div></div><div class="src-stats"><div><b>589</b><span>questions de religion et d&#x27;invocations</span></div><div><b>7</b><span>livres de référence</span></div><div><b>5</b><span>tranches d&#x27;âge</span></div></div>
 <h2>Les sept livres de référence</h2><p class="lead">Chaque question de religion ou d&#x27;invocations du jeu vient de l&#x27;un de ces livres.</p><div class="books"><article class="book"><div class="btop"><span class="num"></span><span class="em" aria-hidden="true">🕋</span></div>
@@ -611,6 +611,7 @@ footer .logo img.brand{height:72px}
 /* Lien « Gérer les cookies » : on oublie le choix et le bandeau revient. */
 document.querySelectorAll('[data-cookies]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); try{ localStorage.removeItem('kz_consent'); }catch(x){} location.reload(); }); });</script>
 <script src="/aide.js?v=1" defer></script>
+<script>fetch('/api/code').then(function(r){return r.json()}).then(function(d){if(d.essaiMinutes)document.querySelectorAll('[data-essai]').forEach(function(e){e.textContent=d.essaiMinutes})}).catch(function(){});</script>
 <script src="/aide.js?v=1" defer></script>
 </body>
 </html>

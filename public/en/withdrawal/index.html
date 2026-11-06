@@ -560,6 +560,7 @@ footer .logo img.brand{height:72px}
 /* Lien « Gérer les cookies » : on oublie le choix et le bandeau revient. */
 document.querySelectorAll('[data-cookies]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); try{ localStorage.removeItem('kz_consent'); }catch(x){} location.reload(); }); });</script>
 <script src="/aide.js?v=1" defer></script>
+<script>fetch('/api/code').then(function(r){return r.json()}).then(function(d){if(d.essaiMinutes)document.querySelectorAll('[data-essai]').forEach(function(e){e.textContent=d.essaiMinutes})}).catch(function(){});</script>
 <script src="/aide.js?v=1" defer></script>
 <script>(function(){ var f=document.getElementById('rForm'), m=document.getElementById('rMsg');
 document.getElementById('rEtape').onclick=function(){ if(f.nom.value.trim().length<2||!/^\S+@\S+\.\S+$/.test(f.email.value.trim())){ m.className='rmsg err'; m.textContent='Please give your name and the e-mail address used for the purchase.'; return; } m.textContent=''; document.getElementById('rConf').hidden=false; document.getElementById('rBtn').focus(); };

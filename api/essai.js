@@ -2,7 +2,7 @@
 // 10 minutes par défaut) est créé, ouvert sur cet appareil et envoyé par e-mail.
 // Une seule demande par adresse e-mail et par appareil. Un appareil qui a déjà un accès complet n'en a pas besoin.
 import { ajouterListe, envoyerCode } from './_courriel.js';
-import { accesValide, codeCadeau, contacts, cookieAcces, db, dbActive, json, langueDe, lireCookie, origine, signer, verifier } from './_lib.js';
+import { accesValide, codeCadeau, contacts, cookieAcces, db, dbActive, evenementsContenu, json, langueDe, lireCookie, origine, signer, verifier } from './_lib.js';
 
 const EMAIL = /^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]{2,}$/;
 
@@ -22,7 +22,8 @@ export async function POST(request) {
       return json(409, { ok: false, erreur: tx('Une partie d’essai a déjà été envoyée à cette adresse. Pensez à regarder vos e-mails (et les indésirables).', 'A trial game has already been sent to this address. Check your e-mails (and your spam folder).') });
     const code = codeCadeau();
     await db('cadeaux', { codes: [code], note, max_parties: 1 }, { timeout: 8000 });
-    const envoye = await envoyerCode({ email, code, lang: en ? 'en' : 'fr', base: origine(request), essai: true });
+    let minutes = 10; try { minutes = Number((await evenementsContenu()).essaiMinutes) || 10; } catch {}
+    const envoye = await envoyerCode({ email, code, lang: en ? 'en' : 'fr', base: origine(request), essai: true, minutes });
     await enregistrerContact({ email, code, lang: en ? 'en' : 'fr', news: !!b.news });
     const headers = new Headers({ 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
     headers.append('set-cookie', cookieAcces(code));

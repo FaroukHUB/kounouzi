@@ -105,11 +105,11 @@ EXTRA = """
 T = {
  'fr': dict(home='/', other='/en/', home_l='Accueil', guides_l='Guides', nav=[('/#valeurs', 'Nos valeurs'), ('/#benefices', 'Bénéfices'), ('/#essayer', 'Essayer'), ('/#offre', 'Offre'), ('/#guides', 'Guides')],
    code="J'ai un code", cta='Obtenir mon accès', flag='gb', flag_l='English version', cta_box="Prêt à jouer en famille ? Prix de lancement : 6,99 €. Paiement unique, sans abonnement, mises à jour incluses.",
-   cta_btn='Obtenir mon accès', try_btn='▶ Essai gratuit de 30 min', faq_t='Questions fréquentes', more_t='À lire aussi', foot='Jouez ensemble, apprenez autrement, transmettez l\'essentiel', foot_g='Guides',
+   cta_btn='Obtenir mon accès', try_btn='<span>▶ Essai gratuit de <span data-essai>30</span> min</span>', faq_t='Questions fréquentes', more_t='À lire aussi', foot='Jouez ensemble, apprenez autrement, transmettez l\'essentiel', foot_g='Guides',
    loc='fr_FR', aria='Kounouzi, accueil'),
  'en': dict(home='/en/', other='/', home_l='Home', guides_l='Guides', nav=[('/en/#valeurs', 'Our values'), ('/en/#benefices', 'Benefits'), ('/en/#essayer', 'Try it'), ('/en/#offre', 'Offer'), ('/en/#guides', 'Guides')],
    code='I have a code', cta='Get access', flag='fr', flag_l='Version française', cta_box="Ready to play as a family? Launch price: €6.99. One-time payment, no subscription, updates included.",
-   cta_btn='Get my access', try_btn='▶ Free 30-min trial', faq_t='Frequently asked questions', more_t='Read also', foot='Play together, learn differently, pass on what matters', foot_g='Guides',
+   cta_btn='Get my access', try_btn='<span>▶ Free <span data-essai>30</span>-min trial</span>', faq_t='Frequently asked questions', more_t='Read also', foot='Play together, learn differently, pass on what matters', foot_g='Guides',
    loc='en_GB', aria='Kounouzi, home'),
 }
 
@@ -216,6 +216,7 @@ def page(g, lang):
 </div></footer>
 <script>document.querySelectorAll('[data-lang]').forEach(function(a){{a.addEventListener('click',function(){{try{{localStorage.setItem('kounouzi_lang',a.dataset.lang)}}catch(e){{}} document.cookie='kz_lang='+a.dataset.lang+'; path=/; max-age=31536000; samesite=lax';}});}});</script>
 {BAN}
+<script>fetch('/api/code').then(function(r){{return r.json()}}).then(function(d){{if(d.essaiMinutes)document.querySelectorAll('[data-essai]').forEach(function(e){{e.textContent=d.essaiMinutes}})}}).catch(function(){{}});</script>
 <script src="/aide.js?v=1" defer></script>
 </body>
 </html>

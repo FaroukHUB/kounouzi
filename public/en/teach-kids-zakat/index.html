@@ -504,7 +504,7 @@ footer .logo img.brand{height:72px}
   <span class="kick">Money skills</span>
   <h1 style="margin-top:12px">Teach kids Zakat and the value of money <em>through play</em></h1>
   <p class="lead" style="margin-top:14px">Saving, buying wisely, giving, paying Zakat: in Kounouzi, children handle pretend wealth and understand for real.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/en/#offre">Get my access</a><a class="btn btn-ghost btn-lg" href="/en/#essai-gratuit">▶ Free 30-min trial</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/en/#offre">Get my access</a><a class="btn btn-ghost btn-lg" href="/en/#essai-gratuit"><span>▶ Free <span data-essai>30</span>-min trial</span></a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><article class="prose">
 <h2>Talking about money with children, without lecturing</h2><p>Explaining saving or Zakat with words is abstract. Living it in a game is concrete: you hesitate before buying a property, keep a reserve, choose to give or to keep. Children see the consequences of their choices, and parents just have to talk about it.</p><h2>How money works in the game</h2><ul><li><b>Kounouz</b>: the game currency, earned by answering questions and completing challenges.</li><li><b>Properties</b>: maktaba, hotels in Makkah and Madinah, restaurants, Umrah agencies, a museum, a park. Other players who land there pay for the service.</li><li><b>The Giving square</b>: you choose to give to the Masākīn Fund or to another player, and earn Hassanāt points.</li><li><b>Zakat al-Māl</b>: a player who keeps more than 1,000 Kounouz for 6 rounds in a row (the game's ḥawl) pays 2.5% to the Masākīn Fund. A simplified version to start the conversation.</li><li><b>Never any riba</b>: no lending with interest, no speculation.</li></ul><h2>The richest player does not always win</h2><p>The final score adds up Kounouz, properties and Hassanāt × 5. A child who gave a lot can finish ahead of one who kept everything. That is often the question that starts the conversation: "He had less money, but he won. How is that possible?"</p><h2>Money skills questions</h2><p>250 money skills questions suited to each age: why keep a reserve, compare two prices, avoid waste, why buying on credit can cause trouble.</p>
@@ -547,6 +547,7 @@ footer .logo img.brand{height:72px}
 /* Lien « Gérer les cookies » : on oublie le choix et le bandeau revient. */
 document.querySelectorAll('[data-cookies]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); try{ localStorage.removeItem('kz_consent'); }catch(x){} location.reload(); }); });</script>
 <script src="/aide.js?v=1" defer></script>
+<script>fetch('/api/code').then(function(r){return r.json()}).then(function(d){if(d.essaiMinutes)document.querySelectorAll('[data-essai]').forEach(function(e){e.textContent=d.essaiMinutes})}).catch(function(){});</script>
 <script src="/aide.js?v=1" defer></script>
 </body>
 </html>

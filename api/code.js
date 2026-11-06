@@ -17,10 +17,10 @@ export async function GET(request) {
   if (u.searchParams.has('v')) await noter('event', { kind: 'visite', code, device: dev.id, pays: lieu(request).pays, data: { source: source(u) } });
   const h = dev.cookie ? { 'set-cookie': dev.cookie } : {};
   // Bandeau du site pendant un événement (date du jour à Paris ; le jeu, lui, suit la date de l'appareil).
-  let evenement = null;
-  try { const j = jourA(), e = ((await evenementsContenu()).evenements || []).find(x => x.actif && x.debut <= j && j <= x.fin && (x.bandeau?.fr || x.bandeau?.en));
+  let evenement = null, essaiMinutes = null;
+  try { const E = await evenementsContenu(); essaiMinutes = Number(E.essaiMinutes) || null; const j = jourA(), e = (E.evenements || []).find(x => x.actif && x.debut <= j && j <= x.fin && (x.bandeau?.fr || x.bandeau?.en));
     if (e) evenement = { id: e.id, nom: e.nom, bandeau: e.bandeau }; } catch {}
-  return json(200, { acces: !!code, prix: PRIX, moyens: moyens(), contact: process.env.KZ_CONTACT || null, pays: lieu(request).pays || null, evenement }, h);
+  return json(200, { acces: !!code, prix: PRIX, moyens: moyens(), contact: process.env.KZ_CONTACT || null, pays: lieu(request).pays || null, evenement, essaiMinutes }, h);
 }
 export async function POST(request) {
   let code = '', corps = {};

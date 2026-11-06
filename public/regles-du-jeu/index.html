@@ -504,7 +504,7 @@ footer .logo img.brand{height:72px}
   <span class="kick">Règles du jeu</span>
   <h1 style="margin-top:12px">Comment jouer à Kounouzi : <em>les règles en 5 minutes</em></h1>
   <p class="lead" style="margin-top:14px">Pas de livret de 20 pages : le jeu explique tout à voix haute. Voici l'essentiel à savoir avant votre première partie.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit">▶ Essai gratuit de 30 min</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit"><span>▶ Essai gratuit de <span data-essai>30</span> min</span></a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><article class="prose">
 <h2>Préparer la partie</h2><p>Ajoutez de 2 à 6 joueurs, indiquez pour chacun s'il s'agit d'un enfant (avec son âge) ou d'un adulte, choisissez un avatar, une couleur et la durée : 30, 45 ou 60 minutes, ou une partie libre. Chaque joueur commence avec 1 000 Kounouz.</p><h2>1. Le Chemin : avancer sans dés</h2><p>À son tour, le joueur découvre son Chemin : de 1 à 5 cases, données par une suite équitable. Sur l'ensemble de la partie, tout le monde avance autant : personne n'est favorisé par la chance.</p><h2>2. Les cases du plateau</h2><ul><li><b>Savoir</b> : une question adaptée à l'âge du joueur. Bonne réponse +100 Kounouz, en partie +50, et le double si l'explication est donnée.</li><li><b>Défi</b> : à tour de rôle, un défi famille (bouger, imiter un animal, faire un compliment…), une occasion Hassanāt, un duel ou une question bonus.</li><li><b>Établissement</b> : 12 lieux à acheter (maktaba, hôtels, restaurants, agences Omra…). Chaque visiteur paie 15 % du prix au propriétaire.</li><li><b>Don</b> : donner 30 Kounouz à la Caisse Masākīn ou à un joueur, pour gagner 10 Hassanāt.</li><li><b>Trésor</b> : +200 Kounouz. <b>Prison</b> : au tour suivant, une question pour sortir.</li><li><b>Départ</b> : chaque tour complet rapporte +200 Kounouz.</li></ul><h2>3. La Zakat</h2><p>Un joueur qui garde plus de 1 000 Kounouz pendant 6 tours de table de suite verse 2,5 % à la Caisse Masākīn : c'est la Zakat al-Māl du jeu.</p><h2>4. La fin de partie et le score</h2><p>À la fin du temps choisi, le dernier tour de table se termine et le classement s'affiche. Score final = Kounouz + valeur du patrimoine + Hassanāt × 5. Donner compte : le plus riche ne gagne pas forcément.</p>
@@ -547,6 +547,7 @@ footer .logo img.brand{height:72px}
 /* Lien « Gérer les cookies » : on oublie le choix et le bandeau revient. */
 document.querySelectorAll('[data-cookies]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); try{ localStorage.removeItem('kz_consent'); }catch(x){} location.reload(); }); });</script>
 <script src="/aide.js?v=1" defer></script>
+<script>fetch('/api/code').then(function(r){return r.json()}).then(function(d){if(d.essaiMinutes)document.querySelectorAll('[data-essai]').forEach(function(e){e.textContent=d.essaiMinutes})}).catch(function(){});</script>
 <script src="/aide.js?v=1" defer></script>
 </body>
 </html>

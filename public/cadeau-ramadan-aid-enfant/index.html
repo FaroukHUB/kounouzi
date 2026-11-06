@@ -504,7 +504,7 @@ footer .logo img.brand{height:72px}
   <span class="kick">Idée cadeau</span>
   <h1 style="margin-top:12px">Le cadeau de Ramadan et d'Aïd <em>qui rassemble toute la famille</em></h1>
   <p class="lead" style="margin-top:14px">Un cadeau qui ne finit pas au fond d'un placard : Kounouzi se joue ensemble, s'adapte à chaque âge et transmet des valeurs. Et il s'offre en quelques secondes, avec un simple code.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit">▶ Essai gratuit de 30 min</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit"><span>▶ Essai gratuit de <span data-essai>30</span> min</span></a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><article class="prose">
 <h2>Pourquoi offrir Kounouzi</h2><ul><li><b>Pour toute la famille</b> : de 2 à 6 joueurs, dès 5 ans, petits et grands autour du même écran.</li><li><b>Fidèle à nos valeurs</b> : sans dés ni hasard pour avancer, sans musique, sans publicité.</li><li><b>Éducatif</b> : plus de 2 000 questions (religion, invocations, sciences, maths et logique, histoire des prophètes, gestion) adaptées à l'âge de chacun.</li><li><b>Paiement unique, sans abonnement</b> : un seul paiement pour toute la famille, sur tous vos appareils, mises à jour incluses.</li></ul><h2>Parfait pour les soirées de Ramadan</h2><p>Après l'iftar, une partie de 30, 45 ou 60 minutes réunit toute la famille. Les questions sur le Ramadan, le Coran et la générosité tombent à point, et la case Don rappelle l'esprit de partage du mois.</p><h2>Comment l'offrir</h2><ol><li>Achetez l'accès sur kounouzi.com : vous recevez un code d'accès juste après le paiement.</li><li>Envoyez ce code à la famille de votre choix, par message ou glissé dans une carte.</li><li>Elle l'entre sur kounouzi.com et le jeu s'ouvre sur tous ses appareils.</li></ol><h2>Aussi pour les écoles et les associations</h2><p>Kounouzi s'utilise aussi en classe ou en atelier : un seul écran projeté, des équipes, et des questions adaptées à chaque tranche d'âge.</p>
@@ -547,6 +547,7 @@ footer .logo img.brand{height:72px}
 /* Lien « Gérer les cookies » : on oublie le choix et le bandeau revient. */
 document.querySelectorAll('[data-cookies]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); try{ localStorage.removeItem('kz_consent'); }catch(x){} location.reload(); }); });</script>
 <script src="/aide.js?v=1" defer></script>
+<script>fetch('/api/code').then(function(r){return r.json()}).then(function(d){if(d.essaiMinutes)document.querySelectorAll('[data-essai]').forEach(function(e){e.textContent=d.essaiMinutes})}).catch(function(){});</script>
 <script src="/aide.js?v=1" defer></script>
 </body>
 </html>

@@ -25,6 +25,7 @@
     quizRel: [EN ? 'A religion question' : 'Une question de religion', 'quiz:religion'],
     quizInv: [EN ? 'An invocation question' : "Une question d'invocations", 'quiz:invocations'],
   };
+  const ESS = () => (prix && prix.essai) || 30;
   const P = () => (prix ? prix.txt : (EN ? '€6.99' : '6,99 €'));
   const PN = () => (prix && prix.normal ? (EN ? ` (launch price, instead of ${prix.normal} later)` : ` (prix de lancement, au lieu de ${prix.normal} plus tard)`) : '');
   const INTENTS = [
@@ -35,8 +36,8 @@
       r: () => EN ? 'No subscription. You pay once for the whole family, on all your devices, and frequent updates are included: new questions, new challenges, special editions (Ramadan, Eid…) and bonuses.'
                   : "Aucun abonnement. Vous payez une seule fois pour toute la famille, sur tous vos appareils, et les mises à jour fréquentes sont incluses : nouvelles questions, nouveaux défis, éditions spéciales (Ramadan, Aïd…) et bonus.", a: ['offre'] },
     { id: 'essai', k: ['essai', 'gratuit', 'gratuite', 'tester', 'essayer', 'demo', 'decouvrir', 'trial', 'free', 'try'],
-      r: () => EN ? 'Yes! You can try a real 30-minute game for free, with no card needed. Your trial code arrives by e-mail and opens the game on your device.'
-                  : "Oui ! Vous pouvez essayer une vraie partie de 30 minutes, gratuitement et sans carte bancaire. Votre code d'essai arrive par e-mail et ouvre le jeu sur votre appareil.", a: ['essai'] },
+      r: () => EN ? `Yes! You can try a real ${ESS()}-minute game for free, with no card needed. Your trial code arrives by e-mail and opens the game on your device.`
+                  : `Oui ! Vous pouvez essayer une vraie partie de ${ESS()} minutes, gratuitement et sans carte bancaire. Votre code d'essai arrive par e-mail et ouvre le jeu sur votre appareil.`, a: ['essai'] },
     { id: 'age', k: ['age', 'ans', 'enfant', 'enfants', 'petit', 'petite', 'maternelle', 'ado', 'adolescent', 'adulte', 'adultes', 'niveau', 'difficulte', 'kids', 'child', 'children', 'years old', 'teen', 'adult', 'level'],
       r: () => EN ? 'From age 5. Each player gets questions for their own age (5–6, 7–8, 9–10, 11–12 and 13+; in religion 5–8, 8–10, 10–12, 12–14 and 14+), and the voice reads them aloud, so children who cannot read yet can play too. Adults choose their level: Beginner, Standard or Advanced.'
                   : "Dès 5 ans. Chaque joueur reçoit des questions selon son âge (5–6, 7–8, 9–10, 11–12 et 13 ans et plus ; en religion 5–8, 8–10, 10–12, 12–14 et 14 ans et plus), et la voix les lit à voix haute : les enfants qui ne lisent pas encore peuvent jouer. Les adultes choisissent leur niveau : Découverte, Standard ou Avancé.", a: ['essai'] },
@@ -204,7 +205,7 @@
   }
   async function chargerPrix() {
     if (prix) return; try { const d = await (await fetch('/api/code')).json(); const f = c => new Intl.NumberFormat(EN ? 'en-GB' : 'fr-FR', { style: 'currency', currency: 'EUR' }).format(c / 100);
-      if (d.prix) prix = { txt: f(d.prix.eur), normal: d.prix.normal > d.prix.eur ? f(d.prix.normal) : '' }; } catch {}
+      if (d.prix) prix = { txt: f(d.prix.eur), normal: d.prix.normal > d.prix.eur ? f(d.prix.normal) : '', essai: d.essaiMinutes || 0 }; } catch {}
   }
   function repondre(it) { if (it.quiz) return quiz(''); msg(esc(it.r())); boutons(it.a); }
   async function quiz(t) {

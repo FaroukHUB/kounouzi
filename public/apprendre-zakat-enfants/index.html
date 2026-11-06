@@ -504,7 +504,7 @@ footer .logo img.brand{height:72px}
   <span class="kick">Éducation financière</span>
   <h1 style="margin-top:12px">Apprendre la Zakat et la valeur de l'argent <em>en jouant</em></h1>
   <p class="lead" style="margin-top:14px">Économiser, acheter avec mesure, donner, verser la Zakat : dans Kounouzi, les enfants manipulent un patrimoine pour de faux et comprennent pour de vrai.</p>
-  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit">▶ Essai gratuit de 30 min</a></div>
+  <div class="cta" style="margin-top:22px"><a class="btn btn-gold btn-lg" href="/#offre">Obtenir mon accès</a><a class="btn btn-ghost btn-lg" href="/#essai-gratuit"><span>▶ Essai gratuit de <span data-essai>30</span> min</span></a></div>
 </div></section>
 <section style="padding-top:10px"><div class="wrap"><article class="prose">
 <h2>Parler d'argent aux enfants, sans leçon de morale</h2><p>Expliquer l'épargne ou la Zakat avec des mots, c'est abstrait. Le vivre dans une partie, c'est concret : on hésite à acheter un établissement, on garde une réserve, on choisit de donner ou de garder. Les enfants comprennent les conséquences de leurs choix, et les parents n'ont plus qu'à en parler.</p><h2>Comment l'argent fonctionne dans le jeu</h2><ul><li><b>Les Kounouz</b> : la monnaie du jeu, gagnée en répondant aux questions et en relevant des défis.</li><li><b>Le patrimoine</b> : maktaba, hôtels à La Mecque et à Médine, restaurants, agences Omra, musée, parc. Les autres joueurs qui s'y arrêtent paient le service.</li><li><b>La case Don</b> : on choisit de donner à la Caisse Masākīn ou à un autre joueur, et l'on gagne des points Hassanāt.</li><li><b>La Zakat al-Māl</b> : un joueur qui garde plus de 1 000 Kounouz pendant 6 tours de table de suite (le ḥawl du jeu) verse 2,5 % à la Caisse Masākīn. Une version simplifiée pour ouvrir la discussion.</li><li><b>Jamais de riba</b> : aucun prêt avec intérêt, aucune spéculation.</li></ul><h2>Le plus riche ne gagne pas forcément</h2><p>Le score final additionne Kounouz, patrimoine et Hassanāt × 5. Un enfant qui a beaucoup donné peut finir devant celui qui a tout gardé. C'est souvent la question qui lance la discussion : « Il avait moins d'argent, mais il a gagné. Comment c'est possible ? »</p><h2>Les questions de gestion</h2><p>250 questions de gestion, adaptées à l'âge : pourquoi garder une réserve, comparer deux prix, éviter de gaspiller, pourquoi acheter à crédit peut mettre en difficulté.</p>
@@ -547,6 +547,7 @@ footer .logo img.brand{height:72px}
 /* Lien « Gérer les cookies » : on oublie le choix et le bandeau revient. */
 document.querySelectorAll('[data-cookies]').forEach(function(a){ a.addEventListener('click',function(e){ e.preventDefault(); try{ localStorage.removeItem('kz_consent'); }catch(x){} location.reload(); }); });</script>
 <script src="/aide.js?v=1" defer></script>
+<script>fetch('/api/code').then(function(r){return r.json()}).then(function(d){if(d.essaiMinutes)document.querySelectorAll('[data-essai]').forEach(function(e){e.textContent=d.essaiMinutes})}).catch(function(){});</script>
 <script src="/aide.js?v=1" defer></script>
 </body>
 </html>
