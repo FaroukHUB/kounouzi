@@ -236,6 +236,15 @@ section{position:relative;padding:96px 0}
 .offer{position:relative;border-radius:30px;padding:34px 30px;background:linear-gradient(170deg,#1f3558,#111f35);border:1.5px solid rgba(239,190,76,.55);box-shadow:0 0 0 7px rgba(239,190,76,.06),0 30px 70px rgba(0,0,0,.45);overflow:hidden}
 .offer::after{content:"";position:absolute;inset-inline-end:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(239,190,76,.28),transparent 70%)}
 .badge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#3a2606;font-weight:900;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:7px 13px}
+.promo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 18px;font-weight:800;color:var(--parchment,#f7ecd4)}
+.promo[hidden]{display:none}
+.promo b{color:var(--gold);font-size:1.25em}
+.promo s{opacity:.7;text-decoration-thickness:2px}
+.pbadge{background:rgba(239,190,76,.16);border:1.5px solid rgba(239,190,76,.55);color:var(--gold);border-radius:999px;padding:4px 10px;font-size:14px}
+.rem{background:#e2483d;color:#fff;border-radius:999px;padding:3px 9px;font-weight:900;font-size:14px;letter-spacing:.02em}
+.rem[hidden]{display:none}
+.amount .rem{align-self:center;font-family:inherit;font-size:16px;color:#fff}
+.dks{opacity:.65;margin-inline-end:2px}
 .amount{display:flex;align-items:baseline;gap:12px;margin:18px 0 4px;flex-wrap:wrap}
 .amount b{font-family:var(--display);font-weight:400;font-size:76px;line-height:1;color:var(--gold);text-shadow:0 3px 0 #5c3c07}
 .amount span{color:var(--muted);font-weight:800}
@@ -383,7 +392,7 @@ footer .logo img.brand{height:72px}
 .hnote{margin:-6px 0 16px;color:var(--muted);font-weight:800;font-size:14px}
 .trust{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin-top:4px;font-weight:800;font-size:13.5px;color:var(--muted)}
 .valeur{color:var(--muted);font-weight:700;margin:-12px 0 20px}
-@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}}
+@media (max-width:720px){.cband{padding:16px;text-align:center}.cband .btn{width:100%}.hnote{text-align:center}.promo{justify-content:center}}
 
 /* section famille */
 .fam{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;margin-top:40px}
@@ -498,6 +507,7 @@ footer .logo img.brand{height:72px}
           <a class="btn btn-gold btn-lg" href="#offre" data-cta data-buy data-zone="hero">Get Kounouzi — <span data-prix>€6.99</span></a>
           <a class="btn btn-ghost btn-lg" href="#essai-gratuit">▶ Free 10-min trial</a>
         </div>
+        <p class="promo" data-promo hidden><span class="pbadge">🚀 Launch price</span> <b data-prix>€6.99</b> instead of <s data-prix-normal>€19.90</s> <span class="rem" data-remise></span></p>
         <p class="hnote">One-time payment, no subscription · updates included · code delivered instantly</p>
         <div class="reassure" aria-label="Our commitments">
           <span class="pill"><i>✓</i>No dice, no luck</span><span class="pill"><i>✓</i>No music</span><span class="pill"><i>✓</i>No ads</span><span class="pill"><i>✓</i>One-time payment</span>
@@ -734,7 +744,7 @@ footer .logo img.brand{height:72px}
     <div class="price">
       <div class="offer rv">
         <span class="badge">🚀 Launch price</span>
-        <div class="amount"><s data-prix-normal hidden>€12.99</s><b data-prix>€6.99</b><span>one time</span></div>
+        <div class="amount"><s data-prix-normal hidden>€19.90</s><b data-prix>€6.99</b><span>one time</span><span class="rem" data-remise hidden></span></div>
         <p class="launch">One payment for the whole family, on all your devices.</p>
         <p class="maj">✨ Updates included: new questions, new challenges and improvements, at no extra cost.</p>
         <p class="valeur">The price of a snack, for family evenings all year round.</p>
@@ -855,7 +865,7 @@ footer .logo img.brand{height:72px}
 
 <div class="dock" id="dock">
   <img src="/img/app/icon-192.png?v=2" alt="" width="42" height="42">
-  <div class="t"><b>Kounouzi</b><span id="dockSub">Launch price · <span data-prix>€6.99</span></span></div>
+  <div class="t"><b>Kounouzi</b><span id="dockSub">Launch price · <s data-prix-normal hidden class="dks"></s> <span data-prix>€6.99</span></span></div>
   <a class="btn btn-gold" href="#offre" data-cta id="dockBtn">Get it</a>
 </div>
 
@@ -884,6 +894,9 @@ fetch('/api/code?'+vq).then(r=>r.json()).then(d=>{
   if(d.prix) $$('[data-prix]').forEach(e=>e.textContent=eur(d.prix.eur));
   // crossed-out regular price (after the launch), shown only when higher than the current price
   $$('[data-prix-normal]').forEach(e=>{ const n=d.prix&&d.prix.normal; e.hidden=!(n>d.prix.eur); if(n) e.textContent=eur(n); });
+  // Prix de lancement mis en avant : bandeau sous le héros et pourcentage de remise, seulement si le prix normal est plus élevé.
+  { const n=d.prix&&d.prix.normal, p=d.prix&&d.prix.eur, ok=n>p; $$('[data-promo]').forEach(e=>e.hidden=!ok);
+    $$('[data-remise]').forEach(e=>{ e.hidden=!ok; if(ok) e.textContent='−'+Math.round((1-p/n)*100)+' %'; }); }
   const stripe=!!d.moyens?.stripe;
   $$('[data-moyen=stripe]').forEach(a=>a.hidden=!stripe);
   $('#soon').hidden=stripe; $('#paynote').hidden=!stripe; $('#trust').hidden=!stripe; if(d.prix) window.kzPrix=d.prix.eur/100;
