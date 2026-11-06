@@ -636,6 +636,242 @@
    "cl": "Thinking",
    "tx": "Invent a funny machine to help at home and explain in 20 seconds how it works.",
    "v": []
+  },
+  "CH-112": {
+   "ti": "The staring duel",
+   "cl": "Laugh",
+   "tx": "Pick a player and look each other in the eye without blinking. The first one to blink or laugh loses. If you win, the challenge is done.",
+   "v": []
+  },
+  "CH-113": {
+   "ti": "Head and tummy",
+   "cl": "Move",
+   "tx": "Pat your head with one hand and rub your tummy in circles with the other, at the same time. Then swap hands without stopping.",
+   "v": [
+    "5 seconds each",
+    "10 seconds each"
+   ]
+  },
+  "CH-114": {
+   "ti": "Drawing on the back",
+   "cl": "Drawing",
+   "tx": "With your finger, slowly draw a simple shape on the back of a player who agrees (sun, house, star, heart). They have to guess. If they get it, the challenge is done.",
+   "v": []
+  },
+  "CH-115": {
+   "ti": "Eyes closed",
+   "cl": "Drawing",
+   "tx": "On a sheet of paper, draw a house with your eyes closed: walls, roof, door and window. The family votes: can we recognise it?",
+   "v": []
+  },
+  "CH-116": {
+   "ti": "The alphabet backwards",
+   "cl": "Language",
+   "tx": "Say the alphabet backwards without a mistake.",
+   "v": [
+    "from J to A",
+    "from Z to A"
+   ]
+  },
+  "CH-117": {
+   "ti": "Upside down",
+   "cl": "Observation",
+   "tx": "As fast as you can, turn objects around you upside down (a cushion, an empty glass, a book…), then turn them back.",
+   "v": [
+    "3 objects in 15 seconds",
+    "5 objects in 15 seconds"
+   ]
+  },
+  "CH-118": {
+   "ti": "The quick hunt",
+   "cl": "Observation",
+   "tx": "Bring back to the table, as fast as you can: a spoon, a sock and a book.",
+   "v": [
+    "in 40 seconds",
+    "in 25 seconds"
+   ]
+  },
+  "CH-119": {
+   "ti": "The waiter's book",
+   "cl": "Skill",
+   "tx": "Put a book flat on your open hand, like a waiter's tray, and walk around the table without dropping it.",
+   "v": []
+  },
+  "CH-120": {
+   "ti": "The cup pyramid",
+   "cl": "Skill",
+   "tx": "With 6 cups, build a pyramid (3, then 2, then 1), then take it down into a single stack.",
+   "v": [
+    "in 45 seconds",
+    "in 25 seconds"
+   ]
+  },
+  "CH-121": {
+   "ti": "The coin tower",
+   "cl": "Skill",
+   "tx": "Stack coins with one hand only, without the tower falling.",
+   "v": [
+    "5 coins",
+    "10 coins"
+   ]
+  },
+  "CH-122": {
+   "ti": "Sock basket",
+   "cl": "Skill",
+   "tx": "Roll a sock into a ball and throw it into a bowl or basket 3 big steps away. You have 3 tries to score.",
+   "v": []
+  },
+  "CH-123": {
+   "ti": "The racing paper ball",
+   "cl": "Skill",
+   "tx": "Put a small paper ball at the edge of the table and push it to the other end only by blowing.",
+   "v": [
+    "in 8 blows",
+    "in 5 blows"
+   ]
+  },
+  "CH-124": {
+   "ti": "Floating tissue",
+   "cl": "Skill",
+   "tx": "Keep a paper tissue in the air only by blowing underneath it.",
+   "v": [
+    "3 seconds",
+    "6 seconds"
+   ]
+  },
+  "CH-125": {
+   "ti": "The balancing spoon",
+   "cl": "Skill",
+   "tx": "Balance a spoon on one finger without helping with your other hand.",
+   "v": [
+    "5 seconds",
+    "10 seconds"
+   ]
+  },
+  "CH-126": {
+   "ti": "The paper plane",
+   "cl": "Skill",
+   "tx": "Fold a paper plane in one minute, then fly it: if it goes past the end of the table, the challenge is done.",
+   "v": []
+  },
+  "CH-127": {
+   "ti": "The bear walk",
+   "cl": "Move",
+   "tx": "Walk on all fours, hands and feet on the floor, knees off the ground, to the door and back.",
+   "v": []
+  },
+  "CH-128": {
+   "ti": "Palm to palm",
+   "cl": "Move",
+   "tx": "With a player who agrees: stand face to face, feet together, palms against palms. Push gently: the first one to move a foot loses.",
+   "v": []
+  },
+  "CH-129": {
+   "ti": "The iron thumb",
+   "cl": "Move",
+   "tx": "Thumb-wrestle a player of your choice: hook your hands and try to hold their thumb under yours for 3 seconds.",
+   "v": []
+  },
+  "CH-130": {
+   "ti": "The captain says",
+   "cl": "Move",
+   "tx": "Give 5 orders to the whole table (\"raise an arm\", \"touch your nose\"…). The others only obey if you start with \"The captain says\". If you catch at least one player, the challenge is done.",
+   "v": []
+  },
+  "CH-131": {
+   "ti": "The growing move",
+   "cl": "Memory",
+   "tx": "Make a move. The next player repeats your move and adds one, and so on around the table. The challenge is done if the chain comes back to you without a mistake.",
+   "v": []
+  },
+  "CH-132": {
+   "ti": "Mystery touch",
+   "cl": "Memory",
+   "tx": "Close your eyes. A player puts something from the house in your hands: guess what it is in 10 seconds.",
+   "v": []
+  },
+  "CH-133": {
+   "ti": "Sharp ears",
+   "cl": "Memory",
+   "tx": "Close your eyes. A player makes a sound with an object (crumpling paper, tapping a spoon on a glass, opening a door…). Guess the object.",
+   "v": []
+  },
+  "CH-134": {
+   "ti": "The guide and the artist",
+   "cl": "Drawing",
+   "tx": "A player looks at an object in the room and describes it to you without naming it. Draw it: if the family recognises the object, the challenge is done.",
+   "v": []
+  },
+  "CH-135": {
+   "ti": "A story with many voices",
+   "cl": "Family",
+   "tx": "Start a story: \"A camel walked into a bakery…\". Each player adds a sentence. You have to find the ending.",
+   "v": []
+  },
+  "CH-136": {
+   "ti": "The star presenter",
+   "cl": "Family",
+   "tx": "Introduce the next player like a big star coming on stage, in 15 seconds, with your best presenter voice.",
+   "v": []
+  },
+  "CH-137": {
+   "ti": "Faces of feelings",
+   "cl": "Laugh",
+   "tx": "Without speaking, show with your face only: joy, surprise, anger, then fear. The others must guess them in order.",
+   "v": []
+  },
+  "CH-138": {
+   "ti": "Jobs in mime",
+   "cl": "Mime",
+   "tx": "The player on your left whispers a job to you (baker, firefighter, doctor, pilot…). Make them guess it without speaking.",
+   "v": []
+  },
+  "CH-139": {
+   "ti": "Sports in mime",
+   "cl": "Mime",
+   "tx": "Make the others guess a sport without speaking (swimming, football, climbing, horse riding…).",
+   "v": []
+  },
+  "CH-140": {
+   "ti": "Home in mime",
+   "cl": "Mime",
+   "tx": "Make the others guess a household action without speaking: making tea, vacuuming, watering the plants, folding laundry…",
+   "v": []
+  },
+  "CH-141": {
+   "ti": "The tongue twister",
+   "cl": "Language",
+   "tx": "Say 3 times in a row, fast and without a mistake: \"She sells seashells by the seashore.\"",
+   "v": [
+    "only once, slowly"
+   ]
+  },
+  "CH-142": {
+   "ti": "Capitals",
+   "cl": "Thinking",
+   "tx": "Name countries and their capital in 30 seconds.",
+   "v": [
+    "3 countries",
+    "5 countries"
+   ]
+  },
+  "CH-143": {
+   "ti": "Quick sums",
+   "cl": "Thinking",
+   "tx": "The player on your right asks you quick sums: answer fast and right.",
+   "v": [
+    "4 additions",
+    "5 multiplications"
+   ]
+  },
+  "CH-144": {
+   "ti": "The longest word",
+   "cl": "Thinking",
+   "tx": "The player on your left picks a letter. Find the longest word you can that starts with that letter, in 15 seconds.",
+   "v": [
+    "at least 5 letters",
+    "at least 8 letters"
+   ]
   }
  },
  "hassanat": {
