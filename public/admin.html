@@ -203,7 +203,7 @@ label.f small{font-weight:700;color:var(--faint)}
         <button class="btn g" id="qListen" type="button" title="Lit à voix haute chaque question de la liste, puis sa réponse">🔊 Écouter la liste</button>
         <button class="btn" id="qnew">+ Nouvelle question</button></div>
       <p class="muted small" id="qVoixMsg" style="margin:0 0 6px" hidden></p>
-      <p class="muted small" style="margin:0 0 10px">Les changements arrivent dans le jeu en moins d'une minute, pour les nouvelles parties. Les questions de religion ne peuvent être publiées qu'avec leur source et leur explication en français et en arabe.</p>
+      <p class="muted small" style="margin:0 0 10px">Les changements arrivent dans le jeu en moins d'une minute, pour les nouvelles parties. Les questions de religion ne peuvent être publiées qu'avec leur source et leur explication en français (l'arabe est facultatif pour l'instant).</p>
       <div class="row small" id="trBar" style="gap:8px;margin:0 0 10px"></div>
       <div class="tscroll"><table><thead><tr><th>Question</th><th>Thème</th><th>Âge</th><th>Niv.</th><th>Posée</th><th>Réussite</th><th>Statut</th><th>EN</th></tr></thead><tbody id="qBody"></tbody></table></div>
       <div class="row" style="justify-content:center;margin-top:12px"><button class="btn g" id="qmore" hidden>Afficher plus</button></div>
@@ -238,7 +238,7 @@ label.f small{font-weight:700;color:var(--faint)}
 
     <div class="grid two sec">
       <div class="card"><h2 style="margin-top:0">Questions de l'événement</h2>
-        <p class="muted small" style="margin-top:0">Importe un fichier JSON au format de l'export de l'onglet Questions (<a href="#" id="evModeleQ">télécharger un modèle</a>). Les questions sont rattachées à l'événement choisi. Une question de religion sans source ou sans explication en français et en arabe est toujours importée en brouillon.</p>
+        <p class="muted small" style="margin-top:0">Importe un fichier JSON au format de l'export de l'onglet Questions (<a href="#" id="evModeleQ">télécharger un modèle</a>). Les questions sont rattachées à l'événement choisi. Une question de religion sans source ou sans explication en français est toujours importée en brouillon.</p>
         <div class="grid" style="gap:10px">
           <select id="eqEv"></select>
           <select id="eqStatut"><option value="brouillon">Importer en brouillon (à relire avant publication)</option><option value="publiee">Importer publiées</option></select>
@@ -334,7 +334,7 @@ label.f small{font-weight:700;color:var(--faint)}
   <div class="f2" id="arBlock">
     <label class="f">Question (arabe) <small>facultatif</small><textarea name="q_ar" dir="rtl" class="ar"></textarea></label>
     <label class="f">Réponse (arabe) <small>facultatif</small><textarea name="r_ar" dir="rtl" class="ar"></textarea></label>
-    <label class="f">Explication (arabe) <small>obligatoire pour publier en religion</small><textarea name="e_ar" dir="rtl" class="ar"></textarea></label>
+    <label class="f">Explication (arabe) <small>facultatif pour l'instant</small><textarea name="e_ar" dir="rtl" class="ar"></textarea></label>
   </div>
   <p class="muted small" id="arNote" hidden style="margin:0">L'arabe n'est utilisé que pour la Religion. Le texte arabe déjà enregistré pour cette question est conservé en base, sans être montré dans le jeu.</p>
   <label class="f">Source <small>obligatoire pour la religion (livre, auteur)</small><input name="s"></label>

@@ -199,9 +199,11 @@ test('QCM : trois choix et la bonne lettre, sinon refus', () => {
   assert.match(verifierQuestion({ ...base, t: 'sciences', a: '5-8', qcm: { ...qcm, ok: 'D' } }).erreur, /QCM/);
   assert.match(verifierQuestion({ ...base, t: 'sciences', a: '5-8', qcm: { fr: { A: 'Un', B: 'Deux' }, ok: 'A' } }).erreur, /QCM/);
 });
-test('religion : publication seulement avec source + explications FR et AR (règle du projet)', () => {
+test('religion : publication seulement avec source + explication FR (arabe facultatif, décision du 7 nov. 2026)', () => {
   assert.ok(verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'brouillon' }).question);
   assert.match(verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'publiee' }).erreur, /source/);
+  assert.match(verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'publiee', s: 'Livre', e: { ar: 'ش' } }).erreur, /source/);
+  assert.equal(verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'publiee', s: 'Livre', e: { fr: 'E' } }).question.statut, 'publiee');
   assert.equal(verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'publiee', s: 'Livre', e: { fr: 'E', ar: 'ش' } }).question.statut, 'publiee');
 });
 test('modification : identifiant, traductions, âge minimum et QCM conservés', () => {

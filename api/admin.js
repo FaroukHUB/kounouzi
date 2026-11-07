@@ -69,9 +69,10 @@ export function verifierQuestion(b) {
   }
   const statut = ['publiee', 'brouillon', 'archivee'].includes(b.statut) ? b.statut : 'brouillon';
   const s = txt(b.s, 300);
-  // Contenu religieux : jamais publié sans source ni sans explication en français ET en arabe.
-  if (t === 'religion' && statut === 'publiee' && (!s || !e.fr || !e.ar))
-    return { erreur: 'Une question de religion ne peut être publiée qu’avec sa source et son explication en français et en arabe. Enregistre-la en brouillon en attendant.' };
+  // Contenu religieux : jamais publié sans source ni sans explication en français.
+  // L'explication en arabe est facultative en attendant les traductions (décision de Farouk du 7 nov. 2026).
+  if (t === 'religion' && statut === 'publiee' && (!s || !e.fr))
+    return { erreur: 'Une question de religion ne peut être publiée qu’avec sa source et son explication en français. Enregistre-la en brouillon en attendant.' };
   const id = txt(b.id, 60) || `${t.slice(0, 3).toUpperCase()}-A-${Date.now().toString(36).toUpperCase()}`;
   // p58 : question d'Histoire des prophètes écrite pour les 5-8 ans (seules celles-là leur sont posées dans cette matière).
   const question = { id, t, d, a, am, qcm, p58: t === 'geography' && a === '5-8' && !!b.p58, q, r, e, s, src: txt(b.src, 120), statut, poids: num(b.poids, 0, 5, 1), prio: !!b.prio };
@@ -219,8 +220,8 @@ export async function POST(request) {
         for (const l of lignesQuestions(b.lignes, { ev, statut }).slice(0, 200)) {
           if (!l.question.t) { rapport.push({ ligne: l.ligne, id: l.question.id, etat: 'erreur', message: `Thème inconnu : « ${l.theme_lu} ».` }); continue; }
           let v = verifierQuestion(l.question), note = '';
-          // Religion sans source ou sans explication FR + AR : jamais publiée, gardée en brouillon pour relecture.
-          if (v.erreur && l.question.statut === 'publiee' && /religion/i.test(v.erreur)) { v = verifierQuestion({ ...l.question, statut: 'brouillon' }); note = 'Religion sans source ou sans explication FR + AR : importée en brouillon.'; }
+          // Religion sans source ou sans explication en français : jamais publiée, gardée en brouillon pour relecture.
+          if (v.erreur && l.question.statut === 'publiee' && /religion/i.test(v.erreur)) { v = verifierQuestion({ ...l.question, statut: 'brouillon' }); note = 'Religion sans source ou sans explication en français : importée en brouillon.'; }
           if (v.erreur) { rapport.push({ ligne: l.ligne, id: l.question.id, etat: 'erreur', message: v.erreur }); continue; }
           const ex = existants.get(v.question.id);
           rapport.push({ ligne: l.ligne, id: v.question.id, etat: ex ? 'modifiee' : 'nouvelle', statut: v.question.statut, question: v.question.q.fr.slice(0, 120), ...(note ? { message: note } : {}) });
