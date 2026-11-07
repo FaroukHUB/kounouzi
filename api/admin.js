@@ -16,7 +16,7 @@ export const REGLAGES_DEFAUT = {
   eviter: 15,
   durees: { rapide: 30, classique: 45, grande: 60 },
   essaiMinutes: 10, // durée d'une partie jouée avec un code d'essai
-  zakat: { tours: 1.5, nissab: 1000 }, // Zakat al-Māl du jeu : tours de table au-dessus du nissab avant de verser 2,5 %
+  zakat: { minutes: 10, nissab: 1000 }, // Zakat al-Māl du jeu : une « année » = minutes de jeu ; qui reste au-dessus du nissab toute l'année verse 2,5 %
   explications: ['religion', 'invocations'], // thèmes dont l'explication est proposée après la réponse
   prononciation: [], // [{ e: 'Ishaaq', d: 'إسحاق' }] : comment la voix doit dire certains mots (prénoms arabes…)
   tradRelire: false, // true : les traductions « à relire » sont déjà montrées dans le jeu (sinon seulement les validées)
@@ -92,7 +92,7 @@ function verifierReglages(b) {
     minuteur: { enfant: num(b.minuteur?.enfant, 15, 180, 60), adulte: num(b.minuteur?.adulte, 15, 180, 45) },
     eviter: num(b.eviter, 0, 100, 15),
     essaiMinutes: num(b.essaiMinutes, 3, 60, 10),
-    zakat: { tours: Math.min(12, Math.max(0.5, Math.round((Number(b.zakat?.tours) || 1.5) * 2) / 2)), nissab: num(b.zakat?.nissab, 100, 100000, 1000) },
+    zakat: { minutes: Math.round(num(b.zakat?.minutes, 3, 60, 10)), nissab: num(b.zakat?.nissab, 100, 100000, 1000) },
     durees: { rapide: num(b.durees?.rapide, 10, 120, 30), classique: num(b.durees?.classique, 10, 180, 45), grande: num(b.durees?.grande, 10, 240, 60) },
     tradRelire: !!b.tradRelire,
     explications: (Array.isArray(b.explications) ? b.explications : D.explications).filter((t, i, a) => THEMES.includes(t) && a.indexOf(t) === i),
