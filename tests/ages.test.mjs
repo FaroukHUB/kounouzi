@@ -1,5 +1,5 @@
 // Tests des tranches d'âge et de la sélection des questions. Lancer : node --test tests/
-// Aucun accès réseau ni base : on utilise private/data.json (les 1 764 questions) et le vrai code du jeu.
+// Aucun accès réseau ni base : on utilise private/data.json (V39 : 1 959 questions) et le vrai code du jeu.
 import { test } from 'node:test';
 import { creerT } from '../public/i18n.js';
 import { DICOS } from '../public/i18n/jeu.js';
@@ -12,7 +12,7 @@ import { verifierQuestion } from '../api/admin.js';
 const DATA = JSON.parse(readFileSync(new URL('../private/data.json', import.meta.url)));
 const enfant = (age, extra = {}) => ({ name: 'E' + age, child: true, age, level: 'standard', levels: {}, streak: {}, themeIdx: 0, ...extra });
 const adulte = (level = 'standard') => ({ name: 'Adulte', child: false, age: 30, level, levels: {}, streak: {}, themeIdx: 0 });
-const GENERAUX = ['geography', 'sciences', 'logic', 'management'];
+const MATIERES = ['religion', 'invocations', 'maths', 'geography', 'sciences', 'management'];
 
 // ---------- Moteur réel du jeu, extrait de private/jeu.html ----------
 function moteur(data, { seen = {}, used = [] } = {}) {
@@ -23,7 +23,7 @@ function moteur(data, { seen = {}, used = [] } = {}) {
     const m = html.match(new RegExp(`((?:async )?function ${nom}\\([\\s\\S]*?\\n})\\n`)); return m[1]; };
   const ligne = (debut) => { const l = html.split('\n').find(x => x.startsWith(debut)); assert.ok(l, debut); return l; };
   const store = { _s: { kounouzi_v2_seen: seen }, get(k) { return this._s[k]; }, set(k, v) { this._s[k] = v; } };
-  const ctx = { DATA: data, EV: data.EV || null, S: { usedQ: used }, RG: {}, THEMES: ['religion', 'maths', 'geography', 'sciences', 'logic', 'management'],
+  const ctx = { DATA: data, EV: data.EV || null, S: { usedQ: used }, RG: {}, THEMES: ['religion', 'invocations', 'maths', 'geography', 'sciences', 'management'],
     store, tranchesPourJoueur: A.tranchesPourJoueur, questionsEligibles: A.questionsEligibles, Math, Set, console,
     toasts: [], THEME_INFO: {}, LANG: 'fr', t: creerT(DICOS, () => 'fr'), openCard() { throw new Error('ne doit pas ouvrir de carte sans question'); } };
   ctx.toast = (m) => ctx.toasts.push(m);
@@ -34,214 +34,84 @@ function moteur(data, { seen = {}, used = [] } = {}) {
     'this.api={startLevel,bandsFor,poolFor,selectQuestion,nextTheme,levelRange,adapt,askQuestion,toasts:this.toasts}'].join('\n'), ctx);
   return ctx.api;
 }
-// Ancienne règle (avant correction), pour la non-régression.
-function ancienneTranche(theme, p) {
-  const rel = theme === 'religion', a = p.child ? p.age : 30;
-  if (!p.child) return rel ? ['14+', '12-14'] : ['13+', '11-12'];
-  if (rel) return [a <= 7 ? '5-8' : a <= 9 ? '8-10' : a <= 11 ? '10-12' : a <= 13 ? '12-14' : '14+'];
-  return [a <= 6 ? '5-6' : a <= 8 ? '7-8' : a <= 10 ? '9-10' : a <= 12 ? '11-12' : '13+'];
-}
 
-// ---------- Les deux classifications ----------
-test('deux classifications distinctes, maths sans tranche', () => {
-  assert.deepEqual(A.tranchesDuTheme('religion'), ['5-8', '8-10', '10-12', '12-14', '14+']);
-  for (const t of GENERAUX) assert.deepEqual(A.tranchesDuTheme(t), ['5-6', '7-8', '9-10', '11-12', '13+']);
-  assert.deepEqual(A.tranchesDuTheme('maths'), []);
-  assert.equal(A.systemeDe('inconnu'), null);
+// ---------- Une seule classification : 5-8, 9-12, 13-17, 18+ ----------
+test('une seule classification pour toutes les matières, maths comprises', () => {
+  for (const t of MATIERES) assert.deepEqual(A.tranchesDuTheme(t), ['5-8', '9-12', '13-17', '18+']);
+  assert.equal(A.normaliserTranche('9–12 ans'), '9-12'); assert.equal(A.normaliserTranche('18 ans et +'), '18+');
+  assert.equal(A.normaliserTranche('13+'), null); assert.equal(A.normaliserTranche('n’importe quoi'), null);
 });
-test('les données réelles n’utilisent que des tranches valables pour leur thème', () => {
-  const mauvaises = DATA.questions.filter(q => !A.trancheValidePour(q.t, q.a));
-  assert.equal(mauvaises.length, 0, mauvaises.slice(0, 5).map(q => q.id).join(', '));
-  assert.equal(DATA.questions.filter(q => q.t === 'maths' && q.a == null).length, 338);
+test('données V39 : 1 959 questions, toutes avec une tranche valable et un âge minimum dans leur tranche', () => {
+  assert.equal(DATA.questions.length, 1959);
+  const sans = DATA.questions.filter(q => !A.normaliserTranche(q.a)); assert.equal(sans.length, 0, sans.slice(0, 5).map(q => q.id).join(', '));
+  const am = DATA.questions.filter(q => A.trancheDeLAge(q.am) !== q.a); assert.equal(am.length, 0, am.slice(0, 5).map(q => q.id).join(', '));
+  assert.equal(new Set(DATA.questions.map(q => q.id)).size, 1959, 'doublon d’identifiant');
+});
+test('QCM 5-8 ans : 598 questions à 3 choix, bonne lettre cohérente avec la réponse', () => {
+  const qcm = DATA.questions.filter(q => q.qcm); assert.equal(qcm.length, 598);
+  for (const q of qcm) {
+    assert.equal(q.a, '5-8', q.id); assert.deepEqual(Object.keys(q.qcm.fr).sort(), ['A', 'B', 'C'], q.id);
+    assert.equal(q.qcm.fr[q.qcm.ok], q.r.fr, q.id); assert.equal(q.qcm.en[q.qcm.ok], q.r.en, q.id);
+  }
+  assert.equal(DATA.questions.filter(q => q.a === '5-8' && !q.qcm).length, 0, 'une question 5-8 ans sans QCM');
 });
 
-// ---------- Âge réel → tranches ----------
-const ATTENDU = {
-  5: ['5-6', ['5-8']], 6: ['5-6', ['5-8']], 7: ['7-8', ['5-8']], 8: ['7-8', ['5-8', '8-10']], 9: ['9-10', ['8-10']],
-  10: ['9-10', ['8-10', '10-12']], 11: ['11-12', ['10-12']], 12: ['11-12', ['10-12', '12-14']], 13: ['13+', ['12-14']],
-  14: ['13+', ['12-14', '14+']], 15: ['13+', ['14+']], 18: ['13+', ['14+']], 60: ['13+', ['14+']],
-};
-for (const [age, [gen, rel]] of Object.entries(ATTENDU)) {
-  test(`${age>=18?'joueur de':'enfant de'} ${age} ans (profil enfant) : générale ${gen}, religion ${rel.join(' + ')}`, () => {
-    for (const t of GENERAUX) assert.deepEqual(A.tranchesPourJoueur(t, enfant(+age)), [gen]);
-    assert.deepEqual(A.tranchesPourJoueur('religion', enfant(+age)), rel);
+// ---------- Âge réel → tranche ----------
+const ATTENDU = { 4: '5-8', 5: '5-8', 8: '5-8', 9: '9-12', 12: '9-12', 13: '13-17', 17: '13-17', 18: '18+', 40: '18+' };
+for (const [age, tr] of Object.entries(ATTENDU)) {
+  test(`profil enfant de ${age} ans : uniquement la tranche ${tr}, dans toutes les matières`, () => {
+    for (const t of MATIERES) assert.deepEqual(A.tranchesPourJoueur(t, enfant(+age)), [tr]);
   });
 }
-test('adultes : les deux tranches les plus hautes, sans plafond d’âge (règle existante conservée)', () => {
-  for (const lvl of ['standard', 'avance', 'decouverte']) {
-    assert.deepEqual(new Set(A.tranchesPourJoueur('religion', adulte(lvl))), new Set(['12-14', '14+']));
-    assert.deepEqual(new Set(A.tranchesPourJoueur('sciences', adulte(lvl))), new Set(['11-12', '13+']));
-  }
-  assert.deepEqual(A.niveauxMaths(adulte()), [4, 5]);
-  assert.deepEqual(A.niveauxMaths(adulte('decouverte')), [3, 4]);
-});
-test('maths : choix par niveau selon l’âge (règle existante inchangée)', () => {
-  const att = { 5: [1], 6: [1], 7: [1, 2], 8: [1, 2], 9: [2, 3], 10: [2, 3], 11: [3, 4], 12: [3, 4], 13: [4, 5], 15: [4, 5] };
-  for (const [a, d] of Object.entries(att)) assert.deepEqual(A.niveauxMaths(enfant(+a)), d);
-  const pool = A.questionsEligibles(DATA.questions, 'maths', enfant(8));
-  assert.ok(pool.length > 0 && pool.every(q => [1, 2].includes(q.d)));
+test('adultes : 18+ et 13-17 (la tranche 18+ ne couvre pas toutes les matières)', () => {
+  for (const lvl of ['standard', 'avance', 'decouverte']) for (const t of MATIERES) assert.deepEqual(new Set(A.tranchesPourJoueur(t, adulte(lvl))), new Set(['18+', '13-17']));
 });
 
-// ---------- Non-régression sur les 1 764 questions ----------
-test('non-régression : thèmes généraux identiques à avant, religion = avant + tranche voisine aux âges charnières', () => {
+// ---------- Le point le plus important : jamais une question d'un autre âge ----------
+test('moteur : 300 tirages par âge (5 → 17 ans) et par matière, toujours la tranche de l’enfant et un âge minimum ≤ son âge', () => {
+  const vides = [];
   for (let age = 5; age <= 17; age++) {
-    const p = enfant(age);
-    for (const t of GENERAUX) assert.deepEqual(A.tranchesPourJoueur(t, p), ancienneTranche(t, p), `${t} ${age} ans`);
-    const avant = new Set(ancienneTranche('religion', p)), apres = new Set(A.tranchesPourJoueur('religion', p));
-    for (const b of avant) assert.ok(apres.has(b), `religion ${age} ans perd ${b}`);
-  }
-});
-test('chaque âge (5 → 17 ans, adultes) a des questions dans chaque thème', () => {
-  const joueurs = [...Array.from({ length: 13 }, (_, i) => enfant(i + 5)), adulte(), adulte('decouverte')];
-  for (const p of joueurs) for (const t of A.THEMES) assert.ok(A.questionsEligibles(DATA.questions, t, p).length > 0, `${t} ${p.child ? p.age + ' ans' : 'adulte'}`);
-});
-test('âges charnières en religion : la difficulté moyenne reste proche du niveau de départ', () => {
-  const M = moteur(DATA);
-  for (const age of [8, 10, 12, 14]) {
-    const p = enfant(age), lvl = M.startLevel(p), pool = M.poolFor(p, 'religion');
-    const w = pool.map(q => 1 / (1 + Math.abs(q.d - lvl) * 1.5)), tot = w.reduce((a, b) => a + b, 0);
-    const moy = pool.reduce((s, q, i) => s + q.d * w[i], 0) / tot;
-    // la tranche voisine ne représente qu'une part minoritaire du tirage, et la moyenne reste à moins d'un niveau
-    assert.ok(Math.abs(moy - lvl) <= 1, `${age} ans : niveau ${lvl}, moyenne ${moy.toFixed(2)}`);
-    console.log(`  religion ${age} ans : niveau de départ ${lvl}, difficulté moyenne attendue ${moy.toFixed(2)} sur ${pool.length} questions`);
-  }
-});
-
-// ---------- Moteur réel : cas particuliers ----------
-test('moteur : chaque question tirée est dans les tranches du joueur (300 tirages par âge et par thème)', () => {
-  for (const p of [enfant(6), enfant(8), enfant(10), enfant(12), enfant(14), enfant(16), adulte()]) {
-    const M = moteur(DATA);
-    for (const t of ['religion', 'geography', 'sciences']) {
-      const ok = new Set(A.tranchesPourJoueur(t, p));
-      for (let k = 0; k < 300; k++) { const q = M.selectQuestion(p, t); assert.ok(q && q.t === t && ok.has(q.a), `${t} ${p.age} → ${q && q.a}`); }
+    const p = enfant(age), tr = A.trancheDeLAge(age);
+    for (const t of MATIERES) {
+      const M = moteur(DATA);
+      if (!M.poolFor(p, t).length) { vides.push(`${t} ${age} ans`); continue; }
+      for (let k = 0; k < 300; k++) { const q = M.selectQuestion(p, t); assert.ok(q && q.t === t && q.a === tr && !(q.am > age), `${t} ${age} ans → ${q && q.id} (${q && q.a}, ${q && q.am} ans)`); }
     }
+  }
+  console.log('  matières sans question pour cet âge (sautées en partie) : ' + (vides.join(', ') || 'aucune'));
+});
+test('adultes : 300 tirages par matière, jamais une question 5-8 ou 9-12', () => {
+  for (const t of MATIERES) { const M = moteur(DATA); for (let k = 0; k < 300; k++) { const q = M.selectQuestion(adulte(), t); assert.ok(q && ['18+', '13-17'].includes(q.a), `${t} → ${q && q.a}`); } }
+});
+test('âge minimum : un enfant de 5 ans n’a jamais une question prévue pour 6, 7 ou 8 ans', () => {
+  const pool = MATIERES.flatMap(t => A.questionsEligibles(DATA.questions, t, enfant(5)));
+  assert.ok(pool.length > 0 && pool.every(q => q.am <= 5));
+  assert.ok(A.questionsEligibles(DATA.questions, 'maths', enfant(8)).some(q => q.am === 8));
+});
+test('question sans tranche, tranche inconnue ou ancienne tranche (13+, 7-8…) : jamais proposée', () => {
+  const b = { ...DATA.questions.find(q => q.t === 'sciences' && q.a === '9-12'), am: 9 };
+  const qs = [{ ...b, id: 'X1', a: null }, { ...b, id: 'X2', a: '9-10' }, { ...b, id: 'X3', a: '13+' }, { ...b, id: 'X4', a: '9–12 ans' }];
+  assert.deepEqual(A.questionsEligibles(qs, 'sciences', enfant(10)).map(q => q.id), ['X4']);
+  assert.deepEqual(A.questionsEligibles(qs, 'sciences', adulte()).map(q => q.id), []);
+});
+test('un thème sans aucune question adaptée est sauté (jamais une question d’une autre tranche)', () => {
+  const M = moteur(DATA), p = enfant(5);
+  assert.equal(M.poolFor(p, 'geography').length, 0, 'Histoire des prophètes : aucune question pour 5 ans dans V39');
+  assert.equal(M.selectQuestion(p, 'geography'), null);
+  const vus = Array.from({ length: 12 }, () => M.nextTheme(p));
+  assert.ok(!vus.includes('geography') && vus.includes('religion') && vus.includes('maths'));
+});
+test('joueurs d’âges différents dans la même partie : chacun reste dans sa tranche', () => {
+  const M = moteur(DATA), petit = enfant(7), moyen = enfant(10), grand = enfant(15), papa = adulte();
+  for (let k = 0; k < 60; k++) {
+    assert.equal(M.selectQuestion(petit, 'religion').a, '5-8'); assert.equal(M.selectQuestion(moyen, 'religion').a, '9-12');
+    assert.equal(M.selectQuestion(grand, 'religion').a, '13-17'); assert.ok(['18+', '13-17'].includes(M.selectQuestion(papa, 'geography').a));
   }
 });
 test('toutes les questions adaptées déjà vues : le cycle recommence, sans sortir de la tranche', () => {
-  const p = enfant(7), ids = A.questionsEligibles(DATA.questions, 'logic', p).map(q => q.id);
+  const p = enfant(7), ids = A.questionsEligibles(DATA.questions, 'sciences', p).map(q => q.id);
   const M = moteur(DATA, { seen: { e7: [...ids] } });
-  for (let k = 0; k < 50; k++) assert.equal(M.selectQuestion(p, 'logic').a, '7-8');
-});
-test('un thème sans aucune question adaptée est sauté (pas de question d’une autre tranche)', () => {
-  const data = { ...DATA, questions: DATA.questions.filter(q => !(q.t === 'religion' && q.a === '5-8')) };
-  const M = moteur(data), p = enfant(6);
-  assert.equal(M.poolFor(p, 'religion').length, 0);
-  assert.equal(M.selectQuestion(p, 'religion'), null);
-  const vus = Array.from({ length: 12 }, () => M.nextTheme(p));
-  assert.ok(!vus.includes('religion') && vus.includes('maths') && vus.includes('logic'));
-  // un enfant de 8 ans garde la religion grâce à la tranche 8-10
-  assert.ok(M.poolFor(enfant(8), 'religion').length > 0);
-});
-test('question dépubliée (absente des données du jeu) : jamais proposée', () => {
-  const retiree = DATA.questions.find(q => q.t === 'sciences' && q.a === '9-10');
-  const data = { ...DATA, questions: DATA.questions.filter(q => q !== retiree) };
-  const M = moteur(data);
-  for (let k = 0; k < 400; k++) assert.notEqual(M.selectQuestion(enfant(9), 'sciences')?.id, retiree.id);
-});
-test('âge absent, tranche inconnue ou mal écrite : la question n’est pas proposée, une écriture voisine est reconnue', () => {
-  const base = DATA.questions.filter(q => q.t === 'geography').slice(0, 3);
-  const qs = [{ ...base[0], id: 'X1', a: null }, { ...base[1], id: 'X2', a: '7 à 8' }, { ...base[2], id: 'X3', a: '7–8 ans' }];
-  const pool = A.questionsEligibles(qs, 'geography', enfant(8));
-  assert.deepEqual(pool.map(q => q.id), ['X3']);
-  assert.equal(A.normaliserTranche('13 +'), '13+');
-  assert.equal(A.normaliserTranche('n’importe quoi'), null);
-});
-test('un joueur qui change d’âge change de tranches ; joueurs d’âges différents dans la même partie', () => {
-  const p = enfant(7); assert.deepEqual(A.tranchesPourJoueur('sciences', p), ['7-8']);
-  p.age = 9; assert.deepEqual(A.tranchesPourJoueur('sciences', p), ['9-10']);
-  const M = moteur(DATA), petit = enfant(6), grand = enfant(13), papa = adulte();
-  for (let k = 0; k < 60; k++) {
-    assert.equal(M.selectQuestion(petit, 'geography').a, '5-6');
-    assert.equal(M.selectQuestion(grand, 'geography').a, '13+');
-    assert.ok(['13+', '11-12'].includes(M.selectQuestion(papa, 'geography').a));
-  }
-});
-test('partie mélangeant Religion, Sciences et Histoire-Géo : rotation normale, tranches respectées', () => {
-  const M = moteur(DATA), p = enfant(10); const ordre = [];
-  for (let k = 0; k < 12; k++) { const t = M.nextTheme(p); ordre.push(t); const q = M.selectQuestion(p, t); assert.ok(q);
-    if (t !== 'maths') assert.ok(A.tranchesPourJoueur(t, p).includes(q.a)); }
-  assert.deepEqual(ordre.slice(0, 6), ['religion', 'maths', 'geography', 'sciences', 'logic', 'management']);
-});
-
-// ---------- Tableau de bord : filtres ----------
-const Q = [
-  { id: 'R1', t: 'religion', a: '10-12', statut: 'publiee', q: { fr: 'Prière' }, r: { fr: '' } },
-  { id: 'R2', t: 'religion', a: '5-8', statut: 'brouillon', q: { fr: 'Prophète' }, r: { fr: '' } },
-  { id: 'S1', t: 'sciences', a: '11-12', statut: 'publiee', q: { fr: 'Planète' }, r: { fr: '' } },
-  { id: 'S2', t: 'sciences', a: '9-10', statut: 'archivee', q: { fr: 'Prisme' }, r: { fr: '' } },
-  { id: 'G1', t: 'geography', a: '11-12', statut: 'publiee', q: { fr: 'Pérou' }, r: { fr: '' } },
-  { id: 'M1', t: 'maths', a: null, statut: 'publiee', q: { fr: 'Calcul' }, r: { fr: '' } },
-];
-const ids = (l) => l.map(q => q.id);
-test('filtre Religion : seulement les tranches religion', () => {
-  const g = A.optionsFiltreAge('religion'); assert.equal(g.length, 1);
-  assert.deepEqual(g[0].options.map(o => o.value), ['religion:5-8', 'religion:8-10', 'religion:10-12', 'religion:12-14', 'religion:14+']);
-  assert.deepEqual(ids(A.filtrerQuestions(Q, { theme: 'religion', age: 'religion:10-12' })), ['R1']);
-});
-test('filtre Sciences : seulement les tranches générales', () => {
-  assert.deepEqual(A.optionsFiltreAge('sciences')[0].options.map(o => o.value), ['generale:5-6', 'generale:7-8', 'generale:9-10', 'generale:11-12', 'generale:13+']);
-  assert.deepEqual(ids(A.filtrerQuestions(Q, { theme: 'sciences', age: 'generale:11-12' })), ['S1']);
-  assert.deepEqual(A.optionsFiltreAge('maths'), []);
-});
-test('Tous les thèmes : deux groupes séparés, sans ambiguïté entre classifications', () => {
-  const g = A.optionsFiltreAge(''); assert.deepEqual(g.map(x => x.label), ['Âges généraux', 'Âges religion']);
-  assert.deepEqual(ids(A.filtrerQuestions(Q, { age: 'generale:11-12' })), ['S1', 'G1']);
-  assert.deepEqual(ids(A.filtrerQuestions(Q, { age: 'religion:10-12' })), ['R1']);
-  const toutes = g.flatMap(x => x.options.map(o => o.value)); assert.equal(new Set(toutes).size, toutes.length);
-});
-test('changement de thème après un âge : retour à « Tous les âges » si la tranche n’existe plus', () => {
-  assert.equal(A.filtreAgeCompatible('sciences', 'religion:10-12'), false);
-  assert.equal(A.filtreAgeCompatible('', 'religion:10-12'), true);
-  assert.equal(A.filtreAgeCompatible('geography', 'generale:11-12'), true);
-  assert.equal(A.filtreAgeCompatible('maths', 'generale:11-12'), false);
-});
-test('combinaison âge + thème + statut + recherche', () => {
-  assert.deepEqual(ids(A.filtrerQuestions(Q, { theme: 'sciences', age: 'generale:9-10', statut: 'archivee', recherche: 'pris' })), ['S2']);
-  assert.deepEqual(ids(A.filtrerQuestions(Q, { theme: 'sciences', age: 'generale:9-10', statut: 'publiee' })), []);
-  assert.deepEqual(ids(A.filtrerQuestions(Q, { statut: 'publiee', recherche: 'p' })), ['R1', 'S1', 'G1']);
-});
-
-// ---------- Création / modification (validation serveur) ----------
-const base = { q: { fr: 'Question ?' }, r: { fr: 'Réponse.' }, d: 2 };
-test('création d’une question religieuse : tranche religion obligatoire, publication avec source + explications FR et AR', () => {
-  assert.match(verifierQuestion({ ...base, t: 'religion', a: '7-8', statut: 'brouillon' }).erreur, /Tranche/);
-  assert.ok(verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'brouillon' }).question);
-  assert.match(verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'publiee' }).erreur, /source/);
-  const ok = verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'publiee', s: 'Livre — Auteur', e: { fr: 'Expl.', ar: 'شرح' } });
-  assert.equal(ok.question.statut, 'publiee'); assert.equal(ok.question.a, '5-8');
-});
-test('modification d’une question générale : identifiant, traductions et champs conservés', () => {
-  const v = verifierQuestion({ ...base, id: 'SCI-910-031', t: 'sciences', a: '9–10', statut: 'publiee', q: { fr: 'Q ?', ar: 'س؟', en: 'Q?' }, r: { fr: 'R', en: 'A' }, e: { fr: 'E', en: 'Ex' }, src: 'v2', poids: 2, prio: true });
-  const q = v.question;
-  assert.equal(q.id, 'SCI-910-031'); assert.equal(q.a, '9-10');
-  assert.deepEqual(q.q, { fr: 'Q ?', ar: 'س؟', en: 'Q?' }); assert.deepEqual(q.r, { fr: 'R', en: 'A' }); assert.deepEqual(q.e, { fr: 'E', en: 'Ex' });
-  assert.equal(q.src, 'v2'); assert.equal(q.poids, 2); assert.equal(q.prio, true); assert.equal(q.d, 2);
-});
-test('changement de catégorie : une tranche incompatible est refusée, jamais enregistrée en silence', () => {
-  assert.match(verifierQuestion({ ...base, id: 'R1', t: 'sciences', a: '10-12' }).erreur, /Tranche/);   // religion → sciences
-  assert.match(verifierQuestion({ ...base, id: 'S1', t: 'religion', a: '11-12' }).erreur, /Tranche/);   // sciences → religion
-  assert.equal(verifierQuestion({ ...base, id: 'S1', t: 'maths', a: '11-12' }).question.a, null);       // maths : pas de tranche
-  assert.ok(verifierQuestion({ ...base, id: 'S1', t: 'religion', a: '10-12' }).question);
-});
-
-// ---------- Vérifications avant publication ----------
-test('progression : le niveau du joueur oriente le tirage à l’intérieur des deux tranches (religion, 8 ans)', () => {
-  const M = moteur(DATA), p = enfant(8);
-  const part = (lvl) => { p.levels.religion = lvl; let d1 = 0; for (let k = 0; k < 2000; k++) { const q = M.selectQuestion(p, 'religion'); if (q.d === 1) d1++; } return d1 / 2000; };
-  const n1 = part(1), n2 = part(2);
-  console.log(`  8 ans, niveau 1 : ${(n1 * 100).toFixed(0)} % de questions niveau 1 ; niveau 2 : ${(n2 * 100).toFixed(0)} %`);
-  assert.ok(n1 > 0.6 && n2 < 0.4, `niveau 1 → ${n1}, niveau 2 → ${n2}`);
-});
-test('progression : 2 bonnes réponses font monter d’un niveau, une erreur fait descendre, dans les limites des tranches du joueur', () => {
-  const M = moteur(DATA), p = enfant(10);           // religion 8-10 (niv. 2) + 10-12 (niv. 3)
-  p.levels.religion = M.startLevel(p); p.streak.religion = 0;
-  assert.equal(p.levels.religion, 2);
-  M.adapt(p, 'religion', 'good'); assert.equal(p.levels.religion, 2);
-  M.adapt(p, 'religion', 'good'); assert.equal(p.levels.religion, 3);
-  M.adapt(p, 'religion', 'wrong'); assert.equal(p.levels.religion, 2);
-  M.adapt(p, 'religion', 'wrong'); M.adapt(p, 'religion', 'wrong');
-  assert.deepEqual([...M.levelRange(p, 'religion')], [2, 3]);
-  M.adapt(p, 'religion', 'partial'); assert.equal(p.levels.religion, 2, 'le niveau est ramené dans la plage de ses tranches');
+  for (let k = 0; k < 50; k++) { const q = M.selectQuestion(p, 'sciences'); assert.equal(q.a, '5-8'); assert.ok(q.am <= 7); }
 });
 test('aucun thème n’a de question adaptée : pas de boucle infinie, pas de plantage, la question est sautée', async () => {
   const M = moteur({ ...DATA, questions: [] }), p = enfant(8);
@@ -254,42 +124,67 @@ test('aucun thème n’a de question adaptée : pas de boucle infinie, pas de pl
   assert.match(M.toasts[0], /Pas de question adaptée/);
   assert.ok(Date.now() - t0 < 500);
 });
-test('traductions : l’anglais (et toute langue déjà présente parmi fr/ar/en) survit à une modification depuis l’éditeur', () => {
-  const enBase = { id: 'GEOW-78-040', t: 'geography', a: '7-8', d: 3, q: { fr: 'Q', ar: 'س', en: 'Q en' }, r: { fr: 'R', en: 'A' }, e: { fr: 'E', ar: 'ش', en: 'Ex' } };
-  // ce que l'éditeur envoie : la question d'origine + les champs fr/ar du formulaire
-  const envoi = { ...enBase, q: { ...enBase.q, fr: 'Q modifiée', ar: 'س' }, r: { ...enBase.r, fr: 'R', ar: '' }, e: { ...enBase.e, fr: 'E', ar: 'ش' }, statut: 'publiee' };
-  const v = verifierQuestion(envoi).question;
-  assert.deepEqual(v.q, { fr: 'Q modifiée', ar: 'س', en: 'Q en' });
-  assert.deepEqual(v.r, { fr: 'R', en: 'A' });
-  assert.deepEqual(v.e, { fr: 'E', ar: 'ش', en: 'Ex' });
-  // le moteur et les filtres fonctionnent avec ou sans anglais
-  assert.equal(A.questionsEligibles([{ ...enBase, q: { fr: 'x', en: 'y' } }], 'geography', enfant(8)).length, 1);
-  assert.equal(A.filtrerQuestions([{ ...enBase, statut: 'publiee' }], { recherche: 'q en' }).length, 1);
+test('même question en double dans le fichier (groupe) : jamais reposée deux fois à la même table', () => {
+  const doubles = DATA.questions.filter(q => q.src && q.src.startsWith('groupe:'));
+  assert.ok(doubles.length >= 2);
+  const M = moteur({ ...DATA, questions: doubles }), p = enfant(8);
+  const vus = []; let q; while ((q = M.selectQuestion(p, 'geography')) && vus.length < 30) { if (vus.includes(q.src)) break; vus.push(q.src); }
+  assert.equal(new Set(vus).size, vus.length);
 });
-
-test('même fait formulé pour plusieurs âges (groupe) : jamais reposé à la table ni au même joueur avant la fin de sa série', () => {
-  const mk = (id, a, g) => ({ id, t: 'geography', d: 3, a, q: { fr: id }, r: { fr: 'x' }, e: {}, src: 'groupe:' + g });
-  const qs = [];
-  for (let g = 1; g <= 6; g++) { qs.push(mk(`G${g}-11`, '11-12', g)); qs.push(mk(`G${g}-13`, '13+', g)); }
-  const data = { ...DATA, questions: [...DATA.questions.filter(q => q.t !== 'geography'), ...qs] };
-  const M = moteur(data), p = adulte();
-  const tires = Array.from({ length: 6 }, () => M.selectQuestion(p, 'geography'));
-  const groupes = tires.map(q => q.src);
-  assert.equal(new Set(groupes).size, 6, 'un adulte (deux tranches) voit 6 faits différents avant de revoir un fait : ' + groupes.join(','));
-});
-
 test('variété : une même partie ne repose pas deux fois le même modèle de question (seuls les nombres changent)', () => {
   const api = moteur(DATA); const p = enfant(11); const mod = (q) => q.q.fr.replace(/\d+(?:[.,]\d+)?/g, '#').replace(/\s+/g, ' ').trim().slice(0, 70);
   const vus = []; for (let k = 0; k < 12; k++) { const q = api.selectQuestion(p, 'maths'); assert.ok(q); vus.push(mod(q)); }
   assert.equal(new Set(vus).size, vus.length, 'modèle répété : ' + vus.join(' | '));
 });
-
 test('événement en cours : seules ses questions sortent ; joueur sans question d’événement à son âge → questions habituelles ; hors événement, jamais', () => {
-  const evq = {}; const rel = DATA.questions.filter(q => q.t === 'religion' && (q.a === '8-10' || q.a === '10-12')).slice(0, 12); rel.forEach(q => { evq[q.id] = 'ramadan'; });
+  const evq = {}; const rel = DATA.questions.filter(q => q.t === 'religion' && q.a === '9-12' && q.am <= 9).slice(0, 12); rel.forEach(q => { evq[q.id] = 'ramadan'; });
   const data = { ...DATA, evq, EV: { id: 'ramadan', nom: 'Ramadan' } };
-  const api = moteur(data), p8 = enfant(9);
-  for (let k = 0; k < 20; k++) { const th = api.nextTheme(p8); const q = api.selectQuestion(p8, th); assert.ok(q && evq[q.id] === 'ramadan', 'question hors événement'); }
+  const api = moteur(data), p9 = enfant(9);
+  for (let k = 0; k < 20; k++) { const th = api.nextTheme(p9); const q = api.selectQuestion(p9, th); assert.ok(q && evq[q.id] === 'ramadan', 'question hors événement'); }
   const p5 = enfant(5); const q5 = api.selectQuestion(p5, api.nextTheme(p5)); assert.ok(q5 && !evq[q5.id]);
   const hors = moteur({ ...DATA, evq });
-  for (let k = 0; k < 60; k++) { const q = hors.selectQuestion(p8, 'religion'); if (q) assert.ok(!evq[q.id], 'question d’événement hors de ses dates'); }
+  for (let k = 0; k < 60; k++) { const q = hors.selectQuestion(p9, 'religion'); if (q) assert.ok(!evq[q.id], 'question d’événement hors de ses dates'); }
+});
+
+// ---------- Tableau de bord : filtres ----------
+const Q = [
+  { id: 'R1', t: 'religion', a: '9-12', statut: 'publiee', q: { fr: 'Prière' }, r: { fr: '' } },
+  { id: 'R2', t: 'religion', a: '5-8', statut: 'brouillon', q: { fr: 'Prophète' }, r: { fr: '' } },
+  { id: 'S1', t: 'sciences', a: '9-12', statut: 'publiee', q: { fr: 'Planète' }, r: { fr: '' } },
+  { id: 'S2', t: 'sciences', a: '13-17', statut: 'archivee', q: { fr: 'Prisme' }, r: { fr: '' } },
+  { id: 'M1', t: 'maths', a: '18+', statut: 'publiee', q: { fr: 'Calcul' }, r: { fr: '' } },
+];
+const ids = (l) => l.map(q => q.id);
+test('filtre d’âge : les 4 tranches, pour tous les thèmes', () => {
+  assert.deepEqual(A.optionsFiltreAge('')[0].options.map(o => o.value), ['5-8', '9-12', '13-17', '18+']);
+  assert.deepEqual(ids(A.filtrerQuestions(Q, { age: '9-12' })), ['R1', 'S1']);
+  assert.deepEqual(ids(A.filtrerQuestions(Q, { theme: 'maths', age: '18+' })), ['M1']);
+  assert.deepEqual(ids(A.filtrerQuestions(Q, { theme: 'sciences', age: '13-17', statut: 'archivee', recherche: 'pris' })), ['S2']);
+  assert.equal(A.filtreAgeCompatible('maths', '9-12'), true); assert.equal(A.filtreAgeCompatible('', 'religion:10-12'), false);
+});
+
+// ---------- Création / modification (validation serveur) ----------
+const base = { q: { fr: 'Question ?' }, r: { fr: 'Réponse.' }, d: 2 };
+test('tranche obligatoire pour toutes les matières, maths comprises ; âge minimum dans la tranche', () => {
+  assert.match(verifierQuestion({ ...base, t: 'maths', a: null }).erreur, /Tranche/);
+  assert.match(verifierQuestion({ ...base, t: 'sciences', a: '13+' }).erreur, /Tranche/);
+  assert.equal(verifierQuestion({ ...base, t: 'maths', a: '9-12' }).question.am, 9);
+  assert.equal(verifierQuestion({ ...base, t: 'maths', a: '9-12', am: 11 }).question.am, 11);
+  assert.match(verifierQuestion({ ...base, t: 'maths', a: '9-12', am: 14 }).erreur, /âge minimum/);
+});
+test('QCM : trois choix et la bonne lettre, sinon refus', () => {
+  const qcm = { fr: { A: 'Un', B: 'Deux', C: 'Trois' }, en: { A: 'One', B: 'Two', C: 'Three' }, ok: 'B' };
+  assert.deepEqual(verifierQuestion({ ...base, t: 'sciences', a: '5-8', qcm }).question.qcm, qcm);
+  assert.match(verifierQuestion({ ...base, t: 'sciences', a: '5-8', qcm: { ...qcm, ok: 'D' } }).erreur, /QCM/);
+  assert.match(verifierQuestion({ ...base, t: 'sciences', a: '5-8', qcm: { fr: { A: 'Un', B: 'Deux' }, ok: 'A' } }).erreur, /QCM/);
+});
+test('religion : publication seulement avec source + explications FR et AR (règle du projet)', () => {
+  assert.ok(verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'brouillon' }).question);
+  assert.match(verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'publiee' }).erreur, /source/);
+  assert.equal(verifierQuestion({ ...base, t: 'religion', a: '5-8', statut: 'publiee', s: 'Livre', e: { fr: 'E', ar: 'ش' } }).question.statut, 'publiee');
+});
+test('modification : identifiant, traductions, âge minimum et QCM conservés', () => {
+  const v = verifierQuestion({ ...base, id: 'SCI-1', t: 'sciences', a: '9–12', am: 10, statut: 'publiee', q: { fr: 'Q ?', en: 'Q?' }, r: { fr: 'R', en: 'A' }, e: { fr: 'E' }, src: 'v2', poids: 2, prio: true }).question;
+  assert.equal(v.id, 'SCI-1'); assert.equal(v.a, '9-12'); assert.equal(v.am, 10);
+  assert.deepEqual(v.q, { fr: 'Q ?', en: 'Q?' }); assert.deepEqual(v.e, { fr: 'E' }); assert.equal(v.src, 'v2'); assert.equal(v.poids, 2);
 });

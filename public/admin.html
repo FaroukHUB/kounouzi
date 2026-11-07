@@ -86,6 +86,7 @@ label.f small{font-weight:700;color:var(--faint)}
 .avis{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);margin-top:10px}
 .avis.nouveau{border-color:rgba(239,190,76,.5);background:rgba(239,190,76,.07)}.avis.traite{opacity:.6}
 .avh{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.avis p{white-space:pre-wrap;margin:10px 0 0}
+.qcgrid{display:grid;grid-template-columns:24px 1fr 1fr;gap:6px 8px;align-items:center;margin:8px 0}#qcBlock summary{cursor:pointer;font-weight:700}
 </style></head><body>
 
 <section id="login" class="wrap login">
@@ -314,8 +315,13 @@ label.f small{font-weight:700;color:var(--faint)}
   <div class="row" style="justify-content:space-between"><h2 style="margin:0" id="qdTitle">Question</h2><span class="tag mono" id="qdId"></span></div>
   <div class="f2">
     <label class="f">Thème<select name="t" id="fT"></select></label>
-    <div class="f2"><label class="f">Tranche d'âge<select name="a" id="fA"></select></label><label class="f">Niveau<select name="d"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label></div>
+    <div class="f2"><label class="f">Tranche d'âge<select name="a" id="fA"></select></label><label class="f">Âge minimum<input name="am" type="number" min="5" max="99" inputmode="numeric" title="Un enfant plus jeune ne reçoit jamais cette question"></label><label class="f">Niveau<select name="d"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label></div>
   </div>
+  <details class="f" id="qcBlock"><summary>QCM à 3 choix (affiché aux 5-8 ans : toucher un choix donne la réponse)</summary>
+    <div class="qcgrid"><span></span><b>Français</b><b>Anglais</b>
+      <b>A</b><input name="qc_fr_A"><input name="qc_en_A" lang="en"><b>B</b><input name="qc_fr_B"><input name="qc_en_B" lang="en"><b>C</b><input name="qc_fr_C"><input name="qc_en_C" lang="en"></div>
+    <label class="f">Bonne réponse<select name="qc_ok"><option value="">— pas de QCM —</option><option>A</option><option>B</option><option>C</option></select></label>
+  </details>
   <div class="f2">
     <label class="f">Question (français)<textarea name="q_fr" required></textarea></label>
     <label class="f">Question (anglais)<textarea name="q_en" lang="en"></textarea></label>
@@ -350,7 +356,7 @@ label.f small{font-weight:700;color:var(--faint)}
 import { statutTrad, progression, analyserImport, lots, LIBELLE_STATUT_TRAD } from '/trad.js';
 import { texteVoix, compilerPron } from '/voixtexte.js';
 import { DICOS } from '/i18n/jeu.js';
-import { optionsFiltreAge, filtreAgeCompatible, filtrerQuestions, tranchesDuTheme, trancheValidePour, systemeDe, libelleTranche } from '/ages.js';
+import { optionsFiltreAge, filtreAgeCompatible, filtrerQuestions, tranchesDuTheme, trancheValidePour, libelleTranche, trancheDeLAge } from '/ages.js';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt=n=>(n??0).toLocaleString('fr-FR');
@@ -550,7 +556,7 @@ $('#evDel').onclick=async()=>{ const b=$('#evDel'); if(!b.dataset.sure){ b.datas
 // Compteur : questions publiées de l'événement par thème et tranche d'âge (il en faut assez pour chaque âge).
 function renderCompte(){ const id=$('#eqEv').value, out=$('#eqCompte'); if(!id){ out.innerHTML=''; return; }
   const qs=questionsEv(id).filter(q=>q.statut==='publiee'); if(!qs.length){ out.innerHTML='<p class="muted small">Aucune question publiée pour cet événement.</p>'; return; }
-  const parT={}; qs.forEach(q=>{ const k=q.t==='maths'? 'niveau '+q.d : libelleTranche(q.a||''); (parT[q.t] ||= {})[k]=((parT[q.t]||{})[k]||0)+1; });
+  const parT={}; qs.forEach(q=>{ const k=libelleTranche(q.a||'?'); (parT[q.t] ||= {})[k]=((parT[q.t]||{})[k]||0)+1; });
   out.innerHTML=`<h3 style="margin:8px 0 4px;font-size:15px">Questions publiées : ${qs.length}</h3>`+Object.entries(parT).map(([t,o])=>`<div class="small"><b>${esc(THEMES[t]||t)}</b> : ${Object.entries(o).map(([k,n])=>`${esc(k)} <span class="tag ${n<15?'warn':'good'}">${n}</span>`).join(' ')}</div>`).join('')
     +'<p class="muted small">Conseil : environ 15 à 20 questions par tranche d\'âge. En orange, moins de 15.</p>'; }
 $('#eqEv').onchange=()=>{ renderCompte(); majImportBtns(); };
@@ -596,12 +602,11 @@ async function loadQuestions(){ chargerEv().then(()=>remplirEvSelect($('#qev'),n
   majFiltreAge();
   try{ QLOADING=null; Q=[]; await ensureQuestions(); }catch(e){ $('#qBody').innerHTML=`<tr><td colspan="7" class="msg err">${esc(e.message)}</td></tr>`; return; } renderQ(); }
 const ST={publiee:['Publiée','good'],brouillon:['Brouillon','warn'],archivee:['Archivée','']};
-// Filtre d'âge contextuel : tranches de la religion OU tranches générales selon le thème ; les deux (séparées) pour « Tous les thèmes ».
-// Les valeurs portent la classification ('religion:10-12', 'generale:11-12') : aucune ambiguïté possible.
+// Filtre d'âge : les mêmes 4 tranches pour toutes les matières (5-8, 9-12, 13-17, 18+).
 function majFiltreAge(){ const t=$('#qt').value, cur=$('#qa').value, groupes=optionsFiltreAge(t);
   $('#qa').innerHTML='<option value="">Tous les âges</option>'+groupes.map(g=>`<optgroup label="${esc(g.label)}">${g.options.map(o=>`<option value="${o.value}">${esc(o.label)}</option>`).join('')}</optgroup>`).join('');
   $('#qa').value= filtreAgeCompatible(t,cur)? cur : '';
-  $('#qa').disabled= t==='maths'; $('#qa').title= t==='maths'? 'Les maths sont choisies selon le niveau, sans tranche d\'âge' : ''; }
+  $('#qa').disabled=false; }
 function qFiltres(){ const o=$('#qo').value, tr=$('#qtr').value, ev=$('#qev').value;
   let L=filtrerQuestions(Q,{theme:$('#qt').value, age:$('#qa').value, statut:$('#qs').value, recherche:$('#qq').value});
   if(tr) L=L.filter(q=>statutTrad(q,'en')===tr);
@@ -665,18 +670,20 @@ $('#fT').innerHTML=Object.entries(THEMES).map(([k,v])=>`<option value="${k}">${v
 // Tranches proposées selon le thème de la question. Si la tranche actuelle n'existe pas pour le nouveau thème,
 // rien n'est choisi à sa place : l'administrateur doit en choisir une (pas d'enregistrement incohérent).
 function fillBands(t,val){ const list=tranchesDuTheme(t), garde=list.includes(val);
-  $('#fA').innerHTML= t==='maths'? '<option value="">(selon le niveau)</option>'
-    : (garde?'':'<option value="" selected disabled>— Choisir la tranche —</option>')+list.map(b=>`<option value="${b}" ${b===val?'selected':''}>${esc(libelleTranche(b))}</option>`).join('');
-  $('#fA').disabled=t==='maths'; return garde||t==='maths'||!val; }
+  $('#fA').innerHTML= (garde?'':'<option value="" selected disabled>— Choisir la tranche —</option>')+list.map(b=>`<option value="${b}" ${b===val?'selected':''}>${esc(libelleTranche(b))}</option>`).join('');
+  $('#fA').disabled=false; return garde||!val; }
 // Champs arabes : seulement pour la Religion (les données arabes des autres thèmes restent en base, non montrées).
 function majArabe(){ const rel=F.t.value==='religion'; $('#arBlock').hidden=!rel; $('#arNote').hidden= rel || !(EDIT&&(EDIT.q?.ar||EDIT.r?.ar||EDIT.e?.ar)); }
 $('#fT').onchange=()=>{ majArabe(); const avant=$('#fA').value || EDIT?.a || ''; const ok=fillBands($('#fT').value,avant);
   $('#qdMsg').className= ok?'msg':'msg err'; $('#qdMsg').textContent= ok? '' : `La tranche « ${avant} » n'existe pas pour ce thème : choisis une nouvelle tranche.`; };
+const qcmForm=()=>{ const ok=F.qc_ok.value; if(!ok) return null; const g=l=>Object.fromEntries(['A','B','C'].map(k=>[k,F[`qc_${l}_${k}`].value.trim()]));
+  const en=g('en'); return { fr:g('fr'), ok, ...(Object.values(en).every(Boolean)?{en}:{}) }; };
 const poidsTxt=v=>v==0?'jamais posée':v<1?'moins souvent':v==1?'normale':v<=2?'plus souvent':'beaucoup plus souvent';
 F.poids.oninput=()=>$('#poidsLbl').textContent=poidsTxt(+F.poids.value);
-function openQ(q){ EDIT=q||null; const x=q||{t:$('#qt').value||'logic',d:1,q:{},r:{},e:{},statut:'brouillon',poids:1};
+function openQ(q){ EDIT=q||null; const x=q||{t:$('#qt').value||'maths',d:1,q:{},r:{},e:{},statut:'brouillon',poids:1};
   $('#qdTitle').textContent=q?'Modifier la question':'Nouvelle question'; $('#qdId').textContent=q?q.id:'nouvelle';
-  F.t.value=x.t; fillBands(x.t,x.a); F.d.value=x.d||1;
+  F.t.value=x.t; fillBands(x.t,x.a); F.d.value=x.d||1; F.am.value=x.am??'';
+  const qc=x.qcm||{}; ['A','B','C'].forEach(k=>{ F['qc_fr_'+k].value=qc.fr?.[k]||''; F['qc_en_'+k].value=qc.en?.[k]||''; }); F.qc_ok.value=qc.ok||''; $('#qcBlock').open=!!x.qcm;
   F.q_fr.value=x.q?.fr||''; F.q_ar.value=x.q?.ar||''; F.r_fr.value=x.r?.fr||''; F.r_ar.value=x.r?.ar||''; F.e_fr.value=x.e?.fr||''; F.e_ar.value=x.e?.ar||'';
   F.q_en.value=x.q?.en||''; F.r_en.value=x.r?.en||''; F.e_en.value=x.e?.en||''; F.trad_en.value=statutTrad(x,'en'); majArabe();
   remplirEvSelect($('#fEv'),'Aucun (question habituelle)'); F.ev.value=(q&&EVD.tags[q.id])||'';
@@ -693,16 +700,17 @@ dlg.addEventListener('close',()=>{ if(!LECTURE) stopVoix(); });
 $('#qnew').onclick=()=>openQ(null);
 $('#qdCancel').onclick=()=>dlg.close();
 F.onsubmit=async e=>{ e.preventDefault(); const b=$('#qdSave'); b.disabled=true; $('#qdMsg').className='msg'; $('#qdMsg').textContent='Enregistrement…';
-  if(F.t.value!=='maths' && !trancheValidePour(F.t.value,F.a.value)){ b.disabled=false; $('#qdMsg').className='msg err'; $('#qdMsg').textContent='Choisis une tranche d\'âge valable pour ce thème.'; return; }
+  if(!trancheValidePour(F.t.value,F.a.value)){ b.disabled=false; $('#qdMsg').className='msg err'; $('#qdMsg').textContent='Choisis une tranche d\'âge (obligatoire pour toutes les matières).'; return; }
+  if(F.am.value!=='' && trancheDeLAge(+F.am.value)!==F.a.value){ b.disabled=false; $('#qdMsg').className='msg err'; $('#qdMsg').textContent=`L'âge minimum doit être dans la tranche ${F.a.value}.`; return; }
   // Les autres langues déjà présentes (ex. anglais) sont conservées : on ne remplace que le français et l'arabe.
   // Toutes les langues sont conservées (y compris l'arabe masqué hors religion) ; seuls les champs du formulaire changent.
   let trEn=F.trad_en.value; if(!F.q_en.value.trim()) trEn='a_faire'; else if(trEn==='a_faire') trEn='a_relire';
   // Français modifié alors que l'anglais était validé : la traduction repasse « à relire ».
   if(EDIT && trEn==='validee' && (F.q_fr.value!==(EDIT.q?.fr||'') || F.r_fr.value!==(EDIT.r?.fr||'')) && F.trad_en.value===statutTrad(EDIT,'en')) trEn='a_relire';
-  const question={id:EDIT?.id, t:F.t.value, a:F.t.value==='maths'?'':F.a.value, d:+F.d.value, q:{...(EDIT?.q||{}),fr:F.q_fr.value,ar:F.q_ar.value,en:F.q_en.value}, r:{...(EDIT?.r||{}),fr:F.r_fr.value,ar:F.r_ar.value,en:F.r_en.value}, e:{...(EDIT?.e||{}),fr:F.e_fr.value,ar:F.e_ar.value,en:F.e_en.value}, s:F.s.value, src:EDIT?.src, statut:F.statut.value, poids:+F.poids.value, prio:F.prio.checked, trad:{...(EDIT?.trad||{}),en:trEn}};
+  const question={id:EDIT?.id, t:F.t.value, a:F.a.value, am:F.am.value===''?null:+F.am.value, qcm:qcmForm(), d:+F.d.value, q:{...(EDIT?.q||{}),fr:F.q_fr.value,ar:F.q_ar.value,en:F.q_en.value}, r:{...(EDIT?.r||{}),fr:F.r_fr.value,ar:F.r_ar.value,en:F.r_en.value}, e:{...(EDIT?.e||{}),fr:F.e_fr.value,ar:F.e_ar.value,en:F.e_en.value}, s:F.s.value, src:EDIT?.src, statut:F.statut.value, poids:+F.poids.value, prio:F.prio.checked, trad:{...(EDIT?.trad||{}),en:trEn}};
   try{ const d=await api('question_maj',{question}); const evAvant=(EDIT&&EVD.tags[EDIT.id])||'', evApres=F.ev.value;
     if(evAvant!==evApres){ await api('ev_tag',{ids:[d.id],ev:evApres}); if(evApres) EVD.tags[d.id]=evApres; else delete EVD.tags[d.id]; } const clean=o=>Object.fromEntries(Object.entries(o).filter(([,v])=>v&&String(v).trim()));
-    const nq={...(EDIT||{n:0,taux:null}),...question,id:d.id,q:clean(question.q),r:clean(question.r),e:clean(question.e),a:question.t==='maths'?null:question.a,updated_at:new Date().toISOString()};
+    const nq={...(EDIT||{n:0,taux:null}),...question,id:d.id,q:clean(question.q),r:clean(question.r),e:clean(question.e),a:question.a,am:question.am??(EDIT?.am),updated_at:new Date().toISOString()};
     if(EDIT) Object.assign(EDIT,nq); else Q.unshift(nq);
     dlg.close(); toast('Question enregistrée'); renderQ(); }
   catch(err){ $('#qdMsg').className='msg err'; $('#qdMsg').textContent=err.message; } finally{ b.disabled=false; } };

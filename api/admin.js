@@ -1,7 +1,7 @@
 // Tableau de bord de Farouk : chiffres, codes, questions, réglages du jeu.
 // Protégé par le mot de passe KZ_ADMIN (variable Vercel).
 import { createHash, timingSafeEqual } from 'node:crypto';
-import { normaliserTranche, systemeDe, tranchesDuTheme } from '../public/ages.js';
+import { IDS_TRANCHES, normaliserTranche, trancheDeLAge } from '../public/ages.js';
 import { analyserImport, lots, STATUTS_TRAD } from '../public/trad.js';
 import { chevauchements, ID_EV, lignesQuestions, verifierDefi, verifierEvenement } from './_evenements.js';
 import { avis, contacts, evdb, viderCacheEvenements, moyens, codeCadeau, codePourPaiement, codeValide, db, dbActive, formater, json, oublierRevocation, PRIX } from './_lib.js';
@@ -51,11 +51,21 @@ export function verifierQuestion(b) {
   const q = champ(b.q, 600), r = champ(b.r, 600), e = champ(b.e, 1200);
   if (!q.fr || !r.fr) return { erreur: 'La question et la réponse en français sont obligatoires.' };
   const d = num(b.d, 1, 5, 1);
-  // Tranche d'âge : celle de la classification du thème (religion ou générale) ; aucune pour les maths.
-  let a = null;
-  if (systemeDe(t)) {
-    const ok = tranchesDuTheme(t); a = normaliserTranche(b.a);
-    if (!ok.includes(a)) return { erreur: `Tranche d'âge invalide pour ce thème (attendu : ${ok.join(', ')}).` };
+  // Tranche d'âge obligatoire pour toutes les matières, maths comprises (5-8, 9-12, 13-17, 18+) : une question sans tranche
+  // ne serait jamais proposée, et ne doit surtout pas tomber chez un joueur d'un autre âge.
+  const a = normaliserTranche(b.a);
+  if (!a) return { erreur: `Tranche d'âge obligatoire (attendu : ${IDS_TRANCHES.join(', ')}).` };
+  // Âge minimum recommandé : dans la tranche ; à défaut, le bas de la tranche.
+  const bas = { '5-8': 5, '9-12': 9, '13-17': 13, '18+': 18 }[a];
+  const am = b.am == null || b.am === '' ? bas : num(b.am, 3, 99, bas);
+  if (trancheDeLAge(am) !== a) return { erreur: `L'âge minimum (${am} ans) doit être dans la tranche ${a}.` };
+  // QCM à 3 choix (5-8 ans surtout) : A, B, C en français (anglais facultatif) et la bonne lettre.
+  let qcm = null;
+  if (b.qcm && typeof b.qcm === 'object' && b.qcm.fr) {
+    const choix = (o) => { const r = {}; for (const k of ['A', 'B', 'C']) { const v = txt(o?.[k], 200); if (v) r[k] = v; } return r; };
+    const fr = choix(b.qcm.fr), en = choix(b.qcm.en), ok = String(b.qcm.ok || '').toUpperCase();
+    if (Object.keys(fr).length !== 3 || !fr[ok]) return { erreur: 'QCM : il faut les trois choix A, B, C en français et la bonne réponse (A, B ou C).' };
+    qcm = { fr, ok, ...(Object.keys(en).length === 3 ? { en } : {}) };
   }
   const statut = ['publiee', 'brouillon', 'archivee'].includes(b.statut) ? b.statut : 'brouillon';
   const s = txt(b.s, 300);
@@ -63,7 +73,7 @@ export function verifierQuestion(b) {
   if (t === 'religion' && statut === 'publiee' && (!s || !e.fr || !e.ar))
     return { erreur: 'Une question de religion ne peut être publiée qu’avec sa source et son explication en français et en arabe. Enregistre-la en brouillon en attendant.' };
   const id = txt(b.id, 60) || `${t.slice(0, 3).toUpperCase()}-A-${Date.now().toString(36).toUpperCase()}`;
-  const question = { id, t, d, a, q, r, e, s, src: txt(b.src, 120), statut, poids: num(b.poids, 0, 5, 1), prio: !!b.prio };
+  const question = { id, t, d, a, am, qcm, q, r, e, s, src: txt(b.src, 120), statut, poids: num(b.poids, 0, 5, 1), prio: !!b.prio };
   // Statut de traduction (indépendant de la publication) : envoyé seulement s'il est fourni, sinon la base garde l'actuel.
   if (b.trad && typeof b.trad === 'object') question.trad = Object.fromEntries(Object.entries(b.trad).filter(([l, v]) => /^[a-z]{2}$/.test(l) && !['fr', 'ar'].includes(l) && STATUTS_TRAD.includes(v)));
   return { question };
@@ -215,8 +225,12 @@ export async function POST(request) {
           rapport.push({ ligne: l.ligne, id: v.question.id, etat: ex ? 'modifiee' : 'nouvelle', statut: v.question.statut, question: v.question.q.fr.slice(0, 120), ...(note ? { message: note } : {}) });
           aEcrire.push(v.question);
         }
+        // Questions exclues par le fichier (« ids_exclus ») : archivées si elles sont dans la base (jamais supprimées : l'historique reste).
+        const exclues = (Array.isArray(b.exclus) ? b.exclus : []).map(x => txt(x, 60)).filter(id => existants.has(id) && existants.get(id).statut !== 'archivee');
+        for (const id of exclues) rapport.push({ id, etat: 'exclue', message: 'Exclue par le fichier : sera archivée (plus jamais proposée).' });
         if (!b.importer) return json(200, { simulation: true, rapport });
         for (const q of aEcrire) await db('question_maj', q, { timeout: 8000 });
+        for (const id of exclues) { const ex = existants.get(id); await db('question_maj', { ...ex, statut: 'archivee' }, { timeout: 8000 }); }
         if (ev && aEcrire.length) await evdb('tag', { ids: aEcrire.map(q => q.id), ev }, { timeout: 15000 });
         viderCacheEvenements(); return json(200, { ok: true, ecrites: aEcrire.length, rapport });
       }

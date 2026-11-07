@@ -188,6 +188,13 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .win h3{margin:0;font-family:var(--display);font-weight:400;font-size:clamp(19px,5.6vw,24px);text-align:center;text-wrap:balance;color:#3b2a12;letter-spacing:.01em}
 .qtext{font-weight:800;font-size:clamp(16px,4.6vw,19px);line-height:1.35;text-align:center;text-wrap:balance}
 .qtext.ar{font-size:clamp(18px,5vw,21px);line-height:1.6}
+.qcm{display:grid;gap:7px;margin:4px 0 2px}
+.qch{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border-radius:12px;border:1.5px solid rgba(0,0,0,.15);background:rgba(255,255,255,.7);font:inherit;font-weight:800;font-size:15.5px;text-align:start;color:inherit;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,.12)}
+.qch b{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:50%;background:#2b3a55;color:#fff;font-size:14px}
+.qch:active{transform:translateY(1px)}.qch[disabled]{cursor:default;opacity:.55}
+.qch.ok{opacity:1;border-color:#3fae6a;background:rgba(63,174,106,.2)}.qch.ok b{background:#3fae6a}
+.qch.ko{opacity:1;border-color:#d9534f;background:rgba(217,83,79,.15)}.qch.ko b{background:#d9534f}
+.qcmres{margin-top:6px;padding:7px 10px;border-radius:10px;font-weight:900;text-align:center}.qcmres.ok{background:rgba(63,174,106,.18);color:#1f6b40}.qcmres.ko{background:rgba(217,83,79,.14);color:#9b2c28}
 .ans{background:rgba(63,174,106,.14);border:1.5px solid rgba(63,174,106,.5);border-radius:12px;padding:8px 10px;font-weight:800;text-align:center}
 .ans small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#2f7a4e}
 .expl{font-size:14px;line-height:1.45;font-weight:600;background:rgba(43,31,16,.06);border-radius:10px;padding:8px 10px}
@@ -604,7 +611,7 @@ const SUITE='kounouzi_v2_suite';
 const save = ()=>{ if(S){ store.set(SAVE,S); store.set(SUITE,{hasIdx:S.hasIdx,chalIdx:S.chalIdx}); } };
 const cur = ()=>S.players[S.turn];
 // Statistiques anonymes pour le tableau de bord (jamais de prénom) : début et fin de partie, réponses.
-const ageBand = p=> !p.child? 'adulte' : (p.age<=6?'5-6': p.age<=8?'7-8': p.age<=10?'9-10': p.age<=12?'11-12':'13+');
+const ageBand = p=> !p.child? 'adulte' : (p.age<=8?'5-8': p.age<=12?'9-12': p.age<=17?'13-17':'18+');
 function track(kind,payload){ try{ const body=JSON.stringify({kind,...payload}); if(!(navigator.sendBeacon&&navigator.sendBeacon('/api/stat',new Blob([body],{type:'text/plain'})))) fetch('/api/stat',{method:'POST',body,keepalive:true}).catch(()=>{}); }catch{} }
 let ANS=[];
 function flushAnswers(){ if(ANS.length){ track('reponses',{liste:ANS}); ANS=[]; } }
@@ -1031,8 +1038,8 @@ function pickPlayer(win, acts, players, title){
    Questions
    ========================================================= */
 // Tranches d'âge : définies une seule fois dans /ages.js (partagé avec le tableau de bord et le serveur).
-// Un enfant reçoit les questions des tranches qui contiennent son âge réel (en religion, deux tranches aux âges
-// charnières 8, 10, 12, 14 ans) ; un adulte, les deux tranches les plus hautes ; les maths se choisissent par niveau.
+// Tranches 5-8, 9-12, 13-17, 18+ pour toutes les matières. Un enfant reçoit uniquement la tranche de son âge réel,
+// et jamais une question dont l'âge minimum recommandé dépasse son âge ; un adulte, 18+ et 13-17.
 const bandsFor = (p,theme)=> tranchesPourJoueur(theme,p);
 // Mémoire des questions déjà vues par chaque joueur, gardée d'une partie à l'autre sur cet appareil.
 const SEEN_KEY='kounouzi_v2_seen';
@@ -1103,15 +1110,19 @@ async function askQuestion(p, {theme, title, intro}={}){
   const avecExpl = (Array.isArray(RG.explications)? RG.explications : ['religion']).includes(theme);
   const hasArQ = religion && !!q.q.ar, hasArAny = religion && !!(q.q.ar||q.r.ar||(avecExpl&&q.e.ar));
   const secs = p.child?(RG.minuteur?.enfant||60):(RG.minuteur?.adulte||45); let left=secs, timer=null, revealed=false;
+  // QCM à 3 choix (5-8 ans) : les choix A, B, C s'affichent ; toucher un choix donne la réponse, corrigée avec la bonne lettre.
+  const QC = q.qcm && q.qcm.ok ? (q.qcm[L0] || q.qcm.fr) : null; let choisi=null;
   function draw(){
     const LQ = lang==='ar'&&q.q.ar? 'ar' : L0, LR = lang==='ar'&&q.r.ar? 'ar' : L0;
-    const LE = q.e[L0]? L0 : 'fr';   // explication : langue du jeu si traduite, sinon français
+    const LE = L0;   // explication : seulement dans la langue de la carte (masquée si elle n'existe pas dans cette langue)
     C.win.innerHTML = `<div class="meta"><span class="tag">${title?esc(title):themeNom(theme)}</span><span class="tag">${t('q.niveau',{d:q.d})}</span><span class="tag">${esc(p.name)}</span>${L0!==LANG?`<span class="tag qfr">${t('q.enFrancais')}</span>`:''}</div>
       <div class="qtext ${LQ==='ar'?'ar':''}" dir="${LQ==='ar'?'rtl':'ltr'}" lang="${LQ}">${esc(q.q[LQ])}</div>
+      ${QC? `<div class="qcm" role="group">${['A','B','C'].filter(k=>QC[k]).map(k=>`<button type="button" class="qch ${revealed&&k===q.qcm.ok?'ok':''} ${revealed&&k===choisi&&k!==q.qcm.ok?'ko':''}" data-k="${k}" ${revealed?'disabled':''}><b>${k}</b><span>${esc(QC[k])}</span></button>`).join('')}</div>`:''}
       ${revealed? `<div class="ans" dir="${LR==='ar'?'rtl':'ltr'}" lang="${LR}"><small>${t('q.reponse')}</small>${esc(q.r[LR])}</div>
-        ${avecExpl&&(q.e.fr||(religion&&q.e.ar))? `<button class="linkbtn" id="explBtn">${t('q.voirExpl')}</button><div class="expl" id="expl" hidden><span lang="${LE}">${esc(q.e[LE]||'')}</span>${religion&&q.e.ar?`<span class="ar" dir="rtl" lang="ar">${esc(q.e.ar)}</span>`:''}</div>`:''}
+        ${avecExpl&&(q.e[LE]||(religion&&q.e.ar))? `<button class="linkbtn" id="explBtn">${t('q.voirExpl')}</button><div class="expl" id="expl" hidden><span lang="${LE}">${esc(q.e[LE]||'')}</span>${religion&&q.e.ar?`<span class="ar" dir="rtl" lang="ar">${esc(q.e.ar)}</span>`:''}</div>`:''}
         ${q.s?`<div class="src">${esc(LANG==='en'? q.s.replace(/^Coran\b/,'Qur\'an') : q.s)}</div>`:''}`
       : `<div class="timer" id="tm"><span id="tmv">${t('q.secondes',{n:left})}</span><span class="bar"><i id="tmb" style="width:${left/secs*100}%"></i></span></div>`}`;
+    C.win.querySelectorAll('.qch').forEach(b=>b.onclick=()=>{ if(revealed) return; choisi=b.dataset.k; const v=C.acts.querySelector('button'); if(v) v.click(); });
     const eb=C.win.querySelector('#explBtn'); if(eb) eb.onclick=()=>{ C.win.querySelector('#expl').hidden=false; eb.remove();
       if(lang==='ar'&&religion&&q.e.ar) return say(q.e.ar,{lang:'ar'});
       if(q.e[LE]) say(q.e[LE],{lang:LE}); if(religion&&q.e.ar) say(q.e.ar,{lang:'ar',queue:true}); };
@@ -1130,7 +1141,8 @@ async function askQuestion(p, {theme, title, intro}={}){
     if(lb){ lb.hidden=!show; lb.textContent= lang==='ar'? t('q.retourLangue',{}) : 'ع'; lb.setAttribute('aria-label',t('q.arabe')); }
   }
   const qL=()=> lang==='ar'&&q.q.ar? 'ar' : L0, rL=()=> lang==='ar'&&q.r.ar? 'ar' : L0;
-  const readQ=()=>{ if(!revealed){ const L=qL(); return say(qPhrase(q,L),{lang:L}); } const L=rL(); return say(aPhrase(q,L),{lang:L}); };
+  const choixLus=L=> QC&&L!=='ar'? ' '+['A','B','C'].filter(k=>QC[k]).map(k=>`${k}. ${QC[k]}.`).join(' ') : '';
+  const readQ=()=>{ if(!revealed){ const L=qL(); return say(qPhrase(q,L)+choixLus(L),{lang:L}); } const L=rL(); return say(aPhrase(q,L),{lang:L}); };
   prefetch(aPhrase(q,rL()),rL());
   const humV=res=> RELIGIEUX.has(theme)? '' : blague(res==='good'?'bonne':res==='partial'?'partiel':'rate', cleTour('v'+S.usedQ.length+res));
   const preVerdicts=()=>{ prefetch(PH.good(p.name)+gainText('good',1)+humV('good')); };
@@ -1154,7 +1166,10 @@ async function askQuestion(p, {theme, title, intro}={}){
   const wrap=document.createElement('div'); wrap.className='cacts';
   C.el.appendChild(chk); C.el.appendChild(wrap);
   C.acts.remove(); C.acts=wrap;
-  const verdict = choose(wrap,[{label:`${t('q.bonne')} <small>+${ECO.qGood}</small>`,cls:'btn-good',value:'good'},{label:`${t('q.partie')} <small>+${ECO.qPartial}</small>`,cls:'btn-mid',value:'partial'},{label:t('q.pasCetteFois'),cls:'btn-bad',value:'wrong'}]);
+  const auto = QC&&choisi? (choisi===q.qcm.ok?'good':'wrong') : null;
+  if(auto){ const m=document.createElement('div'); m.className='qcmres '+(auto==='good'?'ok':'ko'); m.textContent= auto==='good'? t('q.qcmBon') : t('q.qcmRate',{k:q.qcm.ok}); C.win.appendChild(m); }
+  const verdict = auto? choose(wrap,[{label:t('q.continuer'),value:auto}])
+    : choose(wrap,[{label:`${t('q.bonne')} <small>+${ECO.qGood}</small>`,cls:'btn-good',value:'good'},...(QC?[]:[{label:`${t('q.partie')} <small>+${ECO.qPartial}</small>`,cls:'btn-mid',value:'partial'}]),{label:t('q.pasCetteFois'),cls:'btn-bad',value:'wrong'}]);
   const res = await verdict;
   const mult = chk.querySelector('input').checked && res!=='wrong' ? 2:1;
   C.close(); adapt(p,theme,res); trackAnswer(p,q,theme,res);
@@ -1626,7 +1641,7 @@ function renderSetup(){
     ${defs.length>2?`<button class="del" data-i="${i}" data-a="del" aria-label="${t('joueur.retirer')}">✕</button>`:'<span></span>'}
     <div class="opts">
       <div class="seg"><button data-i="${i}" data-a="child" aria-pressed="${d.child}">${t('joueur.enfant')}</button><button data-i="${i}" data-a="adult" aria-pressed="${!d.child}">${t('joueur.adulte')}</button></div>
-      ${d.child? `<select id="page${i}" data-i="${i}" aria-label="${t('joueur.age')}">${Array.from({length:12},(_,k)=>k+5).map(a=>`<option value="${a}" ${a===d.age?'selected':''}>${t('joueur.ans',{a,n:a})}</option>`).join('')}</select>`
+      ${d.child? `<select id="page${i}" data-i="${i}" aria-label="${t('joueur.age')}">${Array.from({length:13},(_,k)=>k+5).map(a=>`<option value="${a}" ${a===d.age?'selected':''}>${t('joueur.ans',{a,n:a})}</option>`).join('')}</select>`
         : `<select id="plvl${i}" data-i="${i}" aria-label="${t('joueur.niveau')}">${['decouverte','standard','avance'].map(v=>[v,t('niveau.'+v)]).map(([v,l])=>`<option value="${v}" ${v===d.level?'selected':''}>${l}</option>`).join('')}</select>`}
       <div class="swatches">${COLORS.map(c=>`<button class="sw" style="--c:${c.hex}" data-i="${i}" data-a="color" data-c="${c.id}" aria-label="${t('couleur.'+c.id)}" aria-pressed="${d.color===c.id}" ${used.includes(c.id)&&d.color!==c.id?'disabled':''}></button>`).join('')}</div>
       <button class="tenueBtn" type="button" data-i="${i}" data-a="pickav" aria-expanded="${!!d._pick}"><i style="${(()=>{ const c=TENUES.find(x=>x.id===d.tenue); return c&&c.hex? `background:${c.hex}` : `background-image:url(${avatarFor(d)})`; })()}"></i>${t('tenue.bouton')}</button>

@@ -36,7 +36,9 @@ export const compilerPron=(liste)=>(Array.isArray(liste)?liste:[]).filter(p=>p&&
 const LETTRE_CHOIX=/(^|[\s:(«])([A-F])[.)]\s+(?=\S)/g;
 /** Texte dit par la voix : dictionnaire, puis mots arabes, puis corrections propres à la langue. */
 export function texteVoix(t, lang, pron=[]){
-  t=String(t); pron.forEach(([re,d])=>{ t=t.replace(re,(m,a)=>a+d); }); AR_WORDS.forEach(([re,ar])=>{ t=t.replace(re,ar); });
+  // « Nūḥ = نُوحٌ » (translittération = arabe) : la voix ne lit que l'arabe, une seule fois.
+  t=String(t).replace(/([^\s=]+) = ((?:[\u0600-\u06FF\uFDF0-\uFDFF]+\s?)+)/g,'$2 ');
+  pron.forEach(([re,d])=>{ t=t.replace(re,(m,a)=>a+d); }); AR_WORDS.forEach(([re,ar])=>{ t=t.replace(re,ar); });
   if(lang!=='ar') t=t.replace(LETTRE_CHOIX,'$1$2, ');
   if(lang==='fr') t=FR_SON(t); else if(lang==='en') t=EN_SON(t);
   return t.replace(/\s+/g,' ').trim().slice(0,680);

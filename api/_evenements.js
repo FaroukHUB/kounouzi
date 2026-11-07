@@ -35,23 +35,31 @@ export function evenementDuJour(liste, jour) {
 }
 
 // Noms de thème acceptés dans un fichier (libellé du tableau de bord ou code interne).
-const THEME_NOMS = { religion: 'religion', invocations: 'invocations', 'maths & logique': 'maths', maths: 'maths', 'maths et logique': 'maths', logique: 'maths', logic: 'maths',
+const THEME_NOMS = { religion: 'religion', invocations: 'invocations', 'maths & logique': 'maths', 'histoire des prophètes ': 'geography', maths: 'maths', 'maths et logique': 'maths', logique: 'maths', logic: 'maths',
   'histoire des prophètes': 'geography', histoire: 'geography', geography: 'geography', sciences: 'sciences', science: 'sciences', gestion: 'management', management: 'management' };
 export const themeDe = (v) => THEME_NOMS[txt(v, 40).toLowerCase()] || null;
 const empreinte = (s, n = 8) => createHash('sha256').update(String(s)).digest('hex').slice(0, n).toUpperCase();
 
 /**
- * Lignes d'un fichier de questions (format de l'export du tableau de bord) → questions prêtes à vérifier.
+ * Lignes d'un fichier de questions → questions prêtes à vérifier. Deux formats acceptés :
+ *  - l'export du tableau de bord (theme, tranche_age, niveau, question, reponse, explication…) ;
+ *  - le format de publication (matiere, tranche_age, age_minimum_recommande, question_fr/en, reponse_fr/en, explication_fr, source, qcm).
  * Une ligne sans id reçoit un id stable tiré de l'événement et du texte (réimporter le même fichier ne crée pas de doublon).
+ * Le contenu n'est jamais modifié : les textes sont repris tels quels (seuls les espaces en bord sont retirés).
  */
 export function lignesQuestions(lignes, { ev, statut = 'brouillon' } = {}) {
   return (Array.isArray(lignes) ? lignes : []).slice(0, 2000).map((l, i) => {
-    const t = themeDe(l.theme ?? l.t);
-    const q = { fr: txt(l.question ?? l.q?.fr, 600), en: txt(l.question_en ?? l.q?.en, 600), ar: txt(l.question_ar ?? l.q?.ar, 600) };
-    const r = { fr: txt(l.reponse ?? l.r?.fr, 600), en: txt(l.reponse_en ?? l.r?.en, 600), ar: txt(l.reponse_ar ?? l.r?.ar, 600) };
-    const e = { fr: txt(l.explication ?? l.e?.fr, 1200), en: txt(l.explication_en ?? l.e?.en, 1200), ar: txt(l.explication_ar ?? l.e?.ar, 1200) };
+    const t = themeDe(l.matiere ?? l.theme ?? l.t);
+    const q = { fr: txt(l.question_fr ?? l.question ?? l.q?.fr, 600), en: txt(l.question_en ?? l.q?.en, 600), ar: txt(l.question_ar ?? l.q?.ar, 600) };
+    const r = { fr: txt(l.reponse_fr ?? l.reponse ?? l.r?.fr, 600), en: txt(l.reponse_en ?? l.r?.en, 600), ar: txt(l.reponse_ar ?? l.r?.ar, 600) };
+    const e = { fr: txt(l.explication_fr ?? l.explication ?? l.e?.fr, 1200), en: txt(l.explication_en ?? l.e?.en, 1200), ar: txt(l.explication_ar ?? l.e?.ar, 1200) };
     const id = txt(l.id, 60) || `${(ev || 'IMP').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12)}-${empreinte((t || '') + '|' + q.fr)}`;
-    return { ligne: i + 1, theme_lu: l.theme ?? l.t ?? '', question: { id, t, d: l.niveau ?? l.d, a: l.tranche_age ?? l.a ?? null, q, r, e, s: txt(l.source ?? l.s, 300), statut: l.statut || statut, poids: l.poids, prio: l.prio } };
+    // QCM : format de publication (choix_fr, choix_en, bonne_reponse) ou format interne (fr, en, ok).
+    const c = l.qcm && typeof l.qcm === 'object' ? l.qcm : null;
+    const qcm = c ? { fr: c.choix_fr ?? c.fr, en: c.choix_en ?? c.en, ok: c.bonne_reponse ?? c.ok } : null;
+    const trad = l.trad ?? (l.question_en && statut === 'publiee' ? { en: 'validee' } : undefined);
+    return { ligne: i + 1, theme_lu: l.matiere ?? l.theme ?? l.t ?? '', question: { id, t, d: l.niveau ?? l.d, a: l.tranche_age ?? l.a ?? null, am: l.age_minimum_recommande ?? l.am, qcm,
+      q, r, e, s: txt(l.source ?? l.s, 300), statut: l.statut || statut, poids: l.poids, prio: l.prio, ...(trad ? { trad } : {}) } };
   });
 }
 
