@@ -79,6 +79,10 @@
   "REL-SIR-ARB-L2-19",
   "REL-SIR-ARB-L2-06",
   "REL-OSS-SAS-L3-08",
-  "REL-DRS-ARB-L3-14"
+  "REL-DRS-ARB-L3-14",
+  "LOG-017",
+  "LOG-021",
+  "LOG-022",
+  "LOG-023"
  ]
 }
