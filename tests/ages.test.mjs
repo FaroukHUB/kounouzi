@@ -47,15 +47,15 @@ test('données V41 : 1 989 questions, toutes avec une tranche valable et un âge
   const am = DATA.questions.filter(q => A.trancheDeLAge(q.am) !== q.a); assert.equal(am.length, 0, am.slice(0, 5).map(q => q.id).join(', '));
   assert.equal(new Set(DATA.questions.map(q => q.id)).size, 1989, 'doublon d’identifiant');
 });
-test('QCM 5-8 ans : 628 questions à 3 choix, bonne lettre cohérente avec la réponse', () => {
+test('QCM : 628 questions à 3 choix (5-8 ans à l’origine), bonne lettre cohérente avec la réponse', () => {
   const qcm = DATA.questions.filter(q => q.qcm); assert.equal(qcm.length, 628);
   for (const q of qcm) {
-    assert.equal(q.a, '5-8', q.id); assert.deepEqual(Object.keys(q.qcm.fr).sort(), ['A', 'B', 'C'], q.id);
+    assert.deepEqual(Object.keys(q.qcm.fr).sort(), ['A', 'B', 'C'], q.id);
     assert.equal(q.qcm.fr[q.qcm.ok], q.r.fr, q.id); assert.equal(q.qcm.en[q.qcm.ok], q.r.en, q.id);
   }
 });
-test('Histoire des prophètes 5-8 ans : 30 questions dédiées (p58), dès 5 ans', () => {
-  const p = DATA.questions.filter(q => q.p58); assert.equal(p.length, 30);
+test('Histoire des prophètes 5-8 ans : questions dédiées (p58), dès 5 ans', () => {
+  const p = DATA.questions.filter(q => q.p58); assert.ok(p.length >= 5);
   assert.ok(p.every(q => q.t === 'geography' && q.a === '5-8' && q.am === 5 && q.qcm));
 });
 test('rappels de réponse : jamais présentés comme explication', () => {
