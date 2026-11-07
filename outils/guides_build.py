@@ -16,6 +16,8 @@ for _f, _l in (('index.html', 'fr'), ('en/index.html', 'en')):
     _s = open(D + _f).read()
     _s = re.sub(r'<footer[ >].*?</footer>', lambda m: PS.footer(_l, guides_pied(_l)), _s, count=1, flags=re.S)
     _s = re.sub(r'/\* pied:debut \*/.*?/\* pied:fin \*/', '', _s, flags=re.S).replace('</style>', '/* pied:debut */' + PS.FOOT_CSS + '/* pied:fin */</style>', 1)
+    _s = PS.brancher_menu(_s, _l)
+    _s = re.sub(r'/\* menu:debut \*/.*?/\* menu:fin \*/', '', _s, flags=re.S).replace('</style>', '/* menu:debut */' + PS.MENU_CSS + '/* menu:fin */</style>', 1)
     open(D + _f, 'w').write(_s)
 
 INDEX = open(D + 'index.html').read()
@@ -145,6 +147,10 @@ def bloc(b):
     return f'<p>{b}</p>'
 
 def page(g, lang):
+    autre = g['en' if lang == 'fr' else 'fr']
+    return PS.brancher_menu(_page(g, lang), lang, path('en' if lang == 'fr' else 'fr', autre['slug']))
+
+def _page(g, lang):
     c, t = g[lang], T[lang]
     autre = g['en' if lang == 'fr' else 'fr']
     other_url = path('en' if lang == 'fr' else 'fr', autre['slug'])

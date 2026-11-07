@@ -485,7 +485,50 @@ footer.sfoot .wrap{display:block}
 .fbas a{color:var(--muted);display:inline-flex;align-items:center;gap:8px;text-decoration:none}
 @media (max-width:980px){.fgrid{grid-template-columns:repeat(2,1fr)}.fbrand{grid-column:1/-1}}
 @media (max-width:720px){footer.sfoot{padding-bottom:calc(110px + var(--sab))}.fgrid{gap:26px 18px}.fcol a{display:inline-block;padding:3px 0}}
-/* pied:fin */
+/* pied:fin *//* menu:debut */
+.top nav.kznav{display:flex;gap:8px;margin-inline-start:auto;font-size:14.5px}
+.top nav.kznav a{display:inline-flex;align-items:center;gap:7px;padding:8px 13px 8px 10px;border-radius:999px;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.1);color:var(--parchment);font-weight:800;box-shadow:0 3px 0 rgba(0,0,0,.35);transition:transform .18s cubic-bezier(.3,1.6,.5,1),border-color .18s,background .18s}
+.top nav.kznav a span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.25);font-size:14px;transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.top nav.kznav a:hover{transform:translateY(-2px) rotate(-1.5deg);border-color:var(--gold);background:rgba(239,190,76,.12)}
+.top nav.kznav a:hover span{transform:rotate(-14deg) scale(1.15)}
+.top nav.kznav a:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(0,0,0,.35)}
+.top nav.kznav a[aria-current]{border-color:var(--gold);background:rgba(239,190,76,.14)}
+.kzmbtn{display:inline-flex;align-items:center;gap:9px;height:42px;padding:0 15px 0 12px;border-radius:999px;border:1.5px solid rgba(239,190,76,.55);background:linear-gradient(180deg,rgba(239,190,76,.2),rgba(239,190,76,.06));color:var(--parchment);font:inherit;font-weight:900;font-size:15px;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.35);transition:transform .18s cubic-bezier(.3,1.6,.5,1)}
+.kzmbtn:hover{transform:translateY(-2px)}.kzmbtn:active{transform:translateY(1px)}
+.kzburger{position:relative;width:18px;height:14px}.kzburger i{position:absolute;inset-inline:0;height:2.5px;border-radius:2px;background:var(--gold);transition:transform .3s,opacity .2s,top .3s}
+.kzburger i:nth-child(1){top:0}.kzburger i:nth-child(2){top:6px;inset-inline-end:5px}.kzburger i:nth-child(3){top:12px}
+.kzmbtn[aria-expanded=true] .kzburger i:nth-child(1){top:6px;transform:rotate(45deg)}.kzmbtn[aria-expanded=true] .kzburger i:nth-child(2){opacity:0}.kzmbtn[aria-expanded=true] .kzburger i:nth-child(3){top:6px;transform:rotate(-45deg)}
+.kzmenu{position:fixed;inset:0;z-index:90;display:grid;place-items:start center;padding:calc(84px + var(--sat,0px)) 16px 24px;overflow-y:auto}
+.kzmenu[hidden]{display:none}
+.kzfond{position:fixed;inset:0;background:rgba(6,12,22,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:kzf .25s ease both}
+.kzboite{position:relative;width:min(920px,100%);padding:22px;border-radius:30px;background:radial-gradient(600px 300px at 0 0,rgba(54,214,255,.12),transparent 70%),radial-gradient(500px 300px at 100% 100%,rgba(239,190,76,.14),transparent 70%),#13233b;border:1.5px solid rgba(255,255,255,.12);box-shadow:0 30px 80px rgba(0,0,0,.6);animation:kzb .35s cubic-bezier(.2,1.3,.4,1) both}
+.kzhaut{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:2px 4px 16px}
+.kzt{margin:0;font-family:var(--display);font-size:clamp(24px,3vw,32px);color:var(--parchment)}.kzs{margin:2px 0 0;color:var(--gold);font-weight:800;font-size:14px}
+.kzx{width:44px;height:44px;flex:0 0 44px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:var(--parchment);font-size:18px;cursor:pointer;transition:transform .2s}.kzx:hover{transform:rotate(90deg);border-color:var(--gold)}
+.kzcartes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kzcarte{--c1:#2d8cff;--c2:#1a4fa8;position:relative;display:flex;flex-direction:column;gap:4px;min-height:132px;padding:16px 14px 14px;border-radius:20px;color:#fff;text-decoration:none;background:linear-gradient(160deg,var(--c1),var(--c2));border:2px solid rgba(255,255,255,.22);box-shadow:0 6px 0 rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.3);overflow:hidden;animation:kzc .45s cubic-bezier(.2,1.4,.4,1) both;animation-delay:calc(var(--i) * 45ms);transition:transform .2s cubic-bezier(.3,1.6,.5,1),box-shadow .2s}
+.kzcarte::after{content:"";position:absolute;inset-inline-end:-26px;top:-26px;width:86px;height:86px;border-radius:50%;background:rgba(255,255,255,.12)}
+.kzcarte .em{display:grid;place-items:center;width:46px;height:46px;margin-bottom:6px;border-radius:14px;background:rgba(255,255,255,.2);font-size:25px;transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+.kzcarte b{font-size:17px;line-height:1.2}.kzcarte small{font-size:13px;font-weight:700;opacity:.88;line-height:1.3}
+.kzcarte:hover,.kzcarte:focus-visible{transform:translateY(-5px) rotate(-1.5deg);box-shadow:0 11px 0 rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.3)}
+.kzcarte:nth-child(even):hover,.kzcarte:nth-child(even):focus-visible{transform:translateY(-5px) rotate(1.5deg)}
+.kzcarte:hover .em{transform:scale(1.15) rotate(-10deg)}.kzcarte:active{transform:translateY(2px);box-shadow:0 3px 0 rgba(0,0,0,.35)}
+.kzcarte[aria-current]{outline:3px solid var(--gold);outline-offset:3px}
+.kzcarte.c1{--c1:#2f7df6;--c2:#1c4aa6}.kzcarte.c2{--c1:#21b573;--c2:#127049}.kzcarte.c3{--c1:#f2b532;--c2:#c27a0e}.kzcarte.c4{--c1:#9b5cf6;--c2:#5d2fb0}
+.kzcarte.c5{--c1:#17b8c9;--c2:#0c6f86}.kzcarte.c6{--c1:#e5634d;--c2:#a63426}.kzcarte.c7{--c1:#ec5fa0;--c2:#a62d68}.kzcarte.c8{--c1:#4f6bed;--c2:#2b3aa3}
+.kzcarte.c3{color:#2a1a00}.kzcarte.c3 small{opacity:.8}
+.kzbas{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.kzbas a{display:inline-flex;align-items:center;gap:8px;padding:10px 15px;border-radius:999px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);color:var(--parchment);font-weight:800;font-size:14.5px;text-decoration:none}
+.kzbas a:hover{border-color:var(--gold)}.kzbas .kzlang{margin-inline-start:auto}
+body.kzouvert{overflow:hidden}body.kzouvert .kza-b,body.kzouvert .kza-p,body.kzouvert .dock{visibility:hidden}
+@keyframes kzf{from{opacity:0}}@keyframes kzb{from{opacity:0;transform:translateY(-14px) scale(.97)}}
+@keyframes kzc{from{opacity:0;transform:translateY(22px) rotate(-6deg) scale(.85)}}
+@media (max-width:1240px){.top nav.kznav{display:none}.kzmbtn{margin-inline-start:auto}.top .acts{margin-inline-start:0}}
+@media (max-width:860px){.kzcartes{grid-template-columns:repeat(2,1fr);gap:12px}.kzcarte{min-height:118px}}
+@media (max-width:720px){.kzmenu{padding:calc(70px + var(--sat,0px)) 12px 20px}.kzboite{padding:16px;border-radius:24px}.kzcarte{padding:13px 12px 12px;min-height:112px}.kzcarte b{font-size:15.5px}.kzcarte small{font-size:12px}.kzcarte .em{width:40px;height:40px;font-size:22px}.kzbas .kzlang{margin-inline-start:0}.kzbas{gap:8px}.kzbas a{padding:9px 13px;font-size:13.5px}.kzmbtn{height:40px;padding:0 13px 0 11px}}
+@media (max-width:380px){.kzmlab{display:none}.kzmbtn{padding:0 11px}}
+@media (prefers-reduced-motion:reduce){.kzboite,.kzcarte,.kzfond{animation:none}.kzcarte,.top nav.kznav a{transition:none}}
+/* menu:fin */
 .ghero{padding:56px 0 30px}.ghero h1{font-size:clamp(32px,5vw,52px);max-width:900px}.ghero .lead{max-width:760px}
 .crumb{font-size:13px;font-weight:800;color:var(--muted);margin-bottom:18px}.crumb a{color:var(--muted)}
 .prose{max-width:780px}.prose h2{font-size:clamp(24px,3vw,32px);margin:42px 0 12px}.prose p,.prose li{color:var(--muted);font-size:17px;line-height:1.7}
@@ -506,14 +549,24 @@ footer.sfoot .wrap{display:block}
 <header class="top">
   <div class="wrap">
     <a class="logo" href="/" aria-label="Kounouzi, accueil"><img class="brand" src="/img/logo/kounouzi.webp?v=2" alt="Kounouzi" width="79" height="62"></a>
-    <nav aria-label="Sections"><a href="/#valeurs">Nos valeurs</a><a href="/#benefices">Bénéfices</a><a href="/#essayer">Essayer</a><a href="/#offre">Offre</a><a href="/#guides">Guides</a></nav>
-    <div class="acts">
+    <nav class="kznav" aria-label="Sections"><a href="/#valeurs"><span aria-hidden="true">🌙</span>Nos valeurs</a><a href="/#essayer"><span aria-hidden="true">🎮</span>Essayer</a><a href="/#offre"><span aria-hidden="true">💎</span>Offre</a><a href="/#guides"><span aria-hidden="true">📚</span>Guides</a></nav>
+    <button class="kzmbtn" type="button" aria-expanded="false" aria-controls="kzmenu"><span class="kzburger" aria-hidden="true"><i></i><i></i><i></i></span><span class="kzmlab">Menu</span></button><div class="acts">
       <a class="langsw" href="/en/islamic-quiz-for-families/" hreflang="en" lang="en" data-lang="en" title="English version" aria-label="English version"><img src="/img/flags/gb.svg" alt="" width="24" height="16"></a>
       <a class="btn btn-ghost btn-sm" href="/#acceder" data-hide-acces>J'ai un code</a>
       <a class="btn btn-gold btn-sm" href="/#offre" data-cta>Obtenir mon accès</a>
     </div>
   </div>
 </header>
+<div class="kzmenu" id="kzmenu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="kzfond" data-fermer></div>
+  <div class="kzboite">
+    <div class="kzhaut"><div><p class="kzt">Où voulez-vous aller ?</p><p class="kzs">Choisissez votre carte !</p></div>
+      <button class="kzx" type="button" data-fermer aria-label="Fermer le menu">✕</button></div>
+    <div class="kzcartes"><a class="kzcarte c1" href="/" style="--i:0"><span class="em" aria-hidden="true">🏠</span><b>Accueil</b><small>Découvrir le jeu</small></a><a class="kzcarte c2" href="/#essayer" style="--i:1"><span class="em" aria-hidden="true">🎮</span><b>Essai gratuit</b><small>Jouer tout de suite</small></a><a class="kzcarte c3" href="/#offre" style="--i:2"><span class="em" aria-hidden="true">💎</span><b>Offre</b><small>Prix de lancement</small></a><a class="kzcarte c4" href="/regles-du-jeu/" style="--i:3"><span class="em" aria-hidden="true">🧭</span><b>Règles du jeu</b><small>Comment on joue</small></a><a class="kzcarte c5" href="/#guides" style="--i:4"><span class="em" aria-hidden="true">📚</span><b>Guides</b><small>Pour les parents</small></a><a class="kzcarte c6" href="/sources-religion/" style="--i:5"><span class="em" aria-hidden="true">📖</span><b>Nos sources</b><small>D&#x27;où viennent les questions</small></a><a class="kzcarte c7" href="/a-propos/" style="--i:6"><span class="em" aria-hidden="true">👨‍👩‍👧‍👦</span><b>À propos</b><small>L&#x27;histoire de Kounouzi</small></a><a class="kzcarte c8" href="/contact/" style="--i:7"><span class="em" aria-hidden="true">✉️</span><b>Contact</b><small>Question, bug, partenariat</small></a></div>
+    <div class="kzbas"><a href="/#acceder">🔑 J&#x27;ai un code</a><a href="/#faq">❓ Questions fréquentes</a><a class="kzlang" href="/en/islamic-quiz-for-families/" hreflang="en" lang="en" data-lang="en"><img src="/img/flags/gb.svg" alt="" width="22" height="15">English</a></div>
+  </div>
+</div>
+
 <main>
 <section class="ghero"><div class="wrap">
   <nav class="crumb" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <a href="/#guides">Guides</a> › Quiz islamique</nav>
@@ -567,5 +620,15 @@ document.querySelectorAll('[data-cookies]').forEach(function(a){ a.addEventListe
 <script src="/aide.js?v=2" defer></script>
 <script>fetch('/api/code').then(function(r){return r.json()}).then(function(d){if(d.essaiMinutes)document.querySelectorAll('[data-essai]').forEach(function(e){e.textContent=d.essaiMinutes})}).catch(function(){});</script>
 <script src="/aide.js?v=2" defer></script>
+<script>(function(){
+var b=document.querySelector('.kzmbtn'), m=document.getElementById('kzmenu'); if(!b||!m) return;
+var ici=location.pathname, h=location.hash;
+document.querySelectorAll('.kzcarte,.top nav.kznav a').forEach(function(a){ var u=new URL(a.href,location.href); if(u.pathname===ici&&(!u.hash||u.hash===h)&&!(u.hash===''&&a.classList.contains('kzcarte')&&h)) a.setAttribute('aria-current','page'); });
+function ouvrir(){ m.hidden=false; b.setAttribute('aria-expanded','true'); document.body.classList.add('kzouvert'); var c=m.querySelector('.kzcarte'); if(c) c.focus({preventScroll:true}); }
+function fermer(){ m.hidden=true; b.setAttribute('aria-expanded','false'); document.body.classList.remove('kzouvert'); }
+b.addEventListener('click',function(){ m.hidden?ouvrir():fermer(); });
+m.addEventListener('click',function(e){ if(e.target.closest('[data-fermer]')||e.target.closest('a')) fermer(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!m.hidden){ fermer(); b.focus(); } });
+})();</script>
 </body>
 </html>
