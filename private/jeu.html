@@ -13,6 +13,27 @@
 <meta name="apple-mobile-web-app-title" content="Kounouzi">
 
 <style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}.ptlist{display:grid;gap:6px;margin-top:8px;text-align:start}
+.zkov{z-index:40}.zk{position:relative;width:min(620px,100%);max-height:100%;display:flex;flex-direction:column;gap:12px;padding:20px 18px 16px;border-radius:26px;background:radial-gradient(500px 260px at 100% 0,rgba(239,190,76,.18),transparent 70%),linear-gradient(170deg,#1b2f4f,#0f1c31);border:2px solid rgba(239,190,76,.55);box-shadow:0 24px 70px rgba(0,0,0,.55);color:#fff4dc;animation:fade .3s}
+.zkpause{align-self:center;padding:4px 12px;border-radius:999px;background:rgba(0,0,0,.35);font-size:12.5px;font-weight:900;color:var(--gold)}
+.zkin{overflow-y:auto;text-align:center;padding:0 4px;scrollbar-width:thin}.zkin.zkanim{animation:zkin .35s ease}
+@keyframes zkin{from{opacity:0;transform:translateY(10px)}}
+.zk h2{font-family:var(--display);font-size:clamp(30px,7vw,42px);margin:4px 0 6px;color:var(--gold)}.zk h3{font-family:var(--display);font-size:clamp(22px,5vw,28px);margin:2px 0 8px;color:var(--gold)}
+.zkbig{font-size:54px;line-height:1;animation:zkpop .6s cubic-bezier(.2,1.6,.4,1)}@keyframes zkpop{from{transform:scale(.3) rotate(-20deg);opacity:0}}
+.zkstep{font-size:12px;font-weight:900;opacity:.7;letter-spacing:.08em}
+.zktx{font-size:16.5px;line-height:1.6;margin:6px 0;text-align:start}.zkin>.zktx:first-of-type{text-align:center}
+.zkar{font-size:18px;line-height:1.9;margin:10px 0 4px;padding:10px 12px;border-radius:14px;background:rgba(0,0,0,.25);text-align:right}
+.zkv{font-size:19px;text-align:center}
+.zkjeu{margin:8px 0;padding:9px 12px;border-radius:14px;background:rgba(239,190,76,.14);border:1px dashed rgba(239,190,76,.6);font-weight:800;font-size:15px}
+.zksrc{font-size:12.5px;opacity:.75;margin:6px 0 0}
+.zklist{display:grid;gap:8px;margin-top:10px;text-align:start}
+.zkrow{display:grid;grid-template-columns:40px 1fr auto;align-items:center;column-gap:10px;padding:8px 10px;border-radius:14px;background:rgba(0,0,0,.28);border:1.5px solid transparent}
+.zkrow .ptav{width:40px;height:40px;border-radius:50%;background:#222 center/cover;grid-row:span 2}.zkrow b{font-size:16px}.zkm{font-weight:900;color:var(--gold);text-align:end}
+.zkz{grid-column:2/4;font-size:13.5px;font-weight:800;opacity:.85}.zkrow.oui{border-color:rgba(239,190,76,.7);background:rgba(239,190,76,.12)}.zkrow.oui .zkz{opacity:1;color:#ffe08a}
+.zkcats{list-style:none;margin:8px 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:start}
+.zkcats li{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,.07);font-size:14px;font-weight:800;line-height:1.3;animation:zkin .4s ease both}
+.zkcats li bdi{display:block;font-size:15px;font-weight:700;opacity:.85;margin-top:2px}
+.zki{font-size:20px;flex:0 0 auto}
+@media (max-width:520px){.zkcats{grid-template-columns:1fr}.zk{padding:16px 12px 12px;border-radius:22px}.zktx{font-size:15.5px}}
 .ptrow{display:grid;grid-template-columns:20px 34px 1fr;align-items:center;column-gap:8px;padding:6px 8px;border-radius:12px;background:rgba(0,0,0,.28)}
 .ptk{font-weight:900;color:var(--gold);grid-row:span 2}.ptav{width:34px;height:34px;border-radius:50%;background:#222 center/cover;grid-row:span 2}
 .ptrow b{font-size:15px;line-height:1.1}.ptst{grid-column:3;font-size:12.5px;font-weight:800;opacity:.85}
@@ -1533,14 +1554,64 @@ async function pointTable(){
   say(phrases.join(' ')); fxParty(false);
   await choose(C.acts,[{label:t('pt.continuer'),value:1}]); C.close();
 }
-// Zakat al-Māl : assez de demi-tours de table de suite au-dessus du nissab → 2,5 % à la Caisse Masākīn.
+// Zakat : une « année » de jeu = ZAKAT.tours tours de table (vérifiée à chaque demi-tour). À la fin de l'année, le jeu se met en pause
+// pour une petite cérémonie : explication (la première fois), comptes de chacun, versement, puis les huit bénéficiaires.
+// Doit la Zakat celui qui est resté au-dessus du nissab à chaque vérification de l'année (le ḥawl, simplifié pour le jeu).
+// Textes religieux : Ibn Bāz, Fatāwā, vol. 14 (Le livre de la Zakat) et le Coran (At-Tawba 60 et 103). Explication en arabe toujours affichée.
+const ZK_AR={
+  p1:'الزكاة ركنٌ من أركان الإسلام الخمسة، يذكرها الله كثيرًا في القرآن مع الصلاة، فهي أختها. وهي صدقةٌ واجبةٌ تُؤخذ من الأغنياء وتُردّ على الفقراء. قال الله تعالى: ﴿خُذْ مِنْ أَمْوَالِهِمْ صَدَقَةً تُطَهِّرُهُمْ وَتُزَكِّيهِم بِهَا﴾. فهي تُطهِّر صاحبها، وتحفظ ماله، وتُفرِّج كربة المحتاج.',
+  p2:'لا تجب الزكاة إلا على من ملك النصاب وحال عليه الحول، أي سنةً كاملة. ونصاب الذهب عشرون مثقالًا، أي نحو اثنين وتسعين غرامًا عند الشيخ ابن باز، وقال بعض العلماء: خمسة وثمانون غرامًا. وأما الأوراق النقدية فتُقوَّم بنصاب الذهب أو الفضة، ويُؤخذ بأدناهما.',
+  p3:'تجب الزكاة في الذهب والفضة، وفي الأوراق النقدية وما في البنوك، وفي عروض التجارة، وفي بهيمة الأنعام السائمة أكثر الحول، وفي الحبوب والثمار التي تُكال وتُدَّخر. ولا زكاة في البيت المسكون ولا في الأغراض المعدّة للاستعمال. ومقدارها ربع العشر، أي اثنان ونصف في المئة.',
+  fin:'الحمد لله! بأداء الزكاة نطيع الله، ونشكره على نعمه، ونُفرِّج كربة المحتاج.',
+  verset:'﴿إِنَّمَا الصَّدَقَاتُ لِلْفُقَرَاءِ وَالْمَسَاكِينِ وَالْعَامِلِينَ عَلَيْهَا وَالْمُؤَلَّفَةِ قُلُوبُهُمْ وَفِي الرِّقَابِ وَالْغَارِمِينَ وَفِي سَبِيلِ اللَّهِ وَابْنِ السَّبِيلِ ۖ فَرِيضَةً مِّنَ اللَّهِ ۗ وَاللَّهُ عَلِيمٌ حَكِيمٌ﴾',
+  cats:['الفقراء','المساكين','العاملون عليها','المؤلفة قلوبهم','في الرقاب','الغارمون','في سبيل الله','ابن السبيل'] };
+const ZK_ICO=['🍞','🤲','📋','💚','🔓','📄','🛡️','🧳'];
+let zkPause=false;
 async function verifierZakat(){
-  for(const p of S.players){
-    if(p.money>=ZAKAT.nissab) p.zakat++; else p.zakat=0;
-    if(p.zakat>=ZAKAT_DEMI){ const amt=Math.round(p.money*0.025); p.zakat=0;
-      say(t('zakat.voix',{n:p.name})); await simpleCard('don',`<h3>Zakat al-Māl</h3><div class="small">${t('zakat.texte',{n:esc(p.name),t:toursTxt(),k:ZAKAT.nissab})}</div><div class="big">${amt} K</div><div class="small">${t('zakat.verse')}</div>`,t('zakat.bouton'));
-      say(t('zakat.voixFin',{n:p.name,k:amt})); await pay(p,'caisse',amt); }
+  for(const p of S.players){ if(p.money>=ZAKAT.nissab) p.zakat=(p.zakat||0)+1; else p.zakat=0; }
+  S.zDemi=(S.zDemi||0)+1;
+  if(S.zDemi<ZAKAT_DEMI) return;
+  S.zDemi=0; await ceremonieZakat();
+}
+// La voix lit un long texte en plusieurs phrases à la suite (le serveur limite la longueur d'une phrase).
+function direLong(txt){ const out=[]; let cur='';
+  for(const ph of String(txt).split(/(?<=[.!?…])\s+/)){ if((cur+' '+ph).length>480&&cur){ out.push(cur); cur=ph; } else cur=cur?cur+' '+ph:ph; }
+  if(cur) out.push(cur); out.forEach((x,i)=>say(x,{queue:i>0})); }
+async function ceremonieZakat(){
+  zkPause=true; S.zAns=(S.zAns||0)+1; let complet=S.zAns===1;
+  const D=DICOS[LANG]||DICOS.fr, k=ZAKAT.nissab;
+  const L=S.players.map(p=>({p, doit:p.zakat>=ZAKAT_DEMI, sous:p.money<k, z:Math.max(1,Math.round(p.money*0.025))}));
+  const ov=document.createElement('div'); ov.id='overlay'; ov.className='zkov';
+  ov.innerHTML=`<div class="zk" role="dialog" aria-modal="true"><div class="zkpause">${t('zk.pause')}</div><div class="zkin"></div><div class="cacts zkacts"></div></div>`;
+  document.body.appendChild(ov); const box=ov.querySelector('.zkin'), acts=ov.querySelector('.zkacts');
+  const ecran=(html,voix,boutons)=>{ box.innerHTML=html; box.scrollTop=0; box.classList.remove('zkanim'); void box.offsetWidth; box.classList.add('zkanim'); if(voix) direLong(voix); return choose(acts,boutons); };
+  const expl=(n,titre,txt,ar,src,extra='')=>`<div class="zkstep">${n} / 3</div><h3>${titre}</h3><p class="zktx">${esc(txt)}</p>${extra}<p class="zkar ar" dir="rtl" lang="ar">${esc(ar)}</p><p class="zksrc">📚 ${esc(src)}</p>`;
+  // 1. Un an est passé
+  const v1=await ecran(`<div class="zkbig">🌙</div><h2>${t('zk.titre')}</h2><p class="zktx">${esc(t(complet?'zk.intro':'zk.introCourt'))}</p>`, t(complet?'zk.intro':'zk.introCourt'),
+    complet? [{label:t('zk.suivant'),value:'e'}] : [{label:t('zk.voirComptes'),value:'c'},{label:t('zk.revoir'),value:'e',cls:'btn-ghost'}]);
+  // 2. Pourquoi, le nissab, sur quoi (la première année, ou sur demande)
+  if(v1==='e'){
+    const jeu=t('zk.p2jeu',{k,t:toursTxt()});
+    const etapes=[[t('zk.p1t'),t('zk.p1'),ZK_AR.p1,t('zk.p1s'),''],[t('zk.p2t'),t('zk.p2'),ZK_AR.p2,t('zk.p2s'),`<p class="zkjeu">🎮 ${esc(jeu)}</p>`],[t('zk.p3t'),t('zk.p3'),ZK_AR.p3,t('zk.p3s'),'']];
+    for(let i=0;i<etapes.length;i++){ const [ti,tx,ar,src,ex]=etapes[i];
+      const v=await ecran(expl(i+1,ti,tx,ar,src,ex), tx+(i===1?' '+jeu.replace(/(\d) K\b/g,'$1 Kounouz'):''), [{label:t('zk.suivant'),value:1},...(i<2?[{label:t('zk.passer'),value:0,cls:'btn-ghost'}]:[])]);
+      if(!v) break; }
   }
+  // 3. Les comptes de chacun
+  const lignes=L.map(({p,doit,sous,z})=>`<div class="zkrow ${doit?'oui':'non'}"><span class="ptav" style="background-image:url(${avatarFor(p)})"></span><b>${esc(p.name)}</b>
+    <span class="zkm">${p.money} K</span><span class="zkz">${doit?'💰 '+t('zk.doit',{z}):sous?'— '+t('zk.sous',{k}):'— '+t('zk.pasAn')}</span></div>`).join('');
+  const payeurs=L.filter(x=>x.doit);
+  const voixC=payeurs.length? L.map(({p,doit,sous,z})=>t(doit?'zk.vDoit':sous?'zk.vSous':'zk.vPasAn',{n:p.name,z})).join(' ') : t('zk.vPersonne');
+  await ecran(`<h3>${t('zk.comptes')}</h3><p class="zksrc">${t('zk.nissabEst',{k})}</p><div class="zklist">${lignes}</div>`, voixC,
+    [{label:payeurs.length?t('zk.verser'):t('zk.continuer'),value:1}]);
+  for(const {p,z} of payeurs){ await pay(p,'caisse',z); p.zakat=0; p.zakatVersee=(p.zakatVersee||0)+z; }
+  if(payeurs.length){ fxParty(false); sfx('bravo'); }
+  // 4. Al-ḥamdu lillāh et les huit bénéficiaires
+  const cats=(D['zk.cats']||[]).map((c,i)=>`<li><span class="zki">${ZK_ICO[i]}</span><span>${esc(c)}<bdi class="ar" dir="rtl" lang="ar">${ZK_AR.cats[i]}</bdi></span></li>`).join('');
+  await ecran(`<div class="zkbig">🤲</div><h3>${t('zk.fint')}</h3><p class="zktx">${esc(t('zk.fin'))}</p><p class="zkar ar" dir="rtl" lang="ar">${ZK_AR.fin}</p>
+    <p class="zktx"><b>${esc(t('zk.qui'))}</b></p><ol class="zkcats">${cats}</ol><p class="zkar ar zkv" dir="rtl" lang="ar">${ZK_AR.verset}</p><p class="zksrc">📚 ${esc(t('zk.fins'))}</p>`,
+    (payeurs.length?t('zk.fin')+' ':'')+t('zk.qui')+' '+(D['zk.cats']||[]).join(', ')+'.', [{label:t('zk.reprendre'),value:1}]);
+  stopVoice(); ov.style.transition='opacity .3s'; ov.style.opacity=0; await wait(300); ov.remove(); zkPause=false; save();
 }
 async function endRound(){
   await verifierZakat();
@@ -1554,7 +1625,7 @@ async function endRound(){
 let lastTick=performance.now();
 setInterval(()=>{
   const now=performance.now(); const dt=now-lastTick; lastTick=now;
-  if(!S||S.over||paused||document.hidden||$('#hud').hidden) return;
+  if(!S||S.over||paused||zkPause||document.hidden||$('#hud').hidden) return;
   const e=(store.get(ELAPSED)||0)+dt; store.set(ELAPSED,e); clockText(e);
 },1000);
 function clockText(e){ const el=$('#clock');

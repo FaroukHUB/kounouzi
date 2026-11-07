@@ -22,7 +22,7 @@ GUIDES = [
         "<b>Sans musique</b> : seulement une voix chaleureuse qui lit les questions et annonce les cases, et quelques petits effets (applaudissements, pièces) que l'on peut couper en un geste.",
         "<b>Sans riba</b> : on n'apprend jamais à prêter avec intérêt. On apprend à épargner, à acheter avec mesure, à donner à la Caisse Masākīn et à verser la Zakat.",
         "<b>Sans publicité, sans achat intégré</b>, sans discussion avec des inconnus : un seul paiement, et l'écran reste entre vous.",
-        "<b>Contenu religieux sourcé</b> : les questions de religion suivent le Coran et la Sunnah, et sont tirées uniquement de <a href='/sources-religion/'>nos 7 livres de référence</a>, sans rien y ajouter. Une relecture complète se poursuit en continu."])]),
+        "<b>Contenu religieux sourcé</b> : les questions de religion suivent le Coran et la Sunnah, et sont tirées uniquement de <a href='/sources-religion/'>nos 8 livres de référence</a>, sans rien y ajouter. Une relecture complète se poursuit en continu."])]),
     ("Un jeu qui valorise la générosité, pas la richesse", [
       "Dans Kounouzi, le score final additionne les Kounouz, le patrimoine et les points Hassanāt gagnés en donnant ou en aidant les autres. Un joueur généreux peut donc gagner même avec moins d'argent : c'est souvent le moment préféré des parents pour en parler avec leurs enfants.",
       "Les Hassanāt sont des points de jeu : ils servent à ouvrir la discussion sur la générosité, ce ne sont pas des récompenses spirituelles."]),
@@ -48,7 +48,7 @@ GUIDES = [
         "<b>No music</b>: only a warm voice that reads the questions and announces the squares, plus a few short effects (cheering, coins) you can switch off in one tap.",
         "<b>No riba</b>: children never learn to lend with interest. They learn to save, to buy wisely, to give to the Masākīn Fund and to pay Zakat.",
         "<b>No ads, no in-app purchases</b>, no chatting with strangers: one payment, and the screen stays within your family.",
-        "<b>Sourced religious content</b>: religion questions follow the Qur'an and the Sunnah, and are taken only from <a href='/en/religion-sources/'>our 7 reference books</a>, with nothing added. A full review is ongoing."])]),
+        "<b>Sourced religious content</b>: religion questions follow the Qur'an and the Sunnah, and are taken only from <a href='/en/religion-sources/'>our 8 reference books</a>, with nothing added. A full review is ongoing."])]),
     ("A game that rewards generosity, not wealth", [
       "In Kounouzi, the final score adds up Kounouz, properties and Hassanāt points earned by giving or helping others. A generous player can win with less money, which is often the parents' favourite moment to talk about it with their children.",
       "Hassanāt are game points: they open the conversation about generosity; they are not spiritual rewards."]),
@@ -73,7 +73,7 @@ GUIDES = [
       "La famille valide elle-même les réponses : les parents expliquent, les enfants débattent, et la partie devient une vraie conversation."]),
     ("Près de 2 000 questions, six matières", [
       ("ul", [
-        "<b>Religion</b> (373 questions) : piliers, prophètes, Sira, adab, vocabulaire du Coran, tirées uniquement de <a href='/sources-religion/'>nos 7 livres de référence</a>, avec la source de chaque réponse.",
+        "<b>Religion</b> (373 questions) : piliers, prophètes, Sira, adab, vocabulaire du Coran, tirées uniquement de <a href='/sources-religion/'>nos 8 livres de référence</a>, avec la source de chaque réponse.",
         "<b>Histoire des prophètes</b> (358 questions) : les prophètes cités dans le Coran, avec la référence du verset.",
         "<b>Mathématiques et logique</b> (569) : calcul mental, suites, intrus et petits raisonnements, choisis selon l'âge.",
         "<b>Gestion</b> (250) : épargne, dépenses, partage, Zakat.",
@@ -86,7 +86,7 @@ GUIDES = [
       "Kounouzi est un vrai jeu de plateau : on achète une maktaba ou un hôtel à Médine, on relève des défis en famille, on donne à la Caisse Masākīn. Les connaissances se mélangent aux décisions, et c'est ce qui donne envie de rejouer."]),
    ],
    'faq': [("À partir de quel âge ?", "Dès 5 ans. Les plus petits jouent avec une voix qui lit tout, les adolescents et les adultes reçoivent les questions des tranches les plus avancées."),
-           ("Les questions de religion sont-elles fiables ?", "Elles suivent le Coran et la Sunnah, et sont tirées uniquement de nos 7 livres de référence (liste sur kounouzi.com/sources-religion), sans rien y ajouter. Une relecture complète se poursuit en continu.")],
+           ("Les questions de religion sont-elles fiables ?", "Elles suivent le Coran et la Sunnah, et sont tirées uniquement de nos 8 livres de référence (liste sur kounouzi.com/sources-religion), sans rien y ajouter. Une relecture complète se poursuit en continu.")],
   },
   'en': {
    'slug': 'islamic-educational-game-for-kids',
@@ -100,7 +100,7 @@ GUIDES = [
       "The family validates the answers: parents explain, children discuss, and the game becomes a real conversation."]),
     ("Nearly 2,000 questions, six subjects", [
       ("ul", [
-        "<b>Religion</b> (373 questions): pillars, prophets, Sira, adab, Qur'an vocabulary, taken only from <a href='/en/religion-sources/'>our 7 reference books</a>, with the source of each answer.",
+        "<b>Religion</b> (373 questions): pillars, prophets, Sira, adab, Qur'an vocabulary, taken only from <a href='/en/religion-sources/'>our 8 reference books</a>, with the source of each answer.",
         "<b>Stories of the Prophets</b> (358 questions): the prophets mentioned in the Qur'an, with the verse reference.",
         "<b>Maths and logic</b> (569): mental arithmetic, sequences, odd-one-out and small reasoning puzzles, chosen by age.",
         "<b>Money skills</b> (250): saving, spending, sharing, Zakat.",
@@ -114,7 +114,7 @@ GUIDES = [
       "Kounouzi is a real board game: you buy a maktaba or a hotel in Madinah, take on family challenges and give to the Masākīn Fund. Knowledge mixes with decisions, and that is what makes children want to play again."]),
    ],
    'faq': [("From what age?", "From age 5. The youngest play with a voice that reads everything; teenagers and adults get questions from the most advanced age groups."),
-           ("Are the religion questions reliable?", "They follow the Qur'an and the Sunnah, and are taken only from our 7 reference books (list at kounouzi.com/en/religion-sources), with nothing added. A full review is ongoing.")],
+           ("Are the religion questions reliable?", "They follow the Qur'an and the Sunnah, and are taken only from our 8 reference books (list at kounouzi.com/en/religion-sources), with nothing added. A full review is ongoing.")],
   },
  },
  {
@@ -131,12 +131,12 @@ GUIDES = [
     ("Ce que change Kounouzi", [
       ("ul", [
         "<b>Chaque joueur sa question</b> : un enfant de 6 ans et un parent ne reçoivent jamais la même difficulté.",
-        "<b>Des questions sourcées</b> : chaque question de religion suit le Coran et la Sunnah, vient uniquement de <a href='/sources-religion/'>nos 7 livres de référence</a> et indique sa source.",
+        "<b>Des questions sourcées</b> : chaque question de religion suit le Coran et la Sunnah, vient uniquement de <a href='/sources-religion/'>nos 8 livres de référence</a> et indique sa source.",
         "<b>La famille valide</b> : bonne réponse, en partie, ou pas cette fois. Les parents gardent la main et expliquent.",
         "<b>Pas de répétition</b> : le jeu retient les questions déjà posées à chaque joueur.",
         "<b>Un plateau, des défis, des dons</b> : les questions s'intègrent à un vrai jeu de plateau."])]),
     ("Exemples de thèmes abordés en religion", [
-      "Les piliers de l'islam et de la foi, les prophètes, la Sira du Prophète ﷺ, le Ramadan, les bonnes manières (adab), le vocabulaire du Coran, d'après <a href='/sources-religion/'>nos 7 livres de référence</a>. Les questions vont des plus simples pour les 5–8 ans aux plus approfondies pour les adolescents et les adultes."]),
+      "Les piliers de l'islam et de la foi, les prophètes, la Sira du Prophète ﷺ, le Ramadan, les bonnes manières (adab), le vocabulaire du Coran, d'après <a href='/sources-religion/'>nos 8 livres de référence</a>. Les questions vont des plus simples pour les 5–8 ans aux plus approfondies pour les adolescents et les adultes."]),
     ("Essayez avant d'acheter", [
       "Demandez une vraie partie d'essai de <span data-essai>30</span> minutes, gratuite, depuis <a href='/#essai-gratuit'>la page d'accueil</a> : le code arrive par e-mail et la partie s'ouvre tout de suite."]),
    ],
@@ -155,13 +155,13 @@ GUIDES = [
     ("What Kounouzi changes", [
       ("ul", [
         "<b>Each player gets their own question</b>: a 6-year-old and a parent never get the same difficulty.",
-        "<b>Sourced questions</b>: each religion question follows the Qur'an and the Sunnah, comes only from <a href='/en/religion-sources/'>our 7 reference books</a> and shows its source, and an Arabic explanation comes with the answer.",
+        "<b>Sourced questions</b>: each religion question follows the Qur'an and the Sunnah, comes only from <a href='/en/religion-sources/'>our 8 reference books</a> and shows its source, and an Arabic explanation comes with the answer.",
         "<b>The family decides</b>: right answer, partly right, or not this time. Parents stay in charge and explain.",
         "<b>No repeats</b>: the game remembers the questions already asked to each player.",
         "<b>A board, challenges, giving</b>: questions are part of a real board game."]),
       "The English translation of the questions is in progress: untranslated questions appear in French for now."]),
     ("Examples of religion topics", [
-      "The pillars of Islam and of faith, the prophets, the Sira of the Prophet ﷺ, Ramadan, good manners (adab), Qur'an vocabulary, based on <a href='/en/religion-sources/'>our 7 reference books</a>. Questions range from the simplest for ages 5–8 to the deepest for teenagers and adults."]),
+      "The pillars of Islam and of faith, the prophets, the Sira of the Prophet ﷺ, Ramadan, good manners (adab), Qur'an vocabulary, based on <a href='/en/religion-sources/'>our 8 reference books</a>. Questions range from the simplest for ages 5–8 to the deepest for teenagers and adults."]),
     ("Try before you buy", [
       "Request a real <span data-essai>30</span>-minute trial game, free, from <a href=\"/en/#essai-gratuit\">the home page</a>: the code arrives by e-mail and the game opens straight away."]),
    ],
@@ -334,7 +334,7 @@ GUIDES = [
  },
 ]
 
-# Les 7 livres d'où viennent les questions de religion (373) et d'invocations (206) (champ « source »). Pas de lien PDF.
+# Les 8 livres de référence : questions de religion (373), d'invocations (206) et explications de la Zakat (Ibn Bāz, vol. 14) (champ « source »). Pas de lien PDF.
 LIVRES = [
  dict(ar="شرح ثلاثة الأصول", tr="Sharḥ Thalāthat al-Uṣūl", fr="Explication des Trois fondements", en="Explanation of the Three Fundamental Principles",
       aar="الشيخ صالح بن عبد العزيز آل الشيخ", a="Shaykh Ṣāliḥ Āl ash-Shaykh", n=100, ic="🕋",
@@ -357,25 +357,26 @@ LIVRES = [
  dict(ar="صحيح الأذكار", tr="Ṣaḥīḥ al-Adhkār", fr="Le Rappel authentique : invocations et formules de rappel tirées des ouvrages de l'imam al-Albānī", en="The Authentic Remembrance: supplications and remembrances taken from the works of Imam al-Albānī",
       aar="الشيخ محمد ناصر الدين الألباني", a="Shaykh Muḥammad Nāṣir ad-Dīn al-Albānī", n=206, ic="🤲",
       tfr="Les invocations du quotidien : sommeil, prière, repas, voyage… (catégorie Invocations)", ten="Everyday supplications: sleep, prayer, meals, travel… (Invocations category)"),
+ {'ar': 'مجموع فتاوى ومقالات متنوعة — الجزء الرابع عشر (كتاب الزكاة)', 'tr': 'Majmūʿ Fatāwā wa Maqālāt Mutanawwiʿa, vol. 14', 'fr': "Recueil de fatwas, tome 14 : le livre de la Zakat", 'en': 'Collected fatwas, volume 14: the book of Zakat', 'aar': 'الشيخ عبد العزيز بن عبد الله بن باز', 'a': 'Shaykh ʿAbd al-ʿAzīz ibn ʿAbd Allāh ibn Bāz', 'n': 0, 'ic': '💰', 'tfr': 'La Zakat : le nissab, les biens concernés, le montant et les huit bénéficiaires', 'ten': 'Zakat: the nisab, the goods concerned, the amount and the eight recipients', 'ufr': 'Explications de la Zakat pendant la partie', 'uen': 'Zakat explanations during the game'},
 ]
 
 GUIDES.append({
  'id': 'sources', 'custom': 'sources',
  'fr': {'slug': 'sources-religion', 'title': "Nos sources en religion : les livres du jeu | Kounouzi",
-  'desc': "Les questions de religion de Kounouzi suivent le Coran et la Sunnah et sont tirées uniquement de sept livres, sans rien y ajouter. Découvrez-les.",
-  'kick': "Nos sources", 'h1': "Le Coran, la Sunnah… <em>et sept livres, rien d'autre</em>",
-  'lead': "Toutes les questions de religion de Kounouzi suivent le Coran et la Sunnah, et sont tirées uniquement des sept livres présentés ici. Nous n'avons rien ajouté : la source est indiquée sous chaque réponse, et une relecture complète se poursuit en continu.",
-  'faq': [("D'où viennent les questions de religion ?", "Elles suivent le Coran et la Sunnah et sont tirées uniquement des sept livres présentés sur cette page, sans rien y ajouter. La source est affichée sous chaque réponse dans le jeu."),
-          ("Avez-vous ajouté des questions d'autres sources ?", "Non. Toutes les questions de religion viennent de ces sept livres, et seulement d'eux."),
+  'desc': "Les questions de religion de Kounouzi suivent le Coran et la Sunnah et sont tirées uniquement de huit livres, sans rien y ajouter. Découvrez-les.",
+  'kick': "Nos sources", 'h1': "Le Coran, la Sunnah… <em>et huit livres, rien d'autre</em>",
+  'lead': "Toutes les questions de religion de Kounouzi suivent le Coran et la Sunnah, et sont tirées uniquement des huit livres présentés ici. Nous n'avons rien ajouté : la source est indiquée sous chaque réponse, et une relecture complète se poursuit en continu.",
+  'faq': [("D'où viennent les questions de religion ?", "Elles suivent le Coran et la Sunnah et sont tirées uniquement des huit livres présentés sur cette page, sans rien y ajouter. La source est affichée sous chaque réponse dans le jeu."),
+          ("Avez-vous ajouté des questions d'autres sources ?", "Non. Toutes les questions de religion viennent de ces huit livres, et seulement d'eux."),
           ("Et les questions d'Histoire des prophètes ?", "Elles portent sur les récits des prophètes cités dans le Coran : la référence du verset est indiquée sous chaque réponse."),
           ("Et les questions d'Invocations ?", "Elles sont tirées uniquement de Sahîh Al-Adhkâr (Le Rappel authentique), recueil des invocations authentifiées par le shaykh al-Albānī. La référence est indiquée sous chaque réponse."),
           ("Combien de questions de religion y a-t-il ?", "373 questions de religion et 206 questions d'invocations, sur près de 2 000 questions au total, toutes rangées par tranche d'âge.")]},
  'en': {'slug': 'religion-sources', 'title': "Our religion sources: the books in the game | Kounouzi",
-  'desc': "Kounouzi's religion questions follow the Qur'an and the Sunnah and are taken only from seven books, with nothing added. Discover them.",
-  'kick': "Our sources", 'h1': "The Qur'an, the Sunnah… <em>and seven books, nothing else</em>",
-  'lead': "All of Kounouzi's religion questions follow the Qur'an and the Sunnah, and are taken only from the seven books presented here. We added nothing: the source is shown under each answer, and a full review is ongoing.",
-  'faq': [("Where do the religion questions come from?", "They follow the Qur'an and the Sunnah and are taken only from the seven books presented on this page, with nothing added. The source is shown under each answer in the game."),
-          ("Did you add questions from other sources?", "No. All religion questions come from these seven books, and only from them."),
+  'desc': "Kounouzi's religion questions follow the Qur'an and the Sunnah and are taken only from eight books, with nothing added. Discover them.",
+  'kick': "Our sources", 'h1': "The Qur'an, the Sunnah… <em>and eight books, nothing else</em>",
+  'lead': "All of Kounouzi's religion questions follow the Qur'an and the Sunnah, and are taken only from the eight books presented here. We added nothing: the source is shown under each answer, and a full review is ongoing.",
+  'faq': [("Where do the religion questions come from?", "They follow the Qur'an and the Sunnah and are taken only from the eight books presented on this page, with nothing added. The source is shown under each answer in the game."),
+          ("Did you add questions from other sources?", "No. All religion questions come from these eight books, and only from them."),
           ("And the Stories of the Prophets questions?", "They cover the stories of the prophets mentioned in the Qur'an: the verse reference is shown under each answer."),
           ("And the Invocations questions?", "They are taken only from Sahih Al-Adhkar (The Authentic Remembrance), a collection of supplications authenticated by Shaykh al-Albani. The reference is shown under each answer."),
           ("How many religion questions are there?", "373 religion questions and 206 invocation questions, out of nearly 2,000 questions in total, all sorted by age group.")]},

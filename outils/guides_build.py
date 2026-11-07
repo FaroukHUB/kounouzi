@@ -63,22 +63,22 @@ SRC_CSS = """
 
 ST = {
  'fr': dict(p=[("📖", "#3ddc84", "Le Coran et la Sunnah", "Toutes les questions de religion suivent le Coran et la Sunnah."),
-               ("📚", "#efbe4c", "Sept livres, rien d'autre", "Les questions de religion et d'invocations sont tirées uniquement des sept livres ci-dessous. Nous n'avons rien ajouté."),
+               ("📚", "#efbe4c", "Huit livres, rien d'autre", "Les questions de religion et d'invocations sont tirées uniquement des huit livres ci-dessous. Nous n'avons rien ajouté."),
                ("✅", "#36d6ff", "La source sous chaque réponse", "Chaque question de religion indique sa source sous la réponse. Une relecture complète se poursuit en continu : signalez-nous toute erreur.")],
-   stats=[("579", "questions de religion et d'invocations"), ("7", "livres de référence"), ("4", "tranches d'âge")],
-   books_t="Les sept livres de référence", books_l="Chaque question de religion ou d'invocations du jeu vient de l'un de ces livres.",
+   stats=[("579", "questions de religion et d'invocations"), ("8", "livres de référence"), ("4", "tranches d'âge")],
+   books_t="Les huit livres de référence", books_l="Chaque question de religion ou d'invocations du jeu vient de l'un de ces livres.",
    auteur="Auteur", theme="Thème", q="questions",
-   prep_t="Comment une question est préparée", prep=[("📖", "Lecture du livre", "La question reprend un passage précis de l'un des sept livres."),
+   prep_t="Comment une question est préparée", prep=[("📖", "Lecture du livre", "La question reprend un passage précis de l'un des huit livres."),
      ("🎂", "Adaptée à l'âge", "Elle est formulée pour une tranche d'âge : 5–8, 9–12, 13–17 ou 18 ans et plus."),
      ("🗣️", "Explication et source", "La réponse est accompagnée de sa source et, souvent, d'une explication."),
      ("✅", "Relecture continue", "Les questions sont relues en continu ; une erreur signalée est corrigée.")]),
  'en': dict(p=[("📖", "#3ddc84", "The Qur'an and the Sunnah", "All religion questions follow the Qur'an and the Sunnah."),
-               ("📚", "#efbe4c", "Seven books, nothing else", "Religion and invocation questions are taken only from the seven books below. We added nothing."),
+               ("📚", "#efbe4c", "Eight books, nothing else", "Religion and invocation questions are taken only from the eight books below. We added nothing."),
                ("✅", "#36d6ff", "The source under each answer", "Every religion question shows its source under the answer. A full review is ongoing: let us know about any mistake.")],
-   stats=[("579", "religion and invocation questions"), ("7", "reference books"), ("4", "age groups")],
+   stats=[("579", "religion and invocation questions"), ("8", "reference books"), ("4", "age groups")],
    books_t="The seven reference books", books_l="Every religion or invocation question in the game comes from one of these books.",
    auteur="Author", theme="Topic", q="questions",
-   prep_t="How a question is prepared", prep=[("📖", "Reading the book", "The question is based on a specific passage of one of the seven books."),
+   prep_t="How a question is prepared", prep=[("📖", "Reading the book", "The question is based on a specific passage of one of the eight books."),
      ("🎂", "Suited to the age", "It is worded for an age group: 5–8, 9–12, 13–17 or 18+."),
      ("🗣️", "Explanation and source", "The answer comes with its source and, often, an explanation."),
      ("✅", "Ongoing review", "Questions are reviewed continuously; any reported mistake is corrected.")]),
@@ -92,7 +92,7 @@ def sources_corps(lang):
 <div class="ar" lang="ar" dir="rtl">{e(b['ar'])}</div><h3>{e(b[lang])}</h3><div class="tr">{e(b['tr'])}</div>
 <div class="who">{t['auteur']} : {e(b['a'])} <bdi lang="ar" dir="rtl">{e(b['aar'])}</bdi></div>
 <div class="theme"><b>{t['theme']} :</b> <bdi>{e(b['tfr'] if lang == 'fr' else b['ten'])}</bdi></div>
-<div class="bar"><span>{b['n']} {t['q']}</span><i style="--p:{min(b['n'], 100)}%"></i></div></article>""" for b in LIVRES)
+{f'<div class="bar"><span>{b["n"]} {t["q"]}</span><i style="--p:{min(b["n"], 100)}%"></i></div>' if b['n'] else f'<div class="bar"><span>{e(b["ufr"] if lang == "fr" else b["uen"])}</span></div>'}</article>""" for b in LIVRES)
     prep = ''.join(f'<div><span>{i}</span><b>{e(h)}</b><p>{e(p)}</p></div>' for i, h, p in t['prep'])
     if lang == 'en': books = books.replace(f"{t['auteur']} : ", f"{t['auteur']}: ").replace(f"{t['theme']} :</b>", f"{t['theme']}:</b>")
     return f"""<div class="src-sec"><div class="src-pills">{pills}</div><div class="src-stats">{stats}</div>

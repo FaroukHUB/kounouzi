@@ -4,7 +4,7 @@
 // La voix lit les mots arabes en arabe : on les écrit en lettres arabes avec les harakat (voyelles) pour une prononciation juste.
 export const AR_WORDS = [
   [/Masākīn Fund/gi,'صُنْدُوقُ الْمَسَاكِين'],[/As-salāmu ʿalaykum/gi,'السَّلَامُ عَلَيْكُم'],[/Zakat al-Māl/gi,'زَكَاةُ الْمَال'],[/Caisse Masākīn/gi,'صُنْدُوقُ الْمَسَاكِين'],[/Masākīn/gi,'الْمَسَاكِين'],
-  [/Hassanāt|Hassanat/gi,'حَسَنَاتْ'],[/ʿUmra|Omra/gi,'عُمْرَة'],[/Zakat/gi,'الزَّكَاة'],[/ḥawl/gi,'الْحَوْل'],
+  [/Hassanāt|Hassanat/gi,'حَسَنَاتْ'],[/Al-ḥamdu lillāh/gi,'الْحَمْدُ لِلَّه'],[/nissab|nisab/gi,'نِصَاب'],[/mithqāl/gi,'مِثْقَال'],[/sourate At-Tawba|Surah At-Tawba/gi,'سُورَةُ التَّوْبَة'],[/Cheikh Ibn Bāz|Shaykh Ibn Bāz/gi,'الشَّيْخُ ابْنُ بَاز'],[/ʿUmra|Omra/gi,'عُمْرَة'],[/Zakat/gi,'الزَّكَاة'],[/ḥawl/gi,'الْحَوْل'],
   [/Maktaba Al-Albānī/gi,'مَكْتَبَةُ الْأَلْبَانِي'],[/Maktaba As-Sunnah/gi,'مَكْتَبَةُ السُّنَّة'],[/Agence Omra An-Nour|Agence عمرة An-Nour/gi,'وَكَالَةُ عُمْرَةِ النُّور'],[/Agence Omra Al-Hudā|Agence عمرة Al-Hudā/gi,'وَكَالَةُ عُمْرَةِ الْهُدَى'],[/Hôtel At-Tawḥīd/gi,'فُنْدُقُ التَّوْحِيد'],[/Hôtel Al-Iḥsān/gi,'فُنْدُقُ الْإِحْسَان'],[/Hôtel Al-Sharif/gi,'فُنْدُقُ الشَّرِيف'],[/Hôtel El Kunuz/gi,'فُنْدُقُ الْكُنُوز'],
   [/Umrah|ʿUmrah/gi,'عُمْرَة'],[/An-Nour عمرة Agency/gi,'وَكَالَةُ عُمْرَةِ النُّور'],[/Al-Hudā عمرة Agency/gi,'وَكَالَةُ عُمْرَةِ الْهُدَى'],
   [/Hotel At-Tawḥīd/gi,'فُنْدُقُ التَّوْحِيد'],[/Hotel Al-Iḥsān/gi,'فُنْدُقُ الْإِحْسَان'],[/Hotel Al-Sharif/gi,'فُنْدُقُ الشَّرِيف'],[/Hotel El Kunuz/gi,'فُنْدُقُ الْكُنُوز']];
