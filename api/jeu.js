@@ -41,7 +41,12 @@ export async function GET(request) {
   if (f === 'ping') { // vérification technique (sans rien montrer du contenu). La base n'est plus jamais remplie
     // automatiquement depuis le fichier : les questions s'importent uniquement depuis le tableau de bord.
     const ok = await Promise.all(['jeu.html', 'data.json'].map(n => stat(path.join(DIR, n)).then(() => true, () => false)));
-    const base = dbActive() ? 'configurée' : 'absente';
+    let base = dbActive() ? 'configurée' : 'absente';
+    // TEMPORAIRE (relecture V42 Religion 5-8 du 7 nov. 2026) : aligne la base sur le fichier (mise à jour par identifiant). Retiré ensuite.
+    if (dbActive() && new URL(request.url).searchParams.get('sync') === 'v42') {
+      try { const f = await fichier(), ex = JSON.parse(await readFile(path.join(DIR, 'exclus.json'), 'utf8'));
+        const r = await db('import_maj', { questions: f.questions, exclus: ex.ids_exclus }, { timeout: 55000 }); base = `alignée (${r?.questions} questions, ${r?.publiees} publiées)`; } catch (e) { base = 'erreur : ' + e.message; }
+    }
     return new Response(JSON.stringify({ jeu: ok[0], donnees: ok[1], base }), { headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
   }
   const code = await accesValide(request, { essaiFiniOk: f === 'data' });
