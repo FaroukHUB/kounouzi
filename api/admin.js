@@ -73,7 +73,8 @@ export function verifierQuestion(b) {
   if (t === 'religion' && statut === 'publiee' && (!s || !e.fr || !e.ar))
     return { erreur: 'Une question de religion ne peut être publiée qu’avec sa source et son explication en français et en arabe. Enregistre-la en brouillon en attendant.' };
   const id = txt(b.id, 60) || `${t.slice(0, 3).toUpperCase()}-A-${Date.now().toString(36).toUpperCase()}`;
-  const question = { id, t, d, a, am, qcm, q, r, e, s, src: txt(b.src, 120), statut, poids: num(b.poids, 0, 5, 1), prio: !!b.prio };
+  // p58 : question d'Histoire des prophètes écrite pour les 5-8 ans (seules celles-là leur sont posées dans cette matière).
+  const question = { id, t, d, a, am, qcm, p58: t === 'geography' && a === '5-8' && !!b.p58, q, r, e, s, src: txt(b.src, 120), statut, poids: num(b.poids, 0, 5, 1), prio: !!b.prio };
   // Statut de traduction (indépendant de la publication) : envoyé seulement s'il est fourni, sinon la base garde l'actuel.
   if (b.trad && typeof b.trad === 'object') question.trad = Object.fromEntries(Object.entries(b.trad).filter(([l, v]) => /^[a-z]{2}$/.test(l) && !['fr', 'ar'].includes(l) && STATUTS_TRAD.includes(v)));
   return { question };

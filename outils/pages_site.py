@@ -394,7 +394,7 @@ def brancher_menu(h, lang, langue_url=None):
     h = re.sub(r'<nav (?:class="kznav" )?aria-label="Sections">.*?</nav>', lambda _: menu_jetons(lang), h, count=1, flags=re.S)
     h = re.sub(r'<button class="kzmbtn".*?</button>', '', h, flags=re.S)
     h = h.replace('<div class="acts">', menu_bouton(lang) + '<div class="acts">', 1)
-    h = re.sub(r'<div class="kzmenu".*?\n</div>\n?', '', h, flags=re.S)
+    h = re.sub(r'\n?<div class="kzmenu".*?\n</div>\n?', '', h, flags=re.S)
     h = h.replace('</header>', '</header>\n' + menu_panneau(lang, langue_url) + '\n', 1)
     h = re.sub(r'<script>\(function\(\)\{\nvar b=document\.querySelector\(\'\.kzmbtn\'\).*?\}\)\(\);</script>\n?', '', h, flags=re.S)
     return h.replace('</body>', MENU_JS + '\n</body>', 1)

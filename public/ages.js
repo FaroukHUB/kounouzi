@@ -2,7 +2,7 @@
 // Une seule classification pour toutes les matières, maths comprises (décision du 7 novembre 2026, fichier V39) :
 //   5-8 · 9-12 · 13-17 · 18+
 // Chaque question a aussi un âge minimum recommandé (champ « am ») : un enfant ne reçoit jamais une question
-// dont l'âge minimum dépasse son âge réel, même si elle est dans sa tranche.
+// dont l'âge minimum dépasse son âge réel. Priorité à la tranche du joueur ; tranches plus jeunes seulement en complément.
 // Aucun accès au DOM ni au réseau ici : ce fichier se teste tel quel avec node.
 
 export const TRANCHES = Object.freeze([
@@ -31,26 +31,41 @@ export function trancheDeLAge(age) {
 }
 
 /**
- * Tranches qu'un joueur peut recevoir.
- * Enfant : uniquement la tranche de son âge réel (jamais une autre « pour combler »).
- * Adulte : 18+ et 13-17 (la tranche 18+ ne couvre pas toutes les matières) ; « découverte » = 13-17 d'abord.
+ * Tranches qu'un joueur peut recevoir, dans l'ordre de priorité (décision du 7 nov. 2026, V41) :
+ * d'abord sa propre tranche, puis les tranches plus jeunes, de la plus proche à la plus éloignée. Jamais une tranche plus âgée.
+ * Les tranches plus jeunes ne servent que lorsqu'il ne reste plus de question non vue dans sa tranche (voir paliers / le jeu).
+ * Adulte : 18+, puis 13-17, 9-12, 5-8 (« découverte » : 13-17 d'abord, puis 18+).
  */
 export function tranchesPourJoueur(_theme, joueur) {
-  if (!joueur || !joueur.child) return joueur && joueur.level === 'decouverte' ? ['13-17', '18+'] : ['18+', '13-17'];
-  return [trancheDeLAge(joueur.age)];
+  const ids = IDS_TRANCHES;
+  if (!joueur || !joueur.child) return joueur && joueur.level === 'decouverte' ? ['13-17', '18+', '9-12', '5-8'] : ['18+', '13-17', '9-12', '5-8'];
+  const k = ids.indexOf(trancheDeLAge(joueur.age));
+  return ids.slice(0, k + 1).reverse();
+}
+
+/** Une question est-elle permise pour ce joueur (tranche, âge minimum, règle Histoire des prophètes 5-8) ? */
+function permise(q, theme, joueur, age) {
+  if (q.t !== theme) return false;
+  const a = normaliserTranche(q.a); if (!a) return false;
+  if (age != null && Number(q.am) > age) return false;
+  // Histoire des prophètes chez un enfant de 5 à 8 ans : uniquement les questions écrites pour eux (p58), jamais les anciennes variantes.
+  if (theme === 'geography' && joueur && joueur.child && trancheDeLAge(joueur.age) === '5-8' && !q.p58) return false;
+  return true;
 }
 
 /**
- * Questions qu'un joueur peut recevoir dans un thème (sans tenir compte de l'historique).
- * Une question sans tranche, ou avec une tranche inconnue, n'est jamais proposée (elle reste visible et corrigeable
- * dans le tableau de bord). Enfant : âge minimum recommandé ≤ son âge. Résultat vide = aucune question adaptée :
- * c'est au jeu de passer à un autre thème, jamais de piocher dans une autre tranche.
+ * Questions d'un thème pour un joueur, rangées par palier de priorité : [sa tranche, tranche plus jeune, …].
+ * Une question sans tranche ou avec une tranche inconnue n'est jamais proposée. Enfant : âge minimum ≤ son âge.
  */
-export function questionsEligibles(questions, theme, joueur) {
-  const ok = new Set(tranchesPourJoueur(theme, joueur));
+export function paliers(questions, theme, joueur) {
+  const ordre = tranchesPourJoueur(theme, joueur);
   const age = joueur && joueur.child ? Math.max(5, Math.floor(Number(joueur.age) || 5)) : null;
-  return questions.filter(q => q.t === theme && ok.has(normaliserTranche(q.a)) && (age == null || !(Number(q.am) > age)));
+  const P = ordre.map(() => []);
+  for (const q of questions) { if (!permise(q, theme, joueur, age)) continue; const i = ordre.indexOf(normaliserTranche(q.a)); if (i >= 0) P[i].push(q); }
+  return P;
 }
+/** Toutes les questions qu'un joueur peut recevoir dans un thème (tous paliers). Vide = le jeu passe au thème suivant. */
+export const questionsEligibles = (questions, theme, joueur) => paliers(questions, theme, joueur).flat();
 
 // ---------- Tableau de bord ----------
 export const libelleTranche = (id) => id.endsWith('+') ? `${id.slice(0, -1)} ans et +` : `${id.replace('-', '–')} ans`;

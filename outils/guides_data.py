@@ -1,5 +1,5 @@
 # Contenu des guides Kounouzi (FR / EN). Chaque guide cible une recherche précise.
-# Faits vérifiés dans le jeu (V39, 7 nov. 2026) : 1 959 questions (religion 373, invocations 206, histoire des prophètes 358, maths et logique 569, gestion 250, sciences 203). Ancien : (religion 375, invocations 214, histoire des prophètes 375 = 75 récits × 5 niveaux, maths et logique 587, gestion 250, sciences 212),
+# Faits vérifiés dans le jeu (V41, 7 nov. 2026) : 1 989 questions (religion 373, invocations 206, histoire des prophètes 388 dont 30 pour les 5-8 ans, maths et logique 569, gestion 250, sciences 203). Ancien : (religion 375, invocations 214, histoire des prophètes 375 = 75 récits × 5 niveaux, maths et logique 587, gestion 250, sciences 212),
 # 84 défis famille, 28 cases, 12 établissements, 2 à 6 joueurs, parties de 30/45/60 min ou libres, déplacement par « le Chemin »
 # (suite fixe, la même pour tous), voix + 4 courts effets désactivables, Zakat 2,5 % après un tour de table et demi au-dessus de 1 000 K.
 
@@ -74,7 +74,7 @@ GUIDES = [
     ("Près de 2 000 questions, six matières", [
       ("ul", [
         "<b>Religion</b> (373 questions) : piliers, prophètes, Sira, adab, vocabulaire du Coran, tirées uniquement de <a href='/sources-religion/'>nos 8 livres de référence</a>, avec la source de chaque réponse.",
-        "<b>Histoire des prophètes</b> (358 questions) : les prophètes cités dans le Coran, avec la référence du verset.",
+        "<b>Histoire des prophètes</b> (388 questions) : les prophètes cités dans le Coran, avec la référence du verset.",
         "<b>Mathématiques et logique</b> (569) : calcul mental, suites, intrus et petits raisonnements, choisis selon l'âge.",
         "<b>Gestion</b> (250) : épargne, dépenses, partage, Zakat.",
         "<b>Sciences et nature</b> (203).",
@@ -101,7 +101,7 @@ GUIDES = [
     ("Nearly 2,000 questions, six subjects", [
       ("ul", [
         "<b>Religion</b> (373 questions): pillars, prophets, Sira, adab, Qur'an vocabulary, taken only from <a href='/en/religion-sources/'>our 8 reference books</a>, with the source of each answer.",
-        "<b>Stories of the Prophets</b> (358 questions): the prophets mentioned in the Qur'an, with the verse reference.",
+        "<b>Stories of the Prophets</b> (388 questions): the prophets mentioned in the Qur'an, with the verse reference.",
         "<b>Maths and logic</b> (569): mental arithmetic, sequences, odd-one-out and small reasoning puzzles, chosen by age.",
         "<b>Money skills</b> (250): saving, spending, sharing, Zakat.",
         "<b>Science and nature</b> (203).",

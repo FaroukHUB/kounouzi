@@ -52,14 +52,17 @@ export function lignesQuestions(lignes, { ev, statut = 'brouillon' } = {}) {
     const t = themeDe(l.matiere ?? l.theme ?? l.t);
     const q = { fr: txt(l.question_fr ?? l.question ?? l.q?.fr, 600), en: txt(l.question_en ?? l.q?.en, 600), ar: txt(l.question_ar ?? l.q?.ar, 600) };
     const r = { fr: txt(l.reponse_fr ?? l.reponse ?? l.r?.fr, 600), en: txt(l.reponse_en ?? l.r?.en, 600), ar: txt(l.reponse_ar ?? l.r?.ar, 600) };
-    const e = { fr: txt(l.explication_fr ?? l.explication ?? l.e?.fr, 1200), en: txt(l.explication_en ?? l.e?.en, 1200), ar: txt(l.explication_ar ?? l.e?.ar, 1200) };
+    // Un simple rappel de la réponse (explication_*_type « rappel… » / « answer_reminder… ») n'est pas une explication : jamais affiché.
+    const rappel = (ty) => /rappel|reminder/i.test(String(ty || ''));
+    const e = { fr: rappel(l.explication_fr_type) ? '' : txt(l.explication_fr ?? l.explication ?? l.e?.fr, 1200), en: rappel(l.explication_en_type) ? '' : txt(l.explication_en ?? l.e?.en, 1200), ar: txt(l.explication_ar ?? l.e?.ar, 1200) };
     const id = txt(l.id, 60) || `${(ev || 'IMP').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12)}-${empreinte((t || '') + '|' + q.fr)}`;
     // QCM : format de publication (choix_fr, choix_en, bonne_reponse) ou format interne (fr, en, ok).
     const c = l.qcm && typeof l.qcm === 'object' ? l.qcm : null;
     const qcm = c ? { fr: c.choix_fr ?? c.fr, en: c.choix_en ?? c.en, ok: c.bonne_reponse ?? c.ok } : null;
     const trad = l.trad ?? (l.question_en && statut === 'publiee' ? { en: 'validee' } : undefined);
     return { ligne: i + 1, theme_lu: l.matiere ?? l.theme ?? l.t ?? '', question: { id, t, d: l.niveau ?? l.d, a: l.tranche_age ?? l.a ?? null, am: l.age_minimum_recommande ?? l.am, qcm,
-      q, r, e, s: txt(l.source ?? l.s, 300), statut: l.statut || statut, poids: l.poids, prio: l.prio, ...(trad ? { trad } : {}) } };
+      p58: !!(l.pool_histoire_5_8_v41 ?? l.p58), q, r, e, s: txt(l.source ?? l.s, 300), src: l.cle_anti_repetition ? 'groupe:' + txt(l.cle_anti_repetition, 100) : l.src,
+      statut: l.statut || statut, poids: l.poids, prio: l.prio, ...(trad ? { trad } : {}) } };
   });
 }
 

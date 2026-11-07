@@ -334,7 +334,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { tranchesPourJoueur, questionsEligibles } from '/ages.js';
+import { tranchesPourJoueur, questionsEligibles, paliers } from '/ages.js';
 import { creerT, lireLangue, ecrireLangue, formatNombre, localeDe, traduirePage, LANGUES, NOM_LANGUE, DRAPEAU } from '/i18n.js';
 import { DICOS } from '/i18n/jeu.js';
 import { AR_WORDS, compilerPron, texteVoix } from '/voixtexte.js';
@@ -1059,8 +1059,9 @@ function pickPlayer(win, acts, players, title){
    Questions
    ========================================================= */
 // Tranches d'âge : définies une seule fois dans /ages.js (partagé avec le tableau de bord et le serveur).
-// Tranches 5-8, 9-12, 13-17, 18+ pour toutes les matières. Un enfant reçoit uniquement la tranche de son âge réel,
-// et jamais une question dont l'âge minimum recommandé dépasse son âge ; un adulte, 18+ et 13-17.
+// Tranches 5-8, 9-12, 13-17, 18+ pour toutes les matières. Un joueur reçoit d'abord les questions de sa tranche, puis, une fois
+// toutes vues, celles des tranches plus jeunes (jamais plus âgées), et jamais une question dont l'âge minimum dépasse son âge.
+// Histoire des prophètes chez les 5-8 ans : uniquement les 30 questions écrites pour eux (p58).
 const bandsFor = (p,theme)=> tranchesPourJoueur(theme,p);
 // Mémoire des questions déjà vues par chaque joueur, gardée d'une partie à l'autre sur cet appareil.
 const SEEN_KEY='kounouzi_v2_seen';
@@ -1070,6 +1071,8 @@ const seenOf = p => (SEEN[p.name.toLowerCase()] ||= []);
 // si un thème n'a rien d'adapté, nextTheme passe au thème suivant.
 const aDesQuestionsEv = p => EV && Q_EV.length && THEMES.some(t=>questionsEligibles(Q_EV,t,p).length);
 function poolFor(p,theme){ return questionsEligibles(aDesQuestionsEv(p)? Q_EV : Q_NORMALES, theme, p); }
+// Même chose rangée par priorité : [sa tranche, tranche plus jeune, …] (les plus jeunes seulement en complément).
+function paliersFor(p,theme){ return paliers(aDesQuestionsEv(p)? Q_EV : Q_NORMALES, theme, p); }
 // Questions d'un même « groupe » (src = 'groupe:…') : le même fait formulé pour plusieurs âges. Il n'est jamais reposé
 // à la table pendant la partie, ni au même joueur tant qu'il n'a pas fait le tour de sa série.
 function selectQuestion(p, theme){
@@ -1079,12 +1082,16 @@ function selectQuestion(p, theme){
   if(selectQuestion.base!==DATA.questions){ selectQuestion.base=DATA.questions; selectQuestion.idx=new Map(DATA.questions.map(q=>[q.id,q])); }
   const groupeDe=q=> q && typeof q.src==='string' && q.src.startsWith('groupe:') ? q.src : null;
   const groupesDe=ids=>{ const g=new Set(); for(const id of ids){ const x=groupeDe(selectQuestion.idx.get(id)); if(x) g.add(x); } return g; };
-  const pool=poolFor(p,theme), table=new Set(S.usedQ), seen=seenOf(p), seenSet=new Set(seen);
-  if(!pool.length) return null;   // aucune question adaptée : l'appelant choisit un autre thème
+  const table=new Set(S.usedQ), seen=seenOf(p), seenSet=new Set(seen);
   const gTable=groupesDe(S.usedQ), gVus=groupesDe(seen);
   const libre=q=>{ const g=groupeDe(q); return !g || !gTable.has(g); };
-  // 1) jamais vue par ce joueur (ni sous une autre formulation) et pas encore posée à la table
-  let cands=pool.filter(q=>!seenSet.has(q.id) && !table.has(q.id) && libre(q) && !(groupeDe(q)&&gVus.has(groupeDe(q))));
+  // Question « neuve » : jamais vue par ce joueur (ni sous une autre formulation) et pas encore posée à la table.
+  const neuve=q=>!seenSet.has(q.id) && !table.has(q.id) && libre(q) && !(groupeDe(q)&&gVus.has(groupeDe(q)));
+  // Priorité à la tranche du joueur : une tranche plus jeune ne sert que s'il ne reste rien de neuf dans les précédentes.
+  const P=paliersFor(p,theme), pool=P.find(L=>L.some(neuve)) || P.find(L=>L.length) || [];
+  if(!pool.length) return null;   // aucune question adaptée : l'appelant choisit un autre thème
+  // 1) questions neuves
+  let cands=pool.filter(neuve);
   // Poids 0 = question mise de côté ; « prioritaire » = posée avant les autres tant qu'elle n'a pas été vue.
   const usable=cands.filter(q=>(q.w??1)>0); if(usable.length) cands=usable;
   const prio=cands.filter(q=>q.prio); if(prio.length) cands=prio;
