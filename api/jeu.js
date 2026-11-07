@@ -10,8 +10,8 @@ let CACHE = null; // { t, body }
 async function fichier() { return JSON.parse(await readFile(path.join(DIR, 'data.json'), 'utf8')); }
 // Textes anglais des défis, cartes Hassanāt et établissements (les questions anglaises, elles, viennent de la base).
 async function annexes() { try { return { en: JSON.parse(await readFile(path.join(DIR, 'contenu-en.json'), 'utf8')) }; } catch { return {}; } }
-// Ce que reçoit le jeu : arabe seulement en Religion, traductions validées seulement, français toujours présent.
-const pourJeu = (d, tr) => ({ ...d, questions: questionsPourJeu(d.questions, { relire: !!(d.reglages && d.reglages.tradRelire) }), traductions: tr });
+// Ce que reçoit le jeu : questions publiées seulement (jamais les archivées), arabe seulement en Religion, traductions validées seulement, français toujours présent.
+const pourJeu = (d, tr) => ({ ...d, questions: questionsPourJeu((d.questions || []).filter(q => !q.statut || q.statut === 'publiee'), { relire: !!(d.reglages && d.reglages.tradRelire) }), traductions: tr });
 async function donnees() {
   if (CACHE && Date.now() - CACHE.t < 60000) return CACHE.body;
   let body = null;
