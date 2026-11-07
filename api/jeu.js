@@ -41,11 +41,7 @@ export async function GET(request) {
   if (f === 'ping') { // vérification technique (sans rien montrer du contenu). La base n'est plus jamais remplie
     // automatiquement depuis le fichier : les questions s'importent uniquement depuis le tableau de bord.
     const ok = await Promise.all(['jeu.html', 'data.json'].map(n => stat(path.join(DIR, n)).then(() => true, () => false)));
-    let base = dbActive() ? 'configurée' : 'absente';
-    // TEMPORAIRE (import V39 du 7 nov. 2026) : copie les questions du fichier dans la base seulement si elle est vide. Retiré ensuite.
-    if (dbActive() && new URL(request.url).searchParams.get('import') === 'v39') {
-      try { const r = await db('import', await fichier(), { timeout: 55000 }); base = r?.deja ? 'déjà remplie : rien importé' : `importée (${r?.questions} questions)`; } catch (e) { base = 'erreur : ' + e.message; }
-    }
+    const base = dbActive() ? 'configurée' : 'absente';
     return new Response(JSON.stringify({ jeu: ok[0], donnees: ok[1], base }), { headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
   }
   const code = await accesValide(request, { essaiFiniOk: f === 'data' });
