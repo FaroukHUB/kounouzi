@@ -1,5 +1,5 @@
 # Contenu des guides Kounouzi (FR / EN). Chaque guide cible une recherche précise.
-# Faits vérifiés dans le jeu (V41, 7 nov. 2026) : 1 989 questions (religion 373, invocations 206, histoire des prophètes 388 dont 30 pour les 5-8 ans, maths et logique 569, gestion 250, sciences 203). Ancien : (religion 375, invocations 214, histoire des prophètes 375 = 75 récits × 5 niveaux, maths et logique 587, gestion 250, sciences 212),
+# Faits vérifiés dans le jeu (V43 + relecture complète, 7 nov. 2026) : 1 930 questions publiées (religion 338, invocations 199, histoire des prophètes 388 dont 13 pour les 5-8 ans, maths et logique 564, gestion 244, sciences 197). Avant la relecture (V41) : 1 989 questions (religion 373, invocations 206, histoire des prophètes 388, maths et logique 569, gestion 250, sciences 203). Ancien : (religion 375, invocations 214, histoire des prophètes 375 = 75 récits × 5 niveaux, maths et logique 587, gestion 250, sciences 212),
 # 84 défis famille, 28 cases, 12 établissements, 2 à 6 joueurs, parties de 30/45/60 min ou libres, déplacement par « le Chemin »
 # (suite fixe, la même pour tous), voix + 4 courts effets désactivables, Zakat 2,5 % après un tour de table et demi au-dessus de 1 000 K.
 
@@ -73,12 +73,12 @@ GUIDES = [
       "La famille valide elle-même les réponses : les parents expliquent, les enfants débattent, et la partie devient une vraie conversation."]),
     ("Près de 2 000 questions, six matières", [
       ("ul", [
-        "<b>Religion</b> (373 questions) : piliers, prophètes, Sira, adab, vocabulaire du Coran, tirées uniquement de <a href='/sources-religion/'>nos 8 livres de référence</a>, avec la source de chaque réponse.",
+        "<b>Religion</b> (338 questions) : piliers, prophètes, Sira, adab, vocabulaire du Coran, tirées uniquement de <a href='/sources-religion/'>nos 8 livres de référence</a>, avec la source de chaque réponse.",
         "<b>Histoire des prophètes</b> (388 questions) : les prophètes cités dans le Coran, avec la référence du verset.",
-        "<b>Mathématiques et logique</b> (569) : calcul mental, suites, intrus et petits raisonnements, choisis selon l'âge.",
-        "<b>Gestion</b> (250) : épargne, dépenses, partage, Zakat.",
-        "<b>Sciences et nature</b> (203).",
-        "<b>Invocations</b> (206) : les invocations et rappels du quotidien (sommeil, prière, repas, voyage…), tirés uniquement de <a href='/sources-religion/'>Sahîh Al-Adhkâr</a>, avec la référence de chaque réponse."])]),
+        "<b>Mathématiques et logique</b> (564) : calcul mental, suites, intrus et petits raisonnements, choisis selon l'âge.",
+        "<b>Gestion</b> (244) : épargne, dépenses, partage, Zakat.",
+        "<b>Sciences et nature</b> (197).",
+        "<b>Invocations</b> (199) : les invocations et rappels du quotidien (sommeil, prière, repas, voyage…), tirés uniquement de <a href='/sources-religion/'>Sahîh Al-Adhkâr</a>, avec la référence de chaque réponse."])]),
     ("Des questions adaptées à l'âge réel de chaque enfant", [
       "Les questions sont rangées en quatre tranches d'âge, les mêmes pour toutes les matières : 5–8, 9–12, 13–17 et 18 ans et plus. Les 5–8 ans répondent avec 3 choix. Ensuite, le niveau s'ajuste : deux bonnes réponses de suite et les questions montent d'un cran, une erreur et elles redeviennent plus simples.",
       "Une voix lit chaque question à voix haute : un enfant qui ne sait pas encore lire peut jouer à égalité avec les plus grands."]),
@@ -100,12 +100,12 @@ GUIDES = [
       "The family validates the answers: parents explain, children discuss, and the game becomes a real conversation."]),
     ("Nearly 2,000 questions, six subjects", [
       ("ul", [
-        "<b>Religion</b> (373 questions): pillars, prophets, Sira, adab, Qur'an vocabulary, taken only from <a href='/en/religion-sources/'>our 8 reference books</a>, with the source of each answer.",
+        "<b>Religion</b> (338 questions): pillars, prophets, Sira, adab, Qur'an vocabulary, taken only from <a href='/en/religion-sources/'>our 8 reference books</a>, with the source of each answer.",
         "<b>Stories of the Prophets</b> (388 questions): the prophets mentioned in the Qur'an, with the verse reference.",
-        "<b>Maths and logic</b> (569): mental arithmetic, sequences, odd-one-out and small reasoning puzzles, chosen by age.",
-        "<b>Money skills</b> (250): saving, spending, sharing, Zakat.",
-        "<b>Science and nature</b> (203).",
-        "<b>Invocations</b> (206): everyday supplications and remembrances (sleep, prayer, meals, travel…), taken only from <a href='/en/religion-sources/'>Sahih Al-Adhkar</a>, with the reference of each answer."]),
+        "<b>Maths and logic</b> (564): mental arithmetic, sequences, odd-one-out and small reasoning puzzles, chosen by age.",
+        "<b>Money skills</b> (244): saving, spending, sharing, Zakat.",
+        "<b>Science and nature</b> (197).",
+        "<b>Invocations</b> (199): everyday supplications and remembrances (sleep, prayer, meals, travel…), taken only from <a href='/en/religion-sources/'>Sahih Al-Adhkar</a>, with the reference of each answer."]),
       "The English translation of the questions is in progress: until a question is translated and checked, it appears in French."]),
     ("Questions suited to each child's real age", [
       "Questions are sorted into four age groups, the same for every subject: 5–8, 9–12, 13–17 and 18+. 5–8 year olds answer with 3 choices. Then the level adapts: two right answers in a row and the questions go up a notch, a mistake and they become simpler again.",
@@ -140,7 +140,7 @@ GUIDES = [
     ("Essayez avant d'acheter", [
       "Demandez une vraie partie d'essai de <span data-essai>30</span> minutes, gratuite, depuis <a href='/#essai-gratuit'>la page d'accueil</a> : le code arrive par e-mail et la partie s'ouvre tout de suite."]),
    ],
-   'faq': [("Combien de questions de religion ?", "373 questions de religion, sur un total de près de 2 000 questions."),
+   'faq': [("Combien de questions de religion ?", "338 questions de religion, sur un total de près de 2 000 questions."),
            ("Faut-il savoir lire ?", "Non : une voix lit chaque question et chaque réponse.")],
   },
   'en': {
@@ -165,7 +165,7 @@ GUIDES = [
     ("Try before you buy", [
       "Request a real <span data-essai>30</span>-minute trial game, free, from <a href=\"/en/#essai-gratuit\">the home page</a>: the code arrives by e-mail and the game opens straight away."]),
    ],
-   'faq': [("How many religion questions?", "373 religion questions, out of nearly 2,000 questions in total."),
+   'faq': [("How many religion questions?", "338 religion questions, out of nearly 2,000 questions in total."),
            ("Do players need to read?", "No: a voice reads every question and every answer.")],
   },
  },
@@ -190,7 +190,7 @@ GUIDES = [
     ("Le plus riche ne gagne pas forcément", [
       "Le score final additionne Kounouz, patrimoine et Hassanāt × 5. Un enfant qui a beaucoup donné peut finir devant celui qui a tout gardé. C'est souvent la question qui lance la discussion : « Il avait moins d'argent, mais il a gagné. Comment c'est possible ? »"]),
     ("Les questions de gestion", [
-      "250 questions de gestion, adaptées à l'âge : pourquoi garder une réserve, comparer deux prix, éviter de gaspiller, pourquoi acheter à crédit peut mettre en difficulté."]),
+      "244 questions de gestion, adaptées à l'âge : pourquoi garder une réserve, comparer deux prix, éviter de gaspiller, pourquoi acheter à crédit peut mettre en difficulté."]),
    ],
    'faq': [("La Zakat du jeu est-elle la vraie règle de la Zakat ?", "C'est une version simplifiée et adaptée au jeu, pour faire découvrir le principe. Pour la pratique réelle, référez-vous à une personne de science."),
            ("À partir de quel âge ?", "Dès 5 ans ; les plus grands comprennent mieux les choix d'achat et de don.")],
@@ -214,7 +214,7 @@ GUIDES = [
     ("The richest player does not always win", [
       "The final score adds up Kounouz, properties and Hassanāt × 5. A child who gave a lot can finish ahead of one who kept everything. That is often the question that starts the conversation: \"He had less money, but he won. How is that possible?\""]),
     ("Money skills questions", [
-      "250 money skills questions suited to each age: why keep a reserve, compare two prices, avoid waste, why buying on credit can cause trouble."]),
+      "244 money skills questions suited to each age: why keep a reserve, compare two prices, avoid waste, why buying on credit can cause trouble."]),
    ],
    'faq': [("Is the game's Zakat the real Zakat rule?", "It is a simplified version adapted to the game, to introduce the principle. For actual practice, refer to a person of knowledge."),
            ("From what age?", "From age 5; older children better understand buying and giving decisions.")],
@@ -334,28 +334,28 @@ GUIDES = [
  },
 ]
 
-# Les 8 livres de référence : questions de religion (373), d'invocations (206) et explications de la Zakat (Ibn Bāz, vol. 14) (champ « source »). Pas de lien PDF.
+# Les 8 livres de référence : questions de religion (338), d'invocations (199) et explications de la Zakat (Ibn Bāz, vol. 14) (champ « source »). Pas de lien PDF.
 LIVRES = [
  dict(ar="شرح ثلاثة الأصول", tr="Sharḥ Thalāthat al-Uṣūl", fr="Explication des Trois fondements", en="Explanation of the Three Fundamental Principles",
-      aar="الشيخ صالح بن عبد العزيز آل الشيخ", a="Shaykh Ṣāliḥ Āl ash-Shaykh", n=100, ic="🕋",
+      aar="الشيخ صالح بن عبد العزيز آل الشيخ", a="Shaykh Ṣāliḥ Āl ash-Shaykh", n=99, ic="🕋",
       tfr="Les fondements de la croyance : connaître son Seigneur, sa religion et son Prophète ﷺ", ten="The foundations of belief: knowing one's Lord, one's religion and one's Prophet ﷺ"),
  dict(ar="شرح الدروس المهمة لعامة الأمة", tr="Sharḥ ad-Durūs al-Muhimmah li-ʿĀmmat al-Ummah", fr="Explication des Leçons importantes pour l'ensemble de la communauté", en="Explanation of the Important Lessons for the Whole Ummah",
-      aar="الشيخ عبد الرزاق بن عبد المحسن البدر", a="Shaykh ʿAbd ar-Razzāq al-Badr", n=98, ic="📘",
+      aar="الشيخ عبد الرزاق بن عبد المحسن البدر", a="Shaykh ʿAbd ar-Razzāq al-Badr", n=89, ic="📘",
       tfr="Les bases que tout musulman doit connaître : piliers, prière, comportement", ten="The basics every Muslim should know: pillars, prayer, conduct"),
  dict(ar="شرح الأرجوزة الميئية في ذكر حال أشرف البرية", tr="Sharḥ al-Urjūzah al-Miʾiyyah fī Dhikr Ḥāl Ashraf al-Bariyyah", fr="Explication du poème en cent vers sur la vie du meilleur des hommes", en="Explanation of the hundred-verse poem on the life of the best of creation",
-      aar="الشيخ عبد الرزاق بن عبد المحسن البدر", a="Shaykh ʿAbd ar-Razzāq al-Badr", n=100, ic="🌙",
+      aar="الشيخ عبد الرزاق بن عبد المحسن البدر", a="Shaykh ʿAbd ar-Razzāq al-Badr", n=77, ic="🌙",
       tfr="La Sira : la vie du Prophète ﷺ", ten="The Sira: the life of the Prophet ﷺ"),
  dict(ar="وجاء شهر رمضان", tr="Wa Jāʾa Shahru Ramaḍān", fr="Et vint le mois de Ramadan", en="And the month of Ramadan came",
       aar="الشيخ عبد الرزاق بن عبد المحسن البدر", a="Shaykh ʿAbd ar-Razzāq al-Badr", n=25, ic="🏮",
       tfr="Le Ramadan et le jeûne", ten="Ramadan and fasting"),
  dict(ar="شرح القواعد الأربع", tr="Sharḥ al-Qawāʿid al-Arbaʿ", fr="Explication des Quatre règles", en="Explanation of the Four Principles",
-      aar="الشيخ عبد الرزاق بن عبد المحسن البدر", a="Shaykh ʿAbd ar-Razzāq al-Badr", n=25, ic="🧭",
+      aar="الشيخ عبد الرزاق بن عبد المحسن البدر", a="Shaykh ʿAbd ar-Razzāq al-Badr", n=24, ic="🧭",
       tfr="Le Tawḥīd et ce qui s'y oppose", ten="Tawḥīd and what opposes it"),
  dict(ar="كلمة التوحيد لا إله إلا الله: فضائلها ومعناها وشروطها ونواقضها", tr="Kalimat at-Tawḥīd : Lā ilāha illā Allāh", fr="La parole de l'unicité : « Lā ilāha illā Allāh », ses mérites, son sens, ses conditions et ses annulatifs", en="The word of Tawḥīd: “Lā ilāha illā Allāh”, its merits, meaning, conditions and nullifiers",
-      aar="الشيخ عبد الرزاق بن عبد المحسن البدر", a="Shaykh ʿAbd ar-Razzāq al-Badr", n=25, ic="☝️",
+      aar="الشيخ عبد الرزاق بن عبد المحسن البدر", a="Shaykh ʿAbd ar-Razzāq al-Badr", n=24, ic="☝️",
       tfr="Le sens de « Lā ilāha illā Allāh »", ten="The meaning of “Lā ilāha illā Allāh”"),
  dict(ar="صحيح الأذكار", tr="Ṣaḥīḥ al-Adhkār", fr="Le Rappel authentique : invocations et formules de rappel tirées des ouvrages de l'imam al-Albānī", en="The Authentic Remembrance: supplications and remembrances taken from the works of Imam al-Albānī",
-      aar="الشيخ محمد ناصر الدين الألباني", a="Shaykh Muḥammad Nāṣir ad-Dīn al-Albānī", n=206, ic="🤲",
+      aar="الشيخ محمد ناصر الدين الألباني", a="Shaykh Muḥammad Nāṣir ad-Dīn al-Albānī", n=199, ic="🤲",
       tfr="Les invocations du quotidien : sommeil, prière, repas, voyage… (catégorie Invocations)", ten="Everyday supplications: sleep, prayer, meals, travel… (Invocations category)"),
  {'ar': 'مجموع فتاوى ومقالات متنوعة — الجزء الرابع عشر (كتاب الزكاة)', 'tr': 'Majmūʿ Fatāwā wa Maqālāt Mutanawwiʿa, vol. 14', 'fr': "Recueil de fatwas, tome 14 : le livre de la Zakat", 'en': 'Collected fatwas, volume 14: the book of Zakat', 'aar': 'الشيخ عبد العزيز بن عبد الله بن باز', 'a': 'Shaykh ʿAbd al-ʿAzīz ibn ʿAbd Allāh ibn Bāz', 'n': 0, 'ic': '💰', 'tfr': 'La Zakat : le nissab, les biens concernés, le montant et les huit bénéficiaires', 'ten': 'Zakat: the nisab, the goods concerned, the amount and the eight recipients', 'ufr': 'Explications de la Zakat pendant la partie', 'uen': 'Zakat explanations during the game'},
 ]
@@ -370,7 +370,7 @@ GUIDES.append({
           ("Avez-vous ajouté des questions d'autres sources ?", "Non. Toutes les questions de religion viennent de ces huit livres, et seulement d'eux."),
           ("Et les questions d'Histoire des prophètes ?", "Elles portent sur les récits des prophètes cités dans le Coran : la référence du verset est indiquée sous chaque réponse."),
           ("Et les questions d'Invocations ?", "Elles sont tirées uniquement de Sahîh Al-Adhkâr (Le Rappel authentique), recueil des invocations authentifiées par le shaykh al-Albānī. La référence est indiquée sous chaque réponse."),
-          ("Combien de questions de religion y a-t-il ?", "373 questions de religion et 206 questions d'invocations, sur près de 2 000 questions au total, toutes rangées par tranche d'âge.")]},
+          ("Combien de questions de religion y a-t-il ?", "338 questions de religion et 199 questions d'invocations, sur près de 2 000 questions au total, toutes rangées par tranche d'âge.")]},
  'en': {'slug': 'religion-sources', 'title': "Our religion sources: the books in the game | Kounouzi",
   'desc': "Kounouzi's religion questions follow the Qur'an and the Sunnah and are taken only from eight books, with nothing added. Discover them.",
   'kick': "Our sources", 'h1': "The Qur'an, the Sunnah… <em>and eight books, nothing else</em>",
@@ -379,6 +379,6 @@ GUIDES.append({
           ("Did you add questions from other sources?", "No. All religion questions come from these eight books, and only from them."),
           ("And the Stories of the Prophets questions?", "They cover the stories of the prophets mentioned in the Qur'an: the verse reference is shown under each answer."),
           ("And the Invocations questions?", "They are taken only from Sahih Al-Adhkar (The Authentic Remembrance), a collection of supplications authenticated by Shaykh al-Albani. The reference is shown under each answer."),
-          ("How many religion questions are there?", "373 religion questions and 206 invocation questions, out of nearly 2,000 questions in total, all sorted by age group.")]},
+          ("How many religion questions are there?", "338 religion questions and 199 invocation questions, out of nearly 2,000 questions in total, all sorted by age group.")]},
 })
 
